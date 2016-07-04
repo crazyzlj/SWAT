@@ -75,7 +75,7 @@
             if (irr_sc(j) <= 0) irr_sc(j) = irrsc(j)
             if (irr_no(j) <= 0) irr_no(j) = irrno(j)
             if (irr_no(j) <= 0) irr_no(j) = hru_sub(j)
-            if (irr_sc(ihru) > 2) then    !! reach and res flag ??
+            if (irr_sc(ihru) > 2) then    !! reach and res flag are invoked in route and routeres modules, respectively
               call irrsub
             endif
             
@@ -288,7 +288,7 @@
      *        sol_sumsolp(j)
             end if
           
-          case (14)    !! continuous fertilization operation
+          case (14)    !!A continuous fertilization operation
             fert_days(j) = mgt1iop(nop(j),j)
             cfrt_id(j) = mgt2iop(nop(j),j)
             ifrt_freq(j) = mgt3iop(nop(j),j)

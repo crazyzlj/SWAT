@@ -55,7 +55,7 @@
 
         !!==============================================
         !! local variables
-       !ABCO2   : allocation from biomass to CO2; 0.6 (surface litter), 0.85–0.68*(CLAF + SILF) (all other layers) (Parton et al., 1993, 1994)
+       !ABCO2   : allocation from biomass to CO2; 0.6 (surface litter), 0.85?.68*(CLAF + SILF) (all other layers) (Parton et al., 1993, 1994)
        !ABL     : carbon allocation from biomass to leaching; ABL = (1-exp(-f/(0.01* SW+ 0.1*(KdBM)*DB)) (Williams, 1995)
        !ABP     : allocation from biomass to passive humus; 0 (surface litter), 0.003 + 0.032*CLAF (all other layers) (Parton et al., 1993, 1994)
        !ALMCO2  : allocation from metabolic litter to CO2; 0.6 (surface litter), 0.55 (all other layers) (Parton et al., 1993, 1994)

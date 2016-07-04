@@ -7,7 +7,7 @@
 !!    around the midpoint of the curve (approx. 50% of the maximum value for x)
 !!    and x6 is determined by solving the equation with x and y values measured
 !!    close to one of the endpoints of the curve (100% of the maximum value for
-!!    x) This subroutine is called from readbsn.f and readcrop.f
+!!    x) This subroutine is called from readbsn.f and readplant.f(old:readcrop.f)
 
 !!    ~ ~ ~ INCOMING VARIABLES ~ ~ ~
 !!    name        |units         |definition

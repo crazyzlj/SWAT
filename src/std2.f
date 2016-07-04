@@ -149,7 +149,7 @@
         write (24,1028)
         do j = 1, nhru
 	if (idplt(j) > 0) then
-       write (24,1029) hru_sub(j), j, hru_ha(j),cpnm(idplt(j)),snam(j), 
+       write (24,1029) hru_sub(j), j, hru_ha(j),cpnm(id(j)),snam(j), 
      &  cn1(j), cn2(j), cn3(j), sol_sumwp(j),sol_sumfc(j), sol_sumul(j)
       else
         write (24,1030)hru_sub(j),j,hru_ha(j), snam(j), cn1(j), cn2(j), 

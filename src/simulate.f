@@ -88,7 +88,7 @@
 
 !!    ~ ~ ~ SUBROUTINES/FUNCTIONS CALLED ~ ~ ~
 !!    Intrinsic: Mod, Real
-!!    SWAT: sim_inityr, std3, xmon, sim_initday, clicon, command
+!!    SWAT: sim_inityr, std3, xmon, sim_initday, gcycl, clicon, command
 !!    SWAT: writed, writem, tillmix
 
 !!    ~ ~ ~ ~ ~ ~ END SPECIFICATIONS ~ ~ ~ ~ ~ ~

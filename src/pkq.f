@@ -57,8 +57,10 @@
       if (iwave > 0) then
         !! subbasin sediment calculations
         altc = 1. - Expo(2. * sub_tc(iwave) * Log(1. - al5))
-        peakr = altc * (sub_qd(iwave) + sub_tran(iwave)) / sub_tc(iwave) !! mm/h
-        peakr = peakr * sub_km(iwave) / 3.6                              !! m^3/s
+        peakr = altc * (sub_qd(iwave) + sub_tran(iwave)) / sub_tc(iwave)
+        !! mm/h
+        peakr = peakr * sub_km(iwave) / 3.6                             
+        !! m^3/s
       else
         !! HRU sediment calculations
         altc = 1. - Expo(2. * tconc(j) * Log(1. - al5))

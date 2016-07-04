@@ -181,6 +181,7 @@
 !!    laiday(:)       |m**2/m**2      |leaf area index
 !!    nmgt(:)         |none           |management code (for GIS output only)
 !!    nope(:)         |none           |sequence number of pesticide in NPNO(:)
+!!    nopmx(:)        |none           |maximum management operations number in HRU
 !!    npmx            |none           |number of different pesticides used in 
 !!                                    |the simulation
 !!    npno(:)         |none           |array of unique pesticides used in 
@@ -287,7 +288,7 @@
 !!    nsw         |none          |number of street sweeping operation in year
 !!    titldum     |NA            |title line from input dataset
 !!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
-
+!!
 !!    ~ ~ ~ SUBROUTINES/FUNCTIONS CALLED ~ ~ ~
 !!    SWAT: Jdt
 
@@ -415,6 +416,7 @@
 !!    If years of rotation are set to zero, assume continuous fallow. For
 !!    continuous fallow, no management practices allowed.
 !!      if (nrot(ihru) > 0) then
+!!    mgt_opprev | previous operation code
         mgt_opprev = 0
 !!      read scheduled management practices
         do                                      !! operation loop
@@ -434,9 +436,11 @@
           mgt9 = 0.
           read (109,5200,iostat=eof) mon, day, husc, mgt_op, mgt1i,     
      &          mgt2i, mgt3i, mgt4, mgt5, mgt6, mgt7, mgt8, mgt9, mgt10i
+!!  if encounter the end of file
           if (eof < 0) then
             if (mgt_opprev /= 17 .and. mgt_opprev /= 0) then
               iop = iop + 1
+!! mgt_op is 17 means the operation will be occurred next year
               mgtop(iop,ihru) = 17
               idop(iop,ihru) = idop(iop-1,ihru)
               phu_op(iop,ihru) = phu_op(iop-1,ihru)

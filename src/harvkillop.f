@@ -132,7 +132,7 @@
 	real :: resnew, rtresnew 
 
 
-	!!By Zhang
+	!!By Zhang for cswat = 2
 	!!=============
       real :: BLG1, BLG2, BLG3,  CLG, sf
       real :: sol_min_n, resnew_n, resnew_ne

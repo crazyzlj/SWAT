@@ -2,7 +2,7 @@
       
 !!    ~ ~ ~ PURPOSE ~ ~ ~
 !!    for every day of simulation, this subroutine steps through the command
-!!    lines in the watershed configuration (.fig) file. Depending on the 
+!!    lines in the watershed configuration (fig.fig) file. Depending on the 
 !!    command code on the .fig file line, a command loop is accessed
 
 !!    ~ ~ ~ INCOMING VARIABLES ~ ~ ~
@@ -95,7 +95,7 @@
 !!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ 
 
 !!    ~ ~ ~ SUBROUTINES/FUNCTIONS CALLED ~ ~ ~
-!!    SWAT: subbasin, route, routres, transfer, addh, recmon
+!!    SWAT: subbasin, route, routres, transfer, addh, rechour, recmon
 !!    SWAT: recepic, save, recday, recyear
 
 !!    ~ ~ ~ ~ ~ ~ END SPECIFICATIONS ~ ~ ~ ~ ~ ~

@@ -50,7 +50,7 @@
 !!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
 
 !!    ~ ~ ~ SUBROUTINES/FUNCTIONS CALLED ~ ~ ~
-!!    SWAT: plantop, dormant, harvkillop, harvestop, killop, tillmix
+!!    SWAT: sched_mgt <- plantop, dormant, harvkillop, harvestop, killop, tillmix
 
 !!    ~ ~ ~ ~ ~ ~ END SPECIFICATIONS ~ ~ ~ ~ ~ ~
 
@@ -64,7 +64,10 @@
 
 
 !! operations performed only when no land cover growing
-        
+!! idop(iopera, mhru) | the Julian day to practise this operation
+!! nop(mhru) | current sequence number of management operations
+
+!! If management schedule is set by month and day
         do while(idop(nop(j),j) > 0 .and. iida == idop(nop(j),j))
           call sched_mgt
           if (mgtop(nop(j),j) == 17) then
@@ -79,6 +82,8 @@
           aphu = phuacc(j)
         end if 
         if (dorm_flag == 1) aphu = 999.
+
+!! If management schedule is set according to fraction of heat units
         do while (phu_op(nop(j),j) > 0. .and. aphu > phu_op(nop(j),j))
           call sched_mgt
           if (igro(j) == 0) then
