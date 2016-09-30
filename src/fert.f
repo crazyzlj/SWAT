@@ -251,11 +251,9 @@
           
           !ZZ is amount of organic N allocated to metabolic litter N pool
           ZZ = X1 *rtof *forgn(ifrt) * X10
-          
-          
           sol_LMN(l,j) = sol_LMN(l,j) + ZZ
           
-          !!remaining organic N is llocated to structural litter N pool
+          !!remaining organic N is allocated to structural litter N pool
           sol_LSN(l,j) = sol_LSN(l,j) + X1
      &                      *forgn(ifrt) -ZZ
           !XZ is the amount of organic carbon allocated to structural litter C pool   
@@ -273,12 +271,8 @@
           !assuming lignin fraction of the organic fertilizer allocated into structure litter SOM pool to be 0.175;
           !update lignin weight in structural litter.
           sol_LSL(l,j) = sol_LSL(l,j) + YZ*.175
-          
-          
-          
-          
+
           sol_fon(l,j) = sol_LMN(l,j) + sol_LSN(l,j)
-          
           !end if
       
 	  end if

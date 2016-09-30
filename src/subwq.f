@@ -106,7 +106,7 @@
           !!========================
           
                   
-          !! calculate carbonaceous biological oxygen demand (CBOD)
+          !! calculate carbonaceous biological oxygen demand (CBOD), mg/L
           cbodu(j) = 2.7 * org_c / (qdr(j) * hru_km(j))
 
           !! calculate dissolved oxygen saturation concentration

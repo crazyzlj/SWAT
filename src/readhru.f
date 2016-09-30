@@ -57,7 +57,7 @@
 !!                                 in subsurface drains (0.5 - 4.0)
 !!    pot_fr(:)   |km2/km2       |fraction of HRU area that drains into pothole
 !!    pot_k       |(mm/hr)       |hydraulic conductivity of soil surface of pothole 
-!!                   [defaults to condcutivity of upper soil (0.01--10.) layer]
+!!                   [defaults to conductivity of upper soil (0.01--10.) layer]
 !!    pot_no3l(:) |1/day         |nitrate decay rate in impounded area
 !!    pot_nsed(:) |mg/L          |normal sediment concentration in impounded
 !!                               |water (needed only if current HRU is IPOT)

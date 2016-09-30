@@ -140,7 +140,7 @@
 !!  the model will erode more sediment per unit length of channel 
 !!  from a small channel than a larger channel. Modification made by Balaji Narasimhan
 
-      if (depnet > 1.e-6) then
+      if (depnet > 1.e-6) then ! degradation
         deg = depnet * tbase
 	  !! First the deposited material will be degraded before channel bed
 	  if (deg >= depch(jrch)) then

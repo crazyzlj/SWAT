@@ -169,7 +169,9 @@
 !! Find maximum flow capacity of the channel at bank full
       c = 0.
       c = chside(jrch)
+      !! p is wetted perimeter, phi(6,jrch) is bottom width
 	p = phi(6,jrch) + 2. * ch_d(jrch) * Sqrt(1. + c * c)
+      !! rh is hydraulic radius, phi(1,jrch) is cross-sectional area of flow in channel
 	rh = phi(1,jrch) / p
 	maxrt = Qman(phi(1,jrch), rh, ch_n(2,jrch), ch_s(2,jrch))
 

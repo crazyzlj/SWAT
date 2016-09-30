@@ -95,7 +95,7 @@
       j = 0
       j = ihru
       sb = inum1
-      isp = isep_typ(j) 	   !! J.Jeong 6/25/14
+      isp = isep_typ(j) 	   !! J.Jeong 6/25/14, Septic system type
 
       !! initialize water entering first soil layer
 
@@ -105,8 +105,8 @@
         sepday = inflpcp
       end if
 
-!!  add irrigation water
-	if (aird(j)>0) then
+!!  add irrigation water, amount of water applied to HRU on current day
+	if (aird(j)>0) then 
 	  j=j
 	end if
       sepday = inflpcp + aird(j) + pot_seep(j)
