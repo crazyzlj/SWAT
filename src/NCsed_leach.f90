@@ -24,11 +24,7 @@
 !!    sub_bd(:)     |Mg/m^3       |bulk density in subbasin first soil layer
 !!    sub_fr(:)     |none         |fraction of watershed area in subbasin
 !!    sub_orgn(:)   |kg N/ha      |amount of nitrogen stored in all organic
-!!    sedc_d(:)     |kg C/ha      |amount of C lost with sediment
-!!
-!!
-!!     
-!!                                |pools 
+!!    sedc_d(:)     |kg C/ha      |amount of C lost with sediment pools 
 !!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
 
 !!    ~ ~ ~ OUTGOING VARIABLES ~ ~ ~
@@ -127,7 +123,7 @@
       
       
       QBC=0.    !c loss with runoff or lateral flow
-      VBC=0.    !c los with vertical flow
+      VBC=0.    !c loss with vertical flow
       YBC=0.    !BMC LOSS WITH SEDIMENT
       YOC=0.    !Organic C loss with sediment
       YW=0.     !YW = WIND EROSION (T/HA)
@@ -159,7 +155,7 @@
           sol_WOC(1,j) = sol_LSC(1,j)+sol_LMC(1,j)+sol_HPC(1,j)+sol_HSC(1,j)+sol_BMC(1,j) 
           DK=.0001*PRMT_21*sol_WOC(1,j)
           !X1=PO(LD1)-S15(LD1)
-          X1 = sol_por(1,j)*sol_z(1,j)-sol_wpmm(1,j) !mm
+          X1 = sol_por(1,j)*sol_z(1,j)-sol_wpmm(1,j) !mm, i.e., sol_ul, by LJ
           IF (X1 <= 0.) THEN
             X1 = 0.01
           END IF

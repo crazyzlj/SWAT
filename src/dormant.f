@@ -94,7 +94,7 @@
       real :: BLG1, BLG2, BLG3,  CLG, sf
       real :: sol_min_n,  resnew_n, resnew_ne
       real :: LMF, LSF, LSLF, LSNF,LMNF 
-      orgc_f = 0.
+      !!orgc_f = 0. !!fraction of organic carbon in fertilizer
       BLG1 = 0.
       BLG2 = 0.
       BLG3 = 0.

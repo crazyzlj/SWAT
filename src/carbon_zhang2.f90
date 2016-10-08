@@ -363,7 +363,7 @@
                   XBM=1.
             !     COMPUTE N/C RATIOS
                   !X1=.1*(WLMN(LD1)+WLSN(LD1))/(RSD(LD1)+1.E-5)
-                  X1 = 0.1*(sol_LSN(k,j)+sol_LMN(k,j))/(sol_rsd(k,j)/1000+1.E-5) !relative notrogen content in residue (%)
+                  X1 = 0.1*(sol_LSN(k,j)+sol_LMN(k,j))/(sol_rsd(k,j)/1000+1.E-5) !relative nitrogen content in residue (%)
                   IF(X1>2.)THEN
                       NCBM=.1
                       GO TO 6
@@ -484,7 +484,7 @@
               !total available N
               WMIN=MAX(1.E-5,sol_NO3(k,j) + sol_NH3(k,j)+SUM)
               !WMIN=MAX(1.E-5,sol_NO3(k,j) +SUM)
-              !total demand for potential tranformaiton of SOM
+              !total demand for potential transformaiton of SOM
               DMDN=CPN1+CPN2+CPN3+CPN4+CPN5
               
               X3=1.
@@ -534,7 +534,7 @@
                   HPNTA=HPNTP
               END IF        
            
-              !Recalculate demand using actural transformations
+              !Recalculate demand using actual transformations
               !revised from EPIC code by Zhang
                   PN1=LSLNCTA*A1*NCBM               !Structural Litter to Biomass
                   PN2=.7*LSLCTA*NCHS               !Structural Litter to Slow
@@ -615,8 +615,7 @@
               !! compute humus mineralization on active organic p
               hmp = 0.
               hmp_rate = 0.
-              hmp_rate = 1.4* (HSNTA + HPNTA)/(sol_HSN(k,j) + sol_HPN(k,j) + 1.e-6)
-              !hmp_rate = 1.4* (HSNTA )/(sol_HSN(k,j) + sol_HPN(k,j) + 1.e-6)
+              hmp_rate = 1.4* (HSNTA + HPNTA)/(sol_HSN(k,j) + sol_HPN(k,j) + 1.e-6f)
               hmp = hmp_rate*sol_orgp(k,j)
               hmp = Min(hmp, sol_orgp(k,j))
               sol_orgp(k,j) = sol_orgp(k,j) - hmp
@@ -685,6 +684,7 @@
               sol_HPN(k,j)=sol_HPN(k,j)-DF5+XX*ADF5
               sol_RSPC(k,j)=.3*LSLCTA+A1CO2*(LSLNCTA+LMCTA)+ABCO2*BMCTA+ASCO2*HSCTA+APCO2*HPCTA
               rspc_d(j) = rspc_d(j) +  sol_RSPC(k,j) 
+              ! rspc_d is for print purpose.
               !SMM(74,MO)=SMM(74,MO)+RSPC(ISL)
               !SMS(8,ISL)=SMS(8,ISL)+RSPC(ISL)
               !TRSP=TRSP+RSPC(ISL)      
