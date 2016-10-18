@@ -126,7 +126,7 @@
       VBC=0.    !c loss with vertical flow
       YBC=0.    !BMC LOSS WITH SEDIMENT
       YOC=0.    !Organic C loss with sediment
-      YW=0.     !YW = WIND EROSION (T/HA)
+      YW=0.     !YW = WIND EROSION (T)
       TOT=sol_HPC(1,j)+sol_HSC(1,j)+sol_LMC(1,j)+sol_LSC(1,j) !Total organic carbon in layer 1
       !YEW = MIN(er*(sedyld(j)/hru_ha(j)+YW/hru_ha(j))/(sol_mass/1000.),.9)
       ! Not sure whether should consider enrichment ratio or not!

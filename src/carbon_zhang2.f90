@@ -615,7 +615,7 @@
               !! compute humus mineralization on active organic p
               hmp = 0.
               hmp_rate = 0.
-              hmp_rate = 1.4* (HSNTA + HPNTA)/(sol_HSN(k,j) + sol_HPN(k,j) + 1.e-6f)
+              hmp_rate = 1.4* (HSNTA + HPNTA)/(sol_HSN(k,j) + sol_HPN(k,j) + 1.e-6)
               hmp = hmp_rate*sol_orgp(k,j)
               hmp = Min(hmp, sol_orgp(k,j))
               sol_orgp(k,j) = sol_orgp(k,j) - hmp

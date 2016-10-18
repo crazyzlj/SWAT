@@ -271,14 +271,12 @@
 !12112  format (2i4,12f8.2)
 
         !! compute nitrogen and phosphorus mineralization 
-
       if (cswat == 0) then
         call nminrl
 	end if
 	if (cswat == 1) then
 		call carbon
 	end if
-	
 	!! Add by zhang
 	!!=================
 	if (cswat == 2) then
@@ -286,7 +284,6 @@
 	end if
 	!! Add by zhang
 	!!=================	
-
         call nitvol
         if (sol_P_model == 1) then
             call pminrl

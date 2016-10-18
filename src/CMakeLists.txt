@@ -306,22 +306,36 @@ set( SWAT_SRCS
   zero_urbn.f
 )
 
-# -e80 for ifort???
-# set_source_files_properties(
-  # bmp_det_pond.f
-  # bmpinit.f
-  # modparm.f
-  # ovr_sed.f
-  # percmain.f
-  # readbsn.f
-  # rthsed.f
-  # PROPERTIES COMPILE_FLAGS -ffixed-line-length-80)
-
-set_source_files_properties(
+if (Fortran_COMPILER_NAME MATCHES "ifort.*")
+  # ifort
+  set_source_files_properties(
+  bmp_det_pond.f
+  bmpinit.f
+  modparm.f
+  ovr_sed.f
+  percmain.f
+  readbsn.f
+  rthsed.f
   carbon_zhang2.f90
-  PROPERTIES COMPILE_FLAGS -ffree-line-length-none)
-
+  hruday.f90
+  NCsed_leach.f90
+  PROPERTIES COMPILE_FLAGS -132)
+else()
+  set_source_files_properties(
+  bmp_det_pond.f
+  bmpinit.f
+  modparm.f
+  ovr_sed.f
+  percmain.f
+  readbsn.f
+  rthsed.f
+  carbon_zhang2.f90
+  hruday.f90
+  NCsed_leach.f90
+  PROPERTIES COMPILE_FLAG -ffree-line-length-none)
+endif()
 add_executable(swat ${SWAT_SRCS})
+set(PATCH ${CPACK_PACKAGE_VERSION_PATCH})
 
 set_target_properties(swat PROPERTIES
   RELEASE_POSTFIX "${CPACK_PACKAGE_VERSION_MAJOR}Rev${CPACK_PACKAGE_VERSION_MINOR}Rel"
@@ -339,7 +353,7 @@ if(CMAKE_BUILD_TYPE MATCHES "PGO")
     set(PROF_DIR "-prof-dir")
     set(PROF_GEN "-prof-gen")
     set(PROF_USE "-prof-use")
-  else()			# GCC
+  else()# GCC
     set(PROF_DIR "-fprofile-dir")
     set(PROF_GEN "-fprofile-generate")
     set(PROF_USE "-fprofile-use")
