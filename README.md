@@ -14,6 +14,7 @@ Compile SWAT model from FORTRAN source code using CMake and Visual Studio IDE wi
 + Open "Intel compiler 17.0 Update 4 Intel(R) 64 Visual Studio 2013" from start menu.
 + cd to the compile destination folder. e.g., `cd D:/compile/SWAT_ifort`
 + Run `cmake <path to SWAT src path>`. e.g., `cmake C:\z_code\Hydro\SWAT`
+  + Compile 64-bit version: `cmake -G "Visual Studio 12 2013 Win64" C:\z_code\Hydro\SWAT`
 + Open the project `SWAT.sln`, and do what you want!
 
 ## Update with the latest SWAT source (For administrator only)
