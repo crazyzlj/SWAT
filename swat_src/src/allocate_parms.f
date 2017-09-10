@@ -8,7 +8,7 @@
 !!    mapp        |none          |max number of applications
 !!    mch         |none          |max number of channels
 !!    mcr         |none          |max number of crops grown per year
-!!    mcrdb       |none          |max nunber of crops in crop.dat
+!!    mcrdb       |none          |max number of crops in crop.dat
 !!    mcut        |none          |max number of cuttings per year
 !!    mfdb        |none          |max number of fertilizers in fert.dat
 !!    mgr         |none          |max number of grazings per year

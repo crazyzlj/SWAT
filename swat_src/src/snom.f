@@ -1,7 +1,7 @@
       subroutine snom
       
 !!    ~ ~ ~ PURPOSE ~ ~ ~
-!!    this subroutine predicts daily snom melt when the average air
+!!    this subroutine predicts daily snow melt when the average air
 !!    temperature exceeds 0 degrees Celcius
 
 !!    ~ ~ ~ INCOMING VARIABLES ~ ~ ~

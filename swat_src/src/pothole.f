@@ -25,15 +25,15 @@
 !!                                  |water--the HRU that the surface runoff from
 !!                                  |current HRU drains into. This variable is
 !!                                  |used only for rice paddys or closed
-!!                                  |depressional areas
+!!                                  |depressional areas (no used now, by lj)
 !!    imp_trig(:,:,:)|none          |release/impound action code:
 !!                                  |0 begin impounding water
 !!                                  |1 release impounded water
-!!    irelease(:,:,:)|julian date   |date of impound/release operation
+!!    irelease(:,:,:)|julian date   |date of impound/release operation (no used now, by lj)
 !!    laiday(:)      |none          |leaf area index
 !!    nrelease(:)    |none          |sequence number of impound/release
-!!                                  |operation within the year
-!!    nro(:)         |none          |sequence number of year in rotation
+!!                                  |operation within the year (no used now, by lj)
+!!    nro(:)         |none          |sequence number of year in rotation (no used now, by lj)
 !!    nyskip         |none          |number of years to skip output 
 !!                                  |summarization/printing
 !!    pet_day        |mm H2O        |potential evapotranspiration on current day
@@ -56,14 +56,14 @@
 !!    qday           |mm H2O        |surface runoff loading to main channel from
 !!                                  |HRU for day
 !!    sed_stl(:)     |kg/kg         |fraction of sediment remaining suspended in
-!!                                  |impoundment after settling for one day
+!!                                  |impoundment after settling for one day (no used now, by lj)
 !!    sedyld(:)      |metric tons   |daily soil loss caused by water erosion 
 !!                                  |in HRU
 !!    sol_k(:,:)     |mm/hr         |saturated hydraulic conductivity of soil
 !!                                  |layer
 !!    sol_nly(:)     |none          |number of layers in soil profile
 !!    sol_por(:,:)   |none          |total porosity of soil layer expressed as
-!!                                  |a fraction of the total volume
+!!                                  |a fraction of the total volume (no used now, by lj)
 !!    sol_st(:,:)    |mm H2O        |amount of water stored in the soil layer
 !!                                  |on any given day
 !!    sol_sumfc(:)   |mm H2O        |amount of water held in the soil profile
@@ -271,7 +271,7 @@
         pot_orgp(j) = pot_orgp(j) + sedorgp(j) * xx
         pot_mps(j) = pot_mps(j) + sedminps(j) * xx
         pot_mpa(j) = pot_mpa(j) + sedminpa(j) * xx
-!       track incoming loads
+!       track incoming loads, seems useless, by lj
         pot_sedin(j)= pot_sedin(j) + sedyld(j) * pot_fr(j)
         pot_no3i(j) = pot_no3i(j) + no3in * xx
         pot_solpi(j) = pot_solpi(j) + surqsolp(j) * xx
@@ -283,7 +283,7 @@
 !       update forms of N and P in surface runoff
         yy = 1. - pot_fr(j)
         surqno3(j) = surqno3(j) * yy
-        latno3(j) = latno3(j) * yy
+!        latno3(j) = latno3(j) * yy ! comment by lj
 !        gwno3(j) = gwno3(j) * yy
         surqsolp(j) = surqsolp(j) * yy
         sedorgn(j) = sedorgn(j) * yy
@@ -329,7 +329,8 @@
           sanyld(j) = sanyld(j) + potsano
           silyld(j) = silyld(j) + potsilo 
           clayld(j) = clayld(j) + potclao
-          pot_sag(j) = sagyld(j) + potsago
+          ! pot_sag(j) = sagyld(j) + potsago ! fixed by lj
+          sagyld(j) = sagyld(j) + potsago
           lagyld(j) = lagyld(j) + potlago
 
           surqno3(j) = surqno3(j) + potno3o

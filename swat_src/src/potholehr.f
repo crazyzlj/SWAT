@@ -334,7 +334,8 @@
           sanyld(j) = sanyld(j) + potsano
           silyld(j) = silyld(j) + potsilo 
           clayld(j) = clayld(j) + potclao
-          pot_sag(j) = sagyld(j) + potsago
+          ! pot_sag(j) = sagyld(j) + potsago ! fixed by LJ
+          sagyld(j) = sagyld(j) + potsago
           lagyld(j) = lagyld(j) + potlago
 
 

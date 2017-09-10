@@ -75,7 +75,8 @@
             if (irr_sc(j) <= 0) irr_sc(j) = irrsc(j)
             if (irr_no(j) <= 0) irr_no(j) = irrno(j)
             if (irr_no(j) <= 0) irr_no(j) = hru_sub(j)
-            if (irr_sc(ihru) > 2) then    !! reach and res flag ??
+            !! reach and res flag are invoked in route and routeres modules, respectively
+            if (irr_sc(ihru) > 2) then
               call irrsub
             endif
             

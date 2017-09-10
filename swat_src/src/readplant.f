@@ -2,7 +2,7 @@
 
 !!    ~ ~ ~ PURPOSE ~ ~ ~
 !!    this subroutine reads input parameters from the landuse/landcover
-!!    database (plant.dat)
+!!    database (plant.dat <- old filename: crop.dat)
 
 !!    ~ ~ ~ INCOMING VARIABLES ~ ~ ~
 !!    name      |units            |definition
@@ -20,6 +20,7 @@
 !!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
 !!    alai_min(:)|m**2/m**2        |minimum LAI during winter dormant period
 !!    bio_e(:)   |(kg/ha)/(MJ/m**2)|biomass-energy ratio
+!!                                 |RUE: Radiation use efficiency
 !!                                 |The potential (unstressed) growth rate per
 !!                                 |unit of intercepted photosynthetically
 !!                                 |active radiation.

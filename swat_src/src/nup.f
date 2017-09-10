@@ -105,6 +105,7 @@
         tno3 = tno3 + sol_no3(l,j)
       end do
       tno3 = tno3 / n_reduc(j)
+      ! up_reduc is useless? by lj
       up_reduc = tno3 / (tno3 + Exp(1.56 - 4.5 * tno3))
       
       icrop = idplt(j)

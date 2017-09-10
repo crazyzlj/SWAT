@@ -897,7 +897,7 @@
       !!SOM-residue C/N state variables -- may need to be included
 	real, dimension(:,:), allocatable :: sol_CAC, sol_CEC  
           
-	!!daily updated soil layer associated percolaton and lateral flow Carbon loss
+	!!daily updated soil layer associated percolation and lateral flow Carbon loss
 	real, dimension(:,:), allocatable :: sol_percc
 	real, dimension(:,:), allocatable :: sol_latc
 	

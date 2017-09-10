@@ -359,7 +359,7 @@
         FBM = 0.0
         FHP = 0.0
         IF(FBM<1.E-10)FBM=.04   
-        RTN0 = 100.                   
+        RTN0 = 100. ! RTN0 or RTNO, this is useless. Comment by lj.  
         IF(FHP<1.E-10)FHP=.7-.4*EXP(-.0277*100) 
         FHS = 1 - FBM - FHP
         !From DSSAT
