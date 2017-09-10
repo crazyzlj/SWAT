@@ -16,6 +16,26 @@ Compile SWAT model from FORTRAN source code using CMake and Visual Studio IDE wi
 + Run `cmake <path to SWAT src path>`. e.g., `cmake C:\z_code\Hydro\SWAT`
 + Open the project `SWAT.sln`, and do what you want!
 
+## Update with the latest SWAT source (For administrator only)
+
+In order to make it easier to track code changes and keep up with newer revisions, I use subtree to manage the SWAT source code from tamu.
+
++ Set subtree as `swat_src`(only do once at the very beginning of this repository)
+
+  ```bash
+   git remote add -f swat_src git@github.com:crazyzlj/swat_src_tamu.git
+   git subtree add --prefix=swat_src swat_src master --squash
+  ```
+
++ Do any modification to the `swat_src` to meet our specific needs.
+
++ If the SWAT source is updated we should pull the latest code from [swat_src_tamu](https://github.com/crazyzlj/swat_src_tamu) and merge it.
+
+  ```shell
+  git fetch swat_src master
+  git subtree pull --prefix=swat_src swat_src master --squash
+  ```
+
 ## Changelog
 
 + 9/10/2017: Update to rev.664 and test compilation on VS2013+IVF 17.0
