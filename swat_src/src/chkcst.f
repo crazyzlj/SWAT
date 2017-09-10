@@ -11,6 +11,7 @@ c     nopt = number of optimizing variables
 c     ii = the ii'th variable of the arrays x, bl, and bu
 c
       implicit real*8 (a-h,o-z)
+      integer :: nopt
       dimension xi(nopt),bl(nopt),bu(nopt)
 c
       ibound = -1
