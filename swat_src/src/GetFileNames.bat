@@ -1,0 +1,1 @@
+DIR *.f *.f90 /B >SWAT_src_filenames.txt
