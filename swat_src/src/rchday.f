@@ -102,7 +102,7 @@
 
       use parm
 
-      integer :: j
+      integer :: j, kk, ii
       real, dimension (mrcho) :: pdvar, pdvr
       real, dimension (2) :: srch_av
 
