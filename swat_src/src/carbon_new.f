@@ -27,7 +27,7 @@
       !! manc_hum = humified carbon manure
 
       use parm
-    
+      implicit real*8 (a-h,o-z)
     !! private variables
       real :: cx, decf, rhc, mhc, sol_cdec, tilf
       real :: resc_hum, manc_hum
@@ -51,12 +51,12 @@
       real :: sol_no3_pro, sol_solp_pro, sol_nh3_pro
       real :: sol_cdec_pro, wdn_pro, net_N_pro, solN_net_min
       real :: solN_net_min_pro 
-
+      real :: ffman, ffman1, ffman2, ffres, ffres1, ffres2 !! added by lj.
+      real :: sat !! added by lj.
       integer :: j, k, kk
 
     !! functions
-      real ::fwf, fof, fcdg, ftilf,fcx, fCNnew, fhc, fnetmin
-
+      real, external ::fwf, fof, fcdg, ftilf,fcx, fCNnew, fhc, fnetmin
 
       j = 0; wdn = 0
       j = ihru
@@ -85,7 +85,7 @@
 !!    zero new carbon variables for output.hru
 
 
-      if (sol_cbn(1,j) == 0.) return	
+      if (abs(sol_cbn(1,j) - 0.) < 1.e-5) return
  
       do k = 1, sol_nly(j)
 
@@ -321,8 +321,8 @@
         manc_hum = mhc * mdc
         net_N = rnet_N + mnet_N
         net_P = rnet_P + mnet_P
-        if (resc_hum == 0.) rCNnew = 1000.
-        if (manc_hum == 0.) mCNnew = 1000.
+        if (abs(resc_hum - 0.) < 1.e-5) rCNnew = 1000.
+        if (abs(manc_hum - 0.) < 1.e-5) mCNnew = 1000.
 
 		!! C N P pools update
 		sol_cmass = sol_cmass + resc_hum + manc_hum - sol_cdec
@@ -460,7 +460,8 @@
 
 	
 	!! LOCAL FUNCTIONS
-	Function fwf(fc,wc,pwp)
+	  Function fwf(fc,wc,pwp)
+		real :: fc, wc, pwp, xx2, fwf
 		xx2 = 0.
 		if (wc <= pwp) then
 			xx2 = 0.4 * wc / pwp
@@ -475,6 +476,7 @@
       End function
 
       Function fof(void,por)
+        real :: void, por, fof, xx3
         xx3 = 0.
         if (void >= 0.1) then
             xx3 = 0.2 + 0.8 * (void - 0.1) / (por - 0.1)
@@ -486,15 +488,17 @@
 
 	
 	Function fcgd(xx)
-		tn = -5.
+      real :: xx, fcgd, qq, tn, top, tx
+	  tn = -5.
 	  top = 35.
-		tx = 50.
-		qq = (tn - top)/(top - tx)
+	  tx = 50.
+	  qq = (tn - top)/(top - tx)
 	  fcgd = ((xx-tn)**qq)*(tx-xx)/(((top-tn)**qq)*(tx-top))
-		if (fcgd < 0.) fcgd = 0.
+	  if (fcgd < 0.) fcgd = 0.
 	End function
 
       Function ftilf(tillage, wc, sat)
+        real :: tillage, wc, sat, ftilf
         !! tillage factor effect on decomposition
         !! tillage factor returns to baseline (=1) based on WC 
         tillage = tillage * (1. - 0.02 * wc/sat) 
@@ -504,12 +508,14 @@
     
 
       Function fcx(pclay)
+        real :: pclay, fcx
         !! saturated soil carbon concentration (%) from Hassink and Whitmore 1997
         fcx = 2.11 + 0.0375 * pclay
       End function
 
 
 	Function fsol_cdec(pcarbon, cx, cfdec, tilf, csf, sol_cmass)
+        real :: pcarbon, cx, cfdec, tilf, csf, sol_cmass, fsol_cdec, decf
 		!! decomposition adjustment by current SOC 
 		decf = (pcarbon / cx) ** 0.5	
 		! if (decf > 1.) decf = 1. 
@@ -519,6 +525,8 @@
 
 
       Function fCNnew(yy1,yy2,CNpool,yy5)
+        real :: yy1,yy2,CNpool,yy5, fCNnew
+        real :: yy3, yy4
       !! CN ratio of newly formed organic matter
       !! based on CN or decomposing residue and nitrate in soil
       !! the same approach used for crop residues and manure
@@ -535,15 +543,15 @@
       End function
 
 
-	Function fhc(pclay, pcarbon, cx) 		 
+	Function fhc(pclay, pcarbon, cx)
 	!! maximum and actual humification factor 
 	!! hx = maximum humification factor
 	!! hf = humification adjustment factor 
 	!! pclay = %clay
 	!! pcarbon = %carbon
 	!! cx = saturated soil carbon, %
-	
-	real :: hx, hf, pclay, pcarbon
+        real :: pclay, pcarbon, cx, fhc
+	    real :: hx, hf
 			 
 		hx = 0.09 + 0.09 * (1. - Exp(-5.5 * pclay / 100.))
 		!! humification adjustment by current SOC
@@ -566,7 +574,7 @@
 	!! xinorg = mass of NO3 or P in solution
 	!! xx = net mineralization of N or P
 	!! cc1 = pool's carbon fraction
-
+        real :: poold, R1, R2, hc, dummy, poolm, xinorg, cc1, fnetmin, xx
 		xx = 0.
 		xx = poold * cc1 * (1. / R1 - hc / R2) 
 		

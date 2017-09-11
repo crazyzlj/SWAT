@@ -138,7 +138,10 @@
       real :: thrs2 = 1.074, thrs3 = 1.074, thrs4 = 1.024, thrs5 = 1.024
       real :: thbc1 = 1.083, thbc2 = 1.047, thbc3 = 1.047, thbc4 = 1.047
       real :: thrk1 = 1.047, thrk2 = 1.024, thrk3 = 1.024, thrk4 = 1.060
+      real :: dcoef = 3. !! copy from watqual.f, because dcoef is not defined before. By lj.
 !      real :: thrk5 = 1.047, thrk6 = 1.0, thrs6 = 1.024, thrs7 = 1.0
+! explicitly define return type of external functions. Added by lj for gfortran.
+      real, external :: Theta
 
       jrch = 0
       jrch = inum1

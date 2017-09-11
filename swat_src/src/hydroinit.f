@@ -80,8 +80,8 @@
 
       use parm
 
-      integer :: j, l
-      real :: t_ch, scmx, xx
+      integer :: j, l, isb
+      real :: t_ch, scmx, xx, xi, tp, tb, sumq, rto, ql, q
 
       do j = 1, nhru
 

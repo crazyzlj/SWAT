@@ -172,7 +172,11 @@
 
       integer :: j, l, it
       real :: dmi, dmii, gc, gc1, swf, frt_t, xx
-
+      real :: BLG1, BLG2, BLG3, CLG, LMF, LSF, orgc_f, resnew, resnew_n
+      real :: resnew_ne, RLN, RLR, sf, sol_min_n
+      real :: X1, X8, X10, XXX, XZ, YY, YZ, ZZ
+! explicitly define return type of external functions. Added by lj for gfortran.
+      real, external :: Erfc
       j = 0
       j = ihru
 

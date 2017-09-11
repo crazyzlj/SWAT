@@ -27,7 +27,7 @@
 
       use parm
       character (len=80) :: titldum
-      integer :: eof 
+      integer :: eof, idap, iii, imo, iyp, momax
   
       eof = 0
   

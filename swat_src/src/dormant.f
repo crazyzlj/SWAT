@@ -93,7 +93,8 @@
 
       real :: BLG1, BLG2, BLG3,  CLG, sf
       real :: sol_min_n,  resnew_n, resnew_ne
-      real :: LMF, LSF, LSLF, LSNF,LMNF 
+      real :: LMF, LSF, LSLF, LSNF,LMNF
+      real :: orgc_f, RLN, RLR, XX
       orgc_f = 0.
       BLG1 = 0.
       BLG2 = 0.

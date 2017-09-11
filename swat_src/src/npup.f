@@ -111,7 +111,7 @@
       uapd = 1.5 * uapd                         !! luxury p uptake
 
       strsp(j) = 1.
-      ir = 0.
+      ir = 0
       if (uapd < 1.e-6) return
 
       do l = 1, sol_nly(j)

@@ -30,7 +30,7 @@
 
 !!    ~ ~ ~ ~ ~ ~ END SPECIFICATIONS ~ ~ ~ ~ ~ ~
       use parm
-      integer :: icl
+      integer :: icl, id
       if (i_mo.le.2) then
            icl = id - ndays(i_mo)
       else 

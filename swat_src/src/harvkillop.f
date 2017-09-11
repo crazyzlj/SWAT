@@ -124,12 +124,13 @@
 
       use parm
   
-      integer :: j, k
+      integer :: j, k, l
       
 !!   change per JGA 8/31/2011 gsm PUT YIELD IN modparm.f
 !!      real :: wur, hiad1, yield, yieldn, yieldp, yldpst
       real :: wur, hiad1, yldpst
-	real :: resnew, rtresnew 
+	real :: resnew, rtresnew
+	real :: ff1, ff2, orgc_f, RLN, RLR, xx
 
 
 	!!By Zhang for cswat=2

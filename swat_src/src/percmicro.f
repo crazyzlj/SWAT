@@ -67,7 +67,7 @@
       integer, intent (in) :: ly1
       integer :: j
       real :: adjf, yy, dg, ho, ratio, sol_k_sep
-
+      real :: xx
       j = 0
       j = ihru
 
@@ -92,7 +92,7 @@
         ho = 0.
         latlyr = 0.
         dg = sol_z(ly1,j) - yy
-        if (sol_ul(ly1,j) - sol_fc(ly1,j)==0.) then
+        if (abs(sol_ul(ly1,j) - sol_fc(ly1,j)) < 1.e-5) then
           ho=0.
         else
           ho = 2. * sw_excess / ((sol_ul(ly1,j) - sol_fc(ly1,j)) /  dg)

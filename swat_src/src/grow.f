@@ -155,10 +155,9 @@
 
       use parm
 
-      integer :: j
+      integer :: j, idp
       real :: delg, par, ruedecl, beadj, reg, f, ff, deltalai
-      real :: laimax, rto
-
+      real :: laimax, rto, biomxyr
       j = 0
       j = ihru
       rto = 1.
@@ -332,7 +331,7 @@
 	  else                                                                             !! Modified by Cibin to include DLAI>1
 		if (dlai(idp) > 1.) then
 		 if (phuacc(j) > dlai(idp)) then
-            laiday(j) = olai(j) * (1. - (phuacc(j) - dlai(idp)) /             &        !! Modified by Cibin to include DLAI>1
+            laiday(j) = olai(j) * (1. - (phuacc(j) - dlai(idp)) /                      !! Modified by Cibin to include DLAI>1
      &                               (1.2 - dlai(idp)))								   !! Modified by Cibin to include DLAI>1
 	     endif
 	    endif

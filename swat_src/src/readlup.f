@@ -31,8 +31,9 @@
 
       use parm
       character*13 fnam
-      integer :: eof
-
+      integer :: eof, iday, iyear
+! explicitly define return type of external functions. Added by lj for gfortran.
+      integer, external :: Jdt
 !!    read lup file     
       do               
        read (122,100,iostat=eof) no_up, mo, iday, iyear, fnam 

@@ -154,9 +154,11 @@
 
       use parm
 
-      integer :: j, l, it
-      real :: gc, gc1, swf, frt_t, xx
-
+      integer :: j, l, it, ifrt
+      real :: gc, gc1, swf, frt_t, xx, orgc_f, RLN, x1
+      real :: x10, x8, xxx, xz, yy, yz, zz
+! explicitly define return type of external functions. Added by lj for gfortran.
+      real, external :: Erfc
       j = 0
       j = ihru
 
@@ -211,6 +213,7 @@
               sol_LMC(l,j) = sol_LMC(l,j) + XXX
               YY = X1 * X10
               sol_LM(l,j) = sol_LM(l,j) + YY
+              !!  'ifrt' may be used uninitialized in this function. Please check! By lj.
               ZZ = X1 *forgn(ifrt) * X10
               sol_LMN(l,j) = sol_LMN(l,j) + ZZ
               sol_LSN(l,j) = sol_LSN(l,j) + X1

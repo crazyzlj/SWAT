@@ -73,8 +73,8 @@
 
       use parm
   
-      integer :: j, k
-      real :: resnew
+      integer :: j, k, l
+      real :: resnew, ff1, ff2, orgc_f, RLN, RLR, rtresnew, XX
       
       !!by zhang
       !!====================

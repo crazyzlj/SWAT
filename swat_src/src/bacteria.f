@@ -151,7 +151,8 @@
 
       integer :: j
       real :: bpq, blpq, bps, blps, wt1, cbact, xx
-
+! explicitly define return type of external functions. Added by lj for gfortran.
+      real, external :: Theta
       j = 0
       j = ihru
 

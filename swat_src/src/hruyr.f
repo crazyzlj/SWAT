@@ -151,7 +151,8 @@
 
       use parm
 
-      integer :: j, sb, ii, iflag
+      integer :: j, sb, ii, iflag, idplant, isb
+      real :: q, ql, rto, sumq, tb, tp, xi
       real, dimension (mhruo) :: pdvas, pdvs
       character (len=4) :: cropname
 

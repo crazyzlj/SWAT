@@ -91,7 +91,7 @@
       real :: orgpin, dispin, cbodin, disoxin
       real :: algcon, orgncon, nh3con, no2con, no3con
       real :: orgpcon, solpcon, cbodcon, o2con, wtrtot
-
+      real :: cinn
       jrch = 0
       jrch = inum1
 

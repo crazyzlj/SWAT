@@ -1,10 +1,11 @@
       subroutine layersplit(dep_new)
 
       use parm
-      integer nly,n,j
-	integer :: flag
-	real, intent(in):: dep_new
-	nly = sol_nly(ihru)
+      integer nly, n, j, jj
+	  integer :: flag
+	  real, intent(in):: dep_new
+	  real :: xx
+	  nly = sol_nly(ihru)
 
 !!    create a septic layer
 !! changed all sol_zmx(ihru) in subroutine to dep_new 1/27/09 gsm 

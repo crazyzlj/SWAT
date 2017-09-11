@@ -53,9 +53,10 @@
       use parm
 
       integer :: k, iyp, idap, l, inum3sprev
-      real :: rhdbsb
+      real :: rhdbsb, tmpmean
       real, dimension (mrg) :: rhmeas
-
+! explicitly define return type of external functions. Added by lj for gfortran.
+      real, external :: Ee
       !! initialize variables for the day
       rhmeas = 0.
       

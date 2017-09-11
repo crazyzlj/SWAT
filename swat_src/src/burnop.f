@@ -20,7 +20,7 @@
       use parm
    
       integer :: j
-      real :: aphu
+      real :: aphu, pburn, xx
 
       j = 0
       j = ihru

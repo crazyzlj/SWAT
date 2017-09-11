@@ -54,7 +54,7 @@
       use parm
 
       integer ::j
-	real:: df, hru_slpp, sol_orgm, sol_orr, sol_rrr, ei 
+	  real:: df, hru_slpp, sol_orgm, sol_orr, sol_rrr, ei, xx
       j = 0
       j = ihru
 

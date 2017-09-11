@@ -152,7 +152,8 @@
      & surq_remove, sed_remove1, sed_remove2, sed_remove, remove1, 
      & remove2, orgn_remove, surqno3_remove, partp_remove, solP_remove,
      & sedtrap, xrem
-
+      real :: drain_vfs1, drain_vfs3, remove21, vfs_ratio1,
+     & vfs_ratio2
       j = 0
       j = ihru
 

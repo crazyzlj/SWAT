@@ -916,7 +916,8 @@
 	
 	
       !!Monthly carbon change by different means (entire soil profile for each HRU)	
-	real, dimension(:), allocatable :: sedc_m, surfqc_m, latc_m, percc_m, 
+	real, dimension(:), allocatable :: sedc_m, surfqc_m, latc_m,
+     &  percc_m,
      &  foc_m, NPPC_m, rsdc_m, grainc_m, stoverc_m, emitc_m, soc_m, 
      &  rspc_m	
 

@@ -314,30 +314,13 @@ set(SWAT_SRCS
 if (Fortran_COMPILER_NAME MATCHES "ifort.*")
   # ifort
   set_source_files_properties(
-  bmp_det_pond.f
-  bmpinit.f
-  modparm.f
-  ovr_sed.f
-  percmain.f
-  readbsn.f
-  rthsed.f
-  carbon_zhang2.f90
-  hruday.f90
-  NCsed_leach.f90
+  ${SWAT_SRCS}
   PROPERTIES COMPILE_FLAGS -132)
 else()
   set_source_files_properties(
-  bmp_det_pond.f
-  bmpinit.f
-  modparm.f
-  ovr_sed.f
-  percmain.f
-  readbsn.f
-  rthsed.f
-  carbon_zhang2.f90
-  hruday.f90
-  NCsed_leach.f90
-  PROPERTIES COMPILE_FLAG -ffree-line-length-none)
+  ${SWAT_SRCS}
+  PROPERTIES COMPILE_FLAGS -ffree-line-length-none
+             COMPILE_FLAGS -ffixed-line-length-none)
 endif()
 add_executable(swat ${SWAT_SRCS})
 #set(PATCH ${SWAT_PKG_VER_PATCH})

@@ -62,7 +62,7 @@
           if (gr_imo(i,kk)<=0)         gr_imo(i,kk) = 1
           if (gr_iyr(i,kk)<=1000)      gr_iyr(i,kk) = iyr
           if (gr_farea(i,kk)<=0)       gr_farea(i,kk) = 0.1
-          if (gr_solop(i,kk)==0) then
+          if (abs(gr_solop(i,kk) - 0.) < 1.e-5) then
       ! taking the chracteristics of the native HRU soil
 !          else
             if (gr_fc(i,kk)<=0)         gr_fc(i,kk) = 0.40
@@ -83,7 +83,7 @@
           if (rg_imo(i,kk)<=0)          rg_imo(i,kk) = 1
           if (rg_iyr(i,kk)<=1000)       rg_iyr(i,kk) = iyr
           if (rg_farea(i,kk) <=0)       rg_farea(i,kk) = 0.1
-          if (rg_solop(i,kk)==0) then
+          if (abs(rg_solop(i,kk)-0.)<1.e-5) then
       ! taking the chracteristics of the native HRU soil
           else
             if (rg_fc(i,kk)<=0)         rg_fc(i,kk) = 0.40
@@ -105,7 +105,7 @@
             if (rg_bdia(i,kk)<=0)       rg_bdia(i,kk) = 0.1
             if (rg_sts(i,kk)<=0)        rg_sts(i,kk) = 0.1
           end if
-          if (rg_orifice(i,kk)==1) then
+          if (abs(rg_orifice(i,kk)-1.)<1.e-5) then
             if (rg_oheight(i,kk)<=0)    rg_oheight(i,kk) = 0.05
             if (rg_odia(i,kk)<=0)       rg_odia(i,kk) = 0.05
           end if

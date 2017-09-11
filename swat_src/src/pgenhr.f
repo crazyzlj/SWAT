@@ -75,7 +75,8 @@
       integer :: itime, pt, ihour, nhour, k
       real :: vv, blm, qmn, uplm, dur, ab, ajp, altc, pkrain, rtp
       real :: xk1, xk2, xkp1, xkp2, rx, pkrr, sumrain
-
+! explicitly define return type of external functions. Added by lj for gfortran.
+      real, external :: Expo, Atri
 
       !! calculate maximum half-hour rainfall
       ab = 0.02083

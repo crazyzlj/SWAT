@@ -50,7 +50,8 @@
 
       integer :: j
       real :: ab, xa, preceff, ajp, xb, pkrf, pkrf30
-
+! explicitly define return type of external functions. Added by lj for gfortran.
+      real, external :: Expo, Atri
       j = 0
       j = ihru
 

@@ -106,7 +106,7 @@
           
          !Estimate TSS removal due to sedimentation
          if (sedconc>12.) then ! assume 12mg/l as equilibrium concentration, , Huber et al. 2006
-           ksed = min(134.8,41.1 * hpnd ** -0.999)  !decay coefficient, Huber et al. 2006
+           ksed = min(134.8,41.1 * hpnd ** (-0.999))  !decay coefficient, Huber et al. 2006
            td = 1. / nstep !detention time, day
            sedconc = (sedconc - 12.) * exp(-ksed * td) + 12.
          endif

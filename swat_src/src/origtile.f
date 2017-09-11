@@ -35,6 +35,7 @@
       use parm
 
       integer :: j
+      real :: d, dmod_m, xyz
       j = 0
       j = ihru
 

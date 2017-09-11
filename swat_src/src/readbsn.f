@@ -373,7 +373,7 @@
       character (len=80) :: titldum
       character (len=130) :: tlu
       character (len=13) :: wwqfile
-      integer :: eof, numlu
+      integer :: ii, kk, eof, numlu
       real :: escobsn, epcobsn
 !!      real :: r2adj_bsn  !D. Moriasi 4/8/2014    
 

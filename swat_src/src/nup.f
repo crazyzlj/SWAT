@@ -95,7 +95,7 @@
       use parm
 
       integer :: j, icrop, l, ir
-      real :: un2, unmx, uno3l, gx
+      real :: un2, unmx, uno3l, gx, tno3, up_reduc, xx
 
       j = 0
       j = ihru

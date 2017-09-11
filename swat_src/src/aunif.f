@@ -35,7 +35,7 @@
 
 !!     ~ ~ ~ ~ ~ ~ END SPECIFICATIONS ~ ~ ~ ~ ~ ~
 
-      integer, intent (in out) :: x1
+      integer, intent (inout) :: x1 ! it seems to be `in` not `in out`
       integer :: x2
 
       x2 = 0

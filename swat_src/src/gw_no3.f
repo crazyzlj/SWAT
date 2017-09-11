@@ -72,6 +72,7 @@
 
       integer :: j
       real :: rchrgn1, revapn, gwseepn
+      real :: xx
 
       j = 0
       j = ihru

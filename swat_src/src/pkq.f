@@ -48,7 +48,8 @@
       integer, intent (in) :: iwave
       integer :: j
       real :: altc
-
+! explicitly define return type of external functions. Added by lj for gfortran.
+      real, external :: Expo
       j = 0
       j = ihru
 

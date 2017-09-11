@@ -92,6 +92,8 @@
 
       integer :: j, j1, nn, k, sb,isp, ii
       real :: lid_cuminf_total
+      real :: d, por_air, qvol, sumqtile, sw_del, swst_del,
+     & wat, wt_del, wtst_del, xx, yy
       
       lid_cuminf_total = 0.
 

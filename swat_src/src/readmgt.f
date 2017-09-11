@@ -301,9 +301,12 @@
       integer :: ncrp, iro, npl, mon, day, mgt_op, mgt2i, mgt1i, lcr
       integer :: nir, ifn, npst, j, nhv, inop, nhvo, nkill, newpest
       integer :: igr, nairr, nafer, nsw, nrel, icf, mgt3i
+      integer :: igrow, iop, mgt10i, mgt_opprev
       real :: husc, mgt6, mgt9, mgt4, mgt5, mgt7, mgt8
       real :: disc
-      
+! explicitly define return type of external functions. Added by lj for gfortran.
+      integer, external :: Jdt
+
       eof = 0
       iop = 0
       ncrp = 0

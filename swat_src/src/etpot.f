@@ -100,7 +100,8 @@
       real :: tk, pb, gma, xl, ea, ed, dlt, ramm, ralb1, ralb, xx
       real :: rbo, rto, rn, uzz, zz, zom, zov, rv, rn_pet, fvpd
       real :: rc, rho, rout, d, chz, gsi_adj, pet_alpha
-
+! explicitly define return type of external functions. Added by lj for gfortran.
+      real, external :: Ee
       !! initialize local variables
       j = 0
       j = ihru

@@ -195,7 +195,7 @@
       !!---------------------
       do k=1,num_ri(i)
          ! skip the pond that has zero inflow
-         if (ri_fr(i,k)==0) cycle
+         if (abs(ri_fr(i,k)-0.)<1.e-5) cycle
 
          ! determine water quality volume for defult pond sizes
          !City of Austin Design Guideline 1.6.9.2 Table 1-12
@@ -204,7 +204,7 @@
          hwq = (1.8 * sub_ha_imp(i) / sub_ha_urb(i) + 0.6) !inches
          wqv = hwq / 12. * sub_ha_urb(i) * ri_fr(i,k) * 107639.104167 !ft3
                   
-         if (ri_dim(i,k)==0) then
+         if (abs(ri_dim(i,k)-0.)<1.e-5) then
            !Determine pond size automatically based on City of Austin's Design Guideline 1.6
             ri_vol(i,k) = wqv * 0.028317 !m3
 		      ri_dep(i,k)=1.5 !assume 1.5m as default retention pond depth
@@ -235,8 +235,8 @@
 	      
          if (ri_im(i,k)<0.or.ri_im(i,k)>12) ri_im(i,k) = 0
          if (ri_iy(i,k)<1000.and.ri_iy(i,k)>0) ri_iy(i,k) = 0
-         if (ri_iy(i,k)==0) ri_iy(i,k) = iyr
-         if (ri_im(i,k)==0) ri_im(i,k) = 1   
+         if (abs(ri_iy(i,k)-0.)<1.e-5) ri_iy(i,k) = iyr
+         if (abs(ri_im(i,k)-0.)<1.e-5) ri_im(i,k) = 1
 
        write(77779,'(a11,i5)') 'Subbasin #:', i   ! bmp_sedfil.out
        write(77779,'(a46)') '' 
@@ -333,9 +333,9 @@
          if (ft_alp(i,k)<0.1) ft_alp(i,k) = 0.1
          if (sf_im(i,k)<0.or.sf_im(i,k)>12) sf_im(i,k) = 0
          if (sf_iy(i,k)<1000.and.sf_iy(i,k)>0) sf_iy(i,k) = 0
-         if (sf_iy(i,k)==0) sf_iy(i,k) = iyr
-         if (sf_im(i,k)==0) sf_im(i,k) = 1  
-         if (ft_fsa(i,k)==0) ft_fsa(i,k) = 0.85 
+         if (abs(sf_iy(i,k)-0.)<1.e-5) sf_iy(i,k) = iyr
+         if (abs(sf_im(i,k)-0.)<1.e-5) sf_im(i,k) = 1
+         if (abs(ft_fsa(i,k)-0.)<1.e-5) ft_fsa(i,k) = 0.85
          if (sf_typ(i,k)==1) ft_fsa(i,k) = 1 
          
  

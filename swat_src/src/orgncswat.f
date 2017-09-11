@@ -63,7 +63,7 @@
 
       integer, intent (in) :: iwave
       integer :: j
-      real :: xx, wt1, er, conc
+      real :: xx, xx1, wt1, er, conc
 
       j = 0
       j = ihru

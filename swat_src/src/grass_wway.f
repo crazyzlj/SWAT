@@ -72,7 +72,11 @@
 !!    ~ ~ ~ ~ ~ ~ END SPECIFICATIONS ~ ~ ~ ~ ~ ~
       use parm
       real :: chflow_m3, sf_area, surq_remove, sf_sed ,sed_remove,vc,
-     & chflow_day
+     & chflow_day, cych, cyin, deg, dep, depnet, p, rh, sed_frac,
+     & sedin, sedint, sedout, sedtrap, sf_depth, surq_frac, xrem
+      integer :: j, k
+! explicitly define return type of external functions. Added by lj for gfortran.
+      real, external :: Qman
 !!	set variables
       j = ihru
 

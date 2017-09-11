@@ -72,6 +72,8 @@
       integer :: j, k, kk, jj
       real :: ab, ajp, preceff, rainsum
 
+! explicitly define return type of external functions. Added by lj for gfortran.
+      real, external :: Expo, Atri
       j = 0
       j = ihru
       ab = 0.02083

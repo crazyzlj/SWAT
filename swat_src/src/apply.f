@@ -63,9 +63,10 @@
 
       use parm
 
-      integer :: j, kk, k, jj
+      integer :: j, kk, k, jj, nly
       real :: xx, gc
-
+! explicitly define return type of external functions. Added by lj for gfortran.
+      real, external :: Erfc
       j = 0
       j = ihru
 

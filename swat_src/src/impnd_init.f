@@ -128,7 +128,7 @@
       integer :: j
       real :: cl, si, mnpsz, targ, lnvol
       real :: pe_sa, pp_sa, pe_vo, pp_vo, wetdif
-
+      real :: sa
 
       do j = 1, nhru
 

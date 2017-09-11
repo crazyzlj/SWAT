@@ -40,9 +40,11 @@
 !!    ~ ~ ~ ~ ~ ~ END SPECIFICATIONS ~ ~ ~ ~ ~ ~
 
       real, intent (in) :: at1, at2, at3
-      integer, intent (in out) :: at4i
+      integer, intent (inout) :: at4i  !! fixed `in out` to `inout` by lj.
       real :: u3, rn, y, b1, b2, x1, xx, yy, amn
       real :: atri
+! explicitly define return type of external functions. Added by lj for gfortran.
+      real, external :: Aunif
 
       u3 = 0.
       rn = 0.

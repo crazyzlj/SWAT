@@ -76,7 +76,7 @@
         if (ievent > 0) then
           do ii = 1, nstep
             hsedyld(ii) = hsedyld(ii) * rtwtr / wtrin
-            if (hrtwtr(ii) == 0.) hsedyld(ii) = 0.
+            if (abs(hrtwtr(ii) - 0.) < 1.e-5) hsedyld(ii) = 0.
           end do
         end if
       end if

@@ -156,7 +156,7 @@
         
         !Estimate TSS removal due to sedimentation
          if (spndconc>sp_sede(sb,kk)) then
-           ksed = min(134.8,41.1 * hpnd ** -0.999)  !decay coefficient, Huber et al. 2006
+           ksed = min(134.8,41.1 * hpnd ** (-0.999))  !decay coefficient, Huber et al. 2006
            td = qpnd / qpipe / nstep !detention time, day
            spndconc = (spndconc - sp_sede(sb,kk)) * exp(-ksed * td) + 
      &           sp_sede(sb,kk)

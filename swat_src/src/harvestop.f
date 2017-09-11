@@ -131,7 +131,7 @@
 !!    ~ ~ ~ ~ ~ ~ END SPECIFICATIONS ~ ~ ~ ~ ~ ~
       use parm
   
-      integer :: j, k
+      integer :: j, k, l
       
 !!   change per JGA 8/31/2011 gsm PUT YIELD IN modparm.f
 !!    real :: hiad1, wur, yield, clip, yieldn, yieldp, clipn, clipp
@@ -140,7 +140,8 @@
       real :: clipgrn,cliptbr,clipngrn,clippgrn,yieldngrn
       real :: yieldntbr,yieldnrsd,yieldpgrn,yieldptbr,yieldprsd
       real :: clipntbr,clipptbr,rtresp
-
+      real :: clipbms, clipnbms, clippbms, ff3, orgc_f, rtresn
+      real :: ssabg, ssb, ssn, ssp, ssr, XX, yieldnbms, yieldpbms
       !!add by zhang
       !!===================
       real :: BLG1, BLG2, BLG3,  CLG, sf

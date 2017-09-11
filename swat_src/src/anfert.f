@@ -166,7 +166,7 @@
 !!    ~ ~ ~ ~ ~ ~ END SPECIFICATIONS ~ ~ ~ ~ ~ ~
 
       use parm
-
+      implicit real*8 (a-h,o-z)
       real, parameter :: rtoaf = 0.50
       integer :: j, ly, ifrt
       real :: tsno3, tpno3, dwfert, xx, targn, tfp
@@ -328,7 +328,7 @@
           if (strsp(j) <= 0.75 .and. fminn(ifrt) > 0.0001) then
             tfp = fminn(ifrt) / 7. !! all other fertilizers
             autop = autop + dwfert *(tfp + forgp(ifrt))
-          else if (strsp(j) <= 0.75 .and. fminn(ifrt) == 0) then
+          else if (strsp(j) <= 0.75 .and. abs(fminn(ifrt) - 0.0) < 1.e-5) then
             tfp = 1/7. !! elemental P cases
             autop = autop + dwfert *(tfp + forgp(ifrt))
           else

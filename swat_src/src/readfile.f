@@ -119,7 +119,8 @@
 !!    ~ ~ ~ ~ ~ ~ END SPECIFICATIONS ~ ~ ~ ~ ~ ~
 
       use parm
-
+! explicitly define return type of external functions. Added by lj for gfortran.
+      real, external :: Aunif
       character (len=13) :: figfile, bsnfile, plantdb, tilldb, urbandb, 
      &    pestdb, fertdb, fcstfile
 	

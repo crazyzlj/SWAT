@@ -3,7 +3,7 @@
 
 	use parm
 	integer :: k,j
-	real :: cdg, wdn, void
+	real :: cdg, wdn, void, vof
 
       wdn = 0.
 	vof = 1. / (1. + (void/0.04)**5)

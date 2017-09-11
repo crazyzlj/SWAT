@@ -129,7 +129,8 @@
       integer, intent (in) :: k
       real :: vol, sed, pndsa, xx, targ, tpco, phosk, nitrok, chlaco
       integer :: iseas
-	real :: san, sil, cla, sag, lag, inised, finsed,setsed,remsetsed
+	  real :: san, sil, cla, sag, lag, inised, finsed,setsed,remsetsed
+	  real :: susp, trappnd, velofl
 
 
         !! store initial values
@@ -234,7 +235,7 @@
           
           !! compute new sediment concentration
           if (pndsedin < 1.e-6) pndsedin = 0.
-	    if (pndsa == 0.) pndsa = 0.001    !!MJW added line of code 040811
+	    if (abs(pndsa - 0.) < 1.e-5) pndsa = 0.001    !!MJW added line of code 040811
           velofl = (pndflwo / pndsa) / 10000.
           if (velofl > 1.e-6) then
              trappnd = velsetlp(k) / velofl

@@ -124,7 +124,7 @@
       use parm
 
       real, intent (in) :: years
-      integer :: j
+      integer :: ii, j
       real, dimension (mrcho) :: pdvar, pdvr
       real, dimension (2) :: srch_av
 

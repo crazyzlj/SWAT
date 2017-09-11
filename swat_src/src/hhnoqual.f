@@ -187,7 +187,7 @@
          o2con = (disoxin * wtrin + hdisox(ii-1) * hrchwtr(ii)) / wtrtot
          end if
 
-         if (algcon < 1.e-6) algon = 0.0
+         if (algcon < 1.e-6) algcon = 0.0
          if (orgncon < 1.e-6) orgncon = 0.0
          if (nh3con < 1.e-6) nh3con = 0.0
          if (no2con < 1.e-6) no2con = 0.0

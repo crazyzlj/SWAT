@@ -58,7 +58,7 @@
       use parm
 
       integer :: j
-      real :: c
+      real :: c, bio_frcov, grcov_fr, rsd_frcov
 
       j = 0
       j = ihru

@@ -80,10 +80,11 @@
 
       character (len=80) :: titldum
 	integer :: eof
-	integer :: mon, day, mgt_op, mgt2i, mgt1i
+	integer :: mon, day, mgt_op, mgt2i, mgt1i, iyear
 	real :: mgt3,mgt4,mgt5,mgt6,mgt7,mgt8,mgt9,mgt10,mgt11,mgt12,
      & mgt13,mgt14,mgt15,mgt16,mgt17,mgt18,mgt19,mgt20,mgt21,mgt22,mgt23
-      
+! explicitly define return type of external functions. Added by lj for gfortran.
+      integer, external :: Jdt
 	
 	
 	read (111,5000,end=999) titldum
@@ -95,7 +96,7 @@
           do
           mon = 0
           day = 0
-          year = 0.
+          iyear = 0
           mgt_op = 0
           mgt1i = 0
           mgt2i = 0
@@ -203,7 +204,7 @@
           ro_bmp_flos(iops,ihru) = mgt10  !! Flow
 		ro_bmp_seds(iops,ihru) = mgt11  !! Sediment
 		ro_bmp_pps(iops,ihru) = mgt12   !! Particulate P
-		ro_bmp_sps(iops,ihru) = mg13    !! Soluble P
+		ro_bmp_sps(iops,ihru) = mgt13    !! Soluble P
 		ro_bmp_pns(iops,ihru) = mgt14   !! Particulate N
 		ro_bmp_sns(iops,ihru) = mgt15   !! Soluble N
 		ro_bmp_bacs(iops,ihru) = mgt16  !! Bacteria

@@ -77,7 +77,7 @@
 !!    ~ ~ ~ ~ ~ ~ END SPECIFICATIONS ~ ~ ~ ~ ~ ~
 
       use parm
-
+      integer :: j
 !!	set variables
       j = ihru
 

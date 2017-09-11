@@ -102,7 +102,7 @@
       integer :: ipnum, ifnum, iunum, itnum, j, ifcst, fcsttot, k
 !     septic database
       integer  :: isnum   !! CS
-
+      integer  :: jj, nlines, nlsu
 !!    initialize variables
       title = ""
       plantdb = ""

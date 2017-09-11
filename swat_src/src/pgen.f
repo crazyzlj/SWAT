@@ -63,9 +63,9 @@
       use parm
 
       integer, intent (in) :: j
- 
       real :: vv, pcpgen, v8, r6, xlv
-
+! explicitly define return type of external functions. Added by lj for gfortran.
+      real, external :: Aunif, Dstn1
       pcpgen = 0.
       vv = 0.
       vv = Aunif(rndseed(idg(1),j))

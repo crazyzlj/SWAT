@@ -170,7 +170,10 @@
       real :: sedloss, no3loss, yy, dg, excess, stmax, sedsetl
 	real :: sanloss, silloss, claloss, sagloss, lagloss
       real :: potmm,minpsloss,minpaloss, solploss, orgnloss, orgploss
-
+      real :: drcla, drsil, drtot, pot_depth, potflwosp, potmpao, potmpso
+      real :: potno3o, potorgno, potorgpo, potsa_ini, potsolpo, potvol_ini
+      real :: potvol_m3, potvol_sep, potvol_tile, qin, rto, solp_tileo
+      real :: spillo, tileo, xx
       j = 0
       j = ihru
 

@@ -48,7 +48,7 @@
 
 
       use parm
-            
+      integer :: imho, itempa, mxsubch
       allocate (alph_e(mhru))
       allocate (co_p(mhru))
       

@@ -231,7 +231,8 @@
       real :: thbc1 = 1.083, thbc2 = 1.047, thbc3 = 1.047, thbc4 = 1.047
       real :: thrk1 = 1.047, thrk2 = 1.024, thrk3 = 1.024, thrk4 = 1.060
 !      real :: thrk5 = 1.047, thrk6 = 1.0, thrs6 = 1.024, thrs7 = 1.0
-
+! explicitly define return type of external functions. Added by lj for gfortran.
+      real, external :: Theta
       jrch = 0
       jrch = inum1
 
@@ -275,7 +276,7 @@
          if (ammoin < 1.e-6) ammoin = 0.0
          if (nitritin < 1.e-6) nitritin = 0.0
          if (nitratin < 1.e-6) nitratin = 0.0
-         if (orgpin < 1.e-6) orgnpin = 0.0
+         if (orgpin < 1.e-6) orgpin = 0.0
          if (dispin < 1.e-6) dispin = 0.0
          if (cbodin < 1.e-6) cbodin = 0.0
          if (disoxin < 1.e-6) disoxin = 0.0

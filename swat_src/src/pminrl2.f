@@ -92,8 +92,9 @@
 
       use parm
       integer :: j, l
-      real :: rto, rmn1, roc, wetness, base vara,varb,varc,as_p_coeff
-	real*8  solp(mlyr),actp(mlyr),stap(mlyr) !! locals for concentation based data
+      real :: rto, rmn1, roc, wetness, base, vara, varb, varc, as_p_coeff
+      real :: arate, ssp, xx
+	  real*8  solp(mlyr),actp(mlyr),stap(mlyr) !! locals for concentation based data
 
       j = 0
       j = ihru
@@ -189,7 +190,7 @@
         
         xx = actp(l) + (actp(l) * rto)
         if (xx > 1.e-6) then
-      	 ssp = 25.044 * xx ** -0.3833 
+      	 ssp = 25.044 * xx ** (-0.3833)
         end if
         
 	  ! limit ssp to range in measured data
