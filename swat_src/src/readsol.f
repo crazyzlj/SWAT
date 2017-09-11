@@ -80,7 +80,8 @@
       integer :: j, nly, eof            !claire: jj, n, and flag are not used 12/02/09
 !      real :: xx, plt_zmx, yy
       real :: plt_zmx                   !Claire, xx and yy are not used 12/2/09
-
+      real :: a, b, c, d, dep_new
+      integer :: nota
 !!    initialize local variables
       nly = 0
       plt_zmx = 0.
@@ -124,8 +125,8 @@
 
       !! MJW added rev 490
 	!!CaCo3 content (%) 
-	if (eof < 0) exit	
-	  read (107,5000,iostat=eof) (sol_cal(j,ihru), j = 1, nly) 	
+	if (eof < 0) exit
+	  read (107,5000,iostat=eof) (sol_cal(j,ihru), j = 1, nly)
 	!! PH-H20  
 	if (eof < 0) exit
 	  read (107,5000,iostat=eof) (sol_ph(j,ihru), j = 1, nly) 
@@ -141,7 +142,7 @@
          if (sol_awc(j,ihru) >= .80) sol_awc(j,ihru) = .80
          if (sol_cbn(j,ihru) < 1.e-6) sol_cbn(j,ihru) = .10
          sol_n(j,ihru) = sol_cbn(j,ihru) / 11.0
-	end do	
+	end do
 	!!Armen January 2009 end
 
 !!    add 10mm layer at surface of soil

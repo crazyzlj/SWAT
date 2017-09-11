@@ -58,7 +58,7 @@
 
       use parm
 
-      integer :: j
+      integer :: j, ii
       real :: xx, vap
 
       j = 0
@@ -106,7 +106,7 @@
         vap = 0.
 	 if (ii /= i_sep(j)) then
          vap = sol_solp(ii,j) * sol_prk(ii,j) / ((conv_wt(ii,j) 
-     &	   / 1000.) * pperco_sub(ii,j))
+     &                             / 1000.) * pperco_sub(ii,j))
 	   vap = Min(vap, .2 * sol_solp(ii,j))
 	   sol_solp(ii,j) = sol_solp(ii,j) - vap
 	   if (ii == sol_nly(j)) then

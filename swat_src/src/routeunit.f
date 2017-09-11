@@ -29,6 +29,8 @@
 !!
 
       use parm
+      real :: xx, sumeiq, sumc
+      integer :: kk, jj
 !        inum2 = 1
         varoute(:,ihout) = 0.
         sumc = 0.

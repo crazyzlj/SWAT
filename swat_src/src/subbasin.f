@@ -132,8 +132,9 @@
 
       use parm
 
-      integer :: j,sb,kk
+      integer :: j,sb,kk,iru_sub, ihout1, i_wtrhru
       real :: tmpk, d, gma, ho, pet_alpha, aphu, phuop
+      real :: xx, sumk, sumdaru, ovsl, ovs
 
       ihru = 0
       ihru = hru1(inum1) 
@@ -392,7 +393,7 @@
           call filter
           if (filterw(j) > 0.) call buffer
         end if
-              if (vfsi(j) == 0. .and. filterw(j) > 0.) then 
+              if (abs(vfsi(j) - 0.) < 1.e-5 .and. filterw(j) > 0.) then
                 call filtw
                 call buffer
               end if

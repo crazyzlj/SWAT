@@ -96,7 +96,7 @@
 
       use parm
 
-      integer :: jres, inhyd
+      integer :: jres, inhyd, k
       real :: vol, sed, vvr, targ, xx, flw
  
       jres = 0
@@ -125,9 +125,9 @@
         ressa = br1(jres) * res_vol(jres) ** br2(jres)
 
 !! calculate water balance for day
-        resev = 6. * pet_day * ressa / nstep		!! urban modeling by J.Jeong
-        ressep = res_k(jres) * ressa * 240./ nstep	!! urban modeling by J.Jeong
-        respcp = sub_subp_dt(res_sub(jres),k) * ressa * 10.	!! urban modeling by J.Jeong
+        resev = 6. * pet_day * ressa / nstep        !! urban modeling by J.Jeong
+        ressep = res_k(jres) * ressa * 240./ nstep  !! urban modeling by J.Jeong
+        respcp = sub_subp_dt(res_sub(jres),k) * ressa * 10.  !! urban modeling by J.Jeong
 
 !! new water volume for day
         res_vol(jres) = res_vol(jres) + respcp + hhresflwi(k) - 
@@ -211,7 +211,7 @@
 
             case (3)                   !! use measured daily outflow
               if (k==1) read (350+jres,5000) flw
-  		      hhresflwo(k) = 86400. * flw / nstep		!! m3, urban modeling by J.Jeong
+  		      hhresflwo(k) = 86400. * flw / nstep  !! m3, urban modeling by J.Jeong
           end select
 
         !! check calculated outflow against specified max and min values
@@ -232,7 +232,7 @@
 
         !! subtract consumptive water use from reservoir storage
           xx = 0.
-          xx = wuresn(i_mo,jres) / nstep		!! urban modeling by J.Jeong
+          xx = wuresn(i_mo,jres) / nstep  !! urban modeling by J.Jeong
           res_vol(jres) = res_vol(jres) - xx
           if (res_vol(jres) < 0.) then
             xx = xx + res_vol(jres)

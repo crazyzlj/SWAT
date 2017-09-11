@@ -77,7 +77,8 @@
 
       integer :: jres, iseas
       real :: nitrok, phosk, tpco, chlaco, conc_p, conc_n
-
+! explicitly define return type of external functions. Added by lj for gfortran.
+      real, external :: theta
       jres = 0
       jres = inum1
 

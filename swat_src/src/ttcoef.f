@@ -75,6 +75,9 @@
       integer, intent (in) :: k
       integer :: jj
       real :: fps, d, b, p, a, qq1, rh, tt1, tt2, aa
+      real :: chsslope
+! explicitly define return type of external functions. Added by lj for gfortran.
+      real, external :: Qman
 
       do jj = 1, 13
         phi(jj,k) = 0.

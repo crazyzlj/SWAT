@@ -95,10 +95,11 @@
 
       use parm
 
-      integer :: jres
+      integer :: jres, jj
       real :: vol, sed, vvr, targ, xx, flw
 	real :: san,sil,cla,sag,lag,gra,ndespill
 	real :: inised, finsed, setsed, remsetsed
+	real :: res_h, res_h1, res_qi, susp, trapres, velofl, x1
  
       jres = 0
       jres = inum1
@@ -291,7 +292,7 @@
 
         !! compute new sediment concentration in reservoir
 	  if (ressedi < 1.e-6) ressedi = 0.0      !!nbs 02/05/07
-	  if (ressa == 0.) ressa = 1.e-6     !! MJW added 040711
+	  if (abs(ressa - 0.) < 1.e-5) ressa = 1.e-6     !! MJW added 040711
 	  velofl = (resflwo / ressa) / 10000.  !!m3/d / ha * 10000. = m/d
 !!	  velsetl = 1.35      !! for clay particle m/d
 	  if (velofl > 1.e-6) then

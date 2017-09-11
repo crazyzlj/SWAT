@@ -26,7 +26,7 @@
 
       use parm
 
-      integer :: j
+      integer :: j, ii, mdays
 
       do j = 1, subtot
           rchmono(58,j) = rchmono(58,j)/Real(mdays)                     

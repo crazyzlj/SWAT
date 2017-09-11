@@ -115,7 +115,9 @@
       real :: topw,msk1,msk2,detmax,detmin,qinday,qoutday
 	real :: volrt, maxrt, adddep, addp, addarea
 	real :: rttlc1, rttlc2, rtevp1, rtevp2
-
+	real :: aaa, vc
+! explicitly define return type of external functions. Added by lj for gfortran.
+      real, external :: Qman
       jrch = 0
       jrch = inum1
       qinday = 0; qoutday = 0

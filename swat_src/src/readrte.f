@@ -86,7 +86,7 @@
 
       character (len=80) :: titldum
       integer :: eof
-	  real :: bnksize, bedsize
+	  real :: bnksize, bedsize, sc, sumerod
   
       eof = 0
       do

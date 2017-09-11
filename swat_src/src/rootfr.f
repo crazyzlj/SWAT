@@ -1,4 +1,4 @@
-      subroutine rootfr	
+      subroutine rootfr
 	!! This subroutine distributes dead root mass through the soil profile
 	!! code developed by Armen R. Kemanian in 2008 
 	!! March, 2009 further adjustments expected
@@ -6,7 +6,8 @@
 	use parm
 
 	real :: sol_thick(sol_nly(ihru))
-	real :: cum_rd, cum_d, cum_rf, x1, x2
+	real :: cum_rd, cum_d, cum_rf, x1, x2, xx, xx1, xx2
+	real :: a, b, c, d
 	integer :: k, l, jj
 	
 	jj = ihru
@@ -34,7 +35,7 @@
 	do l=1, sol_nly(jj)
 	  if (l == 1) then
 	    sol_thick(l) = sol_z(l,jj)
-	  else	
+	  else
 	    sol_thick(l) = sol_z(l,jj) - sol_z(l-1,jj)
 	  end if
 		

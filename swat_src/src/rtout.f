@@ -366,13 +366,13 @@
             sedcon = 0.
           end if
           rchhr(1,jrch,ii) = hhvaroute(2,inum2,ii) * (1. - rnum1)!!flow in (m^3/s)
-     &      / (idt * 60.)		       
+     &      / (idt * 60.)
           rchhr(2,jrch,ii) = hrtwtr(ii) / (idt * 60.)            !!flow out (m^3/s)
           rchhr(3,jrch,ii) = hrtevp(ii) / (idt * 60.)            !!evap (m^3/s)
           rchhr(4,jrch,ii) = hrttlc(ii) / (idt * 60.)            !!tloss (m^3/s)
-          rchhr(5,jrch,ii) = hhvaroute(3,inum2,ii) * (1. - rnum1)   !!sed in (tons)
+          rchhr(5,jrch,ii) = hhvaroute(3,inum2,ii) * (1. - rnum1)!!sed in (tons)
           rchhr(6,jrch,ii) = hsedyld(ii)                         !!sed out (tons)
-          rchhr(7,jrch,ii) = sedcon						       !!sed conc (mg/L)
+          rchhr(7,jrch,ii) = sedcon                              !!sed conc (mg/L)
 	  end do
 	endif
 

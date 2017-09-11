@@ -59,8 +59,8 @@
 !!    ~ ~ ~ ~ ~ ~ END SPECIFICATIONS ~ ~ ~ ~ ~ ~
 
       use parm
-
-      integer :: j, j1
+      real :: wtl, w2, w1, rfqeo_sum, eo_sum
+      integer :: j, j1, i30
 
       j = 0
       j = ihru

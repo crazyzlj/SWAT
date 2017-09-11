@@ -73,7 +73,10 @@
 
       integer :: jj, k
       real :: fps, d, b, p, a, qq1, rh, tt1, tt2, aa
-      
+      real :: chsslope
+! explicitly define return type of external functions. Added by lj for gfortran.
+      real, external :: Qman
+
       k = ihru
       
       do jj = 1, 13

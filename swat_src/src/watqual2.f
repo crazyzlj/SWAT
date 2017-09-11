@@ -234,8 +234,10 @@
       real :: thbc1 = 1.083, thbc2 = 1.047, thbc3 = 1.047, thbc4 = 1.047
       real :: thrk1 = 1.047, thrk2 = 1.024, thrk3 = 1.024, thrk4 = 1.060
 !      real :: thrk5 = 1.047, thrk6 = 1.0, thrs6 = 1.024, thrs7 = 1.0
-	real  ::   dalgae, dchla, dorgn, dnh4, dno2, dno3,dorgp,dsolp
-      real  ::   dbod, ddisox  
+	  real :: dalgae, dchla, dorgn, dnh4, dno2, dno3,dorgp,dsolp
+      real :: dbod, ddisox, o2proc, setl, o2con2, hh, coef
+! explicitly define return type of external functions. Added by lj for gfortran.
+      real, external :: Theta
 
       jrch = 0
       jrch = inum1
@@ -424,7 +426,7 @@ C	tday is the calculation time step = 1 day
          ww = Theta(rk1(jrch),thrk1,wtmp) * cbodcon
 
          if(rchdep.gt.0.001) xx = Theta(rk4(jrch),thrk4,wtmp)           
-     &	   / (rchdep * 1000.)
+     &                               / (rchdep * 1000.)
          if (nh3con.gt.0.001) then
 	   yy = ai5 * Theta(bc1mod,thbc1,wtmp) * nh3con
          else

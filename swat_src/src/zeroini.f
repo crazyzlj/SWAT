@@ -4,6 +4,7 @@
 !!    this subroutine zeros values for single array variables
 
       use parm
+      real :: pperco ! do not know why pperco was not defined in modparam.f. by lj.
       lid_file = ""
       dpd_file = ""
       wpd_file = ""

@@ -62,7 +62,7 @@
       integer :: iu, iunum, eof
       character (len=4) :: unam
       real :: fimpu, fcimpu, crbdn, ucoef, dtmx, thlf, tncnc, tpcnc
-      real :: tno3cnc
+      real :: tno3cnc, urbcn
 
       iunum = 0
       eof = 0

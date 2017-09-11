@@ -122,8 +122,8 @@
 !!    ~ ~ ~ ~ ~ ~ END SPECIFICATIONS ~ ~ ~ ~ ~ ~
       use parm
 
-      integer :: k, ii
-      real :: volum, tranmx, ratio
+      integer :: k, ii, nhyd_tr
+      real :: volum, tranmx, ratio, ratio1, xx
 
 !! check beg/end months summer or winter
       if (mo_transb(inum5) < mo_transe(inum5)) then

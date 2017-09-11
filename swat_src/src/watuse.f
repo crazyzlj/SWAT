@@ -41,7 +41,9 @@
       use parm
 
       integer :: j
-      real :: cnv
+      real :: cnv, sub_ha
+! explicitly define return type of external functions. Added by lj for gfortran.
+      real, external :: Aunif, Dstn1
 
       j = 0
       j = ihru

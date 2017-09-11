@@ -59,7 +59,9 @@
       real, dimension (3,3) :: a, b
       real, dimension (3) :: xx, e
       real :: v2
- 
+ ! explicitly define return type of external functions. Added by lj for gfortran.
+       real, external :: Aunif, Dstn1
+
       zshape = (/3, 3/)
       a = Reshape((/.567, .253, -.006, .086, .504, -.039, -.002, -.050, 
      &             .244/), zshape)

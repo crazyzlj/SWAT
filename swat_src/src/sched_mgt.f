@@ -31,6 +31,8 @@
 !!    ~ ~ ~ ~ ~ ~ END SPECIFICATIONS ~ ~ ~ ~ ~ ~
 
       use parm
+      real :: biomass, fr_curb, husc
+      integer :: igrow, j, ncrp
 
       j = ihru
       

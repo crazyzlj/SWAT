@@ -137,8 +137,8 @@
       character (len=13) :: hrufile, chmfile, mgtfile, solfile, gwfile
       character (len=13) :: opsfile, wgnfile, pndfile, wusfile, septfile
 	  character (len=13) :: sdrfile, ltcfile
-      integer :: eof, mon, j, jj, ip, if, ir
-      real :: ssnoeb(10), sno_sub, ch_ls, sumebfr
+      integer :: eof, mon, j, jj, ip, if, ir, ib, ils, k, kk
+      real :: ssnoeb(10), sno_sub, ch_ls, sumebfr, sdrift
 
       wgnfile = ""
       pndfile = ""
@@ -279,7 +279,7 @@
             if (sdrain(ihru) <= 0.) sdrain(ihru) = sdrain_bsn
             if (drain_co(ihru) <= 0.) drain_co(ihru) = drain_co_bsn
             if (pc(ihru) <= 0.) pc(ihru) = pc_bsn
-            if (latksatf(ihru) <= 0.) latksatf(ihru) = latksatf_bsn	
+            if (latksatf(ihru) <= 0.) latksatf(ihru) = latksatf_bsn
             if (sstmaxd(ihru) <= 0.) sstmaxd(ihru) = sstmaxd_bsn
  !           sdrain(ihru) = 0.      !!!! nbs 11/25/15
 	    end if
@@ -459,7 +459,7 @@
       call readwus
 
 !! sediment delivery ration for the subbasin..... urban modeling by J.Jeong
-	dratio(i) = 0.42 * sub_km(i) ** -0.125
+	dratio(i) = 0.42 * sub_km(i) ** (-0.125)
 	if(dratio(i)>0.9) dratio(i) = 0.9
 
       close (101)

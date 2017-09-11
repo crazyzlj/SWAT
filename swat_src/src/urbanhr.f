@@ -104,6 +104,7 @@
       use parm
 
       real :: cod, sus_sol, tn, tp, urbk, dirto, qdt
+      real :: tno3
 	real*8 :: dirt
       integer :: j, k 
 
@@ -129,7 +130,7 @@
      &                                 (thalf(urblu(j)) + twash(j))
 
           !! calculate wash-off of solids
-              urbk = 0.				! peakr -> hhqday for subdaily time steps 6/19/09 JJ
+              urbk = 0.  ! peakr -> hhqday for subdaily time steps 6/19/09 JJ
               urbk = urbcoef(urblu(j)) * qdt  
                                      
               dirt = dirto * Exp (- urbk * real(idt) / 60.)

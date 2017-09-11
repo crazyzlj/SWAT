@@ -4,6 +4,11 @@
 !!    this subroutine initializes the values for some of the arrays 
 
       use parm
+      real :: sub_dgra !! TODO, this should be array like sub_dlag, by lj.
+      real :: vp !! seems not used in SWAT, by lj.
+      real :: bio_fecal, grwat_veg,plq_rt,rsp_rt,slg_rt
+      real :: sub_petco !! seems not used in SWAT, by lj.
+      real :: silt  !! do not know what's meaning, by lj.
 
 !!    added for manure Armen Jan 2009
       sol_mc = 0.
@@ -58,7 +63,7 @@
       bz_area = 0
 !!    isep_typ = 1
       isep_typ = 0
-      sep_opt= 1
+      isep_opt= 1 ! fixed by lj, the old code is sep_opt=1
       sep_tsincefail = 0
       isep_tfail = 0
       coeff_bod_dc = 0

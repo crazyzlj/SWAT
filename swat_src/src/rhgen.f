@@ -57,7 +57,8 @@
  
       real :: vv, rhm, yy, uplm, blm
       real :: rhmo, tmpmean
-
+! explicitly define return type of external functions. Added by lj for gfortran.
+      real, external :: Ee, Atri
       !! Climate Paramenters required for Penman-Monteith !!
 
         !! Generate relative humidity !!

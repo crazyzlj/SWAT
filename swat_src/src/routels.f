@@ -32,6 +32,10 @@
 
 !!    compute infiltration from surface runon to next landscape unit
       real :: ls_overq, ls_latq, ls_tileq, ls_gwq
+      real :: xx, xslat, vs, trt, trancap, surfqout, slbp, sed
+      real :: qs, orgp, orgn, no3, nh3, gwqrunon, frac, dstor
+      real :: dr_er, dr, dep, dakm, cy
+      integer :: ii, jj, kk, lyr, iru_sub
 
 !!    water
 !      if (rnum1 > 1.e-4) return

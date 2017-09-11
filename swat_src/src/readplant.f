@@ -154,12 +154,12 @@
 
       use parm
 
-      integer :: ic, eof, icnum, yrsmat
+      integer :: ic, eof, icnum, yrsmat, idtype
       real :: xx, usle_c, frgrw2, laimx2, co2hi, bioehi, vpdfr, blaic
       real :: b1, b2, b3, c1, frgrw1, laimx1, frgmax, bioe, hvstc, dlaic
       real :: chtmxc, rdmxc, topt, tbase, cnyldc, cpyldc, bn1, bn2, bn3
       real :: bp1c, bp2c, bp3c, wsyfc, gsic, wavpc, rsdcopl, alaimin
-      real :: bioleaf
+      real :: bioleaf, biomxtrees, bmdieoff, extcoef, rsr1c, rsr2c
       character (len=4) :: cname
 
       eof = 0
@@ -278,7 +278,7 @@
           b1 = 0.0
           b2 = 0.0
           c1 = 330.                        !! ambient CO2
-          if (co2hi == 330.) co2hi = 660.
+          if (abs(co2hi - 330.) < 1.e-5) co2hi = 660.
           b1 = bio_e(ic) * .01             !! "ambient" bio-e ratio/100
           b2 = bioehi * .01                !! "elevated" bio-e ratio/100
 

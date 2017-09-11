@@ -116,7 +116,7 @@
       character (len=80) :: titldum
       character (len=13) :: resdayo, resmono
       integer :: eof, mon, j
-      real :: resdif, targ, lnvol, res_d50
+      real :: resdif, targ, lnvol, res_d50, res_d50mm
 
 !!    initialize local variables
       resdayo = ""
@@ -242,7 +242,7 @@
       else
         if (res_pvol(i) <= 0) res_pvol(i) = 60000.0
       end if
-      if (res_evol(i) <= 0.0) res_evol(i) = 1.11 * res_pvol(i)     	
+      if (res_evol(i) <= 0.0) res_evol(i) = 1.11 * res_pvol(i)
       if (res_psa(i) <= 0.0) res_psa(i) = 0.08 * res_pvol(i)
       if (res_esa(i) <= 0.0) res_esa(i) = 1.5 * res_psa(i) 
       targ = 0.
@@ -298,7 +298,7 @@
 !!    calculate shape parameters for surface area equation
       resdif = 0.
       resdif = res_evol(i) - res_pvol(i)
-      if ((res_esa(i) - res_psa(i)) > 0. .and. resdif > 0.) then	
+      if ((res_esa(i) - res_psa(i)) > 0. .and. resdif > 0.) then
       lnvol = 0.
       lnvol = Log10(res_evol(i)) - Log10(res_pvol(i))
       if (lnvol > 1.e-4) then
@@ -321,7 +321,7 @@
       if(ievent== 0) then
 	  sed_stlr(i) = Exp(-.184 * res_d50)
 	else
-	  sed_stlr(i) = Exp(-.184 * res_d50 / nstep)	!! urban modeling by J.Jeong
+	  sed_stlr(i) = Exp(-.184 * res_d50 / nstep)  !! urban modeling by J.Jeong
 	endif
 !!     xx = res_stlr_co * res_d50
 !!	if (xx > 20.) xx = 20.

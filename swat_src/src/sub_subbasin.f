@@ -133,7 +133,7 @@
       use parm
       
       real :: hvol(10)
-      integer :: sb
+      integer :: sb, kk, ii
  
       sb = hru_sub(ihru)
       ri_pmpvol = 0; ri_totpvol = 0

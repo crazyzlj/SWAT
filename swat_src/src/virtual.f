@@ -260,9 +260,12 @@
 
       use parm
 
-      integer :: j, sb, kk, ii
+      integer :: j, sb, kk, ii, ib
       real :: cnv, sub_ha, wtmp, baseflw, bf_fr,hr
+      real :: ratio
       real :: sub_hwyld(nstep), hqd(4*nstep), hsd(4*nstep),hqdtst(nstep)   ! hqd, hsd locally defined. J.Jeong 4/26/2009
+! explicitly define return type of external functions. Added by lj for gfortran.
+      real, external :: Tair
 
       j = ihru
       sb = inum1
@@ -387,17 +390,17 @@
         sub_bd(sb) = sub_bd(sb) + sol_bd(1,j) * hru_fr(j)
 	  if (cswat == 0) then
         sub_orgn(sb) = sub_orgn(sb) + (sol_orgn(1,j) +                  
-     &                      sol_aorgn(1,j) + sol_fon(1,j)) * hru_fr(j)
+     &                   sol_aorgn(1,j) + sol_fon(1,j)) * hru_fr(j)
 	  end if
 	  if (cswat == 1) then
 	  sub_orgn(sb) = sub_orgn(sb) + (sol_n(1,j) + sol_fon(1,j) +
-     &					sol_mn(1,j)) * hru_fr(j)
+     &                 sol_mn(1,j)) * hru_fr(j)
 	  end if
 	  !!add by zhang
 	  !!======================
 	  if (cswat == 2) then
 	  sub_orgn(sb) = sub_orgn(sb) + (sol_LMN(1,j) + sol_LSN(1,j) +
-     &					sol_HPN(1,j)+sol_HSN(1,j)+sol_BMN(1,j)) * hru_dafr(j)	      
+     &                 sol_HPN(1,j)+sol_HSN(1,j)+sol_BMN(1,j)) * hru_dafr(j)
 	  end if
 	  !!add by zhang
 	  !!======================	  	  

@@ -30,8 +30,8 @@
 
       use parm
 
-      integer :: j, plant_no , zz
-	real:: b
+      integer :: j, jj, k, plant_no, zz
+	real:: b, sin_sl, tch, tover, xm
 	j = 0
 	j = ihru
 

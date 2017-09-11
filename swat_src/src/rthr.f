@@ -87,7 +87,8 @@
       integer :: jrch, ii, inhyd
       real :: wtrin, c, p, scoef
       real :: vol, topw
-
+! explicitly define return type of external functions. Added by lj for gfortran.
+      real, external :: Qman
 
       jrch = 0
       jrch = inum1

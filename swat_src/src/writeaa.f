@@ -311,7 +311,7 @@
       use parm
 
       real :: yrs, xx, xmm, sumno3, sumorgn, summinp, sumorgp
-      integer :: j, nnro, nicr, k, ly, ic, ii
+      integer :: j, nnro, nicr, k, ly, ic, ii, idmm
 
 !! calculate number of years simulated
       yrs = 0.
@@ -477,7 +477,7 @@
 	    if (cswat == 2) then
             sumorgn = sumorgn + sol_LMN(ly,j) + sol_LSN(ly,j) +
      &        sol_HPN(ly,j) + sol_BMN(ly,j) + sol_HSN(ly,j)
-	      sumorgp = sumorgp + sol_fop(ly,j) + sol_orgp(ly,j)	      
+	      sumorgp = sumorgp + sol_fop(ly,j) + sol_orgp(ly,j)
 	    end if
 	    !!add by zhang
 	    !!=======================	    
