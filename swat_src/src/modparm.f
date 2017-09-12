@@ -161,7 +161,7 @@
       real, dimension (:), allocatable :: sptno3concs, sptno2concs
       real, dimension (:), allocatable :: sptorgnconcs, spttpconcs
       real, dimension (:), allocatable :: sptminps, sptorgps      
-      real, dimension (:), allocatable :: sptfcolis ,failyr,qstemm               
+      real, dimension (:), allocatable :: sptfcolis ,failyr,qstemm
 !! septic changes added 1/28/09 gsm
       real, dimension (:), allocatable :: bio_amn, bio_bod, biom,rbiom
       real, dimension (:), allocatable :: fcoli, bio_ntr, bz_perc
@@ -282,7 +282,7 @@
       real, dimension (:), allocatable :: ch_bed_bd,ch_bnk_kd,ch_bed_kd
       real, dimension (:), allocatable :: ch_bnk_d50, ch_bed_d50     
       real, dimension (:), allocatable :: tc_bed,tc_bnk
-      integer, dimension (:), allocatable :: ch_eqn                        
+      integer, dimension (:), allocatable :: ch_eqn
       real, dimension (:), allocatable :: chpst_conc,chpst_rea,chpst_vol
       real, dimension (:), allocatable :: chpst_koc,chpst_stl,chpst_rsp
       real, dimension (:), allocatable :: chpst_mix,sedpst_conc,ch_wdr
@@ -599,7 +599,7 @@
       real, dimension (:,:), allocatable :: pcpband,wupnd,tavband,phi
       real, dimension (:,:), allocatable :: wat_phi
       real, dimension (:,:), allocatable :: wushal,wudeep,tmnband,snoeb
-      real, dimension (:,:), allocatable :: nsetlw,snotmpeb,bss,surf_bs  
+      real, dimension (:,:), allocatable :: nsetlw,snotmpeb,bss,surf_bs
       real, dimension (:,:), allocatable :: tmxband,nsetlp
       real, dimension (:,:), allocatable :: rainsub,frad
       real, dimension (:),   allocatable ::  rstpbsb
@@ -781,7 +781,7 @@
 	real, dimension (:,:),allocatable :: sol_cal, sol_ph
       integer:: sol_p_model
       integer, dimension (:,:),allocatable :: a_days, b_days
-      real, dimension (:), allocatable :: harv_min, fstap, min_res       
+      real, dimension (:), allocatable :: harv_min, fstap, min_res
       real, dimension (:,:),allocatable :: ro_bmp_flo, ro_bmp_sed
       real, dimension (:,:),allocatable :: ro_bmp_bac
       real, dimension (:,:),allocatable :: ro_bmp_pp, ro_bmp_sp
@@ -843,7 +843,7 @@
       real, dimension(:,:), allocatable :: lid_cuminf_last,
      & lid_sw_last, interval_last,lid_f_last,lid_cumr_last,lid_str_last,
      & lid_farea,lid_qsurf,lid_sw_add,lid_cumqperc_last,lid_cumirr_last,
-     & lid_excum_last                                                      !! nbs
+     & lid_excum_last                                          !! nbs
       
       ! Green Roof
       integer, dimension(:,:), allocatable:: gr_onoff,gr_imo,gr_iyr

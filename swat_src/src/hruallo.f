@@ -68,7 +68,8 @@
 
       character (len=13) :: hrufile, mgtfile, solfile, chmfile
       character (len=80) ::  titldum
-      integer :: eof, j, k, kk, lyrtot, rot, plt, ap_f, ap_p, ap_t, ap_i, mcri
+      integer :: eof, j, k, kk, lyrtot, rot, plt, ap_f
+      integer :: ap_p, ap_t, ap_i, mcri
       integer :: grz, cut, mgt1i, pstnum, ii, ap_r, ap_s, kll, hkll
       integer :: ap_ai, ap_af, mgt_op, ap_cf, ap_cc, ap_ci, jj
       integer :: iopera_sub, ilnds

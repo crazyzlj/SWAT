@@ -515,7 +515,8 @@
 
 
 	Function fsol_cdec(pcarbon, cx, cfdec, tilf, csf, sol_cmass)
-        real :: pcarbon, cx, cfdec, tilf, csf, sol_cmass, fsol_cdec, decf
+        real :: pcarbon, cx, cfdec, tilf, csf, sol_cmass
+        real :: fsol_cdec, decf
 		!! decomposition adjustment by current SOC 
 		decf = (pcarbon / cx) ** 0.5	
 		! if (decf > 1.) decf = 1. 
@@ -574,7 +575,8 @@
 	!! xinorg = mass of NO3 or P in solution
 	!! xx = net mineralization of N or P
 	!! cc1 = pool's carbon fraction
-        real :: poold, R1, R2, hc, dummy, poolm, xinorg, cc1, fnetmin, xx
+        real :: poold, R1, R2, hc, dummy, poolm, xinorg
+        real :: cc1, fnetmin, xx
 		xx = 0.
 		xx = poold * cc1 * (1. / R1 - hc / R2) 
 		

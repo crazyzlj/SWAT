@@ -328,7 +328,8 @@
           if (strsp(j) <= 0.75 .and. fminn(ifrt) > 0.0001) then
             tfp = fminn(ifrt) / 7. !! all other fertilizers
             autop = autop + dwfert *(tfp + forgp(ifrt))
-          else if (strsp(j) <= 0.75 .and. abs(fminn(ifrt) - 0.0) < 1.e-5) then
+          else if (strsp(j) <= 0.75 .and. 
+     &                            abs(fminn(ifrt) - 0.0) < 1.e-5) then
             tfp = 1/7. !! elemental P cases
             autop = autop + dwfert *(tfp + forgp(ifrt))
           else

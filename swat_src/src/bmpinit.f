@@ -269,7 +269,7 @@
                sp_pvol(i,k) = wqv * 0.028317 !m3
                sp_sa(i,k) = sp_pvol(i,k) / 1.5 !assume 1.5m depth for sed pond
                sp_pd(i,k) = sqrt(4. * 2. * sp_sa(i,k) * 1.5**0.5        
-     &                 / (0.6 * 172800. * 19.6**0.5) / 3.14159) * 1000. !mm
+     &             / (0.6 * 172800. * 19.6**0.5) / 3.14159) * 1000. !mm
                ft_sa(i,k) = wqv/(7.+2.33*4.) * 0.093 !m2
                ft_fsa(i,k) = 1. 
               

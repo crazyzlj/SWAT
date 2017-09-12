@@ -124,8 +124,8 @@
 
 !! write headings to reach output file (output2.rch)
       if (isproj == 1) then
-        write (20,1000)prog, values(2), values(3), values(1), values(5), 
-     &               values(6), values(7)
+        write (20,1000)prog, values(2), values(3), values(1),
+     &                values(5), values(6), values(7)
         write (20,1010) title
       if (ipdvar(1) > 0) then
         write (20,1040) (hedr(ipdvar(j)), j = 1, itotr)  !! custom printout

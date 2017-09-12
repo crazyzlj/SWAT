@@ -256,8 +256,8 @@
       pdia = wtp_pdia(sb) * 3.2808 !ft
       !volume of permanent pool 
       pndvol = wtp_pvol(sb) * 3.2808 ** 3 !ft^3
-      !pond width at the bottom of the pond
-      wdth = ((140.3**2 - 4*(5828.2-0.072 * pndvol))**0.5 - 140.3) / 2. ! ft
+      !pond width at the bottom of the pond ! ft
+      wdth = ((140.3**2 - 4*(5828.2-0.072 * pndvol))**0.5 - 140.3) / 2.
       !pond area at the top of permanent pool 
       pndarea = (wdth + 187.) * (2*wdth + 187.) ! ft^2
       alpha = wtp_lenwdth(sb)

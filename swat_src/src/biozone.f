@@ -169,7 +169,7 @@
       ! convert the failing system into an active system if duration of failing ends
 	  if (sep_tsincefail(j) >= isep_tfail(j)) then
 	     isep_opt(j) = 1
-         sol_ul(bz_lyr,j)=bz_thk(j)*(sol_por(bz_lyr,j)-sol_wp(bz_lyr,j)) 
+         sol_ul(bz_lyr,j)=bz_thk(j)*(sol_por(bz_lyr,j)-sol_wp(bz_lyr,j))
          sol_fc(bz_lyr,j)=bz_thk(j)*(sol_up(bz_lyr,j)-sol_wp(bz_lyr,j))
 		 sol_nh3(bz_lyr,j) = 0
 		 sol_no3(bz_lyr,j) = 0
@@ -272,8 +272,8 @@
       rdenit = sol_no3(bz_lyr,j) * (1. - Exp(-dentr_rt))	!J.Jeong 3/09/09
 	sol_no3(bz_lyr,j) = sol_no3(bz_lyr,j) - rdenit		!J.Jeong 3/09/09
 
- 	!soil volume for sorption: soil thickness below biozone 
-      svolp = (sol_z(nly,j) - bz_z(j)) * bza * 10.*(1-sol_por(bz_lyr,j))!m3, 
+ 	!soil volume for sorption: soil thickness below biozone !m3
+      svolp = (sol_z(nly,j) - bz_z(j)) * bza * 10.*(1-sol_por(bz_lyr,j))
    
    !max adsorption amnt: linear isotherm, McCray 2005
       solpconc = sol_solp(bz_lyr,j) * bza / qi * 1000. !mg/l
@@ -303,7 +303,7 @@
 
 	!! daily change in live bacteria biomass(kg/ha) Eq. 4-1 
 	! kg/ha = m^3 * mg/L/(1000.*ha)6
-      rbiom(j) = ctmp * coeff_bod_conv(j)*(qin*sptbodconcs(isp)-qout     
+      rbiom(j) = ctmp * coeff_bod_conv(j)*(qin*sptbodconcs(isp)-qout 
      &         * bode) / (1000. * bza) - (rrsp + rmort + rslg)         
       rbiom(j) = max(1.e-06,rbiom(j))
 
