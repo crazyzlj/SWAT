@@ -95,7 +95,7 @@
 
       use parm
 
-      integer :: idlst, j, iix, iiz, ic, mon, ii
+      integer :: idlst, j, iix, iiz, ic, mon, ii, idap, iyp, iyr_at, l, ly, mo_at
       real :: xx
       integer :: eof
       

@@ -191,7 +191,7 @@
 
       use parm
 
-      integer :: jres, k, ii
+      integer :: jres, k, ii, ires_code
       real :: sepmm, resorgpc, ressolpc, sedcon, resorgnc, resno3c
       real :: resno2c, resnh3c,zz
 
@@ -238,7 +238,7 @@
         call irr_res
       zz=varoute(19,inum2)
         !! perform reservoir water/sediment balance
-        if(ievent == 0) then		!! urban modeling by J.Jeong
+        if(ievent == 0) then  !! urban modeling by J.Jeong
 	    call res
 	  else
 	    call reshr

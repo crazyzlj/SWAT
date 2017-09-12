@@ -98,6 +98,7 @@
       integer :: jrch, ii
       real :: solpstin, sorpstin, pstin, depth, chpstmass, frsol, frsrb
       real :: sedpstmass, bedvol, fd2, wtrin, solmax, sedcon, tday
+      real :: thour
 
       jrch = 0
       jrch = inum1

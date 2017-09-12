@@ -92,6 +92,10 @@
       real :: degsan, degsil, degcla, deggra, degrte
       real :: bnksan, bnksil, bnkcla, bnkgra, pdep, pdepbed, bedsize
       real :: USpower,bnkrte,adddep,fpratio,watdep,bnkrt,bedrt,effbnkbed
+      real :: alog10cychppm, c, cychppm, cychv, cychw, dat2, deg1, deg1cla
+      real :: deg1gra, deg1lag, deg1sag, deg1san, deg1sil, degremain, pbank
+      real :: pbed, rh, sedinorg, sfbank, topw, var1, var2, var3, var4, var5, var6, var56
+      real :: vcla, vgra, vlag, vsag, vsan, vsh, vsil, w50
 
       jrch = 0
       jrch = inum1

@@ -105,7 +105,10 @@
       use parm
 
       real :: cod, sus_sol, tn, tp, urbk, turo, dirto, durf, rp1, dirt
+      real :: tno3, xx
       integer :: j
+! explicitly define return type of external functions. Added by lj for gfortran.
+      real, external :: Regres
 
       j = 0
       j = ihru
@@ -165,7 +168,7 @@
           rp1 = 0.
           durf = 0.
           turo = 0.
-          if(al5==0) al5 = 1e-6    !J.Jeong urban modeling
+          if(abs(al5-0.)<1.e-6) al5 = 1e-6    !J.Jeong urban modeling
           rp1 = -2. * Log(1.- al5)
           durf = 4.605 / rp1         
           turo = durf + tconc(j)

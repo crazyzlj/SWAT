@@ -135,8 +135,9 @@
       real :: summx_t, summn_t, summm_p, sum, rnm2, r6, xlv, pcp
       real, dimension (12) :: rainhhmx, rain_hhsm, pcpmm, pcpd
       real :: tmpsoil, sffc, rndm1, dl
-      integer :: mon, mdays, j, m1, nda, xrnd
-
+      integer :: mon, mdays, j, k, m1, nda, xrnd
+! explicitly define return type of external functions. Added by lj for gfortran.
+      real, external :: Aunif, Dstn1
 
       pcpd = 0.
       rainhhmx = 0.

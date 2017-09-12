@@ -42,7 +42,7 @@
       use parm
 
       integer :: j
-      real :: dirt
+      real :: dirt, fr_curb
 
       j = 0
       j = ihru

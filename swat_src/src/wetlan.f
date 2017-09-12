@@ -140,9 +140,9 @@
       integer :: j, iseas
       real :: vol, cnv, sed, wetsa, xx, phosk, nitrok, tpco
       real :: wetsani, wetsili, wetclai, wetsagi, wetlagi
-	real :: san, sil, cla, sag, lag, inised, finsed,setsed,remsetsed
+	  real :: san, sil, cla, sag, lag, inised, finsed,setsed,remsetsed
       real :: wetsano, wetsilo, wetclao, wetsago, wetlago
-      real :: qdayi, latqi
+      real :: qdayi, latqi, yy, fr_cur, chlaco
       
 
       j = 0

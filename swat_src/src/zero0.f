@@ -4,6 +4,10 @@
 !!    this subroutine initializes the values for some of the arrays 
 
       use parm
+      real :: dc !! seems not used in swat, by lj.
+      real :: dtwt, dz, gee, hdrain, hdrain_bsn, hqd, irreff, pnd_d50
+      real :: stmaxd_bsn
+      integer :: ihv_gbm, iop, irr_sq, nicr
       
       lid_sw_add = 0.
       lid_farea = 0.
@@ -501,7 +505,7 @@
       sol_silt = 0.
       sol_clay = 0.
 !!   added for Srini in output.mgt nitrogen and phosphorus nutrients per JGA by gsm 9/8/2011
-      sol_sumn03 = 0.
+      sol_sumno3 = 0. ! fixed by lj, the old bug code is sol_sumn03 = 0.
       sol_sumsolp = 0.
       strsw = 1.
       strsw_sum = 0.
@@ -529,7 +533,7 @@
       tb_adj = 0.
       tdrain = 0.
       tdrain_bsn = 0.
-      tile_no3 = 0.
+      tileno3 = 0. !! fixed by lj, the old code is tile_no3
       tileq = 0.
       tile_ttime = 0.
       uh = 0.

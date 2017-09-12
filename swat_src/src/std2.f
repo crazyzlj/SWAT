@@ -102,7 +102,7 @@
       use parm
  
       integer :: j
-      real :: sumarea, xkm, xch_l1
+      real :: sumarea, xkm, xch_l1, xmk
       character (len=1) :: kpnd, kbnd, kwet, kubn, kpot, kdrn, kpst,ksep
 
 !!    input summary file

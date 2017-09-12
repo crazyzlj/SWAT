@@ -68,7 +68,7 @@
       character*80 titlesep
       character*70 sptfullname
 
-      integer :: ist, isnum, eof
+      integer :: ist, isnum, eof, idspttype, ii
 
       real :: sptq,sptbodin,spttssconc,spttnconc,sptnh4conc,sptno3conc
       real :: sptno2conc,sptorgnconc,spttpconc,sptminp,sptorgp,sptfcoli
@@ -113,11 +113,12 @@
         if (ist == 0) exit
 
 	! Assign default values for missing data
-	  if (sptnh4conc==0.and.sptno3conc==0) then
+	  if (abs(sptnh4conc-0)<1.e-5.and.abs(sptno3conc-0.)<1.e-5) then
 	    sptnh4conc = spttnconc * 0.8
 	    sptno3conc = spttnconc * 0.2
 	  endif
-	  if (spttpconc==0.and.sptminp==0.and.sptorgp==0) then
+	  if (abs(spttpconc-0)<1.e-5.and.abs(sptminp-0)<1.e-5
+     &  .and.abs(sptorgp-0)<1.e-5) then
 	    sptminp = 5.1
 	    sptorgp = 0.9
 	  endif

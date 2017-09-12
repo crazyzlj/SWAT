@@ -298,6 +298,7 @@
       real :: xirr
       integer :: j, nnro, nicr, k, sumpady, ncrp
       character*4 cropname
+      real :: solpyldjga = 0. ! added by lj, but do not know what it represents for?
 
       if (iscen == 1) then
       write (26,1000) prog
@@ -608,8 +609,8 @@
      &    ,'ACTIVE TO STABLE P FLOW =  ',f12.3,' (KG/HA)',/,t20,      
      &    'N FERTILIZER APPLIED = ',f9.3,' (KG/HA)',/,t20,              
      &    'P FERTILIZER APPLIED = ',f9.3,' (KG/HA)',/,t20,              
-     &    'N FIXATION = ',f9.3,' (KG/HA)',/,t20,'DENITRIFICATION = ',f9 
-     &    .3,' (KG/HA)')
+     &    'N FIXATION = ',f9.3,' (KG/HA)',/,t20,'DENITRIFICATION = ',
+     &    f9.3,' (KG/HA)')
  2900 format (t20,'HUMUS MIN ON ACTIVE ORG N =  ',f8.3,' (KG/HA)',/,t20,
      &    'ACTIVE TO STABLE ORG N =  ',f8.3,' (KG/HA)',/,t20,           
      &    'HUMUS MIN ON ACTIVE ORG P = ',f8.3,' (KG/HA)',/,t20,         

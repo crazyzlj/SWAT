@@ -81,7 +81,7 @@
 
       integer :: jrch
       real :: qdin, sedin, vc, cyin, cych, depnet, deg1, deg2, dep
-      real :: depdeg, dot, outfract, deg
+      real :: depdeg, dot, outfract, deg, tbase, sedinorg, dat2
 
       jrch = 0
       jrch = inum1

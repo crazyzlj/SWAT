@@ -84,6 +84,7 @@
 !!    ~ ~ ~ ~ ~ ~ END SPECIFICATIONS ~ ~ ~ ~ ~ ~
 
       use parm
+      real :: sub_dgra !! TODO, this should be array like sub_dlag, by lj.
 
       !!initialize variables at beginning of day
       cbodu = 0.
@@ -234,18 +235,18 @@
         soc_d = 0.  
         rspc_d = 0.   
 
-	sub_sedc_d =0.
+	sub_sedc_d=0.
 	sub_surfqc_d=0.
 	sub_latc_d=0.
 	sub_percc_d=0.
 	sub_foc_d=0.
-	sub_NEPC_d=0.
+	sub_NPPC_d=0. !! correct from sub_NEPC_d by lj.
 	sub_rsdc_d=0.
 	sub_grainc_d=0.
-	sub_stover_c_d=0.
-	sub_emit_c_d=0.
-	sub_soc_d	=0.
-	sub_rspc_d =0.
+	sub_stoverc_d=0.
+	sub_emitc_d=0.
+	sub_soc_d=0.
+	sub_rspc_d=0.
       !!add by zhang
       !!==========================
 	

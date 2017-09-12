@@ -43,7 +43,7 @@
       use parm
 
       character (len=80) :: titldum
-      integer :: eof
+      integer :: eof, ib
       eof = 0
       
       do

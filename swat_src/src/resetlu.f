@@ -30,6 +30,7 @@
 !!    ~ ~ ~ ~ ~ ~ END SPECIFICATIONS ~ ~ ~ ~ ~ ~
 
       use parm
+      integer :: mon, j, hru
 	character(len=80) :: titldum
 
       open (9123,file=fname(no_lup))

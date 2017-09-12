@@ -7,7 +7,7 @@
       use parm
 
       character (len=80) :: titldum
-      integer :: ii
+      integer :: ii, j
 
 !! reset output arrays/variables
       aairr = 0.
@@ -171,7 +171,7 @@
       phu_plt = 0.
       phu_plt = orig_phu
       tnylda = 0.
-      tnylda = orig_tnylda
+      !!tnylda = orig_tnylda !! Commented by lj refers to line40 in storeinitial.f, 09/12/2017
       tnyld = 0.
       yldkg = 0.
       yldn = 0.

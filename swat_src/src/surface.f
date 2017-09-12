@@ -39,9 +39,9 @@
 
       use parm
 
-      integer :: j,sb,kk
+      integer :: j,sb,kk, ii, ib
       real :: precip_fr
-      real :: irfr,hruvirr
+      real :: irfr,hruvirr,hruirrday
 
       j = 0
       j = ihru

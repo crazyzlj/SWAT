@@ -440,7 +440,7 @@
 
       use parm
 
-      integer :: j, k
+      integer :: j, k, ii
       real :: cnv
 
       j = 0

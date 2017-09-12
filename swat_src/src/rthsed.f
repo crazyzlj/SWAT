@@ -154,7 +154,7 @@
 
 	   !! water viscosity (m2/s) using 3rd order polynomial interpolation
 	   visco_h2o = -3.e-6 * tmpw ** 3 + 0.0006 * tmpw ** 2 - 
-     &	   0.0469 * tmpw + 1.7517		
+     &  0.0469 * tmpw + 1.7517
 	   visco_h2o = visco_h2o * 1.e-6
    
 	   !! Use either Brownlie or Yang Model for bead load calculation
@@ -169,7 +169,7 @@
  
 		   !!critical shear stress for grain Froude number
 		   ycoeff = (sqrt(particle_specific_gravity - 1.) * 
-     & 	              Reynolds_g) ** (-0.6)
+     &               Reynolds_g) ** (-0.6)
 		   shear_stress = 0.22 * ycoeff + 0.06 * 10 ** (-7.7 * ycoeff)
 
 		   !! critical grain Froude number
@@ -178,12 +178,12 @@
 
 		   !! grain Froude number
 		   fr_g = vc / sqrt((particle_specific_gravity - 1.) * 
-     & 		   9.81 * (ch_d50 / 1000.))
+     &                       9.81 * (ch_d50 / 1000.))
 
 		   !! sediment concentration at the channel outlet [ppm, or g/m3]
 		   if(fr_g>fr_gc) then
 		     sedcon = 7115 * 1.268 * (fr_g - fr_gc) ** 1.978 * 
-     &   	 ch_s(2,jrch) ** 0.6601 * (rhy(ii) / channel_d50) ** (-0.3301)
+     &                ch_s(2,jrch) ** 0.6601 * (rhy(ii) / channel_d50) ** (-0.3301)
 		   else
 		     sedcon = 0.
 		   endif
@@ -193,7 +193,7 @@
 		   !!Yang Model
 		   !! particle fall velocity
 		   vfall = 9.81 * channel_d50 ** 2 * (particle_specific_gravity - 1.)
-     &		    / (18.* visco_h2o)
+     &                  / (18.* visco_h2o)
 		   
 		   !! shear velocity
 		   vshear = sqrt(9.81 * rhy(ii) * ch_s(2,jrch))
@@ -317,13 +317,7 @@
       qdin = 0.
       qdin = rtwtr + rchstor(jrch)
 
-
-
-
-
-
-
-      if ((rtwtr == 0. .and. rchdep == 0.) .or. qdin <= 0.01) then
+      if ((abs(rtwtr - 0.) < 1.e-5 .and. abs(rchdep - 0.) < 1.e-5) .or. qdin <= 0.01) then
 	  sedrch = 0.
 	  rch_san = 0.
 	  rch_sil = 0.

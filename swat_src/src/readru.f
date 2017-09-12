@@ -31,9 +31,11 @@
 
 
       use parm
-      
+      real :: da_ru, ovsl, ovs_ru, ovn_ru, chl_ru, chs_ru
+      real :: chw_ru, chk_ru, chn_ru
+      real :: tck, sumk, ovs
       character (len=80) :: titldum
-      integer :: eof
+      integer :: eof, j, ix
       
       eof = 0
 	do

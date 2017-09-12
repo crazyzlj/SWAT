@@ -33,10 +33,10 @@
 !!    ~ ~ ~ ~ ~ ~ END SPECIFICATIONS ~ ~ ~ ~ ~ ~
 
       use parm
-
       integer, intent (in) :: j
- 
       real :: v6
+ ! explicitly define return type of external functions. Added by lj for gfortran.
+      real, external :: Aunif
 
       !! Generate wind speed !!
       v6 = 0.

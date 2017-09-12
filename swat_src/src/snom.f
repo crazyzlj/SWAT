@@ -99,7 +99,7 @@
 
       use parm
 
-      integer :: j, ib
+      integer :: j, ib, ii
       real :: sum, smp, smfac, smleb
       real :: xx, snocov 
 

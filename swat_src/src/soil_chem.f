@@ -111,7 +111,8 @@
 
       integer :: nly, j, jj, n
       real :: xx, dg, wt1, zdst, soldepth, sumno3, sumorgn, summinp
-      real :: sumorgp, solpst, soil_TP, labfrac,solp
+      real :: sumorgp, solpst, soil_TP, labfrac,solp,actp,rtn0,sol_cmass
+      real :: sol_thick, ssp
       
       !!by zhang
       !!=============
@@ -140,7 +141,7 @@
 !!    calculate sol_cbn for lower layers if only have upper layer
       if (nly >= 3 .and. sol_cbn(3,i) <= 0) then
         do j = 3, nly
-          if (sol_cbn(j,i) == 0.) then
+          if (abs(sol_cbn(j,i) - 0.) < 1.e-5) then
             soldepth = 0
             soldepth = sol_z(j,i) - sol_z(2,i)
             sol_cbn(j,i) = sol_cbn(j-1,i) * Exp(-.001 * soldepth)
@@ -251,7 +252,7 @@
               psp(i) = psp(i) - (0.035  * sol_cbn(j,i)) + 0.43 
             else
               psp(i) = 0.4
-            endif   		
+            endif
             !! Limit PSP range
             if (psp(i) <.05) then
               psp(i) = 0.05
@@ -268,10 +269,10 @@
 	      actp = sol_actp(j,i) / conv_wt(j,i) * 1000000.
 		    solp = sol_solp(j,i) / conv_wt(j,i) * 1000000.
             !! estimate Total Mineral P in this soil based on data from sharpley 2004
-		    ssp = 25.044 * (actp + solp)** -0.3833
+		    ssp = 25.044 * (actp + solp)** (-0.3833)
 		    !!limit SSP Range
 		    if (SSP > 7.) SSP = 7.
-		    if (SSP < 1.) SSP = 1.	      	  
+		    if (SSP < 1.) SSP = 1.
 		    sol_stap(j,i) = SSP * (sol_actp(j,i) + sol_solp(j,i))!define stableP
          else
 	!! The original code
@@ -293,7 +294,7 @@
       !! By Zhang for C/N cycling
       !!=============================== 
       if (cswat == 2) then
-      if (rsdin(i) > 0.) sol_rsd(1,i) = rsdin(i)		
+      if (rsdin(i) > 0.) sol_rsd(1,i) = rsdin(i)
 	do j = 1, nly
 		!!kg/ha sol mass in each layer
 		if (j == 1) then
@@ -301,17 +302,17 @@
           !&						10000. * sol_bd(j,ihru)* 1000. *			
           !&							(1- sol_rock(j,ihru) / 100.)
             sol_mass = sol_mass * 10000. * sol_bd(j,i)* 1000.
-            sol_mass = sol_mass * (1- sol_rock(j,i) / 100.) 	
+            sol_mass = sol_mass * (1- sol_rock(j,i) / 100.)
             
 		else
 		    sol_mass = (sol_z(j,i) - sol_z(j-1,i)) / 1000.
           !&						10000. * sol_bd(j,ihru)* 1000. *			
           !&							(1- sol_rock(j,ihru) / 100.)
             sol_mass = sol_mass * 10000. * sol_bd(j,i)* 1000.
-            sol_mass = sol_mass * (1- sol_rock(j,i) / 100.) 			
+            sol_mass = sol_mass * (1- sol_rock(j,i) / 100.)
 		end if
 		!!kg/ha mineral nitrogen
-		sol_min_n = sol_no3(j,i)+sol_nh3(j,i)	     
+		sol_min_n = sol_no3(j,i)+sol_nh3(j,i)
  
         !XCB = 0.2
         !mm
@@ -423,7 +424,7 @@
      &           sol_fon(j,i) + sol_BMN(j,i)
         
 		
-	end do	
+	end do
 	
 	end if
       !! By Zhang for C/N cycling      

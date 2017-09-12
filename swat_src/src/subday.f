@@ -60,6 +60,8 @@
       integer :: sb, ii
       real :: sub_ha
       real, dimension (msubo) :: pdvab, pdvb
+! explicitly define return type of external functions. Added by lj for gfortran.
+      integer, external :: icl
 
       sb = 0
       sb = hru_sub(ihru)

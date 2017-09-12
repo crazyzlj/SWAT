@@ -130,6 +130,7 @@
       integer :: l, k, nl
       real :: emix, dtil, rrns 
       real :: thtill(mlyr), smix(11+npmx)
+      real :: dg
 
       emix = 0.
       dtil = 0.

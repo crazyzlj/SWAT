@@ -20,6 +20,7 @@
       integer :: l, m1, m2
       real :: emix, dtil
 	real :: sol_thick(sol_nly(jj))
+	real :: zz, yy, xx2, xx1, xx, csdr
 	
 	emix = emix - bmix ! this is to avoid affecting tillage factor with biological mixing
 	
@@ -37,7 +38,7 @@
 			
 	    ! to save computation time if emix = 0 here then the other layers can be avoided
 	    ! tillage always proceeds from top to bottom
-	    if (emix == 0.) exit
+	    if (abs(emix - 0.) < 1.e-5) exit
 
 	    xx = 0.
 	    zz = 3. + (8. - 3.) * exp(-5.5 * sol_clay(l,jj)/100.)
@@ -55,7 +56,7 @@
 	    csdr = xx + emix
 	    tillagef(l,jj) = zz * (csdr / (csdr + exp(m1 - m2 * csdr)))
 
-	  end do		
+	  end do
 		
 	end if
 		

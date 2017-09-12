@@ -73,7 +73,7 @@
 
       use parm
 
-      integer :: jrch, ii
+      integer :: jrch, ii, j
       real :: subwtr
 
       jrch = 0

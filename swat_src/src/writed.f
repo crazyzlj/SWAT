@@ -99,7 +99,7 @@
 !!    ~ ~ ~ ~ ~ ~ END SPECIFICATIONS ~ ~ ~ ~ ~ ~
       use parm
 
-      integer :: j, k
+      integer :: j, k, j1
       real :: pstsum
 
 

@@ -194,7 +194,8 @@
       real :: soilwater(11), wfsc(11), sum_depth(11) !10, 100, 200, 300, 400, ..., 1000 mm
       !!by zhang print out soil water
       !!===============================
-
+      ! explicitly define return type of external functions. Added by lj for gfortran.
+      integer, external :: icl
 
       !!by zhang print out soil water
       !!===============================

@@ -20,6 +20,8 @@
 !!    ~ ~ ~ ~ ~ ~ END SPECIFICATIONS ~ ~ ~ ~ ~ ~
 
       use parm
+      real :: xx, solpppm, solnppm, sedpppm, sedppm, sednppm
+      integer :: j
 
 	j = 0
 	j = ihru

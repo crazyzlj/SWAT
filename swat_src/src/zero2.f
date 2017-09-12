@@ -4,6 +4,8 @@
 !!    this subroutine zeros all array values
 
       use parm
+      real :: fr_curb !! seems not used in swat, by lj.
+      integer :: irelease !! not used
       
       hrumono = 0.
       wtrmon = 0.

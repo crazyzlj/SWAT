@@ -18,7 +18,8 @@
       
 !!	subdaily sediment modeling by J.Jeong
 	hhsedy=0.
-	spl_eros = 0.
+	! spl_eros = 0. ! commented and fixed by lj.
+	eros_spl = 0.
 	rill_mult = 0.
 	eros_expo = 0.
 	sig_g = 0.
@@ -59,7 +60,7 @@
       ft_k = 0.
       ft_dp = 0.
       ft_dc = 0.
-      ft_por = 0.4	
+      ft_por = 0.4
       tss_den = 0.
       ft_alp = 0.
       sub_ha_imp = 0.
@@ -81,7 +82,7 @@
 	dtp_iyr = 0
 	dtp_numweir = 0
 	dtp_numstage = 0
-	stp_stagdis = 0
+	dtp_stagdis = 0  ! fixed by lj, the old code is stp_stagdis
 	dtp_reltype = 0
 	dtp_onoff = 0
 	dtp_evrsv = 0.
@@ -146,7 +147,7 @@
       hrnopcp = 100.
       ri_sed_cumul = 0.
       irmmdt = 0.
-      subdr_kg = 0.
+      subdr_km = 0. ! fixed by lj, the old code is subdr_kg
       subdr_ickm = 0.
       num_noirr = 0
       ri_qloss = 0
@@ -176,10 +177,10 @@
       wtp_plen = 0.
       wtp_pmann = 0.
       wtp_ploss = 0.
-      sub_cn2 = 0.   
+      sub_cn2 = 0.
  	  wtp_dp = 0.
 	  wtp_sedi = 0.
-	  wtp_sede = 0.	 
+	  wtp_sede = 0.
 	  wtp_qi = 0.
       ovrlnd_dt = 0.
       bmp_recharge = 0.
