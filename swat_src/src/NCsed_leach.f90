@@ -53,7 +53,8 @@
       integer :: j
       real :: xx, wt1, er, conc
       real :: sol_mass, QBC, VBC, YBC, YOC, YW, TOT, YEW, X1, PRMT_21, PRMT_44
-      real :: DK,  V, X3, CO, CS, perc_clyr, latc_clyr  
+      real :: DK,  V, X3, CO, CS, perc_clyr, latc_clyr
+      real :: sol_thick, xx1, Y1
       integer :: k
       latc_clyr = 0.
         

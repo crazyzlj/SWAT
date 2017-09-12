@@ -265,7 +265,7 @@
           case (12)   !! street sweeping (only if iurban=2)
 
             if (husc > 0.) then
-              if (igrow == 1) then
+              if (igrow == 1) then ! TODO: igrow may used before initialized! By lj.
                 phusw(ihru) = husc
               else
                 phusw_nocrop(ihru) = husc

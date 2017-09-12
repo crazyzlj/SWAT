@@ -104,7 +104,7 @@
        real :: X1,X3, XX
        real :: LMF, LSF, LSLF, XLSLF, LSR, BMR, XBMT, HSR, HPR       
        real :: LSCTA, LSLCTA, LSLNCTA,LSNTA, LMCTA, LMNTA, BMCTA, BMNTA, HSCTA, HSNTA, HPCTA, HPNTA
-       real :: LSCTP, LSLCTP, LSLNCTP, LSNTP, LMR, LMCTP, LMNTP, BMCTP,HSCTP, HSNTP, HPCTP, HPNTP
+       real :: LSCTP, LSLCTP, LSLNCTP, LSNTP, LMR, LMCTP, LMNTP, BMCTP,BMNTP,HSCTP, HSNTP, HPCTP, HPNTP
        real :: NCHP, Nf, NCBM, NCHS, ALSLCO2, ALSLNCO2,ALMCO2,ABCO2, A1CO2, APCO2, ASCO2, ABP, ASP, A1, ASX, APX
        real :: PRMT_51, PRMT_45
        real :: DF1, DF2, SNMN,  DF3, DF4, DF5, DF6, ADD, ADF1, ADF2, ADF3, ADF4, ADF5
@@ -112,6 +112,10 @@
        real :: PN1, PN2, PN3, PN4, PN5, PN6, PN7, PN8, PN9
        real :: SUM, CPN1, CPN2, CPN3, CPN4, CPN5
        real :: WMIN,DMDN, wdn, Delta_BMC, DeltaWN
+       real :: decr, deltaBNC, hmn, hmp_rate, LSLNCAT, RLR, rmnl, rmp,RTO,rwn,SNTA,XBN
+       real :: DeltaBMC, hmp, rmn1, XBM
+       !! external function, added by lj.
+       real, external :: fcgd
        !! initilize local variables
        DeltaWN = 0.
        DeltaBMC = 0.   
@@ -318,7 +322,8 @@
 		      OX = 0.
 		      !OX = 1 - (0.9* sol_z(k,j)/1000.) / (sol_z(k,j)/1000.+ exp(1.50-3.99*sol_z(k,j)/1000.))
 		      !OX = 1 - (0.8* sol_z(k,j)) / (sol_z(k,j)+ exp(1.50-3.99*sol_z(k,j)))  
-		      OX=1.-0.8*((sol_z(kk,j)+sol_z(kk-1,j))/2)/(((sol_z(kk,j)+sol_z(kk-1,j))/2)+EXP(18.40961-0.023683632*((sol_z(kk,j)+sol_z(kk-1,j))/2)))  			
+		      OX=1.-0.8*((sol_z(kk,j)+sol_z(kk-1,j))/2)/(((sol_z(kk,j)+sol_z(kk-1,j))/2)+  &
+             &     EXP(18.40961-0.023683632*((sol_z(kk,j)+sol_z(kk-1,j))/2)))
               !! compute combined factor
 		      CS = 0.
 		      CS=MIN(10.,SQRT(cdg*sut)*0.9*OX*X1)              

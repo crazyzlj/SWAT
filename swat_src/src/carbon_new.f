@@ -56,7 +56,7 @@
       integer :: j, k, kk
 
     !! functions
-      real, external ::fwf, fof, fcdg, ftilf,fcx, fCNnew, fhc, fnetmin
+      real, external ::fwf, fof, fcgd, ftilf,fcx, fCNnew, fhc, fnetmin
 
       j = 0; wdn = 0
       j = ihru

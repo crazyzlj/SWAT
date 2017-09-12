@@ -182,7 +182,7 @@
 
       use parm
 
-      integer :: j, sb, ii, iflag
+      integer :: j, k, sb, ii, iflag, idplant
       real, dimension (mhruo) :: pdvas, pdvs
       character (len=4) :: cropname
 
@@ -192,6 +192,8 @@
       real :: sumwater, sumwfsc, sumdepth, sat, wc, dp
       real :: ssoilwater(100), swfsc(100)
       real :: soilwater(11), wfsc(11), sum_depth(11) !10, 100, 200, 300, 400, ..., 1000 mm
+      real :: sol_cmass, sol_mass, sol_nmass, tot_BMC, tot_cmass, tot_HPC, tot_HSC
+      real :: tot_LMC, tot_LSC, tot_mass, tot_nmass, tot_no3_nh3, tot_pmass, tot_solp
       !!by zhang print out soil water
       !!===============================
       ! explicitly define return type of external functions. Added by lj for gfortran.
