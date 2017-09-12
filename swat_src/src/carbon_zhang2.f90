@@ -39,7 +39,7 @@
                 !layers = 0.000012 day-1) (Parton et al.,1993, 1994)
        !HSR     : rate of transformation of slow humus under optimal conditions (all layers
                 != 0.0005 day-1) (Parton et al., 1993, 1994; Vitousek et al., 1993)
-       !KOC     : liquidñsolid partition coefficient for microbial biomass (10^3 m^3 Mg-1) 
+       !KOC     : liquidÊùùolid partition coefficient for microbial biomass (10^3 m^3 Mg-1) 
        !BMR     : rate of transformation of microbial biomass and associated products under optimal
        !            conditions (surface = 0.0164 day-1; all other layers = 0.02 day-1) (Parton et al., 1993, 1994)       
        !LMR     : rate of transformation of metabolic litter under optimal conditions (surface =
@@ -55,7 +55,7 @@
 
         !!==============================================
         !! local variables
-       !ABCO2   : allocation from biomass to CO2; 0.6 (surface litter), 0.85ñ0.68*(CLAF + SILF) (all other layers) (Parton et al., 1993, 1994)
+       !ABCO2   : allocation from biomass to CO2; 0.6 (surface litter), 0.85?.68*(CLAF + SILF) (all other layers) (Parton et al., 1993, 1994)
        !ABL     : carbon allocation from biomass to leaching; ABL = (1-exp(-f/(0.01* SW+ 0.1*(KdBM)*DB)) (Williams, 1995)
        !ABP     : allocation from biomass to passive humus; 0 (surface litter), 0.003 + 0.032*CLAF (all other layers) (Parton et al., 1993, 1994)
        !ALMCO2  : allocation from metabolic litter to CO2; 0.6 (surface litter), 0.55 (all other layers) (Parton et al., 1993, 1994)
@@ -71,7 +71,7 @@
 
        !CDG     : soil temperature control on biological processes
        !CNR     : C/N ratio of standing dead
-       !CS      : combined factor controlling biological processes [CS = sqrt(CDG◊SUT)* 0.8*OX*X1), CS < 10; CS = 10, CS>=10 (Williams, 1995)]
+       !CS      : combined factor controlling biological processes [CS = sqrt(CDGË≠ôUT)* 0.8*OX*X1), CS < 10; CS = 10, CS>=10 (Williams, 1995)]
        !DBp     : soil bulk density of plow layer (Mg m-3) (Not used)
        !HSCTP   : potential transformation of C in slow humus (kg ha-1 day-1)
        !HSNTP   : potential transformation of N in slow humus (kg ha-1 day-1)
