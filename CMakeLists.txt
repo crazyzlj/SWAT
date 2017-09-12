@@ -26,7 +26,7 @@ if (Fortran_COMPILER_NAME MATCHES "gfortran.*")
   set (CMAKE_Fortran_FLAGS_DEBUG   "-fno-f2c -O0 -g -ggdb -fimplicit-none -Wall -Wextra -Wtabs -ffpe-trap=invalid -finit-real=snan -Wuninitialized -Wno-unused -freal-4-real-8")
 elseif (Fortran_COMPILER_NAME MATCHES "ifort.*")
   # ifort
-  message(STATUS "Compiling with intel fortran (ifor)...")
+  message(STATUS "Compiling with intel fortran (ifort)...")
   set (CMAKE_Fortran_FLAGS_RELEASE "-f77rtl -O3 -warn=all -warn=notruncated_source -warn=nounused -diag-disable=8291 -diag-disable=8290 -diag-disable=5415")
   set (CMAKE_Fortran_FLAGS_DEBUG   "-f77rtl -O3 -check=all,nopointers -warn=all -warn=notruncated_source -warn=nounused -diag-disable=8291 -diag-disable=8290 -diag-disable=5415")
 elseif (Fortran_COMPILER_NAME MATCHES "g77")
