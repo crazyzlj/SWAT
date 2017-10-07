@@ -27,7 +27,7 @@
       !! manc_hum = humified carbon manure
 
       use parm
-      implicit real*8 (a-h,o-z)
+      implicit real (a-h,o-z)
     !! private variables
       real :: cx, decf, rhc, mhc, sol_cdec, tilf
       real :: resc_hum, manc_hum
