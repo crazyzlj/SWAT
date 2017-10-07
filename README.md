@@ -3,10 +3,11 @@
 
 + CMake2.8+
 + Windows:
-  + Microsoft Visual Studio 2010+ and Intel Fortran compiler (ifort) 13.0+
-  + or CLion and mingw64 (with gfortran 4.9+)
+  + Microsoft Visual Studio 2010+ and Intel Fortran compiler (ifort) 12.0+
+  + or CLion and mingw64 (with gfortran 4.8+)
 + Linux/macOS:
-  + GCC (with gfortran installed) 4.9+
+  + GCC (with gfortran installed) 4.8+
+  + ifort 12.0+
 
 # 2. Compile procedure
 
@@ -33,7 +34,19 @@
 
 ## 2.2. Using GCC(gfortran) under Windows, Linux, and macOS
 
-If you prefer the command line, the common commands above should be OK. However, if you want a user-friendly IDE for to learn and improve the SWAT model, I recommend the cross-platform IDE [CLion](https://www.jetbrains.com/clion/) with [Fortran plugin](https://plugins.jetbrains.com/plugin/9699-fortran).
+If you prefer the command line, the common commands above should be OK. Note that if you want specify a Fortran compiler, please add the following command before `cmake` command.
+
+```shell
+export FC=/path/to/your/own/Fortran/compiler
+# e.g., ifort
+export FC=/share/soft/intel/composer_xe_2011_sp1.6.233/bin/intel64/ifort
+# e.g., gfortran
+export FC=/home/zhulj/gcc4.8.4/bin/gfortran
+```
+
+
+
+However, if you want a user-friendly IDE for to learn and improve the SWAT model, I recommend the cross-platform IDE [CLion](https://www.jetbrains.com/clion/) with [Fortran plugin](https://plugins.jetbrains.com/plugin/9699-fortran).
 
 CLion use CMake to manage projects. Under Windows, you may also install mingw64 (or mingw) for the gfortran compiler.
 
