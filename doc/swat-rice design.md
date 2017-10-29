@@ -11,13 +11,13 @@
 ## 2. 分过程描述
 ### 2.1. 降雨
 
-![](https://latex.codecogs.com/png.latex?\P_{0}=P-P\\cdot\\beta\\cdot0.15)
+![](https://latex.codecogs.com/png.latex?\\P_{0}=P-P\\cdot\\beta\\cdot0.15)
 
 其中，*P0*为有效降雨量, mm; *P*为降雨量, mm; *β*为稻田田埂降雨-径流(流向排水沟)系数; 0.15为田埂占水田HRU的面积比例。
 
 参考文献中均未提及水稻田的冠层截留，在`canopyint.f`中，输入为当日降雨量`subp(j)`，输出为到达土壤的有效降雨`precipday`，该变量在后续计算中反复更新，所以，是否应该将此公式改为：
 
-![](https://latex.codecogs.com/png.latex?\P_{0}=P-P\\cdot&space;Interc\\cdot0.85-P\\cdot\\beta\\cdot0.15)
+![](https://latex.codecogs.com/png.latex?\\P_{0}=P-P\\cdot&space;Interc\\cdot0.85-P\\cdot\\beta\\cdot0.15)
 
 代码修改：
 
