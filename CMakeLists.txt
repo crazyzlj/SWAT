@@ -22,8 +22,8 @@ get_filename_component (Fortran_COMPILER_NAME ${CMAKE_Fortran_COMPILER} NAME)
 if (Fortran_COMPILER_NAME MATCHES "gfortran.*")
   # gfortran
   message(STATUS "Compiling with gfortran...")
-  set (CMAKE_Fortran_FLAGS_RELEASE "-funroll-all-loops -fno-f2c -O3 -Ofast -fimplicit-none -Wall -Wextra -Wtabs -Wuninitialized -Wno-unused -freal-4-real-8")
-  set (CMAKE_Fortran_FLAGS_DEBUG   "-fno-f2c -O0 -g -ggdb -fimplicit-none -Wall -Wextra -Wtabs -ffpe-trap=invalid -finit-real=snan -Wuninitialized -Wno-unused -freal-4-real-8")
+  set (CMAKE_Fortran_FLAGS_RELEASE "-funroll-all-loops -fno-f2c -O3 -Ofast -fimplicit-none -Wall -Wtabs -Wextra -Wuninitialized -Wno-unused -freal-4-real-8")
+  set (CMAKE_Fortran_FLAGS_DEBUG   "-fno-f2c -O0 -g -ggdb -fimplicit-none -Wall -Wtabs -Wextra -ffpe-trap=invalid -finit-real=snan -Wuninitialized -Wno-unused -freal-4-real-8")
 elseif (Fortran_COMPILER_NAME MATCHES "ifort.*")
   # ifort
   message(STATUS "Compiling with intel fortran (ifort)...")
