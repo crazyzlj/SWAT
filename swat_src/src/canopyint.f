@@ -50,7 +50,7 @@
       use parm
 
       integer :: j, ii
-      real :: xx, canmxl, canstori
+      real :: xx, canmxl, canstori, caninterc
 
       j = 0
       j = ihru
@@ -96,13 +96,31 @@
           canmxl = 0.
           xx = precipday
           canmxl = canmx(j) * laiday(j) / blai(idplt(j))
-          precipday = precipday - (canmxl - canstor(j))
-          if (precipday < 0.) then
+          !!! revised by ljzhu, 10/30/2017
+          caninterc = canmxl - canstor(j)
+          if (precipday < caninterc) then
             canstor(j) = canstor(j) + xx
+            caninterc = xx
             precipday = 0.
           else
             canstor(j) = canmxl
           endif
+          if (idplt(j) == 33) then  ! paddy rice HRU
+            ! water added into ditches from canal, should be added to somewhere else.
+            wtr2canal = precipday * wtr2canal_beta * 0.15
+            precipday = precipday - caninterc * 0.85 - wtr2canal
+          else
+            precipday = precipday - caninterc
+          endif
+
+          !!! previous version
+!         precipday = precipday - (canmxl - canstor(j))
+!         if (precipday < 0.) then
+!           canstor(j) = canstor(j) + xx
+!           precipday = 0.
+!         else
+!           canstor(j) = canmxl
+!         endif
        end select
 
       return
