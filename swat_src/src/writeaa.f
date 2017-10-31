@@ -330,13 +330,13 @@
       end do
       if (yrs <= 0) return
 
-	if (da_ha < 1.e-9) then
-	   rchaao = rchaao / yrs
-	     if (iprint /=1) then
-	       call rchaa(yrs)
-	       call rsedaa(yrs)
-	     end if
-	     return
+      if (da_ha < 1.e-9) then
+         rchaao = rchaao / yrs
+         if (iprint /=1) then
+           call rchaa(yrs)
+           call rsedaa(yrs)
+         end if
+         return
       end if
 
 !! calculate average annual values for HRU data
@@ -435,12 +435,12 @@
       wshd_fixn = wshd_fixn / yrs  !! fix
 
       if (cswat == 0) then
-		wshd_hmn = wshd_hmn / yrs  !! humus n for active
-		wshd_rwn = wshd_rwn / yrs  !! active to stable
-		wshd_hmp = wshd_hmp / yrs  !! humus min on active org   	
-	end if
+        wshd_hmn = wshd_hmn / yrs  !! humus n for active
+        wshd_rwn = wshd_rwn / yrs  !! active to stable
+        wshd_hmp = wshd_hmp / yrs  !! humus min on active org
+      end if
 
-	  wshd_rmn = wshd_rmn / yrs  !! min from fresh orgn
+      wshd_rmn = wshd_rmn / yrs  !! min from fresh orgn
       wshd_rmp = wshd_rmp / yrs  !! min from fresh orgp 
       wshd_raino3 = wshd_raino3 / yrs
       wshd_fno3 = wshd_fno3 / yrs
@@ -461,27 +461,27 @@
         sumorgp = 0.
         do ly = 1, sol_nly(j)
           sumno3 = sumno3 + sol_no3(ly,j)
-	    if (cswat == 0) then
+        if (cswat == 0) then
             sumorgn = sumorgn + sol_aorgn(ly,j) + sol_orgn(ly,j) +
      &        sol_fon(ly,j)
-	      sumorgp = sumorgp + sol_fop(ly,j) + sol_orgp(ly,j)
-	    end if
-	    if (cswat == 1) then
-      	    sumorgn = sumorgn + sol_orgn(ly,j) + sol_fon(ly,j) +
+          sumorgp = sumorgp + sol_fop(ly,j) + sol_orgp(ly,j)
+        end if
+        if (cswat == 1) then
+              sumorgn = sumorgn + sol_orgn(ly,j) + sol_fon(ly,j) +
      &        sol_mn(ly,j)
-		    sumorgp = sumorgp + sol_fop(ly,j) + sol_orgp(ly,j) +
+            sumorgp = sumorgp + sol_fop(ly,j) + sol_orgp(ly,j) +
      &        sol_mp(ly,j)
-	    end if
-	    !!add by zhang
-	    !!=======================
-	    if (cswat == 2) then
+        end if
+        !!add by zhang
+        !!=======================
+        if (cswat == 2) then
             sumorgn = sumorgn + sol_LMN(ly,j) + sol_LSN(ly,j) +
      &        sol_HPN(ly,j) + sol_BMN(ly,j) + sol_HSN(ly,j)
-	      sumorgp = sumorgp + sol_fop(ly,j) + sol_orgp(ly,j)
-	    end if
-	    !!add by zhang
-	    !!=======================	    
-	    
+          sumorgp = sumorgp + sol_fop(ly,j) + sol_orgp(ly,j)
+        end if
+        !!add by zhang
+        !!=======================
+
           summinp = summinp + sol_solp(ly,j) + sol_actp(ly,j) +
      &              sol_stap(ly,j)
         end do
@@ -562,12 +562,12 @@
       end if
 
 !! write life span of septic HRUs (time to first failure, years)
-	write(173,'(a50)') 'Year the first failure occured'
+      write(173,'(a50)') 'Year the first failure occured'
       write(173,'(1/,a5,a7)') 'HRU','Failyr'
       do j=1,nhru
-	  if (isep_opt(j)/=0) then
-	    if(failyr(j)==0) write(173,'(i5,a7)') j,'No Fail'
-	    if(failyr(j)/=0) write(173,'(i5,f7.3)') j,failyr(j)
+      if (isep_opt(j)/=0) then
+        if(failyr(j)==0) write(173,'(i5,a7)') j,'No Fail'
+        if(failyr(j)/=0) write(173,'(i5,f7.3)') j,failyr(j)
         end if
       end do
 

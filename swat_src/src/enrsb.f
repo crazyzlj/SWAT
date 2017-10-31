@@ -44,13 +44,13 @@
       j = ihru
 
         if (sedyld(j) < 1.e-4) then
-	      sedyld(j) = 0.0
-	      sanyld(j) = 0.0
-	      silyld(j) = 0.0
-	      clayld(j) = 0.0
-	      sagyld(j) = 0.0
-	      lagyld(j) = 0.0
-	    endif
+          sedyld(j) = 0.0
+          sanyld(j) = 0.0
+          silyld(j) = 0.0
+          clayld(j) = 0.0
+          sagyld(j) = 0.0
+          lagyld(j) = 0.0
+        endif
 
 !! CREAMS method for calculating enrichment ratio
       cy = 0.

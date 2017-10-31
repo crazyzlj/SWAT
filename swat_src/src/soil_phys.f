@@ -149,15 +149,15 @@
        det_lag(i) = 1. - det_san(i) - det_sil(i) - det_cla(i)
      & - det_sag(i)                                           !! Large Aggregate fraction
 
-!!	Error check. May happen for soils with more sand
+!!    Error check. May happen for soils with more sand
 !!    Soil not typical of mid-western USA
 !!    The fraction wont add upto 1.0
-	if (det_lag(i) < 0.) then
-	  det_san(i) = det_san(i)/(1 - det_lag(i)) 
-	  det_sil(i) = det_sil(i)/(1 - det_lag(i)) 
-	  det_cla(i) = det_cla(i)/(1 - det_lag(i)) 
-	  det_sag(i) = det_sag(i)/(1 - det_lag(i)) 
-	  det_lag(i) = 0.
+      if (det_lag(i) < 0.) then
+          det_san(i) = det_san(i)/(1 - det_lag(i))
+          det_sil(i) = det_sil(i)/(1 - det_lag(i))
+          det_cla(i) = det_cla(i)/(1 - det_lag(i))
+          det_sag(i) = det_sag(i)/(1 - det_lag(i))
+          det_lag(i) = 0.
       end if
 
 

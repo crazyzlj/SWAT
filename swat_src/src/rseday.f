@@ -31,7 +31,7 @@
       do j = 1, subtot
           write (84,5000) j, subgis(j), iida, rch_dakm(j),              
      &       rchdy(5,j), rchdy(6,j),(rchdy(ii,j),ii=43,59)
-	end do
+      end do
 
       return
  5000 format ('REACH ',i4,1x,i8,1x,i5,20e12.4)

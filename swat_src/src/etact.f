@@ -120,9 +120,9 @@
       pet = 0.
       pet = pet_day
 !!    added statements for test of real statement above
-	esd = 500.
-	etco = 0.80
-	effnup = 0.1
+      esd = 500.
+      etco = 0.80
+      effnup = 0.1
 
 !! evaporate canopy storage first
 !! canopy storage is calculated by the model only if the Green & Ampt

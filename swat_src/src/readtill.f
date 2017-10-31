@@ -47,14 +47,14 @@
 
       eof = 0
 
-	j= ihru
+      j= ihru
 
       do 
         dtil = 0.
         emix = 0.
         it = 0
 !! drainmod tile equations   06/2006
-	  rrns = 0.
+      rrns = 0.
 !! drainmod tile equations   06/2006
         tlnm = ""
 
@@ -70,7 +70,7 @@
         effmix(it) = emix
         deptil(it) = dtil
 !! drainmod tile equations   06/2006
-	  ranrns(it) = rrns
+      ranrns(it) = rrns
 !! drainmod tile equations   06/2006
 
       end do

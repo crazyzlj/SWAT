@@ -129,12 +129,12 @@
 !!   change per JGA 8/31/2011 gsm PUT YIELD IN modparm.f
 !!      real :: wur, hiad1, yield, yieldn, yieldp, yldpst
       real :: wur, hiad1, yldpst
-	real :: resnew, rtresnew
-	real :: ff1, ff2, orgc_f, RLN, RLR, xx
+      real :: resnew, rtresnew
+      real :: ff1, ff2, orgc_f, RLN, RLR, xx
 
 
-	!!By Zhang for cswat=2
-	!!=============
+    !!By Zhang for cswat=2
+    !!=============
       real :: BLG1, BLG2, BLG3,  CLG, sf
       real :: sol_min_n, resnew_n, resnew_ne
       real :: LMF, LSF, LSLF, LSNF,LMNF 
@@ -153,14 +153,14 @@
       LSLF = 0.
       LSNF = 0.
       LMNF = 0.
-	!!By Zhang
-	!!==================
-	
+    !!By Zhang
+    !!==================
+
 
       j = 0
       j = ihru
 
-	!! calculate modifier for autofertilization target nitrogen content
+    !! calculate modifier for autofertilization target nitrogen content
       tnyld(j) = 0.
       tnyld(j) = (1. - rwt(j)) * bio_ms(j) * pltfr_n(j) * auto_eff(j)
 !     if (icr(j) > 1) then
@@ -218,16 +218,16 @@
           resnew = (1. - rwt(j)) * (1. - hiad1) * bio_ms(j)
           !! remove stover during harvkillop
           resnew = resnew * (1. - xx)
-          rtresnew = rwt(j) * bio_ms(j)	
+          rtresnew = rwt(j) * bio_ms(j)
         endif
       endif
       end if 
       
       if (yield < 0.) yield = 0.
       if (resnew < 0.) resnew = 0.
-	if (rtresnew < 0.) rtresnew = 0.	! Armen 19 May 2008
-										! I would avoid this check, it is
-										! safer to know if variable is negative
+      if (rtresnew < 0.) rtresnew = 0.    ! Armen 19 May 2008
+                                        ! I would avoid this check, it is
+                                        ! safer to know if variable is negative
 
       !!add by zhang
       !!=================
@@ -242,7 +242,7 @@
       !!add by zhang
       !!=================
 
-	!! calculate nutrients removed with yield
+    !! calculate nutrients removed with yield
       yieldn = 0.
       yieldp = 0.
       yieldn = yield * cnyld(idplt(j))
@@ -250,32 +250,32 @@
       yieldn = Min(yieldn, 0.80 * plantn(j))
       yieldp = Min(yieldp, 0.80 * plantp(j))
 
-	!! Armen 19 May 2008 / 21 January 2008	
-	!! fraction of roots in each layer
-	call rootfr
+    !! Armen 19 May 2008 / 21 January 2008
+    !! fraction of roots in each layer
+      call rootfr
 
-	!! fraction of N, P in residue (ff1) or roots (ff2)
-	ff1 = (1 - hiad1) / (1 - hiad1 + rwt(j))
-	ff2 = 1 - ff1
+    !! fraction of N, P in residue (ff1) or roots (ff2)
+      ff1 = (1 - hiad1) / (1 - hiad1 + rwt(j))
+      ff2 = 1 - ff1
 
-	!! update residue, N, P on soil surface
+    !! update residue, N, P on soil surface
       sol_rsd(1,j) = resnew + sol_rsd(1,j)
-	sol_fon(1,j) = sol_fon(1,j) + FF1 * (plantn(j) - yieldn)
+      sol_fon(1,j) = sol_fon(1,j) + FF1 * (plantn(j) - yieldn)
       sol_fop(1,j) = sol_fop(1,j) + FF1 * (plantp(j) - yieldp) 
       sol_rsd(1,j) = Max(sol_rsd(1,j),0.)
-	sol_fon(1,j) = Max(sol_fon(1,j),0.)
-	sol_fop(1,j) = Max(sol_fop(1,j),0.)
+      sol_fon(1,j) = Max(sol_fon(1,j),0.)
+      sol_fop(1,j) = Max(sol_fop(1,j),0.)
 
 
             !!insert new biomss by zhang
             !!=================================
             if (cswat == 2) then
-	          !!all the lignin from STD is assigned to LSL, 
-	            !!add STDL calculation
-	          !!
-	          !sol_LSL(k,ihru) = sol_STDL(k,ihru)
-	          !CLG=BLG(3,JJK)*HUI(JJK)/(HUI(JJK)+EXP(BLG(1,JJK)-BLG(2,JJK)*&HUI(JJK))
-	          ! 52  BLG1 = LIGNIN FRACTION IN PLANT AT .5 MATURITY
+              !!all the lignin from STD is assigned to LSL,
+                !!add STDL calculation
+              !!
+              !sol_LSL(k,ihru) = sol_STDL(k,ihru)
+              !CLG=BLG(3,JJK)*HUI(JJK)/(HUI(JJK)+EXP(BLG(1,JJK)-BLG(2,JJK)*&HUI(JJK))
+              ! 52  BLG1 = LIGNIN FRACTION IN PLANT AT .5 MATURITY
                 ! 53  BLG2 = LIGNIN FRACTION IN PLANT AT MATURITY
                 !CROPCOM.dat BLG1 = 0.01 BLG2 = 0.10
                 !SUBROUTINE ASCRV(X1,X2,X3,X4)
@@ -298,72 +298,72 @@
                 CLG=BLG3*phuacc(j)/(phuacc(j)+EXP(BLG1-BLG2*phuacc(j)))
     
 
-	          !if (k == 1) then
-		        sf = 0.05
-	          !else
-		        !sf = 0.1
-	          !end if	
+              !if (k == 1) then
+                sf = 0.05
+              !else
+                !sf = 0.1
+              !end if
 
                !kg/ha  
-	          sol_min_n = 0.	
-	          sol_min_n = (sol_no3(1,j)+sol_nh3(1,j))
-	          
-	          resnew = resnew
-	          resnew_n = ff1 * (plantn(j) - yieldn)    	    
-        	    resnew_ne = resnew_n + sf * sol_min_n
-        	    
-       	        !Not sure 1000 should be here or not!
-        	    !RLN = 1000*(resnew * CLG/(resnew_n+1.E-5))
-        	    !RLN is the ratio of lignin to nitrogen in the newly added residue
-        	    RLN = (resnew * CLG/(resnew_n+1.E-5))
-        	    RLR = MIN(.8, resnew * CLG/(resnew+1.E-5))
-        	    
-        	    LMF = 0.85 - 0.018 * RLN
-        	    if (LMF <0.01) then
-        	        LMF = 0.01
-        	    else
-        	        if (LMF >0.7) then
-        	            LMF = 0.7
-        	        end if
-        	    end if      	  
-	          !if ((resnew * CLG/(resnew_n+1.E-5)) < 47.22) then
-		        !    LMF = 0.85 - 0.018 * (resnew * CLG/(resnew_n+1.E-5))
-	          !else
-		        !    LMF = 0.
-	          !end if 	
+              sol_min_n = 0.
+              sol_min_n = (sol_no3(1,j)+sol_nh3(1,j))
 
-	          LSF =  1 - LMF  
-        	  
-	          sol_LM(1,j) = sol_LM(1,j) + LMF * resnew
-	          sol_LS(1,j) = sol_LS(1,j) + LSF * resnew
-        	  
+              resnew = resnew
+              resnew_n = ff1 * (plantn(j) - yieldn)
+                resnew_ne = resnew_n + sf * sol_min_n
+
+                   !Not sure 1000 should be here or not!
+                !RLN = 1000*(resnew * CLG/(resnew_n+1.E-5))
+                !RLN is the ratio of lignin to nitrogen in the newly added residue
+                RLN = (resnew * CLG/(resnew_n+1.E-5))
+                RLR = MIN(.8, resnew * CLG/(resnew+1.E-5))
+
+                LMF = 0.85 - 0.018 * RLN
+                if (LMF <0.01) then
+                    LMF = 0.01
+                else
+                    if (LMF >0.7) then
+                        LMF = 0.7
+                    end if
+                end if
+              !if ((resnew * CLG/(resnew_n+1.E-5)) < 47.22) then
+                !    LMF = 0.85 - 0.018 * (resnew * CLG/(resnew_n+1.E-5))
+              !else
+                !    LMF = 0.
+              !end if
+
+              LSF =  1 - LMF
+
+              sol_LM(1,j) = sol_LM(1,j) + LMF * resnew
+              sol_LS(1,j) = sol_LS(1,j) + LSF * resnew
+
 
                 
-	          !here a simplified assumption of 0.5 LSL
-	          !LSLF = 0.0
-	          !LSLF = CLG          
-	          
-	          sol_LSL(1,j) = sol_LSL(1,j) + RLR*resnew	          
-	          sol_LSC(1,j) = sol_LSC(1,j) + 0.42*LSF * resnew  
-	          
-	          sol_LSLC(1,j) = sol_LSLC(1,j) + RLR*0.42*resnew
-	          sol_LSLNC(1,j) = sol_LSC(1,j) - sol_LSLC(1,j)              
+              !here a simplified assumption of 0.5 LSL
+              !LSLF = 0.0
+              !LSLF = CLG
+
+              sol_LSL(1,j) = sol_LSL(1,j) + RLR*resnew
+              sol_LSC(1,j) = sol_LSC(1,j) + 0.42*LSF * resnew
+
+              sol_LSLC(1,j) = sol_LSLC(1,j) + RLR*0.42*resnew
+              sol_LSLNC(1,j) = sol_LSC(1,j) - sol_LSLC(1,j)
                 
                 !X3 = MIN(X6,0.42*LSF * resnew/150) 
                 
-	          if (resnew_n >= (0.42 * LSF * resnew /150)) then
-		         sol_LSN(1,j) = sol_LSN(1,j) + 0.42 * LSF * resnew / 150
-		         sol_LMN(1,j) = sol_LMN(1,j) + resnew_n - 
+              if (resnew_n >= (0.42 * LSF * resnew /150)) then
+                 sol_LSN(1,j) = sol_LSN(1,j) + 0.42 * LSF * resnew / 150
+                 sol_LMN(1,j) = sol_LMN(1,j) + resnew_n -
      &                         (0.42 * LSF * resnew / 150) + 1.E-25
-	          else
-		         sol_LSN(1,j) = sol_LSN(1,j) + resnew_n
-		         sol_LMN(1,j) = sol_LMN(1,j) + 1.E-25
-	          end if	
-        	
-	          !LSNF = sol_LSN(1,j)/(sol_LS(1,j)+1.E-5)	
-        	  
-	          sol_LMC(1,j) = sol_LMC(1,j) + 0.42 * LMF * resnew	
-	          !LMNF = sol_LMN(1,j)/(sol_LM(1,j) + 1.E-5)           
+              else
+                 sol_LSN(1,j) = sol_LSN(1,j) + resnew_n
+                 sol_LMN(1,j) = sol_LMN(1,j) + 1.E-25
+              end if
+
+              !LSNF = sol_LSN(1,j)/(sol_LS(1,j)+1.E-5)
+
+              sol_LMC(1,j) = sol_LMC(1,j) + 0.42 * LMF * resnew
+              !LMNF = sol_LMN(1,j)/(sol_LM(1,j) + 1.E-5)
                 
                 !update no3 and nh3 in soil
                 sol_no3(1,j) = sol_no3(1,j) * (1-sf)
@@ -373,21 +373,21 @@
             !!===============================
 
 
-	!! allocate dead roots, N, P to soil layers
-	do l=1, sol_nly(j)
-	 sol_rsd(l,j) = sol_rsd(l,j) + rtfr(l) *rtresnew
+    !! allocate dead roots, N, P to soil layers
+      do l=1, sol_nly(j)
+       sol_rsd(l,j) = sol_rsd(l,j) + rtfr(l) *rtresnew
        sol_fon(l,j) = sol_fon(l,j) + rtfr(l) *ff2 * (plantn(j) - yieldn)
        sol_fop(l,j) = sol_fop(l,j) + rtfr(l) *ff2 * (plantp(j) - yieldp)
 
               !!insert new biomss by zhang
               !!==============================
               if (cswat == 2) then
-	          !!all the lignin from STD is assigned to LSL, 
-	            !!add STDL calculation
-	          !!
-	          !sol_LSL(k,ihru) = sol_STDL(k,ihru)
-	          !CLG=BLG(3,JJK)*HUI(JJK)/(HUI(JJK)+EXP(BLG(1,JJK)-BLG(2,JJK)*&HUI(JJK))
-	          ! 52  BLG1 = LIGNIN FRACTION IN PLANT AT .5 MATURITY
+              !!all the lignin from STD is assigned to LSL,
+                !!add STDL calculation
+              !!
+              !sol_LSL(k,ihru) = sol_STDL(k,ihru)
+              !CLG=BLG(3,JJK)*HUI(JJK)/(HUI(JJK)+EXP(BLG(1,JJK)-BLG(2,JJK)*&HUI(JJK))
+              ! 52  BLG1 = LIGNIN FRACTION IN PLANT AT .5 MATURITY
                 ! 53  BLG2 = LIGNIN FRACTION IN PLANT AT MATURITY
                 !CROPCOM.dat BLG1 = 0.01 BLG2 = 0.10
                 !SUBROUTINE ASCRV(X1,X2,X3,X4)
@@ -410,70 +410,70 @@
                 CLG=BLG3*phuacc(j)/(phuacc(j)+EXP(BLG1-BLG2*phuacc(j)))
          
 
-	          if (l == 1) then
-		        sf = 0.05
-	          else
-		        sf = 0.1
-	          end if	
+              if (l == 1) then
+                sf = 0.05
+              else
+                sf = 0.1
+              end if
 
                !kg/ha  
-	          sol_min_n = 0.	
-	          sol_min_n = (sol_no3(l,j)+sol_nh3(l,j))
-	          	          
-	          resnew = rtfr(l) *rtresnew 
-	          resnew_n = rtfr(l) *ff2 * (plantn(j) - yieldn)   	    
-        	    resnew_ne = resnew_n + sf * sol_min_n
-        	        !Not sure 1000 should be here or not!
-        	    !RLN = 1000*(resnew * CLG/(resnew_n+1.E-5))
-        	    RLN = (resnew * CLG/(resnew_n+1.E-5))
-        	    RLR = MIN(.8, resnew * CLG/1000/(resnew/1000+1.E-5))
-        	    
-        	    LMF = 0.85 - 0.018 * RLN
-        	    if (LMF <0.01) then
-        	        LMF = 0.01
-        	    else
-        	        if (LMF >0.7) then
-        	            LMF = 0.7
-        	        end if
-        	    end if      	  
-	          !if ((resnew * CLG/(resnew_n+1.E-5)) < 47.22) then
-		        !    LMF = 0.85 - 0.018 * (resnew * CLG/(resnew_n+1.E-5))
-	          !else
-		        !    LMF = 0.
-	          !end if 	
+              sol_min_n = 0.
+              sol_min_n = (sol_no3(l,j)+sol_nh3(l,j))
 
-	          LSF =  1 - LMF  
-        	  
-	          sol_LM(l,j) = sol_LM(l,j) + LMF * resnew
-	          sol_LS(l,j) = sol_LS(l,j) + LSF * resnew
-        	  
+              resnew = rtfr(l) *rtresnew
+              resnew_n = rtfr(l) *ff2 * (plantn(j) - yieldn)
+                resnew_ne = resnew_n + sf * sol_min_n
+                    !Not sure 1000 should be here or not!
+                !RLN = 1000*(resnew * CLG/(resnew_n+1.E-5))
+                RLN = (resnew * CLG/(resnew_n+1.E-5))
+                RLR = MIN(.8, resnew * CLG/1000/(resnew/1000+1.E-5))
+
+                LMF = 0.85 - 0.018 * RLN
+                if (LMF <0.01) then
+                    LMF = 0.01
+                else
+                    if (LMF >0.7) then
+                        LMF = 0.7
+                    end if
+                end if
+              !if ((resnew * CLG/(resnew_n+1.E-5)) < 47.22) then
+                !    LMF = 0.85 - 0.018 * (resnew * CLG/(resnew_n+1.E-5))
+              !else
+                !    LMF = 0.
+              !end if
+
+              LSF =  1 - LMF
+
+              sol_LM(l,j) = sol_LM(l,j) + LMF * resnew
+              sol_LS(l,j) = sol_LS(l,j) + LSF * resnew
+
 
                 
-	          !here a simplified assumption of 0.5 LSL
-	          LSLF = 0.0
-	          LSLF = CLG          
-	          
-	          sol_LSL(l,j) = sol_LSL(l,j) + RLR* LSF * resnew	          
-	          sol_LSC(l,j) = sol_LSC(l,j) + 0.42*LSF * resnew  
-	          
-	          sol_LSLC(l,j) = sol_LSLC(l,j) + RLR*0.42*LSF * resnew
-	          sol_LSLNC(l,j) = sol_LSC(l,j) - sol_LSLC(l,j)              
+              !here a simplified assumption of 0.5 LSL
+              LSLF = 0.0
+              LSLF = CLG
+
+              sol_LSL(l,j) = sol_LSL(l,j) + RLR* LSF * resnew
+              sol_LSC(l,j) = sol_LSC(l,j) + 0.42*LSF * resnew
+
+              sol_LSLC(l,j) = sol_LSLC(l,j) + RLR*0.42*LSF * resnew
+              sol_LSLNC(l,j) = sol_LSC(l,j) - sol_LSLC(l,j)
                 
                 !X3 = MIN(X6,0.42*LSF * resnew/150) 
                 
-	          if (resnew_ne >= (0.42 * LSF * resnew /150)) then
-		         sol_LSN(l,j) = sol_LSN(l,j) + 0.42 * LSF * resnew / 150
-		         sol_LMN(l,j) = sol_LMN(l,j) + resnew_ne - 
+              if (resnew_ne >= (0.42 * LSF * resnew /150)) then
+                 sol_LSN(l,j) = sol_LSN(l,j) + 0.42 * LSF * resnew / 150
+                 sol_LMN(l,j) = sol_LMN(l,j) + resnew_ne -
      &                         (0.42 * LSF * resnew / 150) + 1.E-25
-	          else
-		         sol_LSN(l,j) = sol_LSN(l,j) + resnew_ne
-		         sol_LMN(l,j) = sol_LMN(l,j) + 1.E-25
-	          end if	
-        	
-	          !LSNF = sol_LSN(l,j)/(sol_LS(l,j)+1.E-5)	
-        	  
-	          sol_LMC(l,j) = sol_LMC(l,j) + 0.42 * LMF * resnew	
-	          !LMNF = sol_LMN(l,j)/(sol_LM(l,j) + 1.E-5)           
+              else
+                 sol_LSN(l,j) = sol_LSN(l,j) + resnew_ne
+                 sol_LMN(l,j) = sol_LMN(l,j) + 1.E-25
+              end if
+
+              !LSNF = sol_LSN(l,j)/(sol_LS(l,j)+1.E-5)
+
+              sol_LMC(l,j) = sol_LMC(l,j) + 0.42 * LMF * resnew
+              !LMNF = sol_LMN(l,j)/(sol_LM(l,j) + 1.E-5)
                 
                 !update no3 and nh3 in soil
                 sol_no3(l,j) = sol_no3(l,j) * (1-sf)
@@ -482,9 +482,9 @@
             !!insert new biomss by zhang    
             !!=============================== 
 
-	end do
+      end do
    
-	!! adjust foliar pesticide for plant removal
+    !! adjust foliar pesticide for plant removal
       if (hrupest(j) == 1) then
         do k = 1, npmx
           !! calculate amount of pesticide removed with yield
@@ -503,7 +503,7 @@
         end do
       end if
 
-	!! summary calculations
+    !! summary calculations
       if (curyr > nyskip) then
        wshd_yldn = wshd_yldn + yieldn * hru_dafr(j)
        wshd_yldp = wshd_yldp + yieldp * hru_dafr(j)
@@ -514,21 +514,21 @@
        ncrops(icr(j),j) = ncrops(icr(j),j) + 1
       endif
 
-	!! update curve number
+    !! update curve number
       if (cnop > 0.) 
      *      call curno(cnop,j)
 
-	!! reset variables
+    !! reset variables
       igro(j) = 0
       idorm(j) = 0
       bio_ms(j) = 0.
-	rwt(j) = 0.
+      rwt(j) = 0.
       plantn(j) = 0.
       plantp(j) = 0.
       strsw(j) = 1.
       laiday(j) = 0.
       hvstiadj(j) = 0.
-	rtfr = 0. ! resetting root fraction per layer array to 0
+      rtfr = 0. ! resetting root fraction per layer array to 0
 
       return
       end

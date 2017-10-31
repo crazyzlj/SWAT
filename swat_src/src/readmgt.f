@@ -55,7 +55,7 @@
 !!                                 |number of the month) The dates are for
 !!                                 |leap years
 !! drainmod tile equations   06/2006
-!!	  ranrns(:)  |mm			   |random roughness of operation
+!!      ranrns(:)  |mm               |random roughness of operation
 !! drainmod tile equations   06/2006
 !!    urbcn2(:)  |none             |Moisture condition II curve number for 
 !!                                 |impervious areas 
@@ -375,10 +375,10 @@
         igrow = 1
         idplt(ihru) = ncrp
         phuacc(ihru) = .1
-	  icr(ihru) = 1
-	  icrmx(ihru) = icrmx(ihru) + 1
-	  idplrot(icrmx(ihru),ihru) = ncrp              
-	  mcrhru(ihru) = mcrhru(ihru) + 1
+      icr(ihru) = 1
+      icrmx(ihru) = icrmx(ihru) + 1
+      idplrot(icrmx(ihru),ihru) = ncrp
+      mcrhru(ihru) = mcrhru(ihru) + 1
         curyr_mat(ihru) = mat_yrs(ncrp)
         !! calculate tnylda for autofertilization 
         if (hvsti(ncrp) < 1.) then
@@ -508,9 +508,9 @@
             idplrot(icrmx(ihru),ihru) = mgt1i
             mcrhru(ihru) = mcrhru(ihru) + 1
           end if
-	    if (mgt_op == 4 .or. mgt_op == 15) then
-	      newpest = 0
-	      hrupest(ihru) = 1
+        if (mgt_op == 4 .or. mgt_op == 15) then
+          newpest = 0
+          hrupest(ihru) = 1
             do j = 1, npmx
               if (mgt1i == npno(j)) then
                 newpest = 1
@@ -522,9 +522,9 @@
                nope(mgt1i) = npmx
              npmx = npmx + 1
             endif
-	    endif
-	  end if                                            !! mgt_op if        
-		nopmx(ihru) = nopmx(ihru) + 1
+        endif
+      end if                                            !! mgt_op if
+        nopmx(ihru) = nopmx(ihru) + 1
         end do                                  !! operation loop
 !!    add a skip command to the end of every rotation
 !!        iop = iop + 1

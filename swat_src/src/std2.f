@@ -148,13 +148,13 @@
         
         write (24,1028)
         do j = 1, nhru
-	if (idplt(j) > 0) then
+      if (idplt(j) > 0) then
        write (24,1029) hru_sub(j), j, hru_ha(j),cpnm(idplt(j)),snam(j), 
      &  cn1(j), cn2(j), cn3(j), sol_sumwp(j),sol_sumfc(j), sol_sumul(j)
       else
         write (24,1030)hru_sub(j),j,hru_ha(j), snam(j), cn1(j), cn2(j), 
      &   cn3(j), sol_sumwp(j), sol_sumfc(j), sol_sumul(j)
-	end if
+      end if
         end do
 
         write (24,1022)
@@ -169,7 +169,7 @@
           kdrn = " "
           kpot = " "
           kpst = " "
-          ksep = "   "
+          ksep = " "
           if (iurban(j) > 0) kubn = "x"
        !!   if (ipot(j) == j) kpot = "x"
           if (pot_fr(j) > 0.) kpot = "x"

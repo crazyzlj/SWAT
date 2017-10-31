@@ -191,7 +191,7 @@
                   a = ""
                   read (100+k,5200) iyp, idap, ihour, imin,             
      &                                      (rainsb(l,ii), l = kk1, kk2)
-				   if (iyp /= iyr .or. idap /= i) flag = 1
+                   if (iyp /= iyr .or. idap /= i) flag = 1
                   if (flag == 1) then
                     write (24,5400) iyr, i
       !!              stop

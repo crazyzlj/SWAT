@@ -11,7 +11,7 @@
 !!    canmx(:)    |mm H2O        |maximum canopy storage
 !!    canstor(:)  |mm H2O        |amount of water held in canopy storage
 !!    icr(:)      |none          |sequence number of crop grown within a year
-!!    idplt(:,:,:)|none          |land cover code from crop.dat
+!!    idplt(:)    |none          |land cover code from crop.dat
 !!    ievent      |none          |rainfall/runoff code
 !!                               |0 daily rainfall/curve number technique
 !!                               |1 sub-daily rainfall/Green&Ampt/hourly
@@ -50,7 +50,8 @@
       use parm
 
       integer :: j, ii
-      real :: xx, canmxl, canstori, caninterc
+      real :: xx, canmxl, canstori
+      real :: caninterc, wtr2canal, wtr2canal_beta
 
       j = 0
       j = ihru
@@ -106,7 +107,7 @@
             canstor(j) = canmxl
           endif
           if (idplt(j) == 33) then  ! paddy rice HRU
-            ! water added into ditches from canal, should be added to somewhere else.
+            ! water added into ditches from low embankment, should be added to somewhere else.
             wtr2canal = precipday * wtr2canal_beta * 0.15
             precipday = precipday - caninterc * 0.85 - wtr2canal
           else

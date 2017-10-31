@@ -89,7 +89,7 @@
      &                       cmtl2yr(i,iya),                            
      &                       cmtl3yr(i,iya)
             if (ia1 == iyr) exit
-	      if (eof < 0) exit
+          if (eof < 0) exit
         end do
 
       do iya = 2, nbyr+2  !2 extra for forecast scenarios

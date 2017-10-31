@@ -56,7 +56,7 @@
 !!                               |simulation
 !!    icr(:)      |none          |sequence number of crop grown within the
 !!                               |current year
-!!    idplt(:,:,:)|none          |land cover code from crop.dat
+!!    idplt(:)    |none          |land cover code from crop.dat
 !!    ipot(:)     |none          |number of HRU (in subbasin) that is ponding
 !!                               |water--the HRU that the surface runoff from
 !!                               |current HRU drains into. This variable is
@@ -409,7 +409,7 @@
         write (19,2100) j, (wshd_aamon(j,k), k = 1, 8)
       end do
       endif
-	
+
 !! write average annual stress values
       if (iscen == 1) then
       write (26,2200) wshd_wstrs, wshd_tstrs, wshd_nstrs, wshd_pstrs,   

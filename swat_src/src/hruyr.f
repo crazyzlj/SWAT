@@ -158,8 +158,8 @@
 
       do j = 1, nhru
         iflag = 0
-	    sb = hru_sub(j)
-	  
+        sb = hru_sub(j)
+
         do ii = 1, itoth
           if (ipdhru(ii) == j) iflag = 1
         end do

@@ -150,7 +150,6 @@
       !!by zhang DSSAT tillage
       !!======================
       !!    deptil(:)   |mm  |depth of mixing caused by tillage operation
-      !jj is hru number
       if (cswat == 2) then
           if (tillage_switch(ihru) .eq. 1) then
               if (tillage_days(ihru) .ge. 30) then
@@ -179,7 +178,7 @@
           end if
       endif
       
-	if (i_wtrhru == 1) then
+      if (i_wtrhru == 1) then
          call water_hru
       else 
 
@@ -275,18 +274,18 @@
 
       if (cswat == 0) then
         call nminrl
-	end if
-	if (cswat == 1) then
-		call carbon
-	end if
-	
-	!! Add by zhang
-	!!=================
-	if (cswat == 2) then
-	  call carbon_zhang2
-	end if
-	!! Add by zhang
-	!!=================	
+      end if
+      if (cswat == 1) then
+        call carbon
+      end if
+
+    !! Add by zhang
+    !!=================
+      if (cswat == 2) then
+        call carbon_zhang2
+      end if
+    !! Add by zhang
+    !!=================
 
         call nitvol
         if (sol_P_model == 1) then
@@ -297,9 +296,9 @@
 
 !!    compute biozone processes in septic HRUs
 !!    if 1)current is septic hru and 2)  soil temperature is above zero
-	  if (isep_opt(j)/=0.and.iyr>=isep_iyr(j)) then
-	   if (sol_tmp(i_sep(j),j) > 0.) call biozone     
-	  endif
+      if (isep_opt(j)/=0.and.iyr>=isep_iyr(j)) then
+       if (sol_tmp(i_sep(j),j) > 0.) call biozone
+      endif
 
         !! compute ground water contribution
         call gwmod
@@ -319,21 +318,21 @@
             call enrsb(0)
             if (sedyld(j) > 0.) call pesty(0)
 
-		  if (cswat == 0) then
-			call orgn(0)
-	    end if
-	    if (cswat == 1) then
-	    
-		    call orgncswat(0)
-		  end if
-		  
-		  !! Add by zhang
-		  !! ====================
-		  if (cswat == 2) then
-		    call orgncswat2(0)
-		  end if
-		  !! Add by zhang
-		  !! ====================
+          if (cswat == 0) then
+            call orgn(0)
+        end if
+        if (cswat == 1) then
+
+            call orgncswat(0)
+          end if
+
+          !! Add by zhang
+          !! ====================
+          if (cswat == 2) then
+            call orgncswat2(0)
+          end if
+          !! Add by zhang
+          !! ====================
 
             call psed(0)
           end if
@@ -353,13 +352,13 @@
 
         !! compute loadings from urban areas
         if (urblu(j) > 0) then
-	     if(ievent == 0) then
-	        call urban ! daily simulation
-	     else
-		     call urbanhr ! subdaily simulation J.Jeong 4/20/2009
-	     endif
-	  endif
-	  
+         if(ievent == 0) then
+            call urban ! daily simulation
+         else
+             call urbanhr ! subdaily simulation J.Jeong 4/20/2009
+         endif
+      endif
+
 !! Srini Pothole
         !! compute undrained depression/impounded area (eg rice) processes
 !        if (pot_fr(j) > 0.) then
@@ -398,13 +397,13 @@
                 call buffer
               end if
 
-	 !! compute reduction in pollutants due to in field grass waterway
+         !! compute reduction in pollutants due to in field grass waterway
          if (grwat_i(j) == 1) then
           call grass_wway
         end if
 
-	 !! compute reduction in pollutants due to in fixed BMP eff
-	 !  if (bmp_flag(j) == 1) then
+       !! compute reduction in pollutants due to in fixed BMP eff
+       !  if (bmp_flag(j) == 1) then
        !   call bmpfixed
        ! end if
 
@@ -448,7 +447,7 @@
         !! qdayout is surface runoff leaving the hru - after wetlands, ponds, and potholes
         qdayout(j) = qday
 
-      endif
+      endif  ! end (i_wtrhru == 1)
 
       !! perform output summarization
       call sumv

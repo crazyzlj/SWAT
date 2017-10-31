@@ -4,7 +4,7 @@
 !!    this subroutine performs in-stream nutrient transformations and water
 !!    quality calculations
 
-!!	adapted by Ann van Griensven, Belgium
+!!    adapted by Ann van Griensven, Belgium
 
 !!    ~ ~ ~ INCOMING VARIABLES ~ ~ ~
 !!    name         |units         |definition
@@ -234,7 +234,7 @@
       real :: thbc1 = 1.083, thbc2 = 1.047, thbc3 = 1.047, thbc4 = 1.047
       real :: thrk1 = 1.047, thrk2 = 1.024, thrk3 = 1.024, thrk4 = 1.060
 !      real :: thrk5 = 1.047, thrk6 = 1.0, thrs6 = 1.024, thrs7 = 1.0
-	  real :: dalgae, dchla, dorgn, dnh4, dno2, dno3,dorgp,dsolp
+      real :: dalgae, dchla, dorgn, dnh4, dno2, dno3,dorgp,dsolp
       real :: dbod, ddisox, o2proc, setl, o2con2, hh, coef
 ! explicitly define return type of external functions. Added by lj for gfortran.
       real, external :: Theta
@@ -270,9 +270,9 @@
          solpcon = disolvp(jrch)
          cbodcon = rch_cbod(jrch)
          o2con  = rch_dox(jrch)
-	   wtmp = wattemp(jrch)
+       wtmp = wattemp(jrch)
 
-c	write(104,*) 't',jrch,disoxin, wtrin, rch_dox(jrch)	
+c    write(104,*) 't',jrch,disoxin, wtrin, rch_dox(jrch)
 c         o2con = (disoxin * wtrin + rch_dox(jrch) * rchwtr) / wtrtot
 
          !! calculate temperature in stream
@@ -305,13 +305,13 @@ c         o2con = (disoxin * wtrin + rch_dox(jrch) * rchwtr) / wtrtot
         !! oxygen QUAL2E equation III-21
         cordo = 0.
 !       write(104, *) o2con, 'o'
-	o2con2=o2con
-	if (o2con2.le.0.1) o2con2=0.1
-	if (o2con2.gt.30.) o2con2=30.
+      o2con2=o2con
+      if (o2con2.le.0.1) o2con2=0.1
+      if (o2con2.gt.30.) o2con2=30.
         cordo = 1.0 - Exp(-0.6 * o2con2)
 !       write(104, *) cordo, 'cordo'
-	  	if (o2con.le.0.001) o2con=0.001
-	if (o2con.gt.30.) o2con=30.
+          if (o2con.le.0.001) o2con=0.001
+      if (o2con.gt.30.) o2con=30.
         cordo = 1.0 - Exp(-0.6 * o2con)
 
         !! modify ammonia and nitrite oxidation rates to account for
@@ -322,7 +322,7 @@ c         o2con = (disoxin * wtrin + rch_dox(jrch) * rchwtr) / wtrtot
         bc2mod = bc2(jrch) * cordo
 !! end O2 impact calculations
 
-C	tday is the calculation time step = 1 day
+C    tday is the calculation time step = 1 day
          tday = 1.0
 
 !! algal growth
@@ -382,7 +382,7 @@ C	tday is the calculation time step = 1 day
          !! (phytoplanktonic algae)
          !! QUAL2E equation III-2
          dalgae = 0.
-	 setl=min(1.,Theta(rs1(jrch),thrs1,wtmp)/ rchdep)
+       setl=min(1.,Theta(rs1(jrch),thrs1,wtmp)/ rchdep)
          dalgae = algcon + (Theta(gra,thgra,wtmp) * algcon -            
      &    Theta(rhoq,thrho,wtmp) * algcon - setl * algcon) * tday
          if (dalgae < 0.00001) algae(jrch) = 0.00001
@@ -408,37 +408,37 @@ C	tday is the calculation time step = 1 day
          !! calculate dissolved oxygen concentration if reach at 
          !! end of day QUAL2E section 3.6 equation III-28
          
-	   uu = 0.
+       uu = 0.
          vv = 0.
          ww = 0.
          xx = 0.
          yy = 0.
          zz = 0.
-	   hh=Theta(rk2(jrch),thrk2,wtmp) 
+       hh=Theta(rk2(jrch),thrk2,wtmp)
          uu = Theta(rk2(jrch),thrk2,wtmp) * (soxy - o2con)
          if (algcon.gt.0.001) then
-	                vv = (ai3 * Theta(gra,thgra,wtmp) - ai4           
+                    vv = (ai3 * Theta(gra,thgra,wtmp) - ai4
      *                              * Theta(rhoq,thrho,wtmp)) * algcon
   
-	   else
-	   algcon=0.001
-	   end if
+       else
+       algcon=0.001
+       end if
          ww = Theta(rk1(jrch),thrk1,wtmp) * cbodcon
 
          if(rchdep.gt.0.001) xx = Theta(rk4(jrch),thrk4,wtmp)           
      &                               / (rchdep * 1000.)
          if (nh3con.gt.0.001) then
-	   yy = ai5 * Theta(bc1mod,thbc1,wtmp) * nh3con
+       yy = ai5 * Theta(bc1mod,thbc1,wtmp) * nh3con
          else
-	   nh3con=0.001
-	   end if
-	   if (no2con.gt.0.001) then
-	   zz = ai6 * Theta(bc2mod,thbc2,wtmp) * no2con
+       nh3con=0.001
+       end if
+       if (no2con.gt.0.001) then
+       zz = ai6 * Theta(bc2mod,thbc2,wtmp) * no2con
          else
-	   no2con=0.001
-	   end if
+       no2con=0.001
+       end if
          ddisox = o2con + (uu + vv - ww - xx - yy - zz) * tday
-		o2proc=o2con-ddisox
+        o2proc=o2con-ddisox
          if (ddisox < 0.00001) ddisox = 0.00001 
 !! end oxygen calculations
 
@@ -547,10 +547,10 @@ C	tday is the calculation time step = 1 day
          dispin = 1000. * varoute(7,inum2) * (1. - rnum1) / wtrin
          cbodin = 1000. * varoute(16,inum2) * (1. - rnum1) / wtrin
          disoxin= 1000. * varoute(17,inum2) * (1. - rnum1) / wtrin
-	   heatin = varoute(1,inum2) * (1. - rnum1)    
+       heatin = varoute(1,inum2) * (1. - rnum1)
          end if
 
-	   wattemp(jrch) =(heatin * wtrin + wtmp * rchwtr) / wtrtot
+       wattemp(jrch) =(heatin * wtrin + wtmp * rchwtr) / wtrtot
          algae(jrch) = (algin * wtrin + dalgae * rchwtr) / wtrtot
 
          organicn(jrch) = (orgnin * wtrin + dorgn * rchwtr) / wtrtot

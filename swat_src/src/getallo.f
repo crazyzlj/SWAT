@@ -111,7 +111,7 @@
       fertdb = ""
       urbandb = ""
       figfile = ""
-	  bsnfile = ""
+      bsnfile = ""
 !     septic database file
       septdb = ""
       nrgage = 0
@@ -183,11 +183,11 @@
 !  septic database file
       do nlines = 1, 24
        read (23,6000,iostat=eof) titldum
-	 if (eof < 0) exit
+       if (eof < 0) exit
       end do 
 
 !      do
-	read (23,5000,iostat=eof) septdb   !! CS
+      read (23,5000,iostat=eof) septdb   !! CS
 
 !!    added for binary files 3/25/09 gsm 
 !!    ia_b  print ascii or binary files
@@ -399,7 +399,7 @@
             mres = mres + 1
             read (27,5002) a
           case (4)
-	    read (27,5002) a             !! icd = 4  TRANSFER command
+        read (27,5002) a             !! icd = 4  TRANSFER command
             mtran = mtran + 1
           case (6)                      !! icd = 6  RECALL HOUR command
             read (27,5002) a

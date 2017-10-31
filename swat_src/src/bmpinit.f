@@ -76,59 +76,59 @@
       if (dtp_onoff(i)==1) then
          if (dtp_imo(i)<=0)      dtp_imo(i) = 1
          if (dtp_iyr(i)<=1000)   dtp_iyr(i) = iyr
-   	   if (dtp_evrsv(i)<=0)    dtp_evrsv(i) = 0.1
-   	   if (dtp_lwratio(i)>1)   dtp_lwratio(i) = 1
-	   if (dtp_numweir(i)<=0)  dtp_numweir(i) = 1
-	   if (dtp_numstage(i)<=0) dtp_numstage(i) = 1
-	   if (dtp_numstage(i)>1) then
-	      do k=2,dtp_numstage(i)
-	          if (dtp_weirtype(i,k)==1) dtp_addon(i,k) = 0.
-	      end do
-	   endif
+          if (dtp_evrsv(i)<=0)    dtp_evrsv(i) = 0.1
+          if (dtp_lwratio(i)>1)   dtp_lwratio(i) = 1
+       if (dtp_numweir(i)<=0)  dtp_numweir(i) = 1
+       if (dtp_numstage(i)<=0) dtp_numstage(i) = 1
+       if (dtp_numstage(i)>1) then
+          do k=2,dtp_numstage(i)
+              if (dtp_weirtype(i,k)==1) dtp_addon(i,k) = 0.
+          end do
+       endif
 
-         !!	Estimating design flow rate if not entered by user
+         !!    Estimating design flow rate if not entered by user
          do k=1,dtp_numstage(i)
             if (dtp_flowrate(i,k)<=0.0) then 
                 dtp_flowrate(i,k) = 0.5 * 1000.0 * dtp_pcpret(i,k) 
      &            * subdr_km(i) / (idt*60.)
-	      end if
+          end if
 
-	      if (dtp_flowrate(i,k)<0) then
-	         print *,"Error.. Could not estimate emergency spillway volume"
+          if (dtp_flowrate(i,k)<0) then
+             print *,"Error.. Could not estimate emergency spillway volume"
                print *,"Please enter necessary data in *.pnd input file"
                print *,"for subbasin : ",i
    !!            stop
-	      end if
+          end if
          end do
 
-         !!	Separate cumulative flow information to individual weir 
+         !!    Separate cumulative flow information to individual weir
          do k=2,dtp_numstage(i)
             dtp_flowrate(i,k) = dtp_flowrate(i,k) / dtp_numweir(i)
          end do
-      	
+
          !!Estimate weir dimensions based on existing data 
          do k=1,dtp_numstage(i)
             if (dtp_weirdim(i,k)==0) then  !! Estimating weir dimensions
-               if (dtp_weirtype(i,k)==2) then	!! choosing weir type
+               if (dtp_weirtype(i,k)==2) then    !! choosing weir type
                 dtp_diaweir(i,k)=(0.479081 * dtp_flowrate(i,k)
      &                              / dtp_cdis(i,k))**0.4
                else !rectangular weir
-			      if (k==1) then				
-				     hstg = dtp_depweir(i,k)
-				     dtp_wrwid(i,k) = dtp_flowrate(i,k)
+                  if (k==1) then
+                     hstg = dtp_depweir(i,k)
+                     dtp_wrwid(i,k) = dtp_flowrate(i,k)
      &                   / (1.84*dtp_cdis(i,k)*hstg**1.5)
                   else
-				     qstg = 0.
-				     do j=1,k-1
-					    hstg = sum(dtp_depweir(i,j:k))
-					    qstg = dtp_cdis(i,k) * 1.84
+                     qstg = 0.
+                     do j=1,k-1
+                        hstg = sum(dtp_depweir(i,j:k))
+                        qstg = dtp_cdis(i,k) * 1.84
      &                   * dtp_wrwid(i,j) * hstg ** 1.5 !m3/s
-					    dtp_flowrate(i,k) = max(0.,dtp_flowrate(i,k)-qstg)
-					    
-					 end do
+                        dtp_flowrate(i,k) = max(0.,dtp_flowrate(i,k)-qstg)
+
+                     end do
                      dtp_wrwid(i,k) = dtp_flowrate(i,k)
      &                  / (1.84*dtp_cdis(i,k)*dtp_depweir(i,k)**1.5)
-                  endif				
+                  endif
                end if 
             else  !! read user-entered data
                if (dtp_weirtype(i,k)==1) then  
@@ -142,7 +142,7 @@
          end do
          
          ! weir depth from the top to the bottom of each stage
-		 do k = dtp_numstage(i), 2, -1
+         do k = dtp_numstage(i), 2, -1
             dtp_depweir(i,k-1) = dtp_depweir(i,k) + dtp_depweir(i,k-1)
          end do
       end if
@@ -207,7 +207,7 @@
          if (abs(ri_dim(i,k)-0.)<1.e-5) then
            !Determine pond size automatically based on City of Austin's Design Guideline 1.6
             ri_vol(i,k) = wqv * 0.028317 !m3
-		      ri_dep(i,k)=1.5 !assume 1.5m as default retention pond depth
+              ri_dep(i,k)=1.5 !assume 1.5m as default retention pond depth
             ri_sa(i,k) = ri_vol(i,k) / ri_dep(i,k) 
             ri_dd (i,k)=60.0 !drawdown time, hr
             ri_k(i,k)=2.5
@@ -220,19 +220,19 @@
                ri_sa(i,k) = ri_vol(i,k) / ri_dep(i,k) 
             end if
 
-		   ri_dep(i,k) = ri_vol(i,k) / ri_sa(i,k)
-		   if (ri_dd(i,k)<=0) ri_dd (i,k)=72.0
-		   if (ri_k(i,k) <=0 ) ri_k(i,k)=2.5
-		   if (ri_evrsv(i,k) <=0 ) ri_evrsv(i,k)=0.1
-		   if (ri_dep(i,k)<=1) ri_dep(i,k)=1. 
+           ri_dep(i,k) = ri_vol(i,k) / ri_sa(i,k)
+           if (ri_dd(i,k)<=0) ri_dd (i,k)=72.0
+           if (ri_k(i,k) <=0 ) ri_k(i,k)=2.5
+           if (ri_evrsv(i,k) <=0 ) ri_evrsv(i,k)=0.1
+           if (ri_dep(i,k)<=1) ri_dep(i,k)=1.
          end if
          
-	   ! draw down time [number of time step]
-	   ri_ndt(i,k) = (ri_dd(i,k) - 12.) * 60 / idt  !minus the first dry 12 hours no-pumping 
-	      
-	   ! pumping rate that empties the basin in 72 hours with initial 12 hour of no operatrion
-	   ri_pumpv(i,k) = ri_vol(i,k) / ri_ndt(i,k) !m3/dt
-	      
+       ! draw down time [number of time step]
+       ri_ndt(i,k) = (ri_dd(i,k) - 12.) * 60 / idt  !minus the first dry 12 hours no-pumping
+
+       ! pumping rate that empties the basin in 72 hours with initial 12 hour of no operatrion
+       ri_pumpv(i,k) = ri_vol(i,k) / ri_ndt(i,k) !m3/dt
+
          if (ri_im(i,k)<0.or.ri_im(i,k)>12) ri_im(i,k) = 0
          if (ri_iy(i,k)<1000.and.ri_iy(i,k)>0) ri_iy(i,k) = 0
          if (abs(ri_iy(i,k)-0.)<1.e-5) ri_iy(i,k) = iyr

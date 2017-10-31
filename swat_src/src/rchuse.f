@@ -64,14 +64,14 @@
         rch_gra = rch_gra * rtwtr / wtrin
 
         if (sedrch  < 1.e-6) then
-	    sedrch = 0.
-	    rch_san = 0.
+        sedrch = 0.
+        rch_san = 0.
           rch_sil = 0.
           rch_cla = 0.
           rch_sag = 0.
           rch_lag = 0.
           rch_gra = 0.
-	  end if
+      end if
 
         if (ievent > 0) then
           do ii = 1, nstep

@@ -142,12 +142,12 @@
         if (isproj == 2) then
           read (102,5003) a, icodes(idum), ihouts(idum), inum1s(idum),  
      &    inum2s(idum), inum3s(idum), rnum1s(idum), inum4s(idum)
-	  else
+      else
           read (102,5000) a, icodes(idum), ihouts(idum), inum1s(idum),  
      &    inum2s(idum), inum3s(idum), rnum1s(idum), inum4s(idum),       
  !!    &    inum5s(idum), inum6s(idum), inum7s(idum), inum8s(idum)
      &    inum5s(idum), char6(idum), char7(idum), char8(idum)
-	  end if
+      end if
         mhyd_bsn = mhyd_bsn + 1 
 
 !!!!!! inum6s, inum7s and inum8s (integer) read in as char6, char7, char8 (character) and 
@@ -240,7 +240,7 @@
  
             case (4)  !! icode = 4  TRANSFER command: read in beg/end month
               read (102,5004) mo_transb(inum5s(idum)),    
-     &		    mo_transe(inum5s(idum)), ih_tran(inum5s(idum))
+     &            mo_transe(inum5s(idum)), ih_tran(inum5s(idum))
 
 
             case (6)  !! icode = 6  RECHOUR command: read in hourly values
@@ -323,11 +323,11 @@
             case (13) 
             apex_in = ""
             read (102,5100) apex_in
-	      call caps(apex_in)
+          call caps(apex_in)
       !      i = 0
       !      i = inum1s(idum)
             open (112+inum1s(idum),file=apex_in,recl=350)
-	      do ii = 1, 9 
+          do ii = 1, 9
               read (112+inum1s(idum),5200) titldum
             end do
 !! code to read from apex output file

@@ -125,7 +125,7 @@
           end if
           if (frac > 1.e-9) then
           xx = frac * dakm * 100.     !!km2*100 = ha
-	    surfqrunon = ls_overq / (10. * xx)
+        surfqrunon = ls_overq / (10. * xx)
           
           if (pot_volxmm(jj) > 1.e-6) then
             pot_vol(jj) = pot_vol(jj) + surfqrunon
@@ -176,8 +176,8 @@
           end if
           if (frac > 1.e-9) then
             xx = frac * dakm * 100.     !!km2*100 = ha
-	      latqrunon = ls_latq / (10. * xx)
-	      jj= hru1(inum3) + kk - 1
+          latqrunon = ls_latq / (10. * xx)
+          jj= hru1(inum3) + kk - 1
 !!          put in soil layers - weighted by depth of soil layer
             dep = 0.
             xslat = 0.
@@ -218,10 +218,10 @@
           end if
           if (frac > 1.e-9) then
             xx = frac * dakm * 100.     !!km2*100 = ha
-	      gwqrunon = ls_gwq / (10. * xx)
-	      jj= hru1(inum3) + kk - 1
-	      gwq_ru(jj) = gwqrunon
-	    end if
+          gwqrunon = ls_gwq / (10. * xx)
+          jj= hru1(inum3) + kk - 1
+          gwq_ru(jj) = gwqrunon
+        end if
         end do
       end if
       end if
@@ -229,6 +229,6 @@
       do ii = 29, mvaro
         varoute(ii,inum2) = 0.
       end do
-		 
+
       return
       end

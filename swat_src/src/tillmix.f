@@ -27,9 +27,9 @@
 !!                                 |current year
 !!    nyskip        |none          |number of years to skip output printing/
 !!                                 |summarization
-!	  Drainmod  07/2006
-!!	  ranrns(:)     |mm            |random roughness of a given tillage operation 
-!	  Drainmod  07/2006
+!      Drainmod  07/2006
+!!      ranrns(:)     |mm            |random roughness of a given tillage operation
+!      Drainmod  07/2006
 !!    sol_actp(:,:) |kg P/ha       |amount of phosphorus stored in the
 !!                                 |active mineral phosphorus pool
 !!    sol_aorgn(:,:)|kg N/ha       |amount of nitrogen stored in the active
@@ -68,9 +68,9 @@
 !!                                 |particles
 !!    ntil(:)       |none          |sequence number of tillage operation within
 !!                                 |current year
-!	  Drainmod  08/2006
+!      Drainmod  08/2006
 !!    ranrns_hru(:) |mm            |random roughness for a given HRU
-!	  Drainmod  08/2006
+!      Drainmod  08/2006
 !!    sol_actp(:,:) |kg P/ha       |amount of phosphorus stored in the
 !!                                 |active mineral phosphorus pool
 !!    sol_aorgn(:,:)|kg N/ha       |amount of nitrogen stored in the active
@@ -108,9 +108,9 @@
 !!    k           |none          |counter
 !!    l           |none          |counter
 !!    nl          |none          |number of layers being mixed
-!	  Drainmod  07/2006
-!!	  ranrns_hru(:)|mm           |random roughness at time of a given tillage operation in HRU
-!	  Drainmod  07/2006
+!      Drainmod  07/2006
+!!      ranrns_hru(:)|mm           |random roughness at time of a given tillage operation in HRU
+!      Drainmod  07/2006
 !!    smix(:)     |varies        |amount of substance in soil profile
 !!                               |that is being redistributed between 
 !!                               |mixed layers
@@ -134,8 +134,8 @@
 
       emix = 0.
       dtil = 0.
-!	Drainmod  08/2006 
-	rrns = 0.
+!    Drainmod  08/2006
+      rrns = 0.
       if (bmix > 1.e-6) then
         !! biological mixing
         emix = bmix
@@ -144,13 +144,13 @@
         !! tillage operation
         emix = effmix(idtill)
         dtil = deptil(idtill)
-!	Drainmod  07/2006
+!    Drainmod  07/2006
       if(itill(jj) == 1) then
-	    cumei(jj) = 0.
-	    cumeira(jj) = 0.
-	    cumrt(jj) = 0.
+        cumei(jj) = 0.
+        cumeira(jj) = 0.
+        cumrt(jj) = 0.
         cumrai(jj) = 0.
-	    ranrns_hru(jj) = ranrns(idtill)                                                                           
+        ranrns_hru(jj) = ranrns(idtill)
       end if
 !!    Drainmod 7/2006
       endif

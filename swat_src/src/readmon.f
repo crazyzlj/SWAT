@@ -100,10 +100,10 @@
      &                            cmtl1mon(i,iya,mon),                  
      &                            cmtl2mon(i,iya,mon),                  
      &                            cmtl3mon(i,iya,mon)
-	   
 
-		  if (ia2 == iyr) exit
-	      if (eof < 0) exit
+
+          if (ia2 == iyr) exit
+          if (eof < 0) exit
         end do
 
 

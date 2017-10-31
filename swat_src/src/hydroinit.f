@@ -112,7 +112,7 @@
 
 !!    compute fraction of surface runoff that is reaching the main channel
         if (ievent > 0) then
-           brt(j) = 1. - Exp(-surlag(j) / (tconc(j) / (idt / 60.)))	!! urban modeling by J.Jeong
+           brt(j) = 1. - Exp(-surlag(j) / (tconc(j) / (idt / 60.)))    !! urban modeling by J.Jeong
         else
            brt(j) = 1. - Exp(-surlag(j) / tconc(j))
         endif
@@ -162,22 +162,22 @@
 
         tb = .5 + .6 * sub_tc(isb) + tb_adj  !baseflow time, hr
 
-        if (tb > 48.) tb = 48.			   !maximum 48hrs
-        tp = .375 * tb						! time to peak flow
-	  
-	  !! convert to time step (from hr), J.Jeong March 2009
-	  tb = ceiling(tb * 60./ real(idt))
-	  tp = int(tp * 60./ real(idt))         
-	  
-	  if(tp==0) tp = 1
-	  if(tb==tp) tb = tb + 1
-	  itb(isb) = int(tb) 
+        if (tb > 48.) tb = 48.               !maximum 48hrs
+        tp = .375 * tb                        ! time to peak flow
+
+      !! convert to time step (from hr), J.Jeong March 2009
+      tb = ceiling(tb * 60./ real(idt))
+      tp = int(tp * 60./ real(idt))
+
+      if(tp==0) tp = 1
+      if(tb==tp) tb = tb + 1
+      itb(isb) = int(tb)
         
-	  ! Triangular Unit Hydrograph
-	  if (iuh==1) then
-	    do i = 1, itb(isb)
+      ! Triangular Unit Hydrograph
+      if (iuh==1) then
+        do i = 1, itb(isb)
             xi = float(i)
- 	      if (xi < tp) then           !! rising limb of hydrograph
+           if (xi < tp) then           !! rising limb of hydrograph
               q = xi / tp
             else                        !! falling limb of hydrograph
               q = (tb - xi) / (tb - tp)
@@ -188,28 +188,28 @@
             sumq = sumq + uh(isb,i)
           end do
           
-		do i = 1, itb(isb)
+        do i = 1, itb(isb)
             uh(isb,i) = uh(isb,i) / sumq
           end do
-	  
-	  ! Gamma Function Unit Hydrograph
-	  elseif (iuh==2) then
+
+      ! Gamma Function Unit Hydrograph
+      elseif (iuh==2) then
           i = 1; q=1.
-		do while (q>0.0001)
+        do while (q>0.0001)
             xi = float(i)
-		   q = (xi / tp) ** uhalpha * exp((1.- xi / tp) * uhalpha)
+           q = (xi / tp) ** uhalpha * exp((1.- xi / tp) * uhalpha)
             q = Max(0.,q)
             uh(isb,i) = (q + ql) / 2.
             ql = q
             sumq = sumq + uh(isb,i)
-	      i = i + 1
-	      if (i>3.*nstep) exit
-	    end do
-	    itb(isb) = i - 1
-		  do i = 1, itb(isb)
+          i = i + 1
+          if (i>3.*nstep) exit
+        end do
+        itb(isb) = i - 1
+          do i = 1, itb(isb)
             uh(isb,i) = uh(isb,i) / sumq
           end do
-	  endif 
+      endif
 
       end do
       end if

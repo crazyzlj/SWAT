@@ -134,7 +134,7 @@
       !!calculate the slope of the saturation vapor pressure curve
       dlt = 0.
       dlt = 4098. * ea / (tmpav(j) + 237.3)**2
-	
+
 
 
 !! DETERMINE POTENTIAL ET
@@ -161,7 +161,7 @@
           !! cloud cover factor equation 2.2.19
           rto = 0.
             if (hru_rmx(j) < 1.e-4) then
-		    rto = 0.
+            rto = 0.
             else
               rto = 0.9 * (hru_ra(j) / hru_rmx(j)) + 0.1
             end if
@@ -202,7 +202,7 @@
           !! cloud cover factor equation 2.2.19
           rto = 0.
             if (hru_rmx(j) < 1.e-4) then
-		    rto = 0.
+            rto = 0.
             else
               rto = 0.9 * (hru_ra(j) / hru_rmx(j)) + 0.1
             end if

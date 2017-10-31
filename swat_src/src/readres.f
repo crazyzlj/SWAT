@@ -259,12 +259,12 @@
       res_sed(i) = res_sed(i) * 1.e-6             !! mg/L => ton/m^3
       res_d50mm = res_d50 / 1000.                 !! micrometers to millimeters
 
-	res_san(i) = res_sed(i) * 0. 
-	res_sil(i) = res_sed(i) * 1. 
-	res_cla(i) = res_sed(i) * 0. 
-	res_sag(i) = res_sed(i) * 0. 
-	res_lag(i) = res_sed(i) * 0. 
-	res_gra(i) = 0.
+      res_san(i) = res_sed(i) * 0.
+      res_sil(i) = res_sed(i) * 1.
+      res_cla(i) = res_sed(i) * 0.
+      res_sag(i) = res_sed(i) * 0.
+      res_lag(i) = res_sed(i) * 0.
+      res_gra(i) = 0.
 
       res_nsed(i) = res_nsed(i) * 1.e-6           !! mg/L => ton/m^3
 
@@ -319,12 +319,12 @@
 
 !! calculate sediment settling rate
       if(ievent== 0) then
-	  sed_stlr(i) = Exp(-.184 * res_d50)
-	else
-	  sed_stlr(i) = Exp(-.184 * res_d50 / nstep)  !! urban modeling by J.Jeong
-	endif
+        sed_stlr(i) = Exp(-.184 * res_d50)
+      else
+        sed_stlr(i) = Exp(-.184 * res_d50 / nstep)  !! urban modeling by J.Jeong
+      endif
 !!     xx = res_stlr_co * res_d50
-!!	if (xx > 20.) xx = 20.
+!!    if (xx > 20.) xx = 20.
 !!    sed_stlr(i) = Exp(-xx)
 
 !! read in monthly release data

@@ -43,7 +43,7 @@
       use parm
 
       character (len=80) :: titldum
-	integer :: eof
+      integer :: eof
 
 !!    initialize variables
       eof = 0
@@ -52,21 +52,21 @@
 !! read septic parameters
       do
         read (172,1000) titldum
-	  read (172,*,iostat=eof) isep_typ(ihru)
-	  if (eof < 0) exit
+      read (172,*,iostat=eof) isep_typ(ihru)
+      if (eof < 0) exit
         if (isep_typ(ihru) <= 0) return
-	  read (172,*,iostat=eof) isep_iyr(ihru)
-	  if (eof < 0) exit
-	  read (172,*,iostat=eof) isep_opt(ihru)       
-	  if (eof < 0) exit
-	  read (172,*,iostat=eof) sep_cap(ihru)
-	  if (eof < 0) exit
-	  read (172,*,iostat=eof) bz_area(ihru)
-	  if (eof < 0) exit
-	  read (172,*,iostat=eof) isep_tfail(ihru)
-	  if (eof < 0) exit
+      read (172,*,iostat=eof) isep_iyr(ihru)
+      if (eof < 0) exit
+      read (172,*,iostat=eof) isep_opt(ihru)
+      if (eof < 0) exit
+      read (172,*,iostat=eof) sep_cap(ihru)
+      if (eof < 0) exit
+      read (172,*,iostat=eof) bz_area(ihru)
+      if (eof < 0) exit
+      read (172,*,iostat=eof) isep_tfail(ihru)
+      if (eof < 0) exit
         read (172,*,iostat=eof) bz_z(ihru)
-	  if (eof < 0) exit
+      if (eof < 0) exit
         read (172,*,iostat=eof) bz_thk(ihru)
         if (eof < 0) exit
         read (172,*,iostat=eof) sep_strm_dist(ihru)
@@ -76,47 +76,47 @@
         read (172,*,iostat=eof) bio_bd(ihru)
         if (eof < 0) exit
         read (172,*,iostat=eof) coeff_bod_dc(ihru)
-	  if (eof < 0) exit   
+      if (eof < 0) exit
         read (172,*,iostat=eof) coeff_bod_conv(ihru)
-	  if (eof < 0) exit
+      if (eof < 0) exit
         read (172,*,iostat=eof) coeff_fc1(ihru)
-	  if (eof < 0) exit
+      if (eof < 0) exit
         read (172,*,iostat=eof) coeff_fc2(ihru)
-	  if (eof < 0) exit
+      if (eof < 0) exit
         read (172,*,iostat=eof) coeff_fecal(ihru)
-	  if (eof < 0) exit
+      if (eof < 0) exit
         read (172,*,iostat=eof) coeff_plq(ihru)
-	  if (eof < 0) exit
+      if (eof < 0) exit
         read (172,*,iostat=eof) coeff_mrt(ihru)
-	  if (eof < 0) exit
+      if (eof < 0) exit
         read (172,*,iostat=eof) coeff_rsp(ihru)
-	  if (eof < 0) exit
+      if (eof < 0) exit
         read (172,*,iostat=eof) coeff_slg1(ihru)
-	  if (eof < 0) exit
+      if (eof < 0) exit
         read (172,*,iostat=eof) coeff_slg2(ihru)
-	  if (eof < 0) exit
+      if (eof < 0) exit
         read (172,*,iostat=eof) coeff_nitr(ihru)
-	  if (eof < 0) exit
+      if (eof < 0) exit
         read (172,*,iostat=eof) coeff_denitr(ihru)
-	  if (eof < 0) exit
+      if (eof < 0) exit
         read (172,*,iostat=eof) coeff_pdistrb(ihru)
-	  if (eof < 0) exit
+      if (eof < 0) exit
         read (172,*,iostat=eof) coeff_psorpmax(ihru)
-	  if (eof < 0) exit
+      if (eof < 0) exit
         read (172,*,iostat=eof) coeff_solpslp(ihru)
-	  if (eof < 0) exit
+      if (eof < 0) exit
         read (172,*,iostat=eof) coeff_solpintc(ihru)
-	  exit
-	end do
+      exit
+      end do
 
-	coeff_mrt(ihru) = 0.01 * coeff_mrt(ihru)
-	coeff_rsp(ihru) = 0.01 * coeff_rsp(ihru)
-	coeff_slg1(ihru) = 0.001 * coeff_slg1(ihru)
-	coeff_nitr(ihru) = 0.01 * coeff_nitr(ihru)
-	coeff_denitr(ihru) = 0.01 * coeff_denitr(ihru)
+      coeff_mrt(ihru) = 0.01 * coeff_mrt(ihru)
+      coeff_rsp(ihru) = 0.01 * coeff_rsp(ihru)
+      coeff_slg1(ihru) = 0.001 * coeff_slg1(ihru)
+      coeff_nitr(ihru) = 0.01 * coeff_nitr(ihru)
+      coeff_denitr(ihru) = 0.01 * coeff_denitr(ihru)
 
-	!!Convert QSTE from volume to depth unit, mm
-	qstemm(ihru) = sptqs(isep_typ(ihru)) * sep_cap(ihru) / 
+    !!Convert QSTE from volume to depth unit, mm
+      qstemm(ihru) = sptqs(isep_typ(ihru)) * sep_cap(ihru) /
      & bz_area(ihru) * 1000.
 
 !!    set default values for undefined parameters

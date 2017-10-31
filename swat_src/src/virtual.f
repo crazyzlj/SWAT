@@ -300,18 +300,18 @@
            !Urban HRUs where runoff drains to bmps
             sub_ubnrunoff(sb,ii) = sub_ubnrunoff(sb,ii) 
      &         + (hhqday(ii) + ubnrunoff(ii)) * hru_fr(j) !J.Jeong
-		    if (sub_ubnrunoff(sb,ii) < 1.e-20) sub_ubnrunoff(sb,ii) = 0.
+            if (sub_ubnrunoff(sb,ii) < 1.e-20) sub_ubnrunoff(sb,ii) = 0.
             sub_ubntss(sb,ii) = sub_ubntss(sb,ii)  
      &         + (hhsedy(j,ii) + ubntss(ii)) * hru_fr(j) !J.Jeong
-		    if (sub_ubntss(sb,ii) < 1.e-20) sub_ubntss(sb,ii) = 0.
+            if (sub_ubntss(sb,ii) < 1.e-20) sub_ubntss(sb,ii) = 0.
           else
             !Urban/non-urban HRUs that do not make runoff to BMPs
             sub_hhqd(sb,ii) = sub_hhqd(sb,ii)  
      &         + (hhqday(ii) + ubnrunoff(ii)) * hru_fr(j)
- 		      if (sub_hhqd(sb,ii) < 1.e-20) sub_hhqd(sb,ii) = 0.
+               if (sub_hhqd(sb,ii) < 1.e-20) sub_hhqd(sb,ii) = 0.
             sub_hhsedy(sb,ii) = sub_hhsedy(sb,ii) 
      &          + (hhsedy(j,ii) + ubntss(ii)) * hru_fr(j)
-   	      if (sub_hhsedy(sb,ii) < 1.e-20) sub_hhsedy(sb,ii) = 0.
+             if (sub_hhsedy(sb,ii) < 1.e-20) sub_hhsedy(sb,ii) = 0.
           end if 
           !air temperature
           hr = ii * idt / 60. 
@@ -388,22 +388,22 @@
         sub_surfq(sb) = sub_surfq(sb) + surfq(j) * hru_fr(j)
         sub_tran(sb) = sub_tran(sb) + tloss * hru_fr(j)
         sub_bd(sb) = sub_bd(sb) + sol_bd(1,j) * hru_fr(j)
-	  if (cswat == 0) then
+      if (cswat == 0) then
         sub_orgn(sb) = sub_orgn(sb) + (sol_orgn(1,j) +                  
      &                   sol_aorgn(1,j) + sol_fon(1,j)) * hru_fr(j)
-	  end if
-	  if (cswat == 1) then
-	  sub_orgn(sb) = sub_orgn(sb) + (sol_n(1,j) + sol_fon(1,j) +
+      end if
+      if (cswat == 1) then
+      sub_orgn(sb) = sub_orgn(sb) + (sol_n(1,j) + sol_fon(1,j) +
      &                 sol_mn(1,j)) * hru_fr(j)
-	  end if
-	  !!add by zhang
-	  !!======================
-	  if (cswat == 2) then
-	  sub_orgn(sb) = sub_orgn(sb) + (sol_LMN(1,j) + sol_LSN(1,j) +
+      end if
+      !!add by zhang
+      !!======================
+      if (cswat == 2) then
+      sub_orgn(sb) = sub_orgn(sb) + (sol_LMN(1,j) + sol_LSN(1,j) +
      &                 sol_HPN(1,j)+sol_HSN(1,j)+sol_BMN(1,j)) * hru_dafr(j)
-	  end if
-	  !!add by zhang
-	  !!======================	  	  
+      end if
+      !!add by zhang
+      !!======================
        ! do kk = 1, mp
        ! sub_pst(kk,sb) = sub_pst(kk,sb) + sol_pst(k,j,1) * hru_fr(j)
        ! end do
@@ -481,8 +481,8 @@
             hsd(ii) = hsd(ii) + hsdsave(sb,ii)
          end do
 
-	   sub_hhqd(sb,1:nstep) = max(0.,hqd(1:nstep))
-	   sub_hhsedy(sb,1:nstep) = max(0.,hsd(1:nstep))
+       sub_hhqd(sb,1:nstep) = max(0.,hqd(1:nstep))
+       sub_hhsedy(sb,1:nstep) = max(0.,hsd(1:nstep))
 
          do ii = 1, itb(sb)
             hqdsave(sb,ii) = hqd(ii+nstep)  ! save flow after midnight for next day J.Jeong 4/17/2009
@@ -636,7 +636,7 @@
               hhvaroute(21,ihout,ii) = 0.                          !!cmetal#2
               hhvaroute(22,ihout,ii) = 0.                          !!cmetal#3
             end if
-		  end do
+          end do
         end if
 
         !! summary calculations
@@ -678,7 +678,7 @@
 !!      irrsc(j) = irr_sc(nro(j),nirr(j),j)
 !!!! Srin's irrigation source by each application changes
 
-!!	if (irrsc(j) <= 2)  aird(j) = 0.
+!!    if (irrsc(j) <= 2)  aird(j) = 0.
 
       shallirr(j) = 0.
       deepirr(j) = 0.

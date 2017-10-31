@@ -102,10 +102,10 @@
       resev = 0.
       resflwi = 0.
       if(ievent == 0) then  !!urban modeling by J.Jeong
-	  resflwi = varoute(2,inum2)
-	else
-	  resflwi = hhvaroute(2,inum2,1)
-	endif
+        resflwi = varoute(2,inum2)
+      else
+        resflwi = hhvaroute(2,inum2,1)
+      endif
  !!     resflwi = varoute(2,inum2)
       resflwo = 0.
       respcp = 0.
@@ -120,19 +120,19 @@
       ressedi = 0.
       if (varoute(3,inum2) < 1.e-6) varoute(3,inum2) = 0.0
       ressedi = varoute(3,inum2)
-	  ressani = varoute(23,inum2)
-	  ressili = varoute(24,inum2)
-	  resclai = varoute(25,inum2)
-	  ressagi = varoute(26,inum2)
-	  reslagi = varoute(27,inum2)
-	  resgrai = varoute(28,inum2)
+      ressani = varoute(23,inum2)
+      ressili = varoute(24,inum2)
+      resclai = varoute(25,inum2)
+      ressagi = varoute(26,inum2)
+      reslagi = varoute(27,inum2)
+      resgrai = varoute(28,inum2)
 
       if (varoute(3,inum2) < 1.e-6) varoute(3,inum2) = 0.0
       if(ievent == 0) then  !!urban modeling by J.Jeong
-	  ressedi = varoute(3,inum2)
-	else
-	  ressedi = hhvaroute(3,inum2,1)
-	endif
+        ressedi = varoute(3,inum2)
+      else
+        ressedi = hhvaroute(3,inum2,1)
+      endif
       ressedo = 0.
 
       ressano = 0.
@@ -140,7 +140,7 @@
       resclao = 0.
       ressago = 0.
       reslago = 0.
-	  resgrao = 0.
+      resgrao = 0.
 
       ressep = 0.
       ressolpo = 0.

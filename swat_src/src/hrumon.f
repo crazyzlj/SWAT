@@ -283,10 +283,10 @@
         pdvas(79) = hrumono(72,j)
 
       if (itots > 0) then 
-	   ix = itots
-	else
+       ix = itots
+      else
          ix = mhruo
-	endif
+      endif
 
 
         if (ipdvas(1) > 0) then

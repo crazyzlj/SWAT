@@ -13,7 +13,7 @@
 !!    hrugis(:)     |none          |GIS code printed to output files(output.hru,.rch)
 !!    icr(:)        |none          |sequence number of crop grown within the
 !!                                 |current year
-!!    idplt(:,:,:)  |none          |land cover code from crop.dat
+!!    idplt(:)      |none          |land cover code from crop.dat
 !!    ihru          |none          |HRU number
 !!    ipot(:)       |none          |number of HRU (in subbasin) that is ponding
 !!                                 |water--the HRU that the surface runoff from

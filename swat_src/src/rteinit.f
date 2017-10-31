@@ -119,11 +119,11 @@
       do idum = 1, nhru
         hru_dafr(idum) = hru_km(idum) / da_km
         isb = hru_sub(idum)
-	  if (idplt(idum) > 0) then 
+      if (idplt(idum) > 0) then
          if (bio_e(idplt(idum)) > 1.e-6) then
           subfr_nowtr(isb) = subfr_nowtr(isb) + hru_fr(idum)
-	   end if
-	  end if
+       end if
+      end if
       end do
 
 !!    read in areas associated with .fig record files

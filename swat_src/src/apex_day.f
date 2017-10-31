@@ -122,10 +122,10 @@
           read (112+inum1,*) idapa(inum1), iypa(inum1), flodaya(inum1),
      & seddaya(inum1), orgndaya(inum1), orgpdaya(inum1), no3daya(inum1),
      & minpdaya(inum1)
-	    if(idapa(inum1) == id1 .and. iypa(inum1) == iyr) exit
+        if(idapa(inum1) == id1 .and. iypa(inum1) == iyr) exit
         end do
         ifirsta(inum1) = 0
-	endif 
+      endif
 
       if (iypa(inum1) == iyr .and. idapa(inum1) == i) then
          varoute(2,ihout) = flodaya(inum1)
@@ -174,7 +174,7 @@
          varoute(20,ihout) = 0.0      
          varoute(21,ihout) = 0.0      
          varoute(22,ihout) = 0.0      
-	endif
+      endif
      
       if (ievent > 0) then
         do ii = 1, nstep

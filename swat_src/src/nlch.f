@@ -78,7 +78,7 @@
 
         !! add nitrate leached from layer above
         sol_no3(jj,j) = sol_no3(jj,j) + percnlyr
-	  if (sol_no3(jj,j) < 1.e-6) sol_no3(jj,j) = 0.0
+      if (sol_no3(jj,j) < 1.e-6) sol_no3(jj,j) = 0.0
 
         !! determine concentration of nitrate in mobile water
         sro = 0.

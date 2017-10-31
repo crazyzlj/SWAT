@@ -114,7 +114,7 @@
 
 !!    code provided by Dr. Valentina Krysanova, Pottsdam Institute for
 !!    Climate Impact Research, Germany
-!!	Modified by N.Kannan, Blackland Research Center, Temple, USA
+!!    Modified by N.Kannan, Blackland Research Center, Temple, USA
   
       use parm
 
@@ -144,7 +144,7 @@
       c2 = (det + 2. * xkm * msk_x) / yy
       c3 = (2. * xkm * (1. - msk_x) - det) / yy
       c4 = phi(5,jrch) * ch_l2(jrch) * det / yy
- 	
+
       do ii = 1, nstep   !! begin time step loop
         !! Water entering reach on day
         wtrin = 0.

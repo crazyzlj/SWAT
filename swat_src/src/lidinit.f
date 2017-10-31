@@ -73,7 +73,7 @@
             if (gr_soldpt(i,kk)<=0)     gr_soldpt(i,kk) = 0.50
 !            if (gr_soldpt(i,kk)<=0)     gr_soldpt(i,kk) = 0.25
           end if
-		  if (gr_etcoef(i,kk)<=0)       gr_etcoef(i,kk) = 0.6
+          if (gr_etcoef(i,kk)<=0)       gr_etcoef(i,kk) = 0.6
         end if
       end do
       
@@ -93,7 +93,7 @@
             if (rg_hydeff(i,kk)<=0)     rg_hydeff(i,kk) = 0.10
             if (rg_soldpt(i,kk) <=0)    rg_soldpt(i,kk) = 0.25
           end if
-		  if (rg_etcoef(i,kk)<=0)       rg_etcoef(i,kk) = 0.6
+          if (rg_etcoef(i,kk)<=0)       rg_etcoef(i,kk) = 0.6
           if (rg_dimop(i,kk)==0) then
       ! setting the defailt orifice
 !          else

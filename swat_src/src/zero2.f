@@ -249,12 +249,12 @@
       sedmon = 0.
       sedyr = 0.
 
-	  sedyld = 0.
-	  sanyld = 0.
-	  silyld = 0.
-	  clayld = 0.
-	  sagyld = 0.
-	  lagyld = 0.
+      sedyld = 0.
+      sanyld = 0.
+      silyld = 0.
+      clayld = 0.
+      sagyld = 0.
+      lagyld = 0.
 
       shallirr = 0.
       shyd = 0.
@@ -316,9 +316,9 @@
       wurtnf = 0.
       yldn = 0.
       zdb = 0.
-	  
-	!! MJW
-	sol_P_model = 0
+
+      !! MJW
+      sol_P_model = 0
       
       bmp_flag = 0
       !! surface
@@ -373,15 +373,15 @@
       ro_bmp_snt = 0.    !! Soluble N
       ro_bmp_bact = 0.   !! Bacteria
 
-	ssp_store = 0.
-	psp_store = 0.
-	a_days = 0
-	b_days = 0
-	sol_ph = 0
-	sol_cal = 0  
-	bio_init = 0
-	lai_init = 0
-	  
-	  
+      ssp_store = 0.
+      psp_store = 0.
+      a_days = 0
+      b_days = 0
+      sol_ph = 0
+      sol_cal = 0
+      bio_init = 0
+      lai_init = 0
+
+
       return
       end

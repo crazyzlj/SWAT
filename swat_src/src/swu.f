@@ -111,7 +111,7 @@
           sol_rd = sol_zmx(j)
       end select
 
-	  stsol_rd(j) = sol_rd ! cole armen 26 Feb
+      stsol_rd(j) = sol_rd ! cole armen 26 Feb
 
       if (ep_max <= 0.01) then
         strsw(j) = 1.

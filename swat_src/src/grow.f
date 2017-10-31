@@ -210,18 +210,18 @@
           if (bioday < 0.) bioday = 0.
 
           !! calculate plant uptake of nitrogen and phosphorus changed by cibin 02/15/12
-	    !! to make sure no plant N and P uptake under, temperature, water and aeration stress.
+        !! to make sure no plant N and P uptake under, temperature, water and aeration stress.
           reg = 0.
           reg = Min(strsw(j), strstmp(j), strsa(j))
           if (reg < 0.) reg = 0.
 
-	    if (reg > 0.) then
+        if (reg > 0.) then
             call nup
             call npup
-	    else
-	      strsn(j) = 1.
-	      strsp(j) = 1.
-	    end if
+        else
+          strsn(j) = 1.
+          strsp(j) = 1.
+        end if
 
           !! auto fertilization-nitrogen demand (non-legumes only)
           select case (idc(idp))
@@ -328,15 +328,15 @@
             wshd_pstrs = wshd_pstrs + (1.-strsp(j)) * hru_dafr(j)
             wshd_astrs = wshd_astrs + (1.-strsa(j)) * hru_dafr(j)
           end if
-	  else                                                                             !! Modified by Cibin to include DLAI>1
-		if (dlai(idp) > 1.) then
-		 if (phuacc(j) > dlai(idp)) then
+      else                                                                             !! Modified by Cibin to include DLAI>1
+        if (dlai(idp) > 1.) then
+         if (phuacc(j) > dlai(idp)) then
             laiday(j) = olai(j) * (1. - (phuacc(j) - dlai(idp)) /                      !! Modified by Cibin to include DLAI>1
-     &                               (1.2 - dlai(idp)))								   !! Modified by Cibin to include DLAI>1
-	     endif
-	    endif
-	    if (laiday(j) < 0.) laiday(j) = 0.											   !! Modified by Cibin to include DLAI>1
-	endif
+     &                               (1.2 - dlai(idp)))                                   !! Modified by Cibin to include DLAI>1
+         endif
+        endif
+        if (laiday(j) < 0.) laiday(j) = 0.                                               !! Modified by Cibin to include DLAI>1
+      endif
 
       return
       end

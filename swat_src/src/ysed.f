@@ -11,7 +11,7 @@
 !!                               |of the USLE C factor for the land cover)
 !!    hru_km(:)   |km**2         |area of HRU in square kilometers
 !!    icr(:)      |none          |sequence number of crop grown within a year
-!!    idplt(:,:,:)|none          |land cover code from crop.dat
+!!    idplt(:)    |none          |land cover code from crop.dat
 !!    ihru        |none          |HRU number
 !!    iwave       |none          |flag to differentiate calculation of HRU and
 !!                               |subbasin sediment calculation
@@ -105,12 +105,12 @@
       !! bmp adjustment
       sedyld(j) = sedyld(j) * bmp_sed(j)
       
-	!!Particle size distribution of sediment yield
-	  sanyld(j) = sedyld(j) * det_san(j)    !! Sand yield
-	  silyld(j) = sedyld(j) * det_sil(j)    !! Silt yield
-	  clayld(j) = sedyld(j) * det_cla(j)    !! Clay yield
-	  sagyld(j) = sedyld(j) * det_sag(j)    !! Small Aggregate yield
-	  lagyld(j) = sedyld(j) * det_lag(j)    !! Large Aggregate yield
+    !!Particle size distribution of sediment yield
+      sanyld(j) = sedyld(j) * det_san(j)    !! Sand yield
+      silyld(j) = sedyld(j) * det_sil(j)    !! Silt yield
+      clayld(j) = sedyld(j) * det_cla(j)    !! Clay yield
+      sagyld(j) = sedyld(j) * det_sag(j)    !! Small Aggregate yield
+      lagyld(j) = sedyld(j) * det_lag(j)    !! Large Aggregate yield
 
       !! compute erosion with usle (written to output for comparison)
       usle = 1.292 * usle_ei * cklsp(j) / 11.8

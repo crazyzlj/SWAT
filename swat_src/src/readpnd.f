@@ -495,20 +495,20 @@
       if (eof < 0) exit
       read (104,*,iostat=eof) num_ri(i)
       if (eof < 0) exit
-	read (104,'(a200)',iostat=eof) lus
+      read (104,'(a200)',iostat=eof) lus
       if (eof < 0) exit
 
-	do ii=2,len_trim(lus)
+      do ii=2,len_trim(lus)
          num_noirr(i) = 1
          if (lus(ii:ii).eq.',' .or. lus(ii:ii).eq.' ') then
          if (lus(ii-1:ii-1).ne.' '.and.lus(ii-1:ii-1).ne.',') then
                num_noirr(i) = num_noirr(i) + 1
             end if
-         end if	   
-	end do 
-	if (num_noirr(i)>0) then
-	   backspace(104)
-	   read (104,*) (ri_nirr(i,k), k=1,num_noirr(i))
+         end if
+      end do
+      if (num_noirr(i)>0) then
+       backspace(104)
+       read (104,*) (ri_nirr(i,k), k=1,num_noirr(i))
          if (eof < 0) exit
       end if
      

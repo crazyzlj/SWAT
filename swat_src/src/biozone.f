@@ -1,5 +1,5 @@
       subroutine biozone()
-	    
+
 !!    ~ ~ ~ PURPOSE ~ ~ ~
 !!    This subroutine conducts biophysical processes occuring 
 !!    in the biozone layer of a septic HRU.
@@ -123,162 +123,162 @@
 !!    Septic algorithm adapted from Siegrist et al., 2005
 
       use parm
-	implicit none
-	      
-!	real ntr_rt
+      implicit none
+
+!    real ntr_rt
       integer bz_lyr, isp, ii,j,nly
-	real*8 bz_vol, rtrate,bodconc, qin, qout,qmm,qvol,pormm,rplqm
-	real*8 ntr_rt,dentr_rt, bod_rt, fcoli_rt,rtof,xx,bodi,bode
-	real*8 rnit, rdenit, rbio, rmort, rrsp, rslg, rbod, rfcoli
-	real*8 nh3_begin, nh3_end, nh3_inflw_ste, no3_begin, no3_end 
-	real*8 no3_inflow_ste, bio_steintobz,bio_outbz,bza,qi,nperc
-	real*8 hvol, solpconc, solpsorb, qlyr,qsrf
-	real*8 n2,n3,n5,n6,n7,n8,p2,p3,p4
-	real*8 solp_begin,solp_end,svolp,totalp,ctmp,plch
+      real*8 bz_vol, rtrate,bodconc, qin, qout,qmm,qvol,pormm,rplqm
+      real*8 ntr_rt,dentr_rt, bod_rt, fcoli_rt,rtof,xx,bodi,bode
+      real*8 rnit, rdenit, rbio, rmort, rrsp, rslg, rbod, rfcoli
+      real*8 nh3_begin, nh3_end, nh3_inflw_ste, no3_begin, no3_end
+      real*8 no3_inflow_ste, bio_steintobz,bio_outbz,bza,qi,nperc
+      real*8 hvol, solpconc, solpsorb, qlyr,qsrf
+      real*8 n2,n3,n5,n6,n7,n8,p2,p3,p4
+      real*8 solp_begin,solp_end,svolp,totalp,ctmp,plch
 
-	j = ihru
-	nly = sol_nly(j)
-	isp = isep_typ(j) 	   !! J.Jeong 3/09/09
-      bz_lyr = i_sep(j)    
-	bza = hru_ha(j)
-	bz_vol = bz_thk(j) * bza * 10. !m^3
-	qlyr = qstemm(j)
-	qsrf = 0
-	
-	!temperature correctioin factor for bacteria growth/dieoff (Eppley, 1972)
-	ctmp = thbact ** (sol_tmp(bz_lyr,j) - 20.) 
+      j = ihru
+      nly = sol_nly(j)
+      isp = isep_typ(j)        !! J.Jeong 3/09/09
+      bz_lyr = i_sep(j)
+      bza = hru_ha(j)
+      bz_vol = bz_thk(j) * bza * 10. !m^3
+      qlyr = qstemm(j)
+      qsrf = 0
 
-	! initial water volume
-	qi = (sol_st(bz_lyr,j)+sol_prk(bz_lyr-1,j)+qstemm(j)) * bza * 10. !m3
+    !temperature correctioin factor for bacteria growth/dieoff (Eppley, 1972)
+      ctmp = thbact ** (sol_tmp(bz_lyr,j) - 20.)
+
+    ! initial water volume
+      qi = (sol_st(bz_lyr,j)+sol_prk(bz_lyr-1,j)+qstemm(j)) * bza * 10. !m3
     ! STE volume
-	qin = qstemm(j) * bza * 10. ! m^3
-	! leaching to sub layer
-	qout = bz_perc(j) * bza * 10. !m3/d
-	! final volume
-	hvol = sol_st(bz_lyr,j) * bza * 10.
-	rtof = 0.5
+      qin = qstemm(j) * bza * 10. ! m^3
+    ! leaching to sub layer
+      qout = bz_perc(j) * bza * 10. !m3/d
+    ! final volume
+      hvol = sol_st(bz_lyr,j) * bza * 10.
+      rtof = 0.5
       
-	xx = qin / hru_ha(j) / 1000.
+      xx = qin / hru_ha(j) / 1000.
 
-	!! Failing system: STE saturates upper soil layers
-	if (isep_opt(j)==2) then
-	  
-	  ! increment the number of failing days
-	  if(sep_tsincefail(j)>0) sep_tsincefail(j) = sep_tsincefail(j) + 1
+    !! Failing system: STE saturates upper soil layers
+      if (isep_opt(j)==2) then
+
+      ! increment the number of failing days
+      if(sep_tsincefail(j)>0) sep_tsincefail(j) = sep_tsincefail(j) + 1
 
       ! convert the failing system into an active system if duration of failing ends
-	  if (sep_tsincefail(j) >= isep_tfail(j)) then
-	     isep_opt(j) = 1
+      if (sep_tsincefail(j) >= isep_tfail(j)) then
+         isep_opt(j) = 1
          sol_ul(bz_lyr,j)=bz_thk(j)*(sol_por(bz_lyr,j)-sol_wp(bz_lyr,j))
          sol_fc(bz_lyr,j)=bz_thk(j)*(sol_up(bz_lyr,j)-sol_wp(bz_lyr,j))
-		 sol_nh3(bz_lyr,j) = 0
-		 sol_no3(bz_lyr,j) = 0
-		 sol_orgn(bz_lyr,j) = 0
-		 sol_orgp(bz_lyr,j) = 0
-		 sol_fop(bz_lyr,j) = 0
-		 sol_solp(bz_lyr,j) = 0
+         sol_nh3(bz_lyr,j) = 0
+         sol_no3(bz_lyr,j) = 0
+         sol_orgn(bz_lyr,j) = 0
+         sol_orgp(bz_lyr,j) = 0
+         sol_fop(bz_lyr,j) = 0
+         sol_solp(bz_lyr,j) = 0
          sol_actp(bz_lyr,j) = 0
-		 biom(j) = 0		
+         biom(j) = 0
          plqm(j) = 0
-		 bio_bod(j) = 0
-		 fcoli(j) = 0
-		 sep_tsincefail(j) = 0
-	  end if
+         bio_bod(j) = 0
+         fcoli(j) = 0
+         sep_tsincefail(j) = 0
+      end if
 
-	  return
-	endif
+      return
+      endif
 
-	!! Active system
+    !! Active system
 
       bodi = bio_bod(j) * bza / qi * 1000.  !mg/l
 
-	!! Field capacity in the biozone Eq. 4-6  ! 
+    !! Field capacity in the biozone Eq. 4-6  !
       sol_fc(bz_lyr,j) = sol_fc(bz_lyr,j) + coeff_fc1(j) *              
      &   (sol_ul(bz_lyr,j) - sol_fc(bz_lyr,j)) ** coeff_fc2(j)          
      &      * rbiom(j) / (bio_bd(j) * 10)
 
-	!! Saturated water content in the biozone - Eq. 4-7    
-	! mm = mm - kg/ha / (kg/m^3 * 10)
+    !! Saturated water content in the biozone - Eq. 4-7
+    ! mm = mm - kg/ha / (kg/m^3 * 10)
       sol_ul(bz_lyr,j)=sol_por(bz_lyr,j)*bz_thk(j)-plqm(j)              
      &/(bio_bd(j)*10.)
 
-	if(sol_ul(bz_lyr,j).le.sol_fc(bz_lyr,j)) then
-	  sol_ul(bz_lyr,j) = sol_fc(bz_lyr,j)
-	  isep_opt(j) = 2
-	  failyr(j) = iida/365. + curyr - 1
-	endif
+      if(sol_ul(bz_lyr,j).le.sol_fc(bz_lyr,j)) then
+        sol_ul(bz_lyr,j) = sol_fc(bz_lyr,j)
+        isep_opt(j) = 2
+        failyr(j) = iida/365. + curyr - 1
+      endif
      
-	!! Respiration rate(kg/ha)  Eq. 4-2   
-	rrsp = ctmp * coeff_rsp(j) * biom(j) 
+    !! Respiration rate(kg/ha)  Eq. 4-2
+      rrsp = ctmp * coeff_rsp(j) * biom(j)
 
-	!! Mortality rate(kg/ha) Eq. 4-3      
-	rmort = ctmp * coeff_mrt(j) * biom(j) 
+    !! Mortality rate(kg/ha) Eq. 4-3
+      rmort = ctmp * coeff_mrt(j) * biom(j)
 
-	!! Slough-off rate(kg/ha)      
-	rslg = coeff_slg1(j) * bz_perc(j) ** coeff_slg2(j) * biom(j) 
-			
-	
-	!! Build up of plqm(kg/ha) Eq.4-5
-	! kg/ha (perday) = kg/ha + dimensionless * m^3/d * mg/l / (1000*ha)
+    !! Slough-off rate(kg/ha)
+      rslg = coeff_slg1(j) * bz_perc(j) ** coeff_slg2(j) * biom(j)
+
+
+    !! Build up of plqm(kg/ha) Eq.4-5
+    ! kg/ha (perday) = kg/ha + dimensionless * m^3/d * mg/l / (1000*ha)
       rplqm = (rmort - rslg) + coeff_plq(j) * qin *                     
      &                 spttssconcs(isp) / (1000. * bza)  
-	rplqm = max(0.,rplqm)
+      rplqm = max(0.,rplqm)
 
-	!! Add build up to plqm  ! kg/ha = kg/ha + kg/ha 
+    !! Add build up to plqm  ! kg/ha = kg/ha + kg/ha
       plqm(j) = plqm(j) + rplqm
-	
-!	bio_steintobz = coeff_bod_conv(j) * qvol * sptbodconcs(isp) / (1000. * bza)     
-!	bio_outbz = coeff_bod_conv(j) * qout * bodconc / (1000. * bza) + (rrsp + rmort + rslg)
-	nh3_inflw_ste = xx * sptnh4concs(isp)
-	no3_inflow_ste = xx * (sptno3concs(isp) + sptno2concs(isp)) 
-	nh3_begin = sol_nh3(bz_lyr,j)
-	no3_begin = sol_no3(bz_lyr,j)
-	solp_begin = sol_solp(bz_lyr,j)
 
-	!! Add STE f.coli concentration by volumetric averaging
+!    bio_steintobz = coeff_bod_conv(j) * qvol * sptbodconcs(isp) / (1000. * bza)
+!    bio_outbz = coeff_bod_conv(j) * qout * bodconc / (1000. * bza) + (rrsp + rmort + rslg)
+      nh3_inflw_ste = xx * sptnh4concs(isp)
+      no3_inflow_ste = xx * (sptno3concs(isp) + sptno2concs(isp))
+      nh3_begin = sol_nh3(bz_lyr,j)
+      no3_begin = sol_no3(bz_lyr,j)
+      solp_begin = sol_solp(bz_lyr,j)
+
+    !! Add STE f.coli concentration by volumetric averaging
       xx = 10.* sol_st(bz_lyr,j) * bza / (qin                           
      &     + 10.* sol_st(bz_lyr,j) * bza)
-	fcoli(j) = fcoli(j) * xx + sptfcolis(isp) * (1.- xx)  ! J.Jeong 3/09/09
-	
-	!! nutrients reaction rate (Equation 4-13)
-	rtrate =  biom(j) * bza / (bz_vol * sol_por(bz_lyr,j))
-		      
-	!! BOD (kg/ha) 4-14 ! 
- 	bod_rt = max(0.,coeff_bod_dc(j) * rtrate)		!bod
+      fcoli(j) = fcoli(j) * xx + sptfcolis(isp) * (1.- xx)  ! J.Jeong 3/09/09
+
+    !! nutrients reaction rate (Equation 4-13)
+      rtrate =  biom(j) * bza / (bz_vol * sol_por(bz_lyr,j))
+
+    !! BOD (kg/ha) 4-14 !
+      bod_rt = max(0.,coeff_bod_dc(j) * rtrate)        !bod
       if (bod_rt>4) bod_rt=4
-	rbod = bodi * (1.- Exp(-bod_rt))
-      bode = bodi - rbod					!mg/l
-	bio_bod(j) = bode * (sol_st(bz_lyr,j)*10)/1000. !kg/ha
+      rbod = bodi * (1.- Exp(-bod_rt))
+      bode = bodi - rbod                    !mg/l
+      bio_bod(j) = bode * (sol_st(bz_lyr,j)*10)/1000. !kg/ha
 
-	!! Fecal coliform(cfu/100ml) Eq 4-14, J.Jeong 3/09/09
-	fcoli_rt = max(0.,coeff_fecal(j) * rtrate)		!fecal coliform
-	rfcoli = fcoli(j) * (1.- exp(-fcoli_rt))
-	fcoli(j) = fcoli(j) - rfcoli
+    !! Fecal coliform(cfu/100ml) Eq 4-14, J.Jeong 3/09/09
+      fcoli_rt = max(0.,coeff_fecal(j) * rtrate)        !fecal coliform
+      rfcoli = fcoli(j) * (1.- exp(-fcoli_rt))
+      fcoli(j) = fcoli(j) - rfcoli
 
-	!! change in nh3 & no3 in soil pools due to nitrification(kg/ha) Eq.4-13, 4-14  
-	ntr_rt = max(0.,coeff_nitr(j) * rtrate)			!nitrification
-	rnit = sol_nh3(bz_lyr,j) * (1. - Exp(-ntr_rt)) !! J.Jeong 4/03/09
-	sol_nh3(bz_lyr,j) = sol_nh3(bz_lyr,j) - rnit	!J.Jeong 3/09/09
-	sol_no3(bz_lyr,j) = sol_no3(bz_lyr,j) + rnit	!J.Jeong 3/09/09
-	
-	!ammonium percolation
-	nperc = 0.2 * qout / qi * sol_nh3(bz_lyr,j)
-	nperc = min(nperc,0.5*sol_nh3(bz_lyr,j))
-	sol_nh3(bz_lyr,j) = sol_nh3(bz_lyr,j) - nperc
-	sol_nh3(bz_lyr+1,j) = sol_nh3(bz_lyr+1,j) + nperc
+    !! change in nh3 & no3 in soil pools due to nitrification(kg/ha) Eq.4-13, 4-14
+      ntr_rt = max(0.,coeff_nitr(j) * rtrate)            !nitrification
+      rnit = sol_nh3(bz_lyr,j) * (1. - Exp(-ntr_rt)) !! J.Jeong 4/03/09
+      sol_nh3(bz_lyr,j) = sol_nh3(bz_lyr,j) - rnit    !J.Jeong 3/09/09
+      sol_no3(bz_lyr,j) = sol_no3(bz_lyr,j) + rnit    !J.Jeong 3/09/09
 
-	!! denitrification,(kg/ha) Eq 4-14  
-	dentr_rt = max(0.,coeff_denitr(j) * rtrate)		!denitrification
-      rdenit = sol_no3(bz_lyr,j) * (1. - Exp(-dentr_rt))	!J.Jeong 3/09/09
-	sol_no3(bz_lyr,j) = sol_no3(bz_lyr,j) - rdenit		!J.Jeong 3/09/09
+    !ammonium percolation
+      nperc = 0.2 * qout / qi * sol_nh3(bz_lyr,j)
+      nperc = min(nperc,0.5*sol_nh3(bz_lyr,j))
+      sol_nh3(bz_lyr,j) = sol_nh3(bz_lyr,j) - nperc
+      sol_nh3(bz_lyr+1,j) = sol_nh3(bz_lyr+1,j) + nperc
 
- 	!soil volume for sorption: soil thickness below biozone !m3
+    !! denitrification,(kg/ha) Eq 4-14
+      dentr_rt = max(0.,coeff_denitr(j) * rtrate)        !denitrification
+      rdenit = sol_no3(bz_lyr,j) * (1. - Exp(-dentr_rt))    !J.Jeong 3/09/09
+      sol_no3(bz_lyr,j) = sol_no3(bz_lyr,j) - rdenit        !J.Jeong 3/09/09
+
+      ! soil volume for sorption: soil thickness below biozone !m3
       svolp = (sol_z(nly,j) - bz_z(j)) * bza * 10.*(1-sol_por(bz_lyr,j))
    
    !max adsorption amnt: linear isotherm, McCray 2005
       solpconc = sol_solp(bz_lyr,j) * bza / qi * 1000. !mg/l
-	solpsorb = min(coeff_pdistrb(j) * solpconc,coeff_psorpmax(j)) !mgP/kgSoil
-	solpsorb = 1.6 * 1.e-3 * solpsorb * svolp  !kgP sorption potential	
+      solpsorb = min(coeff_pdistrb(j) * solpconc,coeff_psorpmax(j)) !mgP/kgSoil
+      solpsorb = 1.6 * 1.e-3 * solpsorb * svolp  !kgP sorption potential
 
   !check if max. P sorption is reached 
       if(sol_solp(bz_lyr,j)*bza<solpsorb) then
@@ -294,30 +294,30 @@
       endif
       
       solpconc = sol_solp(bz_lyr,j) * bza / qi * 1000. !mg/l
-	plch = solpconc * qout / bza * 1.e-3 !kg/ha
-	sol_solp(bz_lyr,j) = sol_solp(bz_lyr,j) - plch !kg/ha
-      sol_solp(bz_lyr+1,j) = sol_solp(bz_lyr+1,j) + plch !kg/ha	     
+      plch = solpconc * qout / bza * 1.e-3 !kg/ha
+      sol_solp(bz_lyr,j) = sol_solp(bz_lyr,j) - plch !kg/ha
+      sol_solp(bz_lyr+1,j) = sol_solp(bz_lyr+1,j) + plch !kg/ha
       nh3_end = sol_nh3(bz_lyr,j)
-	no3_end = sol_no3(bz_lyr,j)
+      no3_end = sol_no3(bz_lyr,j)
       solp_end = sol_solp(bz_lyr,j)  
 
-	!! daily change in live bacteria biomass(kg/ha) Eq. 4-1 
-	! kg/ha = m^3 * mg/L/(1000.*ha)6
+    !! daily change in live bacteria biomass(kg/ha) Eq. 4-1
+    ! kg/ha = m^3 * mg/L/(1000.*ha)6
       rbiom(j) = ctmp * coeff_bod_conv(j)*(qin*sptbodconcs(isp)-qout 
      &         * bode) / (1000. * bza) - (rrsp + rmort + rslg)         
       rbiom(j) = max(1.e-06,rbiom(j))
 
-	!! total live biomass in biozone(kg/ha)    
-	biom(j) = biom(j) + rbiom(j)
+    !! total live biomass in biozone(kg/ha)
+      biom(j) = biom(j) + rbiom(j)
 
-	!! summary calculations  
+    !! summary calculations
       if (curyr > nyskip) then
         wshd_nitn = wshd_nitn + rnit * hru_dafr(j)
         wshd_dnit = wshd_dnit + rdenit * hru_dafr(j)
         wdntl = wdntl + rdenit
       end if
-	       
-	!! print out time seriese results. header is in "readfile.f"
+
+    !! print out time seriese results. header is in "readfile.f"
       if(curyr>nyskip) then
          n2=nh3_begin
          n3=nh3_end
@@ -329,10 +329,10 @@
          p3=solp_end
          p4 = solpconc
 
-	write(173,1000) ihru,iyr,iida,precipday,bz_perc(j),sol_ul(bz_lyr,j),
+      write(173,1000) ihru,iyr,iida,precipday,bz_perc(j),sol_ul(bz_lyr,j),
      &  sol_st(bz_lyr,j),sol_fc(bz_lyr,j),n2,n3,n5,n6,   
      &  n7,n8,p2,p3,p4
-	endif 	
+      endif
 
 !! output.std variables added 03/01/2011 jga
         wshd_sepno3 = wshd_sepno3 + xx * (sptno3concs(isp) +            

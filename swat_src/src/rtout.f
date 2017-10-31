@@ -317,7 +317,7 @@
           hhvaroute(2,ihout,ii) = hrtwtr(ii)     ! urban modeling by J.Jeong
           hhvaroute(3,ihout,ii) = hsedyld(ii)  ! urban modeling by J.Jeong 
 
-	! From this point, check each variables if it is simulated at subdaily interval before using the output - Jaehak 9/11/09
+    ! From this point, check each variables if it is simulated at subdaily interval before using the output - Jaehak 9/11/09
          hhvaroute(1,ihout,ii) = 0.
 !          hhvaroute(2,ihout,ii) = hrtwtr(ii)
 !          hhvaroute(3,ihout,ii) = hsedyld(ii)
@@ -355,10 +355,10 @@
         end do
       end if
 
-!! set subdaily reach output    - by jaehak jeong for urban project, subdaily output in output.rch file
-	if (ievent==1.and.iprint==3) then
-	  do ii=1,nstep
-!! determine sediment concentration in outflow
+      !! set subdaily reach output    - by jaehak jeong for urban project, subdaily output in output.rch file
+      if (ievent==1.and.iprint==3) then
+        do ii=1,nstep
+          !! determine sediment concentration in outflow
           sedcon = 0.
           if (hrtwtr(ii) > 0.01) then
             sedcon = hsedyld(ii) / hrtwtr(ii) * 1.e6
@@ -373,8 +373,8 @@
           rchhr(5,jrch,ii) = hhvaroute(3,inum2,ii) * (1. - rnum1)!!sed in (tons)
           rchhr(6,jrch,ii) = hsedyld(ii)                         !!sed out (tons)
           rchhr(7,jrch,ii) = sedcon                              !!sed conc (mg/L)
-	  end do
-	endif
+        end do
+      endif
 
 !! determine sediment concentration in outflow
       sedcon = 0.
@@ -439,7 +439,7 @@
 !!    sediment routing 
 !!    Assumed all silt for default sediment routine
 !!    For other sediment routing models particle size are tracked
-       if (ch_eqn(jrch) .NE. 0) then
+      if (ch_eqn(jrch) .NE. 0) then
        rchdy(43,jrch) = varoute(23,inum2) * (1. - rnum1)  !!sand in   
        rchdy(44,jrch) = varoute(23,ihout)                 !!sand out   
        rchdy(45,jrch) = varoute(24,inum2) * (1. - rnum1)  !!silt in    
@@ -452,7 +452,7 @@
        rchdy(52,jrch) = varoute(27,ihout)                 !!lg ag out  
        rchdy(53,jrch) = varoute(28,inum2) * (1. - rnum1)  !!gravel in
        rchdy(54,jrch) = varoute(28,ihout)                 !!gravel out
-	 else
+      else
        rchdy(43,jrch) = 0.                 !!sand in   
        rchdy(44,jrch) = 0.                 !!sand out   
        rchdy(45,jrch) = varoute(3,inum2) * (1. - rnum1)   !!silt in    
@@ -465,7 +465,7 @@
        rchdy(52,jrch) = 0.                 !!lg ag out  
        rchdy(53,jrch) = 0.                 !!gravel in
        rchdy(54,jrch) = 0.                 !!gravel out
-       end if
+      end if
 
 !! summarize monthly reach output
       rchmono(1,jrch) = rchmono(1,jrch) + rchdy(1,jrch)
@@ -526,7 +526,7 @@
        rchmono(55,jrch) = rchmono(55,jrch) + rchdy(56,jrch)
        rchmono(56,jrch) = rchmono(56,jrch) + rchdy(57,jrch)
        rchmono(57,jrch) = rchmono(57,jrch) + rchdy(58,jrch)
-	   rchmono(58,jrch) = rchmono(58,jrch) + rchdy(59,jrch)
+       rchmono(58,jrch) = rchmono(58,jrch) + rchdy(59,jrch)
       
       return
       end

@@ -71,7 +71,7 @@
             irrsalt(ihru) = mgt5op(nop(j),j)
             irrefm(ihru) = mgt6op(nop(j),j)
             irrsq(ihru) = mgt7op(nop(j),j)
-	      irr_flag(ihru) = 1
+          irr_flag(ihru) = 1
             
             if (irrefm(ihru) < 1.e-6) irrefm(ihru)=1.0
             if (irr_sc(j) <= 0) irr_sc(j) = irrsc(j)
@@ -202,7 +202,7 @@
             ndeat(j) = 0
             igrz(j) = 1
           
-            if (manure_kg(j) < = 0.) then 
+            if (manure_kg(j) <= 0.) then
               manure_kg(j) = 0.95 * mgt4op(nop(j),j)
             end if
             call graze

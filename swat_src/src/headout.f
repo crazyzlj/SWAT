@@ -61,14 +61,14 @@
       write (28,1000) prog, values(2), values(3), values(1), values(5), 
      &               values(6), values(7)
       write (28,1010) title
-	
+
 
       if (ipdvas(1) > 0) then
         if (icalen == 0) write (28,1020) (heds(ipdvas(j)), j = 1, itots) !!custom printout
         if (icalen == 1) write (28,1021) (heds(ipdvas(j)), j = 1, itots) !!custom printout
-	else
+      else
         if (icalen == 0) write (28,1020) (heds(j), j = 1, mhruo)         !!default printout
-	  if (icalen == 1) write (28,1021) (heds(j), j = 1, mhruo)         !!default printout	  
+      if (icalen == 1) write (28,1021) (heds(j), j = 1, mhruo)         !!default printout
       endif
 
 !! write headings to HRU output file (output2.hru)
@@ -110,16 +110,16 @@
          if (icalen == 1) write (7,1042) (hedr(ipdvar(j)), j = 1, itotr)  !! daily output - calendar day
  1042 format (//7x,'RCH      GIS  MO DA   YR     AREAkm2',56a12)
         
-	  else
-	    write (7,1041) (hedr(ipdvar(j)), j = 1, itotr)  !! subdaily output
-	  endif
+      else
+        write (7,1041) (hedr(ipdvar(j)), j = 1, itotr)  !! subdaily output
+      endif
       else     !! default printout
          if (iprint /= 3) then
            if (icalen == 0) write (7,1040) (hedr(j), j = 1, mrcho)       !! daily/monthly output - julian day
            if (icalen == 1) write (7,1042) (hedr(j), j = 1, mrcho)       !! daily output - calendar day
- 	  else
+       else
             write (7,1041) (hedr(j), j = 1, mrcho)          !! subdaily output
- 	  endif
+       endif
       endif 
 
 !! write headings to reach output file (output2.rch)
@@ -189,7 +189,7 @@
  1020 format (//'LULC  HRU       GIS  SUB  MGT  MON','   AREAkm2',      
      & 79(a10))
  1021  format (//'LULC  HRU       GIS  SUB  MGT MO DA   YR',            
-     &'   AREAkm2', 79(a10))	   
+     &'   AREAkm2', 79(a10))
  1030 format (//6x,' SUB      GIS  MON   AREAkm2',24(a10))
  1040 format (//7x,'RCH      GIS   MON     AREAkm2',56a12)
  1041 format (//7x,'RCH      GIS   DAY   DET     AREAkm2',56a12)    

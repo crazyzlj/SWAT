@@ -116,10 +116,10 @@
 
       if (iprint == 1.or.iprint==3) then
         if (da_ha < 1.e-9) then
-	    call rchday
-	    call rseday
-	    return
-	  end if
+        call rchday
+        call rseday
+        return
+      end if
 
         !! daily write to output.std
         if (iscen == 1) then

@@ -133,15 +133,15 @@
           end if
 
             !! Set parameters based on manual or auto irrigation
-			if (flag == 1) then
-			  sq_rto = irrsq(k)
-			  irrsc(k) = irr_sc(k)                              
-			  irrno(k) = irr_no(k)
-			else
-			  sq_rto = irr_asq(k)
-			  irrsc(k) = irr_sca(k)
-			  irrno(k) = irr_noa(k)                   
-			endif
+            if (flag == 1) then
+              sq_rto = irrsq(k)
+              irrsc(k) = irr_sc(k)
+              irrno(k) = irr_no(k)
+            else
+              sq_rto = irr_asq(k)
+              irrsc(k) = irr_sca(k)
+              irrno(k) = irr_noa(k)
+            endif
 
         if (irrsc(k) == 1 .and. irrno(k) == jrch) then
           aird(k) = 0.                                          
@@ -204,7 +204,7 @@
                     if (hrtwtr(ii) < 0.) hrtwtr(ii) = 0.
                   end do
                 end if
-!!                xx = vol     							                           !! BN: replaced "wtrin" with "vol"
+!!                xx = vol                                                            !! BN: replaced "wtrin" with "vol"
                 vol = vol / irr_eff(k)   !! BN: inserted to account for irr. efficiency                                             
                 xx = (wtr_avail - flowmin(k) * 86400.) * flowfr(k)                 !! BN: inserted: xx = available/allowed amount in m3/s
                 xx = Min(xx, vol)                                                  !! BN: inserted abstracted water cannot be more than allowed/available amount
@@ -252,14 +252,14 @@
         rch_gra = rch_gra * rtwtr / wtrin
 
         if (sedrch  < 1.e-6) then
-	    sedrch = 0.
-	    rch_san = 0.
+        sedrch = 0.
+        rch_san = 0.
           rch_sil = 0.
           rch_cla = 0.
           rch_sag = 0.
           rch_lag = 0.
           rch_gra = 0.
-	  end if
+      end if
 
         if (ievent > 0) then
           do ii = 1, nstep

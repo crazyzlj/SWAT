@@ -106,7 +106,7 @@
         
         ! bug fix by pdw
         ! old code: if ((1. - b) > 1.e-20) then
-				! new code:
+                ! new code:
         if ((1. - b) .GE. 0.) then 
         ! end fix pdw
         

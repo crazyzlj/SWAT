@@ -2,10 +2,10 @@
 
       use parm
       integer nly, n, j, jj
-	  integer :: flag
-	  real, intent(in):: dep_new
-	  real :: xx
-	  nly = sol_nly(ihru)
+      integer :: flag
+      real, intent(in):: dep_new
+      real :: xx
+      nly = sol_nly(ihru)
 
 !!    create a septic layer
 !! changed all sol_zmx(ihru) in subroutine to dep_new 1/27/09 gsm 
@@ -45,15 +45,15 @@
             sol_mc(n,ihru) = sol_mc(n-1,ihru)
             sol_mn(n,ihru) = sol_mn(n-1,ihru)
             sol_mp(n,ihru) = sol_mp(n-1,ihru)
-		    sol_n(n,ihru) = sol_n(n-1,ihru)
-		    sol_ph(n,ihru) = sol_ph(n-1,ihru) !! MJW rev 490
-		    sol_cal(n,ihru) = sol_cal(n-1,ihru) !! MJW rev 490
+            sol_n(n,ihru) = sol_n(n-1,ihru)
+            sol_ph(n,ihru) = sol_ph(n-1,ihru) !! MJW rev 490
+            sol_cal(n,ihru) = sol_cal(n-1,ihru) !! MJW rev 490
 
           end do
           sol_z(j,ihru) = dep_new
         end if
         if (flag == 1) exit
       end do
-	
-	iseptic = j 
+
+      iseptic = j
       end             

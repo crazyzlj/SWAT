@@ -105,23 +105,23 @@
 
       real :: cod, sus_sol, tn, tp, urbk, dirto, qdt
       real :: tno3
-	real*8 :: dirt
+      real*8 :: dirt
       integer :: j, k 
 
       j = 0
       j = ihru
 
 
-	do k = 1, nstep
+      do k = 1, nstep
 
         select case (iurban(j))
 
           case (1,2)       !! build-up/wash-off algorithm
 
           !! rainy day: no build-up, street cleaning allowed
-		  
-		   qdt = ubnrunoff(k) * 60./ real(idt) !urban runoff in mm/hr
-	      if (qdt > 0.025 .and. surfq(j) > 0.1) then   ! SWMM : 0.001 in/hr (=0.0254mm/hr)
+
+           qdt = ubnrunoff(k) * 60./ real(idt) !urban runoff in mm/hr
+          if (qdt > 0.025 .and. surfq(j) > 0.1) then   ! SWMM : 0.001 in/hr (=0.0254mm/hr)
        
           !! calculate amount of dirt on streets prior to wash-off
               dirt = 0.
@@ -159,7 +159,7 @@
      &                                            (1. - fimp(urblu(j)))
               surqsolp(j) = .25 * tp * fimp(urblu(j)) + surqsolp(j) * 
      &                                            (1. - fimp(urblu(j)))
-	      else
+          else
           !! no surface runoff
               twash(j) = twash(j) + idt / 1440.
  
@@ -175,26 +175,26 @@
           end if
         end if
         end select
-	  sus_sol=0
-	  
-	  ! Compute evaporation of water (initial abstraction) from impervious cover
-	  init_abstrc(j) = init_abstrc(j) - etday / nstep
-	  init_abstrc(j) = max(0.,init_abstrc(j))
-	end do
+        sus_sol=0
+
+        ! Compute evaporation of water (initial abstraction) from impervious cover
+        init_abstrc(j) = init_abstrc(j) - etday / nstep
+        init_abstrc(j) = max(0.,init_abstrc(j))
+      end do
 
       !! perform street sweeping
       if(surfq(j) < 0.1) then
-	  if (isweep(j) > 0 .and. iida >= isweep(j)) then
+      if (isweep(j) > 0 .and. iida >= isweep(j)) then
                 call sweep
         else if (phusw(j) > 0.0001) then
           if (igro(j) == 0) then
             if (phubase(j) > phusw(j)) then
-		    call sweep
-	      endif
+            call sweep
+          endif
           else 
             if (phuacc(j) > phusw(j)) then
-		    call sweep
-	      endif
+            call sweep
+          endif
           end if
         end if
       end if

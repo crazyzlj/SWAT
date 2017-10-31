@@ -169,7 +169,7 @@
 
       !!add by zhang
       !!====================
-      !!use idplt(:,:,:) to calculate the crop type, then
+      !! use idplt(:) to calculate the crop type, then
       !! decide which type of crop yield should be used.
       if (cswat == 2) then
         grainc_d(j) = grainc_d(j)+ yield * 0.42

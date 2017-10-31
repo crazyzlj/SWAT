@@ -11,7 +11,7 @@
 !!                               |of the USLE C factor for the land cover)
 !!    hru_km(:)   |km**2         |area of HRU in square kilometers
 !!    icr(:)      |none          |sequence number of crop grown within a year
-!!    idplt(:,:,:)|none          |land cover code from crop.dat
+!!    idplt(:)    |none          |land cover code from crop.dat
 !!    ihru        |none          |HRU number
 !!    iwave       |none          |flag to differentiate calculation of HRU and
 !!                               |subbasin sediment calculation
@@ -70,14 +70,14 @@
       if (icfac == 0) then
         if (idplt(j) > 0) then     
           c = Exp((-.2231 - cvm(idplt(j))) *                            
-     &	      Exp(-.00115 * sol_cov(j)) + cvm(idplt(j)))              
+     &          Exp(-.00115 * sol_cov(j)) + cvm(idplt(j)))
         else
           if (sol_cov(j) > 1.e-4) then
             c = Exp(-.2231 * Exp(-.00115 * sol_cov(j)))               
           else
             c = .8
           end if
-	  end if
+      end if
       else
         rsd_frcov = Exp(-rsd_covco * sol_cov(j))
         grcov_fr = laiday(j) / (laiday(j) + 

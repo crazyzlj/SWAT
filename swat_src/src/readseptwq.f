@@ -79,7 +79,7 @@
 !!    septic database filename present in file.cio
       if (septdb /= '             ') then
         open (171,file=septdb)
-	
+
 
 !!    read title lines
          do ii = 1, 4
@@ -89,55 +89,55 @@
      
       do 
        
-	  sptname = ""
-	  idspttype = 0 
- 	  sptq = 0.
-	  sptbodin = 0.
-	  spttssconc = 0.
-	  spttnconc = 0.
-	  sptnh4conc = 0.
-	  sptno3conc = 0.
-	  sptno2conc = 0.
-	  sptorgnconc = 0.
-	  spttpconc = 0.
-	  sptminp = 0.
-	  sptorgp = 0.
-	  sptfcoli = 0.
+      sptname = ""
+      idspttype = 0
+       sptq = 0.
+      sptbodin = 0.
+      spttssconc = 0.
+      spttnconc = 0.
+      sptnh4conc = 0.
+      sptno3conc = 0.
+      sptno2conc = 0.
+      sptorgnconc = 0.
+      spttpconc = 0.
+      sptminp = 0.
+      sptorgp = 0.
+      sptfcoli = 0.
      
 
         read (171,6000,iostat=eof)ist,sptname,sptfullname,idspttype,
      &  sptq,sptbodin,spttssconc,spttnconc,sptnh4conc,sptno3conc,
      &  sptno2conc,sptorgnconc,spttpconc,sptminp,sptorgp,sptfcoli
 
-	  if (eof < 0) exit
+      if (eof < 0) exit
         if (ist == 0) exit
 
-	! Assign default values for missing data
-	  if (abs(sptnh4conc-0)<1.e-5.and.abs(sptno3conc-0.)<1.e-5) then
-	    sptnh4conc = spttnconc * 0.8
-	    sptno3conc = spttnconc * 0.2
-	  endif
-	  if (abs(spttpconc-0)<1.e-5.and.abs(sptminp-0)<1.e-5
+    ! Assign default values for missing data
+      if (abs(sptnh4conc-0)<1.e-5.and.abs(sptno3conc-0.)<1.e-5) then
+        sptnh4conc = spttnconc * 0.8
+        sptno3conc = spttnconc * 0.2
+      endif
+      if (abs(spttpconc-0)<1.e-5.and.abs(sptminp-0)<1.e-5
      &  .and.abs(sptorgp-0)<1.e-5) then
-	    sptminp = 5.1
-	    sptorgp = 0.9
-	  endif
-	  
-!	assign a flag to identify which septic system (1-26) should be selected
+        sptminp = 5.1
+        sptorgp = 0.9
+      endif
 
-	  sptnames(ist) = sptname
- 	  sptqs(ist) = sptq  
-	  sptbodconcs(ist) = sptbodin
-	  spttssconcs(ist) = spttssconc
-	  spttnconcs(ist) = spttnconc
-	  sptnh4concs(ist) = sptnh4conc
-	  sptno3concs(ist) = sptno3conc
-	  sptno2concs(ist) = sptno2conc
-	  sptorgnconcs(ist) = sptorgnconc
-	  spttpconcs(ist) = spttpconc
-	  sptminps(ist) = sptminp
-	  sptorgps(ist) = sptorgp
-	  sptfcolis(ist) = sptfcoli
+!    assign a flag to identify which septic system (1-26) should be selected
+
+      sptnames(ist) = sptname
+       sptqs(ist) = sptq
+      sptbodconcs(ist) = sptbodin
+      spttssconcs(ist) = spttssconc
+      spttnconcs(ist) = spttnconc
+      sptnh4concs(ist) = sptnh4conc
+      sptno3concs(ist) = sptno3conc
+      sptno2concs(ist) = sptno2conc
+      sptorgnconcs(ist) = sptorgnconc
+      spttpconcs(ist) = spttpconc
+      sptminps(ist) = sptminp
+      sptorgps(ist) = sptorgp
+      sptfcolis(ist) = sptfcoli
        
       end do
       else

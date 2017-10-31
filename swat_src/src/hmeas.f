@@ -78,7 +78,7 @@
         !! assign relative humidity data to HRUs
         inum3sprev = 0
         do k = 1, nhru 
-	    !! generate values to replace missing data
+        !! generate values to replace missing data
           if (rhmeas(ihgage(hru_sub(k))) <  -97.) then
           !! use same generated data for all HRUs in a subbasin
             if (hru_sub(k) == inum3sprev .and. hru_sub(k) /= 0) then
@@ -92,16 +92,16 @@
               rhdbsb = rhd(k)
             end if
           else
-!!	      if (i == 1) then
- 	  	  if (rhmeas(ihgage(hru_sub(k))) < 1. .and.                    
+!!          if (i == 1) then
+             if (rhmeas(ihgage(hru_sub(k))) < 1. .and.
      *                             rhmeas(ihgage(hru_sub(k))) > 0.) then
- 	        rhd(k) = rhmeas(ihgage(hru_sub(k))) 
+             rhd(k) = rhmeas(ihgage(hru_sub(k)))
             else
               tmpmean=(tmpmx(i_mo,hru_sub(k))+tmpmn(i_mo,hru_sub(k)))/2.
               rhd(k) = Ee(rhmeas(ihgage(hru_sub(k)))) / Ee(tmpmean)
             endif  
           end if
-	  end do
+      end do
 
       return
 ! 5200 format (7x,300f8.3)
