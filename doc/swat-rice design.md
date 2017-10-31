@@ -1,4 +1,4 @@
-# 水田（Paddy rice）模拟改进
+# 水稻田（Rice paddy）模拟改进
 
 ## 1. 基本思路
 将水田作为独立HRU，通过 `idplt(j) == 33` 判断当前HRU是否为水田，在不同
@@ -19,7 +19,7 @@
 
 参考文献中均未提及水稻田的冠层截留，在`canopyint.f`中，输入为当日降雨量`subp(j)`，输出为到达土壤的有效降雨`precipday`，该变量在后续计算中反复更新，所以，是否应该将此公式改为：
 
-![latex-P-Interc \cdot0.85-P\cdot\beta\cdot0.15](https://latex.codecogs.com/png.latex?P-Interc%20%5Ccdot0.85-P%5Ccdot%5Cbeta%5Ccdot0.15)
+![latex-P_{0}=P-Interc \cdot0.85-P\cdot\beta\cdot0.15](https://latex.codecogs.com/png.latex?P_%7B0%7D%3DP-Interc%20%5Ccdot0.85-P%5Ccdot%5Cbeta%5Ccdot0.15)
 
 其中，*Interc*为冠层截留雨量, mm。
 
@@ -41,7 +41,7 @@
     canstor(j) = canmxl
   endif
   if (idplt(j) == 33) then  ! paddy rice HRU
-    ! water added into ditches from canal, should be added to somewhere else.
+    ! water added into ditches from low embankment, should be added to somewhere else.
     wtr2canal = precipday * wtr2canal_beta * 0.15
     precipday = precipday - caninterc * 0.85 - wtr2canal
   else
