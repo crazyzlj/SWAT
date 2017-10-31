@@ -28,7 +28,10 @@ elseif (Fortran_COMPILER_NAME MATCHES "ifort.*")
   # ifort
   message(STATUS "Compiling with intel fortran (ifort)...")
   set (CMAKE_Fortran_FLAGS_RELEASE "-f77rtl -O3 -warn all -warn notruncated_source -warn nounused -diag-disable 8291 -diag-disable 8290 -diag-disable 5415")
-  set (CMAKE_Fortran_FLAGS_DEBUG   "-f77rtl -O3 -check all -check nopointers -warn all -warn notruncated_source -warn nounused -diag-disable 8291 -diag-disable 8290 -diag-disable 5415")
+  set (CMAKE_Fortran_FLAGS_DEBUG   "-f77rtl -O0 -check all -check nopointers -warn all -warn notruncated_source -warn nounused -diag-disable 8291 -diag-disable 8290 -diag-disable 5415")
+  if (WIN32)
+    set(CMAKE_Fortran_FLAGS_DEBUG_INIT "/D_DEBUG /MTd /Zi /Ob0 /Od /RTC1")
+  endif ()
 elseif (Fortran_COMPILER_NAME MATCHES "g77")
   # g77
   message(STATUS "Compiling with g77...")
