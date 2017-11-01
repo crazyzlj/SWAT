@@ -80,25 +80,24 @@
         return
       end if
 
-        !! COMPUTE LATERAL FLOW USING HILLSLOPE STORAGE METHOD
-        if (ly1 == 1) then
-          yy = 0.
-        else
-          yy = 0.
-          yy = sol_z(ly1-1,j)
-        end if
+      !! COMPUTE LATERAL FLOW USING HILLSLOPE STORAGE METHOD
+      if (ly1 == 1) then
+        yy = 0.
+      else
+        yy = 0.
+        yy = sol_z(ly1-1,j)
+      end if
 
-        dg = 0.
-        ho = 0.
-        latlyr = 0.
-        dg = sol_z(ly1,j) - yy
-        if (abs(sol_ul(ly1,j) - sol_fc(ly1,j)) < 1.e-5) then
-          ho=0.
-        else
-          ho = 2. * sw_excess / ((sol_ul(ly1,j) - sol_fc(ly1,j)) /  dg)
-        end if
-        latlyr = adjf * ho * sol_k(ly1,j) * hru_slp(j) / slsoil(j)      
-     &                                                            * .024
+      dg = 0.
+      ho = 0.
+      latlyr = 0.
+      dg = sol_z(ly1,j) - yy
+      if (abs(sol_ul(ly1,j) - sol_fc(ly1,j)) < 1.e-5) then
+        ho=0.
+      else
+        ho = 2. * sw_excess / ((sol_ul(ly1,j) - sol_fc(ly1,j)) /  dg)
+      end if
+      latlyr = adjf * ho * sol_k(ly1,j) * hru_slp(j) / slsoil(j) * .024
 
       if (latlyr < 0.) latlyr = 0. 
       if (latlyr > sw_excess) latlyr = sw_excess

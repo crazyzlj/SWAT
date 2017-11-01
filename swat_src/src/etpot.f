@@ -66,7 +66,7 @@
 !!    gma         |kPa/deg C     |psychrometric constant
 !!    j           |none          |HRU number
 !!    pb          |kPa           |mean atmospheric pressure
-!!    pet_alpha  |none           |alpha factor in Priestley-Taylor PET equation
+!!    pet_alpha   |none          |alpha factor in Priestley-Taylor PET equation
 !!    ralb        |MJ/m2         |net incoming radiation for PET
 !!    ralb1       |MJ/m2         |net incoming radiation
 !!    ramm        |MJ/m2         |extraterrestrial radiation

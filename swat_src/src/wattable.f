@@ -1,48 +1,29 @@
       subroutine wattable
       
 !!    ~ ~ ~ PURPOSE ~ ~ ~
-!!    this subroutine is the master soil percolation component.
+!!    this subroutine computes water table depth using climate drivers.
 
 !!    ~ ~ ~ INCOMING VARIABLES ~ ~ ~
 !!    name        |units         |definition
 !!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
-!!    icrk        |none          |crack flow code
-!!                               |1 simulate crack flow in watershed
-!!    inflpcp     |mm H2O        |amount of precipitation that infiltrates
-!!                               |into soil (enters soil)
 !!    ihru        |none          |HRU number
-!!    sol_fc(:,:) |mm H2O        |amount of water available to plants in soil
-!!                               |layer at field capacity (fc - wp)
-!!    sol_nly(:)  |none          |number of layers in soil profile
-!!    sol_st(:,:) |mm H2O        |amount of water stored in the soil layer on
-!!                               |the current day (less wp water)
-!!    sol_ul(:,:) |mm H2O        |amount of water held in the soil layer at
-!!                               |saturation
-!!    voltot      |mm            |total volume of cracks expressed as depth
-!!                               |per unit area
-!!    watab       |mm            |water table based on 30 day antecedent
+!!    nd_30       |none          |day index of 30 days loop
+!!    wtab        |mm            |water table based on 30 day antecedent
 !!                               | climate (precip,et)
 !!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
 
 !!    ~ ~ ~ OUTGOING VARIABLES ~ ~ ~
 !!    name        |units         |definition
 !!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
-!!    flat(:,:)   |mm H2O        |lateral flow storage array
-!!    latlyr      |mm H2O        |lateral flow in soil layer for the day
-!!    latq(:)     |mm H2O        |total lateral flow in soil profile for the 
-!!                               |day in HRU
-!!    lyrtile     |mm H2O        |drainage tile flow in soil layer for day
-!!    qtile       |mm H2O        |drainage tile flow in soil profile for the day
-!!    sepday      |mm H2O        |micropore percolation from soil layer
-!!    sepbtm(:)   |mm H2O        |percolation from bottom of soil profile for
-!!                               |the day in HRU
-!!    sol_prk(:,:)|mm H2O        |percolation storage array
-!!    sol_st(:,:) |mm H2O        |amount of water stored in the soil layer on
-!!                               |the current day (less wp water)
-!!    sol_sw(:)   |mm H2O        |amount of water stored in the soil profile
-!!                               |on current day
-!!    sw_excess   |mm H2O        |amount of water in excess of field capacity
-!!                               |stored in soil layer on the current day
+!!    added by ljzhu, 11/01/2017
+!!    wtab_mn(:)  |mm H2O        |min
+!!    wtab_mx(:)  |mm H2O        |max
+!!    wtab        |mm            |water table based on 30 day antecedent
+!!                               | climate (precip,et)
+!! rfqeo_30d(30,:)|mm H2O        |remainer water in the last 30 days based on climate
+!!                               |(precipday - qday - pet_day)
+!!    eo_30d(30,:)|mm H2O        |pet in the last 30 days
+!!    added by ljzhu, 11/01/2017
 !!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
 
 !!    ~ ~ ~ LOCAL DEFINITIONS ~ ~ ~
@@ -53,8 +34,8 @@
 !!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
 
 !!    ~ ~ ~ SUBROUTINES/FUNCTIONS CALLED ~ ~ ~
-!!    Intrinsic: Max
-!!    SWAT: percmacro, percmicro
+!!    Intrinsic:
+!!    SWAT:
 
 !!    ~ ~ ~ ~ ~ ~ END SPECIFICATIONS ~ ~ ~ ~ ~ ~
 
