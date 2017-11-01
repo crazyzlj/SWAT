@@ -31,3 +31,4 @@
 .idea
 cmake-build*/
 build*/
+bin
