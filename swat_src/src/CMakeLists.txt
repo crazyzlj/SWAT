@@ -29,3 +29,9 @@ set_target_properties(swat PROPERTIES
         )
 
 install(TARGETS swat RUNTIME DESTINATION ${INSTALL_DIR})
+
+### For CLion to implement the "make install" command
+add_custom_target(install_${PROJECT_NAME}
+        $(MAKE) install
+        DEPENDS swat
+        COMMENT "Installing ${PROJECT_NAME}")
