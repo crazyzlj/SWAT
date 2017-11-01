@@ -879,7 +879,7 @@
       !!SOM-residue C/N state variables -- currently included
       real, dimension(:,:), allocatable :: sol_BMC, sol_BMN, sol_HSC,
      &    sol_HSN, sol_HPC, sol_HPN, sol_LM,
-     &  sol_LMC, sol_LMN, sol_LS, sol_LSL, sol_LSC, sol_LSN    , sol_RNMN,
+     &  sol_LMC, sol_LMN, sol_LS, sol_LSL, sol_LSC, sol_LSN, sol_RNMN,
      &  sol_LSLC, sol_LSLNC, sol_RSPC, sol_WOC, sol_WON, sol_HP, sol_HS,
      &  sol_BM
       !    HSC mass of C present in slow humus (kg ha-1)
