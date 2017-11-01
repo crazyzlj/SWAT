@@ -12,6 +12,7 @@ SWAT模型源代码解析。
 + aunif：产生0~1之间的随机数
 + ascrv：通过给定的2个(x, y)坐标，计算曲线`x = y/(y + exp(x5 + x6*y))`的参数`x5`和`x6`
 + caps：将输入字符串（文件名）转成小写
++ ee：计算给定气温下的饱和蒸汽压（saturation vapor pressure）
 + estimate_ksat：从土壤粘粒含量计算ksat饱和导水率（base on equation by Jimmy Willimas）
 + expo：指数函数（上下限分别为20和-20）
 + gcycl：初始化随机数种子，以使每次运行模型产生的随机数均不同
@@ -440,6 +441,9 @@ icodes|command|备注
       call albedo
       call solt
       call surface
+      call operatn
+      call autoirr
+      call percmain
       
     end if
   end do
@@ -493,7 +497,11 @@ icodes|command|备注
   call surfst_h2o
   call alph
   call pkq
-  
+  call tran ! transmission loss
+  call eiusle
+  call ovr_sed
+  call cfactor
+  call ysed
   ```
 
 ###### Call canopyint
@@ -549,29 +557,68 @@ icodes|command|备注
 
 ###### Call tran
 
++ 功能
+  计算tributary channel transmission losses
+
 ###### Call eiusle
+
++ 功能
+  计算USLE降雨侵蚀力指数（USLE Rainfull Erosion Index）
+
+###### Call ovr_sed
+
++ 功能
+  坡面侵蚀量计算，包括降雨击溅侵蚀、细沟侵蚀和细沟间侵蚀。
+
+###### Call cfactor
+
++ 功能
+  计算USLE C因子
+
+###### Call ysed
+
++ 功能
+  利用MUSLE模型计算土壤流失量
+
+##### Call autoirr
+
++ 功能
+  从浅层地下水、深层地下水或无限制来源水进行自动灌溉
 
 ##### Call percmain
 
-###### Call percmacro
-
-###### Call permicro
-
-###### Call sat_excess
++ 功能
+  土壤渗漏模块，包括：
+  + 裂隙渗漏（call percmacro）（ICRK=1）
+  + call percmicro：计算 tile flow (lyrtile), lateral flow (latlyr) and percolation (sepday)
+  + call sat_excess: redistribute soil water if above field capacity (high water table)
 
 ##### Call etpot
 
-###### Call ee
++ 功能
+  计算蒸散发（ipet方法）
+  + 0-Priestley-Taylor
+  + 1-Penman-Monteith，同时也计算潜在植物蒸腾
+  + 2-Hargreaves
+  + 3-输入的观测值
 
 ##### Call etact
 
-###### Call expo
++ 功能
+  计算潜在植物蒸腾（0-Priestley-Taylor和2-Hargreaves方法）、潜在和实际土壤蒸发，同时计算了由土壤蒸发引起的NO3从第2层到第1层土壤的运动。
+
 
 ##### Call wattable
 
-##### Call fert
++ 功能
+  计算30天气象因子驱动（precipitation-qday-pet_day）的地下水位（wtab，water table height）
+  
+  注：`wtab`这个参数目前仅用于HRU输出文件`output.hru`。
 
 ##### Call confert
+
++ 功能
+  自动连续施肥操作，直到达到施肥天数（`fert_days`）
 
 ##### Call conapply
 
