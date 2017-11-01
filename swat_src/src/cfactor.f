@@ -1,8 +1,8 @@
       subroutine cfactor
       
 !!    ~ ~ ~ PURPOSE ~ ~ ~
-!!    this subroutine predicts daily soil loss caused by water erosion
-!!    using the modified universal soil loss equation
+!!    this subroutine predicts daily USLE_C factor for
+!!    the modified universal soil loss equation
 
 !!    ~ ~ ~ INCOMING VARIABLES ~ ~ ~
 !!    name        |units         |definition
@@ -34,9 +34,7 @@
 !!    ~ ~ ~ OUTGOING VARIABLES ~ ~ ~
 !!    name        |units         |definition
 !!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
-!!    cklsp(:)    |
-!!    sedyld(:)   |metric tons   |daily soil loss caused by water erosion
-!!    usle        |metric tons/ha|daily soil loss predicted with USLE equation
+!!    usle_cfac   |none          |USLE C factor
 !!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
 
 !!    ~ ~ ~ LOCAL DEFINITIONS ~ ~ ~
@@ -77,7 +75,7 @@
           else
             c = .8
           end if
-      end if
+        end if
       else
         rsd_frcov = Exp(-rsd_covco * sol_cov(j))
         grcov_fr = laiday(j) / (laiday(j) + 
