@@ -1,6 +1,6 @@
 file(GLOB SWAT_SRCS *.f *.f90)
 
-IF (Fortran_COMPILER_NAME MATCHES "ifort.*")
+IF (${CMAKE_Fortran_COMPILER} MATCHES "ifort.*")
     # ifort
     # reference https://software.intel.com/en-us/node/678225
     IF (MSVC)
