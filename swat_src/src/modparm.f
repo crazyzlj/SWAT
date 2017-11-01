@@ -92,7 +92,9 @@
       real :: chla_subco, tb_adj, cn_froz, dorm_hr, smxco
       real :: depimp_bsn, ddrain_bsn, tdrain_bsn, gdrain_bsn
       real :: rch_san, rch_sil, rch_cla, rch_sag, rch_lag, rch_gra
-
+!!    Paddy rice related parameters, added by ljzhu, 11/01/2017
+      real :: pcp2canfr_pr, embnkfr_pr
+!!    Paddy rice related parameters, added by ljzhu, 11/01/2017
 
 !!    declare mike van liew variables
       real :: hlife_ngw_bsn, ch_opco_bsn, ch_onco_bsn

@@ -42,13 +42,45 @@
   endif
   if (idplt(j) == 33) then  ! paddy rice HRU
     ! water added into ditches from low embankment, should be added to somewhere else.
-    wtr2canal = precipday * wtr2canal_beta * 0.15
-    precipday = precipday - caninterc * 0.85 - wtr2canal
+    pcp2canal = precipday * pcp2canfr_pr * embnkfr_pr
+    precipday = precipday - caninterc * (1 - embnkfr_pr) - pcp2canal
   else
     precipday = precipday - caninterc
   endif
 ```
 
+其中，需要增加一个参数：田埂部分接收降雨流于沟渠的比例`pcp2canfr_pr`，可以作为每个HRU的输入参数，也可作为
+子流域的某个输入参数。
+
++ 简单地，把该参数作为整个流域的参数输入，在`basins.bsn`文件末尾添加如下内容：
+    ```text
+    Paddy Rice (revised by ljzhu):
+                0.15    | EMBNKFR_PR: The embankment area ratio of paddy rice HRU.
+                0.50    | PCP2CANFR_PR: The fraction of precipitation fall on the embankment that drain into ditches or canals directly.
+    ```
++ 在`readbsn.f`中添加参数读取代码：
+    ```fortran
+    !!    Paddy Rice (revised by ljzhu), 11/01/2017
+          read (103,*,iostat=eof) titldum
+          if (eof < 0) exit
+          read (103,*,iostat=eof) embnkfr_pr
+          if (eof < 0) exit
+          read (103,*,iostat=eof) pcp2canfr_pr
+          if (eof < 0) exit
+    !!    Paddy Rice (revised by ljzhu), 11/01/2017
+    ```
++ 在`modparm.f`中添加变量定义：
+    ```fortran
+    !!    Paddy rice related parameters, added by ljzhu, 11/01/2017
+          real :: pcp2canfr_pr, embnkfr_pr
+    ```
++ 在`varinit.f`中添加参数初始化：
+    ```fortran
+    !! Paddy rice modeling by ljzhu, 11/01/2017
+          pcp2canfr_pr = 0.5
+          embnkfr_pr = 0.15
+    ```
+    
 ### 2.2. 蒸发蒸腾
 
 在etact.f中：

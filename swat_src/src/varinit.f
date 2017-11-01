@@ -321,12 +321,15 @@
         wetsedo = 0.
         wetsep = 0.
         
-    !! urban modeling by J.Jeong
+      !! urban modeling by J.Jeong
       sedprev = 0.
       ubnrunoff = 0.
       irmmdt = 0.
-        hhsedy = 0.
-        ubntss = 0.
+      hhsedy = 0.
+      ubntss = 0.
+      !! Paddy rice modeling by ljzhu, 11/01/2017
+      pcp2canfr_pr = 0.5
+      embnkfr_pr = 0.15
 
-       return
-       end
+      return
+      end

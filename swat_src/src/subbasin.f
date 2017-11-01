@@ -197,9 +197,12 @@
         !! calculate soil temperature for soil layers
         call solt
 
+!       if (idplt(j) == 33) then  ! added ljzhu
+!         call surface_rice
+!       else
 !       if (ipot(j) /= j .and. imp_trig(nro(j),nrelease(j),j)==1)       &  Srini pothole
 !
-!     &        then             
+!     &        then
           !! calculate surface runoff if HRU is not impounded or an 
           !! undrained depression--
           call surface
@@ -210,7 +213,7 @@
           
           !! compute effective rainfall (amount that percs into soil)
           inflpcp = Max(0.,precipday - surfq(j))
-!        end if
+!       end if
          
         !! perform management operations
         if (yr_skip(j) == 0) call operatn

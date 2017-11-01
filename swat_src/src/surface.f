@@ -52,7 +52,7 @@
       irmmdt = 0.
 
       !! compute canopy interception
-      if (idplt(j) > 0) then
+      if (idplt(j) > 0 .AND. precipday > 0.) then
         call canopyint
       end if
 

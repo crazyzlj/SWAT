@@ -20,6 +20,9 @@
 !!    ihru        |none          |HRU number
 !!    laiday(:)   |m**2/m**2     |leaf area index
 !!    nro(:)      |none          |sequence number of year in rotation
+!!    embnkfr_pr  |none          |embankment area ratio of paddy rice HRU
+!!    pcp2canfr_pr|none          |fraction of precipitation drains into canals
+!!                                directly from embankment of paddy rice
 !!    precipday   |mm H2O        |precipitation for the day in HRU
 !!    precipdt(:) |mm H2O        |precipitation in time step for HRU
 !!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
@@ -28,6 +31,8 @@
 !!    name        |units         |definition
 !!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
 !!    canstor(:)  |mm H2O        |amount of water held in canopy storage
+!!    pcp2canal   |mm H2O        |amount of precipitation drains into
+!!                                canals from embankment of paddy rice
 !!    precipday   |mm H2O        |precipitation reaching soil surface
 !!    precipdt(:) |mm H2O        |precipitation reaching soil surface in
 !!                               |time step
@@ -51,7 +56,7 @@
 
       integer :: j, ii
       real :: xx, canmxl, canstori
-      real :: caninterc, wtr2canal, wtr2canal_beta
+      real :: caninterc, pcp2canal
 
       j = 0
       j = ihru
@@ -95,6 +100,7 @@
         case (0)
           xx = 0.
           canmxl = 0.
+          pcp2canal = 0.
           xx = precipday
           canmxl = canmx(j) * laiday(j) / blai(idplt(j))
           !!! revised by ljzhu, 10/30/2017
@@ -108,8 +114,8 @@
           endif
           if (idplt(j) == 33) then  ! paddy rice HRU
             ! water added into ditches from low embankment, should be added to somewhere else.
-            wtr2canal = precipday * wtr2canal_beta * 0.15
-            precipday = precipday - caninterc * 0.85 - wtr2canal
+            pcp2canal = precipday * pcp2canfr_pr * embnkfr_pr
+            precipday = precipday - caninterc * (1 - embnkfr_pr) - pcp2canal
           else
             precipday = precipday - caninterc
           endif

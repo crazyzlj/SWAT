@@ -589,9 +589,18 @@
       read (103,*,iostat=eof) ismax
       if (eof < 0) exit   
       read (103,*,iostat=eof) iroutunit
-      exit
+      if (eof < 0) exit
 !!    Drainmod input variables - 01/2006
-      end do
+!!    Paddy Rice (revised by ljzhu), 11/01/2017
+      read (103,*,iostat=eof) titldum
+      if (eof < 0) exit
+      read (103,*,iostat=eof) embnkfr_pr
+      if (eof < 0) exit
+      read (103,*,iostat=eof) pcp2canfr_pr
+      if (eof < 0) exit
+!!    Paddy Rice (revised by ljzhu), 11/01/2017
+      exit
+      end do  ! end read basins.bsn file
 
 !!    copy global values to local HRUs
       esco = escobsn
