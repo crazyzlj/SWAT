@@ -158,19 +158,3 @@ SET_COMPILE_FLAG(CMAKE_Fortran_FLAGS_RELEASE "${CMAKE_Fortran_FLAGS_RELEASE}"
                          "/Qvec-report0" # Intel Windows
                          "-Mvect"        # Portland Group
                 )
-
-# Set multiple processor compilation for MSVC
-if(CMAKE_VERSION VERSION_GREATER "2.8.6" AND MSVC)
-    include(ProcessorCount)
-    ProcessorCount(NN)
-    math(EXPR N "${NN}/2")
-    if(NOT N EQUAL 0)
-        MESSAGE(STATUS "Using half of the processors to compiling: ${N}")
-        SET(CMAKE_C_FLAGS   "${CMAKE_C_FLAGS}   /MP${N} ")
-        SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /MP${N} ")
-        SET(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} /MP${N} ")
-        LIST(REMOVE_DUPLICATES CMAKE_C_FLAGS)
-        LIST(REMOVE_DUPLICATES CMAKE_CXX_FLAGS)
-        LIST(REMOVE_DUPLICATES CMAKE_Fortran_FLAGS)
-    endif()
-endif()

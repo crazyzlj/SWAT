@@ -36,6 +36,7 @@ set(CMAKE_MODULE_PATH
         ${CMAKE_CURRENT_SOURCE_DIR}/cmake
         ${CMAKE_MODULE_PATH}
         )
+INCLUDE(Utils)
 
 ### Set default or specified installation directory.
 IF (INSTALL_PREFIX)
@@ -69,6 +70,15 @@ OPTION(USE_MPI "Use the MPI library for parallelization" OFF)
 OPTION(USE_OPENMP "Use OpenMP for parallelization" OFF)
 INCLUDE(SetParallelizationLibrary)
 
+### Global flag to cause add_library to create shared libraries if on, otherwise static library.
+OPTION(BUILD_SHARED_LIBS "Build shared libraries (DLLs)." OFF)
+### libraries built with hunter link against the dynamic CRT on windows
+OPTION(BUILD_WITH_STATIC_CRT "Build against dynamic CRT on windows." ON)
+### Use statically or dynamically linked CRT?
+IF(MSVC)
+    INCLUDE(CRTLinkage)
+ENDIF(MSVC)
+
 ### There is an error in CMAKE with this flag for pgf90.  Unset it
 GET_FILENAME_COMPONENT(FCNAME ${CMAKE_Fortran_COMPILER} NAME)
 IF(FCNAME STREQUAL "pgf90")
@@ -81,3 +91,57 @@ ENDIF(FCNAME STREQUAL "pgf90")
 
 ### Add subdirectories.
 ADD_SUBDIRECTORY(swat_src/src)
+
+############################################################
+# Build information
+############################################################
+
+STATUS("")
+STATUS("  Platform:")
+IF(NOT CMAKE_VERSION VERSION_LESS 2.8.11 AND NOT BUILD_INFO_SKIP_TIMESTAMP)
+    STRING(TIMESTAMP TIMESTAMP "" UTC)
+    IF(TIMESTAMP)
+        STATUS("    Timestamp:"    ${TIMESTAMP})
+    ENDIF()
+ENDIF()
+STATUS("    Host:"             ${CMAKE_HOST_SYSTEM_NAME} ${CMAKE_HOST_SYSTEM_VERSION} ${CMAKE_HOST_SYSTEM_PROCESSOR})
+IF(CMAKE_CROSSCOMPILING)
+    STATUS("    Target:"         ${CMAKE_SYSTEM_NAME} ${CMAKE_SYSTEM_VERSION} ${CMAKE_SYSTEM_PROCESSOR})
+ENDIF()
+STATUS("    CMake:"            ${CMAKE_VERSION})
+STATUS("    CMake generator:"  ${CMAKE_GENERATOR})
+STATUS("    CMake build tool:" ${CMAKE_BUILD_TOOL})
+IF(MSVC)
+    STATUS("    MSVC:"           ${MSVC_VERSION})
+ENDIF()
+IF(CMAKE_GENERATOR MATCHES Xcode)
+    STATUS("    Xcode:"          ${XCODE_VERSION})
+ENDIF()
+IF(NOT CMAKE_GENERATOR MATCHES "Xcode|Visual Studio")
+    STATUS("    Configuration:"  ${CMAKE_BUILD_TYPE})
+ENDIF()
+
+### C/C++ options.
+IF(CMAKE_CXX_COMPILER_VERSION)
+    SET(GEO_COMPILER_STR "${CMAKE_Fortran_COMPILER} ${CMAKE_Fortran_COMPILER_ARG1} (ver ${CMAKE_Fortran_COMPILER_VERSION})")
+ELSE()
+    SET(GEO_COMPILER_STR "${CMAKE_Fortran_COMPILER} ${CMAKE_Fortran_COMPILER_ARG1}")
+ENDIF()
+STRING(STRIP "${GEO_COMPILER_STR}" GEO_COMPILER_STR)
+
+STATUS("")
+STATUS("  Fortran:")
+STATUS("    Fortran Compiler:"           ${GEO_COMPILER_STR})
+STATUS("    Fortran flags (Release):"    ${CMAKE_Fortran_FLAGS} ${CMAKE_Fortran_FLAGS_RELEASE})
+STATUS("    Fortran flags (Debug):"      ${CMAKE_Fortran_FLAGS} ${CMAKE_Fortran_FLAGS_DEBUG})
+IF(WIN32)
+    STATUS("    Linker flags (Release):" ${CMAKE_EXE_LINKER_FLAGS} ${CMAKE_EXE_LINKER_FLAGS_RELEASE})
+    STATUS("    Linker flags (Debug):"   ${CMAKE_EXE_LINKER_FLAGS} ${CMAKE_EXE_LINKER_FLAGS_DEBUG})
+ELSE()
+    STATUS("    Linker flags (Release):" ${CMAKE_SHARED_LINKER_FLAGS} ${CMAKE_SHARED_LINKER_FLAGS_RELEASE})
+    STATUS("    Linker flags (Debug):"   ${CMAKE_SHARED_LINKER_FLAGS} ${CMAKE_SHARED_LINKER_FLAGS_DEBUG})
+ENDIF()
+### Auxiliary.
+STATUS("")
+STATUS("  Install path:" ${CMAKE_INSTALL_PREFIX})
+STATUS("")
