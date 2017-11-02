@@ -1881,6 +1881,11 @@
        tillage_factor = 0.
       !! By Zhang for C/N cycling
       !! ============================
+      !!    Paddy rice related parameters, added by ljzhu, 11/01/2017
+      allocate(prpnd_max(mhru))
+      allocate(prfit_min(mhru))
+      allocate(prfit_max(mhru))
+      !!    Paddy rice related parameters, added by ljzhu, 11/01/2017
 
       call zero0
       call zero1

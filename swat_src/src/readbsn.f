@@ -598,6 +598,8 @@
       if (eof < 0) exit
       read (103,*,iostat=eof) pcp2canfr_pr
       if (eof < 0) exit
+      read (103,*,iostat=eof) perco_ave_pr
+      if (eof < 0) exit
 !!    Paddy Rice (revised by ljzhu), 11/01/2017
       exit
       end do  ! end read basins.bsn file

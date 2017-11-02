@@ -375,12 +375,12 @@
         igrow = 1
         idplt(ihru) = ncrp
         phuacc(ihru) = .1
-      icr(ihru) = 1
-      icrmx(ihru) = icrmx(ihru) + 1
-      idplrot(icrmx(ihru),ihru) = ncrp
-      mcrhru(ihru) = mcrhru(ihru) + 1
+        icr(ihru) = 1
+        icrmx(ihru) = icrmx(ihru) + 1
+        idplrot(icrmx(ihru),ihru) = ncrp
+        mcrhru(ihru) = mcrhru(ihru) + 1
         curyr_mat(ihru) = mat_yrs(ncrp)
-        !! calculate tnylda for autofertilization 
+        !! calculate tnylda for autofertilization
         if (hvsti(ncrp) < 1.) then
           tnylda(ihru) = 350. * cnyld(ncrp) * bio_e(ncrp)
         else
@@ -420,9 +420,9 @@
 !!    continuous fallow, no management practices allowed.
 !!      if (nrot(ihru) > 0) then
 !!    mgt_opprev | previous operation code
-        mgt_opprev = 0
-!!      read scheduled management practices
-        do                                      !! operation loop
+      mgt_opprev = 0
+!!    read scheduled management practices
+      do                                      !! operation loop
           mon = 0
           day = 0
           husc = 0.
@@ -431,7 +431,6 @@
           mgt2i = 0
           mgt3i = 0
           mgt4 = 0.
-
           mgt5 = 0.
           mgt6 = 0
           mgt7 = 0.
@@ -525,7 +524,7 @@
         endif
       end if                                            !! mgt_op if
         nopmx(ihru) = nopmx(ihru) + 1
-        end do                                  !! operation loop
+      end do                                  !! operation loop
 !!    add a skip command to the end of every rotation
 !!        iop = iop + 1
 !!        mgtop(iop,ihru) = 17

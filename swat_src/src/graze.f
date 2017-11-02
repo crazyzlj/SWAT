@@ -1,7 +1,7 @@
       subroutine graze
       
 !!    ~ ~ ~ PURPOSE ~ ~ ~
-!!    this subroutine simulates biomass lost to grazing
+!!    this subroutine simulates biomass lost to grazing and apply manure
 
 !!    ~ ~ ~ INCOMING VARIABLES ~ ~ ~
 !!    name         |units         |definition
@@ -97,7 +97,7 @@
 !!    ~ ~ ~ OUTGOING VARIABLES ~ ~ ~
 !!    name        |units         |definition
 !!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
-!!    bactlp_plt(:)|# cfu/m^2    |less persistent bacteria on foliage
+!!   bactlp_plt(:)|# cfu/m^2     |less persistent bacteria on foliage
 !!    bactlpq(:)  |# cfu/m^2     |less persistent bacteria in soil solution
 !!    bactlps(:)  |# cfu/m^2     |less persistent bacteria attached to soil
 !!                               |particles

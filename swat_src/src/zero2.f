@@ -88,6 +88,13 @@
       ipnd2 = 0
       
       imp_trig = 0   !!Srini pothole
+
+      !! Paddy rice related parameters, added by ljzhu, 11/01/2017
+      prpnd_max = 0.
+      prfit_min = 0.
+      prfit_max = 0.
+      !! Paddy rice related parameters, added by ljzhu, 11/01/2017
+
       pot_orgn = 0.
       pot_orgp = 0.
       pot_mps = 0.

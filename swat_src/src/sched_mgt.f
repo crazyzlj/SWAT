@@ -71,7 +71,7 @@
             irrsalt(ihru) = mgt5op(nop(j),j)
             irrefm(ihru) = mgt6op(nop(j),j)
             irrsq(ihru) = mgt7op(nop(j),j)
-          irr_flag(ihru) = 1
+            irr_flag(ihru) = 1
             
             if (irrefm(ihru) < 1.e-6) irrefm(ihru)=1.0
             if (irr_sc(j) <= 0) irr_sc(j) = irrsc(j)
@@ -265,7 +265,9 @@
           case (12)   !! street sweeping (only if iurban=2)
 
             if (husc > 0.) then
-              if (igrow == 1) then ! TODO: igrow may used before initialized! By lj.
+              ! if (igrow == 1) then  ! commented by ljzhu
+              ! TODO: igrow may used before initialized! By lj. May be it is igro(j)?
+              if (igro(j) == 1) then
                 phusw(ihru) = husc
               else
                 phusw_nocrop(ihru) = husc
@@ -283,7 +285,10 @@
           
           case (13)    !! release/impound water in rice fields
             imp_trig(j) = mgt1iop(nop(j),j)
-          
+            !! added by ljzhu, 11/02/2017
+            prpnd_max = mgt2iop(nop(j),j)
+            prfit_min = mgt3iop(nop(j),j)
+            prfit_max = mgt4op(nop(j),j)
             if (imgt == 1) then
               write (143, 1000) subnum(j), hruno(j), iyr, i_mo, iida, 
      *        hru_km(j), "         ","RELEASE/IMPOUND", phubase(j),

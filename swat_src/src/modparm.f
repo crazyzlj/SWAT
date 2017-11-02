@@ -93,7 +93,8 @@
       real :: depimp_bsn, ddrain_bsn, tdrain_bsn, gdrain_bsn
       real :: rch_san, rch_sil, rch_cla, rch_sag, rch_lag, rch_gra
 !!    Paddy rice related parameters, added by ljzhu, 11/01/2017
-      real :: pcp2canfr_pr, embnkfr_pr
+      real :: pcp2canfr_pr, embnkfr_pr, perco_ave_pr
+      real, dimension (:), allocatable :: prpnd_max, prfit_min, prfit_max
 !!    Paddy rice related parameters, added by ljzhu, 11/01/2017
 
 !!    declare mike van liew variables
