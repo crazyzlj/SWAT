@@ -55,30 +55,30 @@
 + 简单地，把该参数作为整个流域的参数输入，在`basins.bsn`文件末尾添加如下内容：
     ```text
     Paddy Rice (revised by ljzhu):
-                0.15    | EMBNKFR_PR: The embankment area ratio of paddy rice HRU.
-                0.50    | PCP2CANFR_PR: The fraction of precipitation fall on the embankment that drain into ditches or canals directly.
-    ```
-+ 在`readbsn.f`中添加参数读取代码：
-    ```fortran
-    !!    Paddy Rice (revised by ljzhu), 11/01/2017
-          read (103,*,iostat=eof) titldum
-          if (eof < 0) exit
-          read (103,*,iostat=eof) embnkfr_pr
-          if (eof < 0) exit
-          read (103,*,iostat=eof) pcp2canfr_pr
-          if (eof < 0) exit
-    !!    Paddy Rice (revised by ljzhu), 11/01/2017
+            0.15    | EMBNKFR_PR: The embankment area ratio of paddy rice HRU.
+            0.50    | PCP2CANFR_PR: The fraction of precipitation fall on the embankment that drain into ditches or canals directly.
     ```
 + 在`modparm.f`中添加变量定义：
     ```fortran
     !!    Paddy rice related parameters, added by ljzhu, 11/01/2017
-          real :: pcp2canfr_pr, embnkfr_pr
+    real :: pcp2canfr_pr, embnkfr_pr
     ```
 + 在`varinit.f`中添加参数初始化：
     ```fortran
     !! Paddy rice modeling by ljzhu, 11/01/2017
-          pcp2canfr_pr = 0.5
-          embnkfr_pr = 0.15
+    pcp2canfr_pr = 0.5
+    embnkfr_pr = 0.15
+    ```
++ 在`readbsn.f`中添加参数读取代码：
+    ```fortran
+    !!    Paddy Rice (revised by ljzhu), 11/01/2017
+    read (103,*,iostat=eof) titldum
+    if (eof < 0) exit
+    read (103,*,iostat=eof) embnkfr_pr
+    if (eof < 0) exit
+    read (103,*,iostat=eof) pcp2canfr_pr
+    if (eof < 0) exit
+    !!    Paddy Rice (revised by ljzhu), 11/01/2017
     ```
     
 ### 2.2. 蒸发蒸腾
@@ -99,8 +99,29 @@
 积水时用pothole.f中的模拟方法
 	
 ### 2.4. 渗漏
-考虑犁底层对渗漏的影响（不大于2mm/day)
-
+考虑犁底层对渗漏的影响，需设置一个生育期内的平均渗漏强度，如2mm/day。
++ 简单地，把该参数作为整个流域的参数输入，在`basins.bsn`文件末尾添加如下内容：
+    ```text
+    Paddy Rice (revised by ljzhu):
+            2.0    | PERCO_AVE_PR: Mean percolation rate during growing season of paddy rice (mm/day).
+    ```
++ 在`modparm.f`中添加变量定义：
+    ```fortran
+    !!    Paddy rice related parameters, added by ljzhu, 11/01/2017
+    real :: pcp2canfr_pr, embnkfr_pr, perco_ave_pr
+    ```
++ 在`varinit.f`中添加参数初始化：
+    ```fortran
+    !! Paddy rice modeling by ljzhu, 11/01/2017
+    perco_ave_pr = 2.0
+    ```
++ 在`readbsn.f`中添加参数读取代码：
+    ```fortran
+    !!    Paddy Rice (revised by ljzhu), 11/01/2017
+    read (103,*,iostat=eof) perco_ave_pr
+    if (eof < 0) exit
+    !!    Paddy Rice (revised by ljzhu), 11/01/2017
+    ```
 
 #### 2.4.1 地下水埋深
 代俊峰和崔远来(2009)增加了地下水埋深的计算（不透水层距离地表的深度减去水位高度）。在SWAT2012
@@ -111,8 +132,50 @@
 wat_tbl(i) = dep_imp(i)- (shallst(i)/sol_por(nly,i))
 ```
 
-### 2.5. 灌溉
+### 2.5. 灌溉和排水
+#### 2.5.1. 作物管理措施输入
+SWAT中作物管理措施数据由`OpSchedules`表输入，该表内容参照《SWAT IO Document 2012》P259,
+Figure 20-1整理。
 
+为了模拟稻田不同生长期水位变化，需要对`13-release/impound`措施的参数进行扩充，下表黑体部分为
+新增参数，分别为最大灌水深度（maximum ponding depth）、最小适宜蓄水深度（minimum fitting
+depth）和最大适宜蓄水深度（maximum fitting depth）。
+
+mgtop|mgt1i|mgt2i|mgt3i|mgt4
+-|-|-|-|-
+13|IMP_TRIG|**MAX_PND**|**MIN_FIT**|**MAX_FIT**
+
+参考Xie和Cui（2011）文章表1进行稻田灌排水设置。
+
++ 在`modparm.f`中添加变量定义：
+    ```fortran
+    !!    Paddy rice related parameters, added by ljzhu, 11/01/2017
+          real, dimension (:), allocatable :: prpnd_max, prfit_min, prfit_max
+    ```
++ 在`allocate_parms.f`中申请数组空间：
+    ```fortran
+	!!    Paddy rice related parameters, added by ljzhu, 11/01/2017
+    allocate(prpnd_max(mhru))
+    allocate(prfit_min(mhru))
+    allocate(prfit_max(mhru))
+    ```
++ 在`zero2.f`中添加参数初始化：
+    ```fortran
+    imp_trig = 0   !!Srini pothole
+    !! Paddy rice related parameters, added by ljzhu, 11/01/2017
+    prpnd_max = 0.
+    prfit_min = 0.
+    prfit_max = 0.
+    ```
++ 在`sched_mgt.f`中添加赋值代码：
+    ```fortran
+    case (13)    !! release/impound water in rice fields
+        imp_trig(j) = mgt1iop(nop(j),j)
+        !! added by ljzhu, 11/02/2017
+        prpnd_max = mgt2iop(nop(j),j)
+        prfit_min = mgt3iop(nop(j),j)
+        prfit_max = mgt4op(nop(j),j)
+    ```
 
 
 ## 参考文献
