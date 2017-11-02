@@ -70,14 +70,17 @@ OPTION(USE_MPI "Use the MPI library for parallelization" OFF)
 OPTION(USE_OPENMP "Use OpenMP for parallelization" OFF)
 INCLUDE(SetParallelizationLibrary)
 
+### Use statically or dynamically linkage?
 ### Global flag to cause add_library to create shared libraries if on, otherwise static library.
 OPTION(BUILD_SHARED_LIBS "Build shared libraries (DLLs)." OFF)
 ### libraries built with hunter link against the dynamic CRT on windows
 OPTION(BUILD_WITH_STATIC_CRT "Build against dynamic CRT on windows." ON)
-### Use statically or dynamically linked CRT?
 IF(MSVC)
     INCLUDE(CRTLinkage)
-ENDIF(MSVC)
+ELSE()
+    OPTION(ENABLE_STATIC_LINKING "Enable static libraries linking" ON)
+    INCLUDE(StaticLinking)
+ENDIF()
 
 ### There is an error in CMAKE with this flag for pgf90.  Unset it
 GET_FILENAME_COMPONENT(FCNAME ${CMAKE_Fortran_COMPILER} NAME)
