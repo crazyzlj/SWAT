@@ -2,7 +2,7 @@
 
 SWAT模型源代码解析。
 + SWAT版本：SWAT2012rev664
-+ 最近更新：2017-10-30
++ 最近更新：2017-11-02
 + 整理：朱良君
 + Email：zlj@lreis.ac.cn
 
@@ -13,6 +13,7 @@ SWAT模型源代码解析。
 + ascrv：通过给定的2个(x, y)坐标，计算曲线`x = y/(y + exp(x5 + x6*y))`的参数`x5`和`x6`
 + caps：将输入字符串（文件名）转成小写
 + ee：计算给定气温下的饱和蒸汽压（saturation vapor pressure）
++ erfc：complementary error function
 + estimate_ksat：从土壤粘粒含量计算ksat饱和导水率（base on equation by Jimmy Willimas）
 + expo：指数函数（上下限分别为20和-20）
 + gcycl：初始化随机数种子，以使每次运行模型产生的随机数均不同
@@ -444,7 +445,13 @@ icodes|command|备注
       call operatn
       call autoirr
       call percmain
-      
+      call etpot
+      call etact
+      call wattable
+      call confert
+      call conapply
+      call graze
+      call plantmod
     end if
   end do
   ```
@@ -580,6 +587,42 @@ icodes|command|备注
 + 功能
   利用MUSLE模型计算土壤流失量
 
+##### Call operatn
+
++ 功能
+  通过日期或者积温比例控制实施作物管理措施。
+
+###### Call sched_mgt
+
++ 功能
+  根据不同作物管理措施代码（`mgtop`）进行不同模拟。
+  
+mgtop|operation|module
+-|-|-
+1|plant|plantop.f
+2|irrigation|irrsub.f
+3|fertilizer|fert.f
+4|pesticide|apply.f
+5|harvest & kill|harvkillop.f
+6|tillage|newtillmix.f
+7|harvest only|harvestop.f
+8|kill|killop.f
+9|graze|graze.f
+10|auto irrigation|-
+11|auto fertilizer|-
+12|street sweeping|-
+13|release/impound|-
+14|continuous fertilization|confert.f
+15|continuous pesticide|conapplyf
+16|burning|burn.f
+17|skip a year|-
+
++ SWAT-RICE对灌溉排水操作进行了扩充
+
+mgtop|mgt1i|mgt2i|mgt3i|mgt4
+--|--|--|--|--
+13|IMP_TRIG|**MAX_PND**|**MIN_FIT**|**MAX_FIT**
+
 ##### Call autoirr
 
 + 功能
@@ -618,37 +661,32 @@ icodes|command|备注
 ##### Call confert
 
 + 功能
-  自动连续施肥操作，直到达到施肥天数（`fert_days`）
+  自动连续施肥操作，直到达到施肥天数（`ndcfrt == fert_days`）
 
 ##### Call conapply
 
++ 功能
+  自动连续施农药（applying pesticide）操作，直到达到施肥天数（`ndcpst == pest_days`）
+
 ##### Call graze
 
-##### Call plantmd
++ 功能
+  模拟放牧导致的生物量减少，并apply manure
 
-###### Call operatn
+##### Call plantmod
 
-####### Call plantop
++ 功能
+  模拟植物生长。模拟每日的潜在植物生长，计算叶面积指数LAI，模拟作物残茬的腐殖。基于水分胁迫调整每日干物质量。
 
-######## Call curno
+###### Call swu
 
-####### Call dormant
++ 功能
+  计算植物水利用，水分胁迫，实际植物蒸腾等
 
-####### Call harvkillop
+###### Call grow
 
-######## Call curno
-
-####### Call harvestop
-
-####### Call killop
-
-####### Call tillmix
-
-######## Call curno
-
-###### Call swu(soil water uptake)
-
-###### Call grow(plant growth)
++ 功能
+  考虑水分、温度、营养物胁迫计算植物的生物量、叶面积指数和冠层高度
 
 ####### Call tstr(temp stress)
 
@@ -671,8 +709,6 @@ icodes|command|备注
 ##### Call gwmod
 
 ##### Call apply
-
-###### Call erfc
 
 ##### Call washp
 
