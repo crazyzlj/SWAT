@@ -244,7 +244,6 @@
       eosl = 0.
       eosl = esleft
       do ly = 1, sol_nly(j)
-
         !! depth exceeds max depth for soil evap (esd)
         dep = 0.
         if (ly == 1) then

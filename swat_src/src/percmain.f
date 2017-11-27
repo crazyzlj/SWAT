@@ -157,7 +157,7 @@
       ! STE added to the biozone layer if soil temp is above zero.
       if(j1==i_sep(j).and.sol_tmp(j1,j) > 0. .and. isep_opt(j) /= 0) then
           sol_st(j1,j) = sol_st(j1,j) + qstemm(j)  ! in mm
-        qvol = qstemm(j) * hru_ha(j) * 10.
+          qvol = qstemm(j) * hru_ha(j) * 10.
           xx = qvol / hru_ha(j) / 1000.
           sol_no3(j1,j) = sol_no3(j1,j) + xx *(sptno3concs(isp) 
      &                    + sptno2concs(isp))  
@@ -168,7 +168,7 @@
           sol_fop(j1,j) = sol_fop(j1,j) + xx * sptorgps(isp) * 0.5
           sol_solp(j1,j) = sol_solp(j1,j) + xx * sptminps(isp)  
           bio_bod(j)=bio_bod(j)+xx*sptbodconcs(isp)   ! J.Jeong 4/03/09
-        end if
+      end if
 
        !! determine gravity drained water in layer
         sw_excess = 0.

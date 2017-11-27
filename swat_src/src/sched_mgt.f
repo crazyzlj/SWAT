@@ -286,9 +286,9 @@
           case (13)    !! release/impound water in rice fields
             imp_trig(j) = mgt1iop(nop(j),j)
             !! added by ljzhu, 11/02/2017
-            prpnd_max = mgt2iop(nop(j),j)
-            prfit_min = mgt3iop(nop(j),j)
-            prfit_max = mgt4op(nop(j),j)
+            prpnd_max(j) = mgt2iop(nop(j),j)
+            prfit_min(j) = mgt3iop(nop(j),j)
+            prfit_max(j) = mgt4op(nop(j),j)
             if (imgt == 1) then
               write (143, 1000) subnum(j), hruno(j), iyr, i_mo, iida, 
      *        hru_km(j), "         ","RELEASE/IMPOUND", phubase(j),

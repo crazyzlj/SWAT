@@ -218,7 +218,7 @@
         !! perform management operations
         if (yr_skip(j) == 0) call operatn
           
-        if (auto_wstr(j) > 1.e-6 .and. irrsc(j) > 2) call autoirr       
+        if (auto_wstr(j) > 1.e-6 .and. irrsc(j) > 2) call autoirr
         
         !! perform soil water routing
         call percmain

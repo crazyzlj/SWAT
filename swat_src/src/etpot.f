@@ -173,7 +173,7 @@
           !! calculate net radiation
           rn_pet = 0.
           rn_pet = ralb + rout
-       !! net radiation
+          !! net radiation
 
           pet_alpha = 1.28
           pet_day = pet_alpha * (dlt / (dlt + gma)) * rn_pet / xl
@@ -216,7 +216,7 @@
           rn_pet = 0.
           rn = ralb1 + rout
           rn_pet = ralb + rout
-       !! net radiation
+          !! net radiation
 
           rho = 0.
           rho = 1710. - 6.85 * tmpav(j)
@@ -314,9 +314,9 @@
         ramm = hru_rmx(j) * 37.59 / 30. 
 
         if (tmx(j) > tmn(j)) then
-         pet_day = harg_petco(hru_sub(j))*(ramm / xl)*(tmpav(j) + 17.8)*
+          pet_day = harg_petco(hru_sub(j))*(ramm / xl)*(tmpav(j) + 17.8)*
      &                                            (tmx(j) - tmn(j))**0.5
-         pet_day = Max(0., pet_day)
+          pet_day = Max(0., pet_day)
         else
           pet_day = 0.
         endif

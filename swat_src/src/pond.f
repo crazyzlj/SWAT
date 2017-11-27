@@ -1,7 +1,7 @@
       subroutine pond(k)
       
 !!    ~ ~ ~ PURPOSE ~ ~ ~
-!!    this subroutine routes water and sediment through ponds
+!!    t through pondsthis subroutine routes water and sedimen
 !!    and computes evaporation and seepage from the ponds
 
 !!    ~ ~ ~ INCOMING VARIABLES ~ ~ ~

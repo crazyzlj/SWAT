@@ -1,11 +1,10 @@
 # 水稻田（Rice paddy）模拟改进
 
 ## 1. 基本思路
-将水田作为独立HRU，通过 `idplt(j) == 33` 判断当前HRU是否为水田，在不同
+将水田（RICE，33）作为独立HRU，通过 `idplt(j) == 33` 判断当前HRU是否为水田或坑塘，在不同
 子过程模块中进行特殊处理，并在适当的地方增加独立功能模块。
 
-水田HRU包含稻田田块和田埂（渠道、道路、及田埂的统称），设置田埂面积比例（如
-15%），从而改进有效降雨、蒸发蒸腾、入渗等子过程的计算。
+水田HRU包含稻田田块和田埂（渠道、道路、及田埂的统称），设置田埂面积比例（如15%），从而改进有效降雨、蒸发蒸腾、入渗等子过程的计算。
 
 
 ## 2. 分过程描述
@@ -27,7 +26,7 @@
 
 ```fortran
 ! 1. HRU循环开始后，precipday在varinit.f中赋值为当日降雨量，precipday = subp(j)
-! 2. 在冠层截留模块canopyint.f中，precipday被扣除截留部分，并检查不为负数，precipday = precipday - (canmxl - canstor(j))
+! 2. 在冠层截留模块canopyint.f中，precipday扣除截留部分，并检查不为负数，precipday = precipday - (canmxl - canstor(j))
 ! 3. 修改思路：将田埂上流入稻田内的降水加上稻田田面截留后的降水，平铺在整个水田HRU面积上。也就是说，田埂面积只用来降水分配，
 !    而接下来的计算还是认为水田HRU面积均为稻田，这样来避免计算时均要区分田埂和田面带来的参数不一致问题。
 ! 4. 计算产流的时候，再加上田埂降水直接进入排水沟的部分（即下列代码中的wtr2canal）
@@ -80,8 +79,15 @@
     if (eof < 0) exit
     !!    Paddy Rice (revised by ljzhu), 11/01/2017
     ```
-    
+
 ### 2.2. 蒸发蒸腾
+SWAT源码中，设置最大蒸发与最大蒸腾之和（ETmax）**不大于**参考作物
+蒸发蒸腾量，
+
+SWAT中有三种蒸散发模拟方法：
++ Penman-Monteith
++ Priestley-Taylor
++ Hargreaves
 
 在etact.f中：
 
@@ -89,15 +95,15 @@
 
 	1. 修改pet的计算结果
 	pet_day = kc * pet_day
-
-    2. 判断如果impound_flag为true：
+	
+	2. 判断如果impound_flag为true：
 		把土壤蒸发替换成水面蒸发
-        认为田埂和水田土壤蒸发一样，蓄水的时候认为有85%的水面蒸发，15%的面积是土壤蒸发
+	    认为田埂和水田土壤蒸发一样，蓄水的时候认为有85%的水面蒸发，15%的面积是土壤蒸发
 
 ### 2.3. 下渗
 不蓄水时，用SWAT原来的方法
 积水时用pothole.f中的模拟方法
-	
+​	
 ### 2.4. 渗漏
 考虑犁底层对渗漏的影响，需设置一个生育期内的平均渗漏强度，如2mm/day。
 + 简单地，把该参数作为整个流域的参数输入，在`basins.bsn`文件末尾添加如下内容：
@@ -133,6 +139,9 @@ wat_tbl(i) = dep_imp(i)- (shallst(i)/sol_por(nly,i))
 ```
 
 ### 2.5. 灌溉和排水
+
+增加坑塘（POND）的灌溉功能。在HRU循环之前，统计当前子流域坑塘的所有可用水量；在HRU循环中，如果需要灌溉，则优先从POND中取水，如有需要再从模型设置的灌溉水来源供水；HRU循环之后，再重分配坑塘剩余水。
+
 #### 2.5.1. 作物管理措施输入
 SWAT中作物管理措施数据由`OpSchedules`表输入，该表内容参照《SWAT IO Document 2012》P259,
 Figure 20-1整理。
@@ -141,9 +150,9 @@ Figure 20-1整理。
 新增参数，分别为最大灌水深度（maximum ponding depth）、最小适宜蓄水深度（minimum fitting
 depth）和最大适宜蓄水深度（maximum fitting depth）。
 
-mgtop|mgt1i|mgt2i|mgt3i|mgt4
--|-|-|-|-
-13|IMP_TRIG|**MAX_PND**|**MIN_FIT**|**MAX_FIT**
+| mgtop | mgt1i    | mgt2i       | mgt3i       | mgt4        |
+| ----- | -------- | ----------- | ----------- | ----------- |
+| 13    | IMP_TRIG | **MAX_PND** | **MIN_FIT** | **MAX_FIT** |
 
 参考Xie和Cui（2011）文章表1进行稻田灌排水设置。
 
@@ -154,7 +163,7 @@ mgtop|mgt1i|mgt2i|mgt3i|mgt4
     ```
 + 在`allocate_parms.f`中申请数组空间：
     ```fortran
-	!!    Paddy rice related parameters, added by ljzhu, 11/01/2017
+    !!    Paddy rice related parameters, added by ljzhu, 11/01/2017
     allocate(prpnd_max(mhru))
     allocate(prfit_min(mhru))
     allocate(prfit_max(mhru))
@@ -178,7 +187,16 @@ mgtop|mgt1i|mgt2i|mgt3i|mgt4
     ```
 
 
+#### 2.5.2 坑塘灌溉
+
+在`subbasin.f`中，在HRU循环（`do iihru = 1, hrutot(inum1)` ）之前，增加当前时间子流域内所有HRU中POND的总可用水量，并在HRU循环结束后对HRU内POND水量进行重分配。
+
+如果是水稻生长季的蓄水期，则在渗漏模块之前，进行自动灌溉的判断，即农田蓄水低于prfit_min时，进行灌溉。灌溉首先从坑塘（整个子流域的坑塘水量）中抽取，坑塘中水量不足时，再从其他灌溉水源取水。
+
+
+
 ## 参考文献
+
 [1] 代俊峰, 崔远来. 2009. 基于SWAT的灌区分布式水文模型——Ⅰ.模型构建的原理与方法. 水利学报, 40(2):145–52. https://doi.org/10.13243/j.cnki.slxb.2009.02.018.
 
 [2] Xie, Xianhong, and Yuanlai Cui. 2011. Development and Test of SWAT for Modeling Hydrological Processes in Irrigation Districts with Paddy Rice. Journal of Hydrology, 396(1):61–71. https://doi.org/10.1016/j.jhydrol.2010.10.032.

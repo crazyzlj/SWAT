@@ -111,13 +111,13 @@
             precipday = 0.
           else
             canstor(j) = canmxl
-          endif
-          if (idplt(j) == 33) then  ! paddy rice HRU
-            ! water added into ditches from low embankment, should be added to somewhere else.
-            pcp2canal = precipday * pcp2canfr_pr * embnkfr_pr
-            precipday = precipday - caninterc * (1 - embnkfr_pr) - pcp2canal
-          else
-            precipday = precipday - caninterc
+            if (idplt(j) == 33) then  ! paddy rice HRU
+              ! water added into ditches from low embankment, should be added to somewhere else.
+              pcp2canal = precipday * pcp2canfr_pr * embnkfr_pr
+              precipday = precipday - caninterc - pcp2canal
+            else
+              precipday = precipday - caninterc
+            endif
           endif
 
           !!! previous version
