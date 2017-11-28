@@ -31,21 +31,21 @@
 !    而接下来的计算还是认为水田HRU面积均为稻田，这样来避免计算时均要区分田埂和田面带来的参数不一致问题。
 ! 4. 计算产流的时候，再加上田埂降水直接进入排水沟的部分（即下列代码中的wtr2canal）
 !!! revised by ljzhu, 10/30/2017
-  caninterc = canmxl - canstor(j)
-  if (precipday < caninterc) then
-    canstor(j) = canstor(j) + xx
-    caninterc = xx
-    precipday = 0.
-  else
-    canstor(j) = canmxl
-  endif
-  if (idplt(j) == 33) then  ! paddy rice HRU
-    ! water added into ditches from low embankment, should be added to somewhere else.
-    pcp2canal = precipday * pcp2canfr_pr * embnkfr_pr
-    precipday = precipday - caninterc * (1 - embnkfr_pr) - pcp2canal
-  else
-    precipday = precipday - caninterc
-  endif
+          caninterc = canmxl - canstor(j)
+          if (precipday < caninterc) then
+            canstor(j) = canstor(j) + xx
+            caninterc = xx
+            precipday = 0.
+          else
+            canstor(j) = canmxl
+            if (idplt(j) == 33) then  ! paddy rice HRU
+              ! water added into ditches from low embankment, should be added to somewhere else.
+              pcp2canal = precipday * pcp2canfr_pr * embnkfr_pr
+              precipday = precipday - caninterc - pcp2canal
+            else
+              precipday = precipday - caninterc
+            endif
+          endif
 ```
 
 其中，需要增加一个参数：田埂部分接收降雨流于沟渠的比例`pcp2canfr_pr`，可以作为每个HRU的输入参数，也可作为
