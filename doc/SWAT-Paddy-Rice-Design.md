@@ -94,27 +94,27 @@ SWAT中有三种蒸散发模拟方法：
 ```fortran
          ! for paddy rice, recalculate es_max and ep_max
         if (idplt(j) == 33) then
-	         ! split the total pet to the radiation-driven part and drying power part
-	         etrd = 0.
-	         etae = 0.
-	         etrd = 0.75 * pet
-	         etae = pet - etrd
+             ! split the total pet to the radiation-driven part and drying power part
+             etrd = 0.
+             etae = 0.
+             etrd = 0.75 * pet
+             etae = pet - etrd
 
-	         es_max = exp(-0.5 * laiday(j)) * pet
+             es_max = exp(-0.5 * laiday(j)) * pet
              ep_max = etrd * (1. - exp(-0.5 * laiday(j) )) + etae * min(2., laiday(j) );
 
              esleft = es_max
 
              ! for impound paddy rice, source for evaporation is taken from water layer first
-			 if (pot_vol(j) >= esleft) then
-			     !take all soil evap from pot
-			     pot_vol(j) = pot_vol(j) - esleft
-			     esleft = 0.0
-			 else
-			     !first taking from pot then start taking from soil
-			     esleft = esleft - pot_vol(j)
-			     pot_vol(j) = 0.0
-			 end if
+             if (pot_vol(j) >= esleft) then
+                 !take all soil evap from pot
+                 pot_vol(j) = pot_vol(j) - esleft
+                 esleft = 0.0
+             else
+                 !first taking from pot then start taking from soil
+                 esleft = esleft - pot_vol(j)
+                 pot_vol(j) = 0.0
+             end if
         end if
 ```
 
