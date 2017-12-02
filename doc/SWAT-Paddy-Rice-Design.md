@@ -109,10 +109,12 @@ SWAT中有三种蒸散发模拟方法：
              if (pot_vol(j) >= esleft) then
                  !take all soil evap from pot
                  pot_vol(j) = pot_vol(j) - esleft
+                 pot_evap(j) = esleft
                  esleft = 0.0
              else
                  !first taking from pot then start taking from soil
                  esleft = esleft - pot_vol(j)
+                 pot_evap(j) = pot_vol(j)
                  pot_vol(j) = 0.0
              end if
         end if
