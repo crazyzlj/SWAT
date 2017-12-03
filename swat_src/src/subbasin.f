@@ -217,7 +217,10 @@
          
         !! perform management operations
         if (yr_skip(j) == 0) call operatn
-          
+
+        !!  recalculate surfq for paddy rice according the water depth configuration
+        if (idplt(j) == 33 .and. imp_trig(j) == 0) call surq_rice
+
         if (auto_wstr(j) > 1.e-6 .and. irrsc(j) > 2) call autoirr
         
         !! perform soil water routing

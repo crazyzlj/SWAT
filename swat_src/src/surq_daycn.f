@@ -81,5 +81,11 @@
      &                                        surfqimp * fcimp(urblu(j))
       end if    
 
+       ! for paddy rice during impoundment, set surfq = 0 for the moment,
+       ! and after operatn, recalculate surfq for paddy rice according the water depth configuration
+      if (idplt(j) == 33 .and. imp_trig(j) == 0) then
+           surfq(j) = 0.0
+      end if
+
       return
       end
