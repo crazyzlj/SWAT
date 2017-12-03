@@ -103,7 +103,7 @@
 
 ```
 
-水稻产流模块的实现:
+水稻产流模块的实现:超过水田的最大蓄水深度才产流，采用固定下渗率计算入渗量。
 ```fortran
       subroutine surq_rice
 
@@ -138,7 +138,7 @@
        ! add precipation to the water layer of paddy rice
       pot_vol(j) = pot_vol(j) + precipday
 
-    !       if overflow, then send the overflow to the HRU surface flow
+       ! if overflow, then send the overflow to the HRU surface flow
       if (pot_vol(j) > prpnd_max(j)) then
         qdr(j) = qdr(j) + (pot_vol(j)- prpnd_max(j))
         !          qday = qday + (pot_vol(j)- pot_volxmm(j))
@@ -168,8 +168,46 @@
       end subroutine surq_rice
 ```
 
+### 2.4. 渗漏
+考虑犁底层对渗漏的影响，需设置一个生育期内的平均渗漏强度，如2mm/day。
++ 简单地，把该参数作为整个流域的参数输入，在`basins.bsn`文件末尾添加如下内容：
+    ```text
+    Paddy Rice (revised by ljzhu):
+            2.0    | PERCO_AVE_PR: Mean percolation rate during growing season of paddy rice (mm/day).
+    ```
++ 在`modparm.f`中添加变量定义：
+    ```fortran
+    !!    Paddy rice related parameters, added by ljzhu, 11/01/2017
+    real :: pcp2canfr_pr, embnkfr_pr, perco_max_paddy
+    ```
++ 在`varinit.f`中添加参数初始化：
+    ```fortran
+    !! Paddy rice modeling by ljzhu, 11/01/2017
+    perco_max_paddy = 2.0
+    ```
++ 在`readbsn.f`中添加参数读取代码：
+    ```fortran
+    !!    Paddy Rice (revised by ljzhu), 11/01/2017
+    read (103,*,iostat=eof) perco_max_paddy
+    if (eof < 0) exit
+    !!    Paddy Rice (revised by ljzhu), 11/01/2017
+    ```
++ 在`percmicro.f`中添加对水稻田渗漏量的限制
+```fortran
+       !! for paddy rice, limit the seepage to groundwater less than 2mm/day, By Junzhi Liu, 2017-12-03
+      if (ly1 == sol_nly(j) .and. idplt(j) == 33) sepday = min(sepday, perco_max_paddy)
+```
 
-### 2.3. 蒸发蒸腾
+另外，当土壤中的水满足渗漏、壤中流之后仍然超过饱和含水量时，原来代码中已经做了特殊处理使水重新回到地表。
+代码在`sat_excess.f`中
+```fortran
+              if (ly == 1 .and. ul_excess > 0.) then
+                !! add ul_excess to depressional storage and then to surfq
+                pot_vol(j) = pot_vol(j) + ul_excess
+              end if
+```
+
+### 2.4. 蒸发蒸腾
 SWAT源码中，设置最大蒸发与最大蒸腾之和（ETmax）**不大于**参考作物
 蒸发蒸腾量，
 
@@ -209,31 +247,7 @@ SWAT中有三种蒸散发模拟方法：
         end if
 ```
 
-​	
-### 2.4. 渗漏
-考虑犁底层对渗漏的影响，需设置一个生育期内的平均渗漏强度，如2mm/day。
-+ 简单地，把该参数作为整个流域的参数输入，在`basins.bsn`文件末尾添加如下内容：
-    ```text
-    Paddy Rice (revised by ljzhu):
-            2.0    | PERCO_AVE_PR: Mean percolation rate during growing season of paddy rice (mm/day).
-    ```
-+ 在`modparm.f`中添加变量定义：
-    ```fortran
-    !!    Paddy rice related parameters, added by ljzhu, 11/01/2017
-    real :: pcp2canfr_pr, embnkfr_pr, perco_ave_pr
-    ```
-+ 在`varinit.f`中添加参数初始化：
-    ```fortran
-    !! Paddy rice modeling by ljzhu, 11/01/2017
-    perco_ave_pr = 2.0
-    ```
-+ 在`readbsn.f`中添加参数读取代码：
-    ```fortran
-    !!    Paddy Rice (revised by ljzhu), 11/01/2017
-    read (103,*,iostat=eof) perco_ave_pr
-    if (eof < 0) exit
-    !!    Paddy Rice (revised by ljzhu), 11/01/2017
-    ```
+
 
 #### 2.4.1 地下水埋深
 代俊峰和崔远来(2009)增加了地下水埋深的计算（不透水层距离地表的深度减去水位高度）。在SWAT2012
