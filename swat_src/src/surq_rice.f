@@ -1,4 +1,4 @@
-subroutine surq_rice
+      subroutine surq_rice
 
     !!    ~ ~ ~ INCOMING VARIABLES ~ ~ ~
     !!    name        |units         |definition
@@ -12,10 +12,12 @@ subroutine surq_rice
     !!    pot_vol(:)     |mm            |current volume of water stored in the
     !!                                  |depression/impounded area
 
-    pot_vol(j) = pot_vol(j) + precipday
+      use parm
+
+      pot_vol(j) = pot_vol(j) + precipday
 
     !       if overflow, then send the overflow to the HRU surface flow
-    if (pot_vol(j) > pot_volxmm(j)) then
+      if (pot_vol(j) > pot_volxmm(j)) then
         qdr(j) = qdr(j) + (pot_vol(j)- pot_volxmm(j))
         !          qday = qday + (pot_vol(j)- pot_volxmm(j))
         spillo = pot_vol(j) - pot_volxmm(j)
@@ -62,14 +64,14 @@ subroutine surq_rice
         sedorgp(j) = sedorgp(j) + potorgpo
         sedminps(j) = sedminps(j) + potmpso
         sedminpa(j) = sedminpa(j) + potmpao
-    end if       !! if overflow
+      end if       !! if overflow
 
     !      If no overflow, compute settling and losses, surface inlet tile
     !      flow, evap, seepage, and redistribute soil water
-    if (pot_vol(j) > 1.e-6) then
+      if (pot_vol(j) > 1.e-6) then
 
 
-    endif
+      endif
 
 
-end subroutine surq_rice
+      end subroutine surq_rice
