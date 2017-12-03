@@ -1885,6 +1885,7 @@
       allocate(prpnd_max(mhru))
       allocate(prfit_min(mhru))
       allocate(prfit_max(mhru))
+      allocate(pot_spillo(mhru))
       !!    Paddy rice related parameters, added by ljzhu, 11/01/2017
 
       call zero0
