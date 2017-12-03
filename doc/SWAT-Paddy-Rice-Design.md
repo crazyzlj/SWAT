@@ -80,7 +80,96 @@
     !!    Paddy Rice (revised by ljzhu), 11/01/2017
     ```
 
-### 2.2. 蒸发蒸腾
+### 2.2. 下渗/产流
+不蓄水时，用SWAT原来的方法
+积水时用pothole.f中的模拟方法
+在surq_daycn.f中，判断是否处于水田的蓄水期。如果是，把降水全部加到水田的蓄水量中，并让产流暂时为0（这样surface中计算的侵蚀量也为0，在水田蓄水期这是合理的）。在执行完operatn模块之后，再根据水田的水层深度设置计算水田径流量。
+
+```fortran
+       ! for paddy rice during impoundment, set surfq = 0 for the moment,
+       ! and after operatn, recalculate surfq for paddy rice according the water depth configuration
+      if (idplt(j) == 33 .and. imp_trig(j) == 0) then
+           surfq(j) = 0.0
+      end if
+```
+
+在subbasin.f文件中，operatn之后添加对水稻产流模块的调用
+```fortran
+        !! perform management operations
+        if (yr_skip(j) == 0) call operatn
+
+        !!  recalculate surfq for paddy rice according the water depth configuration, By Junzhi Liu 2017-12-03
+        if (idplt(j) == 33 .and. imp_trig(j) == 0) call surq_rice
+
+```
+
+水稻产流模块的实现:
+```fortran
+      subroutine surq_rice
+
+    !!    ~ ~ ~ INCOMING VARIABLES ~ ~ ~
+    !!    name        |units         |definition
+    !!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+    !!    precipday   |mm H2O        |precipitation for the day in HRU
+    !!    pot_k       |(mm/hr)       |hydraulic conductivity of soil surface of pothole
+    !!                   [defaults to conductivity of upper soil (0.01--10.) layer]
+    !!    hru_ha(:)     |ha            |area of HRU in hectares
+
+    !!    ~ ~ ~ OUTGOING VARIABLES ~ ~ ~
+    !!    name           |units         |definition
+    !!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+    !!    pot_vol(:)     |mm            |current volume of water stored in the
+    !!                                  |depression/impounded area
+    !!    pot_spillo(:)  |mm            |amount of water released to main channel from
+    !!                                  |impounded water body due to spill-over
+    !!    pot_seep(:)    |mm            |amount of water seepage to soil
+
+      use parm
+
+      real :: yy, potvol_sep
+
+      j = 0
+      j = ihru
+
+       !!    conversion factors
+      cnv = 10. * hru_ha(j)
+      rto = 1.
+
+       ! add precipation to the water layer of paddy rice
+      pot_vol(j) = pot_vol(j) + precipday
+
+    !       if overflow, then send the overflow to the HRU surface flow
+      if (pot_vol(j) > prpnd_max(j)) then
+        qdr(j) = qdr(j) + (pot_vol(j)- prpnd_max(j))
+        !          qday = qday + (pot_vol(j)- pot_volxmm(j))
+        pot_spillo(j) = pot_vol(j) - prpnd_max(j)
+        pot_vol(j) = prpnd_max(j)
+      end if       !! if overflow
+
+    !      compute seepage, pot_seep will be used in percmain.f
+      if (pot_vol(j) > 1.e-6) then
+!        limit seepage into soil if profile is near field capacity
+         if (pot_k(j) > 0.) then
+           yy = pot_k(j)
+         else
+           yy = sol_k(1,j)
+         endif
+
+!        calculate seepage into soil
+         potsep = yy * 24.
+         potsep = Min(potsep, pot_vol(j))
+         potvol_sep = pot_vol(j)
+         pot_vol(j) = pot_vol(j) - potsep
+         pot_seep(j) = potsep
+      endif
+
+      ! evaporation will be calculated in etact.f
+
+      end subroutine surq_rice
+```
+
+
+### 2.3. 蒸发蒸腾
 SWAT源码中，设置最大蒸发与最大蒸腾之和（ETmax）**不大于**参考作物
 蒸发蒸腾量，
 
@@ -118,18 +207,6 @@ SWAT中有三种蒸散发模拟方法：
                  pot_vol(j) = 0.0
              end if
         end if
-```
-
-### 2.3. 下渗/产流
-不蓄水时，用SWAT原来的方法
-积水时用pothole.f中的模拟方法
-
-```fortran
-       ! for paddy rice during impoundment, set surfq = 0 for the moment,
-       ! and after operatn, recalculate surfq for paddy rice according the water depth configuration
-      if (idplt(j) == 33 .and. imp_trig(j) == 0) then
-           surfq(j) = 0.0
-      end if
 ```
 
 ​	
