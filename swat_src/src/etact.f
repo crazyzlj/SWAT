@@ -187,7 +187,7 @@
         esleft = 0.
         esleft = es_max
 
-         ! for paddy rice, recalculate es_max and ep_max
+         ! for paddy rice, recalculate es_max and ep_max, by Junzhi Liu, 2017-11
         if (idplt(j) == 33) then
              ! split the total pet to the radiation-driven part and drying power part
              etrd = 0.

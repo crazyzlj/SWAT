@@ -94,7 +94,7 @@
       real :: rch_san, rch_sil, rch_cla, rch_sag, rch_lag, rch_gra
 !!    Paddy rice related parameters, added by ljzhu, 11/01/2017
       real :: pcp2canfr_pr, embnkfr_pr, perco_ave_pr
-      real, dimension (:), allocatable :: prpnd_max, prfit_min, prfit_max
+      real, dimension (:), allocatable :: prpnd_max, prfit_min, prfit_max, pot_spillo
 !!    Paddy rice related parameters, added by ljzhu, 11/01/2017
 
 !!    declare mike van liew variables

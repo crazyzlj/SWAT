@@ -219,7 +219,6 @@
       no3in = surqno3(j)   !+ latno3(j) + gwno3(j) - don't include groundwater no3
       
 !!    conversion factors
-      cnv = 10. * hru_ha(j)
       rto = 1.
 
 !     when water is impounding
@@ -403,7 +402,7 @@
          endif  
          
 !        calculate seepage into soil
-         potsep = yy * potsa(j) * 240. / cnv                       !!mm/h*ha/240=m3/cnv=mm
+         potsep = yy * 24.
          potsep = Min(potsep, pot_vol(j))
          potvol_sep = pot_vol(j)
          pot_vol(j) = pot_vol(j) - potsep

@@ -93,6 +93,7 @@
       prpnd_max = 0.
       prfit_min = 0.
       prfit_max = 0.
+      pot_spillo = 0.
       !! Paddy rice related parameters, added by ljzhu, 11/01/2017
 
       pot_orgn = 0.
