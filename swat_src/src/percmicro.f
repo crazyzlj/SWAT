@@ -161,7 +161,7 @@
       endif
 
        !! for paddy rice, limit the seepage to groundwater less than 2mm/day, By Junzhi Liu, 2017-12-03
-      if (ly1 == sol_nly(j) .and. idplt(j) == 33) sepday = min(sepday, 2.0)
+      if (ly1 == sol_nly(j) .and. idplt(j) == 33) sepday = min(sepday, perco_max_paddy)
 
       return
       end

@@ -330,7 +330,7 @@
       !! Paddy rice modeling by ljzhu, 11/01/2017
       pcp2canfr_pr = 0.5
       embnkfr_pr = 0.15
-      perco_ave_pr = 2.0
+      perco_max_paddy = 2.0
 
       return
       end

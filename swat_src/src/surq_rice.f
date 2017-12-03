@@ -31,7 +31,7 @@
        ! add precipation to the water layer of paddy rice
       pot_vol(j) = pot_vol(j) + precipday
 
-    !       if overflow, then send the overflow to the HRU surface flow
+       ! if overflow, then send the overflow to the HRU surface flow
       if (pot_vol(j) > prpnd_max(j)) then
         qdr(j) = qdr(j) + (pot_vol(j)- prpnd_max(j))
         !          qday = qday + (pot_vol(j)- pot_volxmm(j))
@@ -55,7 +55,6 @@
          pot_vol(j) = pot_vol(j) - potsep
          pot_seep(j) = potsep
       endif
-
 
       ! evaporation will be calculated in etact.f
 
