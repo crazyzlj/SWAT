@@ -20,6 +20,10 @@
       use parm
 
       real :: yy, potvol_sep
+
+      j = 0
+      j = ihru
+
        !!    conversion factors
       cnv = 10. * hru_ha(j)
       rto = 1.

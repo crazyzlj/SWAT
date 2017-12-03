@@ -142,7 +142,9 @@
         else
           sepday = sepday * xx / (xx + Exp(8.833 - 2.598 * xx))
         end if
+
       end if
+
 
       !! check mass balance
       if (sepday + latlyr > sw_excess) then
@@ -157,6 +159,9 @@
         sepday = 0.
         sepday = sw_excess - lyrtile
       endif
+
+       !! for paddy rice, limit the seepage to groundwater less than 2mm/day, By Junzhi Liu, 2017-12-03
+      if (ly1 == sol_nly(j) .and. idplt(j) == 33) sepday = min(sepday, 2.0)
 
       return
       end
