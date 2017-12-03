@@ -80,7 +80,134 @@
     !!    Paddy Rice (revised by ljzhu), 11/01/2017
     ```
 
-### 2.2. 蒸发蒸腾
+### 2.2. 下渗/产流
+不蓄水时，用SWAT原来的方法
+积水时用pothole.f中的模拟方法
+在surq_daycn.f中，判断是否处于水田的蓄水期。如果是，把降水全部加到水田的蓄水量中，并让产流暂时为0（这样surface中计算的侵蚀量也为0，在水田蓄水期这是合理的）。在执行完operatn模块之后，再根据水田的水层深度设置计算水田径流量。
+
+```fortran
+       ! for paddy rice during impoundment, set surfq = 0 for the moment,
+       ! and after operatn, recalculate surfq for paddy rice according the water depth configuration
+      if (idplt(j) == 33 .and. imp_trig(j) == 0) then
+           surfq(j) = 0.0
+      end if
+```
+
+在subbasin.f文件中，operatn之后添加对水稻产流模块的调用
+```fortran
+        !! perform management operations
+        if (yr_skip(j) == 0) call operatn
+
+        !!  recalculate surfq for paddy rice according the water depth configuration, By Junzhi Liu 2017-12-03
+        if (idplt(j) == 33 .and. imp_trig(j) == 0) call surq_rice
+
+```
+
+水稻产流模块的实现:超过水田的最大蓄水深度才产流，采用固定下渗率计算入渗量。
+```fortran
+      subroutine surq_rice
+
+    !!    ~ ~ ~ INCOMING VARIABLES ~ ~ ~
+    !!    name        |units         |definition
+    !!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+    !!    precipday   |mm H2O        |precipitation for the day in HRU
+    !!    pot_k       |(mm/hr)       |hydraulic conductivity of soil surface of pothole
+    !!                   [defaults to conductivity of upper soil (0.01--10.) layer]
+    !!    hru_ha(:)     |ha            |area of HRU in hectares
+
+    !!    ~ ~ ~ OUTGOING VARIABLES ~ ~ ~
+    !!    name           |units         |definition
+    !!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+    !!    pot_vol(:)     |mm            |current volume of water stored in the
+    !!                                  |depression/impounded area
+    !!    pot_spillo(:)  |mm            |amount of water released to main channel from
+    !!                                  |impounded water body due to spill-over
+    !!    pot_seep(:)    |mm            |amount of water seepage to soil
+
+      use parm
+
+      real :: yy, potvol_sep
+
+      j = 0
+      j = ihru
+
+       !!    conversion factors
+      cnv = 10. * hru_ha(j)
+      rto = 1.
+
+       ! add precipation to the water layer of paddy rice
+      pot_vol(j) = pot_vol(j) + precipday
+
+       ! if overflow, then send the overflow to the HRU surface flow
+      if (pot_vol(j) > prpnd_max(j)) then
+        qdr(j) = qdr(j) + (pot_vol(j)- prpnd_max(j))
+        !          qday = qday + (pot_vol(j)- pot_volxmm(j))
+        pot_spillo(j) = pot_vol(j) - prpnd_max(j)
+        pot_vol(j) = prpnd_max(j)
+      end if       !! if overflow
+
+    !      compute seepage, pot_seep will be used in percmain.f
+      if (pot_vol(j) > 1.e-6) then
+!        limit seepage into soil if profile is near field capacity
+         if (pot_k(j) > 0.) then
+           yy = pot_k(j)
+         else
+           yy = sol_k(1,j)
+         endif
+
+!        calculate seepage into soil
+         potsep = yy * 24.
+         potsep = Min(potsep, pot_vol(j))
+         potvol_sep = pot_vol(j)
+         pot_vol(j) = pot_vol(j) - potsep
+         pot_seep(j) = potsep
+      endif
+
+      ! evaporation will be calculated in etact.f
+
+      end subroutine surq_rice
+```
+
+### 2.4. 渗漏
+考虑犁底层对渗漏的影响，需设置一个生育期内的平均渗漏强度，如2mm/day。
++ 简单地，把该参数作为整个流域的参数输入，在`basins.bsn`文件末尾添加如下内容：
+    ```text
+    Paddy Rice (revised by ljzhu):
+            2.0    | PERCO_AVE_PR: Mean percolation rate during growing season of paddy rice (mm/day).
+    ```
++ 在`modparm.f`中添加变量定义：
+    ```fortran
+    !!    Paddy rice related parameters, added by ljzhu, 11/01/2017
+    real :: pcp2canfr_pr, embnkfr_pr, perco_max_paddy
+    ```
++ 在`varinit.f`中添加参数初始化：
+    ```fortran
+    !! Paddy rice modeling by ljzhu, 11/01/2017
+    perco_max_paddy = 2.0
+    ```
++ 在`readbsn.f`中添加参数读取代码：
+    ```fortran
+    !!    Paddy Rice (revised by ljzhu), 11/01/2017
+    read (103,*,iostat=eof) perco_max_paddy
+    if (eof < 0) exit
+    !!    Paddy Rice (revised by ljzhu), 11/01/2017
+    ```
++ 在`percmicro.f`中添加对水稻田渗漏量的限制
+```fortran
+       !! for paddy rice, limit the seepage to groundwater less than 2mm/day, By Junzhi Liu, 2017-12-03
+      if (ly1 == sol_nly(j) .and. idplt(j) == 33) sepday = min(sepday, perco_max_paddy)
+```
+
+另外，当土壤中的水满足渗漏、壤中流之后仍然超过饱和含水量时，原来代码中已经做了特殊处理使水重新回到地表。
+代码在`sat_excess.f`中
+```fortran
+              if (ly == 1 .and. ul_excess > 0.) then
+                !! add ul_excess to depressional storage and then to surfq
+                pot_vol(j) = pot_vol(j) + ul_excess
+              end if
+```
+
+### 2.4. 蒸发蒸腾
 SWAT源码中，设置最大蒸发与最大蒸腾之和（ETmax）**不大于**参考作物
 蒸发蒸腾量，
 
@@ -120,34 +247,7 @@ SWAT中有三种蒸散发模拟方法：
         end if
 ```
 
-### 2.3. 下渗
-不蓄水时，用SWAT原来的方法
-积水时用pothole.f中的模拟方法
-​	
-### 2.4. 渗漏
-考虑犁底层对渗漏的影响，需设置一个生育期内的平均渗漏强度，如2mm/day。
-+ 简单地，把该参数作为整个流域的参数输入，在`basins.bsn`文件末尾添加如下内容：
-    ```text
-    Paddy Rice (revised by ljzhu):
-            2.0    | PERCO_AVE_PR: Mean percolation rate during growing season of paddy rice (mm/day).
-    ```
-+ 在`modparm.f`中添加变量定义：
-    ```fortran
-    !!    Paddy rice related parameters, added by ljzhu, 11/01/2017
-    real :: pcp2canfr_pr, embnkfr_pr, perco_ave_pr
-    ```
-+ 在`varinit.f`中添加参数初始化：
-    ```fortran
-    !! Paddy rice modeling by ljzhu, 11/01/2017
-    perco_ave_pr = 2.0
-    ```
-+ 在`readbsn.f`中添加参数读取代码：
-    ```fortran
-    !!    Paddy Rice (revised by ljzhu), 11/01/2017
-    read (103,*,iostat=eof) perco_ave_pr
-    if (eof < 0) exit
-    !!    Paddy Rice (revised by ljzhu), 11/01/2017
-    ```
+
 
 #### 2.4.1 地下水埋深
 代俊峰和崔远来(2009)增加了地下水埋深的计算（不透水层距离地表的深度减去水位高度）。在SWAT2012
