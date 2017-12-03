@@ -49,7 +49,7 @@
          endif
 
 !        calculate seepage into soil
-         potsep = yy * hru_ha(j) * 240. / cnv                       !!mm/h*ha/240=m3/cnv=mm
+         potsep = yy * 24.
          potsep = Min(potsep, pot_vol(j))
          potvol_sep = pot_vol(j)
          pot_vol(j) = pot_vol(j) - potsep
