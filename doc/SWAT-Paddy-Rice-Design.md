@@ -120,9 +120,18 @@ SWAT中有三种蒸散发模拟方法：
         end if
 ```
 
-### 2.3. 下渗
+### 2.3. 下渗/产流
 不蓄水时，用SWAT原来的方法
 积水时用pothole.f中的模拟方法
+
+```fortran
+       ! for paddy rice during impoundment, set surfq = 0 for the moment,
+       ! and after operatn, recalculate surfq for paddy rice according the water depth configuration
+      if (idplt(j) == 33 .and. imp_trig(j) == 0) then
+           surfq(j) = 0.0
+      end if
+```
+
 ​	
 ### 2.4. 渗漏
 考虑犁底层对渗漏的影响，需设置一个生育期内的平均渗漏强度，如2mm/day。
