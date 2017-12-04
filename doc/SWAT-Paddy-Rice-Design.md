@@ -311,6 +311,20 @@ depth）和最大适宜蓄水深度（maximum fitting depth）。
 
 在`subbasin.f`中，在HRU循环（`do iihru = 1, hrutot(inum1)` ）之前，增加当前时间子流域内所有HRU中POND的总可用水量，并在HRU循环结束后对HRU内POND水量进行重分配。
 
+```fortran
+      !! calculate the total amount of water in ponds within the subbasin
+      pnd_vol_tot = 0.0
+      do iihru = 1, hrutot(inum1)
+          pnd_vol_tot = pnd_vol_tot + pnd_vol(ihru)
+          ihru = ihru + 1
+      end do
+      !! end the calculation of
+
+      ihru = 0
+      ihru = hru1(inum1)
+```
+
+
 如果是水稻生长季的蓄水期，则在渗漏模块之前，进行自动灌溉的判断，即农田蓄水低于prfit_min时，进行灌溉。灌溉首先从坑塘（整个子流域的坑塘水量）中抽取，坑塘中水量不足时，再从其他灌溉水源取水。
 
 
