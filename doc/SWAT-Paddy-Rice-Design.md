@@ -325,8 +325,28 @@ depth）和最大适宜蓄水深度（maximum fitting depth）。
 ```
 
 
-如果是水稻生长季的蓄水期，则在渗漏模块之前，进行自动灌溉的判断，即农田蓄水低于prfit_min时，进行灌溉。灌溉首先从坑塘（整个子流域的坑塘水量）中抽取，坑塘中水量不足时，再从其他灌溉水源取水。
+如果是水稻生长季的蓄水期，则在渗漏模块之前，进行自动灌溉的判断(这个时期就不需要调用原来的autoirr函数了)，即农田蓄水低于prfit_min时，进行灌溉。灌溉首先从坑塘（整个子流域的坑塘水量）中抽取，坑塘中水量不足时，再从其他灌溉水源取水。
 
+在`subbasin.f`中
+```fortran
+        !!  recalculate surfq for paddy rice according the water depth configuration, By Junzhi Liu 2017-12-03
+        if (idplt(j) == 33 .and. imp_trig(j) == 0) then
+            call surq_rice
+        ! for impound paddy rice, auto irragation is performed in surq_rice instead of in autoirr
+        else if (auto_wstr(j) > 1.e-6 .and. irrsc(j) > 2) then
+            call autoirr
+        end if
+        
+        !! perform soil water routing
+        call percmain
+```
+
+在`surq_rice.f`中
+```fortran
+
+
+
+```
 
 
 ## 参考文献
