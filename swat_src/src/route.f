@@ -232,6 +232,7 @@
 
 !! remove water from reach for irrigation
       call irr_rch
+      call irr_rch_rice
 
 !! remove water from reach for consumptive water use
       call rchuse

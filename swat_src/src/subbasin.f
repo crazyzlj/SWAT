@@ -220,9 +220,12 @@
         if (yr_skip(j) == 0) call operatn
 
         !!  recalculate surfq for paddy rice according the water depth configuration, By Junzhi Liu 2017-12-03
-        if (idplt(j) == 33 .and. imp_trig(j) == 0) call surq_rice
-
-        if (auto_wstr(j) > 1.e-6 .and. irrsc(j) > 2) call autoirr
+        if (idplt(j) == 33 .and. imp_trig(j) == 0) then
+            call surq_rice
+        ! for impound paddy rice, auto irragation is performed in surq_rice instead of in autoirr
+        else if (auto_wstr(j) > 1.e-6 .and. irrsc(j) > 2) then
+            call autoirr
+        end if
         
         !! perform soil water routing
         call percmain

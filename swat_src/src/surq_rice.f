@@ -24,11 +24,7 @@
       j = 0
       j = ihru
 
-       !!    conversion factors
-      cnv = 10. * hru_ha(j)
-      rto = 1.
-
-       ! add precipation to the water layer of paddy rice
+      ! add precipation to the water layer of paddy rice
       pot_vol(j) = pot_vol(j) + precipday
 
        ! if overflow, then send the overflow to the HRU surface flow

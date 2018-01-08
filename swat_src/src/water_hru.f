@@ -33,6 +33,10 @@
         ho = hru_ra(j) * (1. - albday) / 2.44
         pet_day = pet_alpha * ho * gma
         etday = .7 * pet_day
-      
+
+         ! for the et of pond and stream will be calculated in their seperate module,
+         ! so this part of et should not be included
+        etday = 0. ! By Junzhi Liu, 2017-12-26
+
       return
       end
