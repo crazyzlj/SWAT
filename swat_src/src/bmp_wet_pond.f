@@ -50,7 +50,7 @@
       sb = inum1
       qout=0.; sedout=0.; qdepth=0.
       dp = wtp_dp(sb) * 0.1 !cm
-	  
+
       if (iyr<wtp_iyr(sb).or.(iyr==wtp_iyr(sb).and.i_mo<wtp_imo(sb))) 
      &then
          return
@@ -99,7 +99,7 @@
       qpnd = wtp_qi(sb) !m^3
       sedpnd = wtp_sedi(sb) * qpnd / 1.e6  !tons   
 
-!!	   iterate for subdaily flow/sediment routing
+!!       iterate for subdaily flow/sediment routing
       do ii=1,nstep
       
          qout = 0.; spndconc = 0.
@@ -133,31 +133,31 @@
 !!       Calculate outflow 
          if (hdep_ext>0.) then
 !!          Use stage-discharge relationship if available
-	      if (wtp_stagdis(sb)==1) then  
-	         select case(wtp_sdtype(sb))
-	         case(1) !! 1 is exponential function
-	            qout = wtp_sdc1(sb) * exp(wtp_sdexp(sb) * qdepth) + 
-     &   	            wtp_sdintc(sb) 
-	         case(2) !! 2 is Linear function
-	            qout = wtp_sdc1(sb) * qdepth + wtp_sdintc(sb)       
-	         case(3) !! 3 is logarthmic function
-	            qout = wtp_sdc1(sb) * log(qdepth) + wtp_sdintc(sb)  
-	         case(4) !! 4 is power function
-	            qout = wtp_sdc1(sb) * (qdepth**3) + wtp_sdc2(sb) * 
-     &   	          (qdepth**2) + wtp_sdc3(sb) * qdepth + wtp_sdintc(sb)
+          if (wtp_stagdis(sb)==1) then
+             select case(wtp_sdtype(sb))
+             case(1) !! 1 is exponential function
+                qout = wtp_sdc1(sb) * exp(wtp_sdexp(sb) * qdepth) +
+     &                   wtp_sdintc(sb)
+             case(2) !! 2 is Linear function
+                qout = wtp_sdc1(sb) * qdepth + wtp_sdintc(sb)
+             case(3) !! 3 is logarthmic function
+                qout = wtp_sdc1(sb) * log(qdepth) + wtp_sdintc(sb)
+             case(4) !! 4 is power function
+                qout = wtp_sdc1(sb) * (qdepth**3) + wtp_sdc2(sb) *
+     &                 (qdepth**2) + wtp_sdc3(sb) * qdepth + wtp_sdintc(sb)
                case(5)
                   qout = wtp_sdc1(sb) * (qdepth**wtp_sdexp(sb)) + 
      &                wtp_sdintc(sb) !m3/s
-	         end select 
-	      else
+             end select
+          else
 !!                Discharge out of extended detention storage through inverted PVC pipe
                call pipe_discharge(wtp_pdia(sb),wtp_plen(sb),
      &              hdep_ext,wtp_pmann(sb),wtp_ploss(sb),qout) !m3/s
-       		      
-	      end if
+
+          end if
             qout = qout * idt * 60. !m3/s ->m^3
          !  no outflow from the permanent pool
-		   if (qout>qpnd-wtp_pvol(sb)) qout = qpnd - wtp_pvol(sb)
+           if (qout>qpnd-wtp_pvol(sb)) qout = qpnd - wtp_pvol(sb)
              if (qout<0) qout = 0.
          else
 !!          no discharge from the permanent pool
@@ -185,7 +185,7 @@
          tmpw = sub_hhwtmp(sb,ii)  
          ! water viscosity (g/cm-s) using 3rd order polynomial interpolation
          mu = -3.e-6 * tmpw ** 3 + 0.0006 * tmpw ** 2 - 0.0469 * 
-     &        tmpw + 1.7517		
+     &        tmpw + 1.7517
          mu = mu * 1.e-2
          !settling velocity, cm/s
          usettle = 0.7 * 981. / 18. * 1.6 / mu * dp ** 2 !ro,s=1.6g/cm3, g=981cm/s
@@ -215,9 +215,9 @@
          qout = qout + qweir
          sedout = sedout + sedweir
          
-   	   !! Store flow/sediment out of the pond at the subbasin outlet
-   	   hhvaroute(2,ihout,ii) = max(0.,qout)
-   	   hhvaroute(3,ihout,ii) = max(0.,sedout)
+          !! Store flow/sediment out of the pond at the subbasin outlet
+          hhvaroute(2,ihout,ii) = max(0.,qout)
+          hhvaroute(3,ihout,ii) = max(0.,sedout)
   
       end do
       
@@ -228,7 +228,7 @@
       else
          wtp_sedi(sb) = 0
       endif
-	   if (wtp_sedi(sb)<wtp_sede(sb))  wtp_sedi(sb) = wtp_sede(sb)
+       if (wtp_sedi(sb)<wtp_sede(sb))  wtp_sedi(sb) = wtp_sede(sb)
          
       end subroutine 
 

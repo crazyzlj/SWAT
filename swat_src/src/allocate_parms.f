@@ -83,7 +83,7 @@
       allocate (l_vleng(msub))
       allocate (l_vslope(msub))
       allocate (l_ktc(msub))
-		
+
 !!    arrays for Biofilm in reach
       allocate (biofilm_mumax(mch))
       allocate (biofilm_kinv(mch))
@@ -94,7 +94,7 @@
       
       mxsubch = Max(msub+1,mch+1)
       itempa = Max(mhru,mch)     
-	
+
 !!    new arrays for routing units
       allocate (hru_rufr(mru,mhru))   
       allocate (daru_km(msub,mru))   
@@ -212,8 +212,8 @@
       allocate (coeff_slg2(mhru))
       allocate (coeff_nitr(mhru))
       allocate (coeff_denitr(mhru))
-	  allocate (isep_typ(mhru))
-	  allocate (isep_opt(mhru))
+      allocate (isep_typ(mhru))
+      allocate (isep_opt(mhru))
       allocate (plqm(mhru))
       allocate (coeff_pdistrb(mhru))
       allocate (coeff_psorpmax(mhru))
@@ -520,7 +520,7 @@
       allocate (wat_tbl(mhru))     
       allocate (sol_swpwt(mhru))
       allocate (conk(mlyr,mhru))
-	allocate (r2adj(mhru))	        
+      allocate (r2adj(mhru))
       allocate (sol_stpwt(mlyr,mhru)) !Moriasi 4/8/2014
 !    Drainmod tile equations  01/2006
       allocate (conv_wt(mlyr,mhru))
@@ -849,8 +849,8 @@
       allocate (deptil(mtil))
       allocate (effmix(mtil))
 !! drainmod tile equations   06/2006
-	  allocate (ranrns(mtil))
-	  allocate (ranrns_hru(mhru))
+      allocate (ranrns(mtil))
+      allocate (ranrns_hru(mhru))
 !! drainmod tile equations   06/2006
 
 !!    arrays which contain data related to hydrograph nodes
@@ -923,10 +923,10 @@
       allocate (cnday(mhru))
 !    Drainmod tile equations  01/2006 
       allocate (cont_cn(20,mhru))
-	  allocate (cumei(mhru))
-	  allocate (cumeira(mhru))
-	  allocate (cumrt(mhru))
-	  allocate (cumrai(mhru))
+      allocate (cumei(mhru))
+      allocate (cumeira(mhru))
+      allocate (cumrt(mhru))
+      allocate (cumrai(mhru))
 !    Drainmod tile equations  01/2006
       allocate (cont_p(20,mhru))
       allocate (cropno_upd(20,mhru))
@@ -938,8 +938,8 @@
       allocate (det_sag(mhru))
       allocate (det_lag(mhru))
 !    Drainmod tile equations  01/2006 
-	  allocate (drain_co(mhru))
-	  allocate (ddrain_hru(mhru))
+      allocate (drain_co(mhru))
+      allocate (ddrain_hru(mhru))
 !    Drainmod tile equations  01/2006
       allocate (ddrain(mhru))
       allocate (deepirr(mhru))
@@ -1077,7 +1077,7 @@
       allocate (lai_yrmx(mhru))
       allocate (laiday(mhru))
       allocate (laimxfr(mhru))
-	  allocate (latksatf(mhru))
+      allocate (latksatf(mhru))
       allocate (laimx_upd(20,mhru))
       allocate (lat_sed(mhru))
       allocate (lat_ttime(mhru))
@@ -1140,7 +1140,7 @@
       allocate (ov_n(mhru))
       allocate (ovrlnd(mhru))
 !    Drainmod tile equations  01/2006 
-	  allocate (pc(mhru))
+      allocate (pc(mhru))
 !    Drainmod tile equations  01/2006 
       allocate (percn(mhru))
       allocate (phuacc(mhru))
@@ -1232,8 +1232,8 @@
       allocate (rwt(mhru))
       allocate (sci(mhru))
 !    Drainmod tile equations  01/2006 
-	  allocate (sdrain(mhru))
-	  allocate (sstmaxd(mhru))	  
+      allocate (sdrain(mhru))
+      allocate (sstmaxd(mhru))
 !    Drainmod tile equations  01/2006 
       allocate (seccip(mhru))
       allocate (secciw(mhru))
@@ -1277,10 +1277,10 @@
       allocate (sol_zmx(mhru))
       allocate (strip_n(20,mhru))
 !!    Drainmod tile equations  01/2006 
-	allocate (strip_cn(20,mhru))
-	allocate (strip_c(20,mhru))
-	allocate (strip_p(20,mhru))
-	allocate (stmaxd(mhru))
+      allocate (strip_cn(20,mhru))
+      allocate (strip_c(20,mhru))
+      allocate (strip_p(20,mhru))
+      allocate (stmaxd(mhru))
       allocate (itill(mhru))
       allocate (strsa(mhru))
       allocate (strsn(mhru))
@@ -1526,7 +1526,7 @@
       allocate (hchla(nstep))
       allocate (hdepth(nstep))      ! changed as per nstep  !nstep Mar 19,2008
       allocate (hdisox(nstep))
-      allocate (hharea(nstep))	  ! changed as per nstep  !nstep Mar 19,2008
+      allocate (hharea(nstep))      ! changed as per nstep  !nstep Mar 19,2008
       allocate (hhqday(nstep))  ! changed as  nstep  Oct. 18, 2007
       allocate (hhstor(nstep))  ! changed as per nstep   !nstep Mar 19,2008
       allocate (hhtime(nstep))  ! changed as per nstep   !nstep Mar 19,2008
@@ -1537,7 +1537,7 @@
       allocate (horgp(nstep))
       allocate (hrchwtr(nstep))  ! changed as per nstep  !nstep Mar 19,2008
       allocate (hrtwtr(nstep))   ! changed as per nstep  !nstep Mar 19,2008
-      allocate (hsdti(nstep))	   ! changed as per nstep  !nstep Mar 19,2008
+      allocate (hsdti(nstep))       ! changed as per nstep  !nstep Mar 19,2008
       allocate (hsedst(nstep))
       allocate (hsedyld(nstep))
       allocate (hsolp(nstep))
@@ -1582,26 +1582,26 @@
 
 !!Armen Jan 2008 end
 !! sj aug 09 SWAT-C MC stuff
-	allocate (cf(mhru))
-	allocate (cfh(mhru))
-	allocate (cfdec(mhru))
+      allocate (cf(mhru))
+      allocate (cfh(mhru))
+      allocate (cfdec(mhru))
 !! sj aug 09 end
-	allocate (hhsurf_bs(2,mhru,nstep))  !! nstep changed to nstep  OCt. 18,2007
+      allocate (hhsurf_bs(2,mhru,nstep))  !! nstep changed to nstep  OCt. 18,2007
       allocate (ubnrunoff(nstep),ubntss(nstep))
       allocate (sub_ubnrunoff(msub,nstep),sub_ubntss(msub,nstep))
 
 !! Arrays for subdaily erosion modeling by Jaehak Jeong
-	allocate (hhsedy(mhru,nstep),rhy(nstep),ovrlnd_dt(mhru,nstep))
+      allocate (hhsedy(mhru,nstep),rhy(nstep),ovrlnd_dt(mhru,nstep))
       allocate (snam(mhru),hydgrp(mhru),kirr(mhru))
-	allocate (dratio(msub),init_abstrc(mhru))
-	allocate (sub_subp_dt(msub,nstep),sub_hhsedy(msub,nstep))
-	allocate (sub_atmp(msub,nstep),bmp_recharge(msub))
-	allocate (rchhr(mrcho,mch,nstep),hrtevp(nstep),hrttlc(nstep))
-	allocate (hhresflwi(nstep), hhresflwo(nstep),hhressedi(nstep),
-     &	 hhressedo(nstep))
+      allocate (dratio(msub),init_abstrc(mhru))
+      allocate (sub_subp_dt(msub,nstep),sub_hhsedy(msub,nstep))
+      allocate (sub_atmp(msub,nstep),bmp_recharge(msub))
+      allocate (rchhr(mrcho,mch,nstep),hrtevp(nstep),hrttlc(nstep))
+      allocate (hhresflwi(nstep), hhresflwo(nstep),hhressedi(nstep),
+     &     hhressedo(nstep))
 !! Arrays for bmp simulation by jaehak jeong
-	allocate (lu_nodrain(30),bmpdrain(mhru))
-	allocate (subdr_km(mhyd),subdr_ickm(mhyd),sub_cn2(msub))
+      allocate (lu_nodrain(30),bmpdrain(mhru))
+      allocate (subdr_km(mhyd),subdr_ickm(mhyd),sub_cn2(msub))
       ! sedimentation-filtration
       allocate (num_sf(msub),sf_fr(msub,10),sf_dim(msub,10),         
      &  sf_typ(msub,10),sf_im(msub,10),sf_iy(msub,10),sp_sa(msub,10),  
@@ -1628,11 +1628,11 @@
       allocate (filter_ch(20,mhru))  
       
       ! detention pond
- 	allocate(dtp_subnum(mhyd),dtp_imo(mhyd),dtp_iyr(mhyd),
+      allocate(dtp_subnum(mhyd),dtp_imo(mhyd),dtp_iyr(mhyd),
      &  dtp_numweir(mhyd),dtp_numstage(mhyd),
      &  dtp_stagdis(mhyd),dtp_reltype(mhyd),dtp_onoff(mhyd))
-	
-	allocate(dtp_evrsv(msub),
+
+      allocate(dtp_evrsv(msub),
      &  dtp_inflvol(msub),dtp_totwrwid(msub),dtp_lwratio(msub),
      &  dtp_wdep(msub),dtp_totdep(msub),dtp_watdepact(msub),
      &  dtp_outflow(msub),dtp_totrel(msub),dtp_backoff(msub),
@@ -1643,7 +1643,7 @@
      &  dtp_coef3(msub),dtp_dummy1(msub),dtp_dummy2(msub),
      &  dtp_dummy3(msub),dtp_ivol(msub),dtp_ised(msub))
       
-  	allocate(dtp_wdratio(msub,10),dtp_depweir(msub,10),
+      allocate(dtp_wdratio(msub,10),dtp_depweir(msub,10),
      &  dtp_diaweir(msub,10),dtp_retperd(msub,10),dtp_pcpret(msub,10),
      &  dtp_cdis(msub,10),dtp_flowrate(msub,10),
      &  dtp_wrwid(msub,10),dtp_weirtype(msub,10),dtp_weirdim(msub,10),
@@ -1653,68 +1653,68 @@
       allocate (lat_orgp(mhru))
 
 !! Variables for soil P and additional operations mjw
-	allocate (sol_watp(mlyr,mhru))
-	allocate (a_days(mlyr,mhru))
-	allocate (b_days(mlyr,mhru))
-	allocate (psp_store(mlyr,mhru))
-	allocate (ssp_store(mlyr,mhru))
-	allocate (sol_cal(mlyr,mhru))
-        allocate (sol_ph(mlyr,mhru))
-	allocate (harv_min(mhru))
-	allocate (fstap(mfdb)) 
-	allocate (min_res(mhru))
-	allocate (so_res(20,mhru))
-	allocate (so_res_flag(20,mhru))
-	allocate (ro_bmp_flag(20,mhru))
-        allocate (ro_bmp_flo(20,mhru))
-        allocate (ro_bmp_sed(20,mhru))
-        allocate (ro_bmp_pp(20,mhru))
-	allocate (ro_bmp_sp(20,mhru))
-	allocate (ro_bmp_pn(20,mhru))
-	allocate (ro_bmp_sn(20,mhru))
-	allocate (ro_bmp_bac(20,mhru))
+      allocate (sol_watp(mlyr,mhru))
+      allocate (a_days(mlyr,mhru))
+      allocate (b_days(mlyr,mhru))
+      allocate (psp_store(mlyr,mhru))
+      allocate (ssp_store(mlyr,mhru))
+      allocate (sol_cal(mlyr,mhru))
+      allocate (sol_ph(mlyr,mhru))
+      allocate (harv_min(mhru))
+      allocate (fstap(mfdb))
+      allocate (min_res(mhru))
+      allocate (so_res(20,mhru))
+      allocate (so_res_flag(20,mhru))
+      allocate (ro_bmp_flag(20,mhru))
+      allocate (ro_bmp_flo(20,mhru))
+      allocate (ro_bmp_sed(20,mhru))
+      allocate (ro_bmp_pp(20,mhru))
+      allocate (ro_bmp_sp(20,mhru))
+      allocate (ro_bmp_pn(20,mhru))
+      allocate (ro_bmp_sn(20,mhru))
+      allocate (ro_bmp_bac(20,mhru))
 
-        allocate (ro_bmp_flos(20,mhru))
-        allocate (ro_bmp_seds(20,mhru))
-        allocate (ro_bmp_pps(20,mhru))
-	allocate (ro_bmp_sps(20,mhru))
-	allocate (ro_bmp_pns(20,mhru))
-	allocate (ro_bmp_sns(20,mhru))
-	allocate (ro_bmp_bacs(20,mhru))
+      allocate (ro_bmp_flos(20,mhru))
+      allocate (ro_bmp_seds(20,mhru))
+      allocate (ro_bmp_pps(20,mhru))
+      allocate (ro_bmp_sps(20,mhru))
+      allocate (ro_bmp_pns(20,mhru))
+      allocate (ro_bmp_sns(20,mhru))
+      allocate (ro_bmp_bacs(20,mhru))
 
-        allocate (ro_bmp_flot(20,mhru))
-        allocate (ro_bmp_sedt(20,mhru))
-        allocate (ro_bmp_ppt(20,mhru))
-	allocate (ro_bmp_spt(20,mhru))
-	allocate (ro_bmp_pnt(20,mhru))
-	allocate (ro_bmp_snt(20,mhru))
-	allocate (ro_bmp_bact(20,mhru))
+      allocate (ro_bmp_flot(20,mhru))
+      allocate (ro_bmp_sedt(20,mhru))
+      allocate (ro_bmp_ppt(20,mhru))
+      allocate (ro_bmp_spt(20,mhru))
+      allocate (ro_bmp_pnt(20,mhru))
+      allocate (ro_bmp_snt(20,mhru))
+      allocate (ro_bmp_bact(20,mhru))
 
-	allocate (bmp_flag(mhru))
+      allocate (bmp_flag(mhru))
       
       allocate (bmp_flo(mhru))
-	allocate (bmp_sed(mhru))
-	allocate (bmp_pp(mhru)) 	
-	allocate (bmp_sp(mhru))	
-	allocate (bmp_pn(mhru)) 	
-	allocate (bmp_sn(mhru))	
-	allocate (bmp_bac(mhru))
+      allocate (bmp_sed(mhru))
+      allocate (bmp_pp(mhru))
+      allocate (bmp_sp(mhru))
+      allocate (bmp_pn(mhru))
+      allocate (bmp_sn(mhru))
+      allocate (bmp_bac(mhru))
       
       allocate (bmp_flos(mhru))
-	allocate (bmp_seds(mhru))
-	allocate (bmp_pps(mhru)) 	
-	allocate (bmp_sps(mhru))	
-	allocate (bmp_pns(mhru)) 	
-	allocate (bmp_sns(mhru))	
-	allocate (bmp_bacs(mhru))
+      allocate (bmp_seds(mhru))
+      allocate (bmp_pps(mhru))
+      allocate (bmp_sps(mhru))
+      allocate (bmp_pns(mhru))
+      allocate (bmp_sns(mhru))
+      allocate (bmp_bacs(mhru))
       
       allocate (bmp_flot(mhru))
-	allocate (bmp_sedt(mhru))
-	allocate (bmp_ppt(mhru)) 	
-	allocate (bmp_spt(mhru))	
-	allocate (bmp_pnt(mhru)) 	
-	allocate (bmp_snt(mhru))	
-	allocate (bmp_bact(mhru))
+      allocate (bmp_sedt(mhru))
+      allocate (bmp_ppt(mhru))
+      allocate (bmp_spt(mhru))
+      allocate (bmp_pnt(mhru))
+      allocate (bmp_snt(mhru))
+      allocate (bmp_bact(mhru))
       
       !retention irrigation
       allocate(ri_sed(msub,10),ri_fr(msub,10),ri_dim(msub,10),
@@ -1787,21 +1787,21 @@
       
       !! By Zhang for C/N cycling
       !! ============================
-	!allocate(sol_PH(mlyr,mhru))
-	allocate(sol_CAC(mlyr,mhru)) 
-	allocate(sol_CEC(mlyr,mhru)) 
-	allocate(sol_BMC(mlyr,mhru)) 
-	allocate(sol_BMN(mlyr,mhru)) 
-	allocate(sol_HSC(mlyr,mhru)) 
-	allocate(sol_HSN(mlyr,mhru)) 
-	allocate(sol_HPC(mlyr,mhru)) 
-	allocate(sol_HPN(mlyr,mhru)) 
-	allocate(sol_LM(mlyr,mhru)) 
-	allocate(sol_LMC(mlyr,mhru)) 
-	allocate(sol_LMN(mlyr,mhru)) 
-	allocate(sol_LS(mlyr,mhru)) 
-	allocate(sol_LSC(mlyr,mhru)) 
-	allocate(sol_LSN(mlyr,mhru)) 
+      !! allocate(sol_PH(mlyr,mhru))
+      allocate(sol_CAC(mlyr,mhru))
+      allocate(sol_CEC(mlyr,mhru))
+      allocate(sol_BMC(mlyr,mhru))
+      allocate(sol_BMN(mlyr,mhru))
+      allocate(sol_HSC(mlyr,mhru))
+      allocate(sol_HSN(mlyr,mhru))
+      allocate(sol_HPC(mlyr,mhru))
+      allocate(sol_HPN(mlyr,mhru))
+      allocate(sol_LM(mlyr,mhru))
+      allocate(sol_LMC(mlyr,mhru))
+      allocate(sol_LMN(mlyr,mhru))
+      allocate(sol_LS(mlyr,mhru))
+      allocate(sol_LSC(mlyr,mhru))
+      allocate(sol_LSN(mlyr,mhru))
       allocate(sol_LSL(mlyr,mhru)) 
       allocate(sol_RNMN(mlyr,mhru))
       allocate(sol_LSLC(mlyr,mhru))
@@ -1813,62 +1813,62 @@
       allocate(sol_HS(mlyr,mhru))
       allocate(sol_BM(mlyr,mhru))
 
-	!daily update
-	allocate(sol_percc(mlyr,mhru))
-	allocate(sol_latc(mlyr,mhru))
-	      
-	!!for print out at daily, monthly, and annual scale
-	allocate(sedc_d(mhru))
-	allocate(surfqc_d(mhru))
-	allocate(latc_d(mhru))
-	allocate(percc_d(mhru))
-	allocate(foc_d(mhru))
-	allocate(NPPC_d(mhru))
-	allocate(rsdc_d(mhru)) 
-	allocate(grainc_d(mhru))
-	allocate(stoverc_d(mhru))
-	allocate(emitc_d(mhru))
-	allocate(soc_d(mhru))
-	allocate(rspc_d(mhru))
+    !daily update
+      allocate(sol_percc(mlyr,mhru))
+      allocate(sol_latc(mlyr,mhru))
 
-	allocate(sub_sedc_d(msub))
-	allocate(sub_surfqc_d(msub))
-	allocate(sub_latc_d(msub))
-	allocate(sub_percc_d(msub))
-	allocate(sub_foc_d(msub))
-	allocate(sub_NPPC_d(msub))
-	allocate(sub_rsdc_d(msub))
-	allocate(sub_grainc_d(msub))
-	allocate(sub_stoverc_d(msub))
-	allocate(sub_emitc_d(msub))
-	allocate(sub_soc_d(msub))
-	allocate(sub_rspc_d(mhru))
-	   
-	allocate(sedc_m(mhru))
-	allocate(surfqc_m(mhru))
-	allocate(latc_m(mhru))
-	allocate(percc_m(mhru))
-	allocate(foc_m(mhru))
-	allocate(NPPC_m(mhru))
-	allocate(rsdc_m(mhru)) 
-	allocate(grainc_m(mhru))
-	allocate(stoverc_m(mhru))
-	allocate(emitc_m(mhru))
-	allocate(soc_m(mhru))
-	allocate(rspc_m(mhru))	
-	
-	allocate(sedc_a(mhru))
-	allocate(surfqc_a(mhru))
-	allocate(latc_a(mhru))
-	allocate(percc_a(mhru))
-	allocate(foc_a(mhru))
-	allocate(NPPC_a(mhru))
-	allocate(rsdc_a(mhru)) 
-	allocate(grainc_a(mhru))
-	allocate(stoverc_a(mhru))
-	allocate(emitc_a(mhru))
-	allocate(soc_a(mhru))
-	allocate(rspc_a(mhru))	
+    !!for print out at daily, monthly, and annual scale
+      allocate(sedc_d(mhru))
+      allocate(surfqc_d(mhru))
+      allocate(latc_d(mhru))
+      allocate(percc_d(mhru))
+      allocate(foc_d(mhru))
+      allocate(NPPC_d(mhru))
+      allocate(rsdc_d(mhru))
+      allocate(grainc_d(mhru))
+      allocate(stoverc_d(mhru))
+      allocate(emitc_d(mhru))
+      allocate(soc_d(mhru))
+      allocate(rspc_d(mhru))
+
+      allocate(sub_sedc_d(msub))
+      allocate(sub_surfqc_d(msub))
+      allocate(sub_latc_d(msub))
+      allocate(sub_percc_d(msub))
+      allocate(sub_foc_d(msub))
+      allocate(sub_NPPC_d(msub))
+      allocate(sub_rsdc_d(msub))
+      allocate(sub_grainc_d(msub))
+      allocate(sub_stoverc_d(msub))
+      allocate(sub_emitc_d(msub))
+      allocate(sub_soc_d(msub))
+      allocate(sub_rspc_d(mhru))
+
+      allocate(sedc_m(mhru))
+      allocate(surfqc_m(mhru))
+      allocate(latc_m(mhru))
+      allocate(percc_m(mhru))
+      allocate(foc_m(mhru))
+      allocate(NPPC_m(mhru))
+      allocate(rsdc_m(mhru))
+      allocate(grainc_m(mhru))
+      allocate(stoverc_m(mhru))
+      allocate(emitc_m(mhru))
+      allocate(soc_m(mhru))
+      allocate(rspc_m(mhru))
+
+      allocate(sedc_a(mhru))
+      allocate(surfqc_a(mhru))
+      allocate(latc_a(mhru))
+      allocate(percc_a(mhru))
+      allocate(foc_a(mhru))
+      allocate(NPPC_a(mhru))
+      allocate(rsdc_a(mhru))
+      allocate(grainc_a(mhru))
+      allocate(stoverc_a(mhru))
+      allocate(emitc_a(mhru))
+      allocate(soc_a(mhru))
+      allocate(rspc_a(mhru))
 
        !Tillage factor on SOM decomposition
        allocate(tillage_switch(mhru))

@@ -294,9 +294,9 @@
             ! water temperature, C
             tmpw = sub_hhwtmp(sb,ii)  
             ! water viscosity (g/cm-s) using 3rd order polynomial interpolation
-	         mu = -3.e-6 * tmpw ** 3 + 0.0006 * tmpw ** 2 - 
-     &	         0.0469 * tmpw + 1.7517		
-	         mu = mu * 1.e-2
+             mu = -3.e-6 * tmpw ** 3 + 0.0006 * tmpw ** 2 -
+     &             0.0469 * tmpw + 1.7517
+             mu = mu * 1.e-2
 
             !filter flow, cm/s
             qcms = qout(ii) / (tsa * ffsa) * 100. / dt / 3600. 

@@ -247,7 +247,7 @@
      &                    fnh3n(ifrt)
 
           if (cswat == 0) then
-		sol_fon(ly,j) = sol_fon(ly,j) + rtoaf * xx * dwfert
+        sol_fon(ly,j) = sol_fon(ly,j) + rtoaf * xx * dwfert
      &                    * forgn(ifrt)
             sol_aorgn(ly,j) = sol_aorgn(ly,j) + (1. - rtoaf) * xx       
      &                    * dwfert * forgn(ifrt)
@@ -255,20 +255,20 @@
      &                    * forgp(ifrt)
             sol_orgp(ly,j) = sol_orgp(ly,j) + (1. - rtoaf) * xx *       
      &                    dwfert* forgp(ifrt)
-	    end if
-	    if (cswat == 1) then
+        end if
+        if (cswat == 1) then
             sol_mc(ly,j) = sol_mc(ly,j) + xx * dwfert * forgn(ifrt)*10.
             sol_mn(ly,j) = sol_mn(ly,j) + xx * dwfert * forgn(ifrt)
             sol_mp(ly,j) = sol_mp(ly,j) + xx * dwfert * forgp(ifrt)
-	    end if
+        end if
 
-	    !! add by zhang
-	    !!=================
-	    if (cswat == 2) then
+        !! add by zhang
+        !!=================
+        if (cswat == 2) then
             sol_fop(ly,j) = sol_fop(ly,j) + rtoaf * xx * dwfert         
      &                    * forgp(ifrt)
             sol_orgp(ly,j) = sol_orgp(ly,j) + (1. - rtoaf) * xx *       
-     &                    dwfert* forgp(ifrt)	    
+     &                    dwfert* forgp(ifrt)
             !!Allocate organic fertilizer to Slow (SWAT_active) N pool;
             sol_HSN(ly,j) = sol_HSN(ly,j) + (1. - rtoaf) * xx           
      &                    * dwfert * forgn(ifrt)
@@ -310,10 +310,10 @@
               sol_LSL(ly,j) = sol_LSL(ly,j) + YZ*.175
               
               sol_fon(ly,j) = sol_LMN(ly,j) + sol_LSN(ly,j)
-	    
-	    end if
-	    !! add by zhang
-	    !!=================
+
+        end if
+        !! add by zhang
+        !!=================
 
           !! check for P stress
           tfp = 0.

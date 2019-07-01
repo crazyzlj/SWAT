@@ -72,7 +72,7 @@
       !! Storage capacity under addon
       qaddon = dtp_addon(sb,1)**3./(3.*dtp_lwratio(sb)*ch_s(2,sb)**2.) !m3 Note: V = d^3 / (3*R*S^2) |Modify by J. Osorio (3/19/2013)
 
-      !!	iterate for subdaily flow/sediment routing
+      !!    iterate for subdaily flow/sediment routing
       do ii=1,nstep
 
          if (ii==1) qpnd_last=dtp_ivol(sb) 
@@ -81,11 +81,11 @@
          qin = hhvaroute(2,ihout,ii) !m^3
          sedin = hhvaroute(3,ihout,ii)  !tons
 
-	   !! Estimate water depth
+       !! Estimate water depth
          qdepth = (3.*qpnd*dtp_lwratio(sb)*ch_s(2,sb)**2)**0.33333
 
-	   !! skip to next time step if no ponding occurs 
-!	   if (qdepth<=0.0001) cycle   
+       !! skip to next time step if no ponding occurs
+!       if (qdepth<=0.0001) cycle
          
          if (dtp_stagdis(sb)==0) then 
           !! Calculate weir outflow 
@@ -93,48 +93,48 @@
             qstage = 0.
             
             !! calculate weir discharge 
-	        
-	        if (dtp_weirtype(sb,k)==2) then
-	        !! Circular weir
-	           dtp_depweir(sb,k) = dtp_diaweir(sb,k) + dtp_addon(sb,k)
+
+            if (dtp_weirtype(sb,k)==2) then
+            !! Circular weir
+               dtp_depweir(sb,k) = dtp_diaweir(sb,k) + dtp_addon(sb,k)
                                 
-	           if (qdepth>dtp_depweir(sb,k)) then  
+               if (qdepth>dtp_depweir(sb,k)) then
                !! Fully submerged 
                   qdepth = qdepth - dtp_depweir(sb,k) 
                   watdepact = qdepth + dtp_diaweir(sb,k) / 2
-  	            warea = 3.14159 * dtp_diaweir(sb,k) ** 2 / 4.
-		        
-		          !! orifice equation
-   	            qstage = dtp_cdis(sb,k) * 0.6 * warea * 
-     & 	               sqrt(19.6 * watdepact) !m3/s/unit
+                  warea = 3.14159 * dtp_diaweir(sb,k) ** 2 / 4.
+
+                  !! orifice equation
+                   qstage = dtp_cdis(sb,k) * 0.6 * warea *
+     &                    sqrt(19.6 * watdepact) !m3/s/unit
                   qstage = qstage * dtp_numweir(sb) * 60. * idt !m^3
                  else
                !! Partially submerged
                   watdepact = max(qdepth - dtp_addon(sb,k),0.)
                   dtp_wrwid(sb,k) = dtp_diaweir(sb,k) * 0.667
-		           
-		          !! weir/orifice discharge
-		          qstage = dtp_cdis(sb,k) * 1.84 * dtp_wrwid(sb,k) * 
-     &		            watdepact ** 1.5 !m3/s
-		          qstage = qstage * dtp_numweir(sb) * 60. * idt !m^3
+
+                  !! weir/orifice discharge
+                  qstage = dtp_cdis(sb,k) * 1.84 * dtp_wrwid(sb,k) *
+     &                    watdepact ** 1.5 !m3/s
+                  qstage = qstage * dtp_numweir(sb) * 60. * idt !m^3
                  end if               
-	         
-	        else
-	        !! Rectangular weir
-	           watdepact = max(qdepth - dtp_addon(sb,k),0.)
+
+            else
+            !! Rectangular weir
+               watdepact = max(qdepth - dtp_addon(sb,k),0.)
 
                !! Estimate weir/orifice discharge
-		       qstage = dtp_cdis(sb,k) * 1.84 * dtp_wrwid(sb,k) * 
-     &		       watdepact ** 1.5 !m3/s     The Bureau of Reclamation, in their Water Measurement Manual, SI units
-		       qstage = qstage * dtp_numweir(sb) * 60. * idt !m^3
-	            
-	        end if
+               qstage = dtp_cdis(sb,k) * 1.84 * dtp_wrwid(sb,k) *
+     &               watdepact ** 1.5 !m3/s     The Bureau of Reclamation, in their Water Measurement Manual, SI units
+               qstage = qstage * dtp_numweir(sb) * 60. * idt !m^3
+
+            end if
             
             qout = qout + qstage
-	      end do
+          end do
 
-	      !Limit total outflow amount less than available water above addon
-	      if(qout>qpnd-qaddon) qout = max(qpnd - qaddon,0.)
+          !Limit total outflow amount less than available water above addon
+          if(qout>qpnd-qaddon) qout = max(qpnd - qaddon,0.)
          
           !! Flow over the emergency weir
           watdepact = qdepth - (dtp_depweir(sb,1) + dtp_addon(sb,1))
@@ -145,34 +145,34 @@
           end if
          
 
-		 else
-		 !! Use stage-discharge relationship if available
-		  if (dtp_stagdis(sb)==1) then  
-		     select case(dtp_reltype(sb))
-		       case(1) !! 1 is exponential function
-		         qout = dtp_coef1(sb) * exp(dtp_expont(sb) * qdepth) +
-     &	             dtp_intcept(sb) 
-		       case(2) !! 2 is Linear function
-		         qout = dtp_coef1(sb) * qdepth + dtp_intcept(sb)       
-		       case(3) !! 3 is logarthmic function
-		         qout = dtp_coef1(sb) * log(qdepth) + dtp_intcept(sb)  
-		       case(4) !! 4 is power function
-		         qout = dtp_coef1(sb) * (qdepth**3) + dtp_coef2(sb) * 
-     & 	         (qdepth**2) + dtp_coef3(sb) * qdepth + dtp_intcept(sb)
+         else
+         !! Use stage-discharge relationship if available
+          if (dtp_stagdis(sb)==1) then
+             select case(dtp_reltype(sb))
+               case(1) !! 1 is exponential function
+                 qout = dtp_coef1(sb) * exp(dtp_expont(sb) * qdepth) +
+     &                 dtp_intcept(sb)
+               case(2) !! 2 is Linear function
+                 qout = dtp_coef1(sb) * qdepth + dtp_intcept(sb)
+               case(3) !! 3 is logarthmic function
+                 qout = dtp_coef1(sb) * log(qdepth) + dtp_intcept(sb)
+               case(4) !! 4 is power function
+                 qout = dtp_coef1(sb) * (qdepth**3) + dtp_coef2(sb) *
+     &              (qdepth**2) + dtp_coef3(sb) * qdepth + dtp_intcept(sb)
                case(5)
                  qout = dtp_coef1(sb)*(qdepth**dtp_expont(sb))+
      &                  dtp_intcept(sb)
-			 end select 
-		     qout = qout * 60. * idt
-	      end if  !! end of stage-discharge calculation
-	     end if  
+             end select
+             qout = qout * 60. * idt
+          end if  !! end of stage-discharge calculation
+         end if
                      
          !! Check mass balance for flow
          if (qout>qpnd) then !no detention occurs
             qout = qpnd
             qpnd = 0.
          else !detention occurs
-            !!	Estimating surface area of water
+            !!    Estimating surface area of water
             backup_length = qdepth / ch_s(2,sb)
             seep_sa = backup_length/dtp_lwratio(sb)  
      &                + (4. * dtp_lwratio(sb) * qdepth**2) / 3.      !! Note: SSA = w + (4*l*d^2)/(3*w) |Modify by J. Osorio (3/20/2013)
@@ -182,12 +182,12 @@
             seep_sa = seep_sa / 10000.0  
             evap_sa = evap_sa / 10000.0  
 
-            !!	Estimate rainfall, evapotranspiration, and seepage
+            !!    Estimate rainfall, evapotranspiration, and seepage
             pcp_vol  = 10.0 * sub_subp_dt(sb,ii) * evap_sa !m^3
             evap_vol = 10.0 * dtp_evrsv(sb) * pet_day * evap_sa !m^3
             seep_vol = 10.0 * ch_k(2,sb) * seep_sa * idt / 60. !m^3
 
-            !!	Check mass balance for water in the pond
+            !!    Check mass balance for water in the pond
             qpnd = qpnd_last + qin + pcp_vol - qout - evap_vol 
      &                - seep_vol
             if (qpnd<0) qpnd = 0.
@@ -211,9 +211,9 @@
 
          sedpnd_last=sedpnd
          
-   	   !! Store flow/sediment out of the pond at the subbasin outlet
-   	   hhvaroute(2,ihout,ii) = max(0.,qout)
-   	   hhvaroute(3,ihout,ii) = max(0.,sedout)
+          !! Store flow/sediment out of the pond at the subbasin outlet
+          hhvaroute(2,ihout,ii) = max(0.,qout)
+          hhvaroute(3,ihout,ii) = max(0.,sedout)
 
          write (33333,'(8f10.2,4f10.6)') qin,
      & qpnd,qout,qstage,pcp_vol,evap_vol,seep_vol,sedin,sedpnd,sedout

@@ -51,6 +51,7 @@
         albday = sol_alb(j)
 
         !! equation 2.2.15 in SWAT manual
+        !! 0.23 is plant albedo set by swat
         if (laiday(j) > 0.) albday = .23 * (1. - eaj) + sol_alb(j) * eaj
       else
         !! equation 2.2.13 in SWAT manual

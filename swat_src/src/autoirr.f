@@ -179,7 +179,7 @@
                   deepirr(k) = deepirr(k) + vmma
                 end if
               end do
-            end select
+          end select
 
           if (imgt == 1) then
             write (143, 1000) subnum(j), hruno(j), iyr, i_mo, iida, 

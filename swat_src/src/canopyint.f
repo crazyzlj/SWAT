@@ -11,7 +11,7 @@
 !!    canmx(:)    |mm H2O        |maximum canopy storage
 !!    canstor(:)  |mm H2O        |amount of water held in canopy storage
 !!    icr(:)      |none          |sequence number of crop grown within a year
-!!    idplt(:,:,:)|none          |land cover code from crop.dat
+!!    idplt(:)    |none          |land cover code from crop.dat
 !!    ievent      |none          |rainfall/runoff code
 !!                               |0 daily rainfall/curve number technique
 !!                               |1 sub-daily rainfall/Green&Ampt/hourly

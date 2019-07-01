@@ -36,7 +36,7 @@
       sol_aorgn(1,j) = sol_aorgn(1,j) * xx
       sol_orgn(1,j) = sol_orgn(1,j) * xx
 
-      !!insert new biomss by zhang	  
+      !!insert new biomss by zhang
       !!=================================
       if (cswat == 2) then
           sol_LM(1,j) = sol_LM(1,j) * xx
