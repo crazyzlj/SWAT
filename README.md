@@ -16,6 +16,7 @@
   ```shell
   cd <path to SWAT>
   mkdir build
+  cd build
   cmake ..
   make && make install
   ```
@@ -51,6 +52,11 @@ However, if you want a user-friendly IDE for to learn and improve the SWAT model
 CLion use CMake to manage projects. Under Windows, you may also install mingw64 (or mingw) for the gfortran compiler.
 
 Using CLion is quite easy and intuitive. Just open the SWAT path from `File -> Open...`. Then CLion will automatically load the project by CMakeLists.txt existed in SWAT directory.  Now, you can build SWAT model by typing `Ctrl+F9` or clicking the build button.
+
+With the latest [Fortran plugin with GDB support](https://plugins.jetbrains.com/plugin/9699-fortran/update/39683),
+we can debugging SWAT in the familiar JetBrains' way.
+
+![Debugging by Fortran plugin with GDB support](doc/img/debug_using_CLion_with_Fortran_plugin_based_on_gfortran_and_gdb.jpg)
 
 # 3. Update with the latest SWAT source (For administrator only)
 
