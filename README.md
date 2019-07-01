@@ -1,4 +1,10 @@
-# Compile SWAT from Source Code with CMake
+# Unofficial collection of SWAT code
+
+# 0. Branches
+
++ **master**: Branch of revised official code. DO NOT merge other branches to the master branch!!! Once a new version of SWAT source code available, the master branch should be updated accordingly and merged to other branches!
++ **swat-rice**: SWAT for paddy rice modeling which is under development.
+
 # 1. Prerequisite
 
 + CMake2.8+
@@ -21,8 +27,6 @@
   make && make install
   ```
 
-
-
 ## 2.1. Using Visual Studio and Intel Parallel Studio XE under Windows
 
  Take VS2013 and Intel_Parallel_Studio_XE_2017 (Intel 17.0.4) as an example.
@@ -31,7 +35,8 @@
 + cd to the compile destination folder. e.g., `cd D:/compile/SWAT_ifort`
 + Run `cmake <path to SWAT src path>`. e.g., `cmake C:\z_code\Hydro\SWAT`
   + Compile 64-bit version: `cmake -G "Visual Studio 12 2013 Win64" C:\z_code\Hydro\SWAT`
-+ Open the project `SWAT2012rev664.sln`, and do what you want!
++ Open the project `SWAT<yyyy>rev<Num>.sln`, e.g. `SWAT2012rev664.sln`, right-click the solution name and select `Build Solution`.
++ After the compilation, right-click the `INSTALL` project and select `Build`, the executable of SWAT named `swat<yyyy>Rev<Num><BuildType>` will be located in `<path to SWAT src path>/bin`, e.g., `C:\z_code\Hydro\SWAT\swat2012Rev664Rel.exe`. In which `Dbg` for Debug, `Rel` for Release, etc.
 
 ## 2.2. Using GCC(gfortran) under Windows, Linux, and macOS
 
@@ -45,8 +50,6 @@ export FC=/share/soft/intel/composer_xe_2011_sp1.6.233/bin/intel64/ifort
 export FC=/home/zhulj/gcc4.8.4/bin/gfortran
 ```
 
-
-
 However, if you want a user-friendly IDE for to learn and improve the SWAT model, I recommend the cross-platform IDE [CLion](https://www.jetbrains.com/clion/) with [Fortran plugin](https://plugins.jetbrains.com/plugin/9699-fortran).
 
 CLion use CMake to manage projects. Under Windows, you may also install mingw64 (or mingw) for the gfortran compiler.
@@ -58,61 +61,9 @@ we can debugging SWAT in the familiar JetBrains' way.
 
 ![Debugging by Fortran plugin with GDB support](doc/img/debug_using_CLion_with_Fortran_plugin_based_on_gfortran_and_gdb.jpg)
 
-# 3. Update with the latest SWAT source (For administrator only)
-
-In order to make it easier to track code changes and keep up with newer revisions, I use subtree to manage the [SWAT source code from tamu](https://github.com/crazyzlj/swat_src_tamu).
-
-+ Set subtree as `swat_src`(only do once at the very beginning of this repository)
-
-  ```bash
-   git remote add -f swat_src git@github.com:crazyzlj/swat_src_tamu.git
-   git subtree add --prefix=swat_src swat_src master --squash
-  ```
-
-+ Do any modification to the `swat_src` to meet our specific needs.
-
-+ If the SWAT source is updated we should pull the latest code from [swat_src_tamu](https://github.com/crazyzlj/swat_src_tamu) and merge it.
-
-  ```shell
-  git fetch swat_src master
-  git subtree pull --prefix=swat_src swat_src master --squash
-  ```
-
-# 4. Changelog
-
-+ 9/11/2017: Bugs fixed or code improvement. Cross-platform compilation.
-
-  + Code improvement:
-
-    ``` fortran
-    !! 1. Error: Symbol 'XXX' at (1) has no IMPLICIT type
-    !! 2. Function 'XXXX' at (1) has no IMPLICIT type
-    ```
-
-  + Bugs:
-
-    ```fortran
-    !! 1. Typo
-    !! e.g., hhwatqual.f
-    if (orgpin < 1.e-6) orgnpin = 0.0
-    !! should be
-    if (orgpin < 1.e-6) orgpin = 0.0
-    !! 2. Float equal
-    if (rg_orifice(i,kk)==1) then
-    !! changed to
-    if (abs(rg_orifice(i,kk)-1.)<1.e-5) then
-    ```
-
-    ​
-
-+ 9/10/2017: Update to rev.664 and test compilation on VS2013+IVF 17.0
+![Debugging by Fortran plugin with GDB support 2](doc/img/debug_using_CLion_with_Fortran_plugin_based_on_gfortran_and_gdb_2.jpg)
 
 
-# 5. Reference
+# 3. References
 + [Compile and Debug SWAT with gfortran and Eclipse by Dr. Zhiqiang Yu](https://zhiqiangyu.wordpress.com/2014/10/01/compile-and-debug-swat-with-gfortran-and-eclipse/)
-  + If you cannot access [google drive](https://drive.google.com/file/d/0B16YhFB_9MejSG15ai0zYS1fMkU/edit?usp=sharing) for the `Makefile` or [google docs](https://docs.google.com/document/d/16Do2U1_v4mZZBOV0hmcs6Gh1UvAUAXOMidpB-SE203A/edit?usp=sharing) for the single document guide, these files are located in `SWAT/posts_by_zhiqiang`.
 + https://github.com/mlt/swat
-
-# 6. Contact
-
-Liangjun Zhu  (crazyzlj@gmail.com)
