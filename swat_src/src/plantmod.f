@@ -39,7 +39,7 @@
 
 !!    ~ ~ ~ SUBROUTINES/FUNCTIONS CALLED ~ ~ ~
 !!    Intrinsic: Max
-!!    SWAT: operatn, swu, grow
+!!    SWAT: swu, grow
 
 !!    ~ ~ ~ ~ ~ ~ END SPECIFICATIONS ~ ~ ~ ~ ~ ~
 
@@ -50,6 +50,7 @@
       j = 0
       j = ihru
 
+! this has been removed to subbasin.f
 !$$$$$$       !! update base zero total heat units
 !$$$$$$       if (tmpav(j) > 0. .and. phutot(hru_sub(j)) > 0.01) then
 !$$$$$$          phubase(j) = phubase(j) + tmpav(j) / phutot(hru_sub(j))

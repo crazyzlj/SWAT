@@ -186,28 +186,28 @@
         if (cswat == 0) then
         sol_fon(l,j) = sol_fon(l,j) + rtof * xx *                       
      &     frt_kg                    * forgn(ifrt)
-	  sol_aorgn(l,j) = sol_aorgn(l,j) + (1. - rtof) * xx *            
+      sol_aorgn(l,j) = sol_aorgn(l,j) + (1. - rtof) * xx *
      &     frt_kg                    * forgn(ifrt)
         sol_fop(l,j) = sol_fop(l,j) + rtof * xx *                       
      &      frt_kg                    * forgp(ifrt)
         sol_orgp(l,j) = sol_orgp(l,j) + (1. - rtof) * xx *              
      &      frt_kg                    * forgp(ifrt)
         end if
-	  if (cswat == 1) then
-	  sol_mc(l,j) = sol_mc(l,j) + xx * frt_kg                    *
-     &		forgn(ifrt) * 10.
-	  sol_mn(l,j) = sol_mn(l,j) + xx * frt_kg                    *
-     &		forgn(ifrt)
-	  sol_mp(l,j) = sol_mp(l,j) + xx * frt_kg                    *
-     &		forgp(ifrt)
-	  end if
+      if (cswat == 1) then
+      sol_mc(l,j) = sol_mc(l,j) + xx * frt_kg                    *
+     &        forgn(ifrt) * 10.
+      sol_mn(l,j) = sol_mn(l,j) + xx * frt_kg                    *
+     &        forgn(ifrt)
+      sol_mp(l,j) = sol_mp(l,j) + xx * frt_kg                    *
+     &        forgp(ifrt)
+      end if
 
         !!By Zhang for C/N cycling 
         !!===========================
-	  if (cswat == 2) then
+      if (cswat == 2) then
         !sol_fon(l,j) = sol_fon(l,j) + rtof * xx *                       &
      &  !   frt_kg(nro(j),nfert(j),j) * forgn(ifrt)
-	  !sol_aorgn(l,j) = sol_aorgn(l,j) + (1. - rtof) * xx *            
+      !sol_aorgn(l,j) = sol_aorgn(l,j) + (1. - rtof) * xx *
      &  !   frt_kg(nro(j),nfert(j),j) * forgn(ifrt)
         sol_fop(l,j) = sol_fop(l,j) + rtof * xx *        
      &      frt_kg * forgp(ifrt)
@@ -276,7 +276,7 @@
           sol_fon(l,j) = sol_LMN(l,j) + sol_LSN(l,j)
           !end if
       
-	  end if
+      end if
         !!By Zhang for C/N cycling 
         !!=========================== 
 

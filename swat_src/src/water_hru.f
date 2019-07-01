@@ -18,7 +18,7 @@
       use parm
       real :: tmpk, pet_alpha, ho, d, gma
       integer :: j
-	j = ihru
+      j = ihru
 !! if the HRU is water compute only pet and et
 !! using Priestly-Taylor and a coefficient
         tmpk = 0.

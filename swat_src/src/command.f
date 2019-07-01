@@ -16,8 +16,9 @@
 !!                               |4 = transfer    13 = 
 !!                               |5 = add         14 = saveconc
 !!                               |6 = rechour     15 = 
-!!                               |7 = recmon    
-!!                               |8 = recyear     
+!!                               |7 = recmon      16 = autocal
+!!                               |8 = recyear     17 = routing unit
+!!                               |18= routing landscape
 !!    ihouts(:)   |none          |For ICODES equal to
 !!                               |0: not used
 !!                               |1,2,3,5,7,8,10,11: hydrograph storage

@@ -71,8 +71,8 @@
         do while(idop(nop(j),j) > 0 .and. iida == idop(nop(j),j))
           call sched_mgt
           if (mgtop(nop(j),j) == 17) then
-	      call sched_mgt
-	    end if
+          call sched_mgt
+        end if
           if (yr_skip(j) == 1) exit
         end do
         
@@ -92,7 +92,7 @@
           end if 
           if (dorm_flag == 1) aphu = 999.
           if (mgtop(nop(j),j) == 17) then
-	      call sched_mgt
+          call sched_mgt
           end if
           if (yr_skip(j) == 1) exit
         end do

@@ -259,13 +259,13 @@
                 end if
       
               phubase(ihru) = 0.
-	        yr_skip(ihru) = 0
-	      endif
-	    
-	    endif
+            yr_skip(ihru) = 0
+          endif
+
+        endif
         end do
         
-	    !! write daily and/or monthly output
+        !! write daily and/or monthly output
           if (curyr > nyskip) then
             call writed
 

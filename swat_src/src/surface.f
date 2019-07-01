@@ -9,9 +9,10 @@
 !!    ihru        |none          |HRU number
 !!    ovrlnd(:)   |mm H2O        |overland flow onto HRU from upstream
 !!                               |routing unit
+!!    nstep       |none          |Number of time intervals for a day
 !!    peakr       |mm/hr         |peak runoff rate
 !!    precipday   |mm H2O        |effective precipitation for the day in HRU
-!!    qday        |mm H2O        |surface runoff loading to main channel 
+!!    qday        |mm H2O        |surface runoff loading to main channel
 !!                               |for day
 !!    surfq(:)    |mm H2O        |surface runoff generated in HRU during
 !!                               |the day
@@ -41,16 +42,17 @@
 
       integer :: j,sb,kk, ii, ib
       real :: precip_fr
-      real :: irfr,hruvirr,hruirrday
+      real :: irfr  !! the irrigation area fraction of subbasin irrigation area
+      real :: hruvirr,hruirrday
 
       j = 0
       j = ihru
-      sb = hru_sub(j)
+      sb = hru_sub(j) ! subbasin in which HRU is located
       hruirrday = 0.
       irmmdt = 0.
 
       !! compute canopy interception
-      if (idplt(j) > 0) then
+      if (idplt(j) > 0 .AND. precipday > 0.) then
         call canopyint
       end if
 
@@ -72,6 +74,7 @@
       if (icrk == 1) call crackvol
 
       !! add overland flow from upstream routing unit
+      !! currently, ovrlnd(j) is always 0. commented by ljzhu
       precipday = precipday + ovrlnd(j)
       if (nstep > 0) then
         do ii = 1, nstep
@@ -80,6 +83,8 @@
       end if
       
       !! add irrigation from retention-irrigation ponds to soil water
+      !! irmmdt(ii) first satisfy soil water to sol_ul, then store the remainer,
+      !! and, the irmmdt(ii) will not be used else where. commented by ljzhu
       if (ri_luflg(j)==1) then
         irfr = hru_km(j)* (1.-fimp(urblu(j))) / ri_subkm(sb) 
         do ii=1,nstep
@@ -105,7 +110,7 @@
       !!calculate subdaily curve number value
       call dailycn
 
-        !! compute runoff - surfq in mm H2O
+      !! compute runoff - surfq in mm H2O
       if (precipday > 0.1) then
         call volq 
         !! bmp adjustment
@@ -134,8 +139,8 @@
         call tran
         call eiusle
 
-	!! calculate sediment erosion by rainfall and overland flow
-		call ovr_sed
+        !! calculate sediment erosion by rainfall and overland flow
+        call ovr_sed
       end if
 
       call cfactor

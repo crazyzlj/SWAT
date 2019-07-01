@@ -57,7 +57,7 @@
       use parm
 
       integer, intent (in) :: jj
-      real, intent (in out) :: volmm
+      real, intent (inout) :: volmm
       integer :: k
       real :: fcx, stx, yy
 

@@ -49,9 +49,9 @@
       
        !initialize daily recharge from distributed BMPs
        bmp_recharge(sb) = 0.
-	   
- 	!--------------------------------- 	   
- 	! sedimentation-filtration basin
+
+      !---------------------------------
+      ! sedimentation-filtration basin
       if(num_sf(sb)>=1.and.hrnopcp(sb,nstep)<96) then
          
          do kk=1,num_sf(sb)
@@ -139,8 +139,8 @@
          end do
       endif
 
- 	   !--------------------------------- 	   
-	   ! retention-irrigation (RI)
+        !---------------------------------
+       ! retention-irrigation (RI)
       if(num_ri(sb)>=1.and.hrnopcp(sb,nstep)<96) then !72 hours draw-down plus another day (24hrs) 
          
          do kk=1,num_ri(sb)
@@ -184,7 +184,7 @@
          end do
          
       endif
-	
+
       ! allocate bmp inflow/outflow to subbasin surface runoff volume
       sub_ubnrunoff(sb,1:nstep) = sub_ubnrunoff(sb,1:nstep) - 
      &   sf_totalflw(1,1:nstep) - ri_totalflw(1,1:nstep) + 

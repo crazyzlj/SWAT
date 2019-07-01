@@ -69,8 +69,8 @@
       j = ihru
 
       xx = 0.
-	wt1 = 0.  !! conversion factor
-      er = 0.	!! enrichment ratio
+      wt1 = 0.  !! conversion factor
+      er = 0.    !! enrichment ratio
       if (iwave <= 0) then
         !! HRU calculations
         xx = sol_n(1,j) + sol_fon(1,j) + sol_mn(1,j)
@@ -100,12 +100,12 @@
         sedorgn(j) = .001 * conc * sedyld(j) / (da_ha * sub_fr(iwave))
       end if
 
-	!! update soil nitrogen pools only for HRU calculations
+    !! update soil nitrogen pools only for HRU calculations
       if (iwave <= 0 .and. xx > 1.e-6) then
         xx1 = (1. - sedorgn(j) / xx)
-		sol_n(1,j) = sol_n(1,j) * xx1
-		sol_fon(1,j) = sol_fon(1,j) * xx1
-		sol_mn(1,j) = sol_mn(1,j) * xx1
+        sol_n(1,j) = sol_n(1,j) * xx1
+        sol_fon(1,j) = sol_fon(1,j) * xx1
+        sol_mn(1,j) = sol_mn(1,j) * xx1
       end if
 
       return

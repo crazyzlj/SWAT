@@ -187,11 +187,11 @@
       yieldrsd = 0.
       
       ssb = bio_ms(j)                            ! Armen 16 Jan 2009 storing info
-      ssabg = bio_ms(j) * (1.- rwt(j))	    ! Armen 16 Jan 2009 storing info
+      ssabg = bio_ms(j) * (1.- rwt(j))        ! Armen 16 Jan 2009 storing info
       ssr = ssb * rwt(j)                         ! Armen 16 Jan 2009 storing info
       ssn = plantn(j)                            ! Armen 20 May 2006 storing info
       ssp = plantp(j)                            ! Armen 20 May 2006 storing info
-	
+
       !! calculate modifier for autofertilization target nitrogen content
       tnyld(j) = (1. - rwt(j)) * bio_ms(j) * pltfr_n(j) * auto_eff(j)
 
@@ -207,7 +207,7 @@
       if (hiad1 > hvsti(idplt(j))) then
         hiad1 = hvsti(idplt(j))
       end if
-	
+
 
       !! check if yield is from above or below ground
       if (hvsti(idplt(j)) > 1.001) then
@@ -230,7 +230,7 @@
         plantp(j) = plantp(j) - yieldptbr - clipptbr
       endif
 
-	if (hi_bms > 0.) then       !! compute biomass yield !! corrected by cibin Nov/2013
+      if (hi_bms > 0.) then       !! compute biomass yield !! corrected by cibin Nov/2013
         yieldbms = hi_bms * (1.-rwt(j)) * bio_ms(j)*harveff
         clipbms = hi_bms * (1.-rwt(j)) * bio_ms(j) * (1. - harveff)  
         bio_ms(j) = bio_ms(j) - yieldbms - clipbms !corrected by Jaehak Jeong sep. 2013
@@ -246,7 +246,7 @@
         clippbms = Min(clippbms, plantp(j) - yieldpbms)
         plantn(j) = plantn(j) - yieldnbms - clipnbms
         plantp(j) = plantp(j) - yieldpbms - clippbms
-	else
+      else
         !! compute grain yields
         yieldgrn = (1.-rwt(j)) * bio_ms(j) * hiad1* harveff
         !! determine clippings (biomass left behind) and update yield
@@ -288,13 +288,13 @@
       yield = yieldgrn + yieldbms + yieldtbr + yieldrsd
       yieldn = yieldngrn + yieldnbms + yieldntbr + yieldnrsd
       yieldp = yieldpgrn + yieldpbms + yieldptbr + yieldprsd
-	clip= clipgrn + clipbms + cliptbr   !! cibin nov 2013
+      clip= clipgrn + clipbms + cliptbr   !! cibin nov 2013
       clipn = clipngrn + clipnbms + clipntbr !! cibin nov 2013
       clipp = clippgrn + clippbms + clipptbr !! cibin nov 2013
       
       !!add by zhang
       !!=====================
-      !!use idplt(:,:,:) to calculate the crop type, then
+      !!use idplt(:) to calculate the crop type, then
       !! decide which type of crop yield should be used.
       if (cswat == 2) then
         grainc_d(j) = grainc_d(j)+ yield * 0.42
@@ -317,10 +317,10 @@
         CLG=BLG3*phuacc(j)/(phuacc(j)+ EXP(BLG1-BLG2*phuacc(j)))
         sf = 0.05
         !kg/ha   
-        sol_min_n = 0.	
+        sol_min_n = 0.
         sol_min_n = (sol_no3(1,j)+sol_nh3(1,j))
         resnew = clip 
-        resnew_n = clipn   	    
+        resnew_n = clipn
         resnew_ne = resnew_n + sf * sol_min_n
         !Not sure 1000 should be here or not!
         !RLN = 1000*(resnew * CLG/(resnew_n+1.E-5))
@@ -331,7 +331,7 @@
         !Therefore, RLR is expected to be less than 0.3
         !In the future, we may want to add a check make sure LMF is less than 1.0 - RLR.
         !this would help to avoid sol_LS becoming less than sol_LSL 
-        	    
+
         LMF = 0.85 - 0.018 * RLN
         if (LMF <0.01) then
           LMF = 0.01
@@ -344,10 +344,10 @@
         LSF =  1 - LMF  
         sol_LM(1,j) = sol_LM(1,j) + LMF * resnew
         sol_LS(1,j) = sol_LS(1,j) + LSF * resnew
-        	  
+
         !In Jimmy's code, lignin added to sol_LSL is calculated as RLR*LSF*resnew
         !However, I think we should use RLR*resnew; Confirmed with Jimmy
-        !sol_LSL(1,j) = sol_LSL(1,j) + RLR* LSF * resnew	
+        !sol_LSL(1,j) = sol_LSL(1,j) + RLR* LSF * resnew
         sol_LSL(1,j) = sol_LSL(1,j) + RLR*resnew
         sol_LSC(1,j) = sol_LSC(1,j) + 0.42*LSF * resnew  
         !In allignment with the sol_LSL calculation, sol_LSLC is also changed
@@ -364,7 +364,7 @@
           sol_LSN(1,j) = sol_LSN(1,j) + resnew_ne
           sol_LMN(1,j) = sol_LMN(1,j) + 1.E-25
         end if
-        sol_LMC(1,j) = sol_LMC(1,j) + 0.42 * LMF * resnew	
+        sol_LMC(1,j) = sol_LMC(1,j) + 0.42 * LMF * resnew
         !update no3 and nh3 in soil
         sol_no3(1,j) = sol_no3(1,j) * (1-sf)
         sol_nh3(1,j) = sol_nh3(1,j) * (1-sf)
@@ -372,21 +372,21 @@
       !!insert new biomss by zhang
       !!=============================
 
-	!! Calculation for dead roots allocations, resetting phenology, updating other pools
+    !! Calculation for dead roots allocations, resetting phenology, updating other pools
       if (ssabg > 1.e-6) then
-        ff3 = (yield + clip) / ssabg	! Armen 20 May 2008 and 16 Jan 2009
+        ff3 = (yield + clip) / ssabg    ! Armen 20 May 2008 and 16 Jan 2009
       else
         ff3 = 1.
       endif 
       if (ff3 > 1.0) ff3 = 1.0
 
-	! nssr is the new mass of roots
+    ! nssr is the new mass of roots
 !      nssr = rwt(j) * ssabg * (1. - ff3) / (1. - rwt(j))  
 !      rtresnew = ssr - nssr
 !      if (ssr > 1.e-6) then
 !       ff4 = rtresnew / ssr
 !      else!
-!	   ff4 = 0.
+!       ff4 = 0.
 !      end if
 !      rtresn = ff4 * ssn
 !      rtresp = ff4 * ssp
@@ -407,10 +407,10 @@
       endif
 
 
-!      !! compute fraction of roots in each layer	! Armen 20 May 2008
+!      !! compute fraction of roots in each layer    ! Armen 20 May 2008
 !      call rootfr
 !
-!      !! allocate roots, N, and P to soil pools	! Armen 20 May 2008
+!      !! allocate roots, N, and P to soil pools    ! Armen 20 May 2008
 !      do l=1, sol_nly(j)
 !            sol_rsd(l,j) = sol_rsd(l,j) + rtfr(l) * rtresnew
 !            sol_fon(l,j) = sol_fon(l,j) + rtfr(l) * rtresn
@@ -418,7 +418,7 @@
 !      end do
 !
 !     rtfr = 0.
-      !! allocate roots, N, and P to soil pools	! Armen 20 May 2008
+      !! allocate roots, N, and P to soil pools    ! Armen 20 May 2008
       do l=1, sol_nly(j)
         sol_rsd(l,j) = sol_rsd(l,j) + rtfr(l) * rtresnew
         sol_fon(l,j) = sol_fon(l,j) + rtfr(l) * rtresn
@@ -437,11 +437,11 @@
           BLG1 = XX + 0.5*BLG2
           CLG=BLG3*phuacc(j)/(phuacc(j)+ EXP(BLG1-BLG2*phuacc(j)))
           !kg/ha  
-          sol_min_n = 0.	
+          sol_min_n = 0.
           sol_min_n = (sol_no3(l,j)+sol_nh3(l,j))
-	          	          
+
           resnew = rtfr(l) * rtresnew
-          !resnew_n = resnew * pltfr_n(j)     	    
+          !resnew_n = resnew * pltfr_n(j)
           !resnew_ne = resnew_n + sf * sol_min_n
           resnew_n = rtfr(l) * rtresn
           resnew_ne = resnew_n + sf * sol_min_n
@@ -449,7 +449,7 @@
           !RLN = 1000*(resnew * CLG/(resnew_n+1.E-5))
           RLN = (resnew * CLG/(resnew_n+1.E-5))
           RLR = MIN(.8, resnew * CLG/1000/(resnew/1000+1.E-5))
-        	    
+
           LMF = 0.85 - 0.018 * RLN
           if (LMF <0.01) then
           LMF = 0.01
@@ -457,15 +457,15 @@
             if (LMF >0.7) then
               LMF = 0.7
             end if
-          end if      	  
+          end if
           
           LSF =  1 - LMF  
           sol_LM(l,j) = sol_LM(l,j) + LMF * resnew
-          sol_LS(l,j) = sol_LS(l,j) + LSF * resnew        	  
+          sol_LS(l,j) = sol_LS(l,j) + LSF * resnew
 
           !here a simplified assumption of 0.5 LSL
           LSLF = CLG          
-          sol_LSL(l,j) = sol_LSL(l,j) + RLR* LSF * resnew	          
+          sol_LSL(l,j) = sol_LSL(l,j) + RLR* LSF * resnew
           sol_LSC(l,j) = sol_LSC(l,j) + 0.42*LSF * resnew  
           sol_LSLC(l,j) = sol_LSLC(l,j) + RLR*0.42*LSF * resnew
           sol_LSLNC(l,j) = sol_LSC(l,j) - sol_LSLC(1,j)              
@@ -477,8 +477,8 @@
           else
             sol_LSN(l,j) = sol_LSN(l,j) + resnew_ne
             sol_LMN(l,j) = sol_LMN(l,j) + 1.E-25
-          end if	
-            sol_LMC(l,j) = sol_LMC(l,j) + 0.42 * LMF * resnew	
+          end if
+            sol_LMC(l,j) = sol_LMC(l,j) + 0.42 * LMF * resnew
             !update no3 and nh3 in soil
             sol_no3(1,j) = sol_no3(1,j) * (1-sf)
             sol_nh3(1,j) = sol_nh3(1,j) * (1-sf)  
@@ -489,7 +489,7 @@
 
         rtfr = 0.
 
-	!! adjust foliar pesticide for plant removal
+    !! adjust foliar pesticide for plant removal
       if (hrupest(j) == 1) then
         do k = 1, npmx
           !! calculate amount of pesticide removed with yield and clippings
@@ -510,7 +510,7 @@
         end do   
       end if
 
-	!! summary calculations
+    !! summary calculations
       if (curyr > nyskip) then
         wshd_yldn = wshd_yldn + yieldn * hru_dafr(j)
         wshd_yldp = wshd_yldp + yieldp * hru_dafr(j)
@@ -525,7 +525,7 @@
        !   case default
         bio_hv(icr(j),j) = (yield + clip + rtresnew) + 
      &                                           bio_hv(icr(j),j)                       !! Jeff, is this the intention
-        bio_yrms(j) = bio_yrms(j) + (yield + clip + rtresnew) / 1000.		            !! Jeff, is this the intention
+        bio_yrms(j) = bio_yrms(j) + (yield + clip + rtresnew) / 1000.                    !! Jeff, is this the intention
        ! end select
       endif
 

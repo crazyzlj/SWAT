@@ -38,7 +38,7 @@
       integer :: eof, j, ix
       
       eof = 0
-	do
+      do
         read (113,5000,iostat=eof) titldum
         if (eof < 0) exit
  !       read (113,*,iostat=eof) tck
@@ -67,7 +67,7 @@
       if (ovsl < 1.e-6) ovsl = 50.
       
       do j = 1, hrutot(i)
-	  read (113,*) ix, hru_rufr(iru,j)
+      read (113,*) ix, hru_rufr(iru,j)
       end do
       
       !! compute weighted K factor for sediment transport capacity
@@ -82,5 +82,5 @@
       !daru_km(isub,iru) = da_ru
       
 5000  format (a)     
-	return
+      return
       end

@@ -113,6 +113,7 @@
       real :: esd, etco, effnup
       real :: no3up, es_max, eos1, xx, cej, eaj, pet, esleft
       real :: sumsnoeb, evzp, eosl, dep, evz, sev
+      real :: etrd, etae
 ! explicitly define return type of external functions. Added by lj for gfortran.
       real, external :: Expo
       j = 0
@@ -120,9 +121,9 @@
       pet = 0.
       pet = pet_day
 !!    added statements for test of real statement above
-	esd = 500.
-	etco = 0.80
-	effnup = 0.1
+      esd = 500.
+      etco = 0.80
+      effnup = 0.1
 
 !! evaporate canopy storage first
 !! canopy storage is calculated by the model only if the Green & Ampt
@@ -244,7 +245,6 @@
       eosl = 0.
       eosl = esleft
       do ly = 1, sol_nly(j)
-
         !! depth exceeds max depth for soil evap (esd)
         dep = 0.
         if (ly == 1) then

@@ -170,7 +170,7 @@
                 vol = 0.
                 vol = aird(k) * cnv
               end if
-              vol = vol / irr_eff(k)		     !! BN inserted to account for irr. efficiency
+              vol = vol / irr_eff(k)             !! BN inserted to account for irr. efficiency
               res_vol(jres) = res_vol(jres) - vol
               if (res_vol(jres) < 0.) res_vol(jres) = 0.
 

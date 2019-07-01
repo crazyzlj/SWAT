@@ -124,26 +124,26 @@
 !    change below double subscripted sol_ec statement 1/27/09 when making septic changes
 
       !! MJW added rev 490
-	!!CaCo3 content (%) 
-	if (eof < 0) exit
-	  read (107,5000,iostat=eof) (sol_cal(j,ihru), j = 1, nly)
-	!! PH-H20  
-	if (eof < 0) exit
-	  read (107,5000,iostat=eof) (sol_ph(j,ihru), j = 1, nly) 
+    !!CaCo3 content (%)
+      if (eof < 0) exit
+      read (107,5000,iostat=eof) (sol_cal(j,ihru), j = 1, nly)
+    !! PH-H20
+      if (eof < 0) exit
+      read (107,5000,iostat=eof) (sol_ph(j,ihru), j = 1, nly)
       
       if (eof < 0) exit
       exit
       end do
 
-	!!Armen January 2009 
-	do j=1, nly
+    !!Armen January 2009
+      do j=1, nly
          if (sol_rock(j,ihru) > 98.0) sol_rock(j,ihru) = 98.0
          if (sol_awc(j,ihru) <= .01) sol_awc(j,ihru) = .01
          if (sol_awc(j,ihru) >= .80) sol_awc(j,ihru) = .80
          if (sol_cbn(j,ihru) < 1.e-6) sol_cbn(j,ihru) = .10
          sol_n(j,ihru) = sol_cbn(j,ihru) / 11.0
-	end do
-	!!Armen January 2009 end
+      end do
+    !!Armen January 2009 end
 
 !!    add 10mm layer at surface of soil
       if (sol_z(1,ihru) > 10.1) then
@@ -155,7 +155,7 @@
           sol_awc(j,ihru) = sol_awc(j-1,ihru)
           sol_k(j,ihru) = sol_k(j-1,ihru)
           sol_cbn(j,ihru) = sol_cbn(j-1,ihru)
-	!!Armen January 2009
+    !!Armen January 2009
                   sol_n(j,ihru) = sol_n(j-1,ihru)
 !                 sol_mc(j,ihru) = sol_mc(j-1,ihru)
 !                 sol_mn(j,ihru) = sol_mn(j-1,ihru)
@@ -165,8 +165,8 @@
                   sol_sand(j,ihru) = sol_sand(j-1,ihru) !!! Claire 2 Dec 2009
                   sol_silt(j,ihru) = sol_silt(j-1,ihru) !!! Claire 2 Dec 2009
                   sol_ph(j,ihru) = sol_ph(j-1,ihru) !! mjw rev 490
-		          sol_cal(j,ihru) = sol_cal(j-1,ihru) !! mjw rev 490
-	!!Armen January 2009 end
+                  sol_cal(j,ihru) = sol_cal(j-1,ihru) !! mjw rev 490
+    !!Armen January 2009 end
 !    change below double subscripted sol_ec statement 1/27/09 when making septic changes
           sol_ec(j,ihru) = sol_ec(j-1,ihru)
 !    change below double subscripted sol_ec statement 1/27/09 when making septic changes
@@ -187,10 +187,10 @@
 !!    plant
       if (sol_zmx(ihru) <= 0.001) sol_zmx(ihru) = sol_z(nly,ihru)
       plt_zmx = 0.
-	if (idplt(ihru) > 0) then
-	   if (idc(idplt(ihru)) > 0) then
+      if (idplt(ihru) > 0) then
+       if (idc(idplt(ihru)) > 0) then
            plt_zmx = 1000. * rdmx(idplt(ihru))
-	   end if
+       end if
       end if
       if (sol_zmx(ihru) > 1. .and. plt_zmx > 1.) then
          sol_zmx(ihru) = Min(sol_zmx(ihru),plt_zmx)
@@ -206,14 +206,14 @@
 
 !! create a bizone layer in septic HRUs
       if (isep_opt(ihru) /= 0) then 
-	 if (bz_z(ihru)+bz_thk(ihru) > sol_z(nly,ihru)) then
-	   if (sol_z(nly,ihru)>bz_thk(ihru)+10.) then !min. soil thickness for biozone layer (10mm top+biozone layer thickness)
-	      bz_z(ihru) = sol_z(nly,ihru) - bz_thk(ihru)
-	   else
-	      bz_z(ihru) = sol_z(nly,ihru)
-	      sol_z(nly,ihru) = sol_z(nly,ihru) + bz_thk(ihru)
-	   endif
-       endif 
+       if (bz_z(ihru)+bz_thk(ihru) > sol_z(nly,ihru)) then
+         if (sol_z(nly,ihru)>bz_thk(ihru)+10.) then !min. soil thickness for biozone layer (10mm top+biozone layer thickness)
+           bz_z(ihru) = sol_z(nly,ihru) - bz_thk(ihru)
+         else
+          bz_z(ihru) = sol_z(nly,ihru)
+          sol_z(nly,ihru) = sol_z(nly,ihru) + bz_thk(ihru)
+         endif
+        endif
        if (bz_z(ihru) > 0.) then 
          call layersplit (bz_z(ihru))
          dep_new = bz_z(ihru) + bz_thk(ihru)
@@ -238,13 +238,13 @@
         if (sol_k(j,ihru) <= 0.0) then 
           if (hydgrp(ihru) == "A") then
             sol_k(j,ihru) = a
-	    else
+        else
           if (hydgrp(ihru) == "B") then
             sol_k(j,ihru) = b
-	    else
+        else
           if (hydgrp(ihru) == "C") then
             sol_k(j,ihru) = c
-	    else
+        else
           if (hydgrp(ihru) == "D") then
 !            sol_k(j,ihru) = c
             sol_k(j,ihru) = d          !Claire 12/2/09

@@ -107,22 +107,22 @@
      &         iyr, sub_km(sb), (pdvb(ii), ii = 1, itotb)
  
 !!    added for binary files 3/25/09 gsm line below and write (66666
-	      if (ia_b == 1) then
-	        write (66666) sb, subgis(sb), iida, sub_km(sb),               
+          if (ia_b == 1) then
+            write (66666) sb, subgis(sb), iida, sub_km(sb),
      &                                        (pdvb(ii), ii = 1, itotb)
-	      endif
+          endif
       else
         if (icalen == 0)write(31,1000) sb, subgis(sb), iida, sub_km(sb),
      &                                (pdvab(ii), ii = 1, msubo)
         if (icalen == 1)write(31,1001) sb, subgis(sb), i_mo, icl(iida), 
      &         iyr, sub_km(sb), (pdvab(ii), ii = 1, msubo)
 !!    added for binary files 3/25/09 gsm line below and write (6666
-	        if (ia_b == 1) then
+            if (ia_b == 1) then
                 write(66666) sb, subgis(sb), iida, sub_km(sb),        
      &                                        (pdvab(ii), ii = 1, msubo)
               endif
         
-	end if
+      end if
 
 
       return

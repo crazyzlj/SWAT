@@ -101,7 +101,7 @@
  
       jres = 0
       jres = inum1
-	inhyd = inum2
+      inhyd = inum2
 
 !! store initial values
       flw = 0.
@@ -118,8 +118,8 @@
       do k=1,nstep
 
 !! update inflow to reservoir
-	  hhresflwi(k) = hhvaroute(2,inhyd,k)
-	  hhressedi(k) = hhvaroute(3,inhyd,k)
+      hhresflwi(k) = hhvaroute(2,inhyd,k)
+      hhressedi(k) = hhvaroute(3,inhyd,k)
 
 !! calculate surface area for day (ha)
         ressa = br1(jres) * res_vol(jres) ** br2(jres)
@@ -211,7 +211,7 @@
 
             case (3)                   !! use measured daily outflow
               if (k==1) read (350+jres,5000) flw
-  		      hhresflwo(k) = 86400. * flw / nstep  !! m3, urban modeling by J.Jeong
+                hhresflwo(k) = 86400. * flw / nstep  !! m3, urban modeling by J.Jeong
           end select
 
         !! check calculated outflow against specified max and min values

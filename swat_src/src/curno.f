@@ -91,10 +91,10 @@
       call ascrv(rto3,rtos,sumfc_ul,sol_sumul(h),wrt(1,h),wrt(2,h))
 
       if (curyr == 0) then
-	  sci(h) = 0.9 * smx(h)
-	else
+      sci(h) = 0.9 * smx(h)
+      else
         sci(h) = (1. - ((smxold - sci(h)) / smxold)) * smx(h)      !! plant ET
-	end if
+      end if
 
       return
       end

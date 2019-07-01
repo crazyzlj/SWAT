@@ -30,7 +30,7 @@
 !!    ~ ~ ~ LOCAL DEFINITIONS ~ ~ ~
 !!    name        |units         |definition
 !!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
-!!    icn         |none          |CN method flag:
+!!    icn         |none          |CN method flag (read from .bsn file):
 !!                               |(for testing alternative methods)
 !!                               |0 use traditional SWAT method which bases
 !!                               |  CN on soil moisture

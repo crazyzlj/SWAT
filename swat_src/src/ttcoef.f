@@ -17,7 +17,7 @@
 !!    ~ ~ ~ OUTGOING VARIABLES ~ ~ ~
 !!    name        |units         |definition
 !!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ 
-!!    chsslope(:)   |none          |change in horizontal distance per unit
+!!    chsslope(:) |none          |change in horizontal distance per unit
 !!                               |change in vertical distance on channel side
 !!                               |slopes; always set to 2 (slope=1/2)
 !!    phi(1,:)    |m^2           |cross-sectional area of flow at bankfull

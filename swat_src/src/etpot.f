@@ -66,7 +66,7 @@
 !!    gma         |kPa/deg C     |psychrometric constant
 !!    j           |none          |HRU number
 !!    pb          |kPa           |mean atmospheric pressure
-!!    pet_alpha  |none           |alpha factor in Priestley-Taylor PET equation
+!!    pet_alpha   |none          |alpha factor in Priestley-Taylor PET equation
 !!    ralb        |MJ/m2         |net incoming radiation for PET
 !!    ralb1       |MJ/m2         |net incoming radiation
 !!    ramm        |MJ/m2         |extraterrestrial radiation
@@ -134,7 +134,7 @@
       !!calculate the slope of the saturation vapor pressure curve
       dlt = 0.
       dlt = 4098. * ea / (tmpav(j) + 237.3)**2
-	
+
 
 
 !! DETERMINE POTENTIAL ET
@@ -161,7 +161,7 @@
           !! cloud cover factor equation 2.2.19
           rto = 0.
             if (hru_rmx(j) < 1.e-4) then
-		    rto = 0.
+            rto = 0.
             else
               rto = 0.9 * (hru_ra(j) / hru_rmx(j)) + 0.1
             end if
@@ -173,7 +173,7 @@
           !! calculate net radiation
           rn_pet = 0.
           rn_pet = ralb + rout
-       !! net radiation
+          !! net radiation
 
           pet_alpha = 1.28
           pet_day = pet_alpha * (dlt / (dlt + gma)) * rn_pet / xl
@@ -202,7 +202,7 @@
           !! cloud cover factor equation 2.2.19
           rto = 0.
             if (hru_rmx(j) < 1.e-4) then
-		    rto = 0.
+            rto = 0.
             else
               rto = 0.9 * (hru_ra(j) / hru_rmx(j)) + 0.1
             end if
@@ -216,7 +216,7 @@
           rn_pet = 0.
           rn = ralb1 + rout
           rn_pet = ralb + rout
-       !! net radiation
+          !! net radiation
 
           rho = 0.
           rho = 1710. - 6.85 * tmpav(j)
@@ -314,9 +314,9 @@
         ramm = hru_rmx(j) * 37.59 / 30. 
 
         if (tmx(j) > tmn(j)) then
-         pet_day = harg_petco(hru_sub(j))*(ramm / xl)*(tmpav(j) + 17.8)*
+          pet_day = harg_petco(hru_sub(j))*(ramm / xl)*(tmpav(j) + 17.8)*
      &                                            (tmx(j) - tmn(j))**0.5
-         pet_day = Max(0., pet_day)
+          pet_day = Max(0., pet_day)
         else
           pet_day = 0.
         endif

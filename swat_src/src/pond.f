@@ -129,22 +129,22 @@
       integer, intent (in) :: k
       real :: vol, sed, pndsa, xx, targ, tpco, phosk, nitrok, chlaco
       integer :: iseas
-	  real :: san, sil, cla, sag, lag, inised, finsed,setsed,remsetsed
-	  real :: susp, trappnd, velofl
+      real :: san, sil, cla, sag, lag, inised, finsed,setsed,remsetsed
+      real :: susp, trappnd, velofl
 
 
         !! store initial values
         vol = 0.
         sed = 0.
-	  san = 0.
-	  sil = 0.
-	  cla = 0.
-	  sag = 0.
-	  lag = 0.
-	  inised = 0.
-	  finsed = 0.
-	  setsed = 0.
-	  remsetsed = 0.
+      san = 0.
+      sil = 0.
+      cla = 0.
+      sag = 0.
+      lag = 0.
+      inised = 0.
+      finsed = 0.
+      setsed = 0.
+      remsetsed = 0.
         vol = pnd_vol(k)
         sed = pnd_sed(k)
         san = pnd_san(k)
@@ -235,7 +235,7 @@
           
           !! compute new sediment concentration
           if (pndsedin < 1.e-6) pndsedin = 0.
-	    if (abs(pndsa - 0.) < 1.e-5) pndsa = 0.001    !!MJW added line of code 040811
+        if (abs(pndsa - 0.) < 1.e-5) pndsa = 0.001    !!MJW added line of code 040811
           velofl = (pndflwo / pndsa) / 10000.
           if (velofl > 1.e-6) then
              trappnd = velsetlp(k) / velofl
@@ -260,49 +260,49 @@
           endif
 
           !! compute change in sediment concentration due to settling
-	    if (sed_stl(k) < 1.e-6) sed_stl(k) = 0.0
+        if (sed_stl(k) < 1.e-6) sed_stl(k) = 0.0
           if (pnd_sed(k) > pnd_nsed(k)) then
-	      inised = pnd_sed(k)
+          inised = pnd_sed(k)
             pnd_sed(k) = (pnd_sed(k) - pnd_nsed(k)) * sed_stl(k) +      
      &                                                       pnd_nsed(k)
-	      finsed = pnd_sed(k)
-	      setsed = inised - finsed
+          finsed = pnd_sed(k)
+          setsed = inised - finsed
 
-	    if (pnd_lag(k) >= setsed) then
-	      pnd_lag(k) = pnd_lag(k) - setsed
-	      remsetsed = 0.
-	    else
-	      remsetsed = setsed - pnd_lag(k)
-	      pnd_lag(k) = 0.
-	      if (pnd_san(k) >= remsetsed) then
-	        pnd_san(k) = pnd_san(k) - remsetsed
-	        remsetsed = 0.
-	      else
-	        remsetsed = remsetsed - pnd_san(k)
-	        pnd_san(k) = 0.
+        if (pnd_lag(k) >= setsed) then
+          pnd_lag(k) = pnd_lag(k) - setsed
+          remsetsed = 0.
+        else
+          remsetsed = setsed - pnd_lag(k)
+          pnd_lag(k) = 0.
+          if (pnd_san(k) >= remsetsed) then
+            pnd_san(k) = pnd_san(k) - remsetsed
+            remsetsed = 0.
+          else
+            remsetsed = remsetsed - pnd_san(k)
+            pnd_san(k) = 0.
               if (pnd_sag(k) >= remsetsed) then
-	          pnd_sag(k) = pnd_sag(k) - remsetsed
-	          remsetsed = 0.
-	        else
-	          remsetsed = remsetsed - pnd_sag(k)
-	          pnd_sag(k) = 0.
+              pnd_sag(k) = pnd_sag(k) - remsetsed
+              remsetsed = 0.
+            else
+              remsetsed = remsetsed - pnd_sag(k)
+              pnd_sag(k) = 0.
                 if (pnd_sil(k) >= remsetsed) then
-  	            pnd_sil(k) = pnd_sil(k) - remsetsed
-	            remsetsed = 0.
-	          else
-	            remsetsed = remsetsed - pnd_sil(k)
-	            pnd_sil(k) = 0.
+                  pnd_sil(k) = pnd_sil(k) - remsetsed
+                remsetsed = 0.
+              else
+                remsetsed = remsetsed - pnd_sil(k)
+                pnd_sil(k) = 0.
                   if (pnd_cla(k) >= remsetsed) then
-	              pnd_cla(k) = pnd_cla(k) - remsetsed
-	              remsetsed = 0.
-	            else
-	              remsetsed = remsetsed - pnd_cla(k)
-	              pnd_cla(k) = 0.
-	            end if
+                  pnd_cla(k) = pnd_cla(k) - remsetsed
+                  remsetsed = 0.
+                else
+                  remsetsed = remsetsed - pnd_cla(k)
+                  pnd_cla(k) = 0.
                 end if
-	        end if
-	      end if
-	    end if
+                end if
+            end if
+          end if
+        end if
 
           end if
           !! compute sediment leaving pond

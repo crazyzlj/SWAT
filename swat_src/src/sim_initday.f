@@ -99,7 +99,7 @@
       hru_ra = 0.
       hru_rmx = 0.
       hrupstd = 0.
-	  irr_flag = 0
+      irr_flag = 0
       latno3 = 0.
       latq = 0.
       minpgw = 0.
@@ -167,12 +167,12 @@
       sub_sedps = 0.
 
       sub_sedy = 0.
-	sub_dsan = 0.
-	sub_dsil = 0.
-	sub_dcla = 0.
-	sub_dsag = 0.
-	sub_dlag = 0.
-	sub_dgra = 0.
+      sub_dsan = 0.
+      sub_dsil = 0.
+      sub_dcla = 0.
+      sub_dsag = 0.
+      sub_dlag = 0.
+      sub_dgra = 0.
 
       sub_sep = 0.
       sub_snom = 0.
@@ -214,10 +214,10 @@
       sub_ubnrunoff = 0.
       sub_ubntss = 0.
       latq = 0.
-	  sub_subp_dt = 0.
-	  sub_hhsedy = 0.
+      sub_subp_dt = 0.
+      sub_hhsedy = 0.
       sub_atmp = 0.
-	  rchhr = 0.
+      rchhr = 0.
 !-----------------------------------------------------        
 
       !!add by zhang
@@ -235,20 +235,20 @@
         soc_d = 0.  
         rspc_d = 0.   
 
-	sub_sedc_d=0.
-	sub_surfqc_d=0.
-	sub_latc_d=0.
-	sub_percc_d=0.
-	sub_foc_d=0.
-	sub_NPPC_d=0. !! correct from sub_NEPC_d by lj.
-	sub_rsdc_d=0.
-	sub_grainc_d=0.
-	sub_stoverc_d=0.
-	sub_emitc_d=0.
-	sub_soc_d=0.
-	sub_rspc_d=0.
+      sub_sedc_d=0.
+      sub_surfqc_d=0.
+      sub_latc_d=0.
+      sub_percc_d=0.
+      sub_foc_d=0.
+      sub_NPPC_d=0. !! correct from sub_NEPC_d by lj.
+      sub_rsdc_d=0.
+      sub_grainc_d=0.
+      sub_stoverc_d=0.
+      sub_emitc_d=0.
+      sub_soc_d=0.
+      sub_rspc_d=0.
       !!add by zhang
       !!==========================
-	
+
       return
       end

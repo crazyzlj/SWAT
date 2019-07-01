@@ -122,15 +122,15 @@
       cyin = 0.
       cych = 0.
       depnet = 0.
-	  deg = 0.
+      deg = 0.
       deg1 = 0.
-	  deg2 = 0.
+      deg2 = 0.
       dep = 0.
       cyin = sedin / qdin
       cych = spcon(jrch) * vc ** spexp(jrch)
       depnet = qdin * (cych - cyin)
 !!      depnet = rtwtr * (cych - cyin)   !!!!!!!commented to match rev610
-	if(abs(depnet) < 1.e-6) depnet = 0.
+      if(abs(depnet) < 1.e-6) depnet = 0.
  !     if (vc < vcrit) depnet = 0.             !!!!!!!!!!!!commented to match r610
 
 !!  tbase is multiplied so that erosion is proportional to the traveltime, 
@@ -141,30 +141,30 @@
 
       if (depnet > 1.e-6) then  ! degradation
         deg = depnet !* tbase      !!!!commented to match rev610
-	  !! First the deposited material will be degraded before channel bed
-	  if (deg >= depch(jrch)) then
-	    deg1 = depch(jrch)
+      !! First the deposited material will be degraded before channel bed
+      if (deg >= depch(jrch)) then
+        deg1 = depch(jrch)
           deg2 = (deg - deg1) * ch_erodmo(jrch,i_mo)*ch_cov2(jrch)
-	  else
-	    deg1 = deg
-	    deg2 = 0.
-	  endif
+      else
+        deg1 = deg
+        deg2 = 0.
+      endif
         dep = 0.
       else
         dep = -depnet ! * tbase
         deg = 0.
-	  deg1 = 0.
-	  deg2 = 0.
+      deg1 = 0.
+      deg2 = 0.
       endif
 
-	depch(jrch) = depch(jrch) + dep - deg1
+      depch(jrch) = depch(jrch) + dep - deg1
       if (depch(jrch) < 1.e-6) depch(jrch) = 0.
 
-	sedin = sedin + deg1 + deg2 - dep
-	if (sedin < 1.e-6) sedin = 0.
+      sedin = sedin + deg1 + deg2 - dep
+      if (sedin < 1.e-6) sedin = 0.
 
-	outfract = rtwtr / qdin
-	if (outfract > 1.) outfract = 1.
+      outfract = rtwtr / qdin
+      if (outfract > 1.) outfract = 1.
 
       sedrch = sedin * outfract
       if (sedrch < 1.e-6) sedrch = 0.
@@ -173,8 +173,8 @@
       if (sedst(jrch) < 1.e-6) sedst(jrch) = 0.
 
 !!    Mass balance tests
-!!	ambalsed = sedinorg + deg1 + deg2 - dep - sedrch - sedst(jrch)
-!!	if (ambalsed .gt. 1e-3) write (*,*) iida, jrch, ambalsed
+!!    ambalsed = sedinorg + deg1 + deg2 - dep - sedrch - sedst(jrch)
+!!    if (ambalsed .gt. 1e-3) write (*,*) iida, jrch, ambalsed
 
 !!  In this default sediment routing sediment is not tracked by particle size
       rch_san = 0.
@@ -182,7 +182,7 @@
       rch_cla = 0.      !! in reach is assumed to be silt for mass conservation
       rch_sag = 0.
       rch_lag = 0.
-	rch_gra = 0.
+      rch_gra = 0.
 
 !!    Bank erosion
       rchdy(55,jrch) = 0.
@@ -193,7 +193,7 @@
 !!    Floodplain Deposition
       rchdy(58,jrch) = 0.
 !!    Total suspended sediments
-	rchdy(59,jrch) = sedrch / rtwtr * 1.e6
+      rchdy(59,jrch) = sedrch / rtwtr * 1.e6
 
 !!    Organic nitrogen and Organic Phosphorus contribution from channel erosion
 !!    ch_orgn(jrch) = deg2 * ch_onco(jrch) * 1000.
@@ -221,27 +221,27 @@
         endif
       endif
 
-	else
-	  sedrch = 0.
-	  rch_san = 0.
-	  rch_sil = 0.
-	  rch_cla = 0.
-	  rch_sag = 0.
-	  rch_lag = 0.
-	  rch_gra = 0.
-        sedst(jrch) = sedin
+      else
+          sedrch = 0.
+          rch_san = 0.
+          rch_sil = 0.
+          rch_cla = 0.
+          rch_sag = 0.
+          rch_lag = 0.
+          rch_gra = 0.
+          sedst(jrch) = sedin
 !!    Bank erosion
-      rchdy(55,jrch) = 0.
+        rchdy(55,jrch) = 0.
 !!    Channel Degredation
-      rchdy(56,jrch) = 0.
+        rchdy(56,jrch) = 0.
 !!    Channel Deposition
-      rchdy(57,jrch) = 0.
+        rchdy(57,jrch) = 0.
 !!    Floodplain Deposition
-      rchdy(58,jrch) = 0.
+        rchdy(58,jrch) = 0.
 !!    Total suspended sediments
-	rchdy(59,jrch) = 0.
+        rchdy(59,jrch) = 0.
 
-	endif !! end of qdin > 0.01 loop
+      endif !! end of qdin > 0.01 loop
 
       endif  !! end of rtwtr and rchdep > 0 loop
 

@@ -161,10 +161,10 @@
            end do
          end if  
 
-	   !! Urban Impervious cover 
-	   if (iurban(j)>0) then
-	     !runoff from pervious area
-	     hhqday(k-1) = hhqday(k-1) * (1.- fcimp(urblu(j))) 
+       !! Urban Impervious cover
+       if (iurban(j)>0) then
+         !runoff from pervious area
+         hhqday(k-1) = hhqday(k-1) * (1.- fcimp(urblu(j)))
 
 
            ! runoff from a LID and its upstream drainage areas (green roof, rain garden, cistern, and porous pavement)
@@ -205,8 +205,8 @@
 
          if (ubnrunoff(k-1)<0)  ubnrunoff(k-1) = 0.
          
-	   !! daily total runoff
-	   surfq(j) = surfq(j) + hhqday(k-1) + ubnrunoff(k-1)
+       !! daily total runoff
+       surfq(j) = surfq(j) + hhqday(k-1) + ubnrunoff(k-1)
 
          !! calculate new rate of infiltration
          rateinf(k) = adj_hc * (psidt / (cuminf(k) + 1.e-6) + 1.)

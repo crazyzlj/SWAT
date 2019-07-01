@@ -187,12 +187,12 @@
       read (108,*,iostat=eof) dis_stream(ihru)
       if (eof < 0) exit
 !! armen & stefan changes for SWAT-C
-	read (108,*,iostat=eof) cf(ihru)
-	if (eof < 0) exit
-	read (108,*,iostat=eof) cfh(ihru)
-	if (eof < 0) exit
-	read (108,*,iostat=eof) cfdec(ihru)
-	if (eof < 0) exit
+      read (108,*,iostat=eof) cf(ihru)
+      if (eof < 0) exit
+      read (108,*,iostat=eof) cfh(ihru)
+      if (eof < 0) exit
+      read (108,*,iostat=eof) cfdec(ihru)
+      if (eof < 0) exit
         read (108,*,iostat=eof) sed_con(ihru)
         if (eof < 0) exit
         read (108,*,iostat=eof) orgn_con(ihru)
@@ -236,7 +236,7 @@
         read (108,*,iostat=eof) iwetile(ihru)
         if (eof < 0) exit
         read (108,*,iostat=eof) iwetgw(ihru)
-	exit
+      exit
       end do
       
       if (iwetile(ihru) <= 0) iwetile(ihru) = 0
@@ -277,9 +277,9 @@
       if (dis_stream(ihru) <= 0.) dis_stream(ihru) = 35.0
 
 !! armen & stefan changes for SWAT-C
-     	if (cf(ihru) <= 0.) cf(ihru)= 1.0
-	if (cfh(ihru) <= 0.) cfh(ihru)= 1.0
-	if (cfdec(ihru) <= 0.) cfdec(ihru)= 0.055
+         if (cf(ihru) <= 0.) cf(ihru)= 1.0
+      if (cfh(ihru) <= 0.) cfh(ihru)= 1.0
+      if (cfdec(ihru) <= 0.) cfdec(ihru)= 0.055
 !! armen & stefan end
      
 
@@ -300,12 +300,12 @@
       pot_tile(ihru) = pot_tilemm(ihru)
 
       xx = 10. * pot_volmm(ihru) * hru_ha(ihru) / 1000000.  !! mg/L * m3 * 1000L/m3 * t/1,000,000,000   Srini pothole
-	pot_sed(ihru) = pot_nsed(ihru) * xx
-	pot_san(ihru) = 0. 
-	pot_sil(ihru) = 0. 
-	pot_cla(ihru) = pot_nsed(ihru) * xx 
-	pot_sag(ihru) = 0. 
-	pot_lag(ihru) = 0. 
+      pot_sed(ihru) = pot_nsed(ihru) * xx
+      pot_san(ihru) = 0.
+      pot_sil(ihru) = 0.
+      pot_cla(ihru) = pot_nsed(ihru) * xx
+      pot_sag(ihru) = 0.
+      pot_lag(ihru) = 0.
 
       close (108)
       return

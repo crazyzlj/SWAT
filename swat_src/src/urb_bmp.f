@@ -23,12 +23,12 @@
       real :: xx, solpppm, solnppm, sedpppm, sedppm, sednppm
       integer :: j
 
-	j = 0
-	j = ihru
+      j = 0
+      j = ihru
 
 !! convert to ppm -> (kg/ha)*100./mm = ppm
       if (qdr(j) > 0.1) then
-	  xx = 100. / qdr(j)
+      xx = 100. / qdr(j)
         sedppm = 1000. * xx * sedyld(j) / hru_ha(j)
         solnppm = xx * (surqno3(j) + latno3(j) + no3gw(j))
         solpppm = xx * (surqsolp(j) + minpgw(j))
@@ -40,9 +40,9 @@
         endif
 
         if (solnppm > soln_con(j)) then
-	    surqno3(j) = soln_con(j) / xx
+        surqno3(j) = soln_con(j) / xx
           latno3(j) = soln_con(j) / xx
-	    no3gw(j) = soln_con(j) / xx
+        no3gw(j) = soln_con(j) / xx
         endif
 
         if (solpppm > solp_con(j)) then
@@ -55,12 +55,12 @@
         endif
 
         if (sedpppm > orgp_con(j)) then 
-	    sedorgn(j)= orgp_con(j) / xx
+        sedorgn(j)= orgp_con(j) / xx
           sedminpa(j)= orgp_con(j) / xx
-	    sedminps(j)= orgp_con(j) / xx
+        sedminps(j)= orgp_con(j) / xx
         endif
 
-	endif
+      endif
 
       return
       end

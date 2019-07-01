@@ -105,6 +105,7 @@
       ndays_noleap = (/0,31,59,90,120,151,181,212,243,273,304,334,365/)
       nfixmx = 0.      !CB 12/2/09
       nhru = 0
+      cdn = 0. ! zhulj, 06/22/18
       nperco = 0.
       npmx = 1
       nrch = 0

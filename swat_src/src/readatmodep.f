@@ -48,7 +48,7 @@
       else
       !!    no filename present in file.cio - set defaults
         rammo_sub = 0.
-	  rcn_sub = rcn_sub_bsn
+      rcn_sub = rcn_sub_bsn
       end if
         
       select case (iatmodep)

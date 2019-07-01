@@ -37,7 +37,7 @@
  1100 format (/(t5,20a4))
  1200 format ('Annual Summary for Watershed in year ',i4,               
      &        ' of simulation',/)
-1300  format ('UNIT',t41,'PERCO',t50,'TILE',t81,'WATER',t91,'SED',t99,  
+ 1300  format ('UNIT',t41,'PERCO',t50,'TILE',t81,'WATER',t91,'SED',t99,
      &'NO3',t107,'NO3',t115,'NO3',t123,'NO3',t134,'N',t142,'P',t150,'P',
      &/,'TIME',t10,'PREC',t18,'SURQ',t26,'LATQ',t35,'GWQ',t42,'LATE',   
      &t53,'Q',t59,'SW',T68,'ET',t75,'PET',t81,'YIELD',t89,'YIELD',t98,  

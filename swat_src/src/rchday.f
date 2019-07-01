@@ -190,7 +190,7 @@
         call xmon 
 
       if (ievent==1.and.iprint==3) then
-	  ! print out subdaily reach output in output.rch
+      ! print out subdaily reach output in output.rch
         if (ipdvar(1) > 0) then
           do kk=1,nstep
            do ii = 1, itotr
@@ -201,14 +201,14 @@
      &                                    (pdvr(ii), ii = 1, itotr)
            end if
           end do
-	  else
-	    if (iscen == 1 .and. isproj == 0) then
+      else
+        if (iscen == 1 .and. isproj == 0) then
            do kk=1,nstep
              write (7,5001) j, subgis(j), iida, kk, rch_dakm(j),        
      &                                    (rchhr(ii,j,kk), ii = 1, 7)
-	     end do
-	     endif
-	  endif
+         end do
+         endif
+      endif
       else
         if (ipdvar(1) > 0) then
           do ii = 1, itotr
@@ -220,10 +220,10 @@
             if(icalen == 1)write (7,5002) j, subgis(j), i_mo, icl(iida),
      &             iyr, rch_dakm(j), (pdvr(ii), ii = 1, itotr)
 !!    added for binary files 3/25/09 gsm line below and write (77777
-	      if (ia_b == 1) then
+          if (ia_b == 1) then
              write (77777) j, subgis(j), iida, rch_dakm(j),             
      &                                         (pdvr(ii), ii = 1, itotr)
-            endif	        
+            endif
           else if (isproj == 1) then
           write (20,5000) j, subgis(j), iida, rch_dakm(j),              
      &                                    (pdvr(ii), ii = 1, itotr)
@@ -246,7 +246,7 @@
              if (ia_b == 1) then
                 write (77777) j, subgis(j), iida, rch_dakm(j),          
      &                                         (pdvr(ii), ii = 1, itotr)
-             endif	    
+             endif
              
           else if (isproj == 1) then
           write (20,5000) j, subgis(j), iida, rch_dakm(j),              

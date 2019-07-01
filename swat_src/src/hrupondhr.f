@@ -112,9 +112,9 @@
 
       if (pnd_fr(j) > 0.01) then
       
-	  do k=1,nstep
-	
-	    cnv = 0.
+      do k=1,nstep
+
+        cnv = 0.
         cnv = hru_ha(j) * 10.
 
         !! calculate area of HRU covered by pond
@@ -124,15 +124,15 @@
         !! calculate water flowing into pond for day
 !        pndflwi = qdr(j) * 10. * (hru_ha(j) * pnd_fr(j) - pndsa) 
 !        qdr(j) = qdr(j) - qdr(j) * pnd_fr(j)
-		pndflwi = hhqday(k) * 10. * (hru_ha(j) * pnd_fr(j) - pndsa)		!! urban modeling by J.Jeong
-        hhqday(k) = hhqday(k) - hhqday(k) * pnd_fr(j)					!! urban modeling by J.Jeong
+        pndflwi = hhqday(k) * 10. * (hru_ha(j) * pnd_fr(j) - pndsa)        !! urban modeling by J.Jeong
+        hhqday(k) = hhqday(k) - hhqday(k) * pnd_fr(j)                    !! urban modeling by J.Jeong
  
         !! calculate sediment loading to pond for day
  !       pndsedin = sedyld(j) * (pnd_fr(j) - pndsa / hru_ha(j))
  !       sedyld(j) = sedyld(j) - sedyld(j) * pnd_fr(j)
 
-        pndsedin = hhsedy(j,k) * (pnd_fr(j) - pndsa / hru_ha(j))		!! urban modeling by J.Jeong
-        hhsedy(j,k) = hhsedy(j,k) - hhsedy(j,k) * pnd_fr(j)	!! urban modeling by J.Jeong
+        pndsedin = hhsedy(j,k) * (pnd_fr(j) - pndsa / hru_ha(j))        !! urban modeling by J.Jeong
+        hhsedy(j,k) = hhsedy(j,k) - hhsedy(j,k) * pnd_fr(j)    !! urban modeling by J.Jeong
 
         !! compute nitrogen and phosphorus levels in pond at beginning
         !! of day: equation 29.1.1 in SWAT manual
@@ -208,11 +208,11 @@
         !! compute seepage depth for HRU water balance
         twlpnd = pndsep / cnv
 
-      if (hhqday(k) < 0.) hhqday(k) = 0.			
+      if (hhqday(k) < 0.) hhqday(k) = 0.
       if (hhsedy(j,k) < 0.) hhsedy(j,k) = 0.
 
       end do
-	end if
+      end if
 
       return
       end

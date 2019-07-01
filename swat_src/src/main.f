@@ -56,7 +56,7 @@
      &          " Program reading from file.cio . . . executing",/)
 
 !! process input
-		
+
       call getallo
       call allocate_parms
       call readfile
@@ -122,12 +122,12 @@
       close(124)
       write (*,1001)
  1001 format (/," Execution successfully completed ")
-	
+
         iscen=1
 !! file for Mike White to review to ensure simulation executed normally
       open (9999,file='fin.fin')
       write (9999,*) 'Execution successful'
       close (9999)
       
-	stop
+      stop
       end

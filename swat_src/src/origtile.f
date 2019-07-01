@@ -1,4 +1,4 @@
-	subroutine origtile(d)
+      subroutine origtile(d)
 
 !!    ~ ~ ~ PURPOSE ~ ~ ~
 !!    this subroutine computes tile drainage using basic tile equations developed by Saleh et al.(2005)
@@ -55,5 +55,5 @@
         qtile = 0.
       end if
      
-	return
-	end
+      return
+      end

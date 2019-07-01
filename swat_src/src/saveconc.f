@@ -147,8 +147,8 @@
             varii(19) = hhvaroute(1,ihout,ii)
           end if
           if (curyr > nyskip) then
-		  write (50+inum1,2000) iyr, iida, ii-1, (varii(j), j = 1, 19)
-	    endif
+          write (50+inum1,2000) iyr, iida, ii-1, (varii(j), j = 1, 19)
+        endif
         end do
       else
         !! Write daily values
@@ -173,7 +173,7 @@
             varoute(1,ihout) = varoute(1,ihout) / varoute(2,ihout)
           end if
         end if
-	  if (varoute(2,ihout) > 0.1) then
+      if (varoute(2,ihout) > 0.1) then
           varii(1) = varoute(2,ihout) / 86400.   ! changed by J.Jeong 4/17/2008
           varii(2) = varoute(3,ihout) * 1.e6 / varoute(2,ihout)
           varii(3) = varoute(4,ihout) * 1000. / varoute(2,ihout)

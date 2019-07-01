@@ -189,8 +189,8 @@
         if (sol_tmp(kk,j) > 0.) then
           !! compute soil water factor
           sut = 0.
-	!! change for domain error 1/29/09 gsm check with Jeff !!!
-	    if (sol_st(kk,j) < 0.) sol_st(kk,j) = .0000001
+    !! change for domain error 1/29/09 gsm check with Jeff !!!
+        if (sol_st(kk,j) < 0.) sol_st(kk,j) = .0000001
           sut = .1 + .9 * Sqrt(sol_st(kk,j) / sol_fc(kk,j))
 !          sut = Min(1., sut)
           sut = Max(.05, sut)
@@ -300,18 +300,18 @@
 !! septic changes 1/28/09 gsm
 !!  compute denitrification
         wdn = 0.   
-	  if (i_sep(j) /= k .or. isep_opt(j) /= 1) then
-	    if (sut >= sdnco(j)) then
-	      wdn = sol_no3(k,j) * (1. - Exp(-cdn(j) * cdg * sol_cbn(k,j)))
-	    else
-	      wdn = 0.
-	    endif
-	    sol_no3(k,j) = sol_no3(k,j) - wdn
-	  end if
+      if (i_sep(j) /= k .or. isep_opt(j) /= 1) then
+        if (sut >= sdnco(j)) then
+          wdn = sol_no3(k,j) * (1. - Exp(-cdn(j) * cdg * sol_cbn(k,j)))
+        else
+          wdn = 0.
+        endif
+        sol_no3(k,j) = sol_no3(k,j) - wdn
+      end if
 ! septic changes 1/28/09 gsm
 
-!			call ndenit(k,j,cdg,wdn,0.05)
-	!!	end if
+!            call ndenit(k,j,cdg,wdn,0.05)
+    !!    end if
 
           !! summary calculations
           if (curyr > nyskip) then

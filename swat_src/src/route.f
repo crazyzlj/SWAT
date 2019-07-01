@@ -121,7 +121,7 @@
           do j = hru1(jrch), hru1(jrch) + hrutot(jrch) - 1
             deepst(j) = deepst(j) + subwtr
           end do
-	  end if
+      end if
       end if
  
 !! compute revap from bank storage
@@ -141,15 +141,15 @@
 
 
 !! perform in-stream sediment calculations
-	  sedrch = 0.
-	  rch_san = 0.
-	  rch_sil = 0.
-	  rch_cla = 0.
-	  rch_sag = 0.
-	  rch_lag = 0.
-	  rch_gra = 0.
-	  ch_orgn(jrch) = 0.
-	  ch_orgp(jrch) = 0.
+      sedrch = 0.
+      rch_san = 0.
+      rch_sil = 0.
+      rch_cla = 0.
+      rch_sag = 0.
+      rch_lag = 0.
+      rch_gra = 0.
+      ch_orgn(jrch) = 0.
+      ch_orgp(jrch) = 0.
 !!    Bank erosion
         rchdy(55,jrch) = 0.
 !!    Channel Degredation
@@ -159,20 +159,20 @@
 !!    Floodplain Deposition
         rchdy(58,jrch) = 0.
 !!    Total suspended sediments
-	  rchdy(59,jrch) = 0.
+      rchdy(59,jrch) = 0.
 
 !! do not perform sediment routing for headwater subbasins
-	    !! when i_subhw = 0
-	  if (i_subhw == 0 .and. inum1 == inum2) then
+        !! when i_subhw = 0
+      if (i_subhw == 0 .and. inum1 == inum2) then
           if (ievent == 0) then
             if (rtwtr > 0. .and. rchdep > 0.) then
               sedrch  = varoute(3,inum2)  * (1. - rnum1)
-	        rch_san = varoute(23,inum2) * (1. - rnum1)
-	        rch_sil = varoute(24,inum2) * (1. - rnum1)
-	        rch_cla = varoute(25,inum2) * (1. - rnum1)
-	        rch_sag = varoute(26,inum2) * (1. - rnum1)
-	        rch_lag = varoute(27,inum2) * (1. - rnum1)
-	        rch_gra = varoute(28,inum2) * (1. - rnum1)
+            rch_san = varoute(23,inum2) * (1. - rnum1)
+            rch_sil = varoute(24,inum2) * (1. - rnum1)
+            rch_cla = varoute(25,inum2) * (1. - rnum1)
+            rch_sag = varoute(26,inum2) * (1. - rnum1)
+            rch_lag = varoute(27,inum2) * (1. - rnum1)
+            rch_gra = varoute(28,inum2) * (1. - rnum1)
             end if
           else
             do ii = 1, nstep
@@ -180,11 +180,11 @@
                 hsedyld(ii) = hhvaroute(3,inum2,ii) * (1. - rnum1)
                 sedrch = sedrch + hsedyld(ii)
                 rch_san = 0.
-	          rch_sil = rch_sil + hsedyld(ii)  !!All are assumed to be silt type particles
+              rch_sil = rch_sil + hsedyld(ii)  !!All are assumed to be silt type particles
                 rch_cla = 0.
                 rch_sag = 0.
                 rch_lag = 0.
-	          rch_gra = 0.
+              rch_gra = 0.
               end if
             end do
           end if

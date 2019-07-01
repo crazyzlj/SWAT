@@ -52,12 +52,16 @@
 !!                                 |fraction of the total volume
 !!    sol_st(:,:)   |mm H2O        |amount of water stored in the soil layer
 !!                                 |on any given day (less wp water)
+!!    sol_stpwt(:,:)|mm H2O        |amount of water stored in the soil layer
+!!                                 |on previous day (less wp water)
 !!    sol_sumfc(:)  |mm H2O        |amount of water held in soil profile at
 !!                                 |field capacity
 !!    sol_sumul(:)  |mm H2O        |amount of water held in soil profile at
 !!                                 |saturation
 !!    sol_sw(:)     |mm H2O        |amount of water stored in soil profile on
 !!                                 |any given day
+!!    sol_swpwt(:)  |mm H2O        |amount of water stored in soil profile on
+!!                                 |previous day
 !!    sol_ul(:,:)   |mm H2O        |amount of water held in the soil layer at
 !!                                 |saturation (sat - wp water)
 !!    sol_up(:,:)   |mm H2O/mm soil|water content of soil at -0.033 MPa (field
@@ -149,15 +153,15 @@
        det_lag(i) = 1. - det_san(i) - det_sil(i) - det_cla(i)
      & - det_sag(i)                                           !! Large Aggregate fraction
 
-!!	Error check. May happen for soils with more sand
+!!    Error check. May happen for soils with more sand
 !!    Soil not typical of mid-western USA
 !!    The fraction wont add upto 1.0
-	if (det_lag(i) < 0.) then
-	  det_san(i) = det_san(i)/(1 - det_lag(i)) 
-	  det_sil(i) = det_sil(i)/(1 - det_lag(i)) 
-	  det_cla(i) = det_cla(i)/(1 - det_lag(i)) 
-	  det_sag(i) = det_sag(i)/(1 - det_lag(i)) 
-	  det_lag(i) = 0.
+      if (det_lag(i) < 0.) then
+          det_san(i) = det_san(i)/(1 - det_lag(i))
+          det_sil(i) = det_sil(i)/(1 - det_lag(i))
+          det_cla(i) = det_cla(i)/(1 - det_lag(i))
+          det_sag(i) = det_sag(i)/(1 - det_lag(i))
+          det_lag(i) = 0.
       end if
 
 
@@ -194,14 +198,14 @@
 !        wat_tbl(i) = 0.
 !      end if
       !!Initializing water table depth and soil water revised by D. Moriasi 4/8/2014
-        do j = 1, nly
+      do j = 1, nly
         sol_stpwt(j,i) = sol_st(j,i)
-        end do      
+      end do
       sol_swpwt(i) = sol_sw(i)
       wat_tbl(i) = dep_imp(i)- (shallst(i)/sol_por(nly,i))
 
-      !!Initializing water table depth and soil water revised by D. Moriasi 4/8/2014      
-   !! initialize water table depth and soil water for Daniel   
+      !! Initializing water table depth and soil water revised by D. Moriasi 4/8/2014
+      !! initialize water table depth and soil water for Daniel
       sol_avpor(i) = sumpor / sol_z(nly,i)
       sol_avbd(i) = 2.65 * (1. - sol_avpor(i))
 

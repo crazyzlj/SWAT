@@ -1,8 +1,8 @@
       subroutine readsdr
       
 !!    ~ ~ ~ PURPOSE ~ ~ ~
-!!    this subroutine reads data from the HRU/subbasin management input file
-!!    (.mgt). This file contains data related to management practices used in
+!!    this subroutine reads data from the HRU/subbasin drainage input file
+!!    (.sdr). This file contains data related to drainage parameters used in
 !!    the HRU/subbasin.
 
 !!    ~ ~ ~ INCOMING VARIABLES ~ ~ ~
@@ -14,12 +14,12 @@
 !!    ~ ~ ~ OUTGOING VARIABLES ~ ~ ~
 !!    name      |units          |definition
 !!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
-!!							   |daily 
-!!	drain_co(:)|mm/day		   |drainage coefficient 			 
-!!	latksatf(:)	|none		   |multiplication factor to determine conk(j1,j) from sol_k(j1,j) for HRU
-!!	pc(:)		|mm/hr		   |pump capacity (default pump capacity = 1.042mm/hr or 25mm/day)
-!!	re(:)		|mm			   |effective radius of drains
-!!	sdrain(:)	|mm			   |distance between two drain tubes or tiles
+!!                               |daily
+!!    drain_co(:)|mm/day           |drainage coefficient
+!!    latksatf(:)    |none           |multiplication factor to determine conk(j1,j) from sol_k(j1,j) for HRU
+!!    pc(:)        |mm/hr           |pump capacity (default pump capacity = 1.042mm/hr or 25mm/day)
+!!    re(:)        |mm               |effective radius of drains
+!!    sdrain(:)    |mm               |distance between two drain tubes or tiles
 !!    sstmaxd(:)|mm            |static maximum depressional storage; read from .sdr
 !!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
 
@@ -69,12 +69,12 @@
       use parm
 
       character (len=80) :: titldum
-	integer :: eof
-	integer :: mon, day, mgt_op, mgt2i, mgt1i
-	real :: mgt6, mgt9, mgt4, mgt5, mgt7, mgt8
+      integer :: eof
+      integer :: mon, day, mgt_op, mgt2i, mgt1i
+      real :: mgt6, mgt9, mgt4, mgt5, mgt7, mgt8
 
       do
-	  read (112,5000,iostat=eof) titldum
+      read (112,5000,iostat=eof) titldum
         if (eof < 0) exit
 !!      read scheduled operations
         read (112,*,iostat=eof) re(ihru)
@@ -85,9 +85,9 @@
         if (eof < 0) exit
         read (112,*,iostat=eof) pc(ihru)
         if (eof < 0) exit
-	    read (112,*,iostat=eof) latksatf(ihru)
-	    if (eof < 0) exit        
-	    read (112,*,iostat=eof) sstmaxd(ihru)
+        read (112,*,iostat=eof) latksatf(ihru)
+        if (eof < 0) exit
+        read (112,*,iostat=eof) sstmaxd(ihru)
         if (eof < 0) exit       
       end do
       

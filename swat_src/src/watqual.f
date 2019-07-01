@@ -295,13 +295,13 @@
          o2con = (disoxin * wtrin + rch_dox(jrch) * rchwtr) / wtrtot
 
          if (orgncon < 1.e-6) orgncon = 0.0
-	   if (nh3con < 1.e-6) nh3con = 0.0
-	   if (no2con < 1.e-6) no2con = 0.0
-	   if (no3con < 1.e-6) no3con = 0.0
-	   if (orgpcon < 1.e-6) orgpcon = 0.0
-	   if (solpcon < 1.e-6) solpcon = 0.0
-	   if (cbodcon < 1.e-6) cbodcon = 0.0
-	   if (o2con < 1.e-6) o2con = 0.0
+       if (nh3con < 1.e-6) nh3con = 0.0
+       if (no2con < 1.e-6) no2con = 0.0
+       if (no3con < 1.e-6) no3con = 0.0
+       if (orgpcon < 1.e-6) orgpcon = 0.0
+       if (solpcon < 1.e-6) solpcon = 0.0
+       if (cbodcon < 1.e-6) cbodcon = 0.0
+       if (o2con < 1.e-6) o2con = 0.0
 
          !! calculate temperature in stream
          !! Stefan and Preudhomme. 1993.  Stream temperature estimation 
@@ -333,8 +333,8 @@
         !! calculate nitrification rate correction factor for low
         !! oxygen QUAL2E equation III-21
         cordo = 0.
-	if (o2con.le.0.001) o2con=0.001
-	if (o2con.gt.30.) o2con=30.
+      if (o2con.le.0.001) o2con=0.001
+      if (o2con.gt.30.) o2con=30.
         cordo = 1.0 - Exp(-0.6 * o2con)
         !! modify ammonia and nitrite oxidation rates to account for
         !! low oxygen
@@ -360,7 +360,7 @@
            lambda = lambda0
          endif
 
-	   If (lambda > lambda0) lambda = lambda0
+       If (lambda > lambda0) lambda = lambda0
 
          !! calculate algal growth limitation factors for nitrogen
          !! and phosphorus QUAL2E equations III-13 & III-14
@@ -413,8 +413,8 @@
      &    Theta(rhoq,thrho,wtmp) * algcon - Theta(rs1(jrch),thrs1,wtmp) 
      &                                         / rchdep * algcon) * tday
          if (algae(jrch) < 1.e-6) algae(jrch) = 0.
-	!! JGA added to set algae limit *****
-	   if (algae(jrch) > 5000.) algae(jrch) = 5000.
+    !! JGA added to set algae limit *****
+       if (algae(jrch) > 5000.) algae(jrch) = 5000.
          if (algae(jrch) > dcoef * algcon) algae(jrch) = dcoef * algcon
 
          !! calculate chlorophyll-a concentration at end of day
@@ -442,7 +442,7 @@
          
          rch_cbod(jrch) = cbodrch
          if (rch_cbod(jrch) < 1.e-6) rch_cbod(jrch) = 0.
-	   if (rch_cbod(jrch) > dcoef * cbodcon) rch_cbod(jrch) = dcoef * cbodcon
+       if (rch_cbod(jrch) > dcoef * cbodcon) rch_cbod(jrch) = dcoef * cbodcon
 
          !! calculate dissolved oxygen concentration if reach at 
          !! end of day QUAL2E section 3.6 equation III-28
@@ -512,7 +512,7 @@
          organicn(jrch) = 0.
          organicn(jrch) = orgncon + (xx - yy - zz) * tday
          if (organicn(jrch) < 1.e-6) organicn(jrch) = 0.
-   	   if(organicn(jrch) > dcoef * orgncon) organicn(jrch) = dcoef * orgncon
+          if(organicn(jrch) > dcoef * orgncon) organicn(jrch) = dcoef * orgncon
 
         !! calculate fraction of algal nitrogen uptake from ammonia
         !! pool QUAL2E equation III-18
@@ -544,7 +544,7 @@
         nitriten(jrch) = 0.
         nitriten(jrch) = no2con + (yy - zz) * tday
         if (nitriten(jrch) < 1.e-6) nitriten(jrch) = 0.
-	  if (nitriten(jrch) > dcoef * no2con .and. no2con > 0.) 
+      if (nitriten(jrch) > dcoef * no2con .and. no2con > 0.)
      &  nitriten(jrch) = dcoef * no2con
 
         !! calculate nitrate concentration at end of day
@@ -556,7 +556,7 @@
         nitraten(jrch) = 0.
         nitraten(jrch) = no3con + (yy - zz) * tday
         if (nitraten(jrch) > dcoef * no3con) nitraten(jrch) = dcoef * no3con
-	
+
         if (nitraten(jrch) < 1.e-6) nitraten(jrch) = 0.
 !! end nitrogen calculations
 
@@ -585,7 +585,7 @@
         disolvp(jrch) = 0.
         disolvp(jrch) = solpcon + (xx + yy - zz) * tday
         if (disolvp(jrch) < 1.e-6) disolvp(jrch) = 0.
-	  if (disolvp(jrch) > dcoef * solpcon) disolvp(jrch) = dcoef * 
+      if (disolvp(jrch) > dcoef * solpcon) disolvp(jrch) = dcoef *
      &    solpcon   
 !! end phosphorus calculations
 

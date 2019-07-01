@@ -173,7 +173,7 @@
       else
 !! no elevation bands
       
-	ib = 1
+      ib = 1
 
         !! estimate snow pack temperature
         snotmp(j)=snotmp(j) * (1. - sub_timp(ib,isub)) + tmpav(j) *     

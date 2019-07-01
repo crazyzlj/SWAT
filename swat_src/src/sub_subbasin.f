@@ -163,7 +163,7 @@
            !! Irrigation starts after 12 hours of no-rainfall period
            if (hrnopcp(sb,ii)<=12) then
              do kk=1,num_ri(sb)
-	          hvol(kk) = hvol(kk) - ri_qloss(kk,1) - ri_qloss(kk,2) ! evaporation and transmission loss
+              hvol(kk) = hvol(kk) - ri_qloss(kk,1) - ri_qloss(kk,2) ! evaporation and transmission loss
                 if (hvol(kk)<0) hvol(kk) = 0
              end do
            else

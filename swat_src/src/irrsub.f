@@ -105,7 +105,7 @@
             if (hru_sub(k) == irrno(j)) then
               cnv = 0.
               cnv = hru_ha(k) * 10.
-	        if (shallst(k) < 1.e-6) shallst(k) = 0.0
+            if (shallst(k) < 1.e-6) shallst(k) = 0.0
               vmma = vmma + shallst(k) * cnv * irrefm(j)
             end if
           end do
@@ -154,8 +154,8 @@
 !! get correct SQ_RTO is this manual or auto
           sq_rto = irrsq(j) 
             if (auto_wstr(j) > 0.)  then
-				sq_rto = irr_asq(j)
-		  end if
+                sq_rto = irr_asq(j)
+          end if
         call irrigate(j,vmm)
         end if
 

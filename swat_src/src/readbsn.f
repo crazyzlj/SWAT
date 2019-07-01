@@ -535,7 +535,7 @@
           if ((tlu(ii:ii).eq.','.and.tlu(ii-1:ii-1).ne.',').or.   
      &       (tlu(ii:ii).eq.' '.and.tlu(ii-1:ii-1).ne.' ')) then
              numlu = numlu + 1
-          end if	   
+          end if
        end do 
        if (len_trim(tlu).le.3) numlu = 0
        backspace(103)
@@ -670,7 +670,7 @@
       endif
       if(sed_ch>2) then
        write(*,*) 'Error in choosing channel erosion model:
-     &	0-Bagnold, 1-Brownlie, 2-Yang'
+     &    0-Bagnold, 1-Brownlie, 2-Yang'
        write(*,*) 'Check *.bsn file to correct the error'
     !  stop
       endif
@@ -715,8 +715,8 @@
       close (103)
       
       if (cswat == 1) then
-	 open (100,file="cswat_profile.txt",recl=280)
-	 write (100,*) 'year',';','day',';','hru',';','cmass',';','sol_rsd',
+        open (100,file="cswat_profile.txt",recl=280)
+        write (100,*) 'year',';','day',';','hru',';','cmass',';','sol_rsd',
      & ';','mancmass'
       end if
 
@@ -746,8 +746,8 @@
       !!add by zhang
       !!=====================
 
-!	open (111, file="final_n_balance.txt")
-!	open (112, file="final_yields.txt")
+!    open (111, file="final_n_balance.txt")
+!    open (112, file="final_yields.txt")
     !! carbon output ends 
      
       

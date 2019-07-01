@@ -103,8 +103,8 @@
 !    Drainmod tile equations  01/2006
       real, dimension (:), allocatable :: wat_tbl,sol_swpwt
       real, dimension (:,:), allocatable :: vwt
-	  real :: re_bsn, sdrain_bsn, sstmaxd_bsn
-	  real :: drain_co_bsn, pc_bsn, latksatf_bsn 
+      real :: re_bsn, sdrain_bsn, sstmaxd_bsn
+      real :: drain_co_bsn, pc_bsn, latksatf_bsn
 !    Drainmod tile equations  01/2006
       integer :: i_subhw, imgt, idlast, iwtr, ifrttyp, mo_atmo, mo_atmo1
       integer :: ifirstatmo, iyr_atmo, iyr_atmo1, matmo
@@ -116,7 +116,7 @@
       integer :: nrgage, ntgage, nrgfil, ntgfil, nrtot, nttot, mrech
       integer :: lao, igropt, npmx, irtpest, curyr, tmpsim, icrk, iihru
 !    Drainmod tile equations  01/2006
-	integer :: ismax, itdrn, iwtdn, iroutunit, ires_nut
+      integer :: ismax, itdrn, iwtdn, iroutunit, ires_nut
 !    Drainmod tile equations  01/2006
       integer :: mtil, mvaro, mrecd, idist, mudb, mrecm, mrecc, iclb
       integer :: mrecy, ipet, nyskip, ideg, ievent, slrsim, iopera
@@ -274,8 +274,8 @@
       real :: ressano,ressilo,resclao,ressago,reslago, resgrao
       real :: ressani, ressili, resclai, ressagi, reslagi,resgrai
       real :: potsano,potsilo,potclao,potsago,potlago
-	real :: pndsanin,pndsilin,pndclain,pndsagin,pndlagin
-	real :: pndsano,pndsilo,pndclao,pndsago,pndlago
+      real :: pndsanin,pndsilin,pndclain,pndsagin,pndlagin
+      real :: pndsano,pndsilo,pndclao,pndsago,pndlago
 
       real, dimension (:), allocatable :: ch_di,ch_erod,ch_l2, ch_cov
       real, dimension (:), allocatable :: ch_cov1, ch_cov2, ch_bnk_bd
@@ -368,7 +368,7 @@
       real, dimension (:,:), allocatable :: orig_solactp,orig_solstap
       real, dimension (:,:), allocatable :: orig_volcr
 !    Drainmod tile equations  01/2006 
-	  real, dimension (:,:), allocatable :: conk
+      real, dimension (:,:), allocatable :: conk
 !    Drainmod tile equations  01/2006
       real, dimension (:,:,:), allocatable :: sol_pst,sol_kp
       real, dimension (:,:,:), allocatable :: orig_solpst
@@ -446,7 +446,7 @@
  !! drainmod tile equations   06/2006
 
       real, dimension (:), allocatable :: ranrns_hru
-	  integer, dimension (:), allocatable :: itill
+      integer, dimension (:), allocatable :: itill
 !! drainmod tile equations   06/2006
       real, dimension (:), allocatable :: effmix,deptil, ranrns
       character(len=8), dimension (550) :: tillnm
@@ -525,8 +525,8 @@
       integer, dimension (:), allocatable :: pest_days, idplt, wstrs_id
       real, dimension (:,:), allocatable :: bio_aahv
 !    Drainmod tile equations  08/2006 
-	  real, dimension (:), allocatable :: cumei,cumeira
-	  real, dimension (:), allocatable :: cumrt, cumrai
+      real, dimension (:), allocatable :: cumei,cumeira
+      real, dimension (:), allocatable :: cumrt, cumrai
 !    Drainmod tile equations  08/2006
       real, dimension (:), allocatable :: wet_solp,wet_no3s,wet_chla
       real, dimension (:), allocatable :: wet_seci,pnd_no3g,pstsol
@@ -543,8 +543,8 @@
       real, dimension (:), allocatable :: gwqmn,tdrain,pplnt,snotmp
       real, dimension (:), allocatable :: ddrain,gdrain,sol_crk,dayl,brt
 !    Drainmod tile equations  01/2006 
-	real, dimension (:), allocatable ::ddrain_hru,re,sdrain,sstmaxd
-	real, dimension (:), allocatable :: stmaxd,drain_co,pc,latksatf
+      real, dimension (:), allocatable ::ddrain_hru,re,sdrain,sstmaxd
+      real, dimension (:), allocatable :: stmaxd,drain_co,pc,latksatf
 !    Drainmod tile equations  01/2006
       real, dimension (:), allocatable :: twash,rnd2,rnd3,sol_cnsw,doxq
       real, dimension (:), allocatable :: rnd8,rnd9,percn,sol_sumwp
@@ -673,7 +673,7 @@
       real, dimension (:,:), allocatable :: cmtl2yr,cmtl3yr,chlayr
       real, dimension (:,:), allocatable :: disoxyr,cbodyr,solpstyr
       real, dimension (:,:), allocatable :: srbpstyr
-	real, dimension (:,:), allocatable :: sol_mc,sol_mn,sol_mp
+      real, dimension (:,:), allocatable :: sol_mc,sol_mn,sol_mp
       real, dimension (:), allocatable :: flocnst,sedcnst,orgncnst
       real, dimension (:), allocatable :: orgpcnst,no3cnst,minpcnst
       real, dimension (:), allocatable :: nh3cnst,no2cnst,bactpcnst
@@ -718,26 +718,26 @@
       real, dimension (:), allocatable :: rtfr
       real, dimension (:), allocatable :: stsol_rd
 !! Armen Jan 08 end
-	integer:: urban_flag, dorm_flag
-	real :: bf_flg, iabstr
-	real, dimension (:), allocatable :: ubnrunoff,ubntss
-	real, dimension (:,:), allocatable :: sub_ubnrunoff,sub_ubntss,
-     & ovrlnd_dt	
-	real, dimension (:,:,:), allocatable :: hhsurf_bs
+      integer:: urban_flag, dorm_flag
+      real :: bf_flg, iabstr
+      real, dimension (:), allocatable :: ubnrunoff,ubntss
+      real, dimension (:,:), allocatable :: sub_ubnrunoff,sub_ubntss,
+     & ovrlnd_dt
+      real, dimension (:,:,:), allocatable :: hhsurf_bs
 
 !! subdaily erosion modeling by Jaehak Jeong
-	integer:: sed_ch,iuh
-	real :: eros_spl, rill_mult, eros_expo, sedprev, c_factor
-	real :: sig_g, ch_d50, uhalpha, abstinit,abstmax
-	real, dimension(:,:), allocatable:: hhsedy, sub_subp_dt
-	real, dimension(:,:), allocatable:: sub_hhsedy,sub_atmp
-	real, dimension(:), allocatable:: rhy,init_abstrc
-	real, dimension(:), allocatable:: dratio, hrtevp, hrttlc
-	real, dimension(:,:,:), allocatable:: rchhr
+      integer:: sed_ch,iuh
+      real :: eros_spl, rill_mult, eros_expo, sedprev, c_factor
+      real :: sig_g, ch_d50, uhalpha, abstinit,abstmax
+      real, dimension(:,:), allocatable:: hhsedy, sub_subp_dt
+      real, dimension(:,:), allocatable:: sub_hhsedy,sub_atmp
+      real, dimension(:), allocatable:: rhy,init_abstrc
+      real, dimension(:), allocatable:: dratio, hrtevp, hrttlc
+      real, dimension(:,:,:), allocatable:: rchhr
 !! subdaily reservoir modeling by Jaehak Jeong
-	real, dimension(:), allocatable:: hhresflwi, hhresflwo,
+      real, dimension(:), allocatable:: hhresflwi, hhresflwo,
      & hhressedi, hhressedo 
-	
+
 !! bmp modeling by jaehak jeong
       character(len=4), dimension(:), allocatable:: lu_nodrain
       integer, dimension(:), allocatable:: bmpdrain
@@ -756,18 +756,18 @@
      &  sp_qfg,sf_ptp,ft_fc 
       
       !detention pond
-	integer, dimension(:), allocatable :: dtp_subnum,dtp_imo,
+      integer, dimension(:), allocatable :: dtp_subnum,dtp_imo,
      &  dtp_iyr,dtp_numweir,dtp_numstage,dtp_stagdis,
      &  dtp_reltype,dtp_onoff
 !! sj & armen changes for SWAT-C
-	real, dimension (:), allocatable :: cf, cfh, cfdec
+      real, dimension (:), allocatable :: cf, cfh, cfdec
 !! sj & armen changes for SWAT-C end
 ! additional nutrient variables by jeong for montana bitterroot
       real, dimension(:), allocatable :: lat_orgn, lat_orgp 
 
-	integer, dimension(:,:), allocatable :: dtp_weirtype,dtp_weirdim
-	
-	real, dimension(:), allocatable ::dtp_evrsv,
+      integer, dimension(:,:), allocatable :: dtp_weirtype,dtp_weirdim
+
+      real, dimension(:), allocatable ::dtp_evrsv,
      &  dtp_inflvol,dtp_totwrwid,dtp_lwratio,dtp_wdep,dtp_totdep,
      &  dtp_watdepact,dtp_outflow,dtp_totrel,dtp_backoff,dtp_seep_sa,
      &  dtp_evap_sa,dtp_pet_day,dtp_pcpvol,dtp_seepvol,dtp_evapvol,
@@ -777,8 +777,8 @@
 
       integer, dimension (:,:),allocatable :: so_res_flag, ro_bmp_flag
       real, dimension (:,:),allocatable :: sol_watp, sol_solp_pre   
-	real, dimension (:,:),allocatable :: psp_store, ssp_store, so_res
-	real, dimension (:,:),allocatable :: sol_cal, sol_ph
+      real, dimension (:,:),allocatable :: psp_store, ssp_store, so_res
+      real, dimension (:,:),allocatable :: sol_cal, sol_ph
       integer:: sol_p_model
       integer, dimension (:,:),allocatable :: a_days, b_days
       real, dimension (:), allocatable :: harv_min, fstap, min_res
@@ -877,87 +877,87 @@
 
 !! By Zhang for C/N cycling
       !!SOM-residue C/N state variables -- currently included
-	real, dimension(:,:), allocatable :: sol_BMC, sol_BMN, sol_HSC, 
-     &	sol_HSN, sol_HPC, sol_HPN, sol_LM, 
-     &  sol_LMC, sol_LMN, sol_LS, sol_LSL, sol_LSC, sol_LSN	, sol_RNMN,
+      real, dimension(:,:), allocatable :: sol_BMC, sol_BMN, sol_HSC,
+     &    sol_HSN, sol_HPC, sol_HPN, sol_LM,
+     &  sol_LMC, sol_LMN, sol_LS, sol_LSL, sol_LSC, sol_LSN, sol_RNMN,
      &  sol_LSLC, sol_LSLNC, sol_RSPC, sol_WOC, sol_WON, sol_HP, sol_HS,
-     &  sol_BM	
-      !	HSC mass of C present in slow humus (kg ha-1)
-      !	HSN mass of N present in slow humus (kg ha-1)
-      !	HPC mass of C present in passive humus (kg ha-1)
-      !	HPN mass of N present in passive humus (kg ha-1)
-      !	LM mass of metabolic litter (kg ha-1)
-      !	LMC mass of C in metabolic litter (kg ha-1)
-      !	LMN mass of N in metabolic litter (kg ha-1)
-      !	LS mass of structural litter (kg ha-1)
-      !	LSC mass of C in structural litter (kg ha-1)
-      !	LSL mass of lignin in structural litter (kg ha-1)
-      !	LSN mass of N in structural litter (kg ha-1)
+     &  sol_BM
+      !    HSC mass of C present in slow humus (kg ha-1)
+      !    HSN mass of N present in slow humus (kg ha-1)
+      !    HPC mass of C present in passive humus (kg ha-1)
+      !    HPN mass of N present in passive humus (kg ha-1)
+      !    LM mass of metabolic litter (kg ha-1)
+      !    LMC mass of C in metabolic litter (kg ha-1)
+      !    LMN mass of N in metabolic litter (kg ha-1)
+      !    LS mass of structural litter (kg ha-1)
+      !    LSC mass of C in structural litter (kg ha-1)
+      !    LSL mass of lignin in structural litter (kg ha-1)
+      !    LSN mass of N in structural litter (kg ha-1)
        
       !!SOM-residue C/N state variables -- may need to be included
-	real, dimension(:,:), allocatable :: sol_CAC, sol_CEC  
+      real, dimension(:,:), allocatable :: sol_CAC, sol_CEC
           
-	!!daily updated soil layer associated percolation and lateral flow Carbon loss
-	real, dimension(:,:), allocatable :: sol_percc
-	real, dimension(:,:), allocatable :: sol_latc
-	
+    !!daily updated soil layer associated percolation and lateral flow Carbon loss
+      real, dimension(:,:), allocatable :: sol_percc
+      real, dimension(:,:), allocatable :: sol_latc
+
       !!Daily carbon change by different means (entire soil profile for each HRU)
-	real, dimension(:), allocatable :: sedc_d, surfqc_d, latc_d,
-     &	percc_d, foc_d, NPPC_d, rsdc_d, grainc_d, stoverc_d, soc_d, 
-     &  rspc_d, emitc_d 	
-	!!emitc_d include biomass_c eaten by grazing, burnt
+      real, dimension(:), allocatable :: sedc_d, surfqc_d, latc_d,
+     &    percc_d, foc_d, NPPC_d, rsdc_d, grainc_d, stoverc_d, soc_d,
+     &  rspc_d, emitc_d
+    !!emitc_d include biomass_c eaten by grazing, burnt
 
       
       !!Daily carbon change by different means (entire soil profile for each Subbasin)
       !!Only defined the variables, but not used them in the code
-	real, dimension(:), allocatable :: sub_sedc_d, sub_surfqc_d, 
-     &  sub_latc_d,	sub_percc_d, sub_foc_d, sub_NPPC_d, sub_rsdc_d,
+      real, dimension(:), allocatable :: sub_sedc_d, sub_surfqc_d,
+     &  sub_latc_d,    sub_percc_d, sub_foc_d, sub_NPPC_d, sub_rsdc_d,
      &  sub_grainc_d, sub_stoverc_d, sub_emitc_d, sub_soc_d, sub_rspc_d
-	
-	
-      !!Monthly carbon change by different means (entire soil profile for each HRU)	
-	real, dimension(:), allocatable :: sedc_m, surfqc_m, latc_m,
+
+
+      !!Monthly carbon change by different means (entire soil profile for each HRU)
+      real, dimension(:), allocatable :: sedc_m, surfqc_m, latc_m,
      &  percc_m,
      &  foc_m, NPPC_m, rsdc_m, grainc_m, stoverc_m, emitc_m, soc_m, 
-     &  rspc_m	
+     &  rspc_m
 
-      !!Yearly carbon change by different means (entire soil profile for each HRU)	
-	real, dimension(:), allocatable :: sedc_a, surfqc_a, latc_a, 
-     &  percc_a, foc_a, NPPC_a, rsdc_a, grainc_a, stoverc_a, emitc_a, 	 
-     &  soc_a, rspc_a	
+      !!Yearly carbon change by different means (entire soil profile for each HRU)
+      real, dimension(:), allocatable :: sedc_a, surfqc_a, latc_a,
+     &  percc_a, foc_a, NPPC_a, rsdc_a, grainc_a, stoverc_a, emitc_a,
+     &  soc_a, rspc_a
 
-	
+
       !! The following variables are defined and calculated locally
       !! ==================================================================
-      !	HSCTP potential transformation of C in slow humus (kg ha-1 day-1)
-      !	HSNTP potential transformation of N in slow humus (kg ha.1 day-1)
-      !	HPCTP potential transformation of C in passive humus (kg ha-1 day-1)
-      !	HPNTP potential transformation of N in passive humus (kg ha-1 day-1)
-      !	HPR rate of transformation of passive humus under optimal conditions (subsurface
-      !	layers = 0.000012 day-1) (Parton et al.,1993, 1994)
-      !	HSR rate of transformation of slow humus under optimal conditions (all layers
-      !	= 0.0005 day.1) (Parton et al., 1993, 1994; Vitousek et al., 1993)
-      !	KOC liquid C solid partition coefficient for microbial biomass (10^3 m3 Mg-1)
-      !	LMF fraction of the litter that is metabolic
-      !	LMNF fraction of metabolic litter that is N (kg kg-1)
-      !	LMR rate of transformation of metabolic litter under optimal conditions (surface =
-      !	 0.0405 day-1; all other layers = 0.0507 day-1) (Parton et al., 1994)
-      !	LMCTP potential transformation of C in metabolic litter (kg ha-1 day-1)
-      !	LMNTP potential transformation of N in metabolic litter (kg ha-1 day-1)
-      !	LSCTP potential transformation of C in structural litter (kg ha-1 day-1) 
-      !	LSF fraction of the litter that is structural
-      !	LSLF fraction of structural litter that is lignin (kg kg-1)
-      !	LSNF fraction of structural litter that is N (kg kg-1)
-      !	LSLCTP potential transformation of C in lignin of structural litter (kg ha-1 day-1)
-      !	LSLNCTP potential transformation of C in nonlignin structural litter (kg ha-1 day-1)
-      !	LSNTP potential transformation of N in structural litter (kg ha-1 day-1)
-      !	LSR rate of potential transformation of structural litter under optimal conditions
-      !	(surface = 0.0107 day.1; all other layers = 0.0132 day.1) (Parton et al., 1994)
-      !	NCBM N/C ratio of biomass
-      !	NCHP N/C ratio passive humus
-      !	NCHS N/C ratio of the slow humus
-      !	OX oxygen control on biological processes with soil depth
-      !	Sf fraction of mineral N sorbed to litter: 0.05 for surface litter, 0.1 for belowground litter
+      !    HSCTP potential transformation of C in slow humus (kg ha-1 day-1)
+      !    HSNTP potential transformation of N in slow humus (kg ha.1 day-1)
+      !    HPCTP potential transformation of C in passive humus (kg ha-1 day-1)
+      !    HPNTP potential transformation of N in passive humus (kg ha-1 day-1)
+      !    HPR rate of transformation of passive humus under optimal conditions (subsurface
+      !    layers = 0.000012 day-1) (Parton et al.,1993, 1994)
+      !    HSR rate of transformation of slow humus under optimal conditions (all layers
+      !    = 0.0005 day.1) (Parton et al., 1993, 1994; Vitousek et al., 1993)
+      !    KOC liquid C solid partition coefficient for microbial biomass (10^3 m3 Mg-1)
+      !    LMF fraction of the litter that is metabolic
+      !    LMNF fraction of metabolic litter that is N (kg kg-1)
+      !    LMR rate of transformation of metabolic litter under optimal conditions (surface =
+      !     0.0405 day-1; all other layers = 0.0507 day-1) (Parton et al., 1994)
+      !    LMCTP potential transformation of C in metabolic litter (kg ha-1 day-1)
+      !    LMNTP potential transformation of N in metabolic litter (kg ha-1 day-1)
+      !    LSCTP potential transformation of C in structural litter (kg ha-1 day-1)
+      !    LSF fraction of the litter that is structural
+      !    LSLF fraction of structural litter that is lignin (kg kg-1)
+      !    LSNF fraction of structural litter that is N (kg kg-1)
+      !    LSLCTP potential transformation of C in lignin of structural litter (kg ha-1 day-1)
+      !    LSLNCTP potential transformation of C in nonlignin structural litter (kg ha-1 day-1)
+      !    LSNTP potential transformation of N in structural litter (kg ha-1 day-1)
+      !    LSR rate of potential transformation of structural litter under optimal conditions
+      !    (surface = 0.0107 day.1; all other layers = 0.0132 day.1) (Parton et al., 1994)
+      !    NCBM N/C ratio of biomass
+      !    NCHP N/C ratio passive humus
+      !    NCHS N/C ratio of the slow humus
+      !    OX oxygen control on biological processes with soil depth
+      !    Sf fraction of mineral N sorbed to litter: 0.05 for surface litter, 0.1 for belowground litter
 
       !!Tillage factor on SOM decomposition
       integer, dimension(:), allocatable :: tillage_switch
@@ -966,7 +966,5 @@
       real, dimension(:), allocatable :: tillage_factor
       ! tillage_factor: = 1.6 in 30 days after tillage practices occur; otherwise 1.0;
 !! By Zhang for C/N cycling
-
-
 
       end module parm

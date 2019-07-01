@@ -7,7 +7,7 @@
 !!    name        |units         |definition
 !!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
 !!    drainmod tile equations   08/2006
-!!	dep_imp(:)	|mm            |depth to impervious layer
+!!    dep_imp(:)  |mm            |depth to impervious layer
 !!    drainmod tile equations   08/2006
 
 !!    icrk        |none          |crack flow code
@@ -43,9 +43,9 @@
 !!    name        |units         |definition
 !!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
 !!    new water table depth  equations   01/2009
-!!	c			|none		   |a factor used to convert airvol to wtd
-!!	deep_p      |mm			   |total thickness of soil profile in HRU
-!!    dg          |mm			   |soil layer thickness in HRU
+!!    c           |none          |a factor used to convert airvol to wtd
+!!    deep_p      |mm            |total thickness of soil profile in HRU
+!!    dg          |mm            |soil layer thickness in HRU
 !!    new water table depth  equations   01/2009
 !!    flat(:,:)   |mm H2O        |lateral flow storage array
 !!    latlyr      |mm H2O        |lateral flow in soil layer for the day
@@ -53,8 +53,8 @@
 !!                               |day in HRU
 !!    lyrtile     |mm H2O        |drainage tile flow in soil layer for day
 !!    new water table depth  equations   01/2009
-!!	ne_p		|mm/hr		   |effective porosity in HRU for all soil profile layers 
-!!	ne_w		|mm/hr		   |effective porosity in HRU for soil layers above wtd 
+!!    ne_p        |mm/hr         |effective porosity in HRU for all soil profile layers
+!!    ne_w        |mm/hr         |effective porosity in HRU for soil layers above wtd
 !!    new water table depth  equations   01/2009
 !!    qtile       |mm H2O        |drainage tile flow in soil profile for the day
 !!    sepday      |mm H2O        |micropore percolation from soil layer
@@ -68,7 +68,7 @@
 !!    sw_excess   |mm H2O        |amount of water in excess of field capacity
 !!                               |stored in soil layer on the current day
 !!    new water table depth  equations   01/2009
-!!    wat		    |mm H2O        |shallow water table depth below the soil surface to up to impervious layer
+!!    wat         |mm H2O        |shallow water table depth below the soil surface to up to impervious layer
 !!    new water table depth  equations   01/2009
 !!    wt_shall    |mm H2O        |shallow water table depth above the impervious layer
 !!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
@@ -78,8 +78,8 @@
 !!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
 !!    j           |none          |HRU number
 !!    j1          |none          |counter
-!!	w2			|mm			   |
-!!	y1			|mm 		   |dummy variable for wat
+!!    w2          |mm            |
+!!    y1          |mm            |dummy variable for wat
 !!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
 
 !!    ~ ~ ~ SUBROUTINES/FUNCTIONS CALLED ~ ~ ~
@@ -100,7 +100,7 @@
       j = 0
       j = ihru
       sb = inum1
-      isp = isep_typ(j) 	   !! J.Jeong 6/25/14, Septic system type
+      isp = isep_typ(j)        !! J.Jeong 6/25/14, Septic system type
 
       !! initialize water entering first soil layer
 
@@ -111,22 +111,22 @@
       end if
 
 !!  add irrigation water, amount of water applied to HRU on current day
-	if (aird(j)>0) then
-	  j=j
-	end if
+      if (aird(j)>0) then
+        j=j
+      end if
       sepday = inflpcp + aird(j) + pot_seep(j)
       pot_seep(j) = 0.
       
 !! if unlimted, or groundwater source reset aird here (otherwise in virtual)
 !!  change per JGA 10/12/11 irrigation problem with reach
-!!	if (irrsc(j) > 2)  aird(j) = 0.
+!!    if (irrsc(j) > 2)  aird(j) = 0.
 !!      aird(j) = 0.
 
       !! calculate crack flow 
       if (icrk == 1) then 
-	    call percmacro
-	    sepday = sepday - sepcrktot
-	  endif
+        call percmacro
+        sepday = sepday - sepcrktot
+      endif
 
       do j1 = 1, sol_nly(j)
         !! add water moving into soil layer from overlying layer
@@ -153,12 +153,12 @@
           sol_st(j1,j) = sol_st(j1,j) + lid_cuminf_total
         end if
         
- 	  !! septic tank inflow to biozone layer  J.Jeong
-	  ! STE added to the biozone layer if soil temp is above zero. 
-	  if(j1==i_sep(j).and.sol_tmp(j1,j) > 0. .and. isep_opt(j) /= 0) then
-		  sol_st(j1,j) = sol_st(j1,j) + qstemm(j)  ! in mm
-	    qvol = qstemm(j) * hru_ha(j) * 10.
-		  xx = qvol / hru_ha(j) / 1000.
+       !! septic tank inflow to biozone layer  J.Jeong
+      ! STE added to the biozone layer if soil temp is above zero.
+      if(j1==i_sep(j).and.sol_tmp(j1,j) > 0. .and. isep_opt(j) /= 0) then
+          sol_st(j1,j) = sol_st(j1,j) + qstemm(j)  ! in mm
+          qvol = qstemm(j) * hru_ha(j) * 10.
+          xx = qvol / hru_ha(j) / 1000.
           sol_no3(j1,j) = sol_no3(j1,j) + xx *(sptno3concs(isp) 
      &                    + sptno2concs(isp))  
           sol_nh3(j1,j) = sol_nh3(j1,j) + xx * sptnh4concs(isp) 
@@ -168,7 +168,7 @@
           sol_fop(j1,j) = sol_fop(j1,j) + xx * sptorgps(isp) * 0.5
           sol_solp(j1,j) = sol_solp(j1,j) + xx * sptminps(isp)  
           bio_bod(j)=bio_bod(j)+xx*sptbodconcs(isp)   ! J.Jeong 4/03/09
-        end if
+      end if
 
        !! determine gravity drained water in layer
         sw_excess = 0.
@@ -202,7 +202,7 @@
         qtile = qtile + lyrtile
         flat(j1,j) = latlyr + lyrtile
         sol_prk(j1,j) = sol_prk(j1,j) + sepday
-	  if (latq(j) < 1.e-6) latq(j) = 0.
+      if (latq(j) < 1.e-6) latq(j) = 0.
         if (qtile < 1.e-6) qtile = 0.
         if (flat(j1,j) < 1.e-6) flat(j1,j) = 0.
       end do
@@ -241,8 +241,8 @@
             xx = (sol_sw(j) - sol_sumfc(j)) / (yy - sol_sumfc(j))
             if (xx > 1.) xx = 1.
             wt_shall = xx * dep_imp(j)
-		    wat = dep_imp(j) - wt_shall
-			if(wat > dep_imp(j)) wat = dep_imp(j)
+            wat = dep_imp(j) - wt_shall
+            if(wat > dep_imp(j)) wat = dep_imp(j)
           end if
         else
           !compute water table depth using Daniel's modifications
@@ -260,14 +260,14 @@
  !            wat_tbl(j) = wat_tbl(j) + wt_del 
              wat_tbl(j) = wat_tbl(j) + wtst_del  
              if(wat_tbl(j) < 0.0) wat_tbl(j) = 0.0
-	       if(wat_tbl(j) > dep_imp(j)) wat_tbl(j) = dep_imp(j)
-	       wt_shall = dep_imp(j) - wat_tbl(j)
-	       sol_swpwt(j) = sol_sw(j)
-	       sol_stpwt(j1,j) = sol_st(j1,j)
-!	        exit
-!	      end if
+           if(wat_tbl(j) > dep_imp(j)) wat_tbl(j) = dep_imp(j)
+           wt_shall = dep_imp(j) - wat_tbl(j)
+           sol_swpwt(j) = sol_sw(j)
+           sol_stpwt(j1,j) = sol_st(j1,j)
+!            exit
+!          end if
 !       Updated water table depth D.Moriasi 4/8/2014
-	    end do
+        end do
         end if
         !! drainmod wt_shall equations   10/23/2006
         
@@ -281,7 +281,7 @@
               !! drainmod tile equations   01/2006
             else !! compute tile flow using existing tile equations
               call origtile(d)! existing tile equations 
-	        if(qtile < 0.) qtile=0.
+            if(qtile < 0.) qtile=0.
             end if 
           end if
         end if

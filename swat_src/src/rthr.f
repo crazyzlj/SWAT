@@ -3,7 +3,7 @@
 !!    ~ ~ ~ PURPOSE ~ ~ ~
 !!    This subroutine routes flow at any required time step through the reach 
 !!    using a constant storage coefficient  
-!!	Routing method: Variable Storage routing   
+!!    Routing method: Variable Storage routing
 
 !!    ~ ~ ~ INCOMING VARIABLES ~ ~ ~
 !!    name            |units         |definition
@@ -80,7 +80,7 @@
 
 !!    subroutine developed by A. Van Griensven,
 !!    Hydrology-Vrije Universiteit Brussel, Belgium
-!!	Modified by N.Kannan, Blackland Research, Temple, USA
+!!    Modified by N.Kannan, Blackland Research, Temple, USA
 
       use parm
 
@@ -96,7 +96,7 @@
       inhyd = 0
       inhyd = inum2
 
-!	nstep = int(1440 / idt) !! nstep is a global variable
+!    nstep = int(1440 / idt) !! nstep is a global variable
 
 !!     start of sub-daily loop
 

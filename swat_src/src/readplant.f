@@ -253,8 +253,8 @@
         bmx_trees(ic) = 1000. * biomxtrees
         ext_coef(ic) = extcoef
         bm_dieoff(ic) = bmdieoff
-	  rsr1(ic) = rsr1c
-	  rsr2(ic) = rsr2c
+      rsr1(ic) = rsr1c
+      rsr2(ic) = rsr2c
 
         !! set default value
         if (ext_coef(ic) < 1.e-6) ext_coef(ic) = 0.65
@@ -263,8 +263,8 @@
         if (usle_c >= 1.0) usle_c = 1.0
         if (blai(ic) <= 0.0) blai(ic) = 0.0
         if (blai(ic) >= 13.0) blai(ic) = 13.0 !! modified by Cibin from 10 to 13
-	  if (rsr1(ic) <= 0.0) rsr1(ic) = 0.4
-	  if (rsr2(ic) <= 0.0) rsr2(ic) = 0.2
+      if (rsr1(ic) <= 0.0) rsr1(ic) = 0.4
+      if (rsr2(ic) <= 0.0) rsr2(ic) = 0.2
 
 
         if (bio_e(ic) > 0. .and. cpnm(ic) /= 'WATR') then

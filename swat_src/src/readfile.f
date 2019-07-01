@@ -123,7 +123,7 @@
       real, external :: Aunif
       character (len=13) :: figfile, bsnfile, plantdb, tilldb, urbandb, 
      &    pestdb, fertdb, fcstfile
-	
+
       character (len=80) :: titldum
       real :: sumv, xx
       integer :: rn, j, ii, eof
@@ -273,7 +273,7 @@
       open (106,file=pestdb)
       open (107,file=fertdb)
       open (108,file=urbandb)
-	
+
 
 !!Special Projects input
       read (101,5101) titldum
@@ -509,7 +509,7 @@
       read (101,5000,iostat=eof) septdb
 !!      if (eof < 0) exit
       call caps(septdb)
-!!	end do
+!!    end do
 
 !!    read from readlup (landuse update file)
        open (122,file='lup.dat')
@@ -535,7 +535,7 @@
 
 !!    output by elevation band to (formerly 'snowband.out')
       read (101,*,iostat=eof) isnow
-	if (isnow == 1) then
+      if (isnow == 1) then
          open (115,file='output.snw')
          write (115,1010)
 !!    output temperatures by elevation band (Dhiraj Raj - 07/22/2015)
@@ -586,7 +586,7 @@
       do ii = 1, 20
         if (ipdhru(ii) > 0) itoth = itoth + 1
       end do
-	
+
       if (ipdhru(1) <= 0) then
         do ii = 1, mhru
 !       do ii = 1, mhruo
@@ -691,7 +691,7 @@
 !! Code for output.mgt file
 !  0=no print 1=print
       read (101, *,iostat=eof) imgt
-	if (imgt==1) then
+      if (imgt==1) then
          open (143, file="output.mgt", recl=600)
          write (143,999)
 999      format(2x,'Sub',2x,'Hru',2x,'Year',3x,'Mon',3x,'Day',
@@ -714,7 +714,7 @@
      *__________________________________________________________________
      *__________________________________________________________________
      *________________________________',/)
-	end if     
+      end if
       
 !! Code for output.wtr and output.pot files
 ! 0 =no print  1 =print
@@ -747,7 +747,7 @@
 
 !! septic result  J.Jeong Feb2009
       open (173,file='septic.out')  
-	write(173,5102) 'HRU','YEAR','DAY','Precip', 'PERC',        
+      write(173,5102) 'HRU','YEAR','DAY','Precip', 'PERC',
      & 'sol_ul','sol_st','sol_fc','nh3bgn','nh3end',   
      & 'no3bgn','no3end', 'nitrN','denitrN',
      & 'solpbgn','solpend','solpconc'

@@ -41,8 +41,8 @@
        if (no_up == 0) exit
 
 !!     compute julian days
-	 ida_lup(no_up) = Jdt(ndays,iday,mo)
-	 iyr_lup(no_up) = iyear
+       ida_lup(no_up) = Jdt(ndays,iday,mo)
+       iyr_lup(no_up) = iyear
 
        fname(no_up) = fnam
       end do
