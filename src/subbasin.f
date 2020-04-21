@@ -320,9 +320,6 @@
         !! compute crop growth
         call plantmod
 
-        !! compute actual ET for day in HRU
-        etday = ep_day + es_day + canev
-
         !! write daily air and soil temperature file
         !! can be uncommmented if needed by user and also in readfile.f
 
@@ -413,6 +410,8 @@
 	    end if
         end if
 
+	  !! compute actual ET for day in HRU
+        etday = ep_day + es_day + canev + potevmm
 
         !! compute sediment loading in lateral flow and add to sedyld
         call latsed
@@ -493,9 +492,10 @@
 	          end if
               end if
             endif
+	    endif
+
           !! auto-irrigation operation
-            if (auto_wstr(nro(j),nair(j),j) > 0.) call autoirr
-          end if
+          call autoirr
 
         !! consumptive water use (ponds, shallow aquifer, deep aquifer)
         call watuse

@@ -606,6 +606,8 @@
       allocate (mat_yrs(mcrdb))
       allocate (rdmx(mcrdb))
       allocate (rsdco_pl(mcrdb))
+      allocate (rsr1(mcrdb))
+      allocate (rsr2(mcrdb))
       allocate (t_base(mcrdb))
       allocate (t_opt(mcrdb))
       allocate (vpd2(mcrdb))

@@ -88,6 +88,8 @@
 !!    plantn(:)   |kg N/ha        |amount of nitrogen in plant biomass
 !!    plantp(:)   |kg P/ha        |amount of phosphorus in plant biomass
 !!    plt_pst(:,:)|kg/ha          |pesticide on plant foliage
+!!    rsr1c(:)    |               |initial root to shoot ratio at beg of growing season
+!!    rsr2c(:)    |               |root to shoot ratio at end of growing season
 !!    sol_fon(:,:)|kg N/ha        |amount of nitrogen stored in the fresh
 !!                                |organic (residue) pool
 !!    sol_fop(:,:)|kg P/ha        |amount of phosphorus stored in the fresh
@@ -262,7 +264,9 @@
       if (ssb > 0.001) then
         laiday(j) = laiday(j) * (1. - ff3)  
         if (phuacc(j) < .999) phuacc(j) = phuacc(j) * (1. - ff3)  
-        rwt(j) = .4 - .2 * phuacc(j)        
+!!        rwt(j) = .4 - .2 * phuacc(j)
+      rwt(j) = rsr1(idplt(nro(j),icr(j),j))-rsr2(idplt(nro(j),icr(j),j))& 
+     &          * phuacc(j)        
       else
         bio_ms(j) = 0.
         laiday(j) = 0.

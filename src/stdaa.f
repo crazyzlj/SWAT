@@ -587,7 +587,7 @@
      &    'P LEACHED =  ',f8.3,' (KG/HA)',/,t20,                        &
      &    'N UPTAKE =  ',f8.3,' (KG/HA)',/,t20,'P UPTAKE = ',f8.3,      &
      &    ' (KG/HA)',/,t20,'NO3 YIELD (GWQ) =  ',f8.3,' (KG/HA)')
- 2800 format (t20,'ACTIVE TO SOLUTION P FLOW =  ',f12.3,' (KG/HA)',/,t20,&
+ 2800 format(t20,'ACTIVE TO SOLUTION P FLOW =  ',f12.3,' (KG/HA)',/,t20,&
      &    'ACTIVE TO STABLE P FLOW =  ',f12.3,' (KG/HA)',/,t20,         &
      &    'N FERTILIZER APPLIED = ',f9.3,' (KG/HA)',/,t20,              &
      &    'P FERTILIZER APPLIED = ',f9.3,' (KG/HA)',/,t20,              &
@@ -615,7 +615,7 @@
      &    'N REMOVED IN YIELD =  ',f8.3,' (KG/HA)',/,t20,               &
      &    'P REMOVED IN YIELD =  ',f8.3,' (KG/HA)',/,t20,               &
      &    'AMMONIA VOLATILIZATION =  ',f8.3,' (KG/HA)',/,t20,           &
-     &    'AMMONIA NITRIFICATION = ',f10.3,' (KG/HA)',/,t20,             &
+     &    'AMMONIA NITRIFICATION = ',f10.3,' (KG/HA)',/,t20,            &
      &    'NO3 EVAP-LAYER 2 TO 1 = ',f8.3)
  3100 format (/,t20,'DIE-GRO P Q =  ',f8.1,' (No/HA)',/,t20,            &
      &    'DIE-GRO LP Q =  ',f8.1,' (No/HA)',/,t20,                     &

@@ -151,7 +151,7 @@
 
       if (sdti > 0.) then
         !! calculate velocity and travel time
-  	  vc = sdti / rcharea
+  	    vc = sdti / rcharea  
         vel_chan(jrch) = vc
 	  rttime = ch_l2(jrch) * 1000. / (3600. * vc)
 

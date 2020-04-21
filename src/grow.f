@@ -113,6 +113,8 @@
 !!    phuacc(:)   |none          |fraction of plant heat units accumulated
 !!    plt_et(:)   |mm H2O        |actual ET simulated during life of plant
 !!    plt_pet(:)  |mm H2O        |potential ET simulated during life of plant
+!!    rsr1c(:)    |              |initial root to shoot ratio at beg of growing season
+!!    rsr2c(:)    |              |root to shoot ratio at end of growing season
 !!    rwt(:)      |none          |fraction of total plant biomass that is
 !!                               |in roots
 !!    wshd_nstrs  |stress units  |average annual number of nitrogen stress
@@ -247,8 +249,9 @@
 
 
           !! calculate fraction of total biomass that is in the roots
-          rwt(j) = .4 - .2 * phuacc(j)
-
+  !!        rwt(j) = .4 - .2 * phuacc(j)
+      rwt(j) = rsr1(idplt(nro(j),icr(j),j))-rsr2(idplt(nro(j),icr(j),j))&
+     &                  * phuacc(j)
           f = 0.
           ff = 0.
           f = phuacc(j) / (phuacc(j) + Exp(leaf1(idp)                   &

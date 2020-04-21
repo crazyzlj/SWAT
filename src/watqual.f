@@ -345,7 +345,7 @@
          tday = 0.
          tday = rttime / 24.0
          if (tday > 1.0) tday = 1.0
-         tday = 1.0
+    !!     tday = 1.0
 
 !! algal growth
          !! calculate light extinction coefficient 

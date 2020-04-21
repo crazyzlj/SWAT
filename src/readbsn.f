@@ -167,7 +167,7 @@
 !!    psp         |none          |Phosphorus availibility index. The fraction
 !!                               |of fertilizer P remaining in labile pool
 !!                               |after initial rapid phase of P sorption.
-!!    rcn         |mg/kg         |Concentration of nitrogen in the rainfall
+!!    rcn_sub_bsn |mg/kg         |Concentration of nitrogen in the rainfall
 !!    res_stlr_co |none          |reservoir sediment settling coefficient
 !!    rsd_covco   |              |residue cover factor for computing frac of cover
 !!    rsdco       |none          |residue decomposition coefficient
@@ -360,7 +360,7 @@
       read (103,*) spcon
       read (103,*) spexp
       read (103,1000) titldum
-      read (103,*) rcn
+      read (103,*) rcn_sub_bsn
       read (103,*) cmn
       read (103,*) n_updis
       read (103,*) p_updis
@@ -449,7 +449,7 @@
       if (eof < 0) exit
       read (103,*,iostat=eof) hlife_ngw_bsn
       if (eof < 0) exit
-      read (103,*,iostat=eof) rcn_sub_bsn
+      read (103,1000,iostat=eof) titldum    
       if (eof < 0) exit
       read (103,*,iostat=eof) bc1_bsn
       if (eof < 0) exit
@@ -500,7 +500,6 @@
       if (timp <= 0.) timp = 1.0
       if (snocovmx <= 0.) snocovmx = 1.0
       if (sno50cov <= 0.) sno50cov = .5
-      if (rcn <= 0.) rcn = 1.
       if (surlag <= 0.) surlag = 4.
       if (evrch <= 0.) evrch = 0.6
       if (bactkdq <= 0.) bactkdq = 75.
@@ -528,7 +527,7 @@
       if (ch_onco_bsn <= 1.e-6) ch_onco_bsn = 0.0
       if (ch_opco_bsn <= 1.e-6) ch_opco_bsn = 0.0
       if (hlife_ngw_bsn <= 1.e-6) hlife_ngw_bsn = 5.0
-      if (rcn_sub_bsn <= 1.e-6) rcn_sub_bsn = 0.2
+      if (rcn_sub_bsn <= 1.e-6) rcn_sub_bsn = 1.0
       if (bc1_bsn <= 1.e-6) bc1_bsn = 0.1
       if (bc2_bsn <= 1.e-6) bc2_bsn = 0.1
       if (bc3_bsn <= 1.e-6) bc3_bsn = 0.02

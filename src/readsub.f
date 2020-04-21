@@ -397,6 +397,7 @@
 !$$$$$$           open (111,file=opsfile)
 !$$$$$$           call readops
 !$$$$$$         end if
+
           if (septfile /='             ') then
             call caps (septfile)
             open (172,file=septfile, status='old')
@@ -441,8 +442,6 @@
       do ib = 1, 10
         if (sub_smfmx(ib,i) < 1.e-6) sub_smfmx(ib,i) = smfmx
         if (sub_smfmn(ib,i) < 1.e-6) sub_smfmn(ib,i) = smfmn
-        if (sub_sftmp(ib,i) < 1.e-6) sub_sftmp(ib,i) = sftmp
-        if (sub_smtmp(ib,i) < 1.e-6) sub_smtmp(ib,i) = smtmp
         if (sub_timp(ib,i) < 1.e-6) sub_timp(ib,i) = timp
       end do
 

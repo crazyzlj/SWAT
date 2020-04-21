@@ -229,6 +229,7 @@
            rc = 49. / (1.4 - 0.4 * co2(hru_sub(j)) / 330.)
            pet_day = (dlt * rn_pet + gma * rho * vpd / rv) /            &
      &                               (xl * (dlt + gma * (1. + rc / rv)))
+
            pet_day = Max(0., pet_day)
  
         !! maximum plant ET
