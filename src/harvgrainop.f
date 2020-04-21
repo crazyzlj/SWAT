@@ -167,7 +167,16 @@
       if (yield < 0.) yield = 0.
       yield = yield * harveff
 
-
+      !!add by zhang
+      !!====================
+      !!use idplt(:,:,:) to calculate the crop type, then
+      !! decide which type of crop yield should be used.
+      if (cswat == 2) then
+        grainc_d(j) = grainc_d(j)+ yield * 0.42
+      end if
+      !!add by zhang
+      !!====================      
+      
 !! calculate nutrients removed with yield
       yieldn = 0.
       yieldp = 0.

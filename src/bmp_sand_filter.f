@@ -322,8 +322,8 @@
             ft_sed_cumul(sb,kk) = ft_sed_cumul(sb,kk) + sed_removed !tons
          End if
 
-       write(*,'(3i6,20f10.3)') iyr,iida,ii,qin(ii),
-     & qout(ii),qsw(ii),qpnd(ii),qloss,qevap
+!       write(*,'(3i6,20f10.3)') iyr,iida,ii,qin(ii),
+!     & qout(ii),qsw(ii),qpnd(ii),qloss,qevap
 !       write(*,'(3i5,20f10.3)') iyr,iida,ii,precipdt(ii),qin(ii),
 !     & qout(ii),qloss,qpndi,qpnde,qpnd(ii),qsw(ii),f(ii),sed(1,ii)*1000,
 !     & sed(2,ii)*1000,sloss*1000

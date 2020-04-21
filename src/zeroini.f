@@ -153,6 +153,7 @@
       snocovmx = 0.
       spadyev = 0.
       spadyo = 0.
+      spadyosp = 0.
       spadyrfv = 0.
       spadysp = 0.
       spcon = 0.
@@ -211,6 +212,7 @@
       wshd_pndsed = 0.
       wshd_pndv = 0.
       wshd_pstrs = 0.
+      wshd_astrs = 0.
       wshd_pup = 0.
       wshd_raino3 = 0.
       wshd_resfr = 0.

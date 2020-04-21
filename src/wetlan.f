@@ -142,6 +142,8 @@
       real :: wetsani, wetsili, wetclai, wetsagi, wetlagi
 	real :: san, sil, cla, sag, lag, inised, finsed,setsed,remsetsed
       real :: wetsano, wetsilo, wetclao, wetsago, wetlago
+      real :: qdayi, latqi
+      
 
       j = 0
       j = ihru
@@ -153,20 +155,18 @@
         !! store initial values
         vol = 0.
         sed = 0.
-
-	    san = 0.
-	    sil = 0.
-	    cla = 0.
-	    sag = 0.
-	    lag = 0.
-	    inised = 0.
-	    finsed = 0.
-	    setsed = 0.
-	    remsetsed = 0.
-
+        san = 0.
+        sil = 0.
+        cla = 0.
+        sag = 0.
+        lag = 0.
+        inised = 0.
+        finsed = 0.
+        setsed = 0.
+        remsetsed = 0.
+        
         vol = wet_vol(j)
         sed = wet_sed(j)
-
         san = wet_san(j)
         sil = wet_sil(j)
         cla = wet_cla(j)
@@ -182,8 +182,17 @@
         wetpcp = subp(j) * wetsa * 10.
 
         !! calculate water flowing into wetland from HRU
-        wetflwi = qdr(j) * 10. * (hru_ha(j) * wet_fr(j) - wetsa)
-        qdr(j) = qdr(j) - qdr(j) * wet_fr(j)
+        wetflwi = qday + latq(j)
+        wetflwi = wetflwi * 10. * (hru_ha(j) * wet_fr(j) - wetsa)
+        qdayi = qday
+        latqi = latq(j)
+        qday = qday * (1. - wet_fr(j))
+        latq(j) = latq(j) * (1. - wet_fr(j))
+        wetloss = qdayi - qday
+        lwetloss = latqi - latq(j)
+
+        qdr(j) = qdr(j) - wetloss - lwetloss
+!       qdr(j) = qdr(j) - qdr(j) * wet_fr(j)
        
         !! sediment loading to wetland from HRU
         wetsedi = sedyld(j) * (wet_fr(j) - (wetsa / hru_ha(j)))
@@ -195,7 +204,6 @@
         wetlagi = lagyld(j) * (wet_fr(j) - (wetsa / hru_ha(j)))
 
         sedyld(j) = sedyld(j) - sedyld(j) * wet_fr(j)
-
         sanyld(j) = sanyld(j) - sanyld(j) * wet_fr(j)
         silyld(j) = silyld(j) - silyld(j) * wet_fr(j)
         clayld(j) = clayld(j) - clayld(j) * wet_fr(j)
@@ -288,6 +296,7 @@
               wet_vol(j) = wet_mxvol(j)
             end if
           end if
+          qday= qday + wetflwo / cnv
           qdr(j) = qdr(j) + wetflwo / cnv
 
           !! compute sediment settling

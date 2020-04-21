@@ -153,7 +153,7 @@
 !! convert units on k_l:read in as kJ/(m2*min), use as MJ/(m2*hr)
       k_l = k_l * 1.e-3 * 60.
 
-!! change units from day to hour if hourly routing is performed
+!! change units from day to hour if hourly (subdaily) routing is performed
       if (ievent == 3) then
         mumax = mumax / 24.
         rhoq = rhoq / 24.

@@ -454,7 +454,7 @@
         hrumono(1,j) = hrumono(1,j) + subp(j)
         hrumono(2,j) = hrumono(2,j) + snofall
         hrumono(3,j) = hrumono(3,j) + snomlt
-        hrumono(4,j) = hrumono(4,j) + qday + tloss
+        hrumono(4,j) = hrumono(4,j) + qday
         hrumono(5,j) = hrumono(5,j) + latq(j)
         hrumono(6,j) = hrumono(6,j) + gw_q(j)
         hrumono(7,j) = hrumono(7,j) + revapday
@@ -519,6 +519,8 @@
         hrumono(67,j) = hrumono(67,j) + sedminpa(j) + sedminps(j)
         hrumono(68,j) = hrumono(68,j) + tileno3(j)
         hrumono(69,j) = hrumono(69,j) + latno3(j)
+        hrumono(70,j) = hrumono(70,j) + gw_qdeep(j)
+        hrumono(71,j) = hrumono(71,j) + latq(j) - lpndloss - lwetloss
 
         wtrmon(1,j) = wtrmon(1,j) + pndev / cnv
         wtrmon(2,j) = wtrmon(2,j) + pndsep / cnv
@@ -545,7 +547,7 @@
       !! watershed summations
         if (ffcst == 0 .and. iscen == 1) then
         wshddayo(1) = wshddayo(1) + subp(j) * hru_dafr(j)
-        wshddayo(3) = wshddayo(3) + (qday + tloss) * hru_dafr(j)
+        wshddayo(3) = wshddayo(3) + surfq(j) * hru_dafr(j)
         wshddayo(4) = wshddayo(4) + latq(j) * hru_dafr(j)
         wshddayo(5) = wshddayo(5) + sepbtm(j) * hru_dafr(j)
         wshddayo(6) = wshddayo(6) + qdr(j) * hru_dafr(j)
@@ -593,6 +595,7 @@
         wshddayo(109) = wshddayo(109) + qtile * hru_dafr(j)
         wshddayo(110) = wshddayo(110) + no3gw(j) * hru_dafr(j)
         wshddayo(111) = wshddayo(111) + tileno3(j) * hru_dafr(j)
+        wshddayo(113) = wshddayo(113) + gw_qdeep(j) * hru_dafr(j)     
           do ii=1,mstdo
             if(wshddayo(ii).ne.wshddayo(ii)) wshddayo(ii) = 0  !! float error debug, Jaehak Jeong, 2011 Feb
           end do     

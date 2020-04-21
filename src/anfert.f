@@ -251,12 +251,65 @@
      &                    * forgp(ifrt)
             sol_orgp(ly,j) = sol_orgp(ly,j) + (1. - rtoaf) * xx *       &
      &                    dwfert* forgp(ifrt)
-	    else
+	    end if
+	    if (cswat == 1) then
             sol_mc(ly,j) = sol_mc(ly,j) + xx * dwfert * forgn(ifrt)*10.
             sol_mn(ly,j) = sol_mn(ly,j) + xx * dwfert * forgn(ifrt)
             sol_mp(ly,j) = sol_mp(ly,j) + xx * dwfert * forgp(ifrt)
 	    end if
 
+	    !! add by zhang
+	    !!=================
+	    if (cswat == 2) then
+            sol_fop(ly,j) = sol_fop(ly,j) + rtoaf * xx * dwfert         &
+     &                    * forgp(ifrt)
+            sol_orgp(ly,j) = sol_orgp(ly,j) + (1. - rtoaf) * xx *       &
+     &                    dwfert* forgp(ifrt)	    
+            !!Allocate organic fertilizer to Slow (SWAT_active) N pool;
+            sol_HSN(ly,j) = sol_HSN(ly,j) + (1. - rtoaf) * xx           &
+     &                    * dwfert * forgn(ifrt)
+            sol_aorgn(ly,j) = sol_HSN(ly,j)
+
+          !orgc_f is the fraction of organic carbon in fertilizer
+          !for most fertilziers this value is set to 0.
+              orgc_f = 0.0 
+              
+          !X1 is fertlizer applied to layer (kg/ha)
+          !xx is fraction of fertilizer applied to layer
+              X1 = xx * dwfert 
+              X8 = X1 * orgc_f
+              RLN = .175 *(orgc_f)/(fminn(ifrt) + forgn(ifrt) + 1.e-5)
+              X10 = .85-.018*RLN
+              if (X10<0.01) then
+                X10 = 0.01
+              else
+                if (X10 > .7) then
+                    X10 = .7
+                end if
+              end if
+              XXX = X8 * X10
+              sol_LMC(ly,j) = sol_LMC(ly,j) + XXX
+              YY = X1 * X10
+              sol_LM(ly,j) = sol_LM(ly,j) + YY
+              
+              ZZ = X1 *rtoaf *forgn(ifrt) * X10
+              
+              sol_LMN(ly,j) = sol_LMN(ly,j) + ZZ
+              sol_LSN(ly,j) = sol_LSN(ly,j) + X1
+     &                      *forgn(ifrt) -ZZ
+              XZ = X1 *orgc_f-XXX
+              sol_LSC(ly,j) = sol_LSC(ly,j) + XZ
+              sol_LSLC(ly,j) = sol_LSLC(ly,j) + XZ * .175          
+              sol_LSLNC(ly,j) = sol_LSLNC(ly,j) + XZ * (1.-.175) 
+              YZ = X1 - YY
+              sol_LS(ly,j) = sol_LS(ly,j) + YZ
+              sol_LSL(ly,j) = sol_LSL(ly,j) + YZ*.175
+              
+              sol_fon(ly,j) = sol_LMN(ly,j) + sol_LSN(ly,j)
+	    
+	    end if
+	    !! add by zhang
+	    !!=================
 
           !! check for P stress
           tfp = 0.

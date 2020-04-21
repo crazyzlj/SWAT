@@ -35,6 +35,23 @@
       sol_fon(1,j) = sol_fon(1,j) * xx
       sol_aorgn(1,j) = sol_aorgn(1,j) * xx
       sol_orgn(1,j) = sol_orgn(1,j) * xx
-   
+
+      !!insert new biomss by zhang	  
+      !!=================================
+      if (cswat == 2) then
+          sol_LM(1,j) = sol_LM(1,j) * xx
+          sol_LS(1,j) = sol_LS(1,j) * xx
+          sol_LSC(1,j) = sol_LSC(1,j) * xx
+          sol_LSN(1,j) =sol_LSN(1,j) * xx
+          sol_LMC(1,j) = sol_LMC(1,j) * xx
+          sol_LMN(1,j) = sol_LMN(1,j) * xx
+          sol_LSL(1,j) = sol_LSL(1,j) * xx  
+
+          emitc_d(j) = emitc_d(j) + bio_ms(j) * (1.-xx)
+          emitc_d(j) = emitc_d(j) + sol_rsd(1,j) * (1.-xx)  
+      end if 
+      !!insert new biomss by zhang
+      !!=================================
+
       return
       end

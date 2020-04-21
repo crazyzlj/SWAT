@@ -59,9 +59,9 @@
 !!    Estimate Pond Volume using Austin Design Manual if not entered by user
 !!    COA Environmental Criteria Manual Chapter 1.6.6 and Table 1-9
       if (wtp_dim(sb)==0) then
-         imc = subdr_ickm(sb) / subdr_km(sb) !fraction impervious cover
+         imc = subdr_ickm(ihout) / subdr_km(ihout) !fraction impervious cover
          rf = 0.5463 * imc ** 2 + 0.328 * imc + 0.0296
-         wtp_pvol(sb) = 0.162 * rf * (subdr_km(sb) * 247.11) !ac-feet
+         wtp_pvol(sb) = 0.162 * rf * (subdr_km(ihout) * 247.11) !ac-feet
          wtp_pvol(sb) = wtp_pvol(sb) * 1233.4 !m3
          if (wtp_pvol(sb)<3000) wtp_pvol(sb) = 3000. !minimum area 21780ft2 * depth 5ft gives ~3000m3     
          wtp_pdepth(sb) = 2. !m

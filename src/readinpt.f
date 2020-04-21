@@ -40,6 +40,14 @@
 
       use parm
 
+!! By Zhang for C/N cycling 
+!!==============================  
+      !initilizaing several soil parameters
+      sol_WOC = 0.
+      sol_WON = 0.
+!! By Zhang for C/N cycling  
+!!=============================
+
       if (irtpest > 0) irtpest = nope(irtpest)
       npmx = 0
       npmx = Sum(pstflg)         !! set equal to # pesticides modeled in

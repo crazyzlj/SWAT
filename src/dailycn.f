@@ -73,19 +73,12 @@
       if (icn <= 0) then
         !! traditional CN method (function of soil water)
         if ((sol_sw(j) + Exp(xx)) > 0.001) then
-          r2 = smx(j) * (1. - sol_sw(j) / ( sol_sw(j) + Exp(xx)))
+          r2 = r2adj * smx(j) * (1. - sol_sw(j) / (sol_sw(j) + Exp(xx)))
         end if
-      else if (icn == 1) then    !Daniel 1\2012                         
+      else                        
         !! alternative CN method (function of plant ET) 
-        r2 = amax1(3., sci(j)) 
-      else     
- !Daniel 1/2012                
-       !! alternative CN method (Modified function of soil water for mildly-sloped tile-drained watersheds)!Daniel M 1/2012
-       if ((sol_sw(j) + Exp(xx)) > 0.001) then    
-        r2 = 8.0*smx(j) * (1. - sol_sw(j) / ( sol_sw(j) + Exp(xx))) 
-       end if
- !Daniel 1/2012      
-       end if
+        r2 = amax1(3., sci(j))           
+      end if
 
       if (sol_tmp(2,j) <= 0.) r2 = smx(j) * (1. - Exp(- cn_froz * r2))
       r2 = amax1(3.,r2)

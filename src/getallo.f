@@ -239,7 +239,8 @@
       inm3 = 0
       mhru = 0
       mch = 1
-      msub = 1
+      mru = 1
+      msub = 0
       mhyd = 1
       mres = 0 
       mlyr = 0
@@ -258,7 +259,6 @@
       mtran = 0
       nsave = 0
       nlsu = 0
-   !!   nauto = 0
 
 !! calculate number of records in plant growth database
       eof = 0
@@ -358,11 +358,12 @@
       end do
       if (mtil <= 0) mtil = 1
       close (30)
-
+      
 
 !! process .fig file
       allocate (pstflg(mpdb))
       pstflg = 0
+      mhru1 = 1
       open (27,file=figfile)
       do while (icd > 0)
         read (27,5002) a
@@ -385,7 +386,11 @@
             end do
             read (25,*) numhru
             mhru = mhru + numhru
-            call hruallo(numhru)
+            do j = 1, 8
+              read (25,6000) titldum
+            end do
+            call hruallo
+            mhru1 = mhru + 1
             close (25)
           case (2)                      !! icd = 2  ROUTE command
             mch = mch + 1               !! # channels
@@ -399,37 +404,47 @@
           case (6)                      !! icd = 6  RECALL HOUR command
             read (27,5002) a
             mrech = mrech + 1
+            mrech = MAX(mrech,inm1)
           case (7)                      !! icd = 7  RECALL MONTH command
             read (27,5002) a
             mrecm = mrecm + 1
+            mrecm = MAX(mrecm,inm1) 
           case (8)                      !! icd = 8  RECALL YEAR command
             read (27,5002) a
             mrecy = mrecy + 1
+            mrecy = MAX(mrecy,inm1) 
           case (9)                      !! icd = 9  SAVE command
             read (27,5002) a
             nsave = nsave + 1
           case (10)                     !! icd = 10 RECALL DAY command
             read (27,5002) a
             mrecd = mrecd + 1
+            mrecd = MAX(mrecd,inm1)
           case (11)                     !! icd = 11 RECALL CONSTANT command
             read (27,5002) a
             mrecc = mrecc + 1
+            mrecc = MAX(mrecc,inm1)
           case (13)                     !! icd = 13 APEX command
             read (27,5002) a
             mapex = mapex + 1
+            mapex = MAX(mapex,inm1)
           case (14)                     !! icd = 14 SAVECONC command
             read (27,5002) a
             nsave = nsave + 1
           case (17)                     !! icd = 17 ROUTING UNIT command
             read (27,5002) a
-            rutot = rutot + 1
+            mru = mru + 1
           end select
 
           mhyd = Max(mhyd,iht)
 
         end if
-      end do
+      end do  
       close (27)
+      
+      if (ils_nofig == 1) then
+        mru = Max(mru,2*msub)
+      end if
       if (mhru <= 0) mhru = 1
       if (msub <= 0) msub = 1
       if (mch <= 0) mch = 1
@@ -440,11 +455,14 @@
       if (mrecy <= 0) mrecy = 1
       if (mres <= 0) mres = 1
 
- !!     mhyd = mhyd + nsave + nauto + mtran + 1
       mhyd = mhyd + nsave + mtran + 1
-!! septic change 1-28-09 gsm
+      if (ils_nofig == 1) then
+        mhyd = mhyd + 6 * msub
+      end if
+
+!!    septic change 1-28-09 gsm
       mlyr = mlyr + 4 
-!! septic change 1-28-09 gsm
+!!    septic change 1-28-09 gsm
 
       mcr = mcr + 1
       mcr = Max(2,mcr)

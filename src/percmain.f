@@ -21,7 +21,11 @@
 !!                               |0 simulate tile flow using subroutine origtile(wt_shall,d) 
 !!    iwtdn       |none          |water table depth algorithms flag/code
 !!                               |1 simulate wt_shall using subroutine new water table depth routine
-!!                               |0 simulate wt_shall using subroutine original water table depth routine                     
+!!                               |0 simulate wt_shall using subroutine original water table depth routine  
+!!    ismax       |none          |maximum depressional storage selection flag/code
+!!                               |1 dynamic stmaxd computed as a function of random roughness and rain intensity 
+!!                               |by depstor.f
+!!                               |0 static stmaxd read from .bsn for the global value or .sdr for specific hrus                        
 !!    drainmod tile equations   01/2006
 !!    sol_fc(:,:) |mm H2O        |amount of water available to plants in soil
 !!                               |layer at field capacity (fc - wp)
@@ -103,7 +107,9 @@
 	if (aird(j)>0) then
 	  j=j
 	end if
-      sepday = inflpcp + aird(j)
+      sepday = inflpcp + aird(j) + pot_seep(j)
+      pot_seep(j) = 0.
+      
 !! if unlimted, or groundwater source reset aird here (otherwise in virtual)
 !!  change per JGA 10/12/11 irrigation problem with reach
 !!	if (irrsc(j) > 2)  aird(j) = 0.

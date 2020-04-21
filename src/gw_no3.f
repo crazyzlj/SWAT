@@ -7,7 +7,7 @@
 !!    ~ ~ ~ INCOMING VARIABLES ~ ~ ~
 !!    name        |units         |definition
 !!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
-!!    alpha_bf(:) |days          |alpha factor for groundwater recession curve
+!!    alpha_bf(:) |1/days        |alpha factor for groundwater recession curve
 !!    alpha_bfe(:)|none          |Exp(-alpha_bf(:))
 !!    deepst(:)   |mm H2O        |depth of water in deep aquifer
 !!    ihru        |none          |HRU number

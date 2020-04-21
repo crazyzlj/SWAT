@@ -52,7 +52,7 @@
         surfq(j) = 0.
       endif
 
-      if (ievent == 3) then
+      if (ievent >= 2) then
         voli = 0.
         voli = voltot
         do ii = 1, nstep  !j.jeong 4/24/2009

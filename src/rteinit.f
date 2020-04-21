@@ -121,7 +121,7 @@
         isb = hru_sub(idum)
 	  if (idplt(idum) > 0) then 
          if (bio_e(idplt(idum)) > 1.e-6) then
-          subfr_nowtr(isb) = subfr_nowtr(isb) + hru_dafr(idum)
+          subfr_nowtr(isb) = subfr_nowtr(isb) + hru_fr(idum)
 	   end if
 	  end if
       end do

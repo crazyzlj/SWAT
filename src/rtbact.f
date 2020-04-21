@@ -97,7 +97,7 @@
         initp = 0.
         initlp = rch_bactlp(jrch)
         initp = rch_bactp(jrch)
-        do ii = 1, 24
+        do ii = 1, nstep
           !! total bacteria mass in reach
           totbactp = 0.
           totbactlp = 0.

@@ -132,7 +132,7 @@
 
 
       nloss = (2.18 * dis_stream(j) - 8.63) / 100.
-      nloss = Amax1(0.,nloss)
+      nloss = amax1(0.,nloss)
       nloss = Amin1(1.,nloss)
       latno3(j) = (1. - nloss) * latno3(j)
 

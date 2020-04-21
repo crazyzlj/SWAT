@@ -96,7 +96,7 @@
 
       integer :: jres
       real :: vol, sed, vvr, targ, xx, flw
-	real :: san,sil,cla,sag,lag,gra
+	real :: san,sil,cla,sag,lag,gra,ndespill
 	real :: inised, finsed, setsed, remsetsed
  
       jres = 0
@@ -153,6 +153,13 @@
 
           case (1)                   !! use measured monthly outflow
             resflwo = res_out(jres,i_mo,curyr)
+          !! This will override the measured outflow! This is just a check 
+          !! should really calibrate inflow or check res volumes
+            ndespill = ndtargr(nres)
+            if (ndespill <= 0.) ndespill = 10.
+            if (res_vol(jres) > res_evol(jres)) then
+             resflwo = resflwo+(res_vol(jres)-res_evol(jres))/ndespill
+            endif
 
           case (2)                   !! controlled outflow-target release
             targ = 0.

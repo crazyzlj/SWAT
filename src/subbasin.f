@@ -54,8 +54,6 @@
 !!                                  |within the year
 !!    nirr(:)        |none          |sequence number of irrigation application
 !!                                  |within the year
-!!    npest(:)       |none          |sequence number of pesticide application
-!!                                  |within the year
 !!    nrelease(:)    |none          |sequence number of impound/release
 !!                                  |operation within the year
 !!    nro(:)         |none          |sequence number of year in rotation
@@ -124,7 +122,7 @@
 !!    ~ ~ ~ SUBROUTINES/FUNCTIONS CALLED ~ ~ ~
 !!    Intrinsic: Exp, Max
 !!    SWAT: varinit, albedo, solt, surface, percmain, etpot, etact, fert
-!!    SWAT: confert, graze, plantmod, nminrl, nitvol, pminrl, gwmod, apply
+!!    SWAT: confert, graze, plantmod, nminrl, nitvol, pminrl, gwmod, apply, gwmod_deep
 !!    SWAT: washp, decay, pestlch, enrsb, pesty, orgn, psed, nrain, nlch
 !!    SWAT: solp, subwq, bacteria, urban, pothole, latsed, surfstor
 !!    SWAT: substor, wetland, hrupond, irrsub, autoirr, watuse, watbal
@@ -147,10 +145,33 @@
       j = 0
       j = ihru
 
+
+      !!by zhang DSSAT tillage
+      !!======================
+      !!    deptil(:)   |mm  |depth of mixing caused by tillage operation
+      !jj is hru number
+      if (cswat == 2) then
+          if (tillage_switch(ihru) .eq. 1) then
+              if (tillage_days(ihru) .ge. 30) then
+                    tillage_switch(ihru) = 0
+                    tillage_days(ihru) = 0
+              else
+                    tillage_days(ihru) = tillage_days(ihru) + 1
+              end if                
+              !tillage_depth(ihru) = dtil
+              !tillage_switch(ihru) = .TRUE. 
+          end if
+      end if
+      !!by zhang DSSAT tillage  
+      !!====================== 
+
+
+
       call varinit
       if (icr(j) <= 0) icr(j) = 1
       
       i_wtrhru = 0
+      idplrot(icr(j),ihru) = idplt(j)
       if (idplt(j) /= 0) then
           if (cpnm(idplt(j)) == "WATR") then
               i_wtrhru = 1
@@ -183,6 +204,10 @@
           !! undrained depression--
           call surface
 
+          !! add surface flow that was routed across the landscape on the previous day
+       !!   qday = qday + surfq_ru(j)
+       !!   surfq_ru(j) = 0.
+          
           !! compute effective rainfall (amount that percs into soil)
           inflpcp = Max(0.,precipday - surfq(j))
 !        end if
@@ -197,7 +222,8 @@
 
         !! compute evapotranspiration
         call etpot
-        if (pot_vol(j) < 1.e-6) call etact
+!        if (pot_vol(j) < 1.e-6) call etact
+        call etact
 
         !! compute water table depth using climate drivers
         call wattable
@@ -210,7 +236,6 @@
         sci(j) = sci(j) + pet_day*exp(-cncoef_sub(hru_sub(j))*sci(j)/   &
      &    smx(j)) - precipday + qday + latq(j) + sepbtm(j) + qtile
         sci(j) = amin1(sci(j),smxco * smx(j))
- !!     write (1225,*) sci(j)
         end if 
         
         !! apply fertilizer/manure in continuous fert operation
@@ -249,9 +274,18 @@
 
       if (cswat == 0) then
         call nminrl
-	  else
+	end if
+	if (cswat == 1) then
 		call carbon
-	  end if
+	end if
+	
+	!! Add by zhang
+	!!=================
+	if (cswat == 2) then
+	  call carbon_zhang2
+	end if
+	!! Add by zhang
+	!!=================	
 
         call nitvol
         if (sol_P_model == 1) then
@@ -268,6 +302,7 @@
 
         !! compute ground water contribution
         call gwmod
+        call gwmod_deep
 
         !! compute pesticide washoff   
         if (precipday >= 2.54) call washp
@@ -285,9 +320,19 @@
 
 		  if (cswat == 0) then
 			call orgn(0)
-	      else
+	    end if
+	    if (cswat == 1) then
+	    
 		    call orgncswat(0)
 		  end if
+		  
+		  !! Add by zhang
+		  !! ====================
+		  if (cswat == 2) then
+		    call orgncswat2(0)
+		  end if
+		  !! Add by zhang
+		  !! ====================
 
             call psed(0)
           end if
@@ -341,6 +386,10 @@
 
         call substor
 
+        !! add lateral flow that was routed across the landscape on the previous day
+      !!  latq(j) = latq(j) + latq_ru(j)
+      !!  latq_ru(j) = 0.
+        
         !! compute reduction in pollutants due to edge-of-field filter strip
         if (vfsi(j) >0.)then
           call filter
@@ -363,7 +412,7 @@
 
 
         !! compute water yield for HRU
-        qdr(j) = qday + latq(j) + gw_q(j) + qtile
+        qdr(j) = qday + latq(j) + gw_q(j) + qtile + gw_qdeep(j)
         if (qdr(j) < 0.) qdr(j) = 0.
         if (qdr(j) > 0.) then
           qdfr = qday / qdr(j)
@@ -394,6 +443,9 @@
 
         !! perform water balance
         call watbal
+        
+        !! qdayout is surface runoff leaving the hru - after wetlands, ponds, and potholes
+        qdayout(j) = qday
 
       endif
 
@@ -408,6 +460,79 @@
       ihru = ihru + 1
       end do
 
+      !! route 2 landscape units
+      if (ils2flag(inum1) > 0) then
+      isub = inum1                        ! save the subbasin number
+      
+      !! calculate outputs from hillslope
+      ihout1 = mhyd_bsn + (inum1 - 1) * 4 ! first outflow hyd number
+      ihout = ihout1                      ! outflow hyd number
+      inum1 = 1                           ! landscape unit number
+      inum2 = isub                        ! subbasin number
+      call routeunit                      ! hillslope unit
+      call sumhyd
+      inum1s(ihout) = inum1
+      inum2s(ihout) = inum2
+      ihouts(ihout) = ihout
+      
+      !! calculate outputs from valley bottom
+      inum1 = 2                           ! landscape unit number
+      ihout = ihout + 1                   ! outflow hyd number
+      sumdaru = 0.
+      do j = 1, hrutot(isub)
+        sumdaru = sumdaru + hru_km(j)
+      end do 
+      daru_km(inum2,inum1) = sumdaru
+      call routeunit                      ! valley bottom unit
+      call sumhyd
+      inum1s(ihout) = inum1
+      inum2s(ihout) = inum2
+      ihouts(ihout) = ihout
+      
+      !! route output from hillslope across valley bottom
+      ihout = ihout + 1                   ! outflow hyd number
+      inum1 = 2                           ! valley bottom landscape unit
+      inum2 = ihout1                      ! inflow hyd=outlfow from hillslope
+      inum3 = isub                        ! subbasin number
+      rnum1 = 1.                          ! fraction overland flow
+      iru_sub = 1                         ! route across landscape unit
+      !! compute weighted K factor for sediment transport capacity
+      sumk = 0.
+      ovsl = 0.
+      ovs = 0.
+      do j = 1, hrutot(isub)
+        sumk = sumk + usle_k(j) * hru_rufr(inum1,j)
+        ovsl = ovsl + slsubbsn(j)
+        ovs = ovs + hru_slp(j)
+      end do 
+      ovsl = ovsl / hrutot(isub)
+      ovs = ovs / hrutot(isub)
+      ru_k(isub,inum1) = sumk
+      ru_ovsl(isub,inum1) = ovsl
+      ru_ovs(isub,inum1) = ovs
+      ru_ktc(isub,inum1) = 50.
+      ru_a(isub,inum1) = daru_km(isub,1) / ru_ovsl(isub,inum1)
+      call routels(iru_sub)               ! route across valley bottom
+      call sumhyd
+      inum1s(ihout) = inum1
+      inum2s(ihout) = inum2
+      inum3s(ihout) = inum3
+      ihouts(ihout) = ihout
+      
+      !! add routed with valley bottom loading
+      inum1 = ihout                       ! hyd from routed 
+      inum2 = ihout - 1                   ! hyd from loading
+      ihout = ihout + 1                   ! outflow hyd number
+      call addh                           ! add hyd's
+      call sumhyd
+      inum1s(ihout) = inum1
+      inum2s(ihout) = inum2
+      ihouts(ihout) = ihout
+      
+      !! save landscape routed output in place of subbasin output for routing
+      varoute(isub,:) = varoute(ihout,:)
+      end if
+      
  1000 format(4i10,a10)
       return
       end

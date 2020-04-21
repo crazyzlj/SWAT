@@ -20,6 +20,7 @@
 !!	pc(:)		|mm/hr		   |pump capacity (default pump capacity = 1.042mm/hr or 25mm/day)
 !!	re(:)		|mm			   |effective radius of drains
 !!	sdrain(:)	|mm			   |distance between two drain tubes or tiles
+!!    sstmaxd(:)|mm            |static maximum depressional storage; read from .sdr
 !!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
 
 !!    ~ ~ ~ LOCAL DEFINITIONS ~ ~ ~
@@ -84,8 +85,10 @@
         if (eof < 0) exit
         read (112,*,iostat=eof) pc(ihru)
         if (eof < 0) exit
-	  read (112,*,iostat=eof) latksatf(ihru)
-	  if (eof < 0) exit
+	    read (112,*,iostat=eof) latksatf(ihru)
+	    if (eof < 0) exit        
+	    read (112,*,iostat=eof) sstmaxd(ihru)
+        if (eof < 0) exit       
       end do
       
       close (112)

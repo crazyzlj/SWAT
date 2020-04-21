@@ -39,7 +39,8 @@
 
       use parm
        
-      integer, intent (in) :: hr, jj
+      integer, intent (in) ::  jj
+      real, intent(in) :: hr
       real :: tair
 
 !! update hi or lo temperature depending on hour of day

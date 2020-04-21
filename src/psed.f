@@ -108,8 +108,8 @@
         !! sum for subbasin sediment calculations
         sub_orgp(sb) = sub_orgp(sb) + (sol_orgp(1,j) + sol_fop(1,j)
      &      + sol_mp(1,j)) * hru_dafr(j)
-        sub_minpa(sb) = sub_minpa(sb) + sol_actp(1,j) * hru_dafr(j)
-        sub_minps(sb) = sub_minps(sb) + sol_stap(1,j) * hru_dafr(j)
+        sub_minpa(sb) = sub_minpa(sb) + sol_actp(1,j) * hru_fr(j)
+        sub_minps(sb) = sub_minps(sb) + sol_stap(1,j) * hru_fr(j)
       else
         !! subbasin sediment calculations
         xx = sub_orgp(iwave) + sub_minpa(iwave) + sub_minps(iwave)

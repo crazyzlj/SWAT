@@ -186,6 +186,121 @@
       real, dimension (mhruo) :: pdvas, pdvs
       character (len=4) :: cropname
 
+      !!by zhang print out soil water
+      !!===============================    
+      integer :: ly
+      real :: sumwater, sumwfsc, sumdepth, sat, wc, dp
+      real :: ssoilwater(100), swfsc(100)
+      real :: soilwater(11), wfsc(11), sum_depth(11) !10, 100, 200, 300, 400, ..., 1000 mm
+      !!by zhang print out soil water
+      !!===============================
+
+
+      !!by zhang print out soil water
+      !!===============================
+      if (cswat == 2) then
+          !fc = sol_fc(kk,j) + sol_wpmm(kk,j)  ! units mm
+          !wc = sol_st(kk,j) + sol_wpmm(kk,j)  ! units mm
+          !sat = sol_ul(kk,j) + sol_wpmm(kk,j) ! units mm
+          !void = sol_por(kk,j) * (1. - wc / sat)   ! fraction
+
+          soilwater(1) = 0.
+          wfsc(1) = 0.
+          sum_depth(1) = 10.
+          do k = 2, 11
+            soilwater(k) = 0.
+            wfsc(k) = 0.
+            sum_depth(k) = 100. * (k -1)
+          end do
+          
+          wc = sol_st(1,ihru) + sol_wpmm(1,ihru)
+          sat = sol_ul(1,ihru) + sol_wpmm(1,ihru)
+          soilwater(1) = wc      
+          wfsc(1) = sol_por(1,ihru) * (wc / sat)   ! fraction
+          
+          if (sol_nly(ihru) .ge. 2) then
+              do k = 2, 11
+                sumwater = 0.
+                sumwfsc = 0.
+                sumdepth = 0.
+                do ly = 2, sol_nly(ihru)
+                    if (sol_z(ly-1,ihru) .ge. sum_depth(k-1) .and. sol_z(ly,ihru) .le. sum_depth(k)) then
+
+                              dp = sol_z(ly,ihru) - sol_z(ly-1,ihru)
+                              if (dp .gt. 0.) then
+                                  wc = sol_st(ly,ihru) + sol_wpmm(ly,ihru)*(dp/(sol_z(ly,ihru)-sol_z(ly-1,ihru)))
+                                  sat = sol_ul(ly,ihru) + sol_wpmm(ly,ihru)*(dp/(sol_z(ly,ihru)-sol_z(ly-1,ihru)))
+                                  
+                                  
+                                  sumwater = sumwater + wc * dp
+                                  sumwfsc = sumwfsc + sol_por(ly,ihru) * (wc / sat) * dp
+                                  sumdepth = sumdepth + dp
+                              end if
+                    
+                    elseif ((sol_z(ly-1,ihru) .gt. sum_depth(k-1) .and. sol_z(ly,ihru) .gt. sum_depth(k)) &
+                            .or. (sol_z(ly-1,ihru) .ge. sum_depth(k-1) .and. sol_z(ly,ihru) .gt. sum_depth(k)) &
+                            .or. (sol_z(ly-1,ihru) .gt. sum_depth(k-1) .and. sol_z(ly,ihru) .ge. sum_depth(k))) &
+                             then
+                            if (sol_z(ly-1,ihru) .le. sum_depth(k)) then 
+                              dp = sum_depth(k) - sol_z(ly-1,ihru)
+                              if (dp .gt. 0.) then
+                                  wc = (sol_st(ly,ihru) + sol_wpmm(ly,ihru)) *(dp/(sol_z(ly,ihru)-sol_z(ly-1,ihru)))
+                                  sat = (sol_ul(ly,ihru) + sol_wpmm(ly,ihru)) *(dp/(sol_z(ly,ihru)-sol_z(ly-1,ihru)))
+                                  
+                                  
+                                  sumwater = sumwater + wc * dp
+                                  sumwfsc = sumwfsc + sol_por(ly,ihru) * (wc / sat) * dp
+                                  sumdepth = sumdepth + dp
+                              end if
+                            end if
+                    elseif ((sol_z(ly-1,ihru) .lt. sum_depth(k-1) .and. sol_z(ly,ihru) .lt. sum_depth(k)) & 
+                            .or. (sol_z(ly-1,ihru) .le. sum_depth(k-1) .and. sol_z(ly,ihru) .lt. sum_depth(k)) & 
+                            .or. (sol_z(ly-1,ihru) .lt. sum_depth(k-1) .and. sol_z(ly,ihru) .le. sum_depth(k))) &
+                             then
+                            if (sol_z(ly,ihru) .ge. sum_depth(k-1)) then
+                              dp = sol_z(ly,ihru) - sum_depth(k-1)
+                              if (dp .gt. 0.) then
+                                  wc = (sol_st(ly,ihru) + sol_wpmm(ly,ihru))*(dp/(sol_z(ly,ihru)-sol_z(ly-1,ihru)))
+                                  sat = (sol_ul(ly,ihru) + sol_wpmm(ly,ihru)) *(dp/(sol_z(ly,ihru)-sol_z(ly-1,ihru)))
+                                  
+                                  
+                                  sumwater = sumwater + wc * dp
+                                  sumwfsc = sumwfsc + sol_por(ly,ihru) * (wc / sat) * dp
+                                  sumdepth = sumdepth + dp
+                              end if
+                            end if
+                    
+                    elseif ((sol_z(ly-1,ihru) .lt. sum_depth(k-1) .and. sol_z(ly,ihru) .gt. sum_depth(k)) & 
+                             .or. (sol_z(ly-1,ihru) .le. sum_depth(k-1) .and. sol_z(ly,ihru) .gt. sum_depth(k)) & 
+                             .or. (sol_z(ly-1,ihru) .lt. sum_depth(k-1) .and. sol_z(ly,ihru) .ge. sum_depth(k))) &
+                              then 
+                              dp = sum_depth(k) - sum_depth(k-1)
+                              if (dp .gt. 0.) then
+                                  wc = (sol_st(ly,ihru) + sol_wpmm(ly,ihru))*(dp/(sol_z(ly,ihru)-sol_z(ly-1,ihru)))
+                                  sat = (sol_ul(ly,ihru) + sol_wpmm(ly,ihru))*(dp/(sol_z(ly,ihru)-sol_z(ly-1,ihru)))
+                                  
+                                  
+                                  sumwater = sumwater + wc * dp
+                                  sumwfsc = sumwfsc + sol_por(ly,ihru) * (wc / sat) * dp
+                                  sumdepth = sumdepth + dp    
+                              end if
+                    end if
+                end do !!End lyr
+                
+                if (sumdepth .gt. 0.) then
+                      soilwater(k) = sumwater / sumdepth     
+                      wfsc(k) = sumwfsc / sumdepth   ! fraction                
+                end if
+                
+              end do !!end k
+              
+              
+          end if
+      end if
+      !!by zhang print out soil water
+      !!===============================
+
+
       j = 0
       j = ihru
       sb = hru_sub(j)
@@ -215,7 +330,7 @@
       pdvas(15) = shallst(j)
       pdvas(16) = deepst(j)
       pdvas(17) = surfq(j)
-      pdvas(18) = qday + tloss
+      pdvas(18) = qday
       pdvas(19) = tloss
       pdvas(20) = latq(j)
       pdvas(21) = gw_q(j)
@@ -282,7 +397,10 @@
 !    tileno3 - output.hru
       pdvas(75) = tileno3(j)
 !    latno3 - output.hru
-      pdvas(76) = latno3(j)   
+      pdvas(76) = latno3(j) 
+!    groundwater deep
+      pdvas(77) = gw_qdeep(j)
+      pdvas(78) = latq(j) - lpndloss - lwetloss
 
       ii = icl(iida)
       
@@ -306,12 +424,12 @@
      &      hruno(j), sb, nmgt(j), i_mo, icl(iida), iyr, hru_km(j),     &
      &       (pdvs(ii), ii = 1, itots)
 1002  format (a4,i5,1x,a5,a4,i5,1x,i4,1x,i2,1x,i2,1x,i4,1x,e10.5,       &
-     & 66f10.3,1x,e10.5,1x,e10.5,8e10.3)
+     & 66f10.3,1x,e10.5,1x,e10.5,8e10.3,2f10.3)
       
 !!    added for binary files 3/25/09 gsm line below and write (33333
 	      if (ia_b == 1) then
-	        write (33333) j, hrugis(j), sb,                           
-     *               nmgt(j), iida, hru_km(j), (pdvs(ii), ii = 1, itots)
+	        write (33333) j, hrugis(j), sb,                                  &
+     &               nmgt(j), iida, hru_km(j), (pdvs(ii), ii = 1, itots)
 	      endif
         else if (isproj == 1) then
         write (21,1000) cropname, j, subnum(j), hruno(j), sb,           &
@@ -323,7 +441,7 @@
      &      sb, nmgt(j), i_mo, icl(iida), iyr, hru_km(j),               &
      &      (pdvs(ii), ii = 1, itots), iyr
 1003  format(a4,i5,1x,a5,a4,i5,1x,i4,1x,i2,1x,i2,1x,i4,1x,e10.5,66f10.3,&
-     &1x,e10.5,1x,e10.5,8e10.3,1x,i4)
+     &1x,e10.5,1x,e10.5,8e10.3,f10.3,1x,i4)
         end if
       else
         if (iscen == 1 .and. isproj == 0) then
@@ -350,10 +468,76 @@
         end if
       end if
 
+
+      !!add by zhang
+      !!output carbon realted variables
+      !!=================================
+      if (cswat == 2) then
+          if (j == 1) then
+          tot_mass = 0.
+          tot_cmass = 0.
+          tot_nmass = 0.
+          tot_LSC = 0.
+          tot_LMC = 0.
+          tot_HSC = 0.
+          tot_HPC = 0.
+          tot_BMC = 0.
+          tot_pmass = 0. 
+          tot_solp = 0.
+          tot_no3_nh3 =0.
+          do k=1,sol_nly(j) 
+              sol_mass = 0.
+              if (k == 1) then
+ 		        sol_mass = (10) / 1000.* 10000. * sol_bd(k,j)* 1000. * &
+     	         (1- sol_rock(k,j) / 100.)            
+              else
+		        sol_mass = (sol_z(k,j) - sol_z(k-1,j)) / 1000.* 10000. &
+     	         * sol_bd(k,j)* 1000. *	(1- sol_rock(k,j) / 100.)
+	         end if       
+          sol_cmass = 0.
+          sol_cmass = sol_LSC(k,j)+sol_LMC(k,j)+sol_HPC(k,j)+sol_HSC(k,j) &
+                   +sol_BMC(k,j)
+          sol_nmass = 0. 
+          sol_nmass = sol_LSN(k,j)+sol_LMN(k,j)+sol_HPN(k,j)+sol_HSN(k,j) &
+                   +sol_BMN(k,j)     
+          write (98,9000) iyr, i, k, j, sol_mass,sol_cmass,             &
+             sol_nmass,sol_LS(k,j),sol_LM(k,j),                         &
+             sol_LSC(k,j),sol_LMC(k,j),sol_HSC(k,j),sol_HPC(k,j),       &
+             sol_BMC(k,j),sol_LSN(k,j),sol_LMN(k,j),sol_HPN(k,j),       &
+             sol_HSN(k,j),sol_BMN(k,j),sol_no3(k,j),sol_fop(k,j),       &
+             sol_orgp(k,j),sol_solp(k,j)   
+         
+           tot_mass = tot_mass + sol_mass
+           tot_cmass = tot_cmass + sol_cmass 
+           tot_nmass = tot_nmass + sol_nmass
+           tot_LSC = tot_LSC + sol_LSC(k,j)
+           tot_LMC = tot_LMC + sol_LMC(k,j)
+           tot_HSC = tot_HSC + sol_HSC(k,j)
+           tot_HPC = tot_HPC + sol_HPC(k,j)
+           tot_BMC = tot_BMC + sol_BMC(k,j)
+           tot_pmass =tot_pmass+ sol_orgp(k,j) + sol_fop(k,j)                       &
+            +  sol_solp(k,j)
+           tot_solp = tot_solp + sol_solp(k,j)
+           
+           tot_no3_nh3 = tot_no3_nh3  + sol_no3(k,j) + sol_nh3(k,j)
+          end do      
+
+          write (100,9001) iyr, i, j, rsdc_d(j), sedc_d(j), percc_d(j),             &
+              latc_d(j),emitc_d(j), grainc_d(j), surfqc_d(j), stoverc_d(j),         &
+              NPPC_d(j), foc_d(j),rspc_d(j),tot_mass,tot_cmass,tot_nmass,           &
+              tot_LSC,tot_LMC,tot_HSC,tot_HPC,tot_BMC,                              &
+              bio_ms(j)*0.42, rwt(j), tot_no3_nh3,wdntl,etday,tillage_factor(j),    &
+              (soilwater(ii), ii = 1, 11), (wfsc(ii), ii = 1, 11)     
+          end if  
+      end if
+      !!add by zhang
+      !!output carbon realted variables
+      !!=================================
+
       return
 
-1000  format (a4,i5,1x,a5,a4,i5,1x,i4,1x,i4,e10.5,66f10.3,1x,
-     *e10.5,1x,e10.5,8e10.3,1x,i4)
-1001  format (a4,i5,1x,a5,a4,i5,1x,i4,1x,i4,e10.5,66f10.3,1x,
-     *e10.5,1x,e10.5,8e10.3)
+1000  format (a4,i5,1x,a5,a4,i5,1x,i4,1x,i4,e10.5,66f10.3,1x,e10.5,1x,e10.5,8e10.3,2f10.3,1x,i4)
+1001  format (a4,i5,1x,a5,a4,i5,1x,i4,1x,i4,e10.5,66f10.3,1x,e10.5,1x,e10.5,8e10.3,2f10.3)
+9000  format(i4,i4,i2,i8,21(f16.3))
+9001  format(i4,i4,i8,48(f16.3))
       end

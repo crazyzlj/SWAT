@@ -85,7 +85,7 @@
       d = 0.
 !!    If side slope is not set in .rte file then assume this default
 !!    If it is main reach default side slope to 2:1 if it is a waterway default to 8:1
-      if (chsslope <= 1.e-6) then
+      if (chside(k) <= 1.e-6) then
          chsslope = 2.
       else
          chsslope = chside(k)

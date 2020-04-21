@@ -69,9 +69,6 @@
       !! add overland flow from upstream routing unit
       precipday = precipday + ovrlnd(j)
       if (nstep > 0) then
-        do ii = 1, 24
-          hhprecip(ii) = hhprecip(ii) + ovrlnd(j) / 24.
-        end do
         do ii = 1, nstep
           precipdt(ii+1) = precipdt(ii+1) + ovrlnd_dt(j,ii)
         end do
@@ -135,6 +132,7 @@
 		call ovr_sed
       end if
 
+      call cfactor
       if (surfq(j) > 1.e-6 .and. peakr > 1.e-6) call ysed(0)
 
       if (qday < 0.) qday = 0.

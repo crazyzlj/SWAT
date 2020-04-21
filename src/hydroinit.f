@@ -6,7 +6,7 @@
 !!    the coefficient for the peak runoff rate equation, and lateral flow travel
 !!    time.
 
-!!    ~ ~ ~ INCOMING VARIABLES ~ ~ ~
+!!    ~ ~ ~ INCOMING VARIABLES ~ ~ ~1
 !!    name        |units         |definition
 !!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ 
 !!    ch_l1(:)    |km            |longest tributary channel length in subbasin
@@ -156,7 +156,7 @@
       if (ievent > 1) then
 !!    compute unit hydrograph for computing subbasin hydrograph from direct runoff
 
-      do isb = 1, msub - 1
+      do isb = 1, msub 
         ql = 0.
         sumq = 0.
 

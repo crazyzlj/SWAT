@@ -112,7 +112,23 @@
       integer :: nly, j, jj, n
       real :: xx, dg, wt1, zdst, soldepth, sumno3, sumorgn, summinp
       real :: sumorgp, solpst, soil_TP, labfrac,solp
-
+      
+      !!by zhang
+      !!=============
+          real :: sol_mass
+          real :: FBM, FHP, RTNO, FHS, X1, RTO, sol_min_n
+          sol_mass = 0.
+          DG = 0.
+          FBM = 0.
+          FHP = 0.
+          RTNO = 0.
+          FHS = 0.
+          X1 = 0.
+          RTO = 0.
+      !!by zhang
+      !!=============
+      
+      
       nly = 0
       solpst = 0.
       sumno3 = 0.
@@ -274,6 +290,154 @@
       basorgni = basorgni + sumorgn * hru_km(i) / da_km
       basminpi = basminpi + summinp * hru_km(i) / da_km
       basorgpi = basorgpi + sumorgp * hru_km(i) / da_km
+
+      !! By Zhang for C/N cycling
+      !!=============================== 
+      if (cswat == 2) then
+      if (rsdin(i) > 0.) sol_rsd(1,i) = rsdin(i)		
+	do j = 1, nly
+		!!kg/ha sol mass in each layer
+		if (j == 1) then
+		    sol_mass = (sol_z(j,i)) / 1000.
+          !&						10000. * sol_bd(j,ihru)* 1000. *			
+          !&							(1- sol_rock(j,ihru) / 100.)
+            sol_mass = sol_mass * 10000. * sol_bd(j,i)* 1000.
+            sol_mass = sol_mass * (1- sol_rock(j,i) / 100.) 	
+            
+		else
+		    sol_mass = (sol_z(j,i) - sol_z(j-1,i)) / 1000.
+          !&						10000. * sol_bd(j,ihru)* 1000. *			
+          !&							(1- sol_rock(j,ihru) / 100.)
+            sol_mass = sol_mass * 10000. * sol_bd(j,i)* 1000.
+            sol_mass = sol_mass * (1- sol_rock(j,i) / 100.) 			
+		end if
+		!!kg/ha mineral nitrogen
+		sol_min_n = sol_no3(j,i)+sol_nh3(j,i)	     
+ 
+        !XCB = 0.2
+        !mm
+        if (j == 1) then
+            !DG = 10
+            DG = sol_z(j,i)
+        else
+            DG = (sol_z(j,i) - sol_z(j-1,i))
+        end if        
+                
+        !if(sol_WOC(j,ihru)<1.E-5) sol_WOC(j,ihru)=XCB*exp(-.001*DG)  
+                                             
+        !XCB=sol_WOC(j,ihru)                                                                     
+        !XZ=sol_WOC(j,ihru) *.0172                                                                
+        !ZZ=1.-XZ                                                                       
+        !sol_BDM(j,ihru)=ZZ/(1./sol_BD(j,ihru)-XZ/.224)                                                   
+	  !if(sol_BDM(j,ihru)<1.)then                                                                  
+	  !    sol_BDM(j,ihru)=1.                                                                         
+	  !    sol_BD(j,ihru)=1./(ZZ+XZ/.224)                                                             
+	  !end if                                                                             
+           
+        
+        !ton/ha
+        !WT = sol_mass/1000.
+        
+        !WT1 = WT/1000.
+        !X1 = 10. * sol_cbn(j,ihru) * WT
+        !WT(J)=BD(J)*DG*10.                                                             
+        !DG1=DG                                                                         
+        !WT1=WT(J)/1000.                                                                
+        !X1=10.*WOC(J)*WT(J) 
+        !WOC(J)=X1  
+        !kg/ha                                                           
+        !sol_WOC(j,ihru)=X1
+        sol_WOC(j,i) = sol_mass * sol_cbn(j,i)/100                  
+        !if(sol_WON(j,ihru)>0.)then                                                             
+        !      sol_WON(j,ihru)=WT1*sol_WON(j,ihru)  
+        !      KK=0 
+        !else
+        sol_WON(j,i) = sol_aorgn(j,i)+  sol_orgn(j,i)!0.1 * sol_WOC(j,i)
+        !      KK=1 
+        !end if     
+
+        !Frction of Mirobial Biomass, Humus Passive C pools
+        FBM = 0.0
+        FHP = 0.0
+        IF(FBM<1.E-10)FBM=.04   
+        RTN0 = 100.                   
+        IF(FHP<1.E-10)FHP=.7-.4*EXP(-.0277*100) 
+        FHS = 1 - FBM - FHP
+        !From DSSAT
+        !FBM = 0.02
+        !FHS = 0.54
+        !FHP = 0.44
+				
+		!NCC = 0
+        !IF(NCC==0)THEN
+            !sol_WBM(j,ihru)=FBM*X1
+            sol_BM(j,i)=FBM*sol_WOC(j,i)                             
+            sol_BMC(j,i)=sol_BM(j,i)                                  
+            !IF(KK==0)THEN                                                                  
+	            RTO=sol_WON(j,i)/sol_WOC(j,i)                         
+	      !ELSE                                                                                
+	      !      RTO=.1                                                                            
+	      !END IF                                                                              
+            sol_BMN(j,i)=RTO*sol_BMC(j,i)                              
+            !sol_HP(j,ihru)=FHP*(X1-sol_BM(j,ihru))  
+            sol_HP(j,i)=FHP*(sol_WOC(j,i)-sol_BM(j,i))               
+            sol_HS(j,i)=sol_WOC(j,i)-sol_BM(j,i)-sol_HP(j,i)  
+            !sol_HP(j,i)=sol_WOC(j,i)-sol_BM(j,i)-sol_HP(j,i)                                                                
+            sol_HSC(j,i)=sol_HS(j,i)                                  
+            sol_HSN(j,i)= RTO*sol_HSC(j,i)  !sol_aorgn(j,i)           
+            sol_HPC(j,i)=sol_HP(j,i)                                 
+            sol_HPN(j,i)= RTO*sol_HPC(j,i)  !sol_orgn(j,i)   
+            
+                                                                    
+            X1=sol_rsd(j,i) /1000.  
+            !!skip std in SWAT                                                                   
+            !IF(j==1)X1=X1+STD(j)/1000.
+                                                                          
+            sol_LM(j,i)=500.*X1                                        
+            sol_LS(j,i)=sol_LM(j,i)                                    
+            sol_LSL(j,i)=.8*sol_LS(j,i)                              
+            sol_LMC(j,i)=.42*sol_LM(j,i) 
+                                                                        
+            sol_LMN(j,i)=.1*sol_LMC(j,i)                            
+            sol_LSC(j,i)=.42*sol_LS(j,i)                              
+            sol_LSLC(j,i)=.8*sol_LSC(j,i)                            
+            sol_LSLNC(j,i)=.2*sol_LSC(j,i)                          
+            sol_LSN(j,i)=sol_LSC(j,i)/150.                          
+            !sol_WOC(j,ihru)=sol_WOC(j,ihru)+sol_LSC(j,ihru)+sol_WLMC(j,ihru)
+            sol_WOC(j,i)=sol_WOC(j,i)+sol_LSC(j,i)+sol_LMC(j,i)        
+            !sol_WON(j,ihru)=sol_WON(j,ihru)+sol_LSN(j,ihru)+sol_WLMN(j,ihru)
+            sol_WON(j,i)=sol_WON(j,i)+sol_LSN(j,i)+sol_LMN(j,i)
+            !END IF 		
+            
+            !if (sol_orgn(j,i) > 0.0001) then
+            !  sol_orgn(j,i) = sol_orgn(j,i) * wt1      !! mg/kg => kg/ha
+            !else
+              !! assume C:N ratio of 10:1
+            !  sol_orgn(j,i) = 10000. * (sol_cbn(j,i) / 11.) * wt1  !! CN ratio was 14 before 01-22-09 Armen
+            !end if
+            sol_orgn(j,i) = sol_HPN(j,i)
+            sol_aorgn(j,i) = sol_HSN(j,i)
+            sol_fon(1,i) = sol_LMN(j,i) + sol_LSN(j,i)
+            !sol_aorgn(j,i) = sol_orgn(j,i) * nactfr
+            !sol_orgn(j,i) = sol_orgn(j,i) * (1. - nactfr)
+            sumorgn = sumorgn + sol_aorgn(j,i) + sol_orgn(j,i) +
+     &           sol_fon(j,i) + sol_BMN(j,i)
+        
+		
+	end do	
+	
+	end if
+      !! By Zhang for C/N cycling
+      !!=============================== 
+      
+      	
+	!!May need to think about moving the following lines which appear before in this module to the end of this module,
+	!!because orgn has been re-calculated.
+	!!============================
+      !basno3i = basno3i + sumno3 * hru_km(i) / da_km
+      !basorgni = basorgni + sumorgn * hru_km(i) / da_km
+      !basminpi = basminpi + summinp * hru_km(i) / da_km
+      !basorgpi = basorgpi + sumorgp * hru_km(i) / da_km
 
       return
       end

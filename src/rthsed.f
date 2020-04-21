@@ -100,6 +100,7 @@
 	jrch = inum1
 	channel_d50 = ch_d50 / 1000. !! unit change mm->m
 	particle_specific_gravity = 2.65
+	sedin = 0.
 
 	do ii = 1, nstep
 
@@ -107,13 +108,13 @@
 
 	 !! initialize water in reach during time step
 	 qin = 0.
+       sedin = 0.
 	 qin = hrtwtr(ii) + hhstor(ii)
 
 	 !! do not perform sediment routing if no water in reach
 	 if (qin > 0.01) then
 
 	   !! initialize sediment in reach during time step
-	   sedin = 0.
 	   if (ii == 1) then
            sedin = hhvaroute(3,inum2,ii) * (1. - rnum1) + sedst(jrch)
 	   else
@@ -167,12 +168,12 @@
  
 		   !!critical shear stress for grain Froude number
 		   ycoeff = (sqrt(particle_specific_gravity - 1.) * 
-     & 	              Reynolds_g) ** -0.6
+     & 	              Reynolds_g) ** (-0.6)
 		   shear_stress = 0.22 * ycoeff + 0.06 * 10 ** (-7.7 * ycoeff)
 
 		   !! critical grain Froude number
-		   fr_gc = 4.596 * shear_stress ** 0.5293 * ch_s(2,jrch) ** -0.1405 
-     &               * sig_g ** -0.1606
+		   fr_gc = 4.596 * shear_stress ** 0.5293 * ch_s(2,jrch) ** (-0.1405) 
+     &               * sig_g ** (-0.1606)
 
 		   !! grain Froude number
 		   fr_g = vc / sqrt((particle_specific_gravity - 1.) * 
@@ -181,7 +182,7 @@
 		   !! sediment concentration at the channel outlet [ppm, or g/m3]
 		   if(fr_g>fr_gc) then
 		     sedcon = 7115 * 1.268 * (fr_g - fr_gc) ** 1.978 * 
-     &   		 ch_s(2,jrch) ** 0.6601 * (rhy(ii) / channel_d50) ** -0.3301
+     &   	 ch_s(2,jrch) ** 0.6601 * (rhy(ii) / channel_d50) ** (-0.3301)
 		   else
 		     sedcon = 0.
 		   endif

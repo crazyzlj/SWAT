@@ -96,7 +96,16 @@
           !! calculate organic carbon loading to main channel
           org_c = 0.
           org_c = (sol_cbn(1,j) / 100.) * enratio * sedyld(j) * 1000.
-
+          
+          !!add by zhang
+          !!========================
+          if (cswat == 2) then
+            org_c = sedc_d(j)*hru_ha(j)
+          end if
+          !!add by zhang
+          !!========================
+          
+                  
           !! calculate carbonaceous biological oxygen demand (CBOD)
           cbodu(j) = 2.7 * org_c / (qdr(j) * hru_km(j))
 

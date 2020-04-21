@@ -8,8 +8,6 @@
 !!    name        |units         |definition
 !!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ 
 !!    deepst(:)   |mm H2O        |depth of water in deep aquifer
-!!    hhsubp(:,:) |mm H2O        |precipitation falling during hour in day in
-!!                               |HRU
 !!    ihru        |none          |HRU number
 !!    nstep       |none          |number of lines of rainfall data for each
 !!                               |day
@@ -77,7 +75,6 @@
 !!                               |on the day in HRU
 !!    gwseep      |mm H2O        |amount of water recharging deep aquifer on 
 !!                               |current day
-!!    hhprecip(:) |mm H2O        |precipitation falling during hour in day
 !!    hhqday(:)   |mm H2O        |surface runoff from HRU for every hour in day
 !!    hmntl       |kg N/ha       |amount of nitrogen moving from active
 !!                               |organic to nitrate pool in soil profile
@@ -233,10 +230,6 @@
         grazn = 0.
         grazp = 0.
         gwseep = 0.
-         hhprecip = 0.
-         do ii = 1, 24
-           hhprecip(ii) = hhsubp(j,ii)
-         end do
         hhqday = 0.
         hmntl = 0.
         hmptl = 0.

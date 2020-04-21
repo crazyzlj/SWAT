@@ -121,6 +121,9 @@
         rnum1 = rnum1s(idum)
         inum4 = inum4s(idum)
         inum5 = inum5s(idum)
+        inum6 = inum6s(idum)
+        inum7 = inum7s(idum)
+        inum8 = inum8s(idum)
 
         select case (icode)
           case (0)
@@ -169,9 +172,12 @@
             call saveconc
           case (17)
             call routeunit
+            call sumhyd
           case (18)
-            iru_sub = inunm1   !!routing unit number
-            call routels(iru_sub)           
+            iru_sub = inum1   !!routing unit number
+            inum8 = 1
+            call routels(iru_sub)
+            call sumhyd
         end select
 
       end do

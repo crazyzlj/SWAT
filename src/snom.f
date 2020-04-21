@@ -61,7 +61,6 @@
 !!    ~ ~ ~ OUTGOING VARIABLES ~ ~ ~
 !!    name         |units         |definition
 !!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
-!!    hhprecip(:)  |mm H2O        |precipitation falling during hour in day
 !!    precipday    |mm H2O        |amount of water in effective precipitation
 !!                                |in HRU
 !!    precipdt(:)  |mm H2O        |precipitation for the time step during day
@@ -164,10 +163,6 @@
         precipday = smp + snomlt - snofall
         if (precipday < 0.) precipday = 0.
         if (nstep > 0) then
-          do ii = 1, 24
-            hhprecip(ii) = hhprecip(ii) + (snomlt - snofall) / 24
-            if (hhprecip(ii) < 0.) hhprecip(ii) = 0.
-          end do
           do ii = 1, nstep
             precipdt(ii+1) = precipdt(ii+1) + (snomlt - snofall) / nstep
             if (precipdt(ii+1) < 0.) precipdt(ii+1) = 0.
@@ -189,7 +184,6 @@
           sno_hru(j) = sno_hru(j) + precipday
           snofall = precipday
           precipday = 0.
-          hhprecip = 0.
           precipdt = 0.
         endif
  
@@ -216,9 +210,6 @@
           sno_hru(j) = sno_hru(j) - snomlt
           precipday = precipday + snomlt
           if (nstep > 0) then
-            do ii = 1, 24
-             hhprecip(ii) = hhprecip(ii) + snomlt / 24
-            end do
             do ii = 1, nstep
              precipdt(ii+1) = precipdt(ii+1) + snomlt / nstep
             end do

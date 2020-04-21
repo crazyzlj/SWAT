@@ -55,8 +55,6 @@
 !!                                  |within the year
 !!    nirr(:)        |none          |sequence number of irrigation application
 !!                                  |within the year
-!!    npest(:)       |none          |sequence number of pesticide application
-!!                                  |within the year
 !!    nrelease(:)    |none          |sequence number of impound/release
 !!                                  |operation within the year
 !!    nro(:)         |none          |sequence number of year in rotation

@@ -31,7 +31,7 @@
      &         "     PETmm","      ETmm"," SW_INITmm","  SW_ENDmm",     &
      &         "    PERCmm"," GW_RCHGmm"," DA_RCHGmm","   REVAPmm",     &
      &         "  SA_IRRmm","  DA_IRRmm","   SA_STmm","   DA_STmm",     &
-     &         "SURQ_GENmm","SURQ_CNTmm","   TLOSSmm","    LATQmm",     &
+     &         "SURQ_GENmm","SURQ_CNTmm","   TLOSSmm"," LATQGENmm",     &
      &         "    GW_Qmm","    WYLDmm","   DAILYCN"," TMP_AVdgC",     &
      &         " TMP_MXdgC"," TMP_MNdgC","SOL_TMPdgC","SOLARMJ/m2",     &
      &         "  SYLDt/ha","  USLEt/ha","N_APPkg/ha","P_APPkg/ha",     &
@@ -45,7 +45,8 @@
      &         "  TMP_STRS","    N_STRS","    P_STRS","  BIOMt/ha",     &
      &         "       LAI","   YLDt/ha","  BACTPct ","  BACTLPct",     &
      &         " WTAB CLIm"," WTAB SOLm","     SNOmm"," CMUPkg/ha",     &
-     &         "CMTOTkg/ha","   QTILEmm"," TNO3kg/ha"," LNO3kg/ha"/)
+     &         "CMTOTkg/ha","   QTILEmm"," TNO3kg/ha"," LNO3kg/ha",     &
+     &         "  GW_Q_Dmm"," LATQCNTmm"/)
 
 
 !!    numbers printed to VB interface HRU output file 
@@ -54,7 +55,8 @@
      &293,303,313,323,333,343,353,363,373,383,393,403,413,              &
      &423,433,443,453,463,473,483,493,503,513,523,533,543,              &
      &553,563,573,583,593,603,613,623,633,643,653,663,673,              &
-     &683,693,703,713,723,733,743,753,763,773,783,793/)
+     &683,693,703,713,723,733,743,753,763,773,783,793,803,              &
+     &813/)
 
 !!    column headers for subbasin output file
       hedb = (/"  PRECIPmm"," SNOMELTmm","     PETmm","      ETmm",     &

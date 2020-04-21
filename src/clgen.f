@@ -59,7 +59,7 @@
 
       integer, intent (in) :: j
       integer :: ii
-      real :: sd, ch, h, ys, yc, dd, w, cosrho(24), totrho
+      real :: sd, ch, h, ys, yc, dd, w, cosrho(nstep), totrho
 
       !! Reset prior day category for precipitation
       if (subp(j) >= 0.1) then
@@ -113,19 +113,19 @@
       
       cosrho = 0.
       totrho = 0.
-      do ii = 1, 24
+      do ii = 1, nstep
         !!angular velocity times hour away from solar noon. To calculate
         !!radiation for an hour, the hour angle for the midpoint of the 
         !!time period is used. time = 0. at solar noon with positive values
         !! in the morning and negative in the evening
         w = 0.
-        w = (12.5 - Real(ii)) * 0.2618   !!0.2618 rad/hr
+        w = (12.5 - Real(ii)) * 0.2618 * idt / 60.   !!0.2618 rad/hr
         cosrho(ii) = ys + yc * Cos(w)
         if (cosrho(ii) <= 0.) cosrho(ii) = 0.
         totrho = totrho + cosrho(ii)
       end do
       if (totrho > 0.001) then
-        do ii = 1, 24
+        do ii = 1, nstep
           frad(j,ii) = cosrho(ii) / totrho
         end do
       end if
