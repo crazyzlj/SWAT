@@ -538,8 +538,10 @@
 
 !!    Organic nitrogen and Organic Phosphorus contribution from channel erosion
 !!    Only bank erosion is assumed to contribute to channel erosion
-        ch_orgn(jrch) = bnkrte * ch_onco(jrch) * 1000.
-        ch_orgp(jrch) = bnkrte * ch_opco(jrch) * 1000.
+    !!    ch_orgn(jrch) = bnkrte * ch_onco(jrch) * 1000.
+    !!    ch_orgp(jrch) = bnkrte * ch_opco(jrch) * 1000.
+        ch_orgn(jrch) = bnkrte * ch_onco(jrch) / 1000.
+        ch_orgp(jrch) = bnkrte * ch_opco(jrch) / 1000.
 
 !! compute changes in channel dimensions
       if (ideg == 1) then

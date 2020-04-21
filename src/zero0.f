@@ -15,6 +15,16 @@
       minpdaya = 0.
 !!    apex command initialize
 
+      lat_orgn = 0.
+      lat_orgp = 0.
+      cf = 0.0
+      cfh = 0.0
+      cfdec = 0.0
+      pnd_d50 = 0.0
+      isnow = 0
+      imgt = 0
+
+
 !!    initialize mike van liew variables from .bsn file
       anion_excl_bsn = 0.
       ch_onco_bsn = 0.
@@ -361,6 +371,8 @@
       rcn_sub_bsn = 0.
       reccnstps = '             '
       recmonps = '             '
+	  rsr1 = 0.
+	  rsr2 = 0.
       sed_con = 0.
       sepcrk = 0.
       sol_clay = 0.

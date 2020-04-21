@@ -26,7 +26,7 @@
       real :: rttime, rchdep, rtevp, rttlc, da_km, resflwi, wdlps, wglps
       real :: resflwo, respcp, resev, ressep,ressedi,ressedo,dtot,wdprch
       real :: nperco, pperco, rsdco, phoskd, voltot, volcrmin, msk_x
-      real :: uno3d, canev, usle, rcn, surlag, bactkdq, precipday, wdpf
+      real :: uno3d, canev, usle, surlag, bactkdq, precipday, wdpf
       real :: thbact, wpq20, wlpq20, wps20, wlps20, bactrop, bactsedp
       real :: bactlchp, bactlchlp, enratio, wetpcp, pndpcp, wetsep, wgpf
       real :: pndsep, wetev, pndev, pndsedo, wetsedo, pndflwi, wetflwi
@@ -327,6 +327,7 @@
       real, dimension (:), allocatable :: blai,dlai,rdmx,cpyld,bio_leaf
       real, dimension (:), allocatable :: bio_n1,bio_n2,bio_p1,bio_p2
       real, dimension (:), allocatable :: bmx_trees,ext_coef,bm_dieoff
+      real, dimension (:), allocatable :: rsr1, rsr2                    
 !     real, dimension (:), allocatable :: air_str
       real, dimension (:,:), allocatable :: pltnfr,pltpfr
       integer, dimension (:), allocatable :: idc, mat_yrs
@@ -538,12 +539,12 @@
       real, dimension (:), allocatable :: wshd_pstap, wshd_pstdg
       integer, dimension (:), allocatable :: ndmo,npno
       character(len=13), dimension (18) :: rfile,tfile
-!     character(len=1), dimension (250000) :: hydgrp, kirr  !!for srin's big runs
+!      character(len=1), dimension (50000) :: hydgrp, kirr  !!for srin's big runs
 
       character(len=1), dimension (20000) :: hydgrp, kirr
 !     character(len=4), dimension (50) :: urbname
       character(len=4), dimension (1000) :: urbname
-!     character(len=16), dimension (250000) :: snam   !! for srin's big runs
+!      character(len=16), dimension (50000) :: snam   !! for srin's big runs
 
       character(len=16), dimension (20000) :: snam
       character(len=17), dimension (300) :: pname

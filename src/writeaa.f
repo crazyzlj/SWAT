@@ -432,12 +432,8 @@
       if (cswat == 0) then
 		wshd_hmn = wshd_hmn / yrs  !! humus n for active
 		wshd_rwn = wshd_rwn / yrs  !! active to stable
-		wshd_hmp = wshd_hmp / yrs  !! humus min on active org   
-	  else
-		wshd_hmn = 99999
-		wshd_rwn = 99999
-		wshd_hmp = 99999
-	  end if
+		wshd_hmp = wshd_hmp / yrs  !! humus min on active org   	
+	end if
 
 	  wshd_rmn = wshd_rmn / yrs  !! min from fresh orgn
       wshd_rmp = wshd_rmp / yrs  !! min from fresh orgp 

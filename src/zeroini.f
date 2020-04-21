@@ -118,7 +118,6 @@
       pperco = 0.
       psp = 0.
       prf = 0.
-      rcn = 0.
       rcor = 0.
       res_stlr_co = 0.      !(CB 12/2/09)
       velsetlr = 0.

@@ -646,10 +646,10 @@
 !! if rch or res sources reset aird here
 
 !!!! Srin's irrigation source by each application changes
-      irrsc(j) = irr_sc(nro(j),nirr(j),j)
+!!      irrsc(j) = irr_sc(nro(j),nirr(j),j)
 !!!! Srin's irrigation source by each application changes
 
-	if (irrsc(j) <= 2)  aird(j) = 0.
+!!	if (irrsc(j) <= 2)  aird(j) = 0.
 
       shallirr(j) = 0.
       deepirr(j) = 0.

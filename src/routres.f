@@ -378,12 +378,7 @@
           wshddayo(11) = wshddayo(11) + ressedc
           wshddayo(34) = wshddayo(34) + resflwi - resflwo
         end if
-      else
-        !! reservoir has not been constructed yet
-        do ii = 1, mvaro
-          varoute(ii,ihout) = varoute(ii,inum2)
-        end do
-      end if
+      
 
       if (iprint == 1 .and. curyr > nyskip) then
         if (iscen == 1.and. isproj == 0) then
@@ -396,7 +391,7 @@
      &    ressolpo, ressolpc, varoute(13,inum2), reschlao,              &
      &    res_seci(jres), respesti, reactw, volatpst, setlpst, resuspst,&
      &    difus, reactb, bury, solpesto + sorpesto, lkpst_conc(jres),   &
-     &    lkspst_conc(jres)
+     &    lkspst_conc(jres),iyr
         else if (isproj == 1) then
         write (22,5000) jres, iida, res_vol(jres), resflwi / 86400.,    &
      &    (resflwo / 86400.), respcp, resev, ressep, ressedi, ressedo,  &
@@ -407,7 +402,7 @@
      &    ressolpo, ressolpc, varoute(13,inum2), reschlao,              &
      &    res_seci(jres), respesti, reactw, volatpst, setlpst, resuspst,&
      &    difus, reactb, bury, solpesto + sorpesto, lkpst_conc(jres),   &
-     &    lkspst_conc(jres)
+     &    lkspst_conc(jres),iyr
         else if (iscen == 1 .and. isproj == 2) then
         write (8,6000) jres, iida, res_vol(jres), resflwi / 86400.,     &
      &    (resflwo / 86400.), respcp, resev, ressep, ressedi, ressedo,  &
@@ -421,10 +416,15 @@
      &    lkspst_conc(jres), iyr
         endif
       endif
-
+      else
+        !! reservoir has not been constructed yet
+        do ii = 1, mvaro
+          varoute(ii,ihout) = varoute(ii,inum2)
+        end do
+      end if
       endif
 
       return
- 5000 format ('RES   ',i8,1x,i4,41e12.4)
+ 5000 format ('RES   ',i8,1x,i4,41e12.4,1x,i4)
  6000 format ('RES   ',i8,1x,i4,41e12.4,1x,i4)
       end

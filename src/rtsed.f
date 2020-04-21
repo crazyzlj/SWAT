@@ -195,8 +195,11 @@
 	rchdy(59,jrch) = sedrch / rtwtr * 1.e6
 
 !!    Organic nitrogen and Organic Phosphorus contribution from channel erosion
-      ch_orgn(jrch) = deg2 * ch_onco(jrch) * 1000.
-      ch_orgp(jrch) = deg2 * ch_opco(jrch) * 1000.
+!!    ch_orgn(jrch) = deg2 * ch_onco(jrch) * 1000.
+!!    ch_orgp(jrch) = deg2 * ch_opco(jrch) * 1000.
+
+      ch_orgn(jrch) = deg2 * ch_onco(jrch) / 1000.
+      ch_orgp(jrch) = deg2 * ch_opco(jrch) / 1000.
 
 !! compute changes in channel dimensions
       if (ideg == 1) then

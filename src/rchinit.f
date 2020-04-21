@@ -146,7 +146,7 @@
       soxy = 0.
       volatpst = 0.
 
-      vel_chan = 0.
+      vel_chan(jrch) = 0.
       sedrch = 0.
       rch_san = 0.
       rch_sil = 0.

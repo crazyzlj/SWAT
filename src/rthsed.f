@@ -205,8 +205,12 @@
 	rchdy(59,jrch) = 0.
 
 !!    Organic nitrogen and Organic Phosphorus contribution from channel erosion
-      ch_orgn(jrch) = deg24 * ch_onco(jrch) * 1000.
-      ch_orgp(jrch) = deg24 * ch_opco(jrch) * 1000.
+!!    ch_orgn(jrch) = deg24 * ch_onco(jrch) * 1000.
+!!    ch_orgp(jrch) = deg24 * ch_opco(jrch) * 1000.
+      
+      ch_orgn(jrch) = deg24 * ch_onco(jrch) / 1000.
+      ch_orgp(jrch) = deg24 * ch_opco(jrch) / 1000.
+
 
       qdin = 0.
       qdin = rtwtr + rchstor(jrch)
