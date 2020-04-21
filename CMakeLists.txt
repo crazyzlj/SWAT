@@ -20,7 +20,7 @@
 #    https://github.com/SethMMorton/cmake_fortran_template @SethMMorton (https://github.com/SethMMorton)
 #  
 #  Contact: zlj@lreis.ac.cn
-#  Latest updated: Apr. 20 2020
+#  Latest updated: Apr. 21 2020
 #  Copyright (C) 2017-2020 LREIS, IGSNRR, CAS
 # ----------------------------------------------------------------------------------------------
 cmake_minimum_required(VERSION 2.8.5)
@@ -72,10 +72,15 @@ IF(MSVC)
         SET(CMAKE_BUILD_BIT "x86")
     ENDIF()
 ENDIF()
+
 IF(MINGW)
     SET(TOOL_CHAIN "mingw64")
 ELSEIF(MSVC)
     SET(TOOL_CHAIN "msvc.ifort")
+ELSEIF(${CMAKE_Fortran_COMPILER_ID} MATCHES "GNU")
+    SET(TOOL_CHAIN "gfort")
+ELSEIF(${CMAKE_Fortran_COMPILER_ID} MATCHES "Intel")
+    SET(TOOL_CHAIN "ifort")
 ENDIF()
 
 ### Break in case of popular CMake configuration mistakes.
@@ -118,8 +123,6 @@ GET_FILENAME_COMPONENT(FCNAME ${CMAKE_Fortran_COMPILER} NAME)
 IF(FCNAME STREQUAL "pgf90")
     UNSET(CMAKE_SHARED_LIBRARY_LINK_Fortran_FLAGS)
 ENDIF(FCNAME STREQUAL "pgf90")
-#set(CMAKE_Fortran_FLAGS_COVERAGE "-fprofile-arcs -ftest-coverage")
-#set(CMAKE_Fortran_FLAGS_LLVM "-fplugin=dragonegg -O4")
 
 ############################################################
 # Define the actual files and folders that make up the build
