@@ -167,11 +167,11 @@
             call apex_day
           case (14)
             call saveconc
-         
           case (17)
             call routeunit
           case (18)
-          call routels            
+            iru_sub = inunm1   !!routing unit number
+            call routels(iru_sub)           
         end select
 
       end do

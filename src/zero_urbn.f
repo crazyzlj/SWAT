@@ -62,6 +62,7 @@
       ft_por = 0.4	
       tss_den = 0.
       ft_alp = 0.
+      sub_ha_imp = 0.
       sub_ha_urb = 0.
 	ft_qpnd = 0.
 	ft_qsw = 0.
@@ -130,6 +131,7 @@
       ri_sa = 0.
       ri_vol = 0.
       ri_qi = 0.
+      ri_sedi = 0.
       ri_k = 0.
       ri_dd = 0.
       ri_evrsv = 0.

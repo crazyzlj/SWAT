@@ -628,6 +628,16 @@
      &'SMAG_OUTtons',t160,'LAG_INtons',t171,'LAG_OUTtons',t184,         &
      &'GRA_INtons',t195,'GRA_OUTtons',t208,'CH_BNKtons',t220,           &
      &'CH_BEDtons',t232,'CH_DEPtons',t244,'FP_DEPtons',t259,'TSSmg/L')
+     
+      ! Jaehak, sedimentation-filtration output
+      open (77778,file = "bmp-sedfil.out") !jaehak temp urban print out
+      write(77778,'(a46)') 'Sed-Fil Basins Configuration'   
+      write(77778,'(a46)') ''   ! 
+       !retention-irrigation output
+      open (77779,file = "bmp-ri.out") !jaehak temp urban print out
+      write(77779,'(a46)') 'Retention-Irrigation Basins Configuration'   
+      write(77779,'(a46)') ''   ! 
+
 
 !! srin output file from watqual.f  
       if (ihumus ==1) then
@@ -717,8 +727,11 @@
  1000  format (1x,'DAY',t6,'HRU',t12,'POT_VOL',t24,'POTSA',t33,'SPILLO', &
      &t43,'POTSEP',t54,'POTEV',t63,'SOL_SW'/,t14,'(m3)',t24,'(ha)',t34,
      &'(m3)',t44,'(m3)',t55,'(m3)',t64,'(m3)')  
- 
-
+       
+!     code for writing out calendar day or julian day to output.rch, .sub, .hru files
+!     icalen = 0 (print julian day) 1 (print month/day/year) 
+      read (101,*, iostat=eof) icalen
+      
 !! Atmospheric deposition input file (kannan/santhi)
 !     open (127,file='testatmo.dat')
 !     do iii = 1, 5

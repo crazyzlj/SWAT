@@ -93,6 +93,7 @@
 
 
 !! check for beginning of dormant season
+      if (idc(idplt(j)) == 1 .or. idc(idplt(j)) == 4) return
       if (idorm(j) == 0 .and. dayl(j)-dormhr(j) < daylmn(hru_sub(j)))   &
      &                                                              then
 
@@ -156,17 +157,16 @@
             if (phuacc(j) < 0.75) then
               idorm(j) = 1
               strsw(j) = 1.
-            end if
-
+            end if 
           end select
-          if (imgt == 1) then
-           write (143, 1000) subnum(j), hruno(j), iyr, i_mo, iida, 
-     *     cpnm(idplt(j)),"START-DORM", phubase(j), phuacc(j), 
-     *     sol_sw(j),bio_ms(j), sol_rsd(1,j), sol_sumno3(j),
-     *     sol_sumsolp(j)
-          endif
-      end if
-
+           if (imgt == 1) then
+            write (143, 1000) subnum(j), hruno(j), iyr, i_mo, iida, 
+     *       cpnm(idplt(j)),"START-DORM", phubase(j), phuacc(j), 
+     *       sol_sw(j),bio_ms(j), sol_rsd(1,j), sol_sumno3(j),
+     *       sol_sumsolp(j)
+           end if
+           
+          end if
 
 !! check if end of dormant period
         if (idorm(j) == 1 .and. dayl(j)-dormhr(j) >= daylmn(hru_sub(j)))&
@@ -189,7 +189,7 @@
      *       cpnm(idplt(j)), "END-DORM", phubase(j), phuacc(j), 
      *       sol_sw(j), bio_ms(j), sol_rsd(1,j), sol_sumno3(j),
      *       sol_sumsolp(j)
-           end if
+            end if
 
         end if
 

@@ -163,6 +163,7 @@
       character (len=4) :: cropname
 
       do j = 1, nhru
+        sb = hru_sub(j)
 
         iflag = 0
         do ii = 1, itoth

@@ -177,18 +177,28 @@
         xx = hi_ovr                      
       endif
 !! stover fraction during harvkillop
-
-      if (hvsti(idplt(j)) > 1.001) then
-        yield = bio_ms(j) * (1. - 1. / (1. + hiad1))
-        resnew = bio_ms(j) / (1. + hiad1)
-        resnew = resnew * (1. - xx)
+      if (hi_ovr > 1.e-6) then
+        yield = bio_ms(j) * hi_ovr
+        resnew = bio_ms(j) - yield
       else
-        yield = (1. - rwt(j)) * bio_ms(j) * hiad1
-        resnew = (1. - rwt(j)) * (1. - hiad1) * bio_ms(j)
-        !! remove stover during harvkillop
-        resnew = resnew * (1. - xx)
-        rtresnew = rwt(j) * bio_ms(j)	
+      if (idc(idplt(j)) == 7) then
+        yield = bio_ms(j) * (1. - bio_leaf(idplt(j)))
+        resnew = bio_ms(j) - yield
+      else
+        if (hvsti(idplt(j)) > 1.001) then
+          yield = bio_ms(j) * (1. - 1. / (1. + hiad1))
+          resnew = bio_ms(j) / (1. + hiad1)
+          resnew = resnew * (1. - xx)
+        else
+          yield = (1. - rwt(j)) * bio_ms(j) * hiad1
+          resnew = (1. - rwt(j)) * (1. - hiad1) * bio_ms(j)
+          !! remove stover during harvkillop
+          resnew = resnew * (1. - xx)
+          rtresnew = rwt(j) * bio_ms(j)	
+        endif
       endif
+      end if 
+      
       if (yield < 0.) yield = 0.
       if (resnew < 0.) resnew = 0.
 	if (rtresnew < 0.) rtresnew = 0.	! Armen 19 May 2008

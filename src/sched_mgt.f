@@ -43,8 +43,9 @@
             bio_targ(j) = mgt8op(nop(j),j) * 1000.
             cnop = mgt9op(nop(j),j)
             curyr_mat(j) = mgt3iop(nop(j),j)
+            if (curyr_mat(j) == 0) igrotree(j) = 1
             
-            idplt(ihru) = mgt1iop(nop(j),j)
+            idplt(j) = mgt1iop(nop(j),j)
          
             if (mgt4op(nop(j),j) < 700.) mgt4op(nop(j),j) = 1700.
             if (mgt4op(nop(j),j) > 5000.) mgt4op(nop(j),j) = 5000.
@@ -118,14 +119,16 @@
      
           case (5)   !! harvest and kill operation
             cnop = mgt4op(nop(j),j)
-            frac_harvk = mgt5op(nop(j),j)
+            hi_ovr = mgt5op(nop(j),j)
+            frac_harvk = mgt4op(nop(j),j)
+            biomass = bio_ms(j)
             
             call harvkillop
             
             if (imgt ==1) then
               write (143, 1001) subnum(j), hruno(j), iyr, i_mo, iida, 
      *        cpnm(idplt(j)),
-     *        "HARV/KILL", phubase(j), phuacc(j), sol_sw(j),bio_ms(j), 
+     *        "HARV/KILL", phubase(j), phuacc(j), sol_sw(j),biomass, 
      *        sol_rsd(1,j), sol_sumno3(j),sol_sumsolp(j),yield,
      *        strsn_sum(j), strsp_sum(j), strstmp_sum(j), strsw_sum(j),
      *        strsa_sum(j)
@@ -218,11 +221,23 @@
             
           case (11)   !! auto fertilizer operation
             iafrttyp(j) = mgt1iop(nop(j),j)
+            nstress(j) = mgt2iop(nop(j),j)
             auto_nstrs(j) = mgt4op(nop(j),j)
             auto_napp(j) = mgt5op(nop(j),j)
+            if (auto_napp(j) < 1.e-6) auto_napp(j) = 250.
             auto_nyr(j) = mgt6op(nop(j),j)
+            if (auto_nyr(j) < 1.e-6) auto_nyr(j) = 350.
             auto_eff(j) = mgt7op(nop(j),j)
-            afrt_surface(j) = mgt8op(nop(j),j) 
+            if (auto_eff(ihru) <= 0.) auto_eff(ihru) = 1.3
+            afrt_surface(j) = mgt8op(nop(j),j)
+            if (afrt_surface(ihru) <= 1.e-6) afrt_surface(ihru) = .8
+            !! calculate tnylda for autofertilization
+            ncrp = idplt(j)
+            if (hvsti(ncrp) < 1.) then
+              tnylda(j) = 350. * cnyld(ncrp) * bio_e(ncrp)
+            else
+              tnylda(j) = 1000. * cnyld(ncrp) * bio_e(ncrp)
+            endif
           
           case (12)   !! street sweeping (only if iurban=2)
 

@@ -87,6 +87,13 @@
    
       jrch = 0
       jrch = inum1
+      
+!! add transfer amounts
+      do ii = 2, mvaro
+        varoute(ii,inum2) = varoute(ii,inum2) + vartran(ii,jrch)
+        vartran(ii,jrch) = 0.
+      end do
+      
 
 !! zero flow out variables
       do ii = 1, mvaro

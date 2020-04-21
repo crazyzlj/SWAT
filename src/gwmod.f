@@ -90,6 +90,7 @@
       rchrg(j) = (1.-gw_delaye(j)) * (sepbtm(j) + gwq_ru(j) +           &
      &                             rchrg_karst) + gw_delaye(j) * rchrg1
       if (rchrg(j) < 1.e-6) rchrg(j) = 0.
+      gwq_ru(j) = 0.
 
 !! compute deep aquifer level for day
       gwseep = rchrg(j) * rchrg_dp(j)

@@ -131,14 +131,14 @@
       end do
 
 !!    set default values for parameters
-      if (tc_bnk(irch) <= 1.e-6) tc_bnk(irch) = 0.001
-	  if (tc_bed(irch) <= 1.e-6) tc_bed(irch) = 0.001
+!!     if (tc_bnk(irch) <= 1.e-6) tc_bnk(irch) = 0.001
+!!     if (tc_bed(irch) <= 1.e-6) tc_bed(irch) = 0.001
       if (ch_s(2,irch) <= 0.) ch_s(2,irch) = .0001
       if (ch_n(2,irch) <= 0.01) ch_n(2,irch) = .01
       if (ch_n(2,irch) >= 0.70) ch_n(2,irch) = 0.70
       if (ch_l2(irch) <= 0.) ch_l2(irch) = .0010
       if (ch_wdr(irch) <= 0.) ch_wdr(irch) = 3.5
-	  if (chside(irch) <= 1.e-6) chside(irch) = 2.0
+      if (chside(irch) <= 1.e-6) chside(irch) = 2.0
       if (tc_bnk(irch) <= 0.) tc_bnk(irch)=0. !! Critical shear stress (N.m^2)
       if (tc_bed(irch) <= 0.) tc_bed(irch)=0. !! Critical shear stress (N.m^2)
 
@@ -158,7 +158,7 @@
 
 !!    Bank material is assumed to be silt type partcile if not given.
       if (ch_bnk_d50(irch) <= 1.e-6) ch_bnk_d50(irch) = 50. !! Units are in Micrometer
-	  if (ch_bnk_d50(irch) > 10000) ch_bnk_d50(irch) = 10000.
+      if (ch_bnk_d50(irch) > 10000) ch_bnk_d50(irch) = 10000.
 
 
       bnksize = ch_bnk_d50(irch)/1000.  !! Units conversion Micrometer to Millimeters
@@ -166,14 +166,14 @@
 !!    Clayey bank
 	if (bnksize <= 0.005) then
 	  ch_bnk_cla(irch) = 0.65
-      ch_bnk_sil(irch) = 0.15
+        ch_bnk_sil(irch) = 0.15
 	  ch_bnk_san(irch) = 0.15
 	  ch_bnk_gra(irch) = 0.05
 	end if
 
 !!    Silty bank
 	if (bnksize > 0.005 .and. bnksize <= 0.05) then
-      ch_bnk_sil(irch) = 0.65
+        ch_bnk_sil(irch) = 0.65
 	  ch_bnk_cla(irch) = 0.15
 	  ch_bnk_san(irch) = 0.15
 	  ch_bnk_gra(irch) = 0.05
@@ -182,7 +182,7 @@
 !!    Sandy bank
 	if (bnksize > 0.05 .and. bnksize <= 2.) then
 	  ch_bnk_san(irch) = 0.65
-      ch_bnk_sil(irch) = 0.15
+        ch_bnk_sil(irch) = 0.15
 	  ch_bnk_cla(irch) = 0.15
 	  ch_bnk_gra(irch) = 0.05
 	end if
@@ -191,7 +191,7 @@
 	if (bnksize > 2.) then
 	  ch_bnk_gra(irch) = 0.65
 	  ch_bnk_san(irch) = 0.15
-      ch_bnk_sil(irch) = 0.15
+        ch_bnk_sil(irch) = 0.15
 	  ch_bnk_cla(irch) = 0.05
 	end if
 
@@ -204,14 +204,14 @@
       bedsize = ch_bed_d50(irch)/1000.  !! Units conversion Micrometer to Millimeters
 	if (bedsize <= 0.005) then
 	  ch_bed_cla(irch) = 0.65
-      ch_bed_sil(irch) = 0.15
+        ch_bed_sil(irch) = 0.15
 	  ch_bed_san(irch) = 0.15
 	  ch_bed_gra(irch) = 0.05
 	end if
 
 !!    Silty bed
 	if (bedsize > 0.005 .and. bedsize <= 0.05) then
-      ch_bed_sil(irch) = 0.65
+        ch_bed_sil(irch) = 0.65
 	  ch_bed_cla(irch) = 0.15
 	  ch_bed_san(irch) = 0.15
 	  ch_bed_gra(irch) = 0.05
@@ -220,7 +220,7 @@
 !!    Sandy bed
 	if (bedsize > 0.05 .and. bedsize <= 2.) then
 	  ch_bed_san(irch) = 0.65
-      ch_bed_sil(irch) = 0.15
+        ch_bed_sil(irch) = 0.15
 	  ch_bed_cla(irch) = 0.15
 	  ch_bed_gra(irch) = 0.05
 	end if
@@ -229,7 +229,7 @@
 	if (bedsize > 2.) then
 	  ch_bed_gra(irch) = 0.65
 	  ch_bed_san(irch) = 0.15
-      ch_bed_sil(irch) = 0.15
+        ch_bed_sil(irch) = 0.15
 	  ch_bed_cla(irch) = 0.05
 	end if
 
@@ -286,7 +286,7 @@
 
       if (sumerod < 1.e-6) then
         do mo = 1, 12
-          ch_erodmo(i,mo) = ch_cov1(irch)
+          ch_erodmo(irch,mo) = ch_cov1(irch)
         end do
       end if
 

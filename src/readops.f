@@ -181,8 +181,8 @@
 
 	!!	case (9) !! Residue Managment  mjw
 	!! Force residue to a minimum value regardless of tillage.		mjw
-		so_res_flag(iops,ihru) = mgt1i !!mjw
-		so_res(iops,ihru) = mgt4 !!mjw
+	!!	so_res_flag(iops,ihru) = mgt1i !!mjw
+	!!	so_res(iops,ihru) = mgt4 !!mjw
 
 		case (10) !! Generic Conservation Practice  mjw
 	!! Get user defined removal eff and use these		mjw

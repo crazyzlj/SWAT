@@ -139,7 +139,8 @@
           kdrn = " "
           kpot = " "
           if (iurban(j) > 0) kubn = "x"
-          if (ipot(j) == j) kpot = "x"
+     !!     if (ipot(j) == j) kpot = "x"
+          if (pot_fr(j) > 0.) kpot = "x"    
           if (ddrain(j) > 0.) kdrn = "x"
           write (24,1021)hru_sub(j),j,hru_ha(j),hru_slp(j),slsubbsn(j), &
      &          ov_n(j),cn2(j),tconc(j),esco(j),epco(j)
@@ -170,7 +171,8 @@
           kpst = " "
           ksep = "   "
           if (iurban(j) > 0) kubn = "x"
-          if (ipot(j) == j) kpot = "x"
+       !!   if (ipot(j) == j) kpot = "x"
+          if (pot_fr(j) > 0.) kpot = "x"
           if (ddrain(j) > 0.) kdrn = "x"
           if (hrupest(j) > 0.) kpst = "x"
           if (isep_hru(j) == 1) ksep = "x"

@@ -88,95 +88,36 @@
         wtmp = 5.0 + 0.75 * tmpav(j)
         if (wtmp <= 0.1) wtmp = 0.1
         wtmp = wtmp + 273.15    !! deg C to deg K
-
-      select case(isubwq)
-
-      case (1)
-      if (surfq(j) > 0.0001) then
-        !! calculate moles of N and P in surface runoff
-        tn = 0.
-        tp = 0.
-        tn = ((sedorgn(j) + surqno3(j)) * hru_km(j) * 100.) / 14.
-        tp = ((sedorgp(j) + surqsolp(j)) * hru_km(j) * 100.) / 31.
-
-        !! calculate total water loading to main channel generated
-        !! on day in HRU
-        qtot = 0.
-        flow_cms = 0.
-        qtot = surfq(j)
-        flow_cms = (qtot * hru_km(j)) / 86.4
-
-        !! calculate chlorophyll-a loading from HRU
-        !! use atomic ratio instead of actual ratio to do this
-        tn_tp = 0.
-        if (flow_cms > 1.e-5) then
-          if (tp > 1.e-6) then
-            tn_tp = tn / tp
-            if (tn_tp <= 0.) then
-              chl_a(j) = 0.0
-            else 
-              chl_a(j) = (10.**2.7) / (2. * flow_cms)
-            end if
-          elseif (tn > 1.e-6) then
-            chl_a(j) = (10.**0.5) / (2. * flow_cms)
-          else
-            chl_a(j) = 0.0
-          endif
-        else
-          chl_a(j) = 0.0
-        endif
-
-        !! testing for Steve B
-        !  chl_a = chla_subco * chl_a
+      
+        if (qdr(j) > 1.e-4) then
+          tp = 100. * (sedorgn(j) + surqno3(j)) / qdr(j)   !100*kg/ha/mm = ppm 
+          chl_a(j) = chla_subco * tp
  
+          !! calculate organic carbon loading to main channel
+          org_c = 0.
+          org_c = (sol_cbn(1,j) / 100.) * enratio * sedyld(j) * 1000.
 
-        !! calculate organic carbon loading to main channel
-        org_c = 0.
-        org_c = (sol_cbn(1,j) / 100.) * enratio * sedyld(j) * 1000.
+          !! calculate carbonaceous biological oxygen demand (CBOD)
+          cbodu(j) = 2.7 * org_c / (qdr(j) * hru_km(j))
 
-        !! calculate carbonaceous biological oxygen demand (CBOD)
-        cbodu(j) = 2.7 * org_c / (surfq(j) * hru_km(j))
+          !! calculate dissolved oxygen saturation concentration
+          !! QUAL2E equation III-29
+          ww = -139.34410 + (1.575701E05 / wtmp)
+          xx = 6.642308E07 / (wtmp**2)
+          yy = 1.243800E10 / (wtmp**3)
+          zz = 8.621949E11 / (wtmp**4)
+          soxy = Exp(ww - xx + yy - zz)
+          if (soxy < 0.) soxy = 0.
 
-        !! calculate dissolved oxygen saturation concentration
-        !! QUAL2E equation III-29
-        ww = 0.
-        xx = 0.
-        yy = 0.
-        zz = 0.
-        ww = -139.34410 + (1.575701E05 / wtmp)
-        xx = 6.642308E07 / (wtmp**2)
-        yy = 1.243800E10 / (wtmp**3)
-        zz = 8.621949E11 / (wtmp**4)
-        soxy = Exp(ww - xx + yy - zz)
-        if (soxy < 0.) soxy = 0.
-
-        !! calculate actual dissolved oxygen concentration
-        !! based on QUAL2E equation III-28
-        doxq(j) = soxy - (1.047 * cbodu(j) * t_ov(j) / 24.)
-        if (doxq(j) < 0.0) doxq(j) = 0.0
-
-      end if
-      case default
-
-        chl_a(j) = 0.
-
-        cbodu(j) = 0.
-
-        !! calculate dissolved oxygen saturation concentration
-        !! QUAL2E equation III-29
-        ww = 0.
-        xx = 0.
-        yy = 0.
-        zz = 0.
-        ww = -139.34410 + (1.575701E05 / wtmp)
-        xx = 6.642308E07 / (wtmp**2)
-        yy = 1.243800E10 / (wtmp**3)
-        zz = 8.621949E11 / (wtmp**4)
-        soxy = Exp(ww - xx + yy - zz)
-        if (soxy < 0.) soxy = 0.
-        doxq(j) = soxy
-
-      end select
+          !! calculate actual dissolved oxygen concentration
+          doxq(j) = soxy * exp(-0.1 * cbodu(j))
+          if (doxq(j) < 0.0) doxq(j) = 0.0
+          if (doxq(j) > soxy) doxq(j) = soxy
+        else
+          chl_a(j) = 0.
+          cbodu(j) = 0.
+          doxq(j) = 0.
+        end if
 
       return
       end

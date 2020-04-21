@@ -182,7 +182,10 @@
         else
           pdvar(45) = 0. 
         endif
-       
+
+!!  compute month and day given julian day
+        call xmon 
+        ii = icl(iida) 
 
       if (ievent==3.and.iprint==3) then
 	  ! print out subdaily reach output in output.rch
@@ -210,8 +213,10 @@
             pdvr(ii) = pdvar(ipdvar(ii))
           end do
           if (iscen == 1 .and. isproj == 0) then
-          write (7,5000) j, subgis(j), iida, rch_dakm(j),               &
-     &                                         (pdvr(ii), ii = 1, itotr)
+            if (icalen == 0) write (7,5000) j, subgis(j), iida,          &
+     &             rch_dakm(j), (pdvr(ii), ii = 1, itotr)
+            if(icalen == 1)write (7,5002) j, subgis(j), i_mo, iicl, iyr, &
+     &             rch_dakm(j), (pdvr(ii), ii = 1, itotr)
 !!    added for binary files 3/25/09 gsm line below and write (77777
 	      if (ia_b == 1) then
              write (77777) j, subgis(j), iida, rch_dakm(j),             &
@@ -221,15 +226,19 @@
           write (20,5000) j, subgis(j), iida, rch_dakm(j),              &
      &                                         (pdvr(ii), ii = 1, itotr)
           else if (iscen == 1 .and. isproj == 2) then
-          write (7,6000) j, subgis(j), iida, rch_dakm(j),               &
-     &                               (pdvr(ii), ii = 1, itotr),iyr  
+          if(icalen == 0)write (7,6000) j, subgis(j), iida, rch_dakm(j),&
+     &                               (pdvr(ii), ii = 1, itotr),iyr 
+          if(icalen == 1) write (7,6002) j, subgis(j), i_mo, iicl, iyr, &
+     &          rch_dakm(j),(pdvr(ii), ii = 1, itotr), iyr
           endif
         else
         
   !  increase to 45 in loops below from 42 gsm 10/26/2011      
           if (iscen == 1 .and. isproj == 0) then
-          write (7,5000) j, subgis(j), iida, rch_dakm(j),               &
+          if (icalen == 0)write(7,5000) j, subgis(j), iida, rch_dakm(j),&
      &                                        (pdvar(ii), ii = 1, 45)
+          if (icalen == 1) write (7,5002) j, subgis(j), i_mo, iicl, iyr,&
+     &                        rch_dakm(j),(pdvar(ii), ii = 1, 45)
 
 !!    added for binary files 3/25/09 gsm line below and write (77777
              if (ia_b == 1) then
@@ -241,15 +250,20 @@
           write (20,5000) j, subgis(j), iida, rch_dakm(j),              &
      &                                        (pdvar(ii), ii = 1, 45)    
           else if (iscen == 1 .and. isproj == 2) then
-          write (7,6000) j, subgis(j), iida, rch_dakm(j),               &
-     &                               (pdvar(ii), ii = 1, 45), iyr     
+          if (icalen == 0)write(7,6000) j, subgis(j), iida, rch_dakm(j),&
+     &                               (pdvar(ii), ii = 1, 45), iyr 
+          if (icalen == 1) write (7,6002) j, subgis(j), i_mo, iicl, iyr,&
+     &                    rch_dakm(j), (pdvar(ii), ii = 1, 45)
           endif
         end if
       endif
       end do
       return
- 5001 format ('REACH ',i4,1x,i8,1x,i5,1x,i5,46e12.4)
+
  5000 format ('REACH ',i4,1x,i8,1x,i5,46e12.4)
+ 5001 format ('REACH ',i4,1x,i8,1x,i5,1x,i5,46e12.4)
+ 5002 format ('REACH ',i4,1x,i8,2x,i2,1x,i2,1x,i4,1x,46e12.4)
  6000 format ('REACH ',i4,1x,i8,1x,i5,46e12.4,1x,i4)
+ 6002 format ('REACH ',i4,1x,i8,1x,i2,1x,i2,1x,i4,1x,46e12.4,1x,i4)
       end
 

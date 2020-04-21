@@ -74,7 +74,10 @@
       if (hrupest(j) == 1) then
         do k = 1, npmx
           if (pst_lag(k,3,j) < 1.e-6) pst_lag(k,3,j) = 0.0
-          pst_lag(k,3,j) = pst_lag(k,3,j) + lat_pst(k)
+          !MFW, 3/3/12: Modified lagged pesticide to include decay in lag
+          pst_lag(k,3,j) = (pst_lag(k,3,j) * decay_s(npno(k)))          &
+     &                     + lat_pst(k)
+          ! pst_lag(k,3,j) = pst_lag(k,3,j) + lat_pst(k)
         end do
       end if
 

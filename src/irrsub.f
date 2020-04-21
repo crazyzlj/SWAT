@@ -147,7 +147,7 @@
         vol = 0.
         vol = vmm * cnv
 
-        if (ipot(j) == j) then
+        if (pot_fr(j) > 1.e-6) then
           pot_vol(j) = pot_vol(j) + vol
           aird(j) = vmm                 !!added rice irrigation 11/10/11
         else
@@ -160,7 +160,7 @@
         end if
 
         !! subtract irrigation from shallow or deep aquifer
-        if (ipot(j) /= j) then
+        if (pot_fr(j) > 1.e-6) then
           vol = 0.
           vol = aird(j) * cnv * irrefm(j)
         end if

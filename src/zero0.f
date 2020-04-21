@@ -4,6 +4,10 @@
 !!    this subroutine initializes the values for some of the arrays 
 
       use parm
+      
+       ifirstatmo = 1
+       mo_atmo = 0
+      
 !!    apex command initialize
       idapa = 0
       iypa = 0
@@ -162,6 +166,7 @@
       curbden = 0.
       curyr = 0
       curyr_mat = 0
+      igrotree = 0
       cvm = 0.
       daylmn = 0.
 !    Drainmod tile equations  01/2006 
@@ -275,6 +280,7 @@
       hyd_dakm = 0.
       iafrttyp = 0
       iatmodep = 0
+      icalen = 0
       icfrt = 0
       icodes = 0
       icpst = 0
@@ -318,7 +324,7 @@
       ipdvar = 0
       ipdvas = 0
       ipest = 0
-      ipot = 0
+ !!     ipot = 0
       ireg = 1
       irgage = 0
       irip = 0
@@ -331,8 +337,15 @@
       irrno = 0
       irr_sca = 0
       irr_noa = 0
+      irrsq = 0
       irrno = 0
       irrsc = 0
+      irr_sc = 0
+      irr_no = 0
+      irr_sq = 0
+      irr_asq = 0
+      irr_sca = 0
+      irr_noa = 0
       itb = 0 
       itemp = 0
       itgage = 0
@@ -417,6 +430,10 @@
       rcn_sub_bsn = 0.
       reccnstps = '             '
       recmonps = '             '
+      rammo_mo = 0.
+      rcn_mo = 0.
+      drydep_nh4_mo = 0.
+      drydep_no3_mo = 0.
 !! routing 5/3/2010 gsm per jga
       rutot = 0
       idum = 0
@@ -434,6 +451,7 @@
 	  rsr2 = 0.
       sed_con = 0.
       sepcrk = 0.
+      sq_rto = 0.
       sol_clay = 0. 
 !    Drainmod tile equations  01/2006 
       stmaxd = 0.

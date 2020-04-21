@@ -149,14 +149,16 @@
               vol = 0.
               vol = vmm * cnv
 
-              if (ipot(k) == k) then
+           !!   if (ipot(k) == k) then
+              if (pot_fr(k) > 1.e-6) then
                 pot_vol(k) = pot_vol(k) + vol
               else
                 call irrigate(k,vmm)
               end if
 
               !! subtract irrigation from reservoir volume
-              if (ipot(k) /= k) then
+         !!     if (ipot(k) /= k) then
+              if (pot_fr(k) > 1.e-6) then
                 vol = 0.
                 vol = aird(k) * cnv
               end if

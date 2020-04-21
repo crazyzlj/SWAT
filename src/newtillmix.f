@@ -239,8 +239,8 @@
           smix(18) = (XX * smix(18) + sol_silt(l,jj) * sol_msm(l)) /WW2
           smix(19) = (XX * smix(19) + sol_sand(l,jj) * sol_msm(l)) /WW2
 !          smix(20) = (XX * smix(20) + sol_rock(l,jj) * sol_msm(l)) / WW2
-          smix(21) = (XX * smix(21) + sol_ph(l,jj) * sol_msm(l)) /WW2 !! mjw rev490
-          smix(22) = (XX * smix(22) + sol_cal(l,jj) * sol_msm(l)) /WW2 !! mjw rev490
+!          smix(21) = (XX * smix(21) + sol_ph(l,jj) * sol_msm(l)) /WW2 !! mjw rev490
+!          smix(22) = (XX * smix(22) + sol_cal(l,jj) * sol_msm(l)) /WW2 !! mjw rev490
 		!! mass based distribution
           do k = 1, npmx
           	smix(20+k) = smix(20+k) + sol_pst(k,jj,l) * WW1
@@ -282,10 +282,10 @@
             sol_sand(l,jj) = (sol_sand(l,jj) * sol_msn(l) + smix(19)    &
      &           * sol_msm(l)) / sol_mass(l)
 !		sol_rock(l,jj) = (sol_rock(l,jj) * sol_msn(l) + smix(20) * sol_msm(l)) / sol_mass(l)
-            sol_ph(l,jj) = (sol_ph(l,jj) * sol_msn(l) + smix(21)        &
-     &           * sol_msm(l)) / sol_mass(l) !! mjw rev 490 simplified, PH not linear
-            sol_cal(l,jj) = (sol_cal(l,jj) * sol_msn(l) + smix(22)      &
-     &           * sol_msm(l)) / sol_mass(l) !! mjw rev 490 
+!            sol_ph(l,jj) = (sol_ph(l,jj) * sol_msn(l) + smix(21)        &
+!     &           * sol_msm(l)) / sol_mass(l) !! mjw rev 490 simplified, PH not linear
+!            sol_cal(l,jj) = (sol_cal(l,jj) * sol_msn(l) + smix(22)      &
+!     &           * sol_msm(l)) / sol_mass(l) !! mjw rev 490 
 
 
 			

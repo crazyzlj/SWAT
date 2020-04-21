@@ -58,11 +58,12 @@
       msubo = 22
       mstdo = 112
       iopera = 200
+      motot = 600             !! (50 years limit)
       
 !!!!!!!!!! drains
-!!      allocate (w(mlyr))
+      allocate (wnan(mlyr))
 
- !!     allocate (rcn(12,msub))
+!!      allocate (rcn(12,msub))
 
 !!    arrays for Landscape Transport Capacity
       allocate (l_k1(msub))
@@ -75,6 +76,14 @@
       allocate (l_vslope(msub))
       allocate (l_ktc(msub))
 		
+!!    arrays for Biofilm in reach
+      allocate (biofilm_mumax(mch))
+      allocate (biofilm_kinv(mch))
+      allocate (biofilm_klw(mch))
+      allocate (biofilm_kla(mch))
+      allocate (biofilm_cdet(mch))
+      allocate (biofilm_bm(mch))
+      
       mxsubch = Max(msub+1,mch+1)
       itempa = Max(mhru,mch)     
 
@@ -334,6 +343,14 @@
       allocate (daylmn(msub))
       allocate (drydep_no3(msub))
       allocate (drydep_nh4(msub))
+      
+!!!   atmospheric deposition by month
+      allocate (rcn_mo(motot,msub))
+      allocate (rammo_mo(motot,msub))
+      allocate (drydep_no3_mo(motot,msub))
+      allocate (drydep_nh4_mo(motot,msub))
+!!!   atmospheric deposition by month
+      
       allocate (fcst_reg(msub))
       allocate (harg_petco(msub))
 !      allocate (hqd(nstep*3+1))  !! was 73, changed for urban
@@ -778,7 +795,8 @@
       allocate (orig_phu(mhru))
 
       allocate (phu_plt(mhru))
-    
+      allocate (nstress(mhru))
+      allocate (igrotree(mhru))
       allocate (tnyld(mhru))
       allocate (tnylda(mhru))
       allocate (yldkg(mcr,mhru))
@@ -823,6 +841,7 @@
 
       allocate (shyd(8,mhyd))
       allocate (varoute(mvaro,mhyd))
+      allocate (vartran(mvaro,mhyd))
       allocate (hhvaroute(mvaro,mhyd,nstep))  !! from 24 to nstep for urban
   !!    allocate (hhvaroute(mvaro,mhyd,24))  !! from 24 to nstep for urban
 
@@ -1005,7 +1024,7 @@
       allocate (ipdhru(imho))
       allocate (ipnd1(mhru))
       allocate (ipnd2(mhru))
-      allocate (ipot(mhru))
+!!      allocate (ipot(mhru))
       allocate (irip(mhru))
       allocate (irn(mhru))
       allocate (irrno(mhru))
@@ -1525,7 +1544,7 @@
 
 !! Arrays for subdaily erosion modeling by Jaehak Jeong
 	allocate (hhsedy(mhru,nstep),rhy(nstep),ovrlnd_dt(mhru,nstep))
-	allocate (snam(mhru),hydgrp(mhru),kirr(mhru))
+      allocate (snam(mhru),hydgrp(mhru),kirr(mhru))
 	allocate (dratio(msub),init_abstrc(mhru))
 	allocate (sub_subp_dt(msub,nstep),sub_hhsedy(msub,nstep))
 	allocate (sub_atmp(msub,nstep))
@@ -1544,9 +1563,9 @@
      &  sp_qi(msub,10),sp_k(msub,10),sp_bpw(msub,10),
      &  ft_bpw(msub,10),sp_dp(msub,10),ft_sed_cumul(msub,10),
      &  sp_sed_cumul(msub,10),ft_qfg(msub,10),sp_qfg(msub,10))
-      allocate (sub_ha_urb(msub),ft_qpnd(msub,10),ft_qsw(msub,10), 
+      allocate (sub_ha_imp(msub),ft_qpnd(msub,10),ft_qsw(msub,10), 
      &  ft_qin(msub,10),ft_qout(msub,10),ft_sedpnd(msub,10),
-     &  sf_ptp(msub,10),ft_fc(msub,10)) 
+     &  sf_ptp(msub,10),ft_fc(msub,10),sub_ha_urb(msub)) 
 !! additional var by Ann
 !! Filter Strip variable allocation MJW
       allocate (vfscon(mhru))
@@ -1559,9 +1578,9 @@
       allocate (filter_ch(20,mhru))  
       
       ! detention pond
- 	allocate(dtp_subnum(msub),dtp_imo(msub),dtp_iyr(msub),
-     &  dtp_numweir(msub),dtp_numstage(msub),
-     &  dtp_stagdis(msub),dtp_reltype(msub),dtp_onoff(msub))
+ 	allocate(dtp_subnum(mhyd),dtp_imo(mhyd),dtp_iyr(mhyd),
+     &  dtp_numweir(mhyd),dtp_numstage(mhyd),
+     &  dtp_stagdis(mhyd),dtp_reltype(mhyd),dtp_onoff(mhyd))
 	
 	allocate(dtp_evrsv(msub),
      &  dtp_inflvol(msub),dtp_totwrwid(msub),dtp_parm(msub),
@@ -1616,19 +1635,19 @@
      &   ri_dep(msub,10),ri_ndt(msub,10),ri_nirr(msub,30),
      &   num_noirr(msub),ri_totpvol(nstep),ri_luflg(mhru),
      &   ri_subkm(msub),ri_sed_cumul(msub,10),irmmdt(nstep),
-     &   ri_pumpv(msub,10))   
+     &   ri_pumpv(msub,10),ri_sedi(msub,10))   
       allocate(num_ri(msub), ri_pmpvol(10,nstep),hrnopcp(msub,0:nstep),
      &   ri_qloss(10,nstep))
       
       !wet pond
-      allocate(wtp_subnum(msub),wtp_onoff(msub),wtp_imo(msub),
-     &  wtp_iyr(msub),wtp_dim(msub),wtp_stagdis(msub),wtp_sdtype(msub),
-     &  wtp_pvol(msub),wtp_pdepth(msub),wtp_sdslope(msub),
-     &  wtp_lenwdth(msub),wtp_extdepth(msub),wtp_hydeff(msub),
-     &  wtp_evrsv(msub),wtp_sdintc(msub),wtp_sdexp(msub),wtp_sdc1(msub),
-     &  wtp_sdc2(msub),wtp_sdc3(msub),wtp_pdia(msub),wtp_plen(msub),
-     &  wtp_pmann(msub),wtp_ploss(msub),wtp_k(msub),
-     &  wtp_dp(msub),wtp_sedi(msub),wtp_sede(msub),wtp_qi(msub))
+      allocate(wtp_subnum(mhyd),wtp_onoff(mhyd),wtp_imo(mhyd),
+     &  wtp_iyr(mhyd),wtp_dim(mhyd),wtp_stagdis(mhyd),wtp_sdtype(mhyd),
+     &  wtp_pvol(mhyd),wtp_pdepth(mhyd),wtp_sdslope(mhyd),
+     &  wtp_lenwdth(mhyd),wtp_extdepth(mhyd),wtp_hydeff(mhyd),
+     &  wtp_evrsv(mhyd),wtp_sdintc(mhyd),wtp_sdexp(mhyd),wtp_sdc1(mhyd),
+     &  wtp_sdc2(mhyd),wtp_sdc3(mhyd),wtp_pdia(mhyd),wtp_plen(mhyd),
+     &  wtp_pmann(mhyd),wtp_ploss(mhyd),wtp_k(mhyd),
+     &  wtp_dp(mhyd),wtp_sedi(mhyd),wtp_sede(mhyd),wtp_qi(mhyd))
                  
 	  
       call zero0

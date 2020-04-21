@@ -127,13 +127,16 @@
                 iyp = 0
                 idap = 0
                 read (100+k,5100) iyp, idap, (rmeas(l), l = kk1, kk2)
+5000  format (7x,1800f5.1)
+5100  format (i4,i3,1800f5.1)
                 if (iyp + idap <= 0) exit
                 if (iyp == iyr .and. idap == id1) exit
               end do
             end if
           end do
 
-          !! assign precipitation data to HRUs
+          !! assign precipitation data to HRUsoutput.std
+          
           inum3sprev = 0
           do k = 1, nhru
             subp(k) = rmeas(irgage(hru_sub(k)))
@@ -300,8 +303,8 @@
 
 
       return
- 5000 format (7x,300f5.1)
- 5100 format (i4,i3,300f5.1)
+! 5000 format (7x,300f5.1)                 !! -------------------------------test
+! 5100 format (i4,i3,300f5.1)              !! -------------------------------test
  5200 format (i4,i3,i2,1x,i2,300f6.2)
  5201 format (i4,i3,5x,300f5.1)
  5202 format (i4,i3,i2,a1,i2,300f6.2)

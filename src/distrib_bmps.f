@@ -35,49 +35,108 @@
       implicit none
       
       integer :: kk,sb,ii
-      real, dimension(2,nstep) :: sf_totalflw,sf_totaltss,ri_totalflw
-      real, dimension(2,nstep) :: ri_totaltss
-      real, dimension(2,0:nstep) :: sfflw,sfsed,riflw,rised !dimensions: 1=inflow/outflow, 2=pond id, 3=time step
- 
+      real :: sub_ha,bmpfr
+      real, dimension(3,0:nstep) :: sf_totalflw,sf_totaltss,ri_totalflw
+      real, dimension(3,0:nstep) :: ri_totaltss
+      real, dimension(3,0:nstep) :: sfflw,sfsed,riflw,rised !dimensions: 1=inflow/outflow, 2=pond id, 3=time step
+      real, dimension(3,0:nstep) :: spqm3,spsed,ftqm3,ftsed,riqm3
       sb = inum1
+      sub_ha = da_ha * sub_fr(sb)
       sf_totalflw = 0.; sf_totaltss = 0.
       ri_totalflw = 0.; ri_totaltss = 0.
-      sfflw = 0.; sfsed = 0.
-      riflw = 0.; rised = 0.
+      sfflw = 0.; sfsed = 0.; riflw = 0.; rised = 0.;bmpfr=0.
+      spqm3 = 0.; spsed=0.;ftqm3=0.;ftsed=0.;riqm3=0.
       
- 	   !--------------------------------- 	   
- 	   ! sedimentation-filtration basin
+!      flowin(1,1:nstep) = sub_ubnrunoff(sb,1:nstep)
+      
+	   
+ 	!--------------------------------- 	   
+ 	! sedimentation-filtration basin
       if(num_sf(sb)>=1.and.hrnopcp(sb,nstep)<96) then
          
          do kk=1,num_sf(sb)
             !fraction urban runoff to the sed-fil
-            sfflw(1,:) = sub_ubnrunoff(sb,1:nstep) * sf_fr(sb,kk)
-            sfsed(1,:) = sub_ubntss(sb,1:nstep) * sf_fr(sb,kk)
+            sfflw(1,1:nstep) = sub_ubnrunoff(sb,1:nstep) * sf_fr(sb,kk) !mm
+            sfsed(1,1:nstep) = sub_ubntss(sb,1:nstep) * sf_fr(sb,kk) !tons
+            !total inflow to sedfils
+            sf_totalflw(1,:) = sf_totalflw(1,:) + sfflw(1,:) !mm
+            sf_totaltss(1,:) = sf_totaltss(1,:) + sfsed(1,:) !tons
             
             if (iyr>sf_iy(sb,kk) .or. 
      &      (iyr==sf_iy(sb,kk).and.i_mo>=sf_im(sb,kk))) then
                if(sf_typ(sb,kk)==2) then !partial scale 
                   call sand_filter(kk,sfflw,sfsed) 
+                  spqm3(:,:) = 0.
+                  spsed(:,:)=0.
+                  ftqm3(:,:) = sfflw(:,:) * ((sub_ha - ft_sa(sb,kk)  !m3
+     &                          / 10000.) *10.) 
+                  ftsed(:,:) = sfsed(:,:) !tons
+                  
+                !total (aggregated) outflow from sedfils
+                  sf_totalflw(2,:) = sf_totalflw(2,:) + sfflw(2,:) 
+     &                               + sfflw(3,:) !mm
+                  sf_totaltss(2,:) = sf_totaltss(2,:) + ftsed(2,:) 
+     &                               + ftsed(3,:) !tons
                elseif(sf_typ(sb,kk)==1) then !full scale
+                  !first route through sedimentation pond
                   call sed_pond(kk,sfflw,sfsed)      
-                  sfflw(1,:) = sfflw(2,:)
-                  sfsed(1,:) = sfsed(2,:)
+                  
+                  spqm3(:,:) = sfflw(:,:) * ((sub_ha - sp_sa(sb,kk) 
+     &                          / 10000.) *10.)
+                  spsed(:,:) = sfsed(:,:) 
+
+                ! add bypass flow to total (aggregated) outflow 
+                  sf_totalflw(2,:) = sf_totalflw(2,:) + sfflw(3,:) 
+                  sf_totaltss(2,:) = sf_totaltss(2,:) + sfsed(3,:) 
+
+                  ! outflow from the sedimentation basin goest to sand filter
+                  sfflw(1,:) = sfflw(2,:)  
+                  sfsed(1,:) = sfsed(2,:) 
+
+                  ! then the outflow from sed pond goes to sand filter
                   call sand_filter(kk,sfflw,sfsed)
+               
+                  ftqm3(:,:) = sfflw(:,:) *  ((sub_ha - ft_sa(sb,kk) 
+     &                          / 10000.) *10.) !m3
+                  ftsed(:,:) = sfsed(:,:)  !tons
+         
+                !total (aggregated) outflow from sedfils
+                  sf_totalflw(2,:) = sf_totalflw(2,:) + sfflw(3,:) 
+     &                               + sfflw(2,:) !mm
+                  sf_totaltss(2,:) = sf_totaltss(2,:) + sfsed(3,:) 
+     &                               + sfsed(2,:) !tons
+
                else !sedimentation pond only
                   call sed_pond(kk,sfflw,sfsed)      
-               endif
-               
+
+                  ftqm3(:,:) = 0.
+                  ftsed(:,:)=0.
+                  spqm3(:,:) = sfflw(:,:) * ((sub_ha - sp_sa(sb,kk) 
+     &                          / 10000.) *10.)
+                  spsed(:,:) = sfsed(:,:) 
+                  !total (aggregated) outflow from sedfils
+                  sf_totalflw(2,:) = sf_totalflw(2,:) + sfflw(3,:) 
+     &                               + sfflw(2,:) 
+                  sf_totaltss(2,:) = sf_totaltss(2,:) + sfsed(3,:) 
+     &                               + sfsed(2,:)
+             endif
+ 
+             
             else
                ! skip bmp simulation before it's constructed
-               sfflw(2,:) = sfflw(1,:)
-               sfsed(2,:) = sfsed(1,:)
+               !total (aggregated) outflow from sedfils
+               sf_totalflw(2,:) = sf_totalflw(2,:) + sfflw(1,:) 
+               sf_totaltss(2,:) = sf_totaltss(2,:) + sfsed(1,:) 
            endif
 
-            !aggregate individual pond effluents in subbasin 
-            do ii=1,nstep
-               sf_totalflw(:,ii) = sf_totalflw(:,ii) + sfflw(:,ii)
-               sf_totaltss(:,ii) = sf_totaltss(:,ii) + sfsed(:,ii)
-            end do
+           !print out bmp result in bmp-sedfil.out 
+           do ii=1,nstep
+      write(77778,'(5i6,30f12.3)') iyr,iida,ii,sb,kk,spqm3(1,ii),
+     & spqm3(2,ii),spqm3(3,ii),spsed(1,ii)*1000.,spsed(2,ii)*1000.,
+     & spsed(3,ii)*1000.,ftqm3(1,ii),ftqm3(2,ii),ftqm3(3,ii),
+     & ftsed(1,ii)*1000.,ftsed(2,ii)*1000.,ftsed(3,ii)*1000.
+           end do
+            
          end do
       endif
 
@@ -95,11 +154,20 @@
      &         ri_fr(sb,kk)
             rised(1,1:nstep) = sub_ubntss(sb,1:nstep) * ri_fr(sb,kk)
             
-            ! skip bmp simulation before it's constructed
+            ! total inflow to RIs
+            ri_totalflw(1,1:nstep) = ri_totalflw(1,1:nstep) 
+     &                                + riflw(1,1:nstep)
+            ri_totaltss(1,1:nstep) = ri_totaltss(1,1:nstep) 
+     &                                + rised(1,1:nstep)
+         
+           ! skip bmp simulation before it's constructed
             if (iyr>ri_iy(sb,kk) .or.
      &      (iyr==ri_iy(sb,kk).and.i_mo>=ri_im(sb,kk))) then
-               call ri_pond(kk,riflw(1,:),riflw(2,:),
-     &          rised(1,:),rised(2,:)) 
+              
+               call ri_pond(kk,riflw,rised) 
+              
+               riqm3(:,:) = riflw(:,:)* ((sub_ha - sp_sa(sb,kk) 
+     &                          / 10000.) *10.)
             else
                riflw(2,:) = riflw(1,:)
                rised(2,:) = rised(1,:)
@@ -107,10 +175,17 @@
  
             do ii=1,nstep
                !aggregate individual pond effluents in subbasin 
-               ri_totalflw(:,ii) = ri_totalflw(:,ii) + riflw(:,ii)
-               ri_totaltss(:,ii) = ri_totaltss(:,ii) + rised(:,ii)
+               ri_totalflw(2,ii) = ri_totalflw(2,ii) + riflw(2,ii)
+               ri_totaltss(2,ii) = ri_totaltss(2,ii) + rised(2,ii)
             end do
+            do ii=1,nstep
+      write(77779,'(5i6,30f12.3)') iyr,iida,ii,sb,kk,riqm3(1,ii),
+     & riqm3(2,ii),riqm3(3,ii),rised(1,ii)*1000.,rised(2,ii)*1000.,
+     & rised(3,ii)*1000.
+            end do
+
          end do
+         
       endif
 	
       ! allocate bmp inflow/outflow to subbasin surface runoff volume
@@ -120,5 +195,6 @@
       sub_ubntss(sb,1:nstep) = sub_ubntss(sb,1:nstep) - 
      &   sf_totaltss(1,1:nstep) - ri_totaltss(1,1:nstep) +
      &   sf_totaltss(2,1:nstep) + ri_totaltss(2,1:nstep)
+     
       return
       end

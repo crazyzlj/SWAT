@@ -220,6 +220,8 @@
        endif    
       endif
 
+      nly = sol_nly(ihru)
+      
 !!    set default values/initialize variables
       if (sol_alb(ihru) < 0.1) sol_alb(ihru) = 0.1
       if (anion_excl(ihru) <= 1.e-6) anion_excl(ihru) = anion_excl_bsn
@@ -262,7 +264,7 @@
 
       close (107)
       return
- 5000 format (27x,11f12.2)
+ 5000 format (27x,15f12.2)
  5100 format (12x,a16)
  5200 format (24x,a1)
  5300 format (28x,f12.2)

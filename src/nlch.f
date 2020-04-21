@@ -102,7 +102,8 @@
  !Daniel 1/2012    
         !! calculate nitrate in tile flow 
         if (ldrain(j) == jj) then
-          tileno3(j) = nperco * co * qtile     !Daniel 1/2012
+    !      tileno3(j) = nperco * co * qtile     !Daniel 1/2012
+           tileno3(j) = co * qtile     !Daniel 1/2012
           tileno3(j) = Min(tileno3(j), sol_no3(jj,j))
           sol_no3(jj,j) = sol_no3(jj,j) - tileno3(j)          
         end if

@@ -96,7 +96,7 @@
       drift = 0.
       flat = 0.
       frad = 0.
-      gwq_ru = 0.
+!      gwq_ru = 0.
       hhsubp = 0.
       hru_ra = 0.
       hru_rmx = 0.

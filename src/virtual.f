@@ -243,7 +243,7 @@
 !!    name        |units         |definition
 !!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
 !!    cnv         |none          |conversion factor (mm/ha => m^3)
-!!    difflw      |mm H2O        |difference in total loading and surface runoff
+!!    baseflw     |mm H2O        |difference in total loading and surface runoff
 !!                               |loading
 !!    ii          |none          |counter
 !!    j           |none          |HRU number
@@ -251,7 +251,6 @@
 !!    sb          |none          |subbasin number
 !!    sub_ha      |ha            |area of subbasin in hectares
 !!    sub_hwyld(:)|mm H2O        |water yield from subbasin during hour
-!!    tothhqd     |mm H2O        |sum of hourly surface runoff for day
 !!    wtmp        |deg C         |temperature of water
 !!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
 
@@ -265,7 +264,7 @@
       use parm
 
       integer :: j, sb, kk, ii
-      real :: cnv, sub_ha, wtmp, tothhqd, difflw, bf_fr
+      real :: cnv, sub_ha, wtmp, baseflw, bf_fr
       real :: sub_hwyld(nstep), hqd(3*nstep), hsd(3*nstep),hqdtst(nstep)   ! hqd, hsd locally defined. J.Jeong 4/26/2009
 
       j = ihru
@@ -564,14 +563,9 @@
 
         !! sub-daily calculations
         if (ievent > 2) then
-          !! determine water loading other than surface runoff for day
-          tothhqd = 0.
-          difflw = 0.
-          do ii = 1, nstep
-            tothhqd = tothhqd + sub_hhqd(sb,ii)
-          end do
-          difflw = sub_wyld(sb) - tothhqd
-          if (difflw < 0.) difflw = 0.
+          !! determine the daily total base flow 
+          baseflw = sub_gwq(sb) + sub_latq(sb)
+          if (baseflw < 0.) baseflw = 0.
          
           !! assume water loadings other than surface runoff (eg groundwater,
           !! lat Q and qtile) are evenly distributed over a day
@@ -581,13 +575,14 @@
          ! Daily water yield is unevenly distributed over time 
          ! based on fractional rainfall of the day
           do ii = 1, nstep
-            if(difflw>1. .and. sum(precipdt)>1.) then
+            if(baseflw>0.1 .and. sum(precipdt)>0.1) then
               bf_fr = bf_flg * precipdt(ii) / sum(precipdt) +
      &         (1. - bf_flg) * 1. / nstep     
-              sub_hwyld(ii) = sub_hhqd(sb,ii) + difflw * bf_fr
+              sub_hwyld(ii) = sub_hhqd(sb,ii) + baseflw * bf_fr
             else
-              sub_hwyld(ii) = sub_hhqd(sb,ii) + difflw / nstep
+              sub_hwyld(ii) = sub_hhqd(sb,ii) + baseflw / nstep
             endif            
+
           end do
           !! assign reach loadings for subbasin
           !! zero out hydrograph storage locations
@@ -626,7 +621,7 @@
               hhvaroute(20,ihout,ii) = 0.                          !!cmetal#1
               hhvaroute(21,ihout,ii) = 0.                          !!cmetal#2
               hhvaroute(22,ihout,ii) = 0.                          !!cmetal#3
-	          hhvaroute(23,ihout,ii) = difflw
+	          hhvaroute(23,ihout,ii) = baseflw
    
             end if
 		  end do

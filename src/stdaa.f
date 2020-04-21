@@ -422,10 +422,11 @@
      &    wshdaao(3), wshdaao(4), wshdaao(109), wshdaao(104),           &
      &    wshdaao(105), wshdaao(106), wshdaao(107), wshdaao(6),         &
      &    wshdaao(5), wshdaao(7), wshdaao(108), wshdaao(38),            &
-     &    wshd_sepmm,  wshdaao(12), (wshdaao(k),k = 19,22), wshdaao(13),&
-     &    wshdaao(23), wshdaao(14), (resdata(k),k = 1,7)
+     &    wshd_sepmm,  wshdaao(12)
+ !    &    wshd_sepmm,  wshdaao(12), (wshdaao(k),k = 19,22), wshdaao(13),&
+ !    &    wshdaao(23), wshdaao(14), (resdata(k),k = 1,7)
 
-      write (26,2400) wshdaao(33), wshdaao(15), wshdaao(34), wshdaao(11)
+ !     write (26,2400) wshdaao(33), wshdaao(15), wshdaao(34), wshdaao(11)
       else if (isproj == 1) then
       write (19,1000) prog
       write (19,1100) title
@@ -433,21 +434,22 @@
      &    wshdaao(3), wshdaao(4), wshdaao(109), wshdaao(104),           &
      &    wshdaao(105), wshdaao(106), wshdaao(107), wshdaao(6),         &
      &    wshdaao(5), wshdaao(7), wshdaao(108), wshdaao(38),            &
-     &    wshdaao(12), (wshdaao(k),k = 19,22), wshdaao(13),             &
-     &    wshdaao(23), wshdaao(14), (resdata(k),k = 1,7)
-      write (19,2400) wshdaao(33), wshdaao(15), wshdaao(34), wshdaao(11)
+     &    wshdaao(12)
+ !    &    wshdaao(12), (wshdaao(k),k = 19,22), wshdaao(13),             &
+ !    &    wshdaao(23), wshdaao(14), (resdata(k),k = 1,7)
+ !     write (19,2400) wshdaao(33), wshdaao(15), wshdaao(34), wshdaao(11)
       endif
 
 !! watershed pothole summary values
-      sumpady = 0
-      sumpady = Sum(ipot)
-      if (sumpady > 0) then
+!      sumpady = 0
+!     sumpady = Sum(ipot)
+!      if (sumpady > 0) then
         if (iscen == 1) then
         write (26,2500) spadyo, spadyev, spadysp, spadyrfv
         else if (isproj == 1) then
         write (19,2500) spadyo, spadyev, spadysp, spadyrfv
         endif
-      end if
+!     end if
 
 !! watershed summary nutrient table
       if (iscen == 1) then
@@ -556,27 +558,27 @@
      &        t15,'PET = ',f8.1,'MM'/                                   &
      &        t15,'TRANSMISSION LOSSES = ',f8.2,' MM'/                  &
      &        t15,'SEPTIC INFLOW = ',f10.2,' MM'/                       &
-     &        t15,'TOTAL SEDIMENT LOADING =  ',f8.3,' T/HA'/            &
-     &        t15,'POND BUDGET'/                                        &
-     &        t20,'EVAPORATION = ',f8.3,' MM'/                          &
-     &        t20,'SEEPAGE = ',f8.3,' MM'/                              &
-     &        t20,'RAINFALL ON POOL =',f8.3,' MM'/                      &
-     &        t20,'INFLOW'/t25,'WATER = ',f8.3,' MM'/                   &
-     &        t25,'SEDIMENT = ',f8.3,' T/HA'/                           &
-     &        t20,'OUTFLOW'/t25,'WATER = ',f8.3,' MM'/                  &
-     &        t25,'SEDIMENT = ',f8.3,' T/HA'/                           &
-     &        t15,'RESERVOIR BUDGET'/                                   &
-     &        t20,'EVAPORATION = ',f8.3,' MM'/                          &
-     &        t20,'SEEPAGE = ',f8.3,' MM'/                              &
-     &        t20,'RAINFALL ON RESERVOIR = ',f8.3,' MM'/                &
-     &        t20,'INFLOW'/t25,'WATER = ',f8.3,' MM'/                   &
-     &        t25,'SEDIMENT = ',f8.3,' T/HA'/                           &
-     &        t20,'OUTFLOW'/t25,'WATER = ',f8.3,' MM'/                  &
-     &        t25,'SEDIMENT = ',f8.3,' T/HA')
+     &        t15,'TOTAL SEDIMENT LOADING =  ',f8.3,' T/HA')
+ !    &        t15,'POND BUDGET'/                                        &
+ !    &        t20,'EVAPORATION = ',f8.3,' MM'/                          &
+ !    &        t20,'SEEPAGE = ',f8.3,' MM'/                              &
+ !    &        t20,'RAINFALL ON POOL =',f8.3,' MM'/                      &
+ !    &        t20,'INFLOW'/t25,'WATER = ',f8.3,' MM'/                   &
+ !    &        t25,'SEDIMENT = ',f8.3,' T/HA'/                           &
+ !    &        t20,'OUTFLOW'/t25,'WATER = ',f8.3,' MM'/                  &
+ !    &        t25,'SEDIMENT = ',f8.3,' T/HA'/                           &
+ !    &        t15,'RESERVOIR BUDGET'/                                   &
+ !    &        t20,'EVAPORATION = ',f8.3,' MM'/                          &
+ !    &        t20,'SEEPAGE = ',f8.3,' MM'/                              &
+ !    &        t20,'RAINFALL ON RESERVOIR = ',f8.3,' MM'/                &
+ !    &        t20,'INFLOW'/t25,'WATER = ',f8.3,' MM'/                   &
+ !    &        t25,'SEDIMENT = ',f8.3,' T/HA'/                           &
+ !    &        t20,'OUTFLOW'/t25,'WATER = ',f8.3,' MM'/                  &
+ !    &        t25,'SEDIMENT = ',f8.3,' T/HA')
 
- 2400 format (t15,'YIELD LOSS FROM PONDS'/t20,'WATER = ',f7.3,' MM'/t20,&
-     &    'SEDIMENT = ',f7.3,' T/HA'/t15,'YIELD LOSS FROM RESERVOIRS'/  &
-     &    t20,'WATER = ',f8.3,' MM'/t20,'SEDIMENT = ',f7.3,' T/HA')
+! 2400 format (t15,'YIELD LOSS FROM PONDS'/t20,'WATER = ',f7.3,' MM'/t20,&
+!     &    'SEDIMENT = ',f7.3,' T/HA'/t15,'YIELD LOSS FROM RESERVOIRS'/  &
+!     &    t20,'WATER = ',f8.3,' MM'/t20,'SEDIMENT = ',f7.3,' T/HA')
  2500 format (t15,'OUTFLOW FROM IMPOUNDED WATER =  ',f8.3,' (MM)',/,t15,&
      &    'EVAPORATION FROM IMPOUNDED WATER =  ',f8.3,' (MM)',/,t15,    &
      &    'SEEPAGE INTO SOIL FROM IMPOUNDED WATER = ',f8.3,' (MM)',/,t15&
