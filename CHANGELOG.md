@@ -1,4 +1,9 @@
++ 04/21/2020: Reorganize the repo
+
+  ----
+
 + 7/1/2019: Reorganize the repo and create a newly revised tag of rev.664.
+
 + 9/11/2017: Bugs fixed or code improvement. Cross-platform compilation.
 
   + Code improvement, e.g.:
