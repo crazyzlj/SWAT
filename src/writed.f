@@ -112,7 +112,7 @@
         enddo
       end if
 
-      if (iprint == 1) then
+      if (iprint == 1.or.iprint==3) then
         if (da_ha < 1.e-9) then
 	    call rchday
 	    call rseday
@@ -126,7 +126,8 @@
      &                 wshddayo(35), wshddayo(7), wshddayo(108),        &
      &                 wshddayo(6), wshddayo(12) / da_ha, wshddayo(42), &
      &                 wshddayo(45), wshddayo(46), wshddayo(44),        &
-     &                 wshddayo(40), wshddayo(43), wshddayo(41)
+     &                 wshddayo(40), wshddayo(43), wshddayo(41),        &
+     &                 wshddayo(111)
         else if (isproj == 1) then
         write (19,6200) iida, wshddayo(1), wshddayo(3), wshddayo(4),    &
      &                 wshddayo(104), wshddayo(5), wshddayo(109),       &
@@ -177,5 +178,5 @@
 5001  format(2i5,500f12.4)
 5100  format(1x,i4,1x,i4,1x,i3,1x,250(e16.4,1x))
 5200  format(i7,i9,i6,i5,1x,e9.4,f12.3,f7.1,f14.3)
-6200  format(i5,13f7.2,2f5.2,1x,4f8.2)
+6200  format(i5,13f7.2,2f5.2,1x,5f8.2)
       end

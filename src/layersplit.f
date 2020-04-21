@@ -32,10 +32,10 @@
             sol_awc(n,ihru) = sol_awc(n-1,ihru)
             sol_k(n,ihru) = sol_k(n-1,ihru)
             sol_cbn(n,ihru) = sol_cbn(n-1,ihru)
-            sol_rock(j,ihru) = sol_rock(j-1,ihru) !!! Armen 13 Jan 2008
+            sol_rock(n,ihru) = sol_rock(n-1,ihru) !!! Armen 13 Jan 2008 MJW rev 490
             sol_clay(n,ihru) = sol_clay(n-1,ihru)
-            sol_sand(j,ihru) = sol_sand(j-1,ihru) !!! Claire 2 Dec 2009
-            sol_silt(j,ihru) = sol_silt(j-1,ihru) !!! Claire 2 Dec 2009
+            sol_sand(n,ihru) = sol_sand(n-1,ihru) !!! Claire 2 Dec 2009 MJW rev 490
+            sol_silt(n,ihru) = sol_silt(n-1,ihru) !!! Claire 2 Dec 2009 MJW rev 490
             sol_ec(n,ihru) = sol_ec(n-1,ihru)
             sol_no3(n,ihru) = sol_no3(n-1,ihru)
             sol_orgn(n,ihru) = sol_orgn(n-1,ihru)
@@ -44,7 +44,9 @@
             sol_mc(n,ihru) = sol_mc(n-1,ihru)
             sol_mn(n,ihru) = sol_mn(n-1,ihru)
             sol_mp(n,ihru) = sol_mp(n-1,ihru)
-		   sol_n(n,ihru) = sol_n(n-1,ihru)
+		    sol_n(n,ihru) = sol_n(n-1,ihru)
+		    sol_ph(n,ihru) = sol_ph(n-1,ihru) !! MJW rev 490
+		    sol_cal(n,ihru) = sol_cal(n-1,ihru) !! MJW rev 490
 
           end do
           sol_z(j,ihru) = dep_new

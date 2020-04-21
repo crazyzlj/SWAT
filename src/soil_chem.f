@@ -100,6 +100,8 @@
 !!    wt1         |none          |converts mg/kg (ppm) to kg/ha
 !!    xx          |none          |variable to hold value
 !!    zdst        |none          |variable to hold value
+!!    labfrac     |none          |fraction of total soil mineral P which is labile
+!!    soil_TP	  |kg/ha         |Total Soil Mineral P
 !!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
 
 
@@ -109,7 +111,7 @@
 
       integer :: nly, j, jj, n
       real :: xx, dg, wt1, zdst, soldepth, sumno3, sumorgn, summinp
-      real :: sumorgp, solpst
+      real :: sumorgp, solpst, soil_TP, labfrac,solp
 
       nly = 0
       solpst = 0.
@@ -220,8 +222,47 @@
           !! assume initial concentration of 5 mg/kg
           sol_solp(j,i) = 5. * wt1
         end if
+
+        !! Set active pool based on dynamic PSP MJW
+		
+	    if (sol_P_model == 0) then 
+	      !! Allow Dynamic PSP Ratio
+            !! convert to concentration
+            solp = sol_solp(j,i) / conv_wt(j,i) * 1000000.
+	      !! PSP = -0.045*log (% clay) + 0.001*(Solution P, mg kg-1) - 0.035*(% Organic C) + 0.43
+	      if (sol_clay(j,i) > 0.) then
+              psp = -0.045 * log(sol_clay(j,i))+ (0.001 * solp) 
+              psp = psp - (0.035  * sol_cbn(j,i)) + 0.43 
+            else
+              psp = 0.4
+            endif   		
+            !! Limit PSP range
+            if (psp <.05) then
+              psp = 0.05
+            end if
+	      if (psp > 0.9) then
+              psp = 0.9
+            end if
+	    end if
+	    
         sol_actp(j,i) = sol_solp(j,i) * (1. - psp) / psp
-        sol_stap(j,i) = 4. * sol_actp(j,i)
+
+          !! Set Stable pool based on dynamic coefficant
+	    if (sol_P_model == 0) then  !! From White et al 2009 
+            !! convert to concentration for ssp calculation
+	      actp = sol_actp(j,i) / conv_wt(j,i) * 1000000.
+		    solp = sol_solp(j,i) / conv_wt(j,i) * 1000000.
+            !! estimate Total Mineral P in this soil based on data from sharpley 2004
+		    ssp = 25.044 * (actp + solp)** -0.3833
+		    !!limit SSP Range
+		    if (SSP > 7.) SSP = 7.
+		    if (SSP < 1.) SSP = 1.	      	  
+		    sol_stap(j,i) = SSP * (sol_actp(j,i) + sol_solp(j,i))!define stableP
+         else
+	!! The original code
+		  sol_stap(j,i) = 4. * sol_actp(j,i)
+	   end if
+
         sol_hum(j,i) = sol_cbn(j,i) * wt1 * 17200.
         xx = sol_z(j,i)
         summinp = summinp + sol_solp(j,i) + sol_actp(j,i) +             &

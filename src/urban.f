@@ -18,7 +18,6 @@
 !!    hru_km(:)    |km^2           |area of HRU in square kilometers
 !!    iida         |julian date    |day being simulated (current julian date)
 !!    ihru         |none           |HRU number
-!!    isweep(:,:,:)|julian date    |date of street sweeping operation
 !!    iurban(:)    |none           |urban simulation code:
 !!                                 |0  no urban sections in HRU
 !!                                 |1  urban sections in HRU, simulate using
@@ -166,6 +165,7 @@
           rp1 = 0.
           durf = 0.
           turo = 0.
+          if(al5==0) al5 = 1e-6    !J.Jeong urban modeling
           rp1 = -2. * Log(1.- al5)
           durf = 4.605 / rp1         
           turo = durf + tconc(j)
@@ -213,17 +213,6 @@
           !! dry day
           twash(j) = twash(j) + 1.
 
-          !! perform street sweeping
-          if (isweep(nro(j),nsweep(j),j) > 0 .and.                      &
-     &                          iida >= isweep(nro(j),nsweep(j),j)) then
-            call sweep
-          else if (phusw(nro(j),nsweep(j),j) > 0.0001) then
-            if (igro(j) == 0) then
-              if (phubase(j)>phusw_nocrop(nro(j),nsweep(j),j))call sweep
-            else 
-              if (phuacc(j) > phusw(nro(j),nsweep(j),j)) call sweep
-            end if
-          end if
         end if
 
       end select

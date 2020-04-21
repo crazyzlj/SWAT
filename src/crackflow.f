@@ -55,7 +55,7 @@
       if (ievent == 3) then
         voli = 0.
         voli = voltot
-        do ii = 1, 24
+        do ii = 1, nstep  !j.jeong 4/24/2009
           if (hhqday(ii) > voli) then
             hhqday(ii) = hhqday(ii) - voli
             voli = 0.

@@ -1,4 +1,4 @@
-	subroutine rootfr	
+      subroutine rootfr	
 	!! This subroutine distributes dead root mass through the soil profile
 	!! code developed by Armen R. Kemanian in 2008 
 	!! March, 2009 further adjustments expected
@@ -9,7 +9,12 @@
 	real :: cum_rd, cum_d, cum_rf, x1, x2
 	integer :: k, l, jj
 	
-	jj = ihru	
+	jj = ihru
+      
+      if (stsol_rd(jj) < 1.e-6) then
+         rtfr(1) = 1
+         return
+      endif
 
 	! Normalized Root Density = 1.15*exp[-11.7*NRD] + 0.022, where NRD = normalized rooting depth
 	! Parameters of Normalized Root Density Function from Dwyer et al 19xx

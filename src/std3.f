@@ -45,8 +45,11 @@
      &    /,' TIME',t9,'PREC',t16,'SURQ',t23,'LATQ',t31,'GWQ',t37,      &
      &    'LATE',t47,'Q',t52,'SW',t59,'ET',t66,'PET',t71,'YIELD',t78,   &
      &    'YIELD',t86,'SURQ',t93,'LATQ',t100,'PERC',t107,'CROP',t113,   &
-     &    'ORGANIC',t121,'SOLUBLE',t129,'ORGANIC',/,t9,'(mm)',t16,'(mm)'&
+     &    'ORGANIC',t121,'SOLUBLE',t129,'ORGANIC',t139,'TILENO3'/,      &
+     &    t9,'(mm)',t16,'(mm)'                                          &
+!     &    'ORGANIC',t121,'SOLUBLE',t129,'ORGANIC',/,t9,'(mm)',t16,'(mm)'&
      &    ,t23,'(mm)',t30,'(mm)',t37,'(mm)',t44,'(mm)',t51,'(mm)',t58,  &
      &    '(mm)',t65,'(mm)',t72,'(mm)',t77,'(t/ha)',t85,                &
-     &    '-----------------(kg nutrient/ha)------------------')
+     &    '-----------------(kg nutrient/ha)------------------',        &
+     &    t139,'(kg/ha)')
       end

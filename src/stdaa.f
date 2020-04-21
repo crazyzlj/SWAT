@@ -325,12 +325,12 @@
         end if
      
 !! write average crop information to std output file
-      ncrp = 0
-      if (mcr < 3) then
-        ncrp = mcr
-      else
-        ncrp = 3
-      end if
+!      ncrp = 0
+!      if (mcr < 3) then
+      ncrp = mcr
+!      else
+!        ncrp = 3
+!      end if
       if (iscen == 1) then
       write (26,1000) prog
       write (26,1100) title
@@ -341,20 +341,21 @@
       write (19,1500)
       endif
       do j = 1, nhru
-      if (idplt(nro(j),icr(j),j) > 0) then
-        cropname = cpnm(idplt(nro(j),icr(j),j))
-      else
-        cropname = 'BARR'
-      end if
-	  do nnro = 1, nrot(j)
-          if (iscen == 1) then
-          write (26,1600) cropname, j, nnro,                            &
-     &        (yldn(nnro,nicr,j), bio_aahv(nnro,nicr,j),nicr = 1, ncrp)
+        if (iscen == 1) then
+          if (mcrhru(j) > 0) then
+          write (26,1600) j, hru_sub(j), (cpnm(idplrot(nicr,j)),        &
+     &        yldn(nicr,j), bio_aahv(nicr,j),nicr = 1, mcrhru(j))
+          else
+          write (26,1601) j, ' BARE'
+          end if
           else if (isproj == 1) then
-          write (19,1600) cropname, j, nnro,                            &
-     &        (yldn(nnro,nicr,j), bio_aahv(nnro,nicr,j),nicr = 1, ncrp)
-          endif
-        end do
+          if (mcrhru(j) > 0) then
+          write (19,1602) j, (cpnm(idplrot(nicr,j)),                    &
+     &        yldn(nicr,j), bio_aahv(nicr,j),nicr = 1, mcrhru(j))
+          else
+          write (26,1601) j, ' BARE'
+          end if
+        endif
       end do
 
 !! write average annual HRU data
@@ -363,12 +364,12 @@
       write (26,1700)
       write (26,1800)
       do j = 1, nhru
-      if (idplt(nro(j),icr(j),j) > 0) then
-        cropname = cpnm(idplt(nro(j),icr(j),j))
+      if (idplt(j) > 0) then
+        cropname = cpnm(idplt(j))
       else
-        cropname = 'BARR'
+        cropname = 'BARE'
       end if
-        write (26,1900) j, hru_sub(j), cropname,
+        write (26,1900) j, hru_sub(j),                                  &
      &     snam(j), hru_km(j), cn2(j), sol_sumfc(j), usle_ls(j),        &
      &     hruaao(22,j), hruaao(28,j), hruaao(29,j), sumix(j),          &
      &     hruaao(1,j), hruaao(4,j), hruaao(5,j) + hruaao(6,j),         &
@@ -379,10 +380,10 @@
       write (19,1700)
       write (19,1800)
       do j = 1, nhru
-      if (idplt(nro(j),icr(j),j) > 0) then
-        cropname = cpnm(idplt(nro(j),icr(j),j))
+      if (idplt(j) > 0) then
+        cropname = cpnm(idplt(j))
       else
-        cropname = 'BARR'
+        cropname = 'BARE'
       end if
         write (19,1900) j, hru_sub(j), cropname,
      &     snam(j), hru_km(j), cn2(j), sol_sumfc(j), usle_ls(j),        &
@@ -454,6 +455,7 @@
       write (26,1100) title
       write (26,2600)
       write (26,2700)wshdaao(40), wshdaao(41), wshdaao(42), wshdaao(45),&
+     &    wshdaao(111),
      &    wshdaao(43), wshdaao(46), wshd_plch, wshdaao(44), wshd_pup,   &
      &    wshdaao(110)
       write (26,2800) wshd_pal, wshd_pas, wshd_ftotn, wshd_ftotp,       &
@@ -511,19 +513,20 @@
      &    'NO.OF ',t44,'VOLUME',/,t14,'NO.',t24,'APPLICATIONS',t42,     &
      &    'APPLIED(MM)',/)
  1400 format (11x,i6,9x,i4,13x,f8.3)
- 1500 format (44x,'Average Crop Values',/,33x,'Crop 1',14x,'Crop 2',14x,&
-     &    'Crop 3',/,29x,'Yld',t39,'Biomass',t49,'Yld',t58,'Biomass',   &
-     &    t71,'Yld',t80,'Biomass',/,t28,'(kg/ha)',t39,'(kg/ha)',t48,    &
-     &    '(kg/ha)',t58,'(kg/ha)',t70,'(kg/ha)',t81,'(kg/ha)',/)
- 1600 format (1x,a4,2x,'HRU ',i6,' Rot ',i3,6(f8.1,2x))
+ 1500 format (44x,'Average Plant Values (kg/ha)',/)
+!! 1600 format (1x,'HRU ',i6,1x,6(a4,'  Yld =',f8.1,1x,'BIOM = ',f8.1,2x))
+ 1600 format (1x,' HRU ',i7,' SUB',i4,1x,6(a4,'  Yld =',f8.1,1x,
+     * 'BIOM = ',f8.1,2x))
+ 1601 format (1x,i6,a)
+ 1602 format (1x,'HRU ',i6,1x,6(a4,2f8.1,2x))
  1700 format (/t5,'HRU STATISTICS'//t17,'AVE ANNUAL VALUES'/)
- 1800 format (1x,'HRU',t6,' SUB',t11,'CPMN',t16,'SOIL',t24,'AREAkm2',   &
+ 1800 format (3x,'HRU',t8,' SUB',t14,'SOIL',t25,'AREAkm2',              &
      & t36,'CN',                                                        &
-     & t42,'AWCmm',t48,'USLE_LS',t58,'IRRmm',t64,'AUTONkh ',t72,        &
-     & 'AUTOPkh ',t82,'MIXEF',t89,'PRECmm',t97,'SURQmm',t106,           &
-     & 'GWQmm',t115,'ETmm',t122,'SEDth ',t129,'NO3kgh ',t136,           &
-     & 'ORGNkgh ',t145,'BIOMth',t154,'YLDth')
- 1900 format (i6,i4,1x,a4,a8,e8.3,16f8.2)
+     & t43,'AWCmm',t51,'USLE_LS',t60,'IRRmm',t67,'AUTONkh ',t75,        &
+     & 'AUTOPkh ',t84,'MIXEF',t91,'PRECmm',t99,'SURQmm',t107,           &
+     & 'GWQmm',t115,'ETmm',t124,'SEDth ',t132,'NO3kgh ',t140,           &
+     & 'ORGNkgh ',t148,'BIOMth',t156,'YLDth')
+ 1900 format (i7,i4,3x,a8,3x,e8.3,16f8.2) 
  2000 format (///,t17,'AVE MONTHLY BASIN VALUES',/t20,'SNOW',t46,       &
      &   'WATER',t66,'SED',/t3,'MON',t11,'RAIN',t20,'FALL',t27,'SURF Q',&
      &    t37,'LAT Q',t46,'YIELD',t58,'ET',t64,'YIELD',t75,'PET',/t11,  &
@@ -573,7 +576,7 @@
 
  2400 format (t15,'YIELD LOSS FROM PONDS'/t20,'WATER = ',f7.3,' MM'/t20,&
      &    'SEDIMENT = ',f7.3,' T/HA'/t15,'YIELD LOSS FROM RESERVOIRS'/  &
-     &    t20,'WATER = ',f7.3,' MM'/t20,'SEDIMENT = ',f7.3,' T/HA')
+     &    t20,'WATER = ',f8.3,' MM'/t20,'SEDIMENT = ',f7.3,' T/HA')
  2500 format (t15,'OUTFLOW FROM IMPOUNDED WATER =  ',f8.3,' (MM)',/,t15,&
      &    'EVAPORATION FROM IMPOUNDED WATER =  ',f8.3,' (MM)',/,t15,    &
      &    'SEEPAGE INTO SOIL FROM IMPOUNDED WATER = ',f8.3,' (MM)',/,t15&
@@ -582,12 +585,14 @@
  2700 format (//,t15,'NUTRIENTS',/,t20,'ORGANIC N =  ',f8.3,' (KG/HA)', &
      &    /,t20,'ORGANIC P =  ',f8.3,' (KG/HA)',/,t20,                  &
      &    'NO3 YIELD (SQ) =  ',f8.3,' (KG/HA)',/,t20,                   &
-     &    'NO3 YIELD (SSQ) = ',f8.3,' (KG/HA)',/,t20,'SOL P YIELD = ',f8&
-     &    .3,' (KG/HA)',/,t20,'NO3 LEACHED =  ',f8.3,' (KG/HA)',/,t20,  &
+     &    'NO3 YIELD (LAT) = ',f8.3,' (KG/HA)',                         &
+     &    /t20,'NO3 YIELD (TILE) = ', f8.3,' (KG/HA)',                  &
+     &    /,t20,'SOL P YIELD = ',f8.3,' (KG/HA)',                       &
+     &    /,t20,'NO3 LEACHED =  ',f8.3,' (KG/HA)',/,t20,                &
      &    'P LEACHED =  ',f8.3,' (KG/HA)',/,t20,                        &
      &    'N UPTAKE =  ',f8.3,' (KG/HA)',/,t20,'P UPTAKE = ',f8.3,      &
      &    ' (KG/HA)',/,t20,'NO3 YIELD (GWQ) =  ',f8.3,' (KG/HA)')
- 2800 format(t20,'ACTIVE TO SOLUTION P FLOW =  ',f12.3,' (KG/HA)',/,t20,&
+ 2800 format (t20,'ACTIVE TO SOLUTION P FLOW =  ',f12.3,' (KG/HA)',/,t20,&
      &    'ACTIVE TO STABLE P FLOW =  ',f12.3,' (KG/HA)',/,t20,         &
      &    'N FERTILIZER APPLIED = ',f9.3,' (KG/HA)',/,t20,              &
      &    'P FERTILIZER APPLIED = ',f9.3,' (KG/HA)',/,t20,              &

@@ -14,7 +14,7 @@
 !!    hru_dafr(:)   |km**2/km**2   |fraction of watershed area in HRU
 !!    icr(:)        |none          |sequence number of crop grown within the
 !!                                 |current year
-!!    idplt(:,:,:)  |none          |land cover code from crop.dat
+!!    idplt(:)      |none          |land cover code from crop.dat
 !!    ihru          |none          |HRU number
 !!    nactfr        |none          |nitrogen active pool fraction. The fraction
 !!                                 |of organic nitrogen in the active pool.
@@ -274,8 +274,8 @@
             decr = 0.
             rdc = 0.
             ca = Min(cnrf, cprf, 1.)
-        if (idplt(nro(j),icr(j),j) > 0) then
-            decr = rsdco_pl(idplt(nro(j),icr(j),j)) * ca * csf
+        if (idplt(j) > 0) then
+            decr = rsdco_pl(idplt(j)) * ca * csf
         else
             decr = 0.05
         end if

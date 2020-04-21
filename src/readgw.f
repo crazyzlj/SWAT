@@ -109,7 +109,7 @@
 !!    perform additional calculations
       alpha_bfe(ihru) = Exp(-alpha_bf(ihru))
       if(delay(ihru) < .1) delay(ihru) = .1
-	gw_delaye(ihru) = Exp(-1./(delay(ihru) + 1.e-6))
+	  gw_delaye(ihru) = Exp(-1./(delay(ihru) + 1.e-6))
       shallst_n(ihru) = shallst_n(ihru) * shallst(ihru) / 100.
       gw_nloss(ihru) = Exp(-.693 / hlife_ngw)
 
@@ -117,6 +117,11 @@
 !! assign values to channels
       ch_revap(i) = gw_revap(ihru)
 
+!!    perform additional calculations
+      alpha_bfe(ihru) = Exp(-alpha_bf(ihru))
+      gw_delaye(ihru) = Exp(-1./(delay(ihru) + 1.e-6))
+      shallst_n(ihru) = shallst_n(ihru) * shallst(ihru) / 100.
+      gw_nloss(ihru) = Exp(-.693 / hlife_ngw)
 
 !! assign values to channels
       ch_revap(i) = gw_revap(ihru)

@@ -16,7 +16,7 @@
 !!                                 |during growing season
 !!    icr(:)        |none          |sequence number of crop grown within the
 !!                                 |current year
-!!    idplt(:,:,:)  |none          |land cover code from crop.dat
+!!    idplt(:)      |none          |land cover code from crop.dat
 !!    ipdvas(:)     |none          |output variable codes for output.hru file
 !!    isproj        |none          |special project code:
 !!                                 |1 test rewind (run simulation twice)
@@ -159,12 +159,8 @@
       real :: dmt, yldt
       real, dimension (mhruo) :: pdvas, pdvs
       character (len=4) :: cropname
-      character (len=5) :: subnum(mhru)
-      character (len=4) :: hruno(mhru)
 
       days = 0
-      subnum = ""
-      hruno = ""
 
       select case(mo_chk)
         case (9, 4, 6, 11)
@@ -266,10 +262,18 @@
         pdvas(70) = wtabelo  !! based on depth from soil surface(mm)
 !!      added current snow content in the hru (not summed)
         pdvas(71) = sno_hru(j)
+
 !!      added current soil carbon for first layer
         pdvas(72) = cmup_kgh(j)    !! first soil layer only
 !!      added current soil carbon integrated - aggregating all soil layers
         pdvas(73) = cmtot_kgh(j)
+        
+!!    adding qtile to output.hru write 3/2/2010 gsm
+        pdvas(74) = hrumono(62,j)
+!!    tileno3 - output.hru
+        pdvas(75) = hrumono(68,j)
+!!    latno3 - output.hru
+        pdvas(76) = hrumono(69,j)
 
       if (itots > 0) then 
 	   ix = itots
@@ -283,21 +287,13 @@
             pdvs(ii) = pdvas(ipdvas(ii))
           end do
  
-          idum = idplt(nro(j),icr(j),j)
-          if (idum > 0) then
-            cropname = cpnm(idum)
+          idplant = idplt(j)
+          if (idplant > 0) then
+            cropname = cpnm(idplant)
           else
             cropname = "NOCR"
           endif
-  
 
-!!    convert integer to string
-      write (subnum(j),fmt=' (i5.5)') sb
-      write (hruno(j),fmt=' (i4.4)') hru_seq(j)
-!!    convert integer to string 
-      
-
-      if (mhruo < 10000) then
           if (iscen == 1) then                                          &
             select case (isproj)
             case (0)
@@ -311,31 +307,30 @@
      &         nmgt(j), mo_chk, hru_km(j),(pdvs(ii), ii = 1, ix), iyr
             end select
           end if
-      else
+!     else
 !! write with different format for hrus greater than 9999
-         select case (isproj)
-            case (0)
-            write (28,1001) cropname, j, subnum(j), hruno(j), sb,       &
-     &         nmgt(j), mo_chk, hru_km(j), (pdvs(ii), ii = 1, ix)
-            case (1) 
-            write (21,1001) cropname, j, subnum(j), hruno(j),           &
-     &         sb, nmgt(j), mo_chk, hru_km(j), (pdvs(ii), ii = 1, ix)
-            case(2) 
-            write (28,1001) cropname, j, subnum(j), hruno(j), sb,       &
-     &         nmgt(j), mo_chk, hru_km(j),(pdvs(ii), ii = 1, ix), iyr
-         end select
+!        select case (isproj)
+!            case (0)
+!            write (28,1001) cropname, j, subnum(j), hruno(j), sb,       &
+!     &         nmgt(j), mo_chk, hru_km(j), (pdvs(ii), ii = 1, ix)
+!            case (1) 
+!            write (21,1001) cropname, j, subnum(j), hruno(j),           &
+!     &         sb, nmgt(j), mo_chk, hru_km(j), (pdvs(ii), ii = 1, ix)
+!            case(2) 
+!            write (28,1001) cropname, j, subnum(j), hruno(j), sb,       &
+!     &         nmgt(j), mo_chk, hru_km(j),(pdvs(ii), ii = 1, ix), iyr
+!         end select
           end if
 
-        end if
         end if
       end do
 
       return
- 1000 format (a4,i4,a5,a4,i5,1x,i4,1x,i4,e10.5,66f10.3,1x,
-     *e10.5,1x,e10.5,5e10.3)
- 2000 format (a4,i4,a5,a4,i5,1x,i4,1x,i4,e10.5,66f10.3,1x,
+ 1000 format (a4,i5,1x,a5,a7,i5,1x,i4,1x,i4,e10.5,66f10.3,1x,
+     *e10.5,1x,e10.5,8e10.3)
+ 2000 format (a4,i5,1x,a5,a7,i5,1x,i4,1x,i4,e10.5,66f10.3,1x,
      *e10.5,1x,e10.5,5e10.3,1x,i4)
- 1001 format (a4,i7,a5,a4,i5,1x,i4,1x,i4,e10.5,66f10.3,1x,
+ 1001 format (a4,i7,1x,a5,a7,i5,1x,i4,1x,i4,e10.5,66f10.3,1x,
      *e10.5,1x,e10.5,3e10.3,1x,i4)
 !1000 format (a4,i4,1x,i8,1x,i4,1x,i4,1x,i4,e10.5,66f10.3,1x,
 !    *e10.5,1x,e10.5,2e10.3,1x,i4)

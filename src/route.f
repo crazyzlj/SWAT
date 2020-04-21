@@ -95,7 +95,7 @@
         if (irte == 0) call rtday
         if (irte == 1) call rtmusk
       else
-        if (irte == 0) call rthourly
+        if (irte == 0) call rtdt
         if (irte == 1) call rthmusk
       endif
 
@@ -130,8 +130,8 @@
       bankst(jrch) = bankst(jrch) - qdbank
       rtwtr = rtwtr + qdbank
       if (ievent > 2) then
-        do ii = 1, 24
-          hrtwtr(ii) = hrtwtr(ii) + qdbank / 24.
+        do ii = 1, nstep
+          hrtwtr(ii) = hrtwtr(ii) + qdbank / real(nstep)
         end do
       end if
 
@@ -171,7 +171,7 @@
 	        rch_gra = varoute(28,inum2) * (1. - rnum1)
             end if
           else
-            do ii = 1, 24
+            do ii = 1, nstep
               if (hrtwtr(ii) > 0. .and. hdepth(ii) > 0.) then
                 hsedyld(ii) = hhvaroute(3,inum2,ii) * (1. - rnum1)
                 sedrch = sedrch + hsedyld(ii)

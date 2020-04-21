@@ -115,7 +115,7 @@
 !! zero flow out variables
       do j = 1, mvaro
         varoute(j,ihout) = 0.
-        do ii = 1, 24
+        do ii = 1, nstep
           hhvaroute(j,ihout,ii) = 0.
         end do
       end do
@@ -148,26 +148,26 @@
       varoute(28,ihout) = 0.                    ! gravel
 
       if (ievent > 2) then
-        do ii = 1, 24
-          hhvaroute(2,ihout,ii) = flomon(inum1,curyr,i_mo) / 24.
-          hhvaroute(3,ihout,ii) = sedmon(inum1,curyr,i_mo) / 24.
-          hhvaroute(4,ihout,ii) = orgnmon(inum1,curyr,i_mo) / 24.
-          hhvaroute(5,ihout,ii) = orgpmon(inum1,curyr,i_mo) / 24.
-          hhvaroute(6,ihout,ii) = no3mon(inum1,curyr,i_mo) / 24.
-          hhvaroute(7,ihout,ii) = minpmon(inum1,curyr,i_mo) / 24.
-          hhvaroute(11,ihout,ii) = solpstmon(inum1,curyr,i_mo) / 24.
-          hhvaroute(12,ihout,ii) = srbpstmon(inum1,curyr,i_mo) / 24.
-          hhvaroute(13,ihout,ii) = chlamon(inum1,curyr,i_mo) / 24.
-          hhvaroute(14,ihout,ii) = nh3mon(inum1,curyr,i_mo) / 24.
-          hhvaroute(15,ihout,ii) = no2mon(inum1,curyr,i_mo) / 24.
-          hhvaroute(16,ihout,ii) = cbodmon(inum1,curyr,i_mo) / 24.
-          hhvaroute(17,ihout,ii) = disoxmon(inum1,curyr,i_mo) / 24.
-          hhvaroute(18,ihout,ii) = bactpmon(inum1,curyr,i_mo) / 24.
-          hhvaroute(19,ihout,ii) = bactlpmon(inum1,curyr,i_mo) / 24.
-          hhvaroute(20,ihout,ii) = cmtl1mon(inum1,curyr,i_mo) / 24.
-          hhvaroute(21,ihout,ii) = cmtl2mon(inum1,curyr,i_mo) / 24.
-          hhvaroute(22,ihout,ii) = cmtl3mon(inum1,curyr,i_mo) / 24.
-        end do
+      do ii = 1, nstep
+      hhvaroute(2,ihout,ii) = flomon(inum1,curyr,i_mo) / real(nstep)
+      hhvaroute(3,ihout,ii) = sedmon(inum1,curyr,i_mo) / real(nstep)
+      hhvaroute(4,ihout,ii) = orgnmon(inum1,curyr,i_mo) / real(nstep)
+      hhvaroute(5,ihout,ii) = orgpmon(inum1,curyr,i_mo) / real(nstep)
+      hhvaroute(6,ihout,ii) = no3mon(inum1,curyr,i_mo) / real(nstep)
+      hhvaroute(7,ihout,ii) = minpmon(inum1,curyr,i_mo) / real(nstep)
+      hhvaroute(11,ihout,ii) = solpstmon(inum1,curyr,i_mo) / real(nstep)
+      hhvaroute(12,ihout,ii) = srbpstmon(inum1,curyr,i_mo) / real(nstep)
+      hhvaroute(13,ihout,ii) = chlamon(inum1,curyr,i_mo) / real(nstep)
+      hhvaroute(14,ihout,ii) = nh3mon(inum1,curyr,i_mo) / real(nstep)
+      hhvaroute(15,ihout,ii) = no2mon(inum1,curyr,i_mo) / real(nstep)
+      hhvaroute(16,ihout,ii) = cbodmon(inum1,curyr,i_mo) / real(nstep)
+      hhvaroute(17,ihout,ii) = disoxmon(inum1,curyr,i_mo) / real(nstep)
+      hhvaroute(18,ihout,ii) = bactpmon(inum1,curyr,i_mo) / real(nstep)
+      hhvaroute(19,ihout,ii) = bactlpmon(inum1,curyr,i_mo) / real(nstep)
+      hhvaroute(20,ihout,ii) = cmtl1mon(inum1,curyr,i_mo) / real(nstep)
+      hhvaroute(21,ihout,ii) = cmtl2mon(inum1,curyr,i_mo) / real(nstep)
+      hhvaroute(22,ihout,ii) = cmtl3mon(inum1,curyr,i_mo) / real(nstep)
+      end do
       end if
 
       return

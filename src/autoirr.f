@@ -8,10 +8,10 @@
 !!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
 !!    aird(:)        |mm H2O        |amount of water applied to HRU on current
 !!                                  |day
-!!    auto_wstr(:,:,:)|none or mm   |water stress threshold that triggers irrigation
+!!    auto_wstr(:)   |none or mm    |water stress threshold that triggers irrigation
 !!    deepst(:)      |mm H2O        |depth of water in deep aquifer
 !!    hru_sub(:)     |none          |subbasin in which HRU is located
-!!    wstrs_id(:,:,:) |none          |water stress identifier:
+!!    wstrs_id(:)    |none          |water stress identifier:
 !!                                  |1 plant water demand
 !!                                  |2 soil water deficit
 !!    ihru           |none          |HRU number
@@ -84,17 +84,14 @@
       j = ihru
   
 !!!! Srin's irrigation source by each application changes
-      irrsc(j) = irr_sca(nro(j),nair(j),j)
-      irrno(j) = irr_noa(nro(j),nair(j),j)
+      irrsc(j) = irr_sca(j)
+      irrno(j) = irr_noa(j)
 !!!! Srin's irrigation source by each application changes
 
-      if ((wstrs_id(nro(j),nair(j),j) == 1 .and.                        &
-     &                     strsw(j) < auto_wstr(nro(j),nair(j),j)) .or. &
-     &    (wstrs_id(nro(j),nair(j),j) == 2 .and.                        &
-     &     sol_sumfc(j) - sol_sw(j) > auto_wstr(nro(j),nair(j),j))) then
-
-      !! determine available amount of water in source
-      !! ie upper limit on water removal on day
+      if ((wstrs_id(j) == 1 .and. strsw(j) < auto_wstr(j) .or.          &
+     & (wstrs_id(j)==2.and.sol_sumfc(j)-sol_sw(j)>auto_wstr(j)))) then  &
+        !! determine available amount of water in source
+        !! ie upper limit on water removal on day
         vmma = 0.
         vmms = 0.
         vmmd = 0.
@@ -135,8 +132,8 @@
 
       !! if water available from source, proceed with irrigation
         if (vmm > 0.) then
-          vmm = Min(vmm,irr_mx(nro(j),nair(j),j))
-          sq_rto = irr_asq(nro(j),nair(j),j)
+          vmm = Min(vmm,irr_mx(j))
+          sq_rto = irr_asq(j)
           call irrigate(j,vmm)
 
         !! subtract irrigation from shallow or deep aquifer
@@ -155,7 +152,7 @@
                     vmma = vol * (shallst(k) * cnv / vmms)
                   end if
                   vmma = vmma / cnv
-                  vmma = vmma / irr_eff(nro(j),nair(j),j)
+                  vmma = vmma / irr_eff(k)
                   shallst(k) = shallst(k) - vmma
                   if (shallst(k) < 0.) then
                     vmma = vmma + shallst(k)
@@ -173,7 +170,7 @@
                   cnv = hru_ha(k) * 10.
                   if (vmmd>1.e-4) vmma = vol * (deepst(k) * cnv / vmmd)
                   vmma = vmma / cnv
-                  vmma = vmma / irr_eff(nro(j),nair(j),j)
+                  vmma = vmma / irr_eff(k)
                   deepst(k) = deepst(k) - vmma
                   if (deepst(k) < 0.) then
                     vmma = vmma + deepst(k)
@@ -182,11 +179,22 @@
                   deepirr(k) = deepirr(k) + vmma
                 end if
               end do
-          end select
+            end select
 
+          if (imgt == 1) then
+            write (143, 1000) subnum(j), hruno(j), iyr, i_mo, iida, 
+     *       "         ",  " AUTOIRR", phubase(j), phuacc(j)
+     *       , sol_sw(j),bio_ms(j), sol_rsd(1,j),sol_sumno3(j)
+     *         ,sol_sumsolp(j), aird(j)
+     *          ,irrsc(j), irrno(j)
+          end if
+       
         endif
       end if 
-
+        
+!! changed format below     
+!!1000  format (a5,1x,a7,3i6,2a15,7f10.2,10x,f10.2,70x,f10.2) 
+1000  format (a5,1x,a7,3i6,2a15,7f10.2,10x,f10.2,70x,i10,10x,i10) 
 
       return
       end

@@ -45,7 +45,8 @@
      &         "  TMP_STRS","    N_STRS","    P_STRS","  BIOMt/ha",     &
      &         "       LAI","   YLDt/ha","  BACTPct ","  BACTLPct",     &
      &         " WTAB CLIm"," WTAB SOLm","     SNOmm"," CMUPkg/ha",     &
-     &         "CMTOTkg/ha"/)
+     &         "CMTOTkg/ha","   QTILEmm"," TNO3kg/ha"," LNO3kg/ha"/)
+
 
 !!    numbers printed to VB interface HRU output file 
       icols = (/43,53,63,73,83,93,103,113,123,133,143,153,              &
@@ -53,20 +54,20 @@
      &293,303,313,323,333,343,353,363,373,383,393,403,413,              &
      &423,433,443,453,463,473,483,493,503,513,523,533,543,              &
      &553,563,573,583,593,603,613,623,633,643,653,663,673,              &
-     &683,693,703,713,723,733,743,753,763/)
+     &683,693,703,713,723,733,743,753,763,773,783,793/)
 
 !!    column headers for subbasin output file
       hedb = (/"  PRECIPmm"," SNOMELTmm","     PETmm","      ETmm",     &
      &         "      SWmm","    PERCmm","    SURQmm","    GW_Qmm",     &
      &         "    WYLDmm","  SYLDt/ha"," ORGNkg/ha"," ORGPkg/ha",     &
      &         "NSURQkg/ha"," SOLPkg/ha"," SEDPkg/ha"," LAT Q(mm)",     &
-     &         "LATNO3kg/h","GWNO3kg/ha","CHOLAkg/ha","CBODUkg/ha",     &
-     &         " DOXQkg/ha"/)
+     &         "LATNO3kg/h","GWNO3kg/ha","CHOLAmic/L","CBODU mg/L",     &
+     &         " DOXQ mg/L"," TNO3kg/ha"/)
 
 !!    numbers printed to VB interface subbasin output file 
       icolb = (/35,45,55,65,75,85,95,105,115,125,135,145,               &
-     &155,165,175,185,195,205,215,225,235/)
-
+     &155,165,175,185,195,205,215,225,235,245/)
+!!  added headers TOTAL N/TOTALP/NO3 Concentration TO HEADING FOR OUTPUT.RCH GSM 10/26/2011
 !!    column headers for reach output file
       hedr = (/"  FLOW_INcms"," FLOW_OUTcms","     EVAPcms",            &
      &         "    TLOSScms","  SED_INtons"," SED_OUTtons",            &
@@ -81,13 +82,14 @@
      &         "    VOLPSTmg","  SETTLPSTmg","RESUSP_PSTmg",            &
      &         "DIFFUSEPSTmg","REACBEDPSTmg","   BURYPSTmg",            &
      &         "   BED_PSTmg"," BACTP_OUTct","BACTLP_OUTct",            &
-     &         "  CMETAL#1kg","  CMETAL#2kg","  CMETAL#3kg"/)           &
+     &         "  CMETAL#1kg","  CMETAL#2kg","  CMETAL#3kg",            &
+     &         "     TOT Nkg","     TOT Pkg"," NO3ConcMg/l"/)        
      
 !!    numbers printed to VB interface reach output file 
       icolr = (/38,50,62,74,86,98,110,122,134,146,158,170,182,194,206,  &
      &218,230,242,254,266,278,290,302,314,326,338,350,362,374,386,398,  &
      &410,422,434,446,458,470,482,494,506,518,530,542,554,566,578,590,  &
-     &602,614,626,638,650,662,674,686,698,710,722,734/)                            
+     &602,614,626,638,650,662,674,686,698,710,722,734,746,758/)        
 
 !!    column headers for reservoir output file
       hedrsv = (/"    VOLUMEm3","  FLOW_INcms"," FLOW_OUTcms",          &

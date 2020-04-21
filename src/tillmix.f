@@ -13,7 +13,7 @@
 !!    bactpq(:)     |# colonies/ha |persistent bacteria in soil solution
 !!    bactps(:)     |# colonies/ha |persistent bacteria attached to soil 
 !!                                 |particles
-!!    cnop(:,:,:)   |none          |SCS runoff curve number for moisture
+!!    cnop          |none          |SCS runoff curve number for moisture
 !!                                 |condition II
 !!    curyr         |none          |current year of simulation
 !!    deptil(:)     |mm            |depth of mixing caused by tillage
@@ -27,6 +27,9 @@
 !!                                 |current year
 !!    nyskip        |none          |number of years to skip output printing/
 !!                                 |summarization
+!	  Drainmod  07/2006
+!!	  ranrns(:)     |mm            |random roughness of a given tillage operation 
+!	  Drainmod  07/2006
 !!    sol_actp(:,:) |kg P/ha       |amount of phosphorus stored in the
 !!                                 |active mineral phosphorus pool
 !!    sol_aorgn(:,:)|kg N/ha       |amount of nitrogen stored in the active
@@ -65,6 +68,9 @@
 !!                                 |particles
 !!    ntil(:)       |none          |sequence number of tillage operation within
 !!                                 |current year
+!	  Drainmod  08/2006
+!!    ranrns_hru(:) |mm            |random roughness for a given HRU
+!	  Drainmod  08/2006
 !!    sol_actp(:,:) |kg P/ha       |amount of phosphorus stored in the
 !!                                 |active mineral phosphorus pool
 !!    sol_aorgn(:,:)|kg N/ha       |amount of nitrogen stored in the active
@@ -97,10 +103,14 @@
 !!    dg          |mm            |depth of soil layer
 !!    dtil        |mm            |depth of mixing
 !!    emix        |none          |mixing efficiency
+!!    rrns        |mm            |random roughness
 !!    jj          |none          |HRU number
 !!    k           |none          |counter
 !!    l           |none          |counter
 !!    nl          |none          |number of layers being mixed
+!	  Drainmod  07/2006
+!!	  ranrns_hru(:)|mm           |random roughness at time of a given tillage operation in HRU
+!	  Drainmod  07/2006
 !!    smix(:)     |varies        |amount of substance in soil profile
 !!                               |that is being redistributed between 
 !!                               |mixed layers
@@ -118,19 +128,30 @@
       integer, intent (in) :: jj
       real, intent (in) :: bmix
       integer :: l, k, nl
-      real :: emix, dtil
+      real :: emix, dtil, rrns 
       real :: thtill(mlyr), smix(11+npmx)
 
       emix = 0.
       dtil = 0.
+!	Drainmod  08/2006 
+	rrns = 0.
       if (bmix > 1.e-6) then
         !! biological mixing
         emix = bmix
         dtil = Min(sol_z(sol_nly(jj),jj), 300.)
       else 
         !! tillage operation
-        emix = effmix(idtill(nro(jj),ntil(jj),jj))
-        dtil = deptil(idtill(nro(jj),ntil(jj),jj))
+        emix = effmix(idtill)
+        dtil = deptil(idtill)
+!	Drainmod  07/2006
+      if(itill(jj) == 1) then
+	    cumei(jj) = 0.
+	    cumeira(jj) = 0.
+	    cumrt(jj) = 0.
+        cumrai(jj) = 0.
+	    ranrns_hru(jj) = ranrns(idtill)                                                                           
+      end if
+!!    Drainmod 7/2006
       endif
 
 
@@ -260,8 +281,8 @@
       end if
 
       !! perform final calculations for tillage operation
-      if (cnop(nro(jj),ntil(jj),jj) > 1.e-4) then
-        call curno(cnop(nro(jj),ntil(jj),jj),jj)
+      if (cnop > 1.e-4) then
+        call curno(cnop,jj)
       end if
       ntil(jj) = ntil(jj) + 1
 

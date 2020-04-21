@@ -31,11 +31,16 @@
 !!    name        |units         |definition
 !!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
 !!    icn         |none          |CN method flag:
-!!                               |(for testing alternative method)
+!!                               |(for testing alternative methods)
 !!                               |0 use traditional SWAT method which bases
 !!                               |  CN on soil moisture
 !!                               |1 use alternative method which bases CN on
 !!                               |  plant ET
+!!                  Daniel 1/2012
+!!                               |2 use tradtional SWAT method which bases 
+!!                               |  CN on soil moisture but rention is adjusted
+!!                               |  for mildly-sloped tiled-drained watersheds
+!!                  Daniel 1/2012
 !!    j           |none          |HRU number
 !!    r2          |none          |retention parameter in CN equation
 !!    xx          |none          |variable used to store intermediate
@@ -70,10 +75,17 @@
         if ((sol_sw(j) + Exp(xx)) > 0.001) then
           r2 = smx(j) * (1. - sol_sw(j) / ( sol_sw(j) + Exp(xx)))
         end if
-      else                                                     
-        !! alternative CN method (function of plant ET)
-        r2 = amax1(3., sci(j))
-      end if
+      else if (icn == 1) then    !Daniel 1\2012                         
+        !! alternative CN method (function of plant ET) 
+        r2 = amax1(3., sci(j)) 
+      else     
+ !Daniel 1/2012                
+       !! alternative CN method (Modified function of soil water for mildly-sloped tile-drained watersheds)!Daniel M 1/2012
+       if ((sol_sw(j) + Exp(xx)) > 0.001) then    
+        r2 = 8.0*smx(j) * (1. - sol_sw(j) / ( sol_sw(j) + Exp(xx))) 
+       end if
+ !Daniel 1/2012      
+       end if
 
       if (sol_tmp(2,j) <= 0.) r2 = smx(j) * (1. - Exp(- cn_froz * r2))
       r2 = amax1(3.,r2)

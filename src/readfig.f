@@ -17,7 +17,7 @@
 !!                                 |4 = transfer    13 = apex 
 !!                                 |5 = add         14 = saveconc
 !!                                 |6 = rechour     15 = 
-!!                                 |7 = recmon      16 = autocal
+!!                                 |7 = recmon    
 !!                                 |8 = recyear    
 !!     ihouts(:)    |none          |For ICODES equal to
 !!                                 |0: not used
@@ -84,8 +84,6 @@
 !!     a            |NA            |comment flag in .fig file(*=comment)
 !!     annual_in    |NA            |name of file containing average annual
 !!                                 |loadings to reach (fig command 11)
-!!     auto_in      |NA            |name of file containing measured data
-!!                                 |used in calibration
 !!     day_in       |NA            |name of file containing daily loadings 
 !!                                 |to reach (fig command 10)
 !!     eof          |none          |end of file flag (=-1 at end of file)
@@ -118,11 +116,12 @@
       character (len=13) :: month_in, day_in, annual_in, year_in
       character (len=13) :: apex_in
       character (len=13) :: hour_in, resfile, lwqfile, rtefile, swqfile
-      character (len=13) :: subfile, auto_in
-      integer :: idum, ii, eof
+      character (len=13) :: subfile, auto_in , rufile
+      integer :: ii, eof
 
 
 !!    initialize variables
+      mhyd_bsn = 0
       idum = 0
       eof = 0
 
@@ -143,7 +142,7 @@
      &    inum2s(idum), inum3s(idum), rnum1s(idum), inum4s(idum),       &
      &    inum5s(idum)
 	  end if
-
+        mhyd_bsn = mhyd_bsn + 1    
 
           select case(icodes(idum))
 
@@ -163,15 +162,15 @@
               call readsub
               nhru = nhru + hrutot(i)
 
-            case (2)  !! icode = 2  ROUTE command
+            case (2)  !! icode = 2  ROUTE CHANNEL command
               nrch = nrch + 1
               rtefile = ""
               swqfile = ""
               read (102,5100) rtefile, swqfile
               call caps(rtefile)
               call caps(swqfile)
-              i = 0
-              i = inum1s(idum)
+              irch = 0
+              irch = inum1s(idum)
               open (103,file=rtefile)
               open (104,file=swqfile)
               call readrte
@@ -302,161 +301,44 @@
                 write (50+inum1s(idum),5600)
               end if
 
-            case (16) !! icode = 16 AUTOCAL command: identifies node
-                      !! on channel network to compare to measured
-                      !! data for autocalibration
-              auto_in = ""
-              read (102,5100) auto_in
-              call caps(auto_in)
-              close(9000+inum1s(idum))
-              close(8000+inum1s(idum))
-              if (inum1s(idum) <= 70 .and. inum1s(idum) > 0) then
-                open (9000+inum1s(idum),file=auto_in,recl=350)
-                select case (inum1s(idum))
-                  case(1)
-                   open (8000+inum1s(idum), file='autocal1.out')
-                  case(2)
-                   open (8000+inum1s(idum), file='autocal2.out')
-                  case(3)
-                   open (8000+inum1s(idum), file='autocal3.out')
-                  case(4)
-                   open (8000+inum1s(idum), file='autocal4.out')
-                  case(5)
-                   open (8000+inum1s(idum), file='autocal5.out')
-                  case(6)
-                   open (8000+inum1s(idum), file='autocal6.out')
-                  case(7)
-                   open (8000+inum1s(idum), file='autocal7.out')
-                  case(8)
-                   open (8000+inum1s(idum), file='autocal8.out')
-                  case(9)
-                   open (8000+inum1s(idum), file='autocal9.out')
-                  case(10)
-                   open (8000+inum1s(idum), file='autocal10.out')
-                  case(11)
-                   open (8000+inum1s(idum), file='autocal11.out')
-                  case(12)
-                   open (8000+inum1s(idum), file='autocal12.out')
-                  case(13)
-                   open (8000+inum1s(idum), file='autocal13.out')
-                  case(14)
-                   open (8000+inum1s(idum), file='autocal14.out')
-                  case(15)
-                   open (8000+inum1s(idum), file='autocal15.out')
-                  case(16)
-                   open (8000+inum1s(idum), file='autocal16.out')
-                  case(17)
-                   open (8000+inum1s(idum), file='autocal17.out')
-                  case(18)
-                   open (8000+inum1s(idum), file='autocal18.out')
-                  case(19)
-                   open (8000+inum1s(idum), file='autocal19.out')
-                  case(20)
-                   open (8000+inum1s(idum), file='autocal20.out')
-                  case(21)
-                   open (8000+inum1s(idum), file='autocal21.out')
-                  case(22)
-                   open (8000+inum1s(idum), file='autocal22.out')
-                  case(23)
-                   open (8000+inum1s(idum), file='autocal23.out')
-                  case(24)
-                   open (8000+inum1s(idum), file='autocal24.out')
-                  case(25)
-                   open (8000+inum1s(idum), file='autocal25.out')
-                  case(26)
-                   open (8000+inum1s(idum), file='autocal26.out')
-                  case(27)
-                   open (8000+inum1s(idum), file='autocal27.out')
-                  case(28)
-                   open (8000+inum1s(idum), file='autocal28.out')
-                  case(29)
-                   open (8000+inum1s(idum), file='autocal29.out')
-                  case(30)
-                   open (8000+inum1s(idum), file='autocal30.out')
-                  case(31)
-                   open (8000+inum1s(idum), file='autocal31.out')
-                  case(32)
-                   open (8000+inum1s(idum), file='autocal32.out')
-                  case(33)
-                   open (8000+inum1s(idum), file='autocal33.out')
-                  case(34)
-                   open (8000+inum1s(idum), file='autocal34.out')
-                  case(35)
-                   open (8000+inum1s(idum), file='autocal35.out')
-                  case(36)
-                   open (8000+inum1s(idum), file='autocal36.out')
-                  case(37)
-                   open (8000+inum1s(idum), file='autocal37.out')
-                  case(38)
-                   open (8000+inum1s(idum), file='autocal38.out')
-                  case(39)
-                   open (8000+inum1s(idum), file='autocal39.out')
-                  case(40)
-                   open (8000+inum1s(idum), file='autocal40.out')
-                  case(41)
-                   open (8000+inum1s(idum), file='autocal41.out')
-                  case(42)
-                   open (8000+inum1s(idum), file='autocal42.out')
-                  case(43)
-                   open (8000+inum1s(idum), file='autocal43.out')
-                  case(44)
-                   open (8000+inum1s(idum), file='autocal44.out')
-                  case(45)
-                   open (8000+inum1s(idum), file='autocal45.out')
-                  case(46)
-                   open (8000+inum1s(idum), file='autocal46.out')
-                  case(47)
-                   open (8000+inum1s(idum), file='autocal47.out')
-                  case(48)
-                   open (8000+inum1s(idum), file='autocal48.out')
-                  case(49)
-                   open (8000+inum1s(idum), file='autocal49.out')
-                  case(50)
-                   open (8000+inum1s(idum), file='autocal50.out')
-                  case(51)
-                   open (8000+inum1s(idum), file='autocal51.out')
-                  case(52)
-                   open (8000+inum1s(idum), file='autocal52.out')
-                  case(53)
-                   open (8000+inum1s(idum), file='autocal53.out')
-                  case(54)
-                   open (8000+inum1s(idum), file='autocal54.out')
-                  case(55)
-                   open (8000+inum1s(idum), file='autocal55.out')
-                  case(56)
-                   open (8000+inum1s(idum), file='autocal56.out')
-                  case(57)
-                   open (8000+inum1s(idum), file='autocal57.out')
-                  case(58)
-                   open (8000+inum1s(idum), file='autocal58.out')
-                  case(59)
-                   open (8000+inum1s(idum), file='autocal59.out')
-                  case(60)
-                   open (8000+inum1s(idum), file='autocal60.out')
-                  case(61)
-                   open (8000+inum1s(idum), file='autocal61.out')
-                  case(62)
-                   open (8000+inum1s(idum), file='autocal62.out')
-                  case(63)
-                   open (8000+inum1s(idum), file='autocal63.out')
-                  case(64)
-                   open (8000+inum1s(idum), file='autocal64.out')
-                  case(65)
-                   open (8000+inum1s(idum), file='autocal65.out')
-                  case(66)
-                   open (8000+inum1s(idum), file='autocal66.out')
-                  case(67)
-                   open (8000+inum1s(idum), file='autocal67.out')
-                  case(68)
-                   open (8000+inum1s(idum), file='autocal68.out')
-                  case(69)
-                   open (8000+inum1s(idum), file='autocal69.out')
-                  case(70)
-                   open (8000+inum1s(idum), file='autocal70.out')
-            end select
-            end if
-
+            case (17)  !! icode = 17  ROUTING UNIT command
+              rutot = rutot + 1
+              rufile = ""
+              read (102,5100) rufile
+              call caps(rufile)
+              iru = inum1s(idum)
+              daru_km(inum1s(idum)) = rnum1s(idum)
+              open (113,file=rufile)
+              call readru
+              close(113)
+              
+            case (18)  !! icode = 18  LANDSCAPE ROUTING command
+              !! rutot = rutot + 1
+              !! rufile = ""
+              !! read (102,5100) rufile
+              !! call caps(rufile)
+              !! iru = inum1s(idum)
+              !! daru_km(inum1s(idum)) = rnum1s(idum)
+              !! open (113,file=rufile)
+              !! call readru
+              
           end select
+          
+          !! calculate upstream drainage area (km2) and impervious cover (km2)
+          !! in the drainage arae at each subbasin outlet
+          if (icodes(idum)==1) then !subbasin
+            subdr_km(ihouts(idum)) = sub_km(inum1s(idum))
+          elseif (icodes(idum)==5) then !add
+            subdr_km(ihouts(idum)) = subdr_km(inum1s(idum)) 
+     &              + subdr_km(inum2s(idum)) 
+            subdr_ickm(ihouts(idum)) = subdr_ickm(inum1s(idum))
+     &              + subdr_ickm(inum2s(idum)) 
+          elseif (icodes(idum)==2) then !route
+            subdr_km(ihouts(idum)) = subdr_km(inum2s(idum)) 
+            subdr_km(inum1s(idum)) = subdr_km(inum2s(idum)) 
+            subdr_ickm(ihouts(idum)) = subdr_ickm(inum2s(idum))
+            subdr_ickm(inum1s(idum)) = subdr_ickm(inum2s(idum))
+          end if
 
         end if
       end do
@@ -509,7 +391,7 @@
      &         "   BACTLP # ","CMETAL#1 kg ","CMETAL#2 kg ",            &
      &         "CMETAL#3 kg ","  TEMP degC ")
  5501 format (i4,2i2,", Point Discharge File created with Save Comand")
- 5600 format (//," Year  Day  Hr FLOWm^3/s    SEDmg/L   ORGNmg/L",      &
+ 5600 format (//," Year  Day Step  FLOWm^3/s    SEDmg/L   ORGNmg/L",    &
      &         "   ORGPmg/L    NO3mg/L    NH3mg/L    NO2mg/L",          &
      &         "   MINPmg/L   CBODmg/L  DISOXmg/L   CHLAug/L",          &
      &         " SOLPSTmg/L SORPSTmg/L  BACTPct/L BACTLPct/L",          &

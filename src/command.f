@@ -16,7 +16,7 @@
 !!                               |4 = transfer    13 = 
 !!                               |5 = add         14 = saveconc
 !!                               |6 = rechour     15 = 
-!!                               |7 = recmon      16 = autocal
+!!                               |7 = recmon    
 !!                               |8 = recyear     
 !!    ihouts(:)   |none          |For ICODES equal to
 !!                               |0: not used
@@ -102,9 +102,9 @@
 
       use parm
 
-      integer :: idum
+      idum = 0
 
-      do idum = 1, mhyd
+      do ii = 1, mhyd_bsn
         icode = 0
         ihout = 0
         inum1 = 0
@@ -112,6 +112,7 @@
         inum3 = 0
         rnum1 = 0.
         inum4 = 0
+        idum = idum + 1
         icode = icodes(idum)
         ihout = ihouts(idum)
         inum1 = inum1s(idum)
@@ -129,6 +130,8 @@
             call print_hyd
           case (2) 
             call route
+            if (dtp_onoff(inum1)==1) call det_pond  !route detention pond J.Jeong feb 2010
+            if (wtp_onoff(inum1)==1) call wet_pond  !route wetention pond J.Jeong june 2010
             call sumhyd
             call print_hyd
           case (3) 
@@ -164,10 +167,12 @@
             call apex_day
           case (14)
             call saveconc
-          case (16)
-            call autocal
+         
+          case (17)
+            call routeunit
+          case (18)
+          call routels            
         end select
-
 
       end do
 

@@ -55,10 +55,10 @@
       integer :: j, k, kk
 
     !! functions
-      real::fwf, fof, fcdg, ftilf,fcx, fCNnew, fhc, fnetmin
+      real ::fwf, fof, fcdg, ftilf,fcx, fCNnew, fhc, fnetmin
 
 
-      j = 0
+      j = 0; wdn = 0
       j = ihru
   
     !! initialize

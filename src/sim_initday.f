@@ -67,6 +67,7 @@
 !!                               |subbasin
 !!    sub_surfq(:)|mm H2O        |surface runoff generated on day in subbasin
 !!    sub_sw(:)   |mm H2O        |amount of water in soil on day in subbasin
+!!    sub_tileno3 |kg N/ha       |NO3 in tile flow on day in subbasin       
 !!    sub_tran(:) |mm H2O        |transmission losses on day in subbasin
 !!    sub_wyld(:) |mm H2O        |water yield on day in subbasin
 !!    sub_yorgn(:)|kg N/ha       |organic N loading on day in subbasin
@@ -95,10 +96,12 @@
       drift = 0.
       flat = 0.
       frad = 0.
+      gwq_ru = 0.
       hhsubp = 0.
       hru_ra = 0.
       hru_rmx = 0.
       hrupstd = 0.
+	  irr_flag = 0
       latno3 = 0.
       latq = 0.
       minpgw = 0.
@@ -136,7 +139,7 @@
       strsn = 1.
       strsp = 1.
       strstmp = 1.
-      strsw = 1.
+!!  NUBZ    strsw = 1.
       sub_bactlp = 0.
       sub_bactp = 0.
       sub_bd = 0.
@@ -181,6 +184,7 @@
       sub_sumfc = 0.
       sub_surfq = 0.
       sub_sw = 0.
+      sub_tileno3 = 0.
       sub_tran = 0.
       sub_wtmp = 0.
       sub_wyld = 0.
@@ -203,6 +207,21 @@
       wshddayo = 0.
 
       mo_chk = i_mo
+!----------------------------------------------------        
+! added by J.Jeong for urban modeling 4/29/2008
+      ubnrunoff = 0.
+      ubntss = 0.
+      sub_ubnrunoff = 0.
+      sub_ubntss = 0.
+      latq = 0.
+	  sub_subp_dt = 0.
+	  sub_hhsedy = 0.
+	  sub_atmp = 0.
+	  rchhr = 0.
+   !!     ri_pmpvol(:,:) = 0.	  
+   !!     ri_totpvol(:) = 0.
+	  
+!-----------------------------------------------------        
 
 
       return

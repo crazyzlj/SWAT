@@ -28,7 +28,7 @@
 !!    nyskip       |none             |number of years to skip output
 !!                                   |summarization/printing
 !!    plt_pst(:,:) |kg/ha            |pesticide on plant foliage
-!!    pst_kg(:,:,:)|kg/ha            |amount of pesticide applied to HRU
+!!    pst_kg       |kg/ha            |amount of pesticide applied to HRU
 !!    sol_pst(:,:,1)|kg/ha           |pesticide in first layer of soil
 !!    wshd_pstap(:)|kg/ha            |total amount of pesticide type applied in 
 !!                                   |watershed during simulation
@@ -74,26 +74,8 @@
 
 !! if continuous pesticide not currently on, check to see if it is time
 !! to initialize continuous pesticide
-      if (icpst(j) == 0) then
-        if (icpest(nro(j),ncpest(j),j) > 0 .and.                        &
-     &                          iida >= icpest(nro(j),ncpest(j),j)) then
-          icpst(j) = 1
-          ndcpst(j) = 1
-          iday_pest(j) = ipst_freq(nro(j),ncpest(j),j)
-        else if (phuacc(j) > phucp(nro(j),ncpest(j),j)) then
-          icpst(j) = 1
-          ndcpst(j) = 1
-          iday_pest(j) = ipst_freq(nro(j),ncpest(j),j)
-        else
-          return
-        end if
-      else
-        !! if not first day of continuous fert increment total days of
-        !! continuous fert by one
-        ndcpst(j) = ndcpst(j) + 1
-      end if
 
-      if (iday_pest(j) == ipst_freq(nro(j),ncpest(j),j)) then
+      if (iday_pest(j) == ipst_freq(j)) then
         !! apply pesticide
         !! reset frequency counter
         iday_pest(j) = 1
@@ -104,9 +86,9 @@
         jj = 0
         xx = 0.
   
-        kk = cpst_id(nro(j),ncpest(j),j)
+        kk = cpst_id(j)
         k = nope(kk)
-        xx = cpst_kg(nro(j),ncpest(j),j)
+        xx = cpst_kg(j)
         jj = inum1
 
   !! calculate amount of pesticide drifting onto main channel in subbasin
@@ -125,23 +107,33 @@
 !! update pesticide levels on ground and foliage
         plt_pst(k,j) = plt_pst(k,j) + gc * xx
         sol_pst(k,j,1) = sol_pst(k,j,1) + (1. - gc) * xx
+ 
+        if (imgt == 1) then
+         write (143, 1000) subnum(j), hruno(j), iyr, i_mo, iida, 
+     *      "         ",
+     *      "CONT PEST", phubase(j), phuacc(j), sol_sw(j),bio_ms(j), 
+     *      sol_rsd(1,j),sol_sumno3(j),sol_sumsolp(j), cpst_kg(j)
+        end if
+           
+          
       else
         iday_pest(j) = iday_pest(j) + 1
       end if
 
 !! summary calculations
       if (curyr > nyskip) then
-        wshd_pstap(k) = wshd_pstap(k) + pst_kg(nro(j),ncpest(j),j) *     &
+        wshd_pstap(k) = wshd_pstap(k) + pst_kg                     *     &
      &                                         ap_ef(kk) * hru_dafr(j)
       end if
 
 !! check to set if continuous pesticide period is over
-      if (ndcpst(j) == pest_days(nro(j),ncpest(j),j)) then
+      if (ndcpst(j) == pest_days(j)) then
         icpst(j) = 0
         ndcpst(j) = 0
         iday_pest(j) = 0
         ncpest(j) = ncpest(j) + 1
       end if
 
+1000  format (a5,1x,a7,3i6,2a15,7f10.2,20x,f10.2) 
       return
       end

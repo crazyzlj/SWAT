@@ -87,155 +87,157 @@
       eof = 0
       do
       read (103,5000) titldum
-      read (103,*) ch_w(2,i)
-      read (103,*) ch_d(i) 
-      read (103,*) ch_s(2,i) 
-      read (103,*) ch_l2(i)
-      read (103,*) ch_n(2,i) 
-      read (103,*) ch_k(2,i)
-      read (103,*) ch_cov1(i) 
-      read (103,*,iostat=eof) ch_cov2(i) 
+      read (103,*) ch_w(2,irch)
+      read (103,*) ch_d(irch) 
+      read (103,*) ch_s(2,irch) 
+      read (103,*) ch_l2(irch)
+      read (103,*) ch_n(2,irch) 
+      read (103,*) ch_k(2,irch) 
+      read (103,*) ch_cov1(irch) 
+      read (103,*,iostat=eof) ch_cov2(irch) 
       if (eof < 0) exit
-      read (103,*,iostat=eof) ch_wdr(i)
+      read (103,*,iostat=eof) ch_wdr(irch)
       if (eof < 0) exit
-      read (103,*,iostat=eof) alpha_bnk(i)
+      read (103,*,iostat=eof) alpha_bnk(irch)
       if (eof < 0) exit
-      read (103,*,iostat=eof) icanal(i)
+      read (103,*,iostat=eof) icanal(irch)
       if (eof < 0) exit
-      read (103,*,iostat=eof) ch_onco(i)
+      read (103,*,iostat=eof) ch_onco(irch)
       if (eof < 0) exit
-      read (103,*,iostat=eof) ch_opco(i)
+      read (103,*,iostat=eof) ch_opco(irch)
       if (eof < 0) exit
-	read (103,*,iostat=eof) chside(i)
-	if (eof < 0) exit
-      read (103,*,iostat=eof) ch_bnk_bd(i)
-	if (eof < 0) exit
-	read (103,*,iostat=eof) ch_bed_bd(i)
-	if (eof < 0) exit
-      read (103,*,iostat=eof) ch_bnk_kd(i)
-	if (eof < 0) exit
-      read (103,*,iostat=eof) ch_bed_kd(i)
-	if (eof < 0) exit
-      read (103,*,iostat=eof) ch_bnk_d50(i)
-	if (eof < 0) exit
-      read (103,*,iostat=eof) ch_bed_d50(i)
-	if (eof < 0) exit
-	read (103,*,iostat=eof) tc_bnk(i)
-	if (eof < 0) exit
-	read (103,*,iostat=eof) tc_bed(i)
-	if (eof < 0) exit
-      read (103,5100,iostat=eof) (ch_erodmo(i,mo), mo = 1,12)
-	if (eof < 0) exit
-	read (103,*,iostat=eof) ch_eqn(i)
+	  read (103,*,iostat=eof) chside(irch)
+	  if (eof < 0) exit
+      read (103,*,iostat=eof) ch_bnk_bd(irch)
+	  if (eof < 0) exit
+	  read (103,*,iostat=eof) ch_bed_bd(irch)
+	  if (eof < 0) exit
+      read (103,*,iostat=eof) ch_bnk_kd(irch)
+	  if (eof < 0) exit
+      read (103,*,iostat=eof) ch_bed_kd(irch)
+	  if (eof < 0) exit
+      read (103,*,iostat=eof) ch_bnk_d50(irch)
+	  if (eof < 0) exit
+      read (103,*,iostat=eof) ch_bed_d50(irch)
+	  if (eof < 0) exit
+	  read (103,5000,iostat=eof) tc_bnk(irch)
+	  if (eof < 0) exit
+	  read (103,5000,iostat=eof) tc_bed(irch)
+	  if (eof < 0) exit
+      read (103,5100,iostat=eof) (ch_erodmo(irch,mo), mo = 1,12)
+	  if (eof < 0) exit
+	  read (103,*,iostat=eof) ch_eqn(irch)
       exit
       end do
 
 !!    set default values for parameters
-      if (ch_s(2,i) <= 0.) ch_s(2,i) = .0001
-      if (ch_n(2,i) <= 0.01) ch_n(2,i) = .01
-      if (ch_n(2,i) >= 0.70) ch_n(2,i) = 0.70
-      if (ch_l2(i) <= 0.) ch_l2(i) = .0010
-      if (ch_wdr(i) <= 0.) ch_wdr(i) = 3.5
-      if (chside(i) <= 1.e-6) chside(i) = 2.0
-      if (tc_bnk(i) <= 0.) tc_bnk(i)=0. !! Critical shear stress (N.m^2)
-      if (tc_bed(i) <= 0.) tc_bed(i)=0. !! Critical shear stress (N.m^2)
+      if (tc_bnk(irch) <= 1.e-6) tc_bnk(irch) = 0.001
+	  if (tc_bed(irch) <= 1.e-6) tc_bed(irch) = 0.001
+      if (ch_s(2,irch) <= 0.) ch_s(2,irch) = .0001
+      if (ch_n(2,irch) <= 0.01) ch_n(2,irch) = .01
+      if (ch_n(2,irch) >= 0.70) ch_n(2,irch) = 0.70
+      if (ch_l2(irch) <= 0.) ch_l2(irch) = .0010
+      if (ch_wdr(irch) <= 0.) ch_wdr(irch) = 3.5
+	  if (chside(irch) <= 1.e-6) chside(irch) = 2.0
+      if (tc_bnk(irch) <= 0.) tc_bnk(irch)=0. !! Critical shear stress (N.m^2)
+      if (tc_bed(irch) <= 0.) tc_bed(irch)=0. !! Critical shear stress (N.m^2)
 
-      if (ch_eqn(i) <= 0) then
-      ch_eqn(i)=0 !! SWAT Default sediment routing routine
-       if (ch_cov1(i) <= 0.0) ch_cov1(i) = 0.0
-       if (ch_cov2(i) <= 0.0) ch_cov2(i) = 0.0
-       if (ch_cov1(i) >= 1.0) ch_cov1(i) = 1.0
-       if (ch_cov2(i) >= 1.0) ch_cov2(i) = 1.0
+      if (ch_eqn(irch) <= 0) then
+        ch_eqn(irch)=0 !! SWAT Default sediment routing routine
+        if (ch_cov1(irch) <= 0.0) ch_cov1(irch) = 0.0
+        if (ch_cov2(irch) <= 0.0) ch_cov2(irch) = 0.0
+        if (ch_cov1(irch) >= 1.0) ch_cov1(irch) = 1.0
+        if (ch_cov2(irch) >= 1.0) ch_cov2(irch) = 1.0
 	else 
-       if (ch_cov1(i) <= 0.0) ch_cov1(i) = 1.0
-       if (ch_cov2(i) <= 0.0) ch_cov2(i) = 1.0
-       if (ch_cov1(i) >= 25.) ch_cov1(i) = 25.
-       if (ch_cov2(i) >= 25.) ch_cov2(i) = 25.
-      end if
+        if (ch_cov1(irch) <= 0.0) ch_cov1(irch) = 1.0
+        if (ch_cov2(irch) <= 0.0) ch_cov2(irch) = 1.0
+        if (ch_cov1(irch) >= 25.) ch_cov1(irch) = 25.
+        if (ch_cov2(irch) >= 25.) ch_cov2(irch) = 25.
+	end if
 	  
 
 !!    Bank material is assumed to be silt type partcile if not given.
-      if (ch_bnk_d50(i) <= 1.e-6) ch_bnk_d50(i) = 50.  !! Units are in Micrometer
-	if (ch_bnk_d50(i) > 10000.) ch_bnk_d50(i) = 10000.
+      if (ch_bnk_d50(irch) <= 1.e-6) ch_bnk_d50(irch) = 50. !! Units are in Micrometer
+	  if (ch_bnk_d50(irch) > 10000) ch_bnk_d50(irch) = 10000.
 
 
-      bnksize = ch_bnk_d50(i)/1000.  !! Units conversion Micrometer to Millimeters
+      bnksize = ch_bnk_d50(irch)/1000.  !! Units conversion Micrometer to Millimeters
 !!    Channel sediment particle size distribution
 !!    Clayey bank
 	if (bnksize <= 0.005) then
-	ch_bnk_cla(i) = 0.65
-        ch_bnk_sil(i) = 0.15
-        ch_bnk_san(i) = 0.15
-        ch_bnk_gra(i) = 0.05
+	  ch_bnk_cla(irch) = 0.65
+      ch_bnk_sil(irch) = 0.15
+	  ch_bnk_san(irch) = 0.15
+	  ch_bnk_gra(irch) = 0.05
 	end if
 
 !!    Silty bank
 	if (bnksize > 0.005 .and. bnksize <= 0.05) then
-        ch_bnk_sil(i) = 0.65
-	  ch_bnk_cla(i) = 0.15
-	  ch_bnk_san(i) = 0.15
-	  ch_bnk_gra(i) = 0.05
+      ch_bnk_sil(irch) = 0.65
+	  ch_bnk_cla(irch) = 0.15
+	  ch_bnk_san(irch) = 0.15
+	  ch_bnk_gra(irch) = 0.05
 	end if
 
 !!    Sandy bank
 	if (bnksize > 0.05 .and. bnksize <= 2.) then
-	  ch_bnk_san(i) = 0.65
-        ch_bnk_sil(i) = 0.15
-	  ch_bnk_cla(i) = 0.15
-	  ch_bnk_gra(i) = 0.05
+	  ch_bnk_san(irch) = 0.65
+      ch_bnk_sil(irch) = 0.15
+	  ch_bnk_cla(irch) = 0.15
+	  ch_bnk_gra(irch) = 0.05
 	end if
       
 !!    Gravel bank
 	if (bnksize > 2.) then
-	  ch_bnk_gra(i) = 0.65
-	  ch_bnk_san(i) = 0.15
-        ch_bnk_sil(i) = 0.15
-	  ch_bnk_cla(i) = 0.05
+	  ch_bnk_gra(irch) = 0.65
+	  ch_bnk_san(irch) = 0.15
+      ch_bnk_sil(irch) = 0.15
+	  ch_bnk_cla(irch) = 0.05
 	end if
 
 !!    Bed material is assumed to be sand type partcile if not given.
-      if (ch_bed_d50(i) <= 1.e-6) ch_bed_d50(i) = 500 !! Units are in Micrometer
-      if (ch_bed_d50(i) > 10000) ch_bed_d50(i) = 10000. 
+      if (ch_bed_d50(irch) <= 1.e-6) ch_bed_d50(irch) = 500 !! Units are in Micrometer
+      if (ch_bed_d50(irch) > 10000) ch_bed_d50(irch) = 10000. 
 
 !!    Channel sediment particle size distribution
 !!    Clayey bed
-      bedsize = ch_bed_d50(i)/1000.  !! Units conversion Micrometer to Millimeters
+      bedsize = ch_bed_d50(irch)/1000.  !! Units conversion Micrometer to Millimeters
 	if (bedsize <= 0.005) then
-	  ch_bed_cla(i) = 0.65
-        ch_bed_sil(i) = 0.15
-	  ch_bed_san(i) = 0.15
-	  ch_bed_gra(i) = 0.05
+	  ch_bed_cla(irch) = 0.65
+      ch_bed_sil(irch) = 0.15
+	  ch_bed_san(irch) = 0.15
+	  ch_bed_gra(irch) = 0.05
 	end if
 
 !!    Silty bed
 	if (bedsize > 0.005 .and. bedsize <= 0.05) then
-        ch_bed_sil(i) = 0.65
-	  ch_bed_cla(i) = 0.15
-	  ch_bed_san(i) = 0.15
-	  ch_bed_gra(i) = 0.05
+      ch_bed_sil(irch) = 0.65
+	  ch_bed_cla(irch) = 0.15
+	  ch_bed_san(irch) = 0.15
+	  ch_bed_gra(irch) = 0.05
 	end if
 
 !!    Sandy bed
 	if (bedsize > 0.05 .and. bedsize <= 2.) then
-	  ch_bed_san(i) = 0.65
-        ch_bed_sil(i) = 0.15
-	  ch_bed_cla(i) = 0.15
-	  ch_bed_gra(i) = 0.05
+	  ch_bed_san(irch) = 0.65
+      ch_bed_sil(irch) = 0.15
+	  ch_bed_cla(irch) = 0.15
+	  ch_bed_gra(irch) = 0.05
 	end if
       
 !!    Gravel bed
 	if (bedsize > 2.) then
-	  ch_bed_gra(i) = 0.65
-	  ch_bed_san(i) = 0.15
-        ch_bed_sil(i) = 0.15
-	  ch_bed_cla(i) = 0.05
+	  ch_bed_gra(irch) = 0.65
+	  ch_bed_san(irch) = 0.15
+      ch_bed_sil(irch) = 0.15
+	  ch_bed_cla(irch) = 0.05
 	end if
 
 !!    Bulk density of channel bank sediment 
-	if (ch_bnk_bd(i) <= 1.e-6) ch_bnk_bd(i) = 1.40 !! Silty loam bank
+	if (ch_bnk_bd(irch) <= 1.e-6) ch_bnk_bd(irch) = 1.40 !! Silty loam bank
 
 !!    Bulk density of channel bed sediment
-	if (ch_bed_bd(i) <= 1.e-6) ch_bed_bd(i) = 1.50  !! Sandy loam bed
+	if (ch_bed_bd(irch) <= 1.e-6) ch_bed_bd(irch) = 1.50  !! Sandy loam bed
 
 
 !!    An estimate of Critical shear stress if it is not given (N/m^2)
@@ -243,16 +245,16 @@
 !!	Critical Shear Stress based on Julian and Torres (2005)
 !!    Units of critical shear stress (N/m^2)
 	SC = 0.
-	if  (tc_bnk(i) <= 1.e-6) then
-	  SC = (ch_bnk_sil(i) + ch_bnk_cla(i)) * 100.
-        tc_bnk(i) = (0.1 + (0.1779*SC) + (0.0028*(SC)**2)               &
-     &                              - ((2.34E-05)*(SC)**3)) * ch_cov1(i)
+	if  (tc_bnk(irch) <= 1.e-6) then
+	  SC = (ch_bnk_sil(irch) + ch_bnk_cla(irch)) * 100.
+        tc_bnk(irch) = (0.1 + (0.1779*SC) + (0.0028*(SC)**2)               &
+     &                           - ((2.34E-05)*(SC)**3)) * ch_cov1(irch)
       end if
 
-	if  (tc_bed(i) <= 1.e-6) then
-	  SC = (ch_bed_sil(i) + ch_bed_cla(i)) * 100.
-        tc_bed(i) = (0.1 + (0.1779*SC) + (0.0028*(SC)**2)               &
-     &                              - ((2.34E-05)*(SC)**3)) * ch_cov2(i)
+	if  (tc_bed(irch) <= 1.e-6) then
+	  SC = (ch_bed_sil(irch) + ch_bed_cla(irch)) * 100.
+        tc_bed(irch) = (0.1 + (0.1779*SC) + (0.0028*(SC)**2)               &
+     &                           - ((2.34E-05)*(SC)**3)) * ch_cov2(irch)
       end if
 
 !!  An estimate of channel bank erodibility coefficient from jet test if it is not available
@@ -279,26 +281,26 @@
      
       sumerod = 0.
       do mo = 1, 12
-        sumerod = sumerod + ch_erodmo(i,mo)
+        sumerod = sumerod + ch_erodmo(irch,mo)
       end do
 
       if (sumerod < 1.e-6) then
         do mo = 1, 12
-          ch_erodmo(i,mo) = ch_cov1(i)
+          ch_erodmo(i,mo) = ch_cov1(irch)
         end do
       end if
 
 !!    set default values for mike van liew
-      if (ch_onco(i) <= 0.) ch_onco(i) = ch_onco_bsn
-      if (ch_opco(i) <= 0.) ch_opco(i) = ch_opco_bsn
+      if (ch_onco(irch) <= 0.) ch_onco(irch) = ch_onco_bsn
+      if (ch_opco(irch) <= 0.) ch_opco(irch) = ch_opco_bsn
 !!    set default values for mike van liew
 
 
 !!    initialize variables for channel degradation
-      ch_di(i) = ch_d(i)
-      ch_li(i) = ch_l2(i)
-      ch_si(i) = ch_s(2,i)
-      ch_wi(i) = ch_w(2,i)
+      ch_di(irch) = ch_d(irch)
+      ch_li(irch) = ch_l2(irch)
+      ch_si(irch) = ch_s(2,irch)
+      ch_wi(irch) = ch_w(2,irch)
 
       close (103)
       return

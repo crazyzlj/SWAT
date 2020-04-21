@@ -108,9 +108,11 @@
 
       do j = 1, mvaro
         varoute(j,ihout) = 0.
-        do ii = 1, 24
-          hhvaroute(j,ihout,ii) = 0.
-        end do
+        if (ievent > 1) then
+          do ii = 1, 24
+            hhvaroute(j,ihout,ii) = 0.
+          end do
+        endif
       end do
 
 !!   read from apex measured file
@@ -175,13 +177,13 @@
 	endif
      
       if (ievent > 2) then
-        do ii = 1, 24
-          hhvaroute(2,ihout,ii) = flodaya(inum1) / 24.
-          hhvaroute(3,ihout,ii) = seddaya(inum1) / 24.
-          hhvaroute(4,ihout,ii) = orgndaya(inum1) / 24.
-          hhvaroute(5,ihout,ii) = orgpdaya(inum1) / 24.
-          hhvaroute(6,ihout,ii) = no3daya(inum1) / 24.
-          hhvaroute(7,ihout,ii) = minpdaya(inum1) / 24.
+        do ii = 1, nstep
+          hhvaroute(2,ihout,ii) = flodaya(inum1) / real(nstep)
+          hhvaroute(3,ihout,ii) = seddaya(inum1) / real(nstep)
+          hhvaroute(4,ihout,ii) = orgndaya(inum1) / real(nstep)
+          hhvaroute(5,ihout,ii) = orgpdaya(inum1) / real(nstep)
+          hhvaroute(6,ihout,ii) = no3daya(inum1) / real(nstep)
+          hhvaroute(7,ihout,ii) = minpdaya(inum1) / real(nstep)
 
         end do
       end if

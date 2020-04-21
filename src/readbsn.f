@@ -34,9 +34,10 @@
 !!    cmn         |none          |rate factor for humus mineralization on
 !!                               |active organic N
 !!    cncoef      |none          |plant ET curve number coefficient 
-!!    cnfroz      |              |
+!!    cnfroz      |              |Drainge coefficient (mm day -1) 
 !!    depimp_bsn  |mm            |depth to impervious layer. Used to model
 !!                               |perched water tables in all HRUs in watershed
+!!    drain_co_bsn |mm-day-1     |Drainage coeffcient (range 10.0 - 51.0)
 !!    ddrain_bsn  |mm            |depth to the sub-surface drain
 !!    dorm_hr     |hours         |time threshold used to define dormant
 !!    epco(:)     |none          |plant water uptake compensation factor (0-1)
@@ -97,10 +98,20 @@
 !!    isubwq      |none          |subbasin water quality code
 !!                               |0 do not calculate algae/CBOD
 !!                               |1 calculate algae/CBOD
+!! drainmod tile equations   01/2006
+!!    itdrn       |none          |tile drainage equations flag/code
+!!                               |1 simulate tile flow using subroutine drains(wt_shall)
+!!                               |0 simulate tile flow using subroutine origtile(wt_shall,d) 
+!!    iwtdn       |none          |water table depth algorithms flag/code
+!!                               |1 simulate wt_shall using subroutine new water table depth routine
+!!                               |0 simulate wt_shall using subroutine original water table depth routine  
+!! drainmod tile equations   01/2006
 !!    iwq         |none          |stream water quality code
 !!                               |0 do not model stream water quality
 !!                               |1 model stream water quality
 !!                               |   (QUAL2E & pesticide transformations)
+!!    latksatf_bsn |             |Multiplication factor to determine lateral ksat from SWAT ksat input value for HRU
+!!                                  (range 0.01 - 4.0)
 !!    msk_co1     |none          |calibration coefficient to control impact
 !!                               |of the storage time constant for the
 !!                               |reach at bankfull depth (phi(10,:) upon
@@ -135,6 +146,7 @@
 !!                               |  is zero
 !!                               |1:percolate has same concentration of nitrate
 !!                               |  as surface runoff
+!!    pc_bsn      |mm h-1        |Pump capacity (def val = 1.042 mm h-1 or 25 mm day-1)
 !!    p_updis     |none          |phosphorus uptake distribution parameter
 !!                               |This parameter controls the amount of
 !!                               |phosphorus removed from the different soil
@@ -168,6 +180,7 @@
 !!                               |of fertilizer P remaining in labile pool
 !!                               |after initial rapid phase of P sorption.
 !!    rcn_sub_bsn |mg/kg         |Concentration of nitrogen in the rainfall
+!!    re_bsn      |mm            |Effective radius of drains (range 3.0 - 40.0)  
 !!    res_stlr_co |none          |reservoir sediment settling coefficient
 !!    rsd_covco   |              |residue cover factor for computing frac of cover
 !!    rsdco       |none          |residue decomposition coefficient
@@ -180,6 +193,7 @@
 !!                               |Mean air temperature at which precipitation
 !!                               |is equally likely to be rain as snow/freezing
 !!                               |rain.
+!!    sdrain_bsn  |mm            |Distance bewtween two drain or tile tubes (range 7600.0 - 30000.0) 
 !!    smfmn       |mm/deg C/day  |Minimum melt rate for snow during year (Dec.
 !!                               |21) where deg C refers to the air temperature.
 !!    smfmx       |mm/deg C/day  |Maximum melt rate for snow during year (June
@@ -323,15 +337,17 @@
       use parm
 
       character (len=80) :: titldum
+      character (len=130) :: tlu
       character (len=13) :: wwqfile
-      integer :: eof
-      real :: escobsn, epcobsn, msk1, msk2
+      integer :: eof, numlu
+      real :: escobsn, epcobsn
 
 !!    initialize variables
       eof = 0
       escobsn = 0.
       epcobsn = 0.
       wwqfile = ""
+      numlu=1
 
 !! read basin parameters
       do
@@ -470,7 +486,73 @@
       read (103,*,iostat=eof) cswat
       if (eof < 0) exit
       read (103,*,iostat=eof) res_stlr_co
-      exit
+      if (eof < 0) exit
+!!!!! following reads moved to end of .bsn file
+!     read (103,*,iostat=eof) sol_p_model  !! if = 1 use new soil P model
+!     if (eof < 0) exit
+!	read (103,*,iostat=eof) iabstr
+!	if (eof < 0) exit
+	read (103,*,iostat=eof) bf_flg
+ 	if (eof < 0) exit
+      read (103,*,iostat=eof) iuh 
+	if (eof < 0) exit
+      read (103,*,iostat=eof) uhalpha 
+	if (eof < 0) exit
+      read (103,*,iostat=eof) titldum
+ 	read (103,'(a130)') tlu
+       do ii=3,len_trim(tlu)
+          if ((tlu(ii:ii).eq.','.and.tlu(ii-1:ii-1).ne.',').or.          
+     &       (tlu(ii:ii).eq.' '.and.tlu(ii-1:ii-1).ne.' ')) then
+             numlu = numlu + 1
+          end if	   
+       end do 
+       if (len_trim(tlu).le.3) numlu = 0
+       backspace(103)
+       read (103,*) (lu_nodrain(kk), kk=1,numlu)
+
+ !! subdaily erosion modeling by Jaehak Jeong
+      read (103,*,iostat=eof) titldum
+ 	if (eof < 0) exit
+      read (103,*,iostat=eof) eros_spl
+	if (eof < 0) exit
+      read (103,*,iostat=eof) rill_mult
+	if (eof < 0) exit
+      read (103,*,iostat=eof) eros_expo
+	if (eof < 0) exit
+      read (103,*,iostat=eof) sed_ch
+	if (eof < 0) exit
+      read (103,*,iostat=eof) c_factor
+	if (eof < 0) exit
+      read (103,*,iostat=eof) ch_d50
+	if (eof < 0) exit
+      read (103,*,iostat=eof) sig_g 
+	if (eof < 0) exit
+!!   Drainmod input variables - 01/2006
+      read (103,*,iostat=eof) re_bsn
+      if (eof < 0) exit
+      read (103,*,iostat=eof) sdrain_bsn
+      if (eof < 0) exit
+      read (103,*,iostat=eof) drain_co_bsn
+      if (eof < 0) exit
+!!   Drainmod input variables - 01/2006
+      read (103,*,iostat=eof) pc_bsn
+      if (eof < 0) exit
+      read (103,*,iostat=eof) latksatf_bsn
+      if (eof < 0) exit
+      read (103,*,iostat=eof) itdrn
+      if (eof < 0) exit
+	read (103,*,iostat=eof) iwtdn
+      if (eof < 0) exit
+      read (103,*,iostat=eof) sol_p_model  !! if = 1 use new soil P model
+      if (eof < 0) exit
+ 	read (103,*,iostat=eof) iabstr
+ 	if (eof < 0) exit
+!!!!! iatmodep = 0 - average annual
+!!!!!          = 1 - monthly
+!      read (103,*,iostat=eof) iatmodep
+!      if (eof < 0) exit
+	exit
+!!   Drainmod input variables - 01/2006
       end do
 
 !!    copy global values to local HRUs
@@ -479,9 +561,10 @@
 
 !!    set default values for undefined parameters
 !     if (ievent == 1) nstep = 24
-      if (res_stlr_co <= 1.e-6) res_stlr_co = .184
-      if (depimp_bsn <= 1.e-6) depimp_bsn = 6000.
-      if (bact_swf <= 1.e-6) bact_swf = 0.15
+      if (drain_co_bsn < 1.e-6) drain_co_bsn = 10. 
+      if (res_stlr_co < 1.e-6) res_stlr_co = .184
+      if (depimp_bsn < 1.e-6) depimp_bsn = 6000.
+      if (bact_swf < 1.e-6) bact_swf = 0.15
       if (adj_pkr <= 0.) adj_pkr = 1.
       if (spcon <= 0.) spcon = .0001
       if (spexp <= 0.) spexp = 1.0
@@ -535,6 +618,21 @@
       if (decr_min <= 1.e-6) decr_min = 0.01
 !!    mike van liew additions for basins.bsn
 
+	! check parameter values for urban project jaehak 9/15/09 
+	 if(iuh/=1.and.iuh/=2) then
+	   write(*,*) 'Check iuh in bsn file: 1:triangular or 2=gamma func'
+	!  stop
+	 endif
+	 if(bf_flg>1.or.bf_flg<0) then
+	   write(*,*) 'The range of BFLO_DIST in bsn file should be 0-1'
+	!  stop
+	 endif
+	 if(sed_ch>2) then
+	   write(*,*) 'Error in choosing channel erosion model:
+     &	0-Bagnold, 1-Brownlie, 2-Yang'
+	   write(*,*) 'Check *.bsn file to correct the error'
+	!  stop
+	 endif
       if (icfac <= 0) icfac = 0
       if (rsd_covco <= 1.e-6) rsd_covco = 0.3
 
@@ -570,6 +668,7 @@
 !!    initialize variables (may make these .bsn inputs for user adjustment
 !!    at some future time)
       nactfr = 0.02
+      abstinit = iabstr
 
       
       close (103)

@@ -1,7 +1,7 @@
       subroutine resnut
       
 !!    ~ ~ ~ PURPOSE ~ ~ ~
-!!    this subroutine routes solluble nitrogen and soluble phosphorus through reservoirs
+!!    this subroutine routes soluble nitrogen and soluble phosphorus through reservoirs
 
 !!    ~ ~ ~ INCOMING VARIABLES ~ ~ ~
 !!    name        |units         |definition

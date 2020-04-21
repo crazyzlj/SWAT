@@ -45,12 +45,31 @@
 
       j = 0
       j = ihru
-
+      
+!      if (iatmodep == 1) then
+!        if (ifirstatmo == 0) then
+!           mo_atmo = mo_atmo + 1
+!        else
+!           ifirstatmo = 0
+!           mo_atmo = 0
+!           do
+!             iyp = 0
+!             imp = 0
+!             mo_atmo = mo_atmo + 1
+!             if (iyr_atmo == iyr .and. mo_atmo1 == mo1) exit
+!           end do
+!        endif
+  !!         no3pcp = .01 * rcn(mo_atmo,hru_sub(j)) * precipday
+  !!         nh3pcp = .01 * rcn(mo_atmo,hru_sub(j)) * precipday
+  !!         sol_no3 = .01 * rcn(mo_atmo,hru_sub(j)) * precipday
+  !!         sol_nh3 = .01 * rcn(mo_atmo,hru_sub(j)) * precipday
+!!      elseif      
 !! calculate nitrate in precipitation
-      no3pcp = .01 * rcn_sub(hru_sub(j)) * precipday
-      nh3pcp = .01 * rammo_sub(hru_sub(j)) * precipday
-      sol_no3(1,j)=sol_no3(1,j)+no3pcp+drydep_no3(hru_sub(j))/365.
-      sol_nh3(1,j)=sol_nh3(1,j)+nh3pcp+drydep_nh4(hru_sub(j))/365.
+           no3pcp = .01 * rcn_sub(hru_sub(j)) * precipday
+           nh3pcp = .01 * rammo_sub(hru_sub(j)) * precipday
+           sol_no3(1,j)=sol_no3(1,j)+no3pcp+drydep_no3(hru_sub(j))/365.
+           sol_nh3(1,j)=sol_nh3(1,j)+nh3pcp+drydep_nh4(hru_sub(j))/365.
+!      endif
 
 !! summary calculations
       if (curyr > nyskip) then

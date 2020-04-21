@@ -180,6 +180,8 @@
 !!    sub_dox(:)  |kg O2         |dissolved oxygen loading on day for subbasin
 !!    sub_etday(:)|mm H2O        |actual evapotranspiration on day in subbasin
 !!    sub_gwq(:)  |mm H2O        |groundwater flow on day in subbasin
+!!    sub_hhsedy(:,:) |metric tons |sediment yield for the time step in subbasin
+!!    sub_hhwtmp(:,:) |deg C     |water temperature for the time step in subbasin
 !!    sub_latno3(:)|kg N/ha       |NO3-N in lateral flow on day in subbasin
 !!    sub_no3(:)  |kg N/ha       |NO3-N in surface runoff on day in subbasin
 !!    sub_orgn(:) |kg N/ha       |total organic N in first soil layer of 
@@ -213,9 +215,13 @@
 !!    sub_surfq(:)|mm H2O        |surface runoff generated on day in subbasin
 !!    sub_sw(:)   |mm H2O        |amount of water in soil in subbasin
 !!    sub_tran(:) |mm H2O        |transmission losses for day in subbasin
+!!    sub_ubnrunoff(:,:)|mm H2O  |surface runoff from urban impervious cover in subbasin
+!!    sub_ubntss(:,:)|metric tons  |TSS loading from urban impervious cover in subbasin
 !!    sub_wyld(:) |mm H2O        |water yield on day in subbasin
 !!    sub_yorgn(:)|kg N/ha       |organic N in surface runoff on day in subbasin
 !!    sub_yorgp(:)|kg P/ha       |organic P in surface runoff on day in subbasin
+!!    ubnrunoff(:) |mm H2O      |surface runoff from urban impervious cover 
+!!    ubntss(:)    |metric tons    |TSS loading from urban impervious cover
 !!    varoute(1,:) |deg C        |temperature
 !!    varoute(2,:) |m^3 H2O      |water
 !!    varoute(3,:) |metric tons  |sediment or suspended solid load
@@ -259,15 +265,11 @@
       use parm
 
       integer :: j, sb, kk, ii
-      real :: cnv, sub_ha, wtmp, tothhqd, difflw
-      real :: sub_hwyld(24)
+      real :: cnv, sub_ha, wtmp, tothhqd, difflw, bf_fr
+      real :: sub_hwyld(nstep), hqd(3*nstep), hsd(3*nstep),hqdtst(nstep)   ! hqd, hsd locally defined. J.Jeong 4/26/2009
 
-      j = 0
-      sb = 0
       j = ihru
       sb = inum1
-
-      cnv = 0.
       cnv = hru_ha(j) * 10.
 
 !! write daily HRU output
@@ -288,15 +290,36 @@
         sub_gwq(sb) = sub_gwq(sb) + gw_q(j) * hru_dafr(j)
         sub_wyld(sb) = sub_wyld(sb) + qdr(j) * hru_dafr(j)
         sub_latq(sb) = sub_latq(sb) + latq(j) * hru_dafr(j)
+	  sub_subp_dt(sb,:) = sub_subp_dt(sb,:) + rainsub(j,:) * hru_fr(j) !!urban modeling by J.Jeong
 
-      !! subbasin averages: hourly water
-        if (ievent > 2) then
-          do ii = 1, 24
-            sub_hhqd(sb,ii) = sub_hhqd(sb,ii) + hhqday(ii) * hru_dafr(j)
-            !! equation 2.3.13 in SWAT manual
-            sub_hhwtmp(sb,ii) = sub_hhwtmp(sb,ii) + hhqday(ii) *        &
-     &                hru_fr(j) * (5.0 + 0.75 * Tair(ii,j))
-          end do
+      !! subbasin averages: sub-daily water for URBAN MODELING
+        if (ievent>2) then
+        do ii = 1, nstep  !! step Oct. 18, 2007
+          
+          if (bmpdrain(j)==1) then
+           !Urban HRUs where runoff drains to bmps
+            sub_ubnrunoff(sb,ii) = sub_ubnrunoff(sb,ii) + 
+     &          (hhqday(ii) + ubnrunoff(ii)) * hru_dafr(j) !J.Jeong
+		      if (sub_ubnrunoff(sb,ii) < 1.e-20) sub_ubnrunoff(sb,ii) = 0.
+            sub_ubntss(sb,ii) = sub_ubntss(sb,ii) +  
+     &         (hhsedy(j,ii) + ubntss(ii)) * hru_dafr(j) !J.Jeong
+		      if (sub_ubntss(sb,ii) < 1.e-20) sub_ubntss(sb,ii) = 0.
+          else
+            !Urban/non-urban HRUs that do not make runoff to BMPs
+            sub_hhqd(sb,ii) = sub_hhqd(sb,ii) +  
+     &         (hhqday(ii) + ubnrunoff(ii)) * hru_dafr(j)
+ 		      if (sub_hhqd(sb,ii) < 1.e-20) sub_hhqd(sb,ii) = 0.
+            sub_hhsedy(sb,ii) = sub_hhsedy(sb,ii) +
+     &          (hhsedy(j,ii) + ubntss(ii)) * hru_dafr(j)
+   	      if (sub_hhsedy(sb,ii) < 1.e-20) sub_hhsedy(sb,ii) = 0.
+          end if 
+          
+          !! water temperature, equation 2.3.13 in SWAT manual
+           sub_atmp(sb,ii) = sub_atmp(sb,ii) + Tair(ii,j) * hru_fr(j)
+ 		  sub_hhwtmp(sb,ii) = sub_hhwtmp(sb,ii) + hru_fr(j) * 
+     &       (5.0 + 0.75 * sub_atmp(sb,ii))
+ 
+        end do
         end if
 
       !! subbasin averages: sediment
@@ -322,6 +345,7 @@
         if (latno3(j) < 1.e-6) latno3(j) = 0.0
         sub_no3(sb) = sub_no3(sb) + surqno3(j) * hru_dafr(j)
         sub_latno3(sb) = sub_latno3(sb) + latno3(j) * hru_dafr(j)
+        sub_tileno3(sb) = sub_tileno3(sb) + tileno3(j) * hru_dafr(j)
         sub_gwno3(sb) = sub_gwno3(sb) + no3gw(j) * hru_dafr(j)
         sub_solp(sb) = sub_solp(sb) + surqsolp(j) * hru_dafr(j)
         sub_gwsolp(sb) = sub_gwsolp(sb) + minpgw(j) * hru_dafr(j)
@@ -332,25 +356,25 @@
 
       !! subbasin averages: pesticides
         if (irtpest > 0) then
-          sub_solpst(sb) = sub_solpst(sb) + hrupstd(irtpest,1,j) +      &
+          sub_solpst(sb) = sub_solpst(sb) + hrupstd(irtpest,1,j) +      
      &                                              hrupstd(irtpest,4,j)
           sub_sorpst(sb) = sub_sorpst(sb) + hrupstd(irtpest,2,j)
         end if
 
       !! subbasin averages: bacteria
-        sub_bactp(sb) = sub_bactp(sb) + (bactrop + bactsedp)            &
+        sub_bactp(sb) = sub_bactp(sb) + (bactrop + bactsedp)            
      &                                                     * hru_dafr(j)
-        sub_bactlp(sb) = sub_bactlp(sb) + (bactrolp + bactsedlp)        &
+        sub_bactlp(sb) = sub_bactlp(sb) + (bactrolp + bactsedlp)        
      &                                                     * hru_dafr(j)
 
       !! subbasin averages: water quality indicators
-        sub_chl(sb) = sub_chl(sb) + chl_a(j) * (qday * qdfr * cnv)      &
+        sub_chl(sb) = sub_chl(sb) + chl_a(j) * (qday * qdfr * cnv)      
      &                                                           * 1.e-6
-        sub_cbod(sb) = sub_cbod(sb) + cbodu(j) * (qdr(j) * qdfr * cnv)  &
-     &                                                           * 1.e-3
-        sub_dox(sb) = sub_dox(sb) + (doxq(j) * (qdr(j) * qdfr * cnv) +  &
-     &               soxy * (qdr(j) * (1. - qdfr) * cnv)) * 1.e-3
 
+        sub_cbod(sb) = sub_cbod(sb) + cbodu(j) * (qdr(j) * qdfr * cnv)  
+     &                                                           * 1.e-3
+        sub_dox(sb) = sub_dox(sb) + (doxq(j) * (qdr(j) * qdfr * cnv) +  
+     &               soxy * (qdr(j) * (1. - qdfr) * cnv)) * 1.e-3
       !! subbasin averages: water temperature
       !! Stefan and Preudhomme. 1993.  Stream temperature estimation
       !! from air temperature.  Water Res. Bull. p. 27-45
@@ -364,9 +388,8 @@
         sub_surfq(sb) = sub_surfq(sb) + surfq(j) * hru_dafr(j)
         sub_tran(sb) = sub_tran(sb) + tloss * hru_dafr(j)
         sub_bd(sb) = sub_bd(sb) + sol_bd(1,j) * hru_dafr(j)
-	  
 	  if (cswat == 0) then
-        sub_orgn(sb) = sub_orgn(sb) + (sol_orgn(1,j) +                  &
+        sub_orgn(sb) = sub_orgn(sb) + (sol_orgn(1,j) +                  
      &                      sol_aorgn(1,j) + sol_fon(1,j)) * hru_dafr(j)
 	  else
 	  sub_orgn(sb) = sub_orgn(sb) + (sol_n(1,j) + sol_fon(1,j) +
@@ -408,34 +431,56 @@
         sub_pet(sb) = sub_pet(sb) / sub_fr(sb)
         sub_etday(sb) = sub_etday(sb) / sub_fr(sb)
 
-        if (ievent > 2) then
-          do ii = 1, 24
-            sub_hhqd(sb,ii) = sub_hhqd(sb,ii) / sub_fr(sb)
-            if (sub_hhqd(sb,ii) > 0.1) then
-            sub_hhwtmp(sb,ii) = sub_hhwtmp(sb,ii) / sub_hhqd(sb,ii)
-            else
-            sub_hhwtmp(sb,ii) = 0.
-            end if
-          end do
-   
-        hqd = 0.
-        do ii = 1, 24
-          do ib = 1, itb(sb)
-            hqd(ib+ii-1) = hqd(ib+ii-1) + sub_hhqd(sb,ii) * uh(sb,ib)
-          end do
-        end do
-    
-        do ii = 1, 24
-          sub_hhqd(sb,ii) = hqd(ii) + hqdsave(sb,ii)
-        end do
+      if (ievent > 2) then
 
-        do ii = 1, itb(sb)
-          hqdsave(sb,ii) = hqd(ii+24)
-        end do 
+          ! subdaily surface runoff, upland sediment for the subbasin
+          do ii = 1, nstep
+            sub_hhqd(sb,ii) = sub_hhqd(sb,ii) / sub_fr(sb)
+            sub_ubnrunoff(sb,ii) = sub_ubnrunoff(sb,ii) / sub_fr(sb)
+            sub_hhsedy(sb,ii) = sub_hhsedy(sb,ii) / sub_fr(sb)
+            sub_ubntss(sb,ii) = sub_ubntss(sb,ii) / sub_fr(sb)
+         end do
+         
+        !----------------------------------------------------
+        ! Simulate distributed urban BMPs in the subbasin
+         call distributed_bmps
+        !----------------------------------------------------
+          
+         do ii = 1, nstep
+            !add urban runoff and non-urban runoff
+            sub_hhqd(sb,ii) = sub_hhqd(sb,ii) + sub_ubnrunoff(sb,ii)
+            sub_hhsedy(sb,ii) = sub_hhsedy(sb,ii) + sub_ubntss(sb,ii)
+         end do
+          !route surface runoff in the subbasin
+         hqd = 0.; hsd = 0.; ii=0       !! added on Oct. 22, 2007
+         do ii = 1, nstep       
+            do ib = 1, itb(sb)
+              hqd(ib+ii-1) = hqd(ib+ii-1) + sub_hhqd(sb,ii) * uh(sb,ib) 
+              hsd(ib+ii-1) = hsd(ib+ii-1) + sub_hhsedy(sb,ii) *
+     &           uh(sb,ib) 
+            end do
+         end do
+    
+         do ii = 1, itb(sb)
+            hqd(ii) = hqd(ii) + hqdsave(sb,ii)
+            hsd(ii) = hsd(ii) + hsdsave(sb,ii)
+         end do
+
+		 do ii = 1,nstep
+		    sub_hhqd(sb,ii) = max(0.,hqd(ii))
+	      sub_hhsedy(sb,ii) = max(0.,hsd(ii))
+		 end do
+
+         do ii = 1, itb(sb)
+ !           hqdsave(ii) = hqdsave(ii+nstep) + hqd(ii+nstep)
+            hqdsave(sb,ii) = hqd(ii+nstep)  ! save flow after midnight for next day J.Jeong 4/17/2009
+            hsdsave(sb,ii) = hsd(ii+nstep)  ! sediment. J.Jeong 4/22/2009
+         end do 
         end if
 
         sub_no3(sb) = sub_no3(sb) / sub_fr(sb)
         sub_latno3(sb) = sub_latno3(sb) / sub_fr(sb)
+        sub_tileno3(sb) = sub_tileno3(sb) / sub_fr(sb)
         sub_gwno3(sb) = sub_gwno3(sb) / sub_fr(sb)
         sub_solp(sb) = sub_solp(sb) / sub_fr(sb)
         sub_gwsolp(sb) = sub_gwsolp(sb) / sub_fr(sb)
@@ -463,41 +508,7 @@
         sub_minp(sb) = sub_minp(sb) / sub_fr(sb)
         sub_minpa(sb) = sub_minpa(sb) / sub_fr(sb)
         sub_minps(sb) = sub_minps(sb) / sub_fr(sb)
-       ! do kk = 1, mp
-       ! sub_pst(kk,sb) = sub_pst(kk,sb) / sub_fr(sb)
-       ! end do
 
-        !!! compute subbasin sediment and organic chemical loadings
-        !if (sub_precip(sb) > 1.e-6 .and. (sub_qd(sb)+sub_tran(sb)) > 1.e-6) then
-        !  !! calculate subbasin value for al5
-        !  call alph(sb)
-        !  !! calculate subbasin value for peakr
-        !  call pkq(sb)
-        !  !! calculate subbasin value for sedyld
-        !  call ysed(sb)
-        !  if (sedyld(j) > 1.e-6 .and. peakr > 1.e-6) then
-        !    !! calculate subbasin value for enratio
-        !    call enrsb(sb)
-        !    !! in order to calculate sorbed pesticide in runoff for 
-        !    !! subbasin, new arrays need to be made to store pesticide
-        !    !! info at the subbasin level (pst_sed, sol_pst etc)
-        !    !! I did not modify pesty to accomodate subbasin calculations
-        !    !! beyond what was already in there
-        !    call pesty(sb)
-        !    !! total amounts of nutrients in subbasin are calculated after
-        !    !! removing nutrients in HRU sediment loop calculations, so
-        !    !! subbasin values will always be different than sum of HRU
-        !    !! values
-        !    !! calculate subbasin value for sedorgn
-        !    call orgn(sb)
-        !    !! calculate subbasin value for sedorgp and sedminp
-        !    call psed(sb)
-        !  end if
-        !end if
-        !!!compare sub_sedy(sb) (HRU average) to sedyld (subbasin calc.)
-        !!!compare sub_yorgn(sb) (HRU average) to sedorgn (subbasin calc.)
-        !!!compare sub_yorgp(sb) (HRU average) to sedorgp (subbasin calc.)
-        !!!compare sub_sedp(sb) (HRU average) to sedminp (subbasin calc.)
 
         !! assign reach loadings for subbasin
          !! zero out hydrograph storage locations
@@ -508,11 +519,12 @@
          !! set values for different routing variables
          !! storage locations set to zero are not currently used
          varoute(1,ihout) = sub_wtmp(sb)                 !!wtmp
-         varoute(2,ihout) = sub_wyld(sb) * sub_ha * 10.  !!qdr
+         varoute(2,ihout) = sub_wyld(sb) * sub_ha * 10.  !!qdr m3/d
          varoute(3,ihout) = sub_sedy(sb)                 !!sedyld
          varoute(4,ihout) = sub_yorgn(sb) * sub_ha       !!sedorgn
          varoute(5,ihout) = (sub_yorgp(sb) + sub_sedps(sb) +
      &                  sub_sedpa(sb)) * sub_ha          !!sedorgp & sedminps
+                                                  !!sedorgp & sedminps
          varoute(6,ihout) = (sub_no3(sb) + sub_latno3(sb) +             &
      &                  sub_gwno3(sb)) * sub_ha          !!surqno3 & latno3 & no3gw
          varoute(7,ihout) = (sub_solp(sb) + sub_gwsolp(sb)) * sub_ha   !!surqsolp & minpgw & sedminpa
@@ -538,6 +550,9 @@
          varoute(25,ihout) = sub_dcla(sb)                !! detached clay
          varoute(26,ihout) = sub_dsag(sb)                !! detached sml ag
          varoute(27,ihout) = sub_dlag(sb)                !! detached lrg ag 
+         varoute(29,ihout) = sub_qd(sb)                  !! surface runoff
+         varoute(30,ihout) = sub_latq(sb)                !! lateral flow
+         varoute(32,ihout) = sub_gwq(sb)                 !! groundwater flow 
          !! varoute array has space for 33 different routing components
 
          !! sum variables for hyd.out
@@ -552,37 +567,46 @@
           !! determine water loading other than surface runoff for day
           tothhqd = 0.
           difflw = 0.
-          do ii = 1, 24
+          do ii = 1, nstep
             tothhqd = tothhqd + sub_hhqd(sb,ii)
           end do
           difflw = sub_wyld(sb) - tothhqd
           if (difflw < 0.) difflw = 0.
          
           !! assume water loadings other than surface runoff (eg groundwater,
-          !! etc) are evenly distributed over 24 hr period
+          !! lat Q and qtile) are evenly distributed over a day
           sub_hwyld = 0.
-          do ii = 1, 24
-            sub_hwyld(ii) = sub_hhqd(sb,ii) + difflw / 24.
-          end do
 
+         ! Urban modeling by J.Jeong 4/23/2008
+         ! Daily water yield is unevenly distributed over time 
+         ! based on fractional rainfall of the day
+          do ii = 1, nstep
+            if(difflw>1. .and. sum(precipdt)>1.) then
+              bf_fr = bf_flg * precipdt(ii) / sum(precipdt) +
+     &         (1. - bf_flg) * 1. / nstep     
+              sub_hwyld(ii) = sub_hhqd(sb,ii) + difflw * bf_fr
+            else
+              sub_hwyld(ii) = sub_hhqd(sb,ii) + difflw / nstep
+            endif            
+          end do
           !! assign reach loadings for subbasin
           !! zero out hydrograph storage locations
           do ii = 1, mvaro
-            do kk = 1, 24
+            do kk = 1, nstep
               hhvaroute(ii,ihout,kk) = 0.
             end do
           end do
 
           !! set values for different routing variables
           !! storage locations set to zero are not currently used
-          do ii = 1, 24
+          do ii = 1, nstep
             ratio = 0.
             if (sub_wyld(sb) > 1.e-3)                                   &
      &                              ratio = sub_hwyld(ii) / sub_wyld(sb)
             if (sub_hwyld(ii) > 0.) then
               hhvaroute(1,ihout,ii) = sub_hhwtmp(sb,ii)            !!wtmp
               hhvaroute(2,ihout,ii) = sub_hwyld(ii) * sub_ha * 10. !!water
-              hhvaroute(3,ihout,ii) = varoute(3,ihout) * ratio     !!sedyld
+              hhvaroute(3,ihout,ii) = sub_hhsedy(sb,ii)            !!sedyld
               hhvaroute(4,ihout,ii) = varoute(4,ihout) * ratio     !!sedorgn
               hhvaroute(5,ihout,ii) = varoute(5,ihout) * ratio     !!sedorgp
               hhvaroute(6,ihout,ii) = varoute(6,ihout) * ratio     !!no3
@@ -602,14 +626,10 @@
               hhvaroute(20,ihout,ii) = 0.                          !!cmetal#1
               hhvaroute(21,ihout,ii) = 0.                          !!cmetal#2
               hhvaroute(22,ihout,ii) = 0.                          !!cmetal#3
-	        hhvaroute(23,ihout,ii) = difflw
+	          hhvaroute(23,ihout,ii) = difflw
+   
             end if
-          end do
-
-
-!!    mauro/jerry whittaker hourly output file
-!      call print_hyd
-
+		  end do
         end if
 
         !! summary calculations
@@ -632,6 +652,7 @@
          submono(16,sb) = submono(16,sb) + sub_latno3(sb)
 !! added by nbs -- clear with JGA
          submono(17,sb) = submono(17,sb) + sub_gwno3(sb)
+         submono(18,sb) = submono(18,sb) + sub_tileno3(sb)
 
           if (iprint == 1) call subday
         end if

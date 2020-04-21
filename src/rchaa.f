@@ -98,6 +98,9 @@
 !!                               |reach during simulation
 !!    rchdy(37,:)  |mg pst       |amount of pesticide stored in river bed
 !!                               |sediments
+!!    rchaao(43,:) |kg           |Total N (org N + no3 + no2 + nh4 outs)
+!!    rchaao(44,:) |kg           |Total P (org P + sol p outs)
+
 !!    subgis(:)    |none         |GIS code printed to output files(output.sub,.rch)
 !!    subtot       |none         |number of subbasins in watershed
 !!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
@@ -147,7 +150,7 @@
         pdvar = 0. 
         pdvr = 0.
 
-        !! assign daily values
+        !! assign average annual values
         pdvar(1) = srch_av(1)        !!flow in (m^3/s)
         pdvar(2) = srch_av(2)        !!flow out (m^3/s)
         pdvar(3) = rchaao(10,j)      !!evaporation (m^3/s)
@@ -190,7 +193,15 @@
         pdvar(40) = rchaao(12,j)     !!metal #1
         pdvar(41) = rchaao(13,j)     !!metal #2
         pdvar(42) = rchaao(14,j)     !!metal #3
-
+ !! added for Total N (org N + no3 + no2 + nh4 outs) to output.rch gsm 10/17/2011
+        pdvar(43) = rchaao(7,j) + rchaao(16,j) + rchaao(35,j) + 
+     *   rchaao(33,j)                                               !! Total N
+ !! added for Total P (org P + sol p outs)to output.rch gsm 10/17/2011
+        pdvar(44) = rchaao(9,j) + rchaao(18,j)                      !! Total P
+ 
+ !! added NO3 Concentration to output.rch (for daily only) gsm 10/26/2011
+        
+        
         if (ipdvar(1) > 0) then
           do ii = 1, itotr
             pdvr(ii) = pdvar(ipdvar(ii))
@@ -206,20 +217,21 @@
      &                             (pdvr(ii), ii = 1, itotr), iyr  
           endif
         else
+!!  increase to 44 in loops below from 42 gsm 10/17/2011
           if (iscen == 1 .and. isproj == 0) then
           write (7,5000) j, subgis(j), years, rch_dakm(j),              &
-     &                                        (pdvar(ii), ii = 1, 42)    
+     &                                        (pdvar(ii), ii = 1, 44)    
           else if (isproj == 1) then
           write (20,5000) j, subgis(j), years, rch_dakm(j),             &
-     &                                        (pdvar(ii), ii = 1, 42)    
+     &                                        (pdvar(ii), ii = 1, 44)    
           else if (iscen == 1 .and. isproj == 2) then
           write (7,6000) j, subgis(j), years, rch_dakm(j),              &
-     &                             (pdvar(ii), ii = 1, 42), iyr      
+     &                             (pdvar(ii), ii = 1, 44), iyr      
           endif
         end if
       end do
 
       return
- 5000 format ('REACH ',i4,1x,i8,1x,f5.1,43e12.4)
- 6000 format ('REACH ',i4,1x,i8,1x,f5.1,43e12.4,1x,i4)
+ 5000 format ('REACH ',i4,1x,i8,1x,f5.1,46e12.4)
+ 6000 format ('REACH ',i4,1x,i8,1x,f5.1,46e12.4,1x,i4)
       end

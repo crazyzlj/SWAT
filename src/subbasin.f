@@ -7,7 +7,7 @@
 !!    ~ ~ ~ INCOMING VARIABLES ~ ~ ~
 !!    name           |units         |definition
 !!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
-!!    auto_wstr(:,:,:)|none         |water stress factor which triggers auto
+!!    auto_wstr(:)   |none          |water stress factor which triggers auto
 !!                                  |irrigation
 !!    bio_e(:)       |(kg/ha)/      |biomass-energy ratio
 !!                   |     (MJ/m**2)|The potential (unstressed) growth rate per
@@ -22,21 +22,15 @@
 !!    gw_q(:)        |mm H2O        |groundwater contribution to streamflow from
 !!                                  |HRU on current day
 !!    hru_ra(:)      |MJ/m^2        |solar radiation for the day in HRU
-!!    iafer(:,:,:)   |julian date   |date of auto fertilization initialization
-!!    iairr(:,:,:)   |julian date   |date of auto irrigation initialization
 !!    iida           |julian date   |day being simulated (current julian date)
-!!    idplt(:,:,:)   |none          |land cover code from crop.dat
-!!    ifert(:,:,:)   |julian date   |date of fertilizer application
+!!    idplt(:)       |none          |land cover code from crop.dat
 !!    igro(:)        |none          |land cover status code
 !!                                  |0 no land cover currently growing
 !!                                  |1 land cover growing
-!!    iir(:,:,:)     |julian date   |date of irrigation operation
 !!    inum1          |none          |subbasin number
-!!    ipst(:,:,:)    |julian date   |date of pesticide application
-!!    imp_trig(:,:,:)|none          |release/impound action code:
+!!    imp_trig(:)    |none          |release/impound action code:
 !!                                  |0 begin impounding water
 !!                                  |1 release impounded water
-!!    irelease(:,:,:)|julian date   |date of impound/release operation
 !!    irrsc(:)       |none          |irrigation source code:
 !!                                  |1 divert water from reach
 !!                                  |2 divert water from reservoir
@@ -69,17 +63,8 @@
 !!    pet_day        |mm H2O        |potential evapotranspiration on current
 !!                                  |day in HRU
 !!    phuacc(:)      |none          |fraction of plant heat units accumulated
-!!    phuaf(:,:,:)   |none          |fraction of plant heat units at which
-!!                                  |auto-fertilization is initialized
-!!    phuai(:,:,:)   |none          |fraction of plant heat units at which
-!!                                  |auto-irrigation is initialized
 !!    phubase(:)     |heat units    |base zero total heat units (used when no
 !!                                  |land cover is growing)
-!!    phuirr(:,:,:)  |none          |fraction of plant heat units at which
-!!                                  |irrigation occurs
-!!    phun(:,:,:)    |none          |fraction of plant heat units at which
-!!                                  |fertilization occurs
-!!    phupst(:,:,:)  |none          |fraction of plant heat units at which
 !!                                  |pesticide application occurs
 !!    pot_fr(:)      |km2/km2       |fraction of HRU area that drains into
 !!                                  |pothole
@@ -149,11 +134,13 @@
 
       use parm
 
-      integer :: j
+      integer :: j,sb,kk
       real :: tmpk, d, gma, ho, pet_alpha, aphu, phuop
 
       ihru = 0
-      ihru = hru1(inum1)
+      ihru = hru1(inum1) 
+      
+      call sub_subbasin
 
       do iihru = 1, hrutot(inum1)
 
@@ -161,42 +148,26 @@
       j = ihru
 
       call varinit
+      if (icr(j) <= 0) icr(j) = 1
+      
+      i_wtrhru = 0
+      if (idplt(j) /= 0) then
+          if (cpnm(idplt(j)) == "WATR") then
+              i_wtrhru = 1
+          end if
+      endif
+      
+	if (i_wtrhru == 1) then
+         call water_hru
+      else 
 
-      if (bio_e(idplt(1,1,j)) <= 1.e-6 .and. nrot(j) > 0) then
-
-        !! if the HRU is water compute only pet and et
-        !! using Priestly-Taylor and a coefficient
-        tmpk = 0.
-        d = 0.
-        gma = 0.
-        ho = 0.
-        albday = .08
-        pet_alpha = 1.28
-        tmpk = tmpav(j) + 273.15
-        d = Exp(21.255 - 5304. / tmpk) * 5304. / tmpk ** 2
-        gma = d / (d + .68)
-        ho = hru_ra(j) * (1. - albday) / 2.44
-        pet_day = pet_alpha * ho * gma
-        etday = .7 * pet_day
-
-      else
- 
         !! Simulate land covers other than water
 
         !! update base zero total heat units
         if (tmpav(j) > 0. .and. phutot(hru_sub(j)) > 0.01) then
            phubase(j) = phubase(j) + tmpav(j) / phutot(hru_sub(j))
         end if
-
-        !! Check date for auto-irrigation and auto-fertilization
-        if (iida == iairr(nro(j),nair(j),j)) nair(j) = nair(j) + 1
-        if (phuacc(j) > phuai(nro(j),nair(j),j)) nair(j) = nair(j) + 1
-        if (iida == iafer(nro(j),nafert(j),j)) nafert(j) = nafert(j) + 1
-        if (phuacc(j) > phuaf(nro(j),nafert(j),j)) then
-         nafert(j) = nafert(j) + 1
-        endif
         
-
         call schedule_ops
 
         !! calculate albedo for day
@@ -205,17 +176,22 @@
         !! calculate soil temperature for soil layers
         call solt
 
-!       if (ipot(j) /= j .and. imp_trig(nro(j),nrelease(j),j)==1)       &
-        if (pot_vol(j) < 1.e-3 .and. imp_trig(nro(j),nrelease(j),j)==1) &
-     &        then             
+!       if (ipot(j) /= j .and. imp_trig(nro(j),nrelease(j),j)==1)       &  Srini pothole
+!
+!     &        then             
           !! calculate surface runoff if HRU is not impounded or an 
           !! undrained depression--
           call surface
 
           !! compute effective rainfall (amount that percs into soil)
           inflpcp = Max(0.,precipday - surfq(j))
-        end if
+!        end if
          
+        !! perform management operations
+        if (yr_skip(j) == 0) call operatn
+          
+        if (auto_wstr(j) > 1.e-6 .and. irrsc(j) > 2) call autoirr       !!NUBZ
+        
         !! perform soil water routing
         call percmain
 
@@ -236,89 +212,31 @@
         sci(j) = amin1(sci(j),smxco * smx(j))
         end if 
         
-
-        !! apply fertilizer-check day and heat units
-        do while (iida == ifert(nro(j),nfert(j),j))
-          call fert
-	      if (imgt == 1) then
-              write (143,1000) j, iyr, i_mo, iida, "  FERT APP"
-	      end if
-        end do
-
-        if (igro(j) == 0) then
-          aphu = phubase(j)
-          phuop = phun_nocrop(nro(j),nfert(j),j)
-        else
-          aphu = phuacc(j) 
-          phuop = phun(nro(j),nfert(j),j)
-        endif
-!$$$$$$         if (phuop>0. .and. aphu > phuop) then
-        do while (phuop>0. .and. aphu > phuop)
-          call fert
-	      if (imgt == 1) then
-              write (143,1000) j, iyr, i_mo, iida, "  FERT APP"
-	      end if
-          if (igro(j) == 0) then
-            aphu = phubase(j)
-            phuop = phun_nocrop(nro(j),nfert(j),j)
-          else
-            aphu = phuacc(j) 
-            phuop = phun(nro(j),nfert(j),j)
-          endif
-!$$$$$$         end if
-        end do
-
-        !! burn operation
-        if (iburn(nro(j),i_burn(j)+1,j) > 0) then
-          if (iida == iburn(nro(j),i_burn(j)+1,j)) call burnop
-        endif
-        if (igro(j) == 0) then
-          if (phubase(j) > phub(nro(j),i_burn(j)+1,j)) call burnop
-        else
-          if(phuacc(j) > phub(nro(j),i_burn(j)+1,j)) call burnop
-        end if       
-	       
         !! apply fertilizer/manure in continuous fert operation
-        call confert
- 
-        !! apply pesticide in continuous pest operation
-        call conapply
-
-        !! remove biomass from grazing and apply manure
-        call graze
-
-        !! apply pesticide
-        do while (iida == ipst(nro(j),npest(j),j))
-          call apply
-	      if (imgt == 1) then
-              write (143,1000) j, iyr, i_mo, iida, "  PEST APP"
-	      end if
-        end do
-        if (igro(j) == 0) then
-          aphu = phubase(j)
-          phuop = phupst_nocrop(nro(j),npest(j),j)
-        else
-          aphu = phuacc(j) 
-          phuop = phupst(nro(j),npest(j),j)
+        if (icfrt(j) == 1) then
+          ndcfrt(j) = ndcfrt(j) + 1
+          call confert
         end if
-!$$$$$$         if (phuop>0. .and. aphu > phuop) then
-        do while (phuop>0. .and. aphu > phuop)
-          call apply
-	      if (imgt == 1) then
-              write (143,1000) j, iyr, i_mo, iida, "  PEST APP"
-	      end if
-          if (igro(j) == 0) then
-            aphu = phubase(j)
-            phuop = phupst_nocrop(nro(j),npest(j),j)
-          else
-            aphu = phuacc(j) 
-            phuop = phupst(nro(j),npest(j),j)
-          end if
-!$$$$$$         end if
-        end do
-
+        
+        !! apply pesticide in continuous pest operation
+        if (icpst(j) == 1) then 
+          ndcpst(j) = ndcpst(j) + 1
+          call conapply
+        end if 
+        
+        !! remove biomass from grazing and apply manure
+        if (igrz(j) == 1) then
+          ndeat(j) = ndeat(j) + 1
+          call graze
+        end if
+       
         !! compute crop growth
         call plantmod
+        
+        !! check for dormancy
+        if (igro(j) == 1) call dormant
+        !! compute actual ET for day in HRU
+        etday = ep_day + es_day + canev
 
         !! write daily air and soil temperature file
         !! can be uncommmented if needed by user and also in readfile.f
@@ -335,7 +253,11 @@
 	  end if
 
         call nitvol
-        call pminrl
+        if (sol_P_model == 1) then
+            call pminrl
+        else
+            call pminrl2
+        end if
 
 !!    compute biozone processes in septic HRUs
 !!    if 1)current is septic hru and 2)  soil temperature is above zero
@@ -386,33 +308,24 @@
         call bacteria
 
         !! compute loadings from urban areas
-        if (iurban(j) > 0) call urban
-
+        if (urblu(j) > 0) then
+	     if(ievent<3) then
+	        call urban ! daily simulation
+	     else
+		     call urbanhr ! subdaily simulation J.Jeong 4/20/2009
+	     endif
+	  endif
+	  
+!! Srini Pothole
         !! compute undrained depression/impounded area (eg rice) processes
-        if (pot_fr(j) > 0.) call pothole
-        !! Check date for release/impounding water on rice fields
-        if (iida == irelease(nro(j),nrelease(j),j)) then
-          nrelease(j) = nrelease(j) + 1
-	    if (imgt == 1) then
-            write (143,1000) j, iyr, i_mo, iida, "   RELEASE"
-	    end if
-        else if (igro(j) == 0) then
-          aphu = phubase(j)
-          phuop = phuimp_nocrop(nro(j),nrelease(j),j)
-        else
-          aphu = phuacc(j) 
-          phuop = phuimp(nro(j),nrelease(j),j)
-        end if
-        if (phuop>0. .and. aphu > phuop) then
-          nrelease(j) = nrelease(j) + 1
-	    if (imgt == 1) then
-            write (143,1000) j, iyr, i_mo, iida, "   RELEASE"
-	    end if
-        end if
-
-	  !! compute actual ET for day in HRU
-        etday = ep_day + es_day + canev + potevmm
-
+!        if (pot_fr(j) > 0.) then
+!           if (ievent<3) then   
+!          call pothole
+!           else
+!              call potholehr
+!           endif
+!        endif
+        
         !! compute sediment loading in lateral flow and add to sedyld
         call latsed
 
@@ -442,6 +355,12 @@
           call grass_wway
         end if
 
+	 !! compute reduction in pollutants due to in fixed BMP eff
+	   if (bmp_flag(j) == 1) then
+          call bmpfixed
+        end if
+
+
         !! compute water yield for HRU
         qdr(j) = qday + latq(j) + gw_q(j) + qtile
         if (qdr(j) < 0.) qdr(j) = 0.
@@ -455,47 +374,19 @@
         call wetlan
 
         !! compute pond processes
-        call hrupond
+        if (ievent<3) then
+           call hrupond
+        else
+           call hrupondhr
+        endif
+        
+!       Srini pothole        
+        if (pot_fr(j) > 0.) call pothole
+                
         xx = sed_con(j)+soln_con(j)+solp_con(j)+orgn_con(j)+orgp_con(j)
         if (xx > 1.e-6) then
           call urb_bmp
         end if
-
-        !! perform irrigation operations from shallow aquifer, deep
-        !! aquifer and sources outside watershed
-
-!!!! Srin's irrigation source by each application changes
-          irrsc(j) = irr_sc(nro(j),nirr(j),j)
-!!!! Srin's irrigation source by each application changes
-          if (irrsc(j) > 2) then
-            !! irrigation operation
-            if (iir(nro(j),nirr(j),j) > 0) then
-              if (iida == iir(nro(j),nirr(j),j)) then
-                call irrsub
-	          if (imgt == 1) then
-                  write (143,1000) j, iyr, i_mo, iida, "  IRRIGATE"
-	          end if
-            end if
-            else
-              if (igro(j) == 0) then
-
-                aphu = phubase(j)
-                phuop = phuirr_nocrop(nro(j),nirr(j),j)
-              else
-                aphu = phuacc(j) 
-                phuop = phuirr(nro(j),nirr(j),j)
-              end if
-              if (phuop > 0. .and. aphu > phuop) then
-                call irrsub
-	          if (imgt == 1) then
-                  write (143,1000) j, iyr, i_mo, iida, "  IRRIGATE"
-	          end if
-              end if
-            endif
-	    endif
-
-          !! auto-irrigation operation
-          call autoirr
 
         !! consumptive water use (ponds, shallow aquifer, deep aquifer)
         call watuse
@@ -511,7 +402,8 @@
       !! summarize output for multiple HRUs per subbasin
       !! store reach loadings for new fig method
       call virtual
-
+      aird(j) = 0.
+      
       ihru = ihru + 1
       end do
 

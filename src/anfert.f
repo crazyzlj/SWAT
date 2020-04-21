@@ -21,7 +21,7 @@
 !!                               |to top 10 mm of soil (the remaining
 !!                               |fraction is applied to first soil
 !!                               |layer)
-!!    auto_nyr(:)|kg NO3-N/ha   |maximum NO3-N content allowed to be
+!!    auto_nyr(:) |kg NO3-N/ha   |maximum NO3-N content allowed to be
 !!                               |applied in one year by auto-fertilization
 !!    auto_napp(:)|kg NO3-N/ha   |maximum NO3-N content allowed in one
 !!                               |fertilizer application
@@ -74,7 +74,7 @@
 !!    strsp(:)    |none          |fraction of potential plant growth achieved on
 !!                               |the day where the reduction is caused by
 !!                               |phosphorus stress
-!!    tnylda(:,:,:)|kg N/kg yield|estimated/target nitrogen content of
+!!    tnylda(:)   |kg N/kg yield |estimated/target nitrogen content of
 !!                               |yield used in autofertilization
 !!    wshd_fminp  |kg P/ha       |average annual amount of mineral P applied
 !!                               |in watershed
@@ -189,7 +189,7 @@
          end do
          tpno3 = plantn(j)
 
-         targn = tnylda(nro(j),icr(j),j) - tsno3 - tpno3
+         targn = tnylda(j) - tsno3 - tpno3
          if (targn > auto_napp(j)) targn = auto_napp(j)
          if (targn < 0.) targn = 0.
 
@@ -268,7 +268,7 @@
           end if
           sol_solp(ly,j) = sol_solp(ly,j) + xx * dwfert * tfp
         end do
-
+        
 
 !! summary calculations
           auton = auton + dwfert * (fminn(ifrt) + forgn(ifrt))
@@ -288,6 +288,15 @@
         end if
 
       endif
-
+      
+      if (imgt == 1) then
+              write (143, 1000) subnum(j), hruno(j), iyr, i_mo, iida, 
+     *        "         ",
+     *        "AUTOFERT", phubase(j), phuacc(j), sol_sw(j),bio_ms(j), 
+     *        sol_rsd(1,j),sol_sumno3(j),sol_sumsolp(j), dwfert,
+     *        fertno3, fertnh3, fertorgn, fertsolp, fertorgp
+      end if
+1000  format (a5,1x,a7,3i6,2a15,7f10.2,20x,f10.2,10x,5f10.2) 
+      
       return
       end subroutine

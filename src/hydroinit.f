@@ -41,6 +41,9 @@
 !!                               |day. SURLAG is used to create a "storage" for
 !!                               |surface runoff to allow the runoff to take 
 !!                               |longer than 1 day to reach the subbasin outlet
+!!    tconc(:)     |hr           |time of concentration
+!!    uhalpha      |             |alpha coefficient for estimating unit hydrograph
+!!                               |using a gamma function (*.bsn)
 !!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ 
 
 
@@ -107,10 +110,15 @@
       dr_sub(j) = amin1(.95,rto ** .5)
 
 
-!!    compute fraction of surface runoff that is lagged
-        brt(j) = 1. - Exp(-surlag / tconc(j))
+!!    compute fraction of surface runoff that is reaching the main channel
+        if (ievent>1) then
+           brt(j) = 1. - Exp(-surlag / (tconc(j) / (idt / 60.)))	!! urban modeling by J.Jeong
+        else
+           brt(j) = 1. - Exp(-surlag / tconc(j))
+        endif
         if (isproj == 2) brt(j) = 1.
-
+        
+        
 !!    compute lateral flow travel time
         if (lat_ttime(j) <= 0.) then
             scmx = 0.
@@ -151,26 +159,61 @@
       do isb = 1, msub - 1
         ql = 0.
         sumq = 0.
-        tb = .5 + .6 * sub_tc(isb) + tb_adj
-        if (tb > 48.) tb = 48.
-        tp = .375 * tb
-        itb(isb) = int(tb) + 1
-        do i = 1, itb(isb)
-          xi = float(i)
-          if (xi < tp) then           !! rising limb of hydrograph
-            q = xi / tp
-          else                        !! falling limb of hydrograph
-            q = (tb - xi) / (tb - tp)
-          end if
-          q = Max(1.,q)
-          uh(isb,i) = (q + ql) / 2.
-          ql = q
-          sumq = sumq + uh(isb,i)
-        end do
 
-        do i = 1, itb(isb)
-          uh(isb,i) = uh(isb,i) / sumq
-        end do
+        tb = .5 + .6 * sub_tc(isb) + tb_adj  !baseflow time, hr
+
+        if (tb > 48.) tb = 48.			   !maximum 48hrs
+        tp = .375 * tb						! time to peak flow
+	  
+	  !! convert to time step (from hr), J.Jeong March 2009
+	  tb = ceiling(tb * 60./ real(idt))
+	  tp = int(tp * 60./ real(idt))         
+	  
+	  if(tp==0) tp = 1
+	  if(tb==tp) tb = tb + 1
+	  itb(isb) = int(tb) 
+        
+	  ! Triangular Unit Hydrograph
+	  if (iuh==1) then
+	    do i = 1, itb(isb)
+            xi = float(i)
+ 	      if (xi < tp) then           !! rising limb of hydrograph
+              q = xi / tp
+            else                        !! falling limb of hydrograph
+              q = (tb - xi) / (tb - tp)
+            end if
+            q = Max(0.,q)
+            uh(isb,i) = (q + ql) / 2.
+            ql = q
+            sumq = sumq + uh(isb,i)
+          end do
+          
+		do i = 1, itb(isb)
+            uh(isb,i) = uh(isb,i) / sumq
+          end do
+	  
+	  ! Gamma Function Unit Hydrograph
+	  elseif (iuh==2) then
+          i = 1; q=1.
+		do while (q>0.0001)
+            xi = float(i)
+		   q = (xi / tp) ** uhalpha * exp((1.- xi / tp) * uhalpha)
+            q = Max(0.,q)
+            uh(isb,i) = (q + ql) / 2.
+            ql = q
+            sumq = sumq + uh(isb,i)
+	      i = i + 1
+	      if (i>2*nstep) then
+		    write(*,*) "Unit Hydrograph duration is too long"
+	        exit
+	      endif
+	    end do
+	    itb(isb) = i - 1
+		do i = 1, itb(isb)
+            uh(isb,i) = uh(isb,i) / sumq
+          end do
+	  endif 
+
       end do
       end if
 

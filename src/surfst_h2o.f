@@ -54,21 +54,31 @@
       j = 0
       j = ihru
 
-      bsprev = surf_bs(1,j)
-
       if (ievent < 3) then	
-      
-	surf_bs(1,j) = Max(1.e-6, surf_bs(1,j) + surfq(j))
-      qday = surf_bs(1,j) * brt(j)
-      surf_bs(1,j) = surf_bs(1,j) - qday
+ 
+         bsprev = surf_bs(1,j)
+	   surf_bs(1,j) = Max(1.e-6, surf_bs(1,j) + surfq(j))
+         qday = surf_bs(1,j) * brt(j)
+         surf_bs(1,j) = surf_bs(1,j) - qday
+	
 	else
-		qday = 0.
-		do ii =1,24
-		  surf_bs(1,j) = Max(1.e-6, surf_bs(1,j) + hhqday(ii))
-		  hhqday(ii) = surf_bs(1,j) * brt(j) / 24.
-		  surf_bs(1,j) = surf_bs(1,j) - hhqday(ii)
-		  qday = qday + hhqday(ii)
-		end do
+		bsprev = hhsurf_bs(1,j,nstep)		! lag from previous day J.Jeong 4/06/2009
+
+	   do k=1,nstep
+
+	   !! Left-over (previous timestep) + inflow (current  timestep)
+           hhsurf_bs(1,j,k) = Max(0., bsprev + hhqday(k))
+   	
+	   !! new estimation of runoff and sediment reaching the main channel
+	     hhqday(k) = hhsurf_bs(1,j,k) * brt(j)
+	     hhsurf_bs(1,j,k) = hhsurf_bs(1,j,k) - hhqday(k)
+   	  
+	   !! lagged at the end of time step  
+	     bsprev = hhsurf_bs(1,j,k) 
+	   end do
+
+	   !! daily total yield from the HRU
+	   qday = sum(hhqday)  
 	end if
      
       return

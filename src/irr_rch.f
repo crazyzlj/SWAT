@@ -9,7 +9,7 @@
 !!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
 !!    aird(:)         |mm H2O        |amount of water applied to HRU on current
 !!                                   |day
-!!    auto_wstr(:,:,:)|none or mm    |water stress factor which triggers auto
+!!    auto_wstr(:)    |none or mm    |water stress factor which triggers auto
 !!                                   |irrigation
 !!    divmax(:)       |mm H2O or     |maximum daily irrigation diversion from
 !!                    |  10^4 m^3 H2O|the reach (when IRR=1): when value is
@@ -24,17 +24,16 @@
 !!                                   |will be diverted only when streamflow is
 !!                                   |at or above FLOWMIN.
 !!    iida            |julian date   |day being simulated (current julian date)
-!!    wstrs_id(:,:,:)  |none          |water stress identifier:
+!!    wstrs_id(:)     |none          |water stress identifier:
 !!                                   |1 plant water demand
 !!                                   |2 soil water deficit
-!!    iir(:,:,:)      |julian date   |date of irrigation operation
 !!    inum1           |none          |reach number
 !!    ipot(:)         |none          |number of HRU (in subbasin) that is ponding
 !!                                   |water--the HRU that the surface runoff from
 !!                                   |current HRU drains into. This variable is
 !!                                   |used only for rice paddys or closed
 !!                                   |depressional areas
-!!    irr_amt(:,:,:)  |mm H2O        |depth of irrigation water applied to
+!!    irramt(:)       |mm H2O        |depth of irrigation water applied to
 !!                                   |HRU
 !!    irrno(:)        |none          |irrigation source location
 !!                                   |if IRR=1, IRRNO is the number of the
@@ -60,8 +59,6 @@
 !!                                   |within the year
 !!    nro(:)          |none          |sequence number of year in rotation
 !!    phuacc(:)       |none          |fraction of plant heat units accumulated
-!!    phuirr(:,:,:)   |none          |fraction of plant heat units at which
-!!                                   |irrigation occurs
 !!    pot_vol(:)      |m**3 H2O      |current volume of water stored in the
 !!                                   |depression/impounded area
 !!    rtwtr           |m^3 H2O       |water leaving reach on day
@@ -125,31 +122,28 @@
       wtrin = rtwtr + rchstor(jrch)
 
       do k = 1, nhru
-!!!! Srin's irrigation source by each application changes
-        irrsc(k) = irr_sc(nro(k),nirr(k),k)
-        irrno(k) = irr_no(nro(k),nirr(k),k)
-!!!! Srin's irrigation source by each application changes
-
-        if (irrsc(k) == 1 .and. irrno(k) == jrch) then
-
           !! check for timing of irrigation operation
           flag = 0
-          if (iida == iir(nro(k),nirr(k),k)) flag = 1 ! date == irrigation date
-          if (phuacc(k) > phuirr(nro(k),nirr(k),k)) flag = 1  
-          if (auto_wstr(nro(k),nair(k),k) > 0.) then
-            if (wstrs_id(nro(k),nair(k),k) == 1 .and.                   &
-     &              strsw(k) < auto_wstr(nro(k),nair(k),k)) flag = 2
-            if (wstrs_id(nro(k),nair(k),k) == 2 .and.                   &
-     &           sol_sumfc(k) - sol_sw(k) > auto_wstr(nro(k),nair(k),k))&
-     &                                                         flag = 2
+          flag = irr_flag(k)
+          if (auto_wstr(k) > 0.) then
+            if (wstrs_id(k) == 1 .and. strsw(k) < auto_wstr(k)) flag = 2
+            if (wstrs_id(k) == 2 .and. sol_sumfc(k) - sol_sw(k) >       &
+     &             auto_wstr(k)) flag = 2
           end if
 
-! Set SQ_RTO based on mannual or auto irrigation
+            !! Set parameters based on manual or auto irrigation
 			if (flag == 1) then
-			  sq_rto = irr_sq(nro(k),nair(k),k)
+			  sq_rto = irrsq(k)
+			  irrsc(k) = irr_sc(k)                                  !!NUBZ
+			  irrno(k) = irr_no(k)
 			else
-			  sq_rto = irr_asq(nro(k),nair(k),k)
+			  sq_rto = irr_asq(k)
+			  irrsc(k) = irr_sca(k)
+			  irrno(k) = irr_noa(k)                   
 			endif
+
+        if (irrsc(k) == 1 .and. irrno(k) == jrch) then
+          aird(k) = 0.                                            !!NUBZ
 
           if (flag > 0) then
             !!irrigate only if flow is greater than minimum flow
@@ -170,19 +164,19 @@
               !! compute maximum amount of water available for irrigation
               !! from reach
               wtr_avail = rtwtr + rchstor(jrch)
-           vminmm = (wtr_avail - flowmin(k) * 86400.) * flowfr(k) / cnv
+              vminmm = (wtr_avail - flowmin(k) * 86400.) * flowfr(k)/cnv
               vmm = Min(vminmm, vmm)
 
               !! check available against set amount in scheduled operation
               if (flag == 1) then
                 vmxi = 0.
-                vmxi = irr_amt(nro(k),nirr(k),k)
+                vmxi = irramt(k)                       
                 if (vmxi < 1.e-6) vmxi = sol_sumfc(k)
                 if (vmm > vmxi) vmm = vmxi
               end if
               if (flag == 2) then
                 vmxi = 0.
-                vmxi = sol_sumfc(k)
+                vmxi = irr_mx(k)
                 if (vmm > vmxi) vmm = vmxi
               end if
 
@@ -202,13 +196,13 @@
                   vol = aird(k) * cnv
                 end if
                 if (ievent > 2) then
-                  do ii = 1, 24
+                  do ii = 1, nstep
                     hrtwtr(ii) = hrtwtr(ii) - vol * hrtwtr(ii) / rtwtr
                     if (hrtwtr(ii) < 0.) hrtwtr(ii) = 0.
                   end do
                 end if
 !!                xx = vol     							                           !! BN: replaced "wtrin" with "vol"
-                vol = vol / irr_eff(nro(k),nair(k),k)         			           !! BN: inserted to account for irr. efficiency                                             
+                vol = vol / irr_eff(k)   !! BN: inserted to account for irr. efficiency                                             
                 xx = (wtr_avail - flowmin(k) * 86400.) * flowfr(k)                 !! BN: inserted: xx = available/allowed amount in m3/s
                 xx = Min(xx, vol)                                                  !! BN: inserted abstracted water cannot be more than allowed/available amount
                 if (xx > rchstor(jrch)) then
@@ -255,7 +249,7 @@
 	  end if
 
         if (ievent > 2) then
-          do ii = 1, 24
+          do ii = 1, nstep
             hsedyld(ii) = hsedyld(ii) * rtwtr / wtrin
           end do
         end if

@@ -74,6 +74,35 @@
 !!    wet_sed(:)  |mg/L          |sediment concentration in wetland water
 !!    wet_solp(:) |kg P          |amount of soluble P in wetland
 !!    wet_vol(:)  |10**4 m**3 H2O|volume of water in wetlands
+!!    dtp_onoff(:)   |none          |sub-basin detention pond is associated with
+!!    dtp_iy(:)      |none          |year of the simulation that the reservoir 
+!!                                  |becomes operational
+!!    dtp_imo(:)     |none          |month the reservoir becomes operational
+!!    dtp_evrsv      |none          |detention pond evaporation coefficient
+!!    dtp_numweir(:) |none          |Total number of weirs in the BMP
+!!    dtp_numstage(:)|none          |Total number of stages in the weir
+!!    dtp_parm(:)    |none          |BMP outflow hydrograph shape parameter
+!!    dtp_totwrwid(:)|m             |Total constructed width of the detention wall across
+!!                                  |the creek
+!!    dtp_stagdis(:) |none          |0=use weir/orifice discharge equation to calculate 
+!!                                  |outflow, 1=use stage-dicharge relationship
+!!    dtp_reltype(:) |none          |Equations for Stage-Discharge relationship,1=exponential 
+!!                                  |function, 2=linear, 3=logarithmic, 4=cubic, 5=power   
+!!    dtp_intcept(:) |none          |Intercept used in regression equations
+!!    dtp_expont(:)  |none          |Exponent used in the exponential equation
+!!    dtp_coef1(:)   |none          |Coefficient of 3rd degree in the polynomial equation
+!!    dtp_coef2(:)   |none          |Coefficient of 2nd degree in the polynomial equation
+!!    dtp_coef3(:)   |none          |Coefficient of 1st degree in the polynomial equation
+!!    dtp_weirtype(:,:)|none        |Type of weir: 1=rectangular and 2=circular
+!!    dtp_weirdim(:,:)|none         |Weir dimensions, 1=read user input, 0=use model calculation
+!!    dtp_wdratio(:,:)|none         |Width depth ratio of rectangular weirs
+!!    dtp_depweir(:,:)|m            |Depth of rectangular wier at different stages
+!!    dtp_diaweir(:,:)|m            |Diameter of orifice hole at different stages
+!!    dtp_addon(:,:)  |m            |The distance between spillway levels
+!!    dtp_flowrate(:,:)|m3/sec      |Maximum discharge from each stage of the weir/hole
+!!    dtp_cdis(:,:)  |none          |Discharge coeffieicne for weir/orifice flow
+!!    dtp_retperd(:,:)|years        |Return period at different stages
+!!    dtp_pcpret(:,:)|mm            |precipitation for different return periods (not used)
 !!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ 
 
 !!    ~ ~ ~ LOCAL DEFINITIONS ~ ~ ~
@@ -134,13 +163,14 @@
       use parm
 
       character (len=80) :: titldum
+      character (len=200) :: lus
       integer :: eof, j, sifld1, sifld2, sndt, spnd1, spnd2
       real :: spndfr, spndpsa, spndpv, spndesa, spndev, spndv, spnds
       real :: spndns, spndk, swetfr, swetnsa, swetnv, swetmsa, sp1
       real :: swetmv, swetv, swets, swetns, swetk, sp2, sw1, sw2
       real :: sn1, sn2, snw1, snw2, schla, schlaw, sseci, sseciw
       real :: spno3, spsolp, sporgn, sporgp, swno3, swsolp, sworgn
-      real :: sworgp
+      real :: sworgp, sub_ha
 
       eof = 0
       spndfr = 0.
@@ -188,6 +218,7 @@
       sworgp = 0.
       pndevcoeff = 0. 
       wetevcoeff = 0.
+      sub_ha = sub_km(i) * 100. 
 
       do
       read (104,5100,iostat=eof) titldum
@@ -239,6 +270,7 @@
       read (104,*,iostat=eof) sporgp
       if (eof < 0) exit
       read (104,5100,iostat=eof) titldum
+      if (eof < 0) exit
       if (titldum == '             '.or.titldum == 'Inputs used in')then 
         vselsetlpnd = 10.0
       else
@@ -247,7 +279,6 @@
         pnd_d50mm = pnd_d50 / 1000.        !! micrometers to millimeters
         velsetlpnd = 24. * 411. * pnd_d50mm ** 2.
       endif    
-      if (eof < 0) exit
       read (104,*,iostat=eof) spnd1
       if (eof < 0) exit
       read (104,*,iostat=eof) spnd2
@@ -296,6 +327,244 @@
       if (eof < 0) exit
       read (104,*,iostat=eof) wetevcoeff
       if (eof < 0) exit
+      read (104,*,iostat=eof) titldum
+      if (eof < 0) exit
+      read (104,5101,iostat=eof) dpd_file
+      if (eof < 0) exit
+      read (104,*,iostat=eof) titldum
+      if (eof < 0) exit
+      read (104,5101,iostat=eof) wpd_file
+      if (eof < 0) exit
+      read (104,*,iostat=eof) titldum
+      if (eof < 0) exit
+      read (104,5101,iostat=eof) rib_file
+      if (eof < 0) exit
+      read (104,*,iostat=eof) titldum
+      if (eof < 0) exit
+      read (104,5101,iostat=eof) sfb_file
+      close (104)
+
+      !! Detention pond  -- read from a separate file (.dpd)
+      if (dpd_file /= '             ' .or. ievent > 2) then
+      open (104,file=dpd_file)
+      read (104,5100,iostat=eof) titldum
+      if (eof < 0) exit
+      read (104,*,iostat=eof) dtp_onoff(i)
+      if (eof < 0) exit
+      read (104,*,iostat=eof) dtp_imo(i)
+      if (eof < 0) exit
+      read (104,*,iostat=eof) dtp_iyr(i)
+      if (eof < 0) exit
+      read (104,*,iostat=eof) dtp_evrsv(i)
+      if (eof < 0) exit
+      read (104,*,iostat=eof) dtp_numweir(i)
+      if (eof < 0) exit
+      read (104,*,iostat=eof) dtp_numstage(i)
+      if (eof < 0) exit
+      read (104,*,iostat=eof) dtp_parm(i)
+      if (eof < 0) exit
+      read (104,*,iostat=eof) dtp_totwrwid(i)
+      if (eof < 0) exit
+      read (104,*,iostat=eof) dtp_stagdis(i)
+      if (eof < 0) exit
+      read (104,*,iostat=eof) dtp_reltype(i)
+      if (eof < 0) exit
+      read (104,*,iostat=eof) dtp_intcept(i)
+      if (eof < 0) exit
+      read (104,*,iostat=eof) dtp_expont(i)
+      if (eof < 0) exit
+      read (104,*,iostat=eof) dtp_coef1(i)
+      if (eof < 0) exit
+      read (104,*,iostat=eof) dtp_coef2(i)
+      if (eof < 0) exit
+      read (104,*,iostat=eof) dtp_coef3(i)
+      if (eof < 0) exit
+      read (104,*,iostat=eof) (dtp_weirtype(i,k),k=1,dtp_numstage(i))
+      if (eof < 0) exit 
+      read (104,*,iostat=eof) (dtp_weirdim(i,k),k=1,dtp_numstage(i))
+      if (eof < 0) exit
+      read (104,*,iostat=eof) (dtp_wdratio(i,k),k=1,dtp_numstage(i))
+      if (eof < 0) exit
+      read (104,*,iostat=eof) (dtp_depweir(i,k),k=1,dtp_numstage(i))
+      if (eof < 0) exit
+      read (104,*,iostat=eof) (dtp_diaweir(i,k),k=1,dtp_numstage(i))
+      if (eof < 0) exit
+      read (104,*,iostat=eof) (dtp_addon(i,k),k=1,dtp_numstage(i))
+      if (eof < 0) exit
+      read (104,*,iostat=eof) (dtp_flowrate(i,k),k=1,dtp_numstage(i))
+      if (eof < 0) exit
+      read (104,*,iostat=eof) (dtp_cdis(i,k),k=1,dtp_numstage(i))
+      if (eof < 0) exit
+      read (104,*,iostat=eof) (dtp_retperd(i,k),k=1,dtp_numstage(i))
+      if (eof < 0) exit
+      read (104,*,iostat=eof) (dtp_pcpret(i,k),k=1,dtp_numstage(i))      
+      if (eof < 0) exit
+      close (104)
+      else
+      endif
+     
+!!  END DETENTION POND FILE
+
+      !! Wet pond (.wpd file)
+      if (wpd_file /= '             ' .or. ievent > 2) then
+      open (104,file=wpd_file)
+      read (104,5100,iostat=eof) titldum
+      if (eof < 0) exit
+      read (104,*,iostat=eof) wtp_onoff(i)
+      if (eof < 0) exit
+      read (104,*,iostat=eof) wtp_imo(i)
+      if (eof < 0) exit
+      read (104,*,iostat=eof) wtp_iyr(i)
+      if (eof < 0) exit
+      read (104,*,iostat=eof) wtp_k(i)
+      if (eof < 0) exit
+      read (104,*,iostat=eof) wtp_evrsv(i)
+      if (eof < 0) exit
+      read (104,*,iostat=eof) wtp_hydeff(i)
+      if (eof < 0) exit
+      read (104,*,iostat=eof) wtp_dp(i)
+      if (eof < 0) exit
+      read (104,*,iostat=eof) wtp_qi(i)
+      if (eof < 0) exit
+      read (104,*,iostat=eof) wtp_sedi(i)
+      if (eof < 0) exit
+      read (104,*,iostat=eof) wtp_sede(i)
+      if (eof < 0) exit
+      read (104,*,iostat=eof) wtp_dim(i)
+      if (eof < 0) exit
+      read (104,*,iostat=eof) wtp_pvol(i)
+      if (eof < 0) exit
+      read (104,*,iostat=eof) wtp_pdepth(i)
+      if (eof < 0) exit
+      read (104,*,iostat=eof) wtp_sdslope(i)
+      if (eof < 0) exit
+      read (104,*,iostat=eof) wtp_lenwdth(i)
+      if (eof < 0) exit
+      read (104,*,iostat=eof) wtp_stagdis(i)
+      if (eof < 0) exit
+      read (104,*,iostat=eof) wtp_sdtype(i) 
+      if (eof < 0) exit
+      read (104,*,iostat=eof) wtp_sdintc(i)
+      if (eof < 0) exit
+      read (104,*,iostat=eof) wtp_sdexp(i)
+      if (eof < 0) exit
+      read (104,*,iostat=eof) wtp_sdc1(i)
+      if (eof < 0) exit
+      read (104,*,iostat=eof) wtp_sdc2(i)
+      if (eof < 0) exit
+      read (104,*,iostat=eof) wtp_sdc3(i)
+      if (eof < 0) exit
+      read (104,*,iostat=eof) wtp_extdepth(i)
+      if (eof < 0) exit
+      read (104,*,iostat=eof) wtp_pdia(i)
+      if (eof < 0) exit
+      read (104,*,iostat=eof) wtp_plen(i)
+      if (eof < 0) exit
+      read (104,*,iostat=eof) wtp_pmann(i)
+      if (eof < 0) exit
+      read (104,*,iostat=eof) wtp_ploss(i)
+      if (eof < 0) exit
+      close (104)
+      else
+      endif   
+      
+      
+!! end wet pond (.wpd file)
+
+      !! Retention-Irrigation
+      if (rib_file /= '             '.or. ievent > 2) then
+      open (104,file=rib_file)
+      read (104,5100,iostat=eof) titldum
+      if (eof < 0) exit
+      read (104,*,iostat=eof) num_ri(i)
+      if (eof < 0) exit
+	read (104,'(a200)',iostat=eof) lus
+      if (eof < 0) exit
+      read (104,5100,iostat=eof) titldum
+
+	do ii=2,len_trim(lus)
+         num_noirr(i) = 1
+         if (lus(ii:ii).eq.',' .or. lus(ii:ii).eq.' ') then
+         if (lus(ii-1:ii-1).ne.' '.and.lus(ii-1:ii-1).ne.',') then
+               num_noirr(i) = num_noirr(i) + 1
+            end if
+         end if	   
+	end do 
+	if (num_noirr(i)>0) then
+	   backspace(104)
+	   read (104,*) (ri_nirr(i,k), k=1,num_noirr(i))
+         if (eof < 0) exit
+      end if
+     
+      read (104,*,iostat=eof) (ri_fr(i,k),k=1,num_ri(i))
+      if (eof < 0) exit
+      read (104,*,iostat=eof) (ri_dim(i,k),k=1,num_ri(i))
+      if (eof < 0) exit
+      read (104,*,iostat=eof) (ri_im(i,k),k=1,num_ri(i))
+      if (eof < 0) exit
+      read (104,*,iostat=eof) (ri_iy(i,k),k=1,num_ri(i))
+      if (eof < 0) exit
+      read (104,*,iostat=eof) (ri_sa(i,k),k=1,num_ri(i))
+      if (eof < 0) exit
+      read (104,*,iostat=eof) (ri_vol(i,k),k=1,num_ri(i))
+      if (eof < 0) exit
+      read (104,*,iostat=eof) (ri_qi(i,k),k=1,num_ri(i))
+      if (eof < 0) exit
+      read (104,*,iostat=eof) (ri_k(i,k),k=1,num_ri(i))
+      if (eof < 0) exit
+      read (104,*,iostat=eof) (ri_dd(i,k),k=1,num_ri(i))
+      if (eof < 0) exit
+      read (104,*,iostat=eof) (ri_evrsv(i,k),k=1,num_ri(i))
+      if (eof < 0) exit
+      close (104)
+      else
+      endif
+!! end .rib file
+
+      !! Sedimentaton-Filtration (.sfb file)
+      if (sfb_file /= '             '.or. ievent > 2) then     
+      open (104,file=sfb_file)
+      read (104,'(a20)',iostat=eof) titldum
+      if (eof < 0) exit
+      read (104,*,iostat=eof) num_sf(i)
+      if (eof < 0) exit
+      read (104,5100,iostat=eof) titldum
+      
+      read (104,*,iostat=eof) (sf_fr(i,k),k=1,num_sf(i))
+      read (104,*,iostat=eof) (sf_typ(i,k),k=1,num_sf(i))
+      read (104,*,iostat=eof) (sf_dim(i,k),k=1,num_sf(i))
+      read (104,*,iostat=eof) (sf_ptp(i,k),k=1,num_sf(i))
+      read (104,*,iostat=eof) (sf_im(i,k),k=1,num_sf(i))
+      read (104,*,iostat=eof) (sf_iy(i,k),k=1,num_sf(i))
+      read (104,*,iostat=eof) (sp_sa(i,k),k=1,num_sf(i))
+      read (104,*,iostat=eof) (sp_pvol(i,k),k=1,num_sf(i))
+      read (104,*,iostat=eof) (sp_qfg(i,k),k=1,num_sf(i))
+      read (104,*,iostat=eof) (sp_pd(i,k),k=1,num_sf(i))
+      read (104,*,iostat=eof) (sp_qi(i,k),k=1,num_sf(i))
+      read (104,*,iostat=eof) (sp_bpw(i,k),k=1,num_sf(i))
+      read (104,*,iostat=eof) (sp_k(i,k),k=1,num_sf(i))
+      read (104,*,iostat=eof) (sp_dp(i,k),k=1,num_sf(i))
+      read (104,*,iostat=eof) (sp_sedi(i,k),k=1,num_sf(i))
+      read (104,*,iostat=eof) (sp_sede(i,k),k=1,num_sf(i))
+      read (104,*,iostat=eof) (ft_sa(i,k),k=1,num_sf(i))
+      read (104,*,iostat=eof) (ft_fsa(i,k),k=1,num_sf(i))
+      read (104,*,iostat=eof) (ft_qfg(i,k),k=1,num_sf(i))
+      read (104,*,iostat=eof) (ft_pd(i,k),k=1,num_sf(i))
+      read (104,*,iostat=eof) (ft_dep(i,k),k=1,num_sf(i))
+      read (104,*,iostat=eof) (ft_bpw(i,k),k=1,num_sf(i))
+      read (104,*,iostat=eof) (ft_k(i,k),k=1,num_sf(i))
+      read (104,*,iostat=eof) (ft_dp(i,k),k=1,num_sf(i))
+      read (104,*,iostat=eof) (ft_dc(i,k),k=1,num_sf(i))
+      read (104,*,iostat=eof) (ft_h(i,k),k=1,num_sf(i))
+      read (104,*,iostat=eof) (ft_por(i,k),k=1,num_sf(i))
+      read (104,*,iostat=eof) (tss_den(i,k),k=1,num_sf(i))
+      read (104,*,iostat=eof) (ft_alp(i,k),k=1,num_sf(i))
+      close (104)
+      else
+      endif
+          
+
+!! end .sfb file
       exit
       end do
 
@@ -382,7 +651,12 @@
         evwet(ihru) = wetevcoeff
       end do
 
-      close (104)
+!!    close (104)
+      
+      !! Set default values for urban BMP parameters
+      if (ievent == 3) call bmpinit
+      
       return
  5100 format (a)
+ 5101 format(a13)   
       end

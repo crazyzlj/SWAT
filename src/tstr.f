@@ -8,7 +8,7 @@
 !!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
 !!    icr(:)      |none          |sequence number of crop grown within the
 !!                               |current year
-!!    idplt(:,:,:)|none          |land cover code from crop.dat
+!!    idplt(:)    |none          |land cover code from crop.dat
 !!    ihru        |none          |HRU number
 !!    nro(:)      |none          |sequence number of year in rotation
 !!    t_base(:)   |deg C         |minimum temperature for plant growth
@@ -48,18 +48,18 @@
       j = ihru
 
       tgx = 0.
-      tgx = tmpav(j) - t_base(idplt(nro(j),icr(j),j))
+      tgx = tmpav(j) - t_base(idplt(j))
 
       if (tgx <= 0.) then
         strstmp(j) = 0.
       else
-        if (tmpav(j) > t_opt(idplt(nro(j),icr(j),j))) then
-         tgx = 2. * t_opt(idplt(nro(j),icr(j),j)) -                     &
-     &                         t_base(idplt(nro(j),icr(j),j)) - tmpav(j)
+        if (tmpav(j) > t_opt(idplt(j))) then
+         tgx = 2. * t_opt(idplt(j)) -                                   &
+     &                         t_base(idplt(j)) - tmpav(j)
         end if
 
         rto = 0.
-        rto = ((t_opt(idplt(nro(j),icr(j),j)) - tmpav(j)) /             &
+        rto = ((t_opt(idplt(j)) - tmpav(j)) /                           &
      &                                               (tgx + 1.e-6)) ** 2
 
         if (rto <= 200. .and. tgx > 0.) then

@@ -128,29 +128,28 @@
       if (eof < 0) exit
       read (108,5100,iostat=eof) titldum
       if (eof < 0) exit
-      if (ipot(ihru) == ihru) then
-        read (108,*,iostat=eof) pot_tile(ihru)
+!      if (ipot(ihru) == ihru) then   Srini pothole
+        read (108,*,iostat=eof) pot_tilemm(ihru)    !!NUBZ
         if (eof < 0) exit
-        read (108,*,iostat=eof) pot_volx(ihru) 
+        read (108,*,iostat=eof) pot_volxmm(ihru) 
         if (eof < 0) exit
-        read (108,*,iostat=eof) pot_vol(ihru) 
+        read (108,*,iostat=eof) pot_volmm(ihru) 
         if (eof < 0) exit
         read (108,*,iostat=eof) pot_nsed(ihru) 
         if (eof < 0) exit
         read (108,*,iostat=eof) pot_no3l(ihru)
         if (eof < 0) exit
-      else
-        read (108,5100,iostat=eof) titldum
-        if (eof < 0) exit
-        read (108,5100,iostat=eof) titldum
-        if (eof < 0) exit
-        read (108,5100,iostat=eof) titldum
-        if (eof < 0) exit
-        read (108,5100,iostat=eof) titldum
-        if (eof < 0) exit
-        read (108,5100,iostat=eof) titldum
-        if (eof < 0) exit
-      end if
+!        read (108,5100,iostat=eof) titldum
+!        if (eof < 0) exit
+!        read (108,5100,iostat=eof) titldum
+!        if (eof < 0) exit
+!        read (108,5100,iostat=eof) titldum
+!        if (eof < 0) exit
+!        read (108,5100,iostat=eof) titldum
+!        if (eof < 0) exit
+!        read (108,5100,iostat=eof) titldum
+!        if (eof < 0) exit
+!      end if
       read (108,*,iostat=eof) dep_imp(ihru)
       if (eof < 0) exit
       read (108,5100,iostat=eof) titldum       
@@ -224,16 +223,17 @@
       hru_km(ihru) = sub_km(i) * hru_fr(ihru)
       hru_ha(ihru) = hru_km(ihru) * 100.
       lat_sed(ihru) = lat_sed(ihru) * 1.e-3     !!mg/L => g/L
-      pot_vol(ihru) = 10. * pot_vol(ihru) * hru_ha(ihru)     !! mm => m^3
-      pot_volx(ihru) = 10. * pot_volx(ihru) * hru_ha(ihru)   !! mm => m^3
-      pot_tile(ihru) = 10. * pot_tile(ihru) * hru_ha(ihru)   !! mm => m^3
+      pot_vol(ihru) = 10. * pot_volmm(ihru) * hru_ha(ihru)    !! mm => m^3  Srini pothole   NUBZ
+      pot_volx(ihru) = 10. * pot_volxmm(ihru) * hru_ha(ihru)  !! mm => m^3
+      pot_tile(ihru) = 10. * pot_tilemm(ihru) * hru_ha(ihru)  !! mm => m^3
 
-	pot_sed(ihru) = pot_nsed(ihru)
-	pot_san(ihru) = pot_nsed(ihru) * 0. 
-	pot_sil(ihru) = pot_nsed(ihru) * 1. 
-	pot_cla(ihru) = pot_nsed(ihru) * 0. 
-	pot_sag(ihru) = pot_nsed(ihru) * 0. 
-	pot_lag(ihru) = pot_nsed(ihru) * 0. 
+      xx = pot_vol(ihru) / 1000000.  !! mg/L * m3 * 1000L/m3 * t/1,000,000,000   Srini pothole
+	pot_sed(ihru) = pot_nsed(ihru) * xx
+	pot_san(ihru) = 0. 
+	pot_sil(ihru) = 0. 
+	pot_cla(ihru) = pot_nsed(ihru) * xx 
+	pot_sag(ihru) = 0. 
+	pot_lag(ihru) = 0. 
 
       close (108)
       return

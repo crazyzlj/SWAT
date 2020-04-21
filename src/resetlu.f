@@ -60,9 +60,9 @@
 	  wet_mxvol(j) = wet_mxvol(j) * hru_fr(j)
 	  wet_vol(j) = wet_vol(j) * hru_fr(j)
 	  hru_ha(j) = hru_km(j) * 100.
-	  pot_vol(j) = 10. * pot_vol(j) * hru_ha(j)   !! mm => m^3
-	  pot_volx(j) = 10. * pot_volx(j) * hru_ha(j) !! mm => m^3
-	  pot_tile(j) = 10. * pot_tile(j) * hru_ha(j) !! mm => m^3
+!	  pot_vol(j) = 10. * pot_volmm(j) * hru_ha(j)   !! mm => m^3     NUBZ
+	  pot_volx(j) = 10. * pot_volxmm(j) * hru_ha(j) !! mm => m^3
+	  pot_tile(j) = 10. * pot_tilemm(j) * hru_ha(j) !! mm => m^3
 	end do
 
 5101  format (a80)

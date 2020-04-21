@@ -142,24 +142,24 @@
       rainhhmx = 0.
       pcpmm = 0.
 
-      read (103,5000) titldum
-      read (103,5100) wlat(i)
-      read (103,5100) welev(i)
-      read (103,5100) rain_yrs
-      read (103,5200) (tmpmx(mon,i),mon = 1,12)
-      read (103,5200) (tmpmn(mon,i),mon = 1,12)
-      read (103,5200) (tmpstdmx(mon,i),mon = 1,12)
-      read (103,5200) (tmpstdmn(mon,i),mon = 1,12)
-      read (103,5200) (pcpmm(mon),mon = 1,12)
-      read (103,5200) (pcp_stat(mon,2,i),mon = 1,12)  !pcpstd
-      read (103,5200) (pcp_stat(mon,3,i),mon = 1,12)  !pcpskw
-      read (103,5200) (pr_w(1,mon,i),mon = 1,12)
-      read (103,5200) (pr_w(2,mon,i),mon = 1,12)
-      read (103,5200) (pcpd(mon),mon = 1,12)
-      read (103,5200) (rainhhmx(mon),mon = 1,12)
-      read (103,5200) (solarav(mon,i),mon = 1,12)
-      read (103,5200) (dewpt(mon,i),mon = 1,12)
-      read (103,5200) (wndav(mon,i),mon = 1,12)
+      read (114,5000) titldum
+      read (114,5100) wlat(i)
+      read (114,5100) welev(i)
+      read (114,5100) rain_yrs
+      read (114,5200) (tmpmx(mon,i),mon = 1,12)
+      read (114,5200) (tmpmn(mon,i),mon = 1,12)
+      read (114,5200) (tmpstdmx(mon,i),mon = 1,12)
+      read (114,5200) (tmpstdmn(mon,i),mon = 1,12)
+      read (114,5200) (pcpmm(mon),mon = 1,12)
+      read (114,5200) (pcp_stat(mon,2,i),mon = 1,12)  !pcpstd
+      read (114,5200) (pcp_stat(mon,3,i),mon = 1,12)  !pcpskw
+      read (114,5200) (pr_w(1,mon,i),mon = 1,12)
+      read (114,5200) (pr_w(2,mon,i),mon = 1,12)
+      read (114,5200) (pcpd(mon),mon = 1,12)
+      read (114,5200) (rainhhmx(mon),mon = 1,12)
+      read (114,5200) (solarav(mon,i),mon = 1,12)
+      read (114,5200) (dewpt(mon,i),mon = 1,12)
+      read (114,5200) (wndav(mon,i),mon = 1,12)
 
 !! determine if input for dewpt is relative humidity
       do mon = 1,12
@@ -348,7 +348,7 @@
         dormhr(ihru) = dl
       end do
 
-      close (103)
+      close (114)
       return
  5000 format (a)
  5100 format (12x,f7.2)

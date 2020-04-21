@@ -110,6 +110,12 @@
         !! dissolved oxygen not routed
         !! persistent bacteria not routed
         !! less persistent bacteria not routed
+        if (ievent>2) then
+          do k = 1, nhru; do ii=1,nstep
+            ovrlnd_dt(k,ii) = hhvaroute(2,inum2,ii) * rnum1 
+     &        / (sub_ha * 10.)
+          end do; end do
+        endif
 
         do k = 1, nhru
           if (hru_sub(k) == jrch) then

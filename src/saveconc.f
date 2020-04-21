@@ -2,7 +2,7 @@
       
 !!    ~ ~ ~ PURPOSE ~ ~ ~
 !!    this subroutine saves hourly or average daily concentrations from 
-!!    a particular hydrograph node to a file, or monthly/yearly loads
+!!    a particular hydrograph node to a file
 
 !!    ~ ~ ~ INCOMING VARIABLES ~ ~ ~
 !!    name           |units         |definition
@@ -93,23 +93,23 @@
 !!    subroutine developed by A. Van Griensven, 
 !!    Hydrology-Vrije Universiteit Brussel, Belgium
 
+!!    Modified by N.Kannan, Blackland Research at Temple
+
       use parm
 
       real, dimension (19) :: varii
       integer :: ii, j
-	character*1 mflag
-	if (curyr > nyskip) then
       if (inum1 <= 50 .and. inum1 > 0) then
+      if (ievent == 3 .and. inum2 == 1) then
 
-	select case (inum2)
 
-	case(1)  
-      if (ievent == 3) then
-        !! Write hourly values
-        do ii = 1, 24
+        !! Write sub-daily values (any time step) : URBAN MODELING
+        !! Convert the unit of "hhvaroute" from "m3/dt" to "m3/sec" where dt in minute
+
+        do ii = 1, nstep
           varii = 0.
-          if (hhvaroute(2,ihout,ii) > 0.01) then
-            varii(1) = hhvaroute(2,ihout,ii) / 3600.
+          if (hhvaroute(2,ihout,ii) > 0.001) then
+            varii(1) = hhvaroute(2,ihout,ii) / (idt * 60.)  !! urban modeling by J.Jeong 4/17/2008
             varii(2) = hhvaroute(3,ihout,ii) * 1.e6                     &
      &                                           / hhvaroute(2,ihout,ii)
             varii(3) = hhvaroute(4,ihout,ii) * 1000.                    &
@@ -146,23 +146,23 @@
      &                                           / hhvaroute(2,ihout,ii)
             varii(19) = hhvaroute(1,ihout,ii)
           end if
-          write (50+inum1,2000) iyr, iida, ii-1, (varii(j), j = 1, 19)
+          if (curyr > nyskip) then
+		  write (50+inum1,2000) iyr, iida, ii-1, (varii(j), j = 1, 19)
+	    endif
         end do
-	end if
-
-	case(0)  
+      else
         !! Write daily values
         varii = 0.
-        if (ievent == 3) then         !! sum hourly to daily if needed
+        if (ievent == 3) then         !! sum sub-daily to daily if needed
           !! zero daily flow out variables
           do ii = 1, mvaro
             varoute(ii,ihout) = 0.
           end do
-          do ii = 1, 24
+          do ii = 1, nstep
             varoute(2,ihout) = varoute(2,ihout) + hhvaroute(2,ihout,ii)
           end do
           if (varoute(2,ihout) > 0.1) then
-            do ii = 1, 24
+            do ii = 1, nstep
               do j = 3, mvaro
                 varoute(j,ihout) = varoute(j,ihout) +                   &
      &                                             hhvaroute(j,ihout,ii)
@@ -173,8 +173,8 @@
             varoute(1,ihout) = varoute(1,ihout) / varoute(2,ihout)
           end if
         end if
-	if (varoute(2,ihout) > 0.1) then
-          varii(1) = varoute(2,ihout) / 86400.
+	  if (varoute(2,ihout) > 0.1) then
+          varii(1) = varoute(2,ihout) / 86400.   ! changed by J.Jeong 4/17/2008
           varii(2) = varoute(3,ihout) * 1.e6 / varoute(2,ihout)
           varii(3) = varoute(4,ihout) * 1000. / varoute(2,ihout)
           varii(4) = varoute(5,ihout) * 1000. / varoute(2,ihout)
@@ -194,113 +194,11 @@
           varii(18) = varoute(22,ihout) * 1000. / varoute(2,ihout)
           varii(19) = varoute(1,ihout)
         endif
-      write (50+inum1,1000) iyr, iida, '00',  (varii(j), j = 1, 19)
+        write (50+inum1,1000)iyr, iida, '   0',(varii(ii), ii = 1, 19)
+      endif
+      endif
 
-	case(2)
-	! write yearly values
-	
-
-	mflag='y'
-	itelyrs(inum1)=itelyrs(inum1)+1
-          variiyrs(inum1,1) = variiyrs(inum1,1)+ varoute(2,ihout)
-          variiyrs(inum1,2) = variiyrs(inum1,2)+ varoute(3,ihout) 
-          variiyrs(inum1,3) = variiyrs(inum1,3)+varoute(4,ihout)
-          variiyrs(inum1,4) = variiyrs(inum1,4)+ varoute(5,ihout)
-          variiyrs(inum1,5) = variiyrs(inum1,5)+ varoute(6,ihout)
-          variiyrs(inum1,6) = variiyrs(inum1,6)+ varoute(14,ihout)
-          variiyrs(inum1,7) = variiyrs(inum1,7) + varoute(15,ihout) 
-          variiyrs(inum1,8) = variiyrs(inum1,8)+ varoute(7,ihout) 
-          variiyrs(inum1,9) = variiyrs(inum1,9) + varoute(16,ihout) 
-          variiyrs(inum1,10) = variiyrs(inum1,10) + varoute(17,ihout)
-          variiyrs(inum1,11) = variiyrs(inum1,11)+ varoute(13,ihout) 
-          variiyrs(inum1,12) = variiyrs(inum1,12)+ varoute(11,ihout) 
-          variiyrs(inum1,13) = variiyrs(inum1,13) + varoute(12,ihout) 
-	
-
-
-
-        !! calculate number of days in year
-        idlast = 0
-          idlast = 366
-          if (leapyr == 1) idlast = idlast - 1
-	iii	=idlast
-	if (idlast== iida) then
-	if (itelyrs(inum1).gt.0) then
-
-		do ii=1,16
-	variiyrs(inum1,ii)=variiyrs(inum1,ii)/itelyrs(inum1)
-	end do
-		variiyrs(inum1,1) = variiyrs(inum1,1)/3600./24.
-	    variiyrs(inum1,14) = variiyrs(inum1,3)+variiyrs(inum1,6)
-          variiyrs(inum1,15) = variiyrs(inum1,14)+variiyrs(inum1,5)+    &
-     &		variiyrs(inum1,7)
-		variiyrs(inum1,16) =variiyrs(inum1,4)+variiyrs(inum1,8)
-	write(50+inum1,4000)iyr,mflag,
-     &	(variiyrs(inum1,ii), ii = 1, 16)
-
-
-	do ii=1,16
-	variiyrs(inum1,ii)=0.
-	end do
-	itelyrs(inum1)=0
-	end if
-	end if
-	
-	case(3)
-      ! write monthly values
-	mflag='m'
-	itelmons(inum1)=itelmons(inum1)+1
-          variimons(inum1,1) = variimons(inum1,1)+ varoute(2,ihout)
-          variimons(inum1,2) = variimons(inum1,2)+ varoute(3,ihout) 
-          variimons(inum1,3) = variimons(inum1,3)+varoute(4,ihout)
-          variimons(inum1,4) = variimons(inum1,4)+ varoute(5,ihout)
-          variimons(inum1,5) = variimons(inum1,5)+ varoute(6,ihout)
-          variimons(inum1,6) = variimons(inum1,6)+ varoute(14,ihout)
-          variimons(inum1,7) = variimons(inum1,7) + varoute(15,ihout) 
-          variimons(inum1,8) = variimons(inum1,8)+ varoute(7,ihout) 
-          variimons(inum1,9) = variimons(inum1,9) + varoute(16,ihout) 
-          variimons(inum1,10) = variimons(inum1,10) + varoute(17,ihout)
-          variimons(inum1,11) = variimons(inum1,11)+ varoute(13,ihout) 
-          variimons(inum1,12) = variimons(inum1,12)+ varoute(11,ihout) 
-          variimons(inum1,13) = variimons(inum1,13) + varoute(12,ihout) 
-	
-
-
-
-        !! calculate number of days in month
-        idlast = 0
-          idlast = ndays(mo_chk+1) 
-          if (leapyr == 1 .and. mo_chk > 1) idlast = idlast - 1
-
-	iii = idlast
-	if (idlast == iida) then
-	if (itelmons(inum1).gt.0) then
-
-	do ii=1,16
-	 variimons(inum1,ii)=variimons(inum1,ii)/itelmons(inum1)
-	end do
-	variimons(inum1,1) = variimons(inum1,1)/3600./24.
-	variimons(inum1,14) = variimons(inum1,3)+variimons(inum1,6)
-      variimons(inum1,15) = variimons(inum1,14)+variimons(inum1,5)+     &
-     &		variimons(inum1,7)
-	variimons(inum1,16) =variimons(inum1,4)+variimons(inum1,8)
-	write(50+inum1,3000)iyr,mflag,i_mo,
-     &	(variimons(inum1,ii), ii = 1, 16)
-
-
-	do ii=1,16
-	variimons(inum1,ii)=0.
-	end do
-	itelmons(inum1)=0
-	end if
-	end if
-	
-	end select
-	end if
-	end if
       return
- 4000 format (1x,i4,1x,a1,6x,22e11.3)
- 3000 format (1x,i4,1x,a1,1x,i2,3x,22e11.3)
- 2000 format (1x,i4,2x,i3,1x,i2,19(1x,e10.3))
- 1000 format (1x,i4,2x,i3,3x,a2,19(1x,e10.3))
+ 2000 format (1x,i4,2x,i3,1x,i4,19(1x,e10.3))
+ 1000 format (1x,i4,2x,i3,3x,a4,19(1x,e10.3))
       end

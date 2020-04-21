@@ -146,7 +146,7 @@
         pdvar = 0. 
         pdvr = 0.
 
-        !! assign daily values
+        !! assign yearly values
         pdvar(1) = srch_av(1)        !!flow in (m^3/s)
         pdvar(2) = srch_av(2)        !!flow out (m^3/s)
         pdvar(3) = rchyro(10,j)      !!evaporation (m^3/s)
@@ -189,8 +189,14 @@
         pdvar(40) = rchyro(12,j)     !!metal #1
         pdvar(41) = rchyro(13,j)     !!metal #2
         pdvar(42) = rchyro(14,j)     !!metal #3
-
-        if (ipdvar(1) > 0) then
+ !! added for Total N (org N + no3 + no2 + nh4 outs) to output.rch gsm 10/17/2011
+        pdvar(43) = rchyro(7,j)+ rchyro(16,j) + rchyro(35,j) + 
+     *   rchyro(33,j)                                                  !! Total N
+ !! added for Total P (org P + sol p outs)to output.rch gsm 10/17/2011
+        pdvar(44) = rchyro(9,j) + rchyro(18,j)                        !! Total P
+ !! added NO3 Concentration to output.rch (for daily only) gsm 10/26/2011
+        
+         if (ipdvar(1) > 0) then
           do ii = 1, itotr
             pdvr(ii) = pdvar(ipdvar(ii))
           end do
@@ -205,21 +211,22 @@
      &                             (pdvr(ii), ii = 1, itotr), iyr 
           endif
         else
+     !!  increase to 44 in loops below from 42 gsm 10/17/2011
           if (iscen == 1 .and. isproj == 0) then
           write (7,5000) j, subgis(j), iyr, rch_dakm(j),                &
-     &                                        (pdvar(ii), ii = 1, 42)    
+     &                                        (pdvar(ii), ii = 1, 44)    
           else if (isproj == 1) then
           write (20,5000) j, subgis(j), iyr, rch_dakm(j),               &
-     &                                        (pdvar(ii), ii = 1, 42)    
+     &                                        (pdvar(ii), ii = 1, 44)    
           else if (iscen == 1 .and. isproj == 2) then
           write (7,6000) j, subgis(j), iyr, rch_dakm(j),                &
-     &                             (pdvar(ii), ii = 1, 42), iyr     
+     &                             (pdvar(ii), ii = 1, 44), iyr     
      
           endif
         end if
       end do
 
       return
- 5000 format ('REACH ',i4,1x,i8,1x,i5,43e12.4)
- 6000 format ('REACH ',i4,1x,i8,1x,i5,43e12.4,1x,i4)
+ 5000 format ('REACH ',i4,1x,i8,1x,i5,46e12.4)
+ 6000 format ('REACH ',i4,1x,i8,1x,i5,46e12.4,1x,i4)
       end

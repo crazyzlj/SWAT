@@ -98,7 +98,7 @@
       xxs = 0.
       if (iwave <= 0) then
         !! HRU sediment calculations
-        xx = sol_orgp(1,j) + sol_fop(1,j) + sol_mp(1,j) +
+        xx = sol_orgp(1,j) + sol_fop(1,j) + sol_mp(1,j) +   
      &                                    sol_actp(1,j) + sol_stap(1,j)
         if (xx > 1.e-3) then
            xxo = (sol_orgp(1,j) + sol_fop(1,j)+ sol_mp(1,j)) / xx

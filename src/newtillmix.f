@@ -18,7 +18,7 @@
 !!    bactpq(:)     |# colonies/ha |persistent bacteria in soil solution
 !!    bactps(:)     |# colonies/ha |persistent bacteria attached to soil 
 !!                                 |particles
-!!    cnop(:,:,:)   |none          |SCS runoff curve number for moisture
+!!    cnop          |none          |SCS runoff curve number for moisture
 !!                                 |condition II
 !!    curyr         |none          |current year of simulation
 !!    deptil(:)     |mm            |depth of mixing caused by tillage
@@ -92,6 +92,8 @@
 !!    sol_stap(:,:) |kg P/ha       |amount of phosphorus in the soil layer
 !!                                 |stored in the stable mineral phosphorus pool
 !!    sumix(:)      |none          |sum of mixing efficiencies in HRU
+!!    min_res(:)	|kg/ha		   |Min residue allowed due to implementation of 
+!!                                 |residue managment in the OPS file.
 !!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
 
 !!    ~ ~ ~ LOCAL DEFINITIONS ~ ~ ~
@@ -112,6 +114,7 @@
 !!    thtill(:)   |none          |fraction of soil layer that is mixed
 !!    sol_msm					 | sol_mass mixed
 !!    sol_msn					 | sol_mass not mixed
+!!    maxmix      |none          | maximum mixing eff to preserve specified minimum residue cover
 !!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
 
 !!    ~ ~ ~ SUBROUTINES/FUNCTIONS CALLED ~ ~ ~
@@ -126,9 +129,9 @@
       real, intent (in) :: bmix
 !$$$$$$       integer :: l, k, nl, a
       integer :: l, k              !CB 12/2/09 nl and a are not used.
-      real :: emix, dtil, XX, WW1, WW2, WW3, WW4
+      real :: emix, dtil, XX, WW1, WW2, WW3, WW4, maxmix
 !$$$$$$       real :: thtill(sol_nly(jj)), smix(20+npmx)     
-      real :: smix(20+npmx)        !CB 12/2/09 thtill is not used.
+      real :: smix(22+npmx)        !CB 12/2/09 thtill is not used. mjw rev 490
       real :: sol_mass(sol_nly(jj))
       real :: sol_thick(sol_nly(jj)), sol_msm(sol_nly(jj))
       real :: sol_msn(sol_nly(jj))
@@ -147,8 +150,8 @@
         dtil = Min(sol_z(sol_nly(jj),jj), 50.) ! it was 300.  MJW (rev 412)
       else 
         !! tillage operation
-        emix = effmix(idtill(nro(jj),ntil(jj),jj))
-        dtil = deptil(idtill(nro(jj),ntil(jj),jj))
+        emix = effmix(idtill)
+        dtil = deptil(idtill)
       end if
 
       smix = 0.
@@ -163,6 +166,14 @@
         bactps(jj) = bactps(jj) * (1. - emix)
         bactlpq(jj) = bactlpq(jj) * (1. - emix)
         bactlps(jj) = bactlps(jj) * (1. - emix)
+	end if
+      	
+	!! calculate max mixing to preserve target surface residue MJW rev 490
+	!! Assume residue in all other layers is negligible to simplify calculation and remove depth dependency
+      if (min_res(jj) > 1. .and. bmix < 0.001) then
+	  maxmix = 1 - min_res(jj)/sol_rsd(1,jj)
+	  if (maxmix <0.05)  maxmix = 0.05	
+	  if (emix > maxmix)  emix = maxmix
       end if
 
 
@@ -228,7 +239,8 @@
           smix(18) = (XX * smix(18) + sol_silt(l,jj) * sol_msm(l)) /WW2
           smix(19) = (XX * smix(19) + sol_sand(l,jj) * sol_msm(l)) /WW2
 !          smix(20) = (XX * smix(20) + sol_rock(l,jj) * sol_msm(l)) / WW2
-
+          smix(21) = (XX * smix(21) + sol_ph(l,jj) * sol_msm(l)) /WW2 !! mjw rev490
+          smix(22) = (XX * smix(22) + sol_cal(l,jj) * sol_msm(l)) /WW2 !! mjw rev490
 		!! mass based distribution
           do k = 1, npmx
           	smix(20+k) = smix(20+k) + sol_pst(k,jj,l) * WW1
@@ -270,6 +282,12 @@
             sol_sand(l,jj) = (sol_sand(l,jj) * sol_msn(l) + smix(19)    &
      &           * sol_msm(l)) / sol_mass(l)
 !		sol_rock(l,jj) = (sol_rock(l,jj) * sol_msn(l) + smix(20) * sol_msm(l)) / sol_mass(l)
+            sol_ph(l,jj) = (sol_ph(l,jj) * sol_msn(l) + smix(21)        &
+     &           * sol_msm(l)) / sol_mass(l) !! mjw rev 490 simplified, PH not linear
+            sol_cal(l,jj) = (sol_cal(l,jj) * sol_msn(l) + smix(22)      &
+     &           * sol_msm(l)) / sol_mass(l) !! mjw rev 490 
+
+
 			
             do k = 1, npmx
               sol_pst(k,jj,l) = sol_pst(k,jj,l) * WW3 + smix(20+k) * WW4
@@ -289,10 +307,14 @@
       end if
 	
       !! perform final calculations for tillage operation
-      if (cnop(nro(jj),ntil(jj),jj) > 1.e-4) then
-        call curno(cnop(nro(jj),ntil(jj),jj),jj)
+ 
+      !! count the tillage only if it is a scheduled operation biomix does not count MJW Rev 490
+      if (bmix <= 1.e-6) then
+        ntil(jj) = ntil(jj) + 1
       end if
-      ntil(jj) = ntil(jj) + 1
+      if (cnop > 1.e-4) call curno(cnop,jj)
+      
+      !ntil(jj) = ntil(jj) + 1 ' orig code
 
       return
       end

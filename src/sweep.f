@@ -6,7 +6,7 @@
 !!    ~ ~ ~ INCOMING VARIABLES ~ ~ ~
 !!    name           |units         |definition
 !!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
-!!    fr_curb(:,:,:)   |none          |availability factor, the fraction of the 
+!!    fr_curb        |none          |availability factor, the fraction of the 
 !!                                  |curb length that is sweepable
 !!    dirtmx(:)      |kg/curb km    |maximum amount of solids allowed to
 !!                                  |build up on impervious surfaces
@@ -14,7 +14,7 @@
 !!    nro(:)         |none          |sequence number of year in rotation
 !!    nsweep(:)      |none          |sequence number of street sweeping
 !!                                  |operation within the year
-!!    sweepeff(:,:,:)|none          |removal efficiency of sweeping
+!!    sweepeff       |none          |removal efficiency of sweeping
 !!                                  |operation
 !!    thalf(:)       |days          |time for the amount of solids on
 !!                                  |impervious areas to build up to 1/2
@@ -53,7 +53,7 @@
 
 !! calculate reduced amount of solid built up on impervious areas
       dirt = dirt *                                                     &
-     & (1. - fr_curb(nro(j),nsweep(j),j) * sweepeff(nro(j),nsweep(j),j))
+     & (1. - fr_curb * sweepeff)
       if (dirt < 1.e-6) dirt = 0.
 
 !! set time to correspond to lower amount of dirt

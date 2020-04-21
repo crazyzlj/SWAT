@@ -79,9 +79,9 @@
       j = 0
       j = ihru
 
-      if (curyr > nyskip) then
-       ncrops(nro(j),icr(j),j) = ncrops(nro(j),icr(j),j) + 1
-      endif
+!      if (curyr > nyskip) then
+!       ncrops(icr(j),j) = ncrops(icr(j),j) + 1
+!      endif
 
 	!! 22 January 2008	
 	resnew = 0.
@@ -112,7 +112,7 @@
         end do
       end if
 
-      bio_hv(nro(j),icr(j),j) = bio_ms(j) + bio_hv(nro(j),icr(j),j)
+      bio_hv(icr(j),j) = bio_ms(j) + bio_hv(icr(j),j)
       bio_yrms(j) = bio_yrms(j) + bio_ms(j) / 1000.
 
 	!! reset variables

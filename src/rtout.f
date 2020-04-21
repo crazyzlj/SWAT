@@ -315,29 +315,33 @@
        varoute(16,ihout) = rch_cbod(jrch) *  rtwtr/ 1000.
        varoute(17,ihout) = rch_dox(jrch) *  rtwtr/ 1000.
       else
-        do ii = 1, 24
-         hhvaroute(1,ihout,ii) = wtmp
-         hhvaroute(2,ihout,ii) = hrtwtr(ii)
-         hhvaroute(3,ihout,ii) = hsedyld(ii)
-         hhvaroute(4,ihout,ii) = horgn(ii) * hrtwtr(ii) / 1000.
-         hhvaroute(5,ihout,ii) = horgp(ii) *  hrtwtr(ii) / 1000.
-         hhvaroute(6,ihout,ii) = hno3(ii) * hrtwtr(ii) / 1000.
-         hhvaroute(7,ihout,ii) = hsolp(ii) * hrtwtr(ii) / 1000.
-         hhvaroute(8,ihout,ii) = 0.
-         hhvaroute(9,ihout,ii) = 0.
-         hhvaroute(10,ihout,ii) = 0.
-         hhvaroute(11,ihout,ii) = hsolpst(ii) * hrtwtr(ii)
-         hhvaroute(12,ihout,ii) = hsorpst(ii) * hrtwtr(ii)
-         hhvaroute(13,ihout,ii) = hchla(ii) * hrtwtr(ii) / 1000.
-         hhvaroute(14,ihout,ii) = hnh4(ii) * hrtwtr(ii) / 1000.
-         hhvaroute(15,ihout,ii) = hno2(ii) * hrtwtr(ii) / 1000.
-         hhvaroute(16,ihout,ii) = hbod(ii) *  hrtwtr(ii)/ 1000.
-         hhvaroute(17,ihout,ii) = hdisox(ii) *  hrtwtr(ii)/ 1000.
-         hhvaroute(18,ihout,ii) = hbactp(ii)
-         hhvaroute(19,ihout,ii) = hbactlp(ii)
-         hhvaroute(20,ihout,ii) = hhvaroute(20,inum2,ii) * (1. - rnum1)
-         hhvaroute(21,ihout,ii) = hhvaroute(21,inum2,ii) * (1. - rnum1)
-         hhvaroute(22,ihout,ii) = hhvaroute(22,inum2,ii) * (1. - rnum1)
+       do ii = 1, nstep 
+          hhvaroute(2,ihout,ii) = hrtwtr(ii)     ! urban modeling by J.Jeong
+          hhvaroute(3,ihout,ii) = hsedyld(ii)  ! urban modeling by J.Jeong 
+
+	! From this point, check each variables if it is simulated at subdaily interval before using the output - Jaehak 9/11/09
+         hhvaroute(1,ihout,ii) = 0.
+!          hhvaroute(2,ihout,ii) = hrtwtr(ii)
+!          hhvaroute(3,ihout,ii) = hsedyld(ii)
+          hhvaroute(4,ihout,ii) = horgn(ii) * hrtwtr(ii) / 1000.
+          hhvaroute(5,ihout,ii) = horgp(ii) *  hrtwtr(ii) / 1000.
+          hhvaroute(6,ihout,ii) = hno3(ii) * hrtwtr(ii) / 1000.
+          hhvaroute(7,ihout,ii) = hsolp(ii) * hrtwtr(ii) / 1000.
+          hhvaroute(8,ihout,ii) = 0.
+          hhvaroute(9,ihout,ii) = 0.
+          hhvaroute(10,ihout,ii) = 0.
+          hhvaroute(11,ihout,ii) = hsolpst(ii) * hrtwtr(ii)
+          hhvaroute(12,ihout,ii) = hsorpst(ii) * hrtwtr(ii)
+          hhvaroute(13,ihout,ii) = hchla(ii) * hrtwtr(ii) / 1000.
+          hhvaroute(14,ihout,ii) = hnh4(ii) * hrtwtr(ii) / 1000.
+          hhvaroute(15,ihout,ii) = hno2(ii) * hrtwtr(ii) / 1000.
+          hhvaroute(16,ihout,ii) = hbod(ii) *  hrtwtr(ii)/ 1000.
+          hhvaroute(17,ihout,ii) = hdisox(ii) *  hrtwtr(ii)/ 1000.
+          hhvaroute(18,ihout,ii) = hbactp(ii)
+          hhvaroute(19,ihout,ii) = hbactlp(ii)
+          hhvaroute(20,ihout,ii) = hhvaroute(20,inum2,ii) * (1. - rnum1)
+          hhvaroute(21,ihout,ii) = hhvaroute(21,inum2,ii) * (1. - rnum1)
+          hhvaroute(22,ihout,ii) = hhvaroute(22,inum2,ii) * (1. - rnum1)
 
           varoute(4,ihout) = varoute(4,ihout) + hhvaroute(4,ihout,ii)
           varoute(5,ihout) = varoute(5,ihout) + hhvaroute(5,ihout,ii)
@@ -352,6 +356,27 @@
           varoute(17,ihout) = varoute(17,ihout) + hhvaroute(17,ihout,ii)
         end do
       end if
+
+!! set subdaily reach output    - by jaehak jeong for urban project, subdaily output in output.rch file
+	if (ievent==3.and.iprint==3) then
+	  do ii=1,nstep
+!! determine sediment concentration in outflow
+          sedcon = 0.
+          if (hrtwtr(ii) > 0.01) then
+            sedcon = hsedyld(ii) / hrtwtr(ii) * 1.e6
+          else
+            sedcon = 0.
+          end if
+          rchhr(1,jrch,ii) = hhvaroute(2,inum2,ii) * (1. - rnum1)!!flow in (m^3/s)
+     &      / (idt * 60.)		       
+          rchhr(2,jrch,ii) = hrtwtr(ii) / (idt * 60.)            !!flow out (m^3/s)
+          rchhr(3,jrch,ii) = hrtevp(ii) / (idt * 60.)            !!evap (m^3/s)
+          rchhr(4,jrch,ii) = hrttlc(ii) / (idt * 60.)            !!tloss (m^3/s)
+          rchhr(5,jrch,ii) = hhvaroute(3,inum2,ii) * (1. - rnum1)   !!sed in (tons)
+          rchhr(6,jrch,ii) = hsedyld(ii)                         !!sed out (tons)
+          rchhr(7,jrch,ii) = sedcon						       !!sed conc (mg/L)
+	  end do
+	endif
 
 !! determine sediment concentration in outflow
       sedcon = 0.

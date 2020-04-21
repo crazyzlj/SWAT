@@ -158,6 +158,32 @@
            blai(plant_no) = laimx_upd(iops,ihru)
            hvsti(plant_no) = hi_upd(iops,ihru)
 
+	 case (9)
+	!! Implement Residue Management MJW
+		if (so_res_flag(iops,ihru) == 1)  then
+		  min_res(ihru) = so_res(iops,ihru)
+	    else
+	      min_res(ihru) = 0.
+	    end if
+
+	case (10) !! User defined Upland CP removal MJW
+		if (ro_bmp_flag (iops,ihru) == 1) then
+		  bmp_flag(ihru) = 1
+		  bmp_sed(ihru) = ro_bmp_sed(iops,ihru)  !! Sediment
+		  bmp_pp(ihru) = ro_bmp_pp(iops,ihru) !! Particulate P
+		  bmp_sp(ihru) = ro_bmp_sp(iops,ihru)  !! Soluble P
+		  bmp_pn(ihru) =  ro_bmp_pn(iops,ihru)  !! Particulate N
+		  bmp_sn(ihru) = ro_bmp_sn(iops,ihru)  !! Soluble N
+		  bmp_bac(ihru) = ro_bmp_bac(iops,ihru)  !! Bacteria
+		else
+		  bmp_flag(ihru) = 0
+		  bmp_sed(ihru) = 0.  !! Sediment
+		  bmp_pp(ihru) = 0. !! Particulate P
+		  bmp_sp(ihru) = 0.  !! Soluble P
+		  bmp_pn(ihru) =  0.  !! Particulate N
+		  bmp_sn(ihru) = 0.  !! Soluble N
+		  bmp_bac(ihru) = 0.  !! Bacteria
+	    end if
 
 	   end select
 

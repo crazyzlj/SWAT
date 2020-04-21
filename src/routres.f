@@ -238,7 +238,12 @@
         call irr_res
 
         !! perform reservoir water/sediment balance
-        call res
+        if(ievent<=1) then		!! urban modeling by J.Jeong
+	    call res
+	  else
+	    call reshr
+	  endif
+  !!      call res
 
         !! perform reservoir nutrient balance
         call resnut
@@ -282,36 +287,36 @@
         varoute(22,ihout) = varoute(22,inum2)  !!conservative metal #3
 
         if (ievent > 2) then
-          do ii = 1, 24
+          do ii = 1, nstep
             hhvaroute(1,ihout,ii) = 0.           !!undefined
-            hhvaroute(2,ihout,ii) = resflwo / 24.
-            hhvaroute(3,ihout,ii) = ressedo / 24.
-            hhvaroute(4,ihout,ii) = resorgno / 24.
-            hhvaroute(5,ihout,ii) = resorgpo / 24.
-            hhvaroute(6,ihout,ii) = resno3o / 24.
-            hhvaroute(7,ihout,ii) = ressolpo / 24.
+            hhvaroute(2,ihout,ii) = resflwo / real(nstep)
+            hhvaroute(3,ihout,ii) = ressedo / real(nstep)
+            hhvaroute(4,ihout,ii) = resorgno / real(nstep)
+            hhvaroute(5,ihout,ii) = resorgpo / real(nstep)
+            hhvaroute(6,ihout,ii) = resno3o / real(nstep)
+            hhvaroute(7,ihout,ii) = ressolpo / real(nstep)
             hhvaroute(8,ihout,ii) = 0.           !!undefined
             hhvaroute(9,ihout,ii) = 0.           !!undefined
             hhvaroute(10,ihout,ii) = 0.          !!undefined
-            hhvaroute(11,ihout,ii) = solpesto / 24.
-            hhvaroute(12,ihout,ii) = sorpesto / 24.
-            hhvaroute(13,ihout,ii) = reschlao / 24.
-            hhvaroute(14,ihout,ii) = resnh3o / 24.
-            hhvaroute(15,ihout,ii) = resno2o / 24.
+            hhvaroute(11,ihout,ii) = solpesto / real(nstep)
+            hhvaroute(12,ihout,ii) = sorpesto / real(nstep)
+            hhvaroute(13,ihout,ii) = reschlao / real(nstep)
+            hhvaroute(14,ihout,ii) = resnh3o / real(nstep)
+            hhvaroute(15,ihout,ii) = resno2o / real(nstep)
             hhvaroute(16,ihout,ii) = 0.          !!CBOD
             hhvaroute(17,ihout,ii) = 0.          !!dis O2
-            hhvaroute(18,ihout,ii) = varoute(18,inum2) / 24. !!persistent bact
-            hhvaroute(19,ihout,ii) = varoute(19,inum2) / 24. !!less persist bact
-            hhvaroute(20,ihout,ii) = varoute(20,inum2) / 24. !!cons metal #1
-            hhvaroute(21,ihout,ii) = varoute(21,inum2) / 24. !!cons metal #2
-            hhvaroute(22,ihout,ii) = varoute(22,inum2) / 24. !!cons metal #3
+            hhvaroute(18,ihout,ii) = varoute(18,inum2) / real(nstep) !!persistent bact
+            hhvaroute(19,ihout,ii) = varoute(19,inum2) / real(nstep) !!less persist bact
+            hhvaroute(20,ihout,ii) = varoute(20,inum2) / real(nstep) !!cons metal #1
+            hhvaroute(21,ihout,ii) = varoute(21,inum2) / real(nstep) !!cons metal #2
+            hhvaroute(22,ihout,ii) = varoute(22,inum2) / real(nstep) !!cons metal #3
 
-            hhvaroute(23,ihout,ii) = varoute(23,inum2) / 24. !!Sand out
-            hhvaroute(24,ihout,ii) = varoute(24,inum2) / 24. !!Silt out
-            hhvaroute(25,ihout,ii) = varoute(25,inum2) / 24. !!clay out
-            hhvaroute(26,ihout,ii) = varoute(26,inum2) / 24. !!Small agg out
-            hhvaroute(27,ihout,ii) = varoute(27,inum2) / 24. !!Large agg out
-            hhvaroute(28,ihout,ii) = varoute(28,inum2) / 24. !!Gravel out
+            hhvaroute(23,ihout,ii) = varoute(23,inum2) / real(nstep) !!Sand out
+            hhvaroute(24,ihout,ii) = varoute(24,inum2) / real(nstep) !!Silt out
+            hhvaroute(25,ihout,ii) = varoute(25,inum2) / real(nstep) !!clay out
+            hhvaroute(26,ihout,ii) = varoute(26,inum2) / real(nstep) !!Small agg out
+            hhvaroute(27,ihout,ii) = varoute(27,inum2) / real(nstep) !!Large agg out
+            hhvaroute(28,ihout,ii) = varoute(28,inum2) / real(nstep) !!Gravel out
 
           end do
         end if

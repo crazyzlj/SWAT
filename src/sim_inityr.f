@@ -67,7 +67,6 @@
       ncf = 1
       nair = 1
       nafert = 1
-      phubase = 0.
       yldanu = 0.
       bio_yrms = 0.
       lai_yrmx = 0.

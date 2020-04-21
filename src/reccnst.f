@@ -92,9 +92,11 @@
 !! zero flow out variables
       do j = 1, mvaro
         varoute(j,ihout) = 0.
-        do ii = 1, 24
-          hhvaroute(j,ihout,ii) = 0.
-        end do
+        if (ievent > 1) then
+          do ii = 1, nstep
+            hhvaroute(j,ihout,ii) = 0.
+          end do
+        endif
       end do
 
       varoute(2,ihout) = flocnst(inum1)
@@ -125,25 +127,25 @@
       varoute(28,ihout) = 0.                    ! gravel
 
       if (ievent > 2) then
-        do ii = 1, 24
-          hhvaroute(2,ihout,ii) = flocnst(inum1) / 24.
-          hhvaroute(3,ihout,ii) = sedcnst(inum1) / 24.
-          hhvaroute(4,ihout,ii) = orgncnst(inum1) / 24.
-          hhvaroute(5,ihout,ii) = orgpcnst(inum1) / 24.
-          hhvaroute(6,ihout,ii) = no3cnst(inum1) / 24.
-          hhvaroute(7,ihout,ii) = minpcnst(inum1) / 24.
-          hhvaroute(11,ihout,ii) = solpstcnst(inum1) / 24.
-          hhvaroute(12,ihout,ii) = srbpstcnst(inum1) / 24.
-          hhvaroute(13,ihout,ii) = chlacnst(inum1) / 24.
-          hhvaroute(14,ihout,ii) = nh3cnst(inum1) / 24.
-          hhvaroute(15,ihout,ii) = no2cnst(inum1) / 24.
-          hhvaroute(16,ihout,ii) = cbodcnst(inum1) / 24.
-          hhvaroute(17,ihout,ii) = disoxcnst(inum1) / 24.
-          hhvaroute(18,ihout,ii) = bactpcnst(inum1) / 24.
-          hhvaroute(19,ihout,ii) = bactlpcnst(inum1) / 24.
-          hhvaroute(20,ihout,ii) = cmtl1cnst(inum1) / 24.
-          hhvaroute(21,ihout,ii) = cmtl2cnst(inum1) / 24.
-          hhvaroute(22,ihout,ii) = cmtl3cnst(inum1) / 24.
+        do ii = 1,nstep
+          hhvaroute(2,ihout,ii) = flocnst(inum1) / real(nstep)
+          hhvaroute(3,ihout,ii) = sedcnst(inum1) / real(nstep)
+          hhvaroute(4,ihout,ii) = orgncnst(inum1) / real(nstep)
+          hhvaroute(5,ihout,ii) = orgpcnst(inum1) / real(nstep)
+          hhvaroute(6,ihout,ii) = no3cnst(inum1) / real(nstep)
+          hhvaroute(7,ihout,ii) = minpcnst(inum1) / real(nstep)
+          hhvaroute(11,ihout,ii) = solpstcnst(inum1) / real(nstep)
+          hhvaroute(12,ihout,ii) = srbpstcnst(inum1) / real(nstep)
+          hhvaroute(13,ihout,ii) = chlacnst(inum1) / real(nstep)
+          hhvaroute(14,ihout,ii) = nh3cnst(inum1) / real(nstep)
+          hhvaroute(15,ihout,ii) = no2cnst(inum1) / real(nstep)
+          hhvaroute(16,ihout,ii) = cbodcnst(inum1) / real(nstep)
+          hhvaroute(17,ihout,ii) = disoxcnst(inum1) / real(nstep)
+          hhvaroute(18,ihout,ii) = bactpcnst(inum1) / real(nstep)
+          hhvaroute(19,ihout,ii) = bactlpcnst(inum1) / real(nstep)
+          hhvaroute(20,ihout,ii) = cmtl1cnst(inum1) / real(nstep)
+          hhvaroute(21,ihout,ii) = cmtl2cnst(inum1) / real(nstep)
+          hhvaroute(22,ihout,ii) = cmtl3cnst(inum1) / real(nstep)
         end do
       end if
 

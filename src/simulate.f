@@ -17,7 +17,7 @@
 !!                               |current year
 !!    idaf        |julian date   |beginning day of simulation
 !!    idal        |julian date   |ending day of simulation
-!!    idplt(:,:,:)|none          |land cover code from crop.dat
+!!    idplt(:)    |none          |land cover code from crop.dat
 !!    igro(:)     |none          |land cover status code:
 !!                               |0 no land cover currently growing
 !!                               |1 land cover growing
@@ -29,12 +29,12 @@
 !!    nro(:)      |none          |sequence number of year in rotation
 !!    nrot(:)     |none          |number of years of rotation
 !!    nyskip      |none          |number of years to not print output
-!!    phu_plt(:,:,:)|heat units    |total number of heat units to bring plant
+!!    phu_plt(:)  |heat units    |total number of heat units to bring plant
 !!                               |to maturity
 !!    sub_lat(:)  |degrees       |latitude of HRU/subbasin
-!!    tnyld(:,:,:)|kg N/kg yield |modifier for autofertilization target
+!!    tnyld(:)    |kg N/kg yield |modifier for autofertilization target
 !!                               |nitrogen content for plant
-!!    tnylda(:,:,:)|kg N/kg yield|estimated/target nitrogen content of
+!!    tnylda(:)   |kg N/kg yield |estimated/target nitrogen content of
 !!                               |yield used in autofertilization
 !!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
 
@@ -51,7 +51,7 @@
 !!                               |current year
 !!    id1         |julian date   |first day of simulation in current year
 !!    iida        |julian date   |day being simulated (current julian day)
-!!    idplt(:,:,:)|none          |land cover code from crop.dat
+!!    idplt(:)    |none          |land cover code from crop.dat
 !!    iyr         |year          |current year of simulation (eg 1980)
 !!    laimxfr(:)  |
 !!    leapyr      |none          |leap year flag:
@@ -67,10 +67,10 @@
 !!    nro(:)      |none          |sequence number of year in rotation
 !!    ntil(:)     |none          |sequence number of tillage operation within
 !!                               |current year
-!!    phu_plt(:,:,:)|heat units    |total number of heat units to bring plant
+!!    phu_plt(:)  |heat units    |total number of heat units to bring plant
 !!                               |to maturity
 !!    phuacc(:)   |none          |fraction of plant heat units accumulated
-!!    tnylda(:,:,:)|kg N/kg yield|estimated/target nitrogen content of
+!!    tnylda(:)   |kg N/kg yield |estimated/target nitrogen content of
 !!                               |yield used in autofertilization
 !!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
 
@@ -141,13 +141,24 @@
 
         do i = id1, idlst                            !! begin daily loop
 
-!!        if last day of month 
+          !!if last day of month 
           if (i_mo /= mo_chk) then
             immo = immo + 1
           endif
 
-          !!initialize variables at beginning of day
+          !! initialize variables at beginning of day
           call sim_initday
+          !! added for Srini in output.mgt nitrogen and phosphorus nutrients per JGA by gsm 9/8/2011
+                  
+          sol_sumno3 = 0.
+          sol_sumsolp = 0.
+          do j = 1, mhru
+            do ly = 1, sol_nly(j)
+              sol_sumno3(j) = sol_sumno3(j) + sol_no3(ly,j) +
+     *          sol_nh3(ly,j)
+              sol_sumsolp(j) = sol_sumsolp(j) + sol_solp(ly,j)
+            enddo
+          enddo
  
           if ( fcstyr == iyr .and. fcstday == i) then
             ffcst = 1
@@ -191,9 +202,9 @@
 
           if (curyr > nyskip) ndmo(i_mo) = ndmo(i_mo) + 1
 
-          if (pcpsim < 3) call clicon               !! read in/generate weather
+          if (pcpsim < 3) call clicon      !! read in/generate weather
 
-!!     call resetlu
+           !! call resetlu
            if (ida_lup(no_lup) == i .and. iyr_lup(no_lup) == iyr) then
               call resetlu
               no_lup = no_lup + 1
@@ -202,11 +213,32 @@
           call command              !! command loop
 
 
-          !! write daily and/or monthly output
+        do ihru = 1, nhru                                    
+          if (idaf > 180 .and. sub_lat(hru_sub(ihru)) < 0) then
+            if (i == 180) then
+               if (mgtop(nop(ihru),ihru) /=17) then         
+                  dorm_flag = 1
+                  call operatn
+                  dorm_flag = 0
+               endif
+                nop(ihru) = nop(ihru) + 1
+          
+                if (nop(ihru) > nopmx(ihru)) then
+                  nop(ihru) = 1
+                end if
+      
+              phubase(ihru) = 0.
+	        yr_skip = 0
+	      endif
+	    
+	    endif
+        end do
+        
+	    !! write daily and/or monthly output
           if (curyr > nyskip) then
             call writed
 
-!!  output.sol file
+          !! output.sol file
           if (isol == 1) call soil_write
 
             iida = i + 1
@@ -219,7 +251,7 @@
 
         end do                                        !! end daily loop
 
-!! perform end-of-year processes
+        !! perform end-of-year processes
         do j = 1, nhru
 
           !! compute biological mixing at the end of every year
@@ -227,43 +259,14 @@
 !          if (biomix(j) > .001) call tillmix (j,biomix(j))
           if (biomix(j) > .001) call newtillmix (j,biomix(j))
 
-          !! store end-of-year data
-          iix = 0
-          iiz = 0
-          iix = nro(j)
-          iiz = icr(j)
-
           !! update sequence number for year in rotation to that of
           !! the next year and reset sequence numbers for operations
-          if (idplt(nro(j),icr(j),j) > 0) then
-            if (idc(idplt(nro(j),icr(j),j)) == 7) then
+          if (idplt(j) > 0) then
+            if (idc(idplt(j)) == 7) then
               curyr_mat(j) = curyr_mat(j) + 1
               curyr_mat(j) = Min(curyr_mat(j),
-     &                     mat_yrs(idplt(nro(j),icr(j),j)))
+     &                     mat_yrs(idplt(j)))
             end if
-          end if
-
-          nro(j) = nro(j) + 1
-          if (nro(j) > nrot(j)) then
-            nro(j) = 1
-          end if
-          icr(j) = 1
-          ncut(j) = 1
-          ntil(j) = 1
-          icnop(j) = 1
-
-          !! if crop is growing, reset values for accumulated heat units,
-          !! etc. to zero in northern hemisphere
-          if (igro(j) == 1) then
-            if (sub_lat(hru_sub(j)) > 0.) then
-!             phuacc(j) = 0.
-!             laimxfr(j) = 0.
-!             hvstiadj(j) = 0.
-            endif
-            phu_plt(nro(j),icr(j),j) = phu_plt(iix,iiz,j)
-            idplt(nro(j),icr(j),j) = idplt(iix,iiz,j)
-            hi_targ(nro(j),icr(j),j) = hi_targ(iix,iiz,j)
-            ncrops(iix,iiz,j) = ncrops(iix,iiz,j) + 1
           end if
 
           !! update target nitrogen content of yield with data from
@@ -271,9 +274,25 @@
           do ic = 1, mcr
             xx = 0.
             xx = Real(curyr)
-            tnylda(nro(j),ic,j) = (tnylda(nro(j),ic,j) * 
-     *          xx + tnyld(nro(j),ic,j)) / (xx + 1.)
+            tnylda(j) = (tnylda(j) * xx + tnyld(j)) / (xx + 1.)
           end do
+
+          if (idaf < 181) then
+            if (mgtop(nop(j),j) /= 17) then
+              dorm_flag = 1
+              ihru = j
+              call operatn
+              dorm_flag = 0
+            end if
+            nop(j) = nop(j) + 1
+          
+            if (nop(j) > nopmx(j)) then
+              nop(j) = 1
+            end if
+            
+            phubase(j) = 0.
+            yr_skip = 0
+          endif
 
         end do
 
