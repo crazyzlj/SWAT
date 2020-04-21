@@ -93,7 +93,7 @@
         
  	  !! septic tank inflow to biozone layer  J.Jeong
 	  ! STE added to the biozone layer if soil temp is above zero. 
-	  if(j1==i_sep(j).and.sol_tmp(j1,j) > 0. .and. isep_opt(j) /= 0) then
+	  if(j1==i_sep(j).and.sol_tmp(j1,j)>0. .and. isep_opt(j)/=0) then
 		sol_st(j1,j) = sol_st(j1,j) + qstemm(j)  ! in mm
         end if
 
