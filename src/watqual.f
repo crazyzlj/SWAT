@@ -235,7 +235,7 @@
 
       jrch = 0
       jrch = inum1
-	  dcoef= 3.
+      dcoef= 3.
 
        !! initialize water flowing into reach
        wtrin = 0.
@@ -491,8 +491,8 @@
         ammonian(jrch) = 0.
         ammonian(jrch) = nh3con + (ww - xx + yy - zz) * tday
         if (ammonian(jrch) < 1.e-6) ammonian(jrch) = 0.
-        if (ammonian(jrch) > dcoef * nh3con) ammonian(jrch) = dcoef * 
-     &	 nh3con  
+        if (ammonian(jrch) > dcoef * nh3con .and. nh3con > 0.) 
+     &   ammonian(jrch) = dcoef * nh3con  
 
         !! calculate concentration of nitrite at end of day
         !! QUAL2E section 3.3.3 equation III-19
@@ -503,8 +503,8 @@
         nitriten(jrch) = 0.
         nitriten(jrch) = no2con + (yy - zz) * tday
         if (nitriten(jrch) < 1.e-6) nitriten(jrch) = 0.
-	  if (nitriten(jrch) > dcoef * no2con) nitriten(jrch) = dcoef * 
-     &  no2con
+	  if (nitriten(jrch) > dcoef * no2con .and. no2con > 0.) 
+     &  nitriten(jrch) = dcoef * no2con
 
         !! calculate nitrate concentration at end of day
         !! QUAL2E section 3.3.4 equation III-20
@@ -516,9 +516,6 @@
         nitraten(jrch) = no3con + (yy - zz) * tday
         if (nitraten(jrch) > dcoef * no3con) nitraten(jrch) = dcoef * 
      &	   no3con
-	  if(nitraten(jrch) > 1.e+20) then
-	    xyz= 0.
-	  endif
 	
         if (nitraten(jrch) < 1.e-6) nitraten(jrch) = 0.
 !! end nitrogen calculations

@@ -42,10 +42,13 @@
 
       use parm
 
+      character (len=80) :: titldum
       integer :: eof
       eof = 0
       
       do
+        read (113,1001) titldum
+        if (eof < 0) exit
         read (113,1000,iostat=eof) (sub_sftmp(ib,i), ib = 1, 10)
         if (eof < 0) exit
         read (113,1000,iostat=eof) (sub_smtmp(ib,i), ib = 1, 10)
@@ -63,4 +66,5 @@
 
       return
  1000 format (10f8.3)
+ 1001 format (a)
       end

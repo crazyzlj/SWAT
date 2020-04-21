@@ -153,7 +153,7 @@
 
       use parm
 
-      integer :: ic, eof, icnum
+      integer :: ic, eof, icnum, yrsmat
       real :: xx, usle_c, frgrw2, laimx2, co2hi, bioehi, vpdfr, blaic
       real :: b1, b2, b3, c1, frgrw1, laimx1, frgmax, bioe, hvstc, dlaic
       real :: chtmxc, rdmxc, topt, tbase, cnyldc, cpyldc, bn1, bn2, bn3
@@ -215,7 +215,8 @@
         if (eof < 0) exit
         read (104,777,iostat=eof) bioleaf, yrsmat, biomxtrees, extcoef, &
      &     bmdieoff, rsr1c, rsr2c
- 777    format (7f8.3)
+!! 777    format (7f8.3)
+ 777    format (f8.3,i5,5f8.3)
         if (eof < 0) exit
 
         if (ic <= 0) exit
