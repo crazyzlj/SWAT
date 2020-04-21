@@ -93,6 +93,8 @@
 	real :: channel_d50, particle_specific_gravity, Fr_g, Fr_gc
 	real :: log10sedcon, sedcon, deg24, dep24
 	real :: vfall, coefa, coefb, coefc, coefd, coefe
+      
+      real :: thbase,  shear_stress, vshear, deg1, deg2, d_fract, dat2
 
 	jrch = 0; deg24=0.; dep24=0
 	jrch = inum1
@@ -113,7 +115,7 @@
 	   !! initialize sediment in reach during time step
 	   sedin = 0.
 	   if (ii == 1) then
-		 sedin = hhvaroute(3,inum2,ii) * (1. - rnum1) + sedst(jrch) !tons/timestep
+           sedin = hhvaroute(3,inum2,ii) * (1. - rnum1) + sedst(jrch)
 	   else
 		 sedin = hhvaroute(3,inum2,ii) * (1. - rnum1) + hsedst(ii-1)
 	   end if
@@ -237,7 +239,7 @@
 !!  from a small channel than a larger channel. Modification made by Balaji Narasimhan
            if (depnet > 1.e-6) then
              deg = depnet * thbase
-	       !! First the deposited material will be degraded before channel bed
+!! First the deposited material will be degraded before channel bed
 	       if (deg >= depch(jrch)) then
 	         deg1 = depch(jrch)
                deg2 = (deg - deg1) * ch_cov1(jrch) * ch_cov2(jrch)
@@ -266,7 +268,7 @@
 
 !!  In this default sediment routing sediment is not tracked by particle size
            rch_san = 0.
-	     rch_sil = rch_sil + hsedyld(ii)  !!All are assumed to silt type particles
+           rch_sil = rch_sil + hsedyld(ii) !All are assumed to silt part
            rch_cla = 0.
            rch_sag = 0.
            rch_lag = 0.

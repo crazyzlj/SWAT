@@ -39,15 +39,10 @@
 		 end if
            solorgp_t = solorgp_t + sol_orgp(l,j)
          end do
-         write (121,1000) i, j, sol_rsd(1,j), solp_t, 
-     *       solno3_t, solorgn_t, solorgp_t, cnday(j)
+         write (121,1000) i, subnum(j), hruno(j), sol_rsd(1,j), solp_t, & 
+     &    solno3_t, solorgn_t, solorgp_t, cnday(j)
       end do
-!!      do j = 1,nhru
-      !! MFW: Modified to move the printing to within the previous do loop; otherwise, was only printing the last HRU sol values for all HRUs
-!!        write (121,1000) i, j, sol_rsd(1,nhru), solp_t, 
-!!     *       solno3_t, solorgn_t, solorgp_t, cnday(j)
-!!	end do
-
+      
       return
- 1000 format ('SOL   ',2i4,1x,6f10.2)
+ 1000 format ('SNU   ',i4,1x,a5,a4,1x,6f10.2)
       end

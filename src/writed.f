@@ -103,12 +103,13 @@
       real :: pstsum
 
 
-!!    write statement to new output file (soilst.out)
+!!    write statement to new output file (output.swr)
 !!    writes out the amount of water stored in the soil layer
       if (isto > 0) then 
         do j = 1, nhru
 !         write (129,5000) iida, j, (sol_st(j1,j), j1 = 1, sol_nly(j))
-          write (129,5000) iida, j, (sol_no3(j1,j), j1 = 1, sol_nly(j))
+          write (129,5000) iida, subnum(j), hruno(j),                   &
+     &             (sol_no3(j1,j), j1 = 1, sol_nly(j))
         enddo
       end if
 
@@ -145,7 +146,7 @@
             pstsum = pstsum + hrupstd(k,1,j) + hrupstd(k,2,j)
           end do
           if (pstsum > 0. .and. iprp == 1) then
-                write (30,5100) j, iyr, iida,                           &
+                write (30,5100) subnum(j), hruno(j), iyr, iida,         &
      &                     (hrupstd(k,1,j), hrupstd(k,2,j), k = 1, npmx)
           end if
           end if
@@ -160,7 +161,7 @@
       end if
 
       !! write velocities for steve/woody in temp file (Balaji)
-      if (itemp == 1) then 
+      if (itemp == 1 .and. nrch > 0) then 
          write (141,5001) iida,iyr,(vel_chan(k),k= 1,nrch)
          write (142,5001) iida,iyr,(dep_chan(k),k= 1,nrch)
       end if 
@@ -174,9 +175,9 @@
 
 
       return
-5000  format(2i5,500e12.4)
+5000  format(i5,1x,a5,a4,1x,500e12.4)
 5001  format(2i5,500f12.4)
-5100  format(1x,i4,1x,i4,1x,i3,1x,250(e16.4,1x))
+5100  format(1x,a5,a4,1x,i4,1x,i3,1x,250(e16.4,1x))
 5200  format(i7,i9,i6,i5,1x,e9.4,f12.3,f7.1,f14.3)
 6200  format(i5,13f7.2,2f5.2,1x,5f8.2)
       end

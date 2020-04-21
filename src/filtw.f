@@ -127,6 +127,11 @@
       sedminps(j) = sedminps(j) * (1. - trapeff(j))
       surqsolp(j) = surqsolp(j) * (1. - trapeff(j))
       sedyld(j) = sedyld(j) * (1. - trapeff(j))
+      sanyld(j) = sanyld(j) * (1. - trapeff(j))
+      silyld(j) = silyld(j) * (1. - trapeff(j))
+      clayld(j) = clayld(j) * (1. - trapeff(j))
+      sagyld(j) = sagyld(j) * (1. - trapeff(j))
+      lagyld(j) = lagyld(j) * (1. - trapeff(j))
       if (hrupest(j) == 1) then
         do k = 1, npmx
           pst_surq(k,j) = pst_surq(k,j) * (1. - trapeff(j))

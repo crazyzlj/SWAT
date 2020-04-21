@@ -49,8 +49,6 @@
       fcstyr = 0
       fixco = 0.
       ffcb = 0.
-!! burn
-      i_burn = 0
       iclb = 0
       icrk = 0
       icfac = 0      !CB 12/2/09

@@ -205,11 +205,12 @@
         !! new CN method
         if (icn == 1) then 
         sci(j) = sci(j) + pet_day*exp(-cncoef_sub(hru_sub(j))*sci(j)/   &
-     &    smx(j)) - precipday + qday
+     &    smx(j)) - precipday + qday + qtile + latq(j) + sepbtm(j)
         else if (icn == 2) then 
         sci(j) = sci(j) + pet_day*exp(-cncoef_sub(hru_sub(j))*sci(j)/   &
      &    smx(j)) - precipday + qday + latq(j) + sepbtm(j) + qtile
         sci(j) = amin1(sci(j),smxco * smx(j))
+ !!     write (1225,*) sci(j)
         end if 
         
         !! apply fertilizer/manure in continuous fert operation

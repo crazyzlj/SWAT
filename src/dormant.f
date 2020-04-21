@@ -148,9 +148,9 @@
             plantp(j) = (1. - bm_dieoff(idplt(j))) *                    &
      &         plantp(j)
             strsw(j) = 1.
-            laiday(j) = alai_min(idplt(j))
-            phuacc(j) = 0.
-            ncrops(icr(j),j) = ncrops(icr(j),j) + 1
+!            laiday(j) = alai_min(idplt(j))
+!            phuacc(j) = 0.
+!            ncrops(icr(j),j) = ncrops(icr(j),j) + 1
 
           !! beginning of cool season annual dormant period
           case (2, 5)
@@ -181,6 +181,7 @@
             !! end of cool season annual dormant period
             case (2, 5)
               idorm(j) = 0
+              phuacc(j) = 0.
 
             end select
             
@@ -193,6 +194,6 @@
 
         end if
 
-1000  format (a5,1x,a7,3i6,2a15,7f10.2)
+1000  format (a5,1x,a4,3i6,2a15,7f10.2)
       return
       end

@@ -87,9 +87,9 @@
       read (110,*,iostat=eof) hlife_ngw
       if (eof < 0) exit
 !! organic n and p in the lateral flow     - by J.Jeong BREC 2011
-      read (108,*,iostat=eof) lat_orgn(ihru)         
+      read (110,*,iostat=eof) lat_orgn(ihru)         
       if (eof < 0) exit
-      read (108,*,iostat=eof) lat_orgp(ihru)
+      read (110,*,iostat=eof) lat_orgp(ihru)
       exit
       end do
 
@@ -116,12 +116,6 @@
 
 !! assign values to channels
       ch_revap(i) = gw_revap(ihru)
-
-!!    perform additional calculations
-      alpha_bfe(ihru) = Exp(-alpha_bf(ihru))
-      gw_delaye(ihru) = Exp(-1./(delay(ihru) + 1.e-6))
-      shallst_n(ihru) = shallst_n(ihru) * shallst(ihru) / 100.
-      gw_nloss(ihru) = Exp(-.693 / hlife_ngw)
 
 !! assign values to channels
       ch_revap(i) = gw_revap(ihru)

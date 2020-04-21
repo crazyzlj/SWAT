@@ -231,13 +231,13 @@
 
       end if
       if (iwtr == 1) then
-          write (29,1000) cropname, j, hrugis(j), sb,                   &
-     &               nmgt(j), mo_chk, hru_km(j), (pdvas(ii), ii = 1, 40)
+          write (29,1000) cropname, j, subnum(j), hruno(j), sb,         &
+     &            nmgt(j), mo_chk, hru_km(j), (pdvas(ii), ii = 1, 40)
       end if
         end if
       end do
 
       return
- 1000 format (a4,i5,1x,i8,1x,i4,1x,i4,1x,i4,8f10.3,1e10.4,13f10.3,1e10.4&
-     &        ,13f10.3,1e10.4,5f10.3)
+ 1000 format (a4,i5,1x,a5,a4,1x,i4,1x,i4,1x,i4,8f10.3,1e10.4,13f10.3,   &
+     & 1e10.4,13f10.3,1e10.4,5f10.3)
       end

@@ -139,7 +139,7 @@
 !!    ly          |none          |counter (soil layers)
 !!    no3loss     |kg N          |amount of nitrate lost from water body
 !!    pi          |none          |pi
-!!    potev       |m^3 H2O       |evaporation from impouned water body
+!!    potev       |m^3 H2O       |evaporation from impounded water body
 !!    potmm       |mm H2O        |volume of water in pothole expressed as depth
 !!                               |over HRU
 !!    potpcp      |m^3 H2O       |precipitation falling on water body
@@ -418,9 +418,9 @@
 !!!! output.pot and output.wtr turned on by same code named IWTR in file.cio
       if (iwtr == 1) then
          write (125,2000)i,j,pot_vol(j),potsa(j),spillo,potsep,potev,   &
-     &       sol_sw(j)
+     &       sol_sw(j), subnum(j), hruno(j)
       endif
- 2000 format (2i4,6f10.2)
+ 2000 format (2i4,6f10.2,1x,a5,a4)
       if (pot_vol(j) > 1.e-6) then
 !         compute flow from surface inlet tile
           tileo = Min(pot_tile(j), pot_vol(j))

@@ -193,6 +193,7 @@
         pdvar(44) = rchmono(9,j) + rchmono(18,j)                        !! Total P
  !! added NO3 Concentration to output.rch (for daily only) gsm 10/26/2011
  
+ 
         if (ipdvar(1) > 0) then
           do ii = 1, itotr
             pdvr(ii) = pdvar(ipdvar(ii))

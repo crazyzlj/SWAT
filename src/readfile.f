@@ -478,25 +478,25 @@
 !!   IPHR = 1 print file
       iphr = 0
       read (101,*,iostat=eof) iphr
-!!   code for printing soil storage values by soil layer (soilst.out)
+!!   code for printing soil storage values by soil layer (output.swr)
 !!   ISTO = 0 no print
 !!   ISTO = 1 print file
       isto = 0
       read (101,*,iostat=eof) isto
 
-!!   code for printing output.sol file (output.sol)
+!!   code for printing output.sol file (formerly 'output.sol' - now output.snu)
 !!   isol = 0 no print
 !!   isol = 1 print file
       isol = 0
       read (101,*,iostat=eof) isol  
       if (isol == 1) then
-         open (121,file='output.sol')
+         open (121,file='output.snu')
          write (121,12222) 
-12222   format (t19,'SURFACE',t34,'-------  SOIL PROFILE  -------',/,   & 
-     &  t8,'DAY',t12,'HRU',t19,'SOL_RSD',t31,'SOL_P',t42,               &
-     &  'NO3',t51,'ORG_N',t61,'ORG_P',t74,'CN'/,t20,                    &
-     &  '(t/ha)',t29,'(kg/ha)',t39,                                     &
-     &  '(kg/ha)',t49,'(kg/ha)',t59,'(kg/ha)')
+12222   format (t25,'SURFACE',t39,'-------  SOIL PROFILE  -------',/,   & 
+     &  t8,'DAY',t15,'GISnum',t25,'SOL_RSD',t37,'SOL_P',t48,            &
+     &  'NO3',t57,'ORG_N',t67,'ORG_P',t80,'CN'/,t26,                    &
+     &  '(t/ha)',t35,'(kg/ha)',t45,                                     &
+     &  '(kg/ha)',t55,'(kg/ha)',t66,'(kg/ha)')
       end if  
 !! headwater code (0=do not route; 1=route)
       i_subhw = 0
@@ -520,9 +520,9 @@
       ia_b = 0  
       read (101, *, iostat=eof) ia_b
 
-!!    read code to turn on watqual.out output file
+!!    read code to turn on output.wqr output file
 !!      ihumus = 0 (do not print file)
-!!      ihuuus = 1 (print watqual.out)
+!!      ihumus = 1 (print formerly watqual.out - now output.wql)
       read(101,*,iostat=eof) ihumus
 
 
@@ -532,10 +532,10 @@
       read (101,*,iostat=eof) itemp
 
 
-!!    output by elevation band to snowband.out
+!!    output by elevation band to (formerly 'snowband.out')
       read (101,*,iostat=eof) isnow
 	if (isnow == 1) then
-         open (115,file='snowband.out')
+         open (115,file='output.snw')
          write (115,1010)
       end if
 
@@ -641,7 +641,7 @@
 
 !! srin output file from watqual.f  
       if (ihumus ==1) then
-        open (82,file='watqual.out')
+        open (82,file='output.wql')
         write (82,6000)
  6000   format (18x,'WTEMP(C)',' ALGAE_INppm','  ALGAE_Oppm',
      *  '  ORGN_INppm',' ORGN_OUTppm','   NH4_INppm','  NH4_OUTppm',
@@ -670,22 +670,22 @@
       open (16,file='chan.deg')
 !!    open (17,file='wbl.out')
       open (18,file='swat.qst')
-!! output amount of water stored in the soil layer (soilst.out)
+!! output amount of water stored in the soil layer (formerly 'soilst.out')
       if (isto > 0) then
-        open (129,file='soilst.out')
+        open (129,file='output.swr')
         write (129,5001) 
-5001    format (t15,'Soil Storage (mm)',/,t15,'Layer #',/,t3,'Day',t8,
-     *  'HRU',t18,'1',t30,'2',t42,'3',t54,'4',t66,'5',t78,'6',t90,
-     *  '7',t102,'8',t114,'9',t125,'10')
+5001    format (t20,'Soil Storage (mm)',/,t15,'Layer #',/,t3,'Day',t13,
+     *  'HRU',t28,'1',t40,'2',t52,'3',t64,'4',t76,'5',t87,'6',t100,
+     *  '7',t112,'8',t124,'9',t135,'10')
       end if
 
 
 !! Output daily streamflow velocity for each channel (subbasin)
       if (itemp == 1) then
-         open (141,file='chanvel.out')
+         open (141,file='output.vel')
          write (141,4999)
  4999     format(t17,'CH_VEL',/,t3,'Day',t7,'Year',t18,'(m/s)')
-         open (142,file='watrdep.out')
+         open (142,file='output.dep')
           write (142,4998)
  4998    format(t17,'AVE WATER',/,t3,'Day',t7,'Year',t18,'DEPTH(m)')
       end if
@@ -725,12 +725,14 @@
         end if
         
  1000  format (1x,'DAY',t6,'HRU',t12,'POT_VOL',t24,'POTSA',t33,'SPILLO', &
-     &t43,'POTSEP',t54,'POTEV',t63,'SOL_SW'/,t14,'(m3)',t24,'(ha)',t34,
-     &'(m3)',t44,'(m3)',t55,'(m3)',t64,'(m3)')  
+     &t43,'POTSEP',t54,'POTEV',t63,'SOL_SW',t73,'GISnum'/,t14,'(m3)',    &
+     &t24,'(ha)',t34,'(m3)',t44,'(m3)',t55,'(m3)',t64,'(m3)')  
        
 !     code for writing out calendar day or julian day to output.rch, .sub, .hru files
 !     icalen = 0 (print julian day) 1 (print month/day/year) 
       read (101,*, iostat=eof) icalen
+!!!!! if icalen == 1 (print month/day/year) - force iprint to be daily  <--nubz asked srin 06/11/2012
+      if (icalen == 1) iprint = 1
       
 !! Atmospheric deposition input file (kannan/santhi)
 !     open (127,file='testatmo.dat')
@@ -797,8 +799,8 @@
       return
 
  1010 format (32x,'SNOW(mm) at ELEVATION BAND (1-10)',/,                &
-     &1x,'DAY','   YR','  HRU',t23,'1',t31,'2',t39,'3',t47,'4',         &
-     &t55,'5',t63,'6',t71,'7',t79,'8',t87,'9',t94,'10')
+     &1x,'DAY','   YR',t14,'GISnum',t28,'1',t36,'2',t44,'3',t52,'4',    &
+     &t60,'5',t68,'6',t76,'7',t84,'8',t92,'9',t99,'10')
  5000 format (6a)
  5100 format (20a4)
  5101 format (a80)

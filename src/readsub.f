@@ -389,6 +389,8 @@
       if (ch_n(1,i) <= 0.005) ch_n(1,i) = 0.005
       if (ch_n(1,i) >= 0.70) ch_n(1,i) = 0.70
       do ib = 1, 10
+        if (sub_smtmp(ib,i) < 1.e-6) sub_smtmp(ib,i) = smtmp      
+        if (sub_sftmp(ib,i) < 1.e-6) sub_sftmp(ib,i) = sftmp        
         if (sub_smfmx(ib,i) < 1.e-6) sub_smfmx(ib,i) = smfmx
         if (sub_smfmn(ib,i) < 1.e-6) sub_smfmn(ib,i) = smfmn
         if (sub_timp(ib,i) < 1.e-6) sub_timp(ib,i) = timp

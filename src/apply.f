@@ -104,7 +104,7 @@
            exit
          endif
        else
-          if (pst_dep(npest(j),j) > sol_z((nly-1),j) .and.                &     
+          if (pst_dep(npest(j),j) > sol_z((nly-1),j) .and.              &
      &                 pst_dep(npest(j),j) < sol_z(nly,j)) then
              sol_pst(k,j,nly) = sol_pst(k,j,nly) + xx
            exit

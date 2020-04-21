@@ -228,7 +228,7 @@
               sum = sum + hrupsty(k,1,j) + hrupsty(k,2,j)
             end do
             if (sum > 0. .and. iprp == 1) then
-                write (30,5100) j, iyr,                                 &
+                write (30,5100) subnum(j), hruno(j), iyr,               &
      &                     (hrupsty(k,1,j), hrupsty(k,2,j), k = 1, npmx)
             end if
             end if
@@ -341,7 +341,7 @@
  779  format (i4,3f12.4)
  780  format (/,' Year End',i5,' Channel Dimensions ',/,' Reach',       &
      &         '    Depth (m)','  Width (m)','  Slope (m/m)')
- 5100 format (1x,i4,1x,i4,4x,1x,250(e16.4,1x))
+ 5100 format (1x,a5,a4,1x,i4,4x,1x,250(e16.4,1x))
  5200 format (/,1x,i4,a4,1x,10f12.2)
  5300 format (1x,i4,a4,1x,10f12.2,/)
  5800 format ('RES   ',i8,1x,i4,41e12.4)

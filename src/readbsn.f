@@ -558,9 +558,6 @@
       esco = escobsn
       epco = epcobsn
       
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!ESCO
-!     esco = 0.05
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!ESCO
 !!    set default values for undefined parameters
 !     if (ievent == 1) nstep = 24
       if (drain_co_bsn < 1.e-6) drain_co_bsn = 10. 
