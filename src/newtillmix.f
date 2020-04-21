@@ -130,8 +130,13 @@
 !$$$$$$       integer :: l, k, nl, a
       integer :: l, k              !CB 12/2/09 nl and a are not used.
       real :: emix, dtil, XX, WW1, WW2, WW3, WW4, maxmix
-!$$$$$$       real :: thtill(sol_nly(jj)), smix(20+npmx)     
-      real :: smix(22+npmx)        !CB 12/2/09 thtill is not used. mjw rev 490
+!$$$$$$       real :: thtill(sol_nly(jj)), smix(20+npmx)  
+      !!by zhang
+      !!=============   
+      real :: smix(22+npmx+12)        !CB 12/2/09 thtill is not used. mjw rev 490
+      !!changed the dimension from 22 + npmx to 22 + npmx + 12
+      !!by zhang
+      !!=============
       real :: sol_mass(sol_nly(jj))
       real :: sol_thick(sol_nly(jj)), sol_msm(sol_nly(jj))
       real :: sol_msn(sol_nly(jj))
@@ -153,6 +158,19 @@
         emix = effmix(idtill)
         dtil = deptil(idtill)
       end if
+
+      !!by zhang DSSAT tillage
+      !!=======================
+      !!    deptil(:)   |mm  |depth of mixing caused by tillage operation
+      !jj is hru number
+      if (cswat == 2) then
+          tillage_days(jj) = 0
+          tillage_depth(jj) = dtil
+          tillage_switch(jj) = 1
+      end if
+      !!by zhang DSSAT tillage
+      !!=======================
+
 
       smix = 0.
       sol_mass = 0.
@@ -245,6 +263,26 @@
           do k = 1, npmx
           	smix(20+k) = smix(20+k) + sol_pst(k,jj,l) * WW1
           end do
+
+            !!by zhang
+            !!============== 
+            if (cswat == 2) then         
+	        smix(20+npmx+1) = smix(20+npmx+1) +sol_LSC(l,jj)* WW1
+	        smix(20+npmx+2) = smix(20+npmx+2) +sol_LSLC(l,jj)* WW1
+	        smix(20+npmx+3) = smix(20+npmx+3) +sol_LSLNC(l,jj)* WW1
+	        smix(20+npmx+4) = smix(20+npmx+4) +sol_LMC(l,jj)* WW1
+	        smix(20+npmx+5) = smix(20+npmx+5) +sol_LM(l,jj)* WW1
+	        smix(20+npmx+6) = smix(20+npmx+6) +sol_LSL(l,jj)* WW1
+	        smix(20+npmx+7) = smix(20+npmx+7) +sol_LS(l,jj)* WW1	        
+	        
+	        smix(20+npmx+8) = smix(20+npmx+8) +sol_LSN(l,jj)* WW1
+	        smix(20+npmx+9) = smix(20+npmx+9) +sol_LMN(l,jj)* WW1
+	        smix(20+npmx+10) = smix(20+npmx+10) +sol_BMN(l,jj)* WW1
+	        smix(20+npmx+11) = smix(20+npmx+11) +sol_HSN(l,jj)* WW1
+	        smix(20+npmx+12) = smix(20+npmx+12) +sol_HPN(l,jj)* WW1  
+	      end if
+            !!by zhang 	
+            !!=============
 			
           XX = XX + sol_msm(l)
         end do
@@ -292,6 +330,25 @@
             do k = 1, npmx
               sol_pst(k,jj,l) = sol_pst(k,jj,l) * WW3 + smix(20+k) * WW4
             end do
+
+             !!by zhang
+             !!=============
+             if (cswat == 2) then
+             sol_LSC(l,jj) = sol_LSC(l,jj)*WW3+smix(20+npmx+1)* WW4
+             sol_LSLC(l,jj) = sol_LSLC(l,jj)*WW3+smix(20+npmx+2)* WW4
+             sol_LSLNC(l,jj) = sol_LSLNC(l,jj)*WW3+smix(20+npmx+3)* WW4
+             sol_LMC(l,jj) = sol_LMC(l,jj)*WW3 + smix(20+npmx+4)* WW4
+             sol_LM(l,jj) = sol_LM(l,jj)*WW3 + smix(20+npmx+5)* WW4
+             sol_LSL(l,jj) = sol_LSL(l,jj)*WW3 + smix(20+npmx+6)* WW4
+             sol_LS(l,jj) = sol_LS(l,jj)*WW3 + smix(20+npmx+7)* WW4
+             sol_LSN(l,jj) = sol_LSN(l,jj)*WW3 + smix(20+npmx+8)* WW4
+             sol_LMN(l,jj) = sol_LMN(l,jj)*WW3 + smix(20+npmx+9)* WW4
+             sol_BMN(l,jj) = sol_BMN(l,jj)*WW3 + smix(20+npmx+10)* WW4
+             sol_HSN(l,jj) = sol_HSN(l,jj)*WW3 + smix(20+npmx+11)* WW4
+             sol_HPN(l,jj) = sol_HPN(l,jj)*WW3 + smix(20+npmx+12)* WW4
+             end if
+            !!by zhang 
+            !!==============
 
 	  end do
 	

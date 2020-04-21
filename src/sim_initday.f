@@ -16,8 +16,6 @@
 !!    flat(:,:)   |mm H2O        |lateral flow storage array
 !!    frad(:,:)   |none          |fraction of solar radiation occuring during 
 !!                               |hour in day in HRU
-!!    hhsubp(:,:) |mm H2O        |precipitation falling during hour in day in
-!!                               |HRU
 !!    hru_ra(:)   |MJ/m^2        |solar radiation for the day in HRU
 !!    hru_rmx(:)  |MJ/m^2        |maximum possible radiation for the day in HRU
 !!    mo_chk      |none          |check for month being simulated; when mo_chk
@@ -97,7 +95,6 @@
       flat = 0.
       frad = 0.
 !      gwq_ru = 0.
-      hhsubp = 0.
       hru_ra = 0.
       hru_rmx = 0.
       hrupstd = 0.
@@ -154,6 +151,7 @@
       sub_hhwtmp = 0.
       sub_latno3 = 0.
       sub_latq = 0.
+      sub_tileq = 0.
       sub_minp = 0.
       sub_minpa = 0.
       sub_minps = 0.
@@ -216,13 +214,41 @@
       latq = 0.
 	  sub_subp_dt = 0.
 	  sub_hhsedy = 0.
-	  sub_atmp = 0.
+      sub_atmp = 0.
 	  rchhr = 0.
-   !!     ri_pmpvol(:,:) = 0.	  
-   !!     ri_totpvol(:) = 0.
-	  
 !-----------------------------------------------------        
 
+      !!add by zhang
+      !!==========================
+        sedc_d = 0.
+        surfqc_d =0.
+        latc_d = 0.
+        percc_d = 0.
+        foc_d = 0.
+        NPPC_d = 0.
+        rsdc_d = 0. 
+        grainc_d = 0.
+        stoverc_d = 0.
+        emitc_d = 0.
+        soc_d = 0.  
+        rspc_d = 0.   
 
+	sub_sedc_d =0.
+	sub_surfqc_d=0.
+	sub_latc_d=0.
+	sub_percc_d=0.
+	sub_foc_d=0.
+	sub_NEPC_d=0.
+	sub_rsdc_d=0.
+	sub_grainc_d=0.
+	sub_stover_c_d=0.
+	sub_emit_c_d=0.
+	sub_soc_d	=0.
+	sub_rspc_d =0.
+      !!add by zhang
+      !!==========================
+	
+	
+	
       return
       end

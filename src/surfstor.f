@@ -200,7 +200,7 @@
         end do
       end if
 
-      sedyld(j) = surf_bs(2,j) * brt(j)
+ !!     sedyld(j) = surf_bs(2,j) * brt(j)    <----line of code in x 2.  fixes sedyld low prob
 
       sanyld(j) = surf_bs(13,j) * brt(j)
       silyld(j) = surf_bs(14,j) * brt(j)

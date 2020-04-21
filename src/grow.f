@@ -247,7 +247,14 @@
 
           bio_ms(j) = Max(bio_ms(j),0.)
 
-
+          !!add by zhang
+          !!============
+          if (cswat == 2) then
+            NPPC_d(j) = NPPC_d(j) + bioday * reg* 0.42
+          end if
+          !!add by zhang
+          !!============          
+          
           !! calculate fraction of total biomass that is in the roots
           rwt(j) = .4 - .2 * phuacc(j)
 
@@ -312,6 +319,7 @@
             wshd_tstrs = wshd_tstrs + (1.-strstmp(j)) * hru_dafr(j)
             wshd_nstrs = wshd_nstrs + (1.-strsn(j)) * hru_dafr(j)
             wshd_pstrs = wshd_pstrs + (1.-strsp(j)) * hru_dafr(j)
+            wshd_astrs = wshd_astrs + (1.-strsa(j)) * hru_dafr(j)
           end if
         end if
       return

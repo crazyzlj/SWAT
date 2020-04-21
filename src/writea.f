@@ -346,6 +346,6 @@
  5300 format (1x,i4,a4,1x,10f12.2,/)
  5800 format ('RES   ',i8,1x,i4,41e12.4)
  6800 format ('RES   ',i8,1x,i4,41e12.4,1x,i4)
- 6300 format (/i5,15f7.2,1x,5f8.2//)
+ 6300 format (/i5,15f8.2,1x,5f8.2//)
       end
 

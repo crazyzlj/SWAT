@@ -167,7 +167,7 @@
         eos1 = es_max * eos1
         es_max = Min(es_max, eos1)
         es_max = Max(es_max, 0.)
-        if (pot_vol(j) > 1.e-4) es_max = 0.
+!        if (pot_vol(j) > 1.e-4) es_max = 0.
 
         !! make sure maximum plant and soil ET doesn't exceed potential ET
         if (pet_day < es_max + ep_max) then

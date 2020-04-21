@@ -103,7 +103,7 @@
 
 !! subdaily array
       if (ievent > 2) then
-        do ii = 1, 24
+        do ii = 1, nstep
           do jj = 1, mvaro
             hhvaroute(jj,ihout,ii) = hhvaroute(jj,inum1,ii) 
           end do

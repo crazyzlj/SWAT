@@ -193,6 +193,7 @@
       pnd_solp = 0.
       pnd_solpg = 0.
       pot_volx = 0.
+      pot_volxmm = 0.
       potflwi = 0.
       potsedi = 0.
       potsani = 0.
@@ -313,15 +314,6 @@
       wurtnf = 0.
       yldn = 0.
       zdb = 0.
-  !!    itelmon = 0
-  !!   variimon = 0.
-!!	  itelyr = 0
-!!	  variiyr = 0.
-!!	  itelmons = 0
-!!      variimons = 0.
-!!	  itelyrs = 0
-!!	  variiyrs = 0.
-	  
 	  
 	!! MJW
 	sol_P_model = 0

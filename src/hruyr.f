@@ -252,6 +252,10 @@
         pdvas(75) = hruyro(68,j)
 !!    latno3 - output.hru
         pdvas(76) = hruyro(69,j)
+!!    gwq deep
+        pdvas(77) = hruyro(70,j)
+!!    latq contribution
+        pdvas(78) = hruyro(71,j)
 
         if (ipdvas(1) > 0) then
           do ii = 1, itots
@@ -293,11 +297,11 @@
       return
 
  1000 format (a4,i5,1x,a5,a4,i5,1x,i4,1x,i4,e10.5,66f10.3,1x,
-     *e10.5,1x,e10.5,8e10.3)
+     *e10.5,1x,e10.5,8e10.3,2f10.3)
  2000 format (a4,i5,1x,a5,a4,i5,1x,i4,1x,i4,e10.5,66f10.3,1x,
-     *e10.5,1x,e10.5,5e10.3,1x,i4)
+     *e10.5,1x,e10.5,5e10.3,2f10.3,1x,i4)
  1001 format (a4,i7,1x,a5,a4,i5,1x,i4,1x,i4,e10.5,66f10.3,1x,
-     *e10.5,1x,e10.5,3e10.3,1x,i4)
+     *e10.5,1x,e10.5,3e10.3,2f10.3,1x,i4)
 
 
  !!1000 format (a4,i4,a5,a4,i5,1x,i4,1x,i4,e10.5,66f10.3,1x,

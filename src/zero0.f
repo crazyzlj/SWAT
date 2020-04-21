@@ -169,6 +169,7 @@
       igrotree = 0
       cvm = 0.
       daylmn = 0.
+      daru_km = 0.
 !    Drainmod tile equations  01/2006 
       dc = 0.
       drain_co_bsn = 0.
@@ -254,6 +255,9 @@
       gw_spyld = 0.
       gwht = 0.
       gwq_ru = 0.
+!     latq_ru = 0.
+!      surfq_ru = 0.
+!      infl_ru = 0.
       gwqmn = 0.
 !    Drainmod tile equations  01/2006 
       hdrain = 0.
@@ -269,6 +273,7 @@
       hru_fr = 0.
       hru_ha = 0.
       hru_km = 0.
+      hru_rufr = 0.
       hrugis = 0
       hrupest = 0
       hrupsta = 0.
@@ -311,12 +316,20 @@
       igro = 0
       igrz = 0
       ihouts = 0
+      ils2 = 0
+      ils2flag = 0
+      ils_nofig = 0
       inum1s = 0
       inum2s = 0
       inum3s = 0
       inum4s = 0
+      inum5s = 0
+      inum6s = 0
+      inum7s = 0
+      inum8s = 1
       iop = 0
       ioper = 1
+      iopera = 1
       iopday = 0
       iopyr = 0
       ipdhru = 0
@@ -418,6 +431,8 @@
 	  phubase = 0.
       pltnfr = 0.
       pltpfr = 0.
+      pot_seep = 0.
+      r2adj = 1.
 !! drainmod tile equations   06/2006
       ranrns = 0.
 !! drainmod tile equations   06/2006
@@ -435,15 +450,15 @@
       drydep_nh4_mo = 0.
       drydep_no3_mo = 0.
 !! routing 5/3/2010 gsm per jga
-      rutot = 0
       idum = 0
       mhyd1 = 0
       irtun = 0
-
-
+      
 !    Drainmod tile equations  01/2006 
       sdrain = 0.
       sdrain_bsn = 0.
+      sstmaxd = 0.
+      sstmaxd_bsn = 0.
 !    Drainmod tile equations  01/2006
       rsr1 = 0.
       rsr2 = 0.
@@ -479,14 +494,19 @@
       subfr_nowtr = 0.
       sub_lat = 0.
       sub_latq = 0.
+      sub_tileq = 0.
       sub_latno3 = 0.
       sub_smtmp = 0.
       sub_tileno3 = 0.
+      sub_gwq_d = 0.
+      alpha_bf_d = 0.
+      gw_qdeep = 0.
       subgis = 0
       tb_adj = 0.
       tdrain = 0.
       tdrain_bsn = 0.
       tile_no3 = 0.
+      tileq = 0.
       tile_ttime = 0.
       uh = 0.
       vfsratio = 0.

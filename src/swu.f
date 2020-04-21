@@ -127,10 +127,14 @@
         if (sol_sw(j) > sol_sumfc(j)) then
           satco = (sol_sw(j) - sol_sumfc(j)) / (sol_sumul(j) - 
      &                                                 sol_sumfc(j))
-          strsa(j) = 1. - (satco / (satco + Exp(.176 - 4.544 *
-     &                                                      satco)))
-        else
-          strsa(j) = 1.
+          pl_aerfac = .85
+          scparm = 100. * (satco - pl_aerfac) / (1.0001 - pl_aerfac)
+          if (scparm > 0.) then
+            strsa(j) = 1. - (scparm / (scparm + Exp(2.9014 - .03867 *
+     &                                                      scparm)))
+          else
+            strsa(j) = 1.
+          end if
         end if
 
         do k = 1, sol_nly(j)
@@ -151,12 +155,12 @@
           end if
 
           !! don't allow compensation for aeration stress
-          if (strsa(j) > .99) then
-            yy = 0.
-          else
-            yy= sump - xx
-          end if
-          wuse(k) = sum - sump + yy * epco(j)
+!          if (strsa(j) > .99) then
+!           yy = 0.
+!          else
+!            yy= sump - xx
+!          end if
+          wuse(k) = sum - sump + 1. * epco(j)
           wuse(k) = sum - sump + (sump - xx) * epco(j)
           sump = sum
 
@@ -179,9 +183,6 @@
 !             wuse(k) = 0.
 !           endif
 !         endif
- 
-
-
 
           !! adjust uptake if sw is less than 25% of plant available water
           reduc = 0.

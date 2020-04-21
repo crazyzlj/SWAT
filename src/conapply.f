@@ -22,8 +22,6 @@
 !!                                   |the watershed
 !!    laiday(:)    |none             |leaf area index
 !!    nope(:)      |none             |sequence number of pesticide in NPNO(:)
-!!    npest(:)     |none             |sequence number of pesticide application
-!!                                   |within the year
 !!    nro(:)       |none             |sequence number of year in rotation
 !!    nyskip       |none             |number of years to skip output
 !!                                   |summarization/printing
@@ -39,8 +37,6 @@
 !!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
 !!    drift(:)    |kg            |amount of pesticide drifting onto main 
 !!                               |channel in subbasin
-!!    npest(:)    |none          |sequence number of pesticide application
-!!                               |within the year
 !!    plt_pst(:,:)|kg/ha         |pesticide on plant foliage
 !!    sol_pst(:,:,1)|kg/ha       |pesticide in first layer of soil
 !!    wshd_pstap(:)|kg/ha         |total amount of pesticide type applied in 

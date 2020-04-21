@@ -55,13 +55,13 @@
 
       use parm
       implicit none
-      prog = "SWAT June 26 2012    VER 2012/Rev 535"
+      prog = "SWAT Nov 14 2012    VER 2012/Rev 582"
 
       write (*,1000)
- 1000 format(1x,"               SWAT2012               ",/,             &
-     &          "               Rev. 535               ",/,             &
-     &          "      Soil & Water Assessment Tool    ",/,             &
-     &          "               PC Version             ",/,             &
+ 1000 format(1x,"               SWAT2012               ",/,             
+     &          "               Rev. 582               ",/,             
+     &          "      Soil & Water Assessment Tool    ",/,             
+     &          "               PC Version             ",/,             
      &          " Program reading from file.cio . . . executing",/)
 
 !! process input
@@ -82,7 +82,6 @@
       call readfig
       call readatmodep
       call readinpt
-      call readparmfile     !! BK read and adjust parms
       call std1
       call std2
       call openwth

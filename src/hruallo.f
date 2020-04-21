@@ -1,4 +1,4 @@
-      subroutine hruallo(hru)
+      subroutine hruallo
 
 !!    ~ ~ ~ PURPOSE ~ ~ ~
 !!   This subroutine calculates the number of management operation types, etc.
@@ -66,24 +66,23 @@
 
       use parm
 
-      integer, intent (in) :: hru
       character (len=13) :: hrufile, mgtfile, solfile, chmfile
       character (len=80) ::  titldum
       integer :: eof, j, k, lyrtot, rot, plt, ap_f, ap_p, ap_t, ap_i
       integer :: grz, cut, mgt1i, pstnum, ii, ap_r, ap_s, kll, hkll
       integer :: ap_ai, ap_af, mgt_op, ap_cf, ap_cc, ap_ci, jj
+      integer :: iopera_sub
       real :: depth(25)
 
-!! skip subbasin input data
-      jj = 1
-      read (25,6000) titldum
-      do j = 1, 3
-      read (25,6000) titldum
+      do j= mhru1, mhru
       mgtfile = ""
       solfile = ""
       chmfile = ""
-      read (25,5300) hrufile, mgtfile, solfile, chmfile
-        if (hrufile /= '             ') then
+      read (25,5300,iostat=eof)hrufile, mgtfile, solfile, chmfile, ilnds
+      if (eof < 0) return
+      if (ilnds > 0) then 
+        ils_nofig = 1
+      end if      
         call caps(mgtfile)
         call caps(solfile)
         call caps(chmfile)
@@ -104,33 +103,30 @@
             if (depth(k) <= 0.001) exit
           end do
           mlyr = Max(mlyr,lyrtot)
+        close (9)
         open (10,file=mgtfile)
-        !! calculate maximum number of years in a rotation
-          rot = 0
-          do k = 1, 28
+      
+!!  calculate max number of operations per hru
+        iopera_sub = 1
+        mcri = 0
+        do kk = 1, 30
           read (10,6000) titldum
-          end do
-          read (10,*) rot
-          mnr = Max(mnr,rot)
-          read (10,6000) titldum
-        !! calculate maximum number of crops grown in a year
-          nopp = 0
-          
-          do k = 1, rot
-            do
-            mgt_op = 0
-            mgt1i = 0
-            read (10,6300) mgt_op, mgt1i
-	      if (mgt_op == 4 .and. mgt1i > 0) pstflg(mgt1i) = 1
-            if (mgt_op == 0) exit
-            
-            nopp = nopp + 1
-            
-            
-            end do
-            mapp = Max(mapp,nopp)
-            
-          end do
+        end do
+        
+        do kk = 1, 1000
+          read (10,6300,iostat=eof) mgt_op, mgt1i
+          if (eof < 0) exit
+          if (mgt_op == 1) then
+            mcri = mcri + 1
+          end if
+          if (mgt_op == 4 .and. mgt1i > 0) pstflg(mgt1i) = 1
+          iopera_sub = iopera_sub + 1
+        end do
+        iopera = Max(iopera,iopera_sub)
+        mcr = Max(mcr,mcri)
+        
+        close (10)            !!   nubz test
+                   
         open (11,file=chmfile)
           eof = 0
           do 
@@ -147,98 +143,16 @@
             end do
             if (eof < 0) exit
           end do
-        close (11)
-        close (10)
-        close (9)
-        jj = jj + 1
-        end if
-      end do
-
-      read (25,6000) titldum
-      do j = jj, hru
-        mgtfile = ""
-        solfile = ""
-        chmfile = ""
-        read (25,5300) hrufile, mgtfile, solfile, chmfile
-        call caps(mgtfile)
-        call caps(solfile)
-        call caps(chmfile)
-        open (9,file=solfile,recl=350)
-        !! calculate # of soil layers in profile
-          depth = 0.
-          lyrtot = 0
-          read (9,6000) titldum
-          read (9,6000) titldum
-          read (9,6000) titldum
-          read (9,6000) titldum
-          read (9,6000) titldum
-          read (9,6000) titldum
-          read (9,6000) titldum
-          read (9,6100) (depth(k), k = 1, 25)
-          do k = 1, 25
-            if (depth(k) <= 0.001) lyrtot = k - 1
-            if (depth(k) <= 0.001) exit
-          end do
-          mlyr = Max(mlyr,lyrtot)
-        open (10,file=mgtfile)
-        !! calculate maximum number of years in a rotation
-          rot = 0
-          do k = 1, 28
-            read (10,6000) titldum
-          end do
-          read (10,*) rot
-          mnr = Max(mnr,rot)
-        !! calculate maximum number of crops grown in a year
-          read (10,6000) titldum
-          nopp = 0
-          mcri = 0
-          
-!!          do k = 1, rot
-            do
-            mgt_op = 0
-            mgt1i = 0
-            read (10,6300,iostat=eof) mgt_op, mgt1i
-            if (eof < 0) exit
-	      if (mgt_op == 4 .and. mgt1i > 0) pstflg(mgt1i) = 1
-            if (mgt_op == 1) then
-              mcri = mcri + 1
-            end if
-            nopp = nopp + 1
-            
-            end do
-            
-            mcr = Max(mcr,mcri)
-            mapp = Max(mapp,nopp)
-            
-!!          end do
-        open (11,file=chmfile)
-          eof = 0
-          do 
-            do k = 1, 11
-              read (11,6000,iostat=eof) titldum
-              if (eof < 0) exit
-            end do
-            if (eof < 0) exit
-            do
-              pstnum = 0
-              read (11,*,iostat=eof) pstnum
-              if (eof < 0) exit
-              if (pstnum > 0) pstflg(pstnum) = 1
-            end do
-            if (eof < 0) exit
-          end do
-        close (11)
-        close (10)
-        close (9)
-      end do
-
+      close (11)
+      end do    ! hru loop
+      
       return
  5000 format (6a)
  5001 format (a1,9x,5i6)
  5002 format(a)
  5100 format (20a4)
  5200 format (10i4)
- 5300 format (6a13)
+ 5300 format (4a13,52x,i6)
  6000 format (a80)
  6100 format (27x,25f12.2)
  6200 format (1x,i3)

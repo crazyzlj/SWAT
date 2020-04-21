@@ -40,6 +40,7 @@
       sno3up = 0.
       spadyev = 0.
       spadyo = 0.
+      spadyosp = 0.
       spadyrfv = 0.
       spadysp = 0.
       subaao = 0.
@@ -65,6 +66,7 @@
       wshd_pas = 0.
       wshd_plch = 0.
       wshd_pstrs = 0.
+      wshd_astrs = 0.
       wshd_pup = 0.
       wshd_raino3 = 0.
       wshd_rmn = 0.

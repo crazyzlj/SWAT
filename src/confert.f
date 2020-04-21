@@ -169,7 +169,7 @@
         it = cfrt_id(j)
         if (cfrt_kg(j) > 0.) then
           l = 1
-
+          if (cswat == 0 .or. cswat == 1) then
           sol_no3(l,j) = sol_no3(l,j) + cfrt_kg(j) *                    &
      &                 (1. - fnh3n(it)) * fminn(it)
           sol_fon(l,j) = sol_fon(l,j) + cfrt_kg(j) *                    &
@@ -180,6 +180,54 @@
      &                 fminp(it)
           sol_fop(l,j) = sol_fop(l,j) + cfrt_kg(j) *                    &
      &                 forgp(it)
+          end if
+
+          !!Add by zhang
+          !!========================
+          if (cswat == 2) then
+            sol_fop(l,j) = sol_fop(l,j) + cfrt_kg(j) *    
+     &                 forgp(it)
+            sol_no3(l,j) = sol_no3(l,j) + cfrt_kg(j) *   
+     &                 (1. - fnh3n(it)) * fminn(it)   
+            sol_nh3(l,j) = sol_nh3(l,j) + cfrt_kg(j) *     
+     &                 fnh3n(it) * fminn(it) 
+            sol_solp(l,j) = sol_solp(l,j) + cfrt_kg(j) *   
+     &                 fminp(it)    
+     
+              orgc_f = 0.35
+              !X1 fertilizer attributed to fresh carbon & nitrogen pool 
+              X1 = cfrt_kg(j) 
+              X8 = X1 * orgc_f
+              RLN = .175 *(orgc_f)/(fminn(it) + forgn(it) + 1.e-5)
+              X10 = .85-.018*RLN
+              if (X10<0.01) then
+                X10 = 0.01
+              else
+                if (X10 > .7) then
+                    X10 = .7
+                end if
+              end if
+              XXX = X8 * X10
+              sol_LMC(l,j) = sol_LMC(l,j) + XXX
+              YY = X1 * X10
+              sol_LM(l,j) = sol_LM(l,j) + YY
+              ZZ = X1 *forgn(ifrt) * X10
+              sol_LMN(l,j) = sol_LMN(l,j) + ZZ
+              sol_LSN(l,j) = sol_LSN(l,j) + X1
+     &                      *forgn(it) -ZZ
+              XZ = X1 *orgc_f-XXX
+              sol_LSC(l,j) = sol_LSC(l,j) + XZ
+              sol_LSLC(l,j) = sol_LSLC(l,j) + XZ * .175          
+              sol_LSLNC(l,j) = sol_LSLNC(l,j) + XZ * (1.-.175) 
+              YZ = X1 - YY
+              sol_LS(l,j) = sol_LS(l,j) + YZ
+              sol_LSL(l,j) = sol_LSL(l,j) + YZ*.175
+              
+              sol_fon(l,j) = sol_LMN(l,j) + sol_LSN(l,j)            
+          
+          end if
+          !!Add by zhang
+          !!========================
 
 !! add bacteria - (cells/t*t/ha + 10t/m^3*mm*cells/t)/(t/ha + 10t/m^3*mm)
 !! calculate ground cover

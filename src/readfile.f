@@ -602,7 +602,7 @@
       open (24,file="input.std")
       open (26,file="output.std")
 
-      open (28,file="output.hru",recl=1000)
+      open (28,file="output.hru",recl=1500)
       if (ia_b == 1) then 
         open (33333,file="outputb.hru",form='unformatted')
       end if
@@ -724,9 +724,11 @@
           write (125, 1000) 
         end if
         
- 1000  format (1x,'DAY',t6,'HRU',t12,'POT_VOL',t24,'POTSA',t33,'SPILLO', &
-     &t43,'POTSEP',t54,'POTEV',t63,'SOL_SW',t73,'GISnum'/,t14,'(m3)',    &
-     &t24,'(ha)',t34,'(m3)',t44,'(m3)',t55,'(m3)',t64,'(m3)')  
+ 1000  format (1x,'HRU',t6,'SUB',t12,'DAY',t17,'YEAR',t26,'VOL-I',t37,  &
+     &'SA-I',t46,'SPILLO', 
+     &t56,'POTSEP',t66,'POTEV',t75,'SOL_SW',t85,'TILE-O',t96,'VOL-F',   &
+     &t106,'SA-F',/,t27,'(mm)',t37,'(ha)',t47,'(mm)',t57,'(mm)',t67,    &
+     &'(mm)',t77,'(mm)',t87,'(mm)',t97,'(mm)',t107,'(ha)')  
        
 !     code for writing out calendar day or julian day to output.rch, .sub, .hru files
 !     icalen = 0 (print julian day) 1 (print month/day/year) 
@@ -761,13 +763,13 @@
 
 
 !! sj september 2010 CSWAT final output
+      if (cswat == 1) then
 	open (100,file="cswat_profile.txt",recl=280)
 	write (100,*) 'year',';','day',';','hru',';','cmass',';','sol_rsd',
      &';','mancmass'
+      end if
 
-!	open (111, file="final_n_balance.txt")
-!	open (112, file="final_yields.txt")
-	!! carbon output ends 
+      
 
 !! septic result  J.Jeong Feb2009
       open (173,file='septic.out')  

@@ -151,8 +151,7 @@
       ip = 0
       if = 0
       ir = 0
-      
-      do
+
       read (101,5100) titldum
       read (101,*) sub_km(i)
       if (isproj == 2) then
@@ -258,21 +257,13 @@
           opsfile = ""
           septfile = ""
           sdrfile = ""
-!!          read (101,5300) hrufile, mgtfile, solfile, chmfile, gwfile,
-!!     & opsfile, ipot(j)
          read (101,5300) hrufile, mgtfile, solfile, chmfile, gwfile,
-     & opsfile, septfile, sdrfile
+     & opsfile, septfile, sdrfile, ils2(ihru)
           call caps(hrufile)
           call caps(mgtfile)
           call caps(solfile)
           call caps(chmfile)
           call caps(gwfile)
-!$$$$$$         if (opsfile /= '             ') then
-!$$$$$$           call caps(opsfile)
-!$$$$$$           open (111,file=opsfile)
-!$$$$$$           call readops
-!$$$$$$         end if
-
           if (septfile /='             ') then
             call caps (septfile)
             open (172,file=septfile, status='old')
@@ -300,6 +291,17 @@
             open (111,file=opsfile)
             call readops
           end if
+          
+          ! set up variables for landscape routing
+!          if (ils_nofig == 1) then
+            if (ils2(ihru) == 0) then
+              ils = 1
+            else
+              ils = 2
+              ils2flag(i) = 1
+            end if
+            daru_km(i,ils) = daru_km(i,ils) + hru_fr(j) * sub_km(i)
+!         end if
           
           ! estimate drainage area for urban distributed bmps in hectares - jaehak
           if (urblu(ihru)>0) then
@@ -349,9 +351,23 @@
           end if
           ! estimate average Curve Number for the subbasin
           sub_cn2(i) = sub_cn2(i) + cn2(ihru) * hru_fr(ihru)
+        end do      ! hru loop
+        
+        !! set up routing unit fractions for landscape routing
+        do j = jj, hrutot(i)
+          ihru = nhru + j
+          if (ils2(ihru) == 0) then
+            ils = 1
+          else
+            ils = 2
+          end if
+          
         end do
-      exit
-      end do
+        if (ils == 2) then
+          do j = jj, hrutot(i)
+          hru_rufr(ils,ihru) = hru_fr(ihru) * sub_km(i) / daru_km(i,ils)
+          end do
+        end if
       
 !!  routing changes gsm per jga 5/3/2010
 !!      irunits = 0
@@ -367,9 +383,10 @@
 	if (sdrain(ihru) <= 0.) sdrain(ihru) = sdrain_bsn
 	if (drain_co(ihru) <= 0.) drain_co(ihru) = drain_co_bsn
 	if (pc(ihru) <= 0.) pc(ihru) = pc_bsn
-	if (latksatf(ihru) <= 0.) latksatf(ihru) = latksatf_bsn
+	if (latksatf(ihru) <= 0.) latksatf(ihru) = latksatf_bsn	
+	if (sstmaxd(ihru) <= 0.) sstmaxd(ihru) = sstmaxd_bsn	
       !     estimate drainage area for urban on-line bmps in square km
-      subdr_km(i) = subdr_km(i) + sub_km(i)
+      !subdr_km(i) = subdr_km(i) + sub_km(i)
 
 
 !!    set default values
@@ -448,7 +465,7 @@
  5100 format (a)
  5101 format (f8.4,f4.2,5f8.3)
  5200 format (10f8.1)
- 5300 format (8a13)
+ 5300 format (8a13,i6)
  5400 format (i4,6f8.3)
  5500 format (2i4)
       end

@@ -22,13 +22,11 @@
 !!                                   |the watershed
 !!    laiday(:)    |none             |leaf area index
 !!    nope(:)      |none             |sequence number of pesticide in NPNO(:)
-!!    npest(:)     |none             |sequence number of pesticide application
-!!                                   |within the year
 !!    nro(:)       |none             |sequence number of year in rotation
 !!    nyskip       |none             |number of years to skip output
 !!                                   |summarization/printing
 !!    plt_pst(:,:) |kg/ha            |pesticide on plant foliage
-!!    pst_dep(:,:) |kg/ha          |depth of pesticide in soil
+!!    pst_dep      |kg/ha          |depth of pesticide in soil
 !!    pst_kg       |kg/ha            |amount of pesticide applied to HRU
 !!    sol_pst(:,:,1)|kg/ha           |pesticide in first layer of soil
 !!    wshd_pstap(:)|kg/ha            |total amount of pesticide type applied in 
@@ -40,8 +38,6 @@
 !!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
 !!    drift(:)    |kg            |amount of pesticide drifting onto main 
 !!                               |channel in subbasin
-!!    npest(:)    |none          |sequence number of pesticide application
-!!                               |within the year
 !!    plt_pst(:,:)|kg/ha         |pesticide on plant foliage
 !!    sol_pst(:,:,1)|kg/ha       |pesticide in first layer of soil
 !!    wshd_pstap(:)|kg/ha         |total amount of pesticide type applied in 
@@ -96,16 +92,16 @@
       xx = xx * ap_ef(kk) 
 
 !   added for pesticide incorporation 3/31/08 gsm
-      if (pst_dep(npest(j),j) > 1.e-6) then
+      if (pst_dep > 1.e-6) then
        do nly = 1,sol_nly(j)
          if (nly == 1) then
-         if (pst_dep(npest(j),j) < sol_z(nly,j)) then
+         if (pst_dep < sol_z(nly,j)) then
            sol_pst(k,j,1) = sol_pst(k,j,1) + xx
            exit
          endif
        else
-          if (pst_dep(npest(j),j) > sol_z((nly-1),j) .and.              &
-     &                 pst_dep(npest(j),j) < sol_z(nly,j)) then
+          if (pst_dep > sol_z((nly-1),j) .and.                          &
+     &                 pst_dep < sol_z(nly,j)) then
              sol_pst(k,j,nly) = sol_pst(k,j,nly) + xx
            exit
            endif
@@ -130,9 +126,6 @@
         wshd_pstap(k) = wshd_pstap(k) + pst_kg                    *     &
      &                                           ap_ef(kk) * hru_dafr(j)
       end if
-
-!! update sequence number for pesticide application
-      npest(j) = npest(j) + 1
 
       return
       end

@@ -166,7 +166,7 @@
 
       real, parameter :: pi = 3.1416
       integer :: j, ly
-      real :: potsep, sumo, potev, cnv, potpcp, no3in
+      real :: potsep, sumo, potev, cnv, potpcp, no3in, qdayi
       real :: sedloss, no3loss, yy, dg, excess, stmax, sedsetl
 	real :: sanloss, silloss, claloss, sagloss, lagloss
       real :: potmm,minpsloss,minpaloss, solploss, orgnloss, orgploss
@@ -184,6 +184,7 @@
       potevmm = 0.
       potsepmm = 0.
       potflwo = 0.
+      potflwosp = 0.
       potsedo = 0.
       potsano = 0.
       potsilo = 0.
@@ -196,9 +197,15 @@
       potorgpo = 0.
       potmpso = 0.
       potmpao = 0.
-      
-      qin = qdr(j)    !inflow = water yield (surf+lat+gw)
-      no3in = surqno3(j) + latno3(j)    ! + gwno3(j) - don't include groundwater no3
+      potvol_ini = 0.
+      potsa_ini = 0.
+
+      qin = qday * pot_fr(j)   !inflow = surface flow
+      qdayi = qday
+      qday = qday * (1. - pot_fr(j))
+      potloss = qdayi - qday
+      qdr(j) = qdr(j) - potloss
+      no3in = surqno3(j)   !+ latno3(j) + gwno3(j) - don't include groundwater no3
       
 !!    conversion factors
       cnv = 10. * hru_ha(j)
@@ -206,9 +213,16 @@
 
 !     when water is impounding
       if (imp_trig(j) == 1) return
+        
+!       update volume of water in pothole
+!       pot_fr is now the fraction of the hru draining into the pothole
+!       the remainder (1-pot_fr) goes directly to runoff
+        pot_vol(j) = pot_vol(j) + qin
+        potflwi(j) = potflwi(j) + qin
 
 !       compute surface area assuming a cone shape (m^2)
-        potsa(j) = pi * (3. * pot_vol(j) / (pi * hru_slp(j)))**.6666
+        potvol_m3 = pot_vol(j) * cnv
+        potsa(j) = pi * (3. * potvol_m3 / (pi * hru_slp(j)))**.6666
         potsa(j) = potsa(j) / 10000.                  !convert to ha  
         if (potsa(j) <= 0.000001) then
           potsa(j) = 0.001
@@ -216,14 +230,9 @@
         if (potsa(j) > hru_ha(j)) then
           potsa(j) = hru_ha(j)
         endif
+        potvol_ini = pot_vol(j)
+        potsa_ini = potsa(j)
         
-!       update volume of water in pothole
-!       pot_fr is now the fraction of the hru draining into the pothole
-!       the remainder (1-pot_fr) goes directly to runoff
-        pot_vol(j) = pot_vol(j) + qin * pot_fr(j) * cnv
-        potflwi(j) = potflwi(j) + qin * pot_fr(j) * cnv
-        qdr(j) = qdr(j) * (1. - pot_fr(j))
-
 !       update sediment in pothole  
         pot_sed(j) = pot_sed(j) + sedyld(j) * pot_fr(j)
         potsedi(j) = pot_sed(j) 
@@ -275,11 +284,12 @@
         sedminpa(j) = sedminpa (j) * yy
 
 !       if overflow, then send the overflow to the HRU surface flow  
-        if (pot_vol(j) > pot_volx(j)) then
-		  qdr(j) = qdr(j) + (pot_vol(j)- pot_volx(j)) / cnv
-          spillo = pot_vol(j)- pot_volx(j)
-          pot_vol(j) = pot_volx(j)
-          xx = spillo / (spillo + pot_volx(j))
+        if (pot_vol(j) > pot_volxmm(j)) then
+          qdr(j) = qdr(j) + (pot_vol(j)- pot_volxmm(j))
+!          qday = qday + (pot_vol(j)- pot_volxmm(j))
+          spillo = pot_vol(j)- pot_volxmm(j)
+          pot_vol(j) = pot_volxmm(j)
+          xx = spillo / (spillo + pot_volxmm(j))
           potsedo = potsedo + pot_sed(j) * xx
           potsano = potsano + pot_san(j) * xx
           potsilo = potsilo + pot_sil(j) * xx
@@ -314,12 +324,12 @@
           pot_sag(j) = sagyld(j) + potsago
           lagyld(j) = lagyld(j) + potlago
 
-          surqno3(j) = surqno3(j) + potno3o / cnv
-          surqsolp(j) = surqsolp(j) + potsolpo / cnv
-          sedorgn(j) = sedorgn(j) + potorgno / cnv
-          sedorgp(j) = sedorgp(j) + potorgpo / cnv
-          sedminps(j) = sedminps(j) + potmpso / cnv
-          sedminpa(j) = sedminpa(j) + potmpao / cnv
+          surqno3(j) = surqno3(j) + potno3o
+          surqsolp(j) = surqsolp(j) + potsolpo
+          sedorgn(j) = sedorgn(j) + potorgno
+          sedorgp(j) = sedorgp(j) + potorgpo
+          sedminps(j) = sedminps(j) + potmpso
+          sedminpa(j) = sedminpa(j) + potmpao
         end if       !! if overflow 
           
 !      If no overflow, compute settling and losses, surface inlet tile
@@ -359,48 +369,64 @@
          pot_mpa(j) = .75 * drcla * pot_mpa(j) 
           
          pot_no3(j) = pot_no3(j) * (1. - pot_no3l(j))
-         pot_solp(j) = pot_solp(j) * (1. - pot_no3l(j))
+         pot_solp(j) = pot_solp(j) * (1. - pot_solpl(j))
 !         hlife_pot = 20.    !!assume half life of 20 days
 !         pot_no3(j) = Exp(-.693 / hlife_pot) * pot_no3(j)          
 !         pot_solp(j) = Exp(-.693 / hlife_pot) * pot_solp(j)
           
+!       compute flow from surface inlet tile
+        tileo = Min(pot_tilemm(j), pot_vol(j))
+        pot_vol(j) = pot_vol(j) - tileo
+        qdr(j) = qdr(j) + tileo
+        tileq(j) = tileq(j) + tileo
+        sumo = sumo + tileo
+        tile_out(j) = tile_out(j) + tileo
+          
 !       limit seepage into soil if profile is near field capacity
-        yy = 0.
-        if (sol_sw(j) / sol_sumfc(j) < .5) then
-          yy = 1.
-         elseif (sol_sw(j) / sol_sumfc(j) < 1.) then
-            yy = 1. - sol_sw(j) / sol_sumfc(j)
-         end if
-
+         if (pot_k(j) > 0.) then
+           yy = pot_k(j)
+         else
+           yy = sol_k(1,j)
+         endif  
+         
 !        calculate seepage into soil
-         potsep = yy * sol_k(1,j) * potsa(j) * 240.
+         potsep = yy * potsa(j) * 240. / cnv                       !!mm/h*ha/240=m3/cnv=mm
          potsep = Min(potsep, pot_vol(j))
          pot_vol(j) = pot_vol(j) - potsep
-         pot_seep(j)= pot_seep(j)+ potsep
+         pot_seep(j) = potsep
+         
+!         call percmain
+!         sol_st(1,j) = sol_st(1,j) + potsep
+!!        redistribute water so that no layer exceeds maximum storage
+!          excess = sol_st(ly,j) - sol_fc(ly,j)
+!          do ly = 1, sol_nly(j)
+!            if (excess < 0.) exit
+!            if (ly < sol_nly(j)) then
+!              sol_st(ly+1,j) = sol_st(ly+1,j) + excess
+!              excess = sol_st(ly+1,j) - sol_fc(ly+1,j)
+!              sol_st(ly,j) = sol_fc(ly,j)
+!            else
+!              sol_st(ly,j) = sol_fc(ly,j)
+!            end if
+!          end do
+!          excess = Max(0.,excess)
+!          
+!          if (excess > 1.e-9) then
+!            do ly = 1, sol_nly(j)
+!              excess = sol_st(ly,j) - sol_ul(ly,j)
+!              if (excess < 0.) exit
+!              if (ly < sol_nly(j)) then
+!                sol_st(ly+1,j) = sol_st(ly+1,j) + excess
+!                sol_st(ly,j) = sol_ul(ly,j)
+!              else
+!                sol_st(ly,j) = sol_ul(ly,j)
+!                pot_vol(j) = pot_vol(j) + excess
+!                potsep = potsep - excess
+!              end if
+!            end do
+!            pot_seep(j) = pot_seep(j) + potsep
+!          end if
           
-
-         sol_st(1,j) = sol_st(1,j) + potsep / hru_ha(j) / 10.
-
-
-!        redistribute water so that no layer exceeds maximum storage
-          do ly = 1, sol_nly(j)
-            dg = 0.
-            stmax = 0.
-            excess = 0.
-            if (ly == 1) then
-              dg = sol_z(ly,j)
-            else
-              dg = sol_z(ly,j) - sol_z(ly-1,j)
-            end if
-            stmax = sol_por(ly,j) * dg
-            if (sol_st(ly,j) <= stmax) exit
-            excess = sol_st(ly,j) - stmax
-            sol_st(ly,j) = stmax
-            if (ly + 1 <= sol_nly(j)) then
-               sol_st(ly+1,j) = sol_st(ly+1,j) + excess
-            end if
-          end do
-
 !         recompute total soil water
           sol_sw(j) = 0.
           do ly = 1, sol_nly(j)
@@ -410,22 +436,12 @@
 !       compute evaporation from water surface
           if (laiday(j) < evlai) then
             potev = (1. - laiday(j) / evlai) * pet_day
-            potev = 10. * potev * potsa(j)       !!units mm => m^3
             potev = Min(potev, pot_vol(j))
             pot_vol(j) = pot_vol(j) - potev
             pot_evap(j)= pot_evap(j) + potev
           endif
-!!!! output.pot and output.wtr turned on by same code named IWTR in file.cio
-      if (iwtr == 1) then
-         write (125,2000)i,j,pot_vol(j),potsa(j),spillo,potsep,potev,   &
-     &       sol_sw(j), subnum(j), hruno(j)
-      endif
- 2000 format (2i4,6f10.2,1x,a5,a4)
-      if (pot_vol(j) > 1.e-6) then
-!         compute flow from surface inlet tile
-          tileo = Min(pot_tile(j), pot_vol(j))
-          sumo = sumo + tileo
-          tile_out(j) = tile_out(j) + tileo
+
+        if (pot_vol(j) > 1.e-6) then
 
           sedloss = pot_sed(j) * tileo / pot_vol(j)
           sedloss = Min(sedloss, pot_sed(j))            
@@ -497,39 +513,47 @@
           tile_orgpo(j)= tile_orgpo(j)+ orgploss
           tile_minpso(j)= tile_minpso(j)+ minpsloss
           tile_minpao(j)= tile_minpao(j)+ minpaloss
-
-          if (pot_vol(j) > 0. .and. potsa(j) > 0.0) then
-            potpcpmm = precipday
-            potevmm = potev / hru_ha(j) / 10.    !!NUBZ
-            potsepmm = potsep / hru_ha(j) / 10.  !!NUBZ
-            potflwo = sumo / hru_ha(j) / 10.     !!NUBZ
-          endif
-          
-          pot_vol(j) = pot_vol(j) - tileo
-          qdr(j) = qdr(j) + tileo / cnv
         end if
+
         endif
 
-     
 !       if urban bmp - set maximum concentrations           
 !        xx = sed_con(j) + soln_con(j) + solp_con(j) + orgn_con(j)       &
 !     &             + orgp_con(j)
 !        if (xx > 1.e-6) then
 !          call urb_bmp
 !        end if
-             
-!       summary calculations
-        if (curyr > nyskip) then
-          potmm = 0.
-          if (pot_vol(j) > 0. .and. potsa(j) > 0.0) then
+
+!     summary calculations
+      if (curyr > nyskip) then
+        potmm = 0.
+        if (pot_vol(j) > 0. .and. potsa(j) > 0.0) then
           potmm = pot_vol(j) / potsa(j) / 10.
         endif
-          spadyo = spadyo + potflwo * hru_dafr(j)
-          spadyev = spadyev + potevmm * hru_dafr(j)
-          spadysp = spadysp + potsepmm * hru_dafr(j)
-          spadyrfv = spadyrfv + potpcpmm * hru_dafr(j)
+        spadyo = spadyo + sumo * hru_dafr(j)
+        spadyosp = spadyosp + spillo * hru_dafr(j)
+        spadyev = spadyev + potev * hru_dafr(j)
+        spadysp = spadysp + potsep * hru_dafr(j)
+        spadyrfv = spadyrfv + precipday * hru_dafr(j)
       end if
       
+      potvol_m3 = pot_vol(j) * cnv
+      potsa(j) = pi * (3. * potvol_m3 / (pi * hru_slp(j)))**.6666
+      potsa(j) = potsa(j) / 10000.                  !convert to ha  
+      if (potsa(j) <= 0.000001) then
+        potsa(j) = 0.001
+      endif
+      if (potsa(j) > hru_ha(j)) then
+        potsa(j) = hru_ha(j)
+      endif
+!     !!! output.pot and output.wtr turned on by same code named IWTR in file.cio
+      if (iwtr == 1) then
+        write (125,2000) hruno(j), subnum(j), i, iyr, potvol_ini,       &
+     &       potsa_ini, spillo, potsep, potev, sol_sw(j), tileo,        &
+     &       pot_vol(j), potsa(j)
+      endif
+ 2000 format (a5,1x,a4,2i5,9f10.2)
+ 
       return
 1000  format (1x,i4,2x,9(f8.2,2x))
       end

@@ -73,7 +73,7 @@
 !!    vara					       |Intermediate Variable
 !!    varb					       |Intermediate Variable
 !!    varc					       |Intermediate Variable
-!!    arate 					   |Intermediate Variable      |
+!!    arate 					       |Intermediate Variable      |
 !!    j           |none            |HRU number
 !!    l           |none            |counter (soil layer)
 !!    rmn1        |kg P/ha         |amount of phosphorus moving from the solution
@@ -93,7 +93,7 @@
       use parm
       integer :: j, l
       real :: rto, rmn1, roc, wetness, base vara,varb,varc,as_p_coeff
-	real*8  solp(10),actp(10),stap(10) !! locals for concentation based data
+	real*8  solp(mlyr),actp(mlyr),stap(mlyr) !! locals for concentation based data
 
       j = 0
       j = ihru

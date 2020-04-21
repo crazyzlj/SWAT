@@ -85,8 +85,8 @@
       call rchinit
 
 !! route overland flow
-      iru_sub = inum4   !!routing unit number
-      call routels(iru_sub)
+!!      iru_sub = inum4   !!routing unit number
+!!      call routels(iru_sub)
 
       vel_chan(jrch) = 0.
       dep_chan(jrch) = 0.

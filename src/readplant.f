@@ -217,6 +217,7 @@
      &     bmdieoff, rsr1c, rsr2c
 !! 777    format (7f8.3)
  777    format (f8.3,i5,5f8.3)
+
         if (eof < 0) exit
 
         if (ic <= 0) exit

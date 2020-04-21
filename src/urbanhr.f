@@ -115,15 +115,7 @@
 
         select case (iurban(j))
 
-          case (1)       !! USGS regression equations
-        
-            write(*,*) "USGS regression equations are not available in
-     & the subdaily simulation."
-	      write(*,*) "Change the urban management parameter (IURBAN) 
-     & to buildup/washoff (IURBAN=2) in the management files"
-!!	      stop 
-
-          case (2)       !! build-up/wash-off algorithm
+          case (1,2)       !! build-up/wash-off algorithm
 
           !! rainy day: no build-up, street cleaning allowed
 		  

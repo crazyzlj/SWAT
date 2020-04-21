@@ -104,7 +104,11 @@
 !!                               |0 simulate tile flow using subroutine origtile(wt_shall,d) 
 !!    iwtdn       |none          |water table depth algorithms flag/code
 !!                               |1 simulate wt_shall using subroutine new water table depth routine
-!!                               |0 simulate wt_shall using subroutine original water table depth routine  
+!!                               |0 simulate wt_shall using subroutine original water table depth routine
+!!    ismax       |none          |maximum depressional storage selection flag/code
+!!                               |1 dynamic stmaxd computed as a function of random roughness and rain intensity 
+!!                               |by depstor.f
+!!                               |0 static stmaxd read from .bsn for the global value or .sdr for specific hrus   
 !! drainmod tile equations   01/2006
 !!    iwq         |none          |stream water quality code
 !!                               |0 do not model stream water quality
@@ -193,7 +197,8 @@
 !!                               |Mean air temperature at which precipitation
 !!                               |is equally likely to be rain as snow/freezing
 !!                               |rain.
-!!    sdrain_bsn  |mm            |Distance bewtween two drain or tile tubes (range 7600.0 - 30000.0) 
+!!    sdrain_bsn  |mm            |Distance bewtween two drain or tile tubes (range 7600.0 - 30000.0)
+!!    sstmaxd(:)  |mm            |static maximum depressional storage; read from .sdr 
 !!    smfmn       |mm/deg C/day  |Minimum melt rate for snow during year (Dec.
 !!                               |21) where deg C refers to the air temperature.
 !!    smfmx       |mm/deg C/day  |Maximum melt rate for snow during year (June
@@ -487,7 +492,7 @@
       if (eof < 0) exit
       read (103,*,iostat=eof) res_stlr_co
       if (eof < 0) exit
-!!!!! following reads moved to end of .bsn file
+!     following reads moved to end of .bsn file
 !     read (103,*,iostat=eof) sol_p_model  !! if = 1 use new soil P model
 !     if (eof < 0) exit
 	read (103,*,iostat=eof) bf_flg
@@ -509,7 +514,7 @@
        read (103,*) (lu_nodrain(kk), kk=1,numlu)
        
 
- !! subdaily erosion modeling by Jaehak Jeong
+ !!   subdaily erosion modeling by Jaehak Jeong
       read (103,*,iostat=eof) titldum
  	if (eof < 0) exit
       read (103,*,iostat=eof) eros_spl
@@ -526,14 +531,14 @@
 	if (eof < 0) exit
       read (103,*,iostat=eof) sig_g 
 	if (eof < 0) exit
-!!   Drainmod input variables - 01/2006
+!!    Drainmod input variables - 01/2006
       read (103,*,iostat=eof) re_bsn
       if (eof < 0) exit
       read (103,*,iostat=eof) sdrain_bsn
       if (eof < 0) exit
       read (103,*,iostat=eof) drain_co_bsn
       if (eof < 0) exit
-!!   Drainmod input variables - 01/2006
+!!    Drainmod input variables - 01/2006
       read (103,*,iostat=eof) pc_bsn
       if (eof < 0) exit
       read (103,*,iostat=eof) latksatf_bsn
@@ -546,12 +551,17 @@
       if (eof < 0) exit
  	read (103,*,iostat=eof) iabstr
  	if (eof < 0) exit
-! iatmodep = 0 - average annual
-!          = 1 - monthly
+!     iatmodep = 0 - average annual = 1 - monthly
       read (103,*,iostat=eof) iatmodep
-       if (eof < 0) exit
+      if (eof < 0) exit
+      read (103,*,iostat=eof) r2adj
+      if (eof < 0) exit
+      read (103,*,iostat=eof) sstmaxd_bsn
+      if (eof < 0) exit
+      read (103,*,iostat=eof) ismax
+      if (eof < 0) exit
 	exit
-!!   Drainmod input variables - 01/2006
+!!    Drainmod input variables - 01/2006
       end do
 
 !!    copy global values to local HRUs
@@ -595,7 +605,7 @@
       if (evlai <= 0.) evlai = 3.0
       if (cncoef <= 0.) cncoef = 1.0
       if (cdn <= 0.) cdn = 1.4
-      if (sdnco <= 0.) sdnco = 1.10
+      if (sdnco <= 0.) sdnco = 1.30
       if (bactmx <= 0.) bactmx = 10.
       if (bactminlp <= 0.) bactminlp = .0
       if (bactminp <= 0.) bactminp = 0.
@@ -670,7 +680,40 @@
 
       
       close (103)
+       !!add by zhang
+      !!=====================
+      if (cswat == 2) then
+      open (98,file="cswat_profile.txt",recl=356)
+       write (98,5102) 'year','day','lay','hru',
+     &'sol_mass','sol_cmass','sol_nmass','sol_LS',
+     &'sol_LM','sol_LSC','sol_LMC','sol_HSC',
+     &'sol_HPC','sol_BMC','sol_LSN','sol_LMN',
+     &'sol_HPN','sol_HSN','sol_BMN','sol_no3',
+     &'sol_fop','sol_orgp','sol_actp','sol_stap',
+     &'sol_solp' 
+
+      open (100,file="cswat_daily.txt",recl=786)
+      write (100,5104) 'year','day','hru','rsdc','sedc',
+     &'percc','latc','emitc','grainc','surfq_c',
+     &'stoverc','NPPC','foc','rspc','tot_mass','tot_cmass','tot_nmass',
+     &'tot_LSC','tot_LMC','tot_HSC','tot_HPC','tot_BMC','Biom_C','rwtf',
+     &'tot_no3_nh3','wdntl', 
+     &'ET','Tillfactor','SW1','SW2','SW3','SW4','SW5','SW6','SW7','SW8',
+     &'SW9','SW10','SW11',
+     &'WFSC1','WFSC2','WFSC3','WFSC4','WFSC5','WFSC6','WFSC7','WFSC8',
+     &'WFSC9','WFSC10','WFSC11'
+      endif       
+      !!add by zhang
+      !!=====================
+
+!	open (111, file="final_n_balance.txt")
+!	open (112, file="final_yields.txt")
+	!! carbon output ends 
+     
+      
       return
  1000 format (a)
  1001 format (i4)
+ 5102 format (3a5,30a15)
+ 5104 format (a4,a4,a8,48a16)
       end

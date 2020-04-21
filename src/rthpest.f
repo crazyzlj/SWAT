@@ -106,7 +106,7 @@
       bedvol = 0.
       bedvol = ch_w(2,jrch) * ch_l2(jrch) * 1000. * sedpst_act(jrch)
 
-      do ii = 1, 24
+      do ii = 1, nstep
 !! initialize depth of water for pesticide calculations
       depth = 0.
       if (hdepth(ii) < 0.1) then
@@ -150,7 +150,7 @@
       if (chpstmass + sedpstmass < 1.e-6) return
 
 !!in-stream processes
-      if (hrtwtr(ii) / 3600. > 0.01) then
+      if (hrtwtr(ii) / (idt*60.) > 0.01) then
         !! calculated sediment concentration
         sedcon = 0.
         sedcon = hsedyld(ii) / hrtwtr(ii) * 1.e6

@@ -80,8 +80,6 @@
 !!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
 !!    frad(:,:)   |none          |fraction of solar radiation occuring during
 !!                               |hour in day in HRU
-!!    hhsubp(:,:) |mm H2O        |precipitation falling during hour in day in
-!!                               |HRU
 !!    hru_ra(:)   |MJ/m^2        |solar radiation for the day in HRU
 !!    hru_rmx(:)  |MJ/m^2        |maximum solar radiation for the day in HRU
 !!    ifirstpet   |none          |potential ET data search code
@@ -140,7 +138,7 @@
 
       integer :: k, inum3sprev, npcpbsb, ii, iyp, idap, ib
       real :: tmxbsb, tmnbsb, rbsb, rhdbsb, rabsb, u10bsb, rmxbsb
-      real :: daylbsb, fradbsb(24), tdif, pdif, ratio
+      real :: daylbsb,  fradbsb(nstep),tdif, pdif, ratio
 !     real, dimension (:), allocatable :: rhrbsb, rstpbsb
 !     if (nstep > 0) then
 !       allocate (rstpbsb(nstep))
@@ -191,9 +189,6 @@
           if (pcpsim == 2) then
             subp(k) = rbsb
             if (ievent > 1) then
-              do l = 1, 24
-                hhsubp(k,l) = rhrbsb(l)
-              end do
               do l = 1, nstep
                 rainsub(k,l) = rstpbsb(l)
               end do
@@ -205,7 +200,7 @@
             hru_rmx(k) = rmxbsb
             dayl(k) = daylbsb
             npcp(k) = npcpbsb
-            do ii = 1, 24
+            do ii = 1, nstep
               frad(k,ii) = fradbsb(ii)
             end do
           end if
@@ -241,11 +236,7 @@
           tmnbsb = tmn(k)
           rbsb = subp(k)
           if (ievent > 1) then
-            rhrbsb = 0.
             rstpbsb = 0.
-            do l = 1, 24
-              rhrbsb(l) = hhsubp(k,l)
-            end do
             do l = 1, nstep
               rstpbsb(l) = rainsub(k,l)
             end do
@@ -256,7 +247,7 @@
           daylbsb = dayl(k)
           npcpbsb = npcp(k)
           u10bsb = u10(k)
-          do ii = 1, 24
+          do ii = 1, nstep
             fradbsb(ii) = frad(k,ii)
           end do
         end if
@@ -273,11 +264,6 @@
             rainsub(k,ii) = rainsub(k,ii) *                             &
      &                              (1. + rfinc(hru_sub(k),i_mo) / 100.)
             if (rainsub(k,ii) < 0.) rainsub(k,ii) = 0.
-          end do
-          do ii = 1, 24
-            hhsubp(k,ii) = hhsubp(k,ii) *                               &
-     &                              (1. + rfinc(hru_sub(k),i_mo) / 100.)
-            if (hhsubp(k,ii) < 0.) hhsubp(k,ii) = 0.
           end do
         end if
         tmx(k) = tmx(k) + tmpinc(hru_sub(k),i_mo)
@@ -347,12 +333,6 @@
             if (rainsub(k,ii) > 0.01) then
               rainsub(k,ii) = rainsub(k,ii) + ratio * rainsub(k,ii)
               if (rainsub(k,ii) < 0.) rainsub(k,ii) = 0.
-            end if
-          end do
-          do ii = 1, 24
-            if (hhsubp(k,ii) > 0.01) then
-              hhsubp(k,ii) = hhsubp(k,ii) + ratio * hhsubp(k,ii)
-              if (hhsubp(k,ii) < 0.) hhsubp(k,ii) = 0.
             end if
           end do
         end if

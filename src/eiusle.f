@@ -72,6 +72,7 @@
      &    pkrf30 / 1000.
 !    *    peakr / 10.
         if (usle_ei < 1.e-4) usle_ei = 0.
+        usle_eifac(j) = usle_ei
       endif
 
       return

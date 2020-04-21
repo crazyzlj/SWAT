@@ -44,8 +44,8 @@
 
       if (inum1 <= 10 .and. inum1 > 0) then
       if (ievent == 3 .and. inum2 == 1) then
-        !! Write hourly values
-        do ii = 1, 24
+        !! Write subdaily values
+        do ii = 1, nstep
           if (inum3 == 0) then
             write (40+inum1,5000) iida, iyr, ii-1,                      &
      &                      hhvaroute(2,ihout,ii),                      &

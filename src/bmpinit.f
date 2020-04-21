@@ -63,9 +63,9 @@
       use parm
       implicit none
       integer :: k, eof,kk
-      real :: hwq,wqv,sub_ha,bmpfr
+      real :: hwq,wqv,sub_ha,bmpfr_sf,bmpfr_ri
 
-      eof = 0; bmpfr=0.
+      eof = 0; bmpfr_sf=0.; bmpfr_ri=0.
       sub_ha = sub_km(i) * 100. 
 
       !! Detention pond
@@ -135,29 +135,29 @@
       !fraction runoff that directly enters the channel
       if(num_sf(i)>=1) then
          do kk=1,num_sf(i)
-             bmpfr = bmpfr + sf_fr(i,kk)
+             bmpfr_sf = bmpfr_sf + sf_fr(i,kk)
          end do
       endif
       if(num_ri(i)>=1) then
          do kk=1,num_ri(i)
-             bmpfr = bmpfr + ri_fr(i,kk)
+             bmpfr_ri = bmpfr_ri + ri_fr(i,kk)
          end do
       endif
-      if (bmpfr>1) then 
+      if (bmpfr_sf>1.or.bmpfr_ri>1) then 
          write (*,*) " "
          write (*,*) "Urban BMP Warning!!"
          write (*,*) "In subbasin ", i
          write (*,*) "The fraction runoff draining to urban BMPs"
          write (*,*) " are larger than one, so the fraction values"
-         write (*,*) " were automatically corrected"
+         write (*,*) " were automatically reassigned"
          write (*,*) " "
          do kk=1,num_sf(i)
-             sf_fr(i,kk) = sf_fr(i,kk) / bmpfr
+             sf_fr(i,kk) = sf_fr(i,kk) / bmpfr_sf
          end do
           do kk=1,num_sf(i)
-             ri_fr(i,kk) = ri_fr(i,kk) / bmpfr
+             ri_fr(i,kk) = ri_fr(i,kk) / bmpfr_ri
          end do
-         bmpfr = 1.
+         bmpfr_sf = 1.; bmpfr_ri=1.
       endif
          
       !!Retention-Irrigation
@@ -170,7 +170,7 @@
          !City of Austin Design Guideline 1.6.9.2 Table 1-12
          !Retention-Irrigation for Barton Springs Zone
 
-         hwq = (1.8 * sub_ha_imp(i) / sub_ha + 0.6) !inches
+         hwq = (1.8 * sub_ha_imp(i) / sub_ha_urb(i) + 0.6) !inches
          wqv = hwq / 12. * sub_ha_urb(i) * ri_fr(i,k) * 107639.104167 !ft3
                   
          if (ri_dim(i,k)==0) then
@@ -207,13 +207,13 @@
          if (ri_iy(i,k)==0) ri_iy(i,k) = iyr
          if (ri_im(i,k)==0) ri_im(i,k) = 1   
 
-         write(77779,'(a11,i5)') 'Subbasin #:', i   ! bmp_sedfil.out
-         write(77779,'(a46)') '' 
-         write(77779,'(a10,i5)') 'RI #:', K   ! bmp_sedfil.out
-      write(77779,'(a17,f10.1,a4)') 'Total volume =',  ri_vol(i,k),'m^3'
-      write(77779,'(a17,f10.1,a4)') 'Surface area =', ri_sa(i,k),'m^2'
-      write(77779,'(a17,f10.1,a3)') 'Drawdown time =', ri_dd (i,k),'hr'
-      write(77779,'(a17)') ''
+       write(77779,'(a11,i5)') 'Subbasin #:', i   ! bmp_sedfil.out
+       write(77779,'(a46)') '' 
+       write(77779,'(a10,i5)') 'RI #:', K   ! bmp_sedfil.out
+       write(77779,'(a17,f10.1,a4)') 'Total volume =', ri_vol(i,k),'m^3'
+       write(77779,'(a17,f10.1,a4)') 'Surface area =', ri_sa(i,k),'m^2'
+       write(77779,'(a17,f10.1,a3)') 'Drawdown time =', ri_dd (i,k),'hr'
+       write(77779,'(a17)') ''
 
       end do
   
@@ -226,7 +226,7 @@
          write(77778,'(a10,i5)') 'SED-FIL #:', K   ! bmp_sedfil.out
          !determine water quality volume for defult pond sizes
          !City of Austin Design Guideline 1.6.2
-         hwq = (0.5 + sub_ha_imp(i) / sub_ha - 0.2) !inches
+         hwq = (0.5 + sub_ha_imp(i) / sub_ha_urb(i) - 0.2) !inches
          wqv = hwq / 12. * sub_ha_urb(i) * sf_fr(i,k) * 107639.104167 !ft3
                   
          if (sf_dim(i,k)==0) then
@@ -285,18 +285,16 @@
          
          !Orifice pipe for sand filter should be equal or larger than 
          !sedimentation pond outlet pipe for full-type SedFils
-         if (sf_typ(i,k)==1) then
-            if (ft_pd(i,k)<sp_pd(i,k)) then
-         write (*,*) " "
-         write (*,*) "Urban BMP Warning!!"
-         write (*,*) "In subbasin ", i
-         write (*,*) "The outlet pipe diameter for sandfilter is"
-         write (*,*) " larger than that for sedimentation basin."
-         write (*,*) "The filter pipe diameter was automatically"
-         write (*,*) "corrected to the pipe size of the "
-         write (*,*) "sedimentation basin."
-         ft_pd(i,k) = sp_pd(i,k)
-            endif
+         if (ft_pd(i,k)<sp_pd(i,k)) then
+           write (*,*) " "
+           write (*,*) "Urban BMP Warning!!"
+           write (*,*) "In subbasin ", i
+           write (*,*) "The outlet pipe diameter for sandfilter is"
+           write (*,*) " larger than that for sedimentation basin."
+           write (*,*) "The filter pipe diameter was automatically"
+           write (*,*) "corrected to the pipe size of the "
+           write (*,*) "sedimentation basin."
+           ft_pd(i,k) = sp_pd(i,k)
          endif
          
          if (ft_dep(i,k)<100) ft_dep(i,k) = 100.

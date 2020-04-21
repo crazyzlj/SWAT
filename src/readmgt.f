@@ -197,7 +197,7 @@
 !!                                    |plant) at which tillage occurs
 !!    pst_kg(:,:,:)   |kg/ha          |amount of pesticide applied to HRU
 !! added for pesticide in incorporation in soil 3/31/08 gsm
-!!    pst_dep(:,:)    |mm             |depth of pesticide in the soil
+!!    pst_dep         |mm             |depth of pesticide in the soil
 !!    sumix(:)        |none           |sum of all tillage mixing efficiencies 
 !!                                    |for HRU
 !!                                    |operation
@@ -502,6 +502,7 @@
           end if
 	    if (mgt_op == 4 .or. mgt_op == 15) then
 	      newpest = 0
+	      hrupest(ihru) = 1
             do j = 1, npmx
               if (mgt1i == npno(j)) then
                 newpest = 1

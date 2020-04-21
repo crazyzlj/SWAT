@@ -170,7 +170,7 @@
       real :: swetmv, swetv, swets, swetns, swetk, sp2, sw1, sw2
       real :: sn1, sn2, snw1, snw2, schla, schlaw, sseci, sseciw
       real :: spno3, spsolp, sporgn, sporgp, swno3, swsolp, sworgn
-      real :: sworgp, sub_ha
+      real :: sworgp, sub_ha, velsetlpnd
 
       eof = 0
       spndfr = 0.
@@ -345,7 +345,7 @@
       close (104)
 
       !! Detention pond  -- read from a separate file (.dpd)
-      if (dpd_file /= '             ' .or. ievent > 2) then
+      if (dpd_file /= '             ' .and. ievent > 2) then
       open (104,file=dpd_file)
       read (104,5100,iostat=eof) titldum
       if (eof < 0) exit
@@ -406,7 +406,7 @@
 !!  END DETENTION POND FILE
 
       !! Wet pond (.wpd file)
-      if (wpd_file /= '             ' .or. ievent > 2) then
+      if (wpd_file /= '             ' .and. ievent > 2) then
       open (104,file=wpd_file)
       read (104,5100,iostat=eof) titldum
       if (eof < 0) exit
@@ -472,7 +472,7 @@
 !! end wet pond (.wpd file)
 
       !! Retention-Irrigation
-      if (rib_file /= '             '.or. ievent > 2) then
+      if (rib_file /= '             '.and. ievent > 2) then
       open (104,file=rib_file)
       read (104,5100,iostat=eof) titldum
       if (eof < 0) exit
@@ -480,7 +480,6 @@
       if (eof < 0) exit
 	read (104,'(a200)',iostat=eof) lus
       if (eof < 0) exit
-      read (104,5100,iostat=eof) titldum
 
 	do ii=2,len_trim(lus)
          num_noirr(i) = 1
@@ -496,6 +495,7 @@
          if (eof < 0) exit
       end if
      
+      read (104,5100,iostat=eof) titldum
       read (104,*,iostat=eof) (ri_fr(i,k),k=1,num_ri(i))
       if (eof < 0) exit
       read (104,*,iostat=eof) (ri_dim(i,k),k=1,num_ri(i))
@@ -522,7 +522,7 @@
 !! end .rib file
 
       !! Sedimentaton-Filtration (.sfb file)
-      if (sfb_file /= '             '.or. ievent > 2) then     
+      if (sfb_file /= '             '.and. ievent > 2) then     
       open (104,file=sfb_file)
       read (104,'(a20)',iostat=eof) titldum
       if (eof < 0) exit

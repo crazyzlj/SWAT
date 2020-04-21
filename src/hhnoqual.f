@@ -102,12 +102,12 @@
       jrch = inum1
 
 !! hourly loop
-      do ii = 1, 24
+      do ii = 1, nstep
        !! initialize water flowing into reach
        wtrin = 0.
        wtrin = hhvaroute(2,inum2,ii) * (1. - rnum1)
 
-       if (hrtwtr(ii) / 3600. > 0.01 .and. wtrin > 0.01) then
+       if (hrtwtr(ii) / (idt * 60.) > 0.01 .and. wtrin > 0.01) then
 !! concentrations
          !! initialize inflow concentrations
          chlin = 0.
@@ -303,16 +303,16 @@
 !! end hourly loop
 
 !! set end of day concentrations
-      algae(jrch) = halgae(24)
-      chlora(jrch) = hchla(24)
-      organicn(jrch) = horgn(24)
-      ammonian(jrch) = hnh4(24)
-      nitriten(jrch) = hno2(24)
-      nitraten(jrch) = hno3(24)
-      organicp(jrch) = horgp(24)
-      disolvp(jrch) = hsolp(24)
-      rch_cbod(jrch) = hbod(24)
-      rch_dox(jrch) = hdisox(24)
+      algae(jrch) = halgae(nstep)
+      chlora(jrch) = hchla(nstep)
+      organicn(jrch) = horgn(nstep)
+      ammonian(jrch) = hnh4(nstep)
+      nitriten(jrch) = hno2(nstep)
+      nitraten(jrch) = hno3(nstep)
+      organicp(jrch) = horgp(nstep)
+      disolvp(jrch) = hsolp(nstep)
+      rch_cbod(jrch) = hbod(nstep)
+      rch_dox(jrch) = hdisox(nstep)
 
       if (algae(jrch) < 1.e-6) algae(jrch) = 0.0
       if (chlora(jrch) < 1.e-6) chlora(jrch) = 0.0

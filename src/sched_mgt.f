@@ -4,6 +4,7 @@
 !!    ~ ~ ~ INCOMING VARIABLES ~ ~ ~
 !!    name       |units            |definition
 !!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+
 !!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
 
 !!    ~ ~ ~ OUTGOING VARIABLES ~ ~ ~
@@ -108,6 +109,7 @@
             hrupest(ihru) = 1
             ipest = mgt1iop(nop(j),j)
             pst_kg = mgt4op(nop(j),j)
+            pst_dep = mgt5op(nop(j),j)
             
             call apply
             
@@ -121,7 +123,7 @@
           case (5)   !! harvest and kill operation
             cnop = mgt4op(nop(j),j)
             hi_ovr = mgt5op(nop(j),j)
-            frac_harvk = mgt4op(nop(j),j)
+            frac_harvk = mgt6op(nop(j),j)
             biomass = bio_ms(j)
             
             call harvkillop       
@@ -159,7 +161,11 @@
             harveff = mgt4op(nop(j),j)
             if (harveff <= 0.) then harveff = 1.0 
                 
-            call harvestop
+            if (ihv_gbm == 0) then    
+              call harvestop
+            else
+              call harvgrainop
+            end if
             
             if (imgt == 1) then
               write (143, 1001) subnum(j), hruno(j), iyr, i_mo, iida, 

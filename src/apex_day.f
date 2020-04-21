@@ -109,7 +109,7 @@
       do j = 1, mvaro
         varoute(j,ihout) = 0.
         if (ievent > 1) then
-          do ii = 1, 24
+          do ii = 1, nstep
             hhvaroute(j,ihout,ii) = 0.
           end do
         endif

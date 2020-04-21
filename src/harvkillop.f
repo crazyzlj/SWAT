@@ -130,6 +130,30 @@
 !!      real :: wur, hiad1, yield, yieldn, yieldp, yldpst
       real :: wur, hiad1, yieldn, yieldp, yldpst
 	real :: resnew, rtresnew 
+
+
+	!!By Zhang
+	!!=============
+      real :: BLG1, BLG2, BLG3,  CLG, sf
+      real :: sol_min_n, resnew_n, resnew_ne
+      real :: LMF, LSF, LSLF, LSNF,LMNF 
+      orgc_f = 0.
+      BLG1 = 0.
+      BLG2 = 0.
+      BLG3 = 0.
+      CLG = 0.
+      sf = 0.
+      sol_min_n = 0.
+      resnew = 0.
+      resnew_n = 0.
+      resnew_ne = 0.
+      LMF = 0.
+      LSF = 0.
+      LSLF = 0.
+      LSNF = 0.
+      LMNF = 0.
+	!!By Zhang
+	!!==================
 	
 
       j = 0
@@ -205,6 +229,19 @@
 										! I would avoid this check, it is
 										! safer to know if variable is negative
 
+      !!add by zhang
+      !!=================
+      !!use idplt(:,:,:) to calculate the crop type, then
+      !! decide which type of crop yield should be used.
+      if (cswat == 2) then
+          grainc_d(j) = grainc_d(j) + yield * 0.42
+          stoverc_d(j) = stoverc_d(j)+(bio_ms(j)-yield-rtresnew)*0.42*xx
+          rsdc_d(j) = rsdc_d(j) + resnew * 0.42
+          rsdc_d(j) = rsdc_d(j) + rtresnew * 0.42
+      end if
+      !!add by zhang
+      !!=================
+
 	!! calculate nutrients removed with yield
       yieldn = 0.
       yieldp = 0.
@@ -229,11 +266,222 @@
 	sol_fon(1,j) = Max(sol_fon(1,j),0.)
 	sol_fop(1,j) = Max(sol_fop(1,j),0.)
 
+
+            !!insert new biomss by zhang
+            !!=================================
+            if (cswat == 2) then
+	          !!all the lignin from STD is assigned to LSL, 
+	            !!add STDL calculation
+	          !!
+	          !sol_LSL(k,ihru) = sol_STDL(k,ihru)
+	          !CLG=BLG(3,JJK)*HUI(JJK)/(HUI(JJK)+EXP(BLG(1,JJK)-BLG(2,JJK)*&HUI(JJK))
+	          ! 52  BLG1 = LIGNIN FRACTION IN PLANT AT .5 MATURITY
+                ! 53  BLG2 = LIGNIN FRACTION IN PLANT AT MATURITY
+                !CROPCOM.dat BLG1 = 0.01 BLG2 = 0.10
+                !SUBROUTINE ASCRV(X1,X2,X3,X4)
+                !EPIC0810
+                !THIS SUBPROGRAM COMPUTES S CURVE PARMS GIVEN 2 (X,Y) POINTS.
+                !USE PARM
+                !XX=LOG(X3/X1-X3)
+                !X2=(XX-LOG(X4/X2-X4))/(X4-X3)
+                !X1=XX+X3*X2
+                !RETURN
+                !END 
+                !HUI(JJK)=HU(JJK)/XPHU               
+                
+                BLG1 = 0.01/0.10
+                BLG2 = 0.99
+                BLG3 = 0.10
+                XX = log(0.5/BLG1-0.5)
+                BLG2 = (XX -log(1./BLG2-1.))/(1.-0.5)
+                BLG1 = XX + 0.5*BLG2
+                CLG=BLG3*phuacc(j)/(phuacc(j)+EXP(BLG1-BLG2*phuacc(j)))
+    
+
+	          !if (k == 1) then
+		        sf = 0.05
+	          !else
+		        !sf = 0.1
+	          !end if	
+
+               !kg/ha  
+	          sol_min_n = 0.	
+	          sol_min_n = (sol_no3(1,j)+sol_nh3(1,j))
+	          
+	          resnew = resnew
+	          resnew_n = ff1 * (plantn(j) - yieldn)    	    
+        	    resnew_ne = resnew_n + sf * sol_min_n
+        	    
+       	        !Not sure 1000 should be here or not!
+        	    !RLN = 1000*(resnew * CLG/(resnew_n+1.E-5))
+        	    !RLN is the ratio of lignin to nitrogen in the newly added residue
+        	    RLN = (resnew * CLG/(resnew_n+1.E-5))
+        	    RLR = MIN(.8, resnew * CLG/(resnew+1.E-5))
+        	    
+        	    LMF = 0.85 - 0.018 * RLN
+        	    if (LMF <0.01) then
+        	        LMF = 0.01
+        	    else
+        	        if (LMF >0.7) then
+        	            LMF = 0.7
+        	        end if
+        	    end if      	  
+	          !if ((resnew * CLG/(resnew_n+1.E-5)) < 47.22) then
+		        !    LMF = 0.85 - 0.018 * (resnew * CLG/(resnew_n+1.E-5))
+	          !else
+		        !    LMF = 0.
+	          !end if 	
+
+	          LSF =  1 - LMF  
+        	  
+	          sol_LM(1,j) = sol_LM(1,j) + LMF * resnew
+	          sol_LS(1,j) = sol_LS(1,j) + LSF * resnew
+        	  
+
+                
+	          !here a simplified assumption of 0.5 LSL
+	          !LSLF = 0.0
+	          !LSLF = CLG          
+	          
+	          sol_LSL(1,j) = sol_LSL(1,j) + RLR*resnew	          
+	          sol_LSC(1,j) = sol_LSC(1,j) + 0.42*LSF * resnew  
+	          
+	          sol_LSLC(1,j) = sol_LSLC(1,j) + RLR*0.42*resnew
+	          sol_LSLNC(1,j) = sol_LSC(1,j) - sol_LSLC(1,j)              
+                
+                !X3 = MIN(X6,0.42*LSF * resnew/150) 
+                
+	          if (resnew_n >= (0.42 * LSF * resnew /150)) then
+		         sol_LSN(1,j) = sol_LSN(1,j) + 0.42 * LSF * resnew / 150
+		         sol_LMN(1,j) = sol_LMN(1,j) + resnew_n - 
+     &                         (0.42 * LSF * resnew / 150) + 1.E-25
+	          else
+		         sol_LSN(1,j) = sol_LSN(1,j) + resnew_n
+		         sol_LMN(1,j) = sol_LMN(1,j) + 1.E-25
+	          end if	
+        	
+	          !LSNF = sol_LSN(1,j)/(sol_LS(1,j)+1.E-5)	
+        	  
+	          sol_LMC(1,j) = sol_LMC(1,j) + 0.42 * LMF * resnew	
+	          !LMNF = sol_LMN(1,j)/(sol_LM(1,j) + 1.E-5)           
+                
+                !update no3 and nh3 in soil
+                sol_no3(1,j) = sol_no3(1,j) * (1-sf)
+                sol_nh3(1,j) = sol_nh3(1,j) * (1-sf)
+            end if
+            !!insert new biomss by zhang
+            !!===============================
+
+
 	!! allocate dead roots, N, P to soil layers
 	do l=1, sol_nly(j)
 	 sol_rsd(l,j) = sol_rsd(l,j) + rtfr(l) *rtresnew
        sol_fon(l,j) = sol_fon(l,j) + rtfr(l) *ff2 * (plantn(j) - yieldn)
        sol_fop(l,j) = sol_fop(l,j) + rtfr(l) *ff2 * (plantp(j) - yieldp)
+
+              !!insert new biomss by zhang
+              !!==============================
+              if (cswat == 2) then
+	          !!all the lignin from STD is assigned to LSL, 
+	            !!add STDL calculation
+	          !!
+	          !sol_LSL(k,ihru) = sol_STDL(k,ihru)
+	          !CLG=BLG(3,JJK)*HUI(JJK)/(HUI(JJK)+EXP(BLG(1,JJK)-BLG(2,JJK)*&HUI(JJK))
+	          ! 52  BLG1 = LIGNIN FRACTION IN PLANT AT .5 MATURITY
+                ! 53  BLG2 = LIGNIN FRACTION IN PLANT AT MATURITY
+                !CROPCOM.dat BLG1 = 0.01 BLG2 = 0.10
+                !SUBROUTINE ASCRV(X1,X2,X3,X4)
+                !EPIC0810
+                !THIS SUBPROGRAM COMPUTES S CURVE PARMS GIVEN 2 (X,Y) POINTS.
+                !USE PARM
+                !XX=LOG(X3/X1-X3)
+                !X2=(XX-LOG(X4/X2-X4))/(X4-X3)
+                !X1=XX+X3*X2
+                !RETURN
+                !END 
+                !HUI(JJK)=HU(JJK)/XPHU               
+                
+                BLG1 = 0.01/0.10
+                BLG2 = 0.99
+                BLG3 = 0.10
+                XX = log(0.5/BLG1-0.5)
+                BLG2 = (XX -log(1./BLG2-1.))/(1.-0.5)
+                BLG1 = XX + 0.5*BLG2
+                CLG=BLG3*phuacc(j)/(phuacc(j)+EXP(BLG1-BLG2*phuacc(j)))
+         
+
+	          if (l == 1) then
+		        sf = 0.05
+	          else
+		        sf = 0.1
+	          end if	
+
+               !kg/ha  
+	          sol_min_n = 0.	
+	          sol_min_n = (sol_no3(l,j)+sol_nh3(l,j))
+	          	          
+	          resnew = rtfr(l) *rtresnew 
+	          resnew_n = rtfr(l) *ff2 * (plantn(j) - yieldn)   	    
+        	    resnew_ne = resnew_n + sf * sol_min_n
+        	        !Not sure 1000 should be here or not!
+        	    !RLN = 1000*(resnew * CLG/(resnew_n+1.E-5))
+        	    RLN = (resnew * CLG/(resnew_n+1.E-5))
+        	    RLR = MIN(.8, resnew * CLG/1000/(resnew/1000+1.E-5))
+        	    
+        	    LMF = 0.85 - 0.018 * RLN
+        	    if (LMF <0.01) then
+        	        LMF = 0.01
+        	    else
+        	        if (LMF >0.7) then
+        	            LMF = 0.7
+        	        end if
+        	    end if      	  
+	          !if ((resnew * CLG/(resnew_n+1.E-5)) < 47.22) then
+		        !    LMF = 0.85 - 0.018 * (resnew * CLG/(resnew_n+1.E-5))
+	          !else
+		        !    LMF = 0.
+	          !end if 	
+
+	          LSF =  1 - LMF  
+        	  
+	          sol_LM(l,j) = sol_LM(l,j) + LMF * resnew
+	          sol_LS(l,j) = sol_LS(l,j) + LSF * resnew
+        	  
+
+                
+	          !here a simplified assumption of 0.5 LSL
+	          LSLF = 0.0
+	          LSLF = CLG          
+	          
+	          sol_LSL(l,j) = sol_LSL(l,j) + RLR* LSF * resnew	          
+	          sol_LSC(l,j) = sol_LSC(l,j) + 0.42*LSF * resnew  
+	          
+	          sol_LSLC(l,j) = sol_LSLC(l,j) + RLR*0.42*LSF * resnew
+	          sol_LSLNC(l,j) = sol_LSC(l,j) - sol_LSLC(l,j)              
+                
+                !X3 = MIN(X6,0.42*LSF * resnew/150) 
+                
+	          if (resnew_ne >= (0.42 * LSF * resnew /150)) then
+		         sol_LSN(l,j) = sol_LSN(l,j) + 0.42 * LSF * resnew / 150
+		         sol_LMN(l,j) = sol_LMN(l,j) + resnew_ne - 
+     &                         (0.42 * LSF * resnew / 150) + 1.E-25
+	          else
+		         sol_LSN(l,j) = sol_LSN(l,j) + resnew_ne
+		         sol_LMN(l,j) = sol_LMN(l,j) + 1.E-25
+	          end if	
+        	
+	          !LSNF = sol_LSN(l,j)/(sol_LS(l,j)+1.E-5)	
+        	  
+	          sol_LMC(l,j) = sol_LMC(l,j) + 0.42 * LMF * resnew	
+	          !LMNF = sol_LMN(l,j)/(sol_LM(l,j) + 1.E-5)           
+                
+                !update no3 and nh3 in soil
+                sol_no3(l,j) = sol_no3(l,j) * (1-sf)
+                sol_nh3(l,j) = sol_nh3(l,j) * (1-sf)
+            end if
+            !!insert new biomss by zhang    
+            !!=============================== 
+
 	end do
    
 	!! adjust foliar pesticide for plant removal

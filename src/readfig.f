@@ -119,6 +119,10 @@
       character (len=13) :: subfile, auto_in , rufile
       integer :: ii, eof
 
+      character (len=3), dimension (mhyd) :: char6, char7, char8
+      char6 = "   "
+      char7 = "   "
+      char8 = "   "
 
 !!    initialize variables
       mhyd_bsn = 0
@@ -140,13 +144,45 @@
 	  else
           read (102,5000) a, icodes(idum), ihouts(idum), inum1s(idum),  &
      &    inum2s(idum), inum3s(idum), rnum1s(idum), inum4s(idum),       &
-     &    inum5s(idum)
-!           write (*,5000) a, icodes(idum), ihouts(idum), inum1s(idum),  &
-!     &    inum2s(idum), inum3s(idum), rnum1s(idum), inum4s(idum),       &
-!     &    inum5s(idum)
+ !!    &    inum5s(idum), inum6s(idum), inum7s(idum), inum8s(idum)
+     &    inum5s(idum), char6(idum), char7(idum), char8(idum)
 	  end if
-        mhyd_bsn = mhyd_bsn + 1    
+        mhyd_bsn = mhyd_bsn + 1 
 
+!!!!!! inum6s, inum7s and inum8s (integer) read in as char6, char7, char8 (character) and 
+!!!!!! converted back to integer due to "Subbasin:" included in the .fig file by ArcSWAT
+        jjii = 1     !! inum6s/inum7s
+        iijj = 0     !! inum8s
+        
+   !     if (char6(idum) == "Sub") inum6s = 0
+   !     if (char7(idum) == "bas") inum7s = 0
+   !     if (char8(idum) == "in:") inum8s = 0
+        
+        if (char6(idum) == "  1")  then
+          xyz = 0.
+           write (char6(idum), fmt=' (i3)') jjii
+           inum6s(idum) = jjii  
+        else
+           inum6s(idum) = 0
+        end if
+        
+        if (char7(idum) == "  1")  then
+          xyz = 0.
+           write (char7(idum), fmt=' (i3)') jjii
+           inum7s(idum) = jjii  
+        else
+           inum7s(idum) = 0
+        end if
+        
+        if (char8(idum) == "  0")  then
+          xyz = 0.
+           write (char8(idum), fmt=' (i3)') iijj
+           inum8s(idum) = iijj  
+        else
+           inum8s(idum) = 1
+        end if
+!!!!!! end convert code         
+            
           select case(icodes(idum))
 
             case (0)  !! icode = 0  FINISH command
@@ -309,63 +345,51 @@
               end if
 
             case (17)  !! icode = 17  ROUTING UNIT command
-              rutot = rutot + 1
               rufile = ""
               read (102,5100) rufile
               call caps(rufile)
               iru = inum1s(idum)
-              daru_km(inum1s(idum)) = rnum1s(idum)
+              isub = inum2s(idum)
+!!              daru_km(isub,iru) = rnum1s(idum)
               open (113,file=rufile)
               call readru
               close(113)
               
             case (18)  !! icode = 18  LANDSCAPE ROUTING command
-              if (rnum1s(idum) < 1.e-9) rnum1s(idum) = 1.
+              !!if (rnum1s(idum) < 1.e-9) rnum1s(idum) = 1.
               
           end select
           
           !! calculate upstream drainage area (km2) and impervious cover (km2)
           !! in the drainage arae at each subbasin outlet
-          if (icodes(idum)==1) then !subbasin
+          if (icodes(idum)==1) then      !subbasin
             subdr_km(ihouts(idum)) = sub_km(inum1s(idum))
-          elseif (icodes(idum)==5) then !add
+          elseif (icodes(idum)==17) then !routing unit
+            subdr_km(ihouts(idum)) = daru_km(inum2s(idum),inum1s(idum))
+          elseif (icodes(idum)==5) then  !add
             subdr_km(ihouts(idum)) = subdr_km(inum1s(idum)) 
      &              + subdr_km(inum2s(idum)) 
             subdr_ickm(ihouts(idum)) = subdr_ickm(inum1s(idum))
      &              + subdr_ickm(inum2s(idum)) 
           elseif (icodes(idum)==2) then !route
+            if(inum1s(idum)==inum2s(idum)) then
+                subdr_km(ihouts(idum)) = subdr_km(inum1s(idum)) 
+                subdr_ickm(ihouts(idum)) = subdr_ickm(inum1s(idum))
+            else
+                subdr_km(ihouts(idum)) = subdr_km(inum1s(idum)) 
+     &              + subdr_km(inum2s(idum)) 
+                subdr_ickm(ihouts(idum)) = subdr_ickm(inum1s(idum))
+     &              + subdr_ickm(inum2s(idum)) 
+            endif
+          elseif (icodes(idum)==18) then  !routels
             subdr_km(ihouts(idum)) = subdr_km(inum2s(idum)) 
-            subdr_km(inum1s(idum)) = subdr_km(inum2s(idum)) 
-            subdr_ickm(ihouts(idum)) = subdr_ickm(inum2s(idum))
-            subdr_ickm(inum1s(idum)) = subdr_ickm(inum2s(idum))
+            ru_a(inum3s(idum),inum1s(idum)) = subdr_km(ihouts(idum)) *  &
+!     &                        daru_km(inum3s(idum),inum1s(idum))) /     &
+     &                     100. / ru_ovsl(inum3s(idum),inum1s(idum))
           end if
 
         end if
       end do
-
-      if (isproj == 2) then 
-!       ch_erod = .015
-        ch_cov2 = 0.50
-        flocnst = 0.5 * flocnst
-        sedcnst= 0.5 * sedcnst
-        orgncnst = 0.5 * 0.5 * orgncnst
-        orgpcnst = 0.5 * orgpcnst
-        no3cnst = 0.5 * 1.5 * no3cnst
-        nh3cnst = 0.5 * nh3cnst
-        no2cnst = 0.5 * no2cnst
-        minpcnst = 0.5 * minpcnst
-        cbodcnst = 0.5 * cbodcnst
-        disoxcnst = 0.5 * disoxcnst
-        chlacnst = 0.5 * chlacnst
-        solpstcnst = 0.5 * solpstcnst
-        srbpstcnst = 0.5 * srbpstcnst
-        bactpcnst = 0.5 * bactpcnst
-        bactlpcnst = 0.5 * bactlpcnst
-!       cmt11cnst = 0.5 * cmt11cnst
-!       cmt12cnst = 0.5 * cmt12cnst
-!       cmt13cnst = 0.5 * cmt13cnst
-      end if 
-
 
 !! close .fig file
       close (102)
@@ -373,7 +397,8 @@
 
       return
 !! isproj = 0
- 5000 format (a1,9x,5i6,f6.3,i9,i3)
+!! 5000 format (a1,9x,5i6,f6.3,i9,4i3)
+ 5000 format (a1,9x,5i6,f6.3,i9,i3,3a3)
  5001 format (7x,i3,4x,6f12.3)
  5002 format(a)
  5004 format (10x,3i4)

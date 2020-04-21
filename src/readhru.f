@@ -178,6 +178,10 @@
         read (108,*,iostat=eof) soln_con(ihru)
         if (eof < 0) exit
         read (108,*,iostat=eof) solp_con(ihru)
+        if (eof < 0) exit
+        read (108,*,iostat=eof) pot_solpl(ihru)
+        if (eof < 0) exit
+        read (108,*,iostat=eof) pot_k(ihru)
 	exit
       end do
 

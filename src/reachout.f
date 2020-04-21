@@ -247,7 +247,7 @@
         varoute(16,ihout) = rch_cbod(jrch) *  rtwtr/ 1000.
         varoute(17,ihout) = rch_dox(jrch) *  rtwtr/ 1000.
       else
-       do ii = 1, 24
+       do ii = 1, nstep
          hhvaroute(1,ihout,ii) = 0.
          hhvaroute(2,ihout,ii) = hrtwtr(ii)
          hhvaroute(3,ihout,ii) = hsedyld(ii)

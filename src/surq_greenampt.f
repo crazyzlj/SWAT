@@ -166,7 +166,7 @@
 	      hhqday(k-1) = hhqday(k-1) * (1.- fcimp(urblu(j))) 
            
            !runoff from impervious area with initial abstraction
-            ubnrunoff(k-1) = (precipdt(k-1) - abstinit) * 
+            ubnrunoff(k-1) = (precipdt(k) - abstinit) * 
      &                       fcimp(urblu(j))
             if ( ubnrunoff(k-1)<0)  ubnrunoff(k-1) = 0.
          end if

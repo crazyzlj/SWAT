@@ -102,7 +102,7 @@
       use parm
 
       integer :: j
-      real :: cnv, pndsa, xx, yy
+      real :: cnv, pndsa, xx, yy, qdayi, latqi
 
       j = 0
       j = ihru
@@ -116,9 +116,17 @@
         pndsa = bp1(j) * pnd_vol(j) ** bp2(j)
 
         !! calculate water flowing into pond for day
-        pndflwi = qdr(j) * 10. * hru_ha(j) * pnd_fr(j)
-        qdr(j) = qdr(j) - qdr(j) * pnd_fr(j)
- 
+        pndflwi = qday + latq(j)
+        pndflwi = pndflwi * 10. * hru_ha(j) * pnd_fr(j)
+        qdayi = qday
+        latqi = latq(j)
+        qday = qday * (1. - pnd_fr(j))
+        latq(j) = latq(j) * (1. - pnd_fr(j))
+        pndloss = qdayi - qday
+        lpndloss = latqi - latq(j)
+        qdr(j) = qdr(j) - pndloss - lpndloss
+!       qdr(j) = qdr(j) - qdr(j) * pnd_fr(j)
+
         !! calculate sediment loading to pond for day
         pndsedin = sedyld(j) * (pnd_fr(j) - pndsa / hru_ha(j))
         pndsanin = sanyld(j) * (pnd_fr(j) - pndsa / hru_ha(j))
@@ -171,6 +179,7 @@
         call pond(j)
 
         !! compute water leaving pond
+        qday= qday + pndflwo / cnv
         qdr(j) = qdr(j) + pndflwo / cnv
 
         !! compute sediment leaving pond

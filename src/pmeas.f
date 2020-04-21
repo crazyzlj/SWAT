@@ -37,8 +37,6 @@
 !!    ~ ~ ~ OUTGOING VARIABLES ~ ~ ~
 !!    name        |units         |definition
 !!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
-!!    hhsubp(:,:) |mm H2O        |precipitation falling during hour in day in
-!!                               |HRU
 !!    ifirstpcp(:)|none          |precipitation data search code
 !!                               |0 first day of precipitation data located in 
 !!                               |  file
@@ -127,8 +125,6 @@
                 iyp = 0
                 idap = 0
                 read (100+k,5100) iyp, idap, (rmeas(l), l = kk1, kk2)
-5000  format (7x,1800f5.1)
-5100  format (i4,i3,1800f5.1)
                 if (iyp + idap <= 0) exit
                 if (iyp == iyr .and. idap == id1) exit
               end do
@@ -146,9 +142,6 @@
               if (hru_sub(k) == inum3sprev .and. hru_sub(k) /= 0) then
                 subp(k) = rbsb
                 if (ievent == 1) then
-                  do l = 1, 24
-                    hhsubp(k,l) = rhrbsb(l)
-                  end do
                   do l = 1, nstep
                     rainsub(k,l) = rstpbsb(l)
                   end do
@@ -161,11 +154,7 @@
                 inum3sprev = hru_sub(k)
                 rbsb = subp(k)
                 if (ievent == 1) then
-                  rhrbsb(:) = 0.
                   rstpbsb(:) = 0.
-                  do l = 1, 24
-                    rhrbsb(l) = hhsubp(k,l)
-                  end do
                   do l = 1, nstep
                     rstpbsb(l) = rainsub(k,l)
                   end do
@@ -303,8 +292,8 @@
 
 
       return
-! 5000 format (7x,300f5.1)                 !! -------------------------------test
-! 5100 format (i4,i3,300f5.1)              !! -------------------------------test
+ 5000 format (7x,1800f5.1)
+ 5100 format (i4,i3,1800f5.1)
  5200 format (i4,i3,i2,1x,i2,300f6.2)
  5201 format (i4,i3,5x,300f5.1)
  5202 format (i4,i3,i2,a1,i2,300f6.2)

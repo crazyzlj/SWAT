@@ -11,6 +11,34 @@
       sol_mp = 0.
       sol_n = 0.
 
+!!    added by zhang for CSWAT == 2
+
+      sol_BMC = 0.
+      sol_BMN = 0.
+      sol_HSC = 0.
+      sol_HSN = 0.
+      sol_HPC = 0.
+      sol_HPN = 0.
+      sol_LM = 0.
+      sol_LMC = 0.
+      sol_LMN = 0.
+      sol_LS = 0.
+      sol_LSL = 0.
+      sol_LSC = 0.
+      sol_LSN = 0.
+      sol_RNMN = 0.
+      sol_LSLC = 0.
+      sol_LSLNC = 0.
+      sol_RSPC = 0.
+      sol_WOC = 0.
+      sol_WON = 0.
+      sol_HP = 0.
+      sol_HS = 0.
+      sol_BM = 0.
+!!    added by zhang for CSWAT == 2
+      
+
+
 !!  septic changes 6/07/10  jaehak
       bio_amn = 0.
       bio_bod = 0.
@@ -167,6 +195,8 @@
       pot_fr = 0.
       pot_no3 = 0.
       pot_no3l = 0.
+      pot_solpl = 0.
+      pot_k = -1.
       pot_nsed = 0.
       pot_sed = 0.
 
@@ -325,6 +355,8 @@
       trapeff = 0.
       urbcoef = 0.
       urbcn2 = 0.
+      usle_cfac = 0.
+      usle_eifac = 0.
       usle_k = 0.
       usle_ls = 0.
       usle_p = 0.

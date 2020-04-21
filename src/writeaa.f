@@ -415,8 +415,10 @@
       wshd_tstrs = wshd_tstrs / yrs
       wshd_nstrs = wshd_nstrs / yrs
       wshd_pstrs = wshd_pstrs / yrs
+      wshd_astrs = wshd_astrs / yrs
       !! calculate watershed pothole averages
       spadyo = spadyo / yrs
+      spadyosp = spadyosp / yrs
       spadyev = spadyev / yrs
       spadysp = spadysp / yrs
       spadyrfv = spadyrfv / yrs
@@ -461,12 +463,23 @@
             sumorgn = sumorgn + sol_aorgn(ly,j) + sol_orgn(ly,j) +
      &        sol_fon(ly,j)
 	      sumorgp = sumorgp + sol_fop(ly,j) + sol_orgp(ly,j)
-	    else
+	    end if
+	    if (cswat == 1) then
       	    sumorgn = sumorgn + sol_orgn(ly,j) + sol_fon(ly,j) +
      &        sol_mn(ly,j)
 		    sumorgp = sumorgp + sol_fop(ly,j) + sol_orgp(ly,j) +
      &        sol_mp(ly,j)
 	    end if
+	    !!add by zhang
+	    !!=======================
+	    if (cswat == 2) then
+            sumorgn = sumorgn + sol_LMN(ly,j) + sol_LSN(ly,j) +
+     &        sol_HPN(ly,j) + sol_BMN(ly,j) + sol_HSN(ly,j)
+	      sumorgp = sumorgp + sol_fop(ly,j) + sol_orgp(ly,j)	      
+	    end if
+	    !!add by zhang
+	    !!=======================	    
+	    
           summinp = summinp + sol_solp(ly,j) + sol_actp(ly,j) +
      &              sol_stap(ly,j)
         end do
@@ -516,14 +529,13 @@
       end if
 
 !! write to hydrograph output file
-      idmm = 1
-      do while (icodes(idmm) > 0)
-        ic = 0
+      do idmm = 1, mhyd
         ic = ihouts(idmm)
+        if (ic > 0) then
         write(11123,9400) icodes(idmm), ic, inum1s(idmm), inum2s(idmm), &
      &               inum3s(idmm),subed(ic),recmonps(ic),reccnstps(ic), &
      &               (shyd(ii,ic), ii = 1, 8)
-        idmm = idmm + 1
+        end if
       end do
 
 !! average septic outputs for output.std

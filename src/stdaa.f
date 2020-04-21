@@ -261,7 +261,7 @@
 !!    wshdaao(46) |kg N/ha       |nitrate percolation past bottom of soil
 !!                               |profile in watershed for the simulation
 !!    wshdaao(104)|mm H2O        |groundwater contribution to stream in
-!!                               |watershed for the simulation
+!!                               |watershed for the simulation (shallow aquifer)
 !!    wshdaao(105)|mm H2O        |amount of water moving from shallow aquifer
 !!                               |to plants/soil profile in watershed during
 !!                               |simulation
@@ -273,6 +273,8 @@
 !!                               |for the simulation
 !!    wshdaao(109)|mm H2O        |drainage tile flow contribution to stream
 !!                               |in watershed for the simulation
+!!    wshdaao(113)|mm H2O        |groundwater contribution to stream in
+!!                               |watershed for the simulation (deep aquifer)
 !!    yldaa(:)    |metric tons/ha|average annual yield (dry weight) in HRU
 !!    yldn(:,:,:) |kg/ha         |average value for yield of crop
 !!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
@@ -372,9 +374,9 @@
         write (26,1900) j, hru_sub(j),                                  &
      &     snam(j), hru_km(j), cn2(j), sol_sumfc(j), usle_ls(j),        &
      &     hruaao(22,j), hruaao(28,j), hruaao(29,j), sumix(j),          &
-     &     hruaao(1,j), hruaao(4,j), hruaao(5,j) + hruaao(6,j),         &
+     &     hruaao(1,j), hruaao(19,j), hruaao(5,j) + hruaao(6,j),        &
      &     hruaao(12,j), hruaao(14,j), hruaao(37,j) + hruaao(38,j),     &
-     &     hruaao(35,j), bio_aams(j), yldaa(j)
+     &     hruaao(35,j), bio_aams(j), yldaa(j), hruaao(4,j)
       end do
       else if (isproj == 1) then
       write (19,1700)
@@ -388,9 +390,9 @@
         write (19,1900) j, hru_sub(j), cropname,
      &     snam(j), hru_km(j), cn2(j), sol_sumfc(j), usle_ls(j),        &
      &     hruaao(22,j), hruaao(28,j), hruaao(29,j), sumix(j),          &
-     &     hruaao(1,j), hruaao(4,j), hruaao(5,j) + hruaao(6,j),         &
+     &     hruaao(1,j), hruaao(19,j), hruaao(5,j) + hruaao(6,j),        &
      &     hruaao(12,j), hruaao(14,j), hruaao(37,j) + hruaao(38,j),     &
-     &     hruaao(35,j), bio_aams(j), yldaa(j)
+     &     hruaao(35,j), bio_aams(j), yldaa(j), hruaao(4,j)
       end do
       endif
 
@@ -409,9 +411,11 @@
 	
 !! write average annual stress values
       if (iscen == 1) then
-      write (26,2200) wshd_wstrs, wshd_tstrs, wshd_nstrs, wshd_pstrs
+      write (26,2200) wshd_wstrs, wshd_tstrs, wshd_nstrs, wshd_pstrs,   &
+     &      wshd_astrs 
       else if (isproj == 1) then
-      write (19,2200) wshd_wstrs, wshd_tstrs, wshd_nstrs, wshd_pstrs
+      write (19,2200) wshd_wstrs, wshd_tstrs, wshd_nstrs, wshd_pstrs,   &
+     &      wshd_astrs 
       endif
 
 !! watershed summary water balance table
@@ -419,7 +423,7 @@
       write (26,1000) prog
       write (26,1100) title
       write (26,2300) wshdaao(1), wshdaao(39), wshdaao(36), wshdaao(37),&
-     &    wshdaao(3), wshdaao(4), wshdaao(109), wshdaao(104),           &
+     &    wshdaao(3), wshdaao(4),wshdaao(109),wshdaao(104),wshdaao(113),&
      &    wshdaao(105), wshdaao(106), wshdaao(107), wshdaao(6),         &
      &    wshdaao(5), wshdaao(7), wshdaao(108), wshdaao(38),            &
      &    wshd_sepmm,  wshdaao(12)
@@ -431,7 +435,7 @@
       write (19,1000) prog
       write (19,1100) title
       write (19,2300) wshdaao(1), wshdaao(39), wshdaao(36), wshdaao(37),&
-     &    wshdaao(3), wshdaao(4), wshdaao(109), wshdaao(104),           &
+     &    wshdaao(3), wshdaao(4),wshdaao(109),wshdaao(104),wshdaao(113),&
      &    wshdaao(105), wshdaao(106), wshdaao(107), wshdaao(6),         &
      &    wshdaao(5), wshdaao(7), wshdaao(108), wshdaao(38),            &
      &    wshdaao(12)
@@ -445,9 +449,9 @@
 !     sumpady = Sum(ipot)
 !      if (sumpady > 0) then
         if (iscen == 1) then
-        write (26,2500) spadyo, spadyev, spadysp, spadyrfv
+        write (26,2500) spadyo, spadyev, spadysp, spadyosp
         else if (isproj == 1) then
-        write (19,2500) spadyo, spadyev, spadysp, spadyrfv
+        write (19,2500) spadyo, spadyev, spadysp, spadyosp
         endif
 !     end if
 
@@ -519,16 +523,16 @@
 !! 1600 format (1x,'HRU ',i6,1x,6(a4,'  Yld =',f8.1,1x,'BIOM = ',f8.1,2x))
  1600 format (1x,' HRU ',i7,' SUB',i4,1x,6(a4,'  Yld =',f8.1,1x,
      * 'BIOM = ',f8.1,2x))
- 1601 format (1x,i6,a)
+ 1601 format (1x,' HRU ',i7,a)
  1602 format (1x,'HRU ',i6,1x,6(a4,2f8.1,2x))
  1700 format (/t5,'HRU STATISTICS'//t17,'AVE ANNUAL VALUES'/)
  1800 format (3x,'HRU',t8,' SUB',t14,'SOIL',t25,'AREAkm2',              &
      & t36,'CN',                                                        &
      & t43,'AWCmm',t51,'USLE_LS',t60,'IRRmm',t67,'AUTONkh ',t75,        &
-     & 'AUTOPkh ',t84,'MIXEF',t91,'PRECmm',t99,'SURQmm',t107,           &
-     & 'GWQmm',t115,'ETmm',t124,'SEDth ',t132,'NO3kgh ',t140,           &
-     & 'ORGNkgh ',t148,'BIOMth',t156,'YLDth')
- 1900 format (i7,i4,3x,a8,3x,e8.3,16f8.2) 
+     & 'AUTOPkh ',t84,'MIXEF',t90,'PRECmm',t97,'SURQGENmm',t109,        &
+     & 'GWQmm',t118,'ETmm',t125,'SEDth ',t132,'NO3kgh ',t140,           &
+     & 'ORGNkgh ',t148,'BIOMth',t157,'YLDth',t164,'SURQmm')
+ 1900 format (i7,i4,3x,a8,3x,e8.3,17f8.2) 
  2000 format (///,t17,'AVE MONTHLY BASIN VALUES',/t20,'SNOW',t46,       &
      &   'WATER',t66,'SED',/t3,'MON',t11,'RAIN',t20,'FALL',t27,'SURF Q',&
      &    t37,'LAT Q',t46,'YIELD',t58,'ET',t64,'YIELD',t75,'PET',/t11,  &
@@ -539,7 +543,8 @@
      &    ' WATER STRESS DAYS = ',f8.2,/,t15,                           &
      &    ' TEMPERATURE STRESS DAYS = ',f8.2,/,t15,                     &
      &    ' NITROGEN STRESS DAYS = ',f8.2,/,t15,                        &
-     &    ' PHOSPHORUS STRESS DAYS = ',f8.2)
+     &    ' PHOSPHORUS STRESS DAYS = ',f8.2,/,t15,                      &
+     &    ' AERATION STRESS DAYS = ',f8.2)
  2300 format (t10,'AVE ANNUAL BASIN VALUES'//                           &
      &        t15,'PRECIP = ',f8.1,' MM'/                               &
      &        t15,'SNOW FALL =',f8.2,' MM'/                             &
@@ -549,6 +554,7 @@
      &        t15,'LATERAL SOIL Q =',f8.2,' MM'/                        &
      &        t15,'TILE Q = ',f8.2,' MM'/                               &
      &        t15,'GROUNDWATER (SHAL AQ) Q = ',f8.2,' MM'/              &
+     &        t15,'GROUNDWATER (DEEP AQ) Q = ',f8.2,' MM'/              &  
      &        t15,'REVAP (SHAL AQ => SOIL/PLANTS) =',f8.2,' MM'/        &
      &        t15,'DEEP AQ RECHARGE = ',f8.2,' MM'/                     &
      &        t15,'TOTAL AQ RECHARGE =',f8.2,' MM'/                     &
@@ -579,10 +585,10 @@
 ! 2400 format (t15,'YIELD LOSS FROM PONDS'/t20,'WATER = ',f7.3,' MM'/t20,&
 !     &    'SEDIMENT = ',f7.3,' T/HA'/t15,'YIELD LOSS FROM RESERVOIRS'/  &
 !     &    t20,'WATER = ',f8.3,' MM'/t20,'SEDIMENT = ',f7.3,' T/HA')
- 2500 format (t15,'OUTFLOW FROM IMPOUNDED WATER =  ',f8.3,' (MM)',/,t15,&
+ 2500 format (t15,'TILE FROM IMPOUNDED WATER =  ',f8.3,' (MM)',/,t15,   &
      &    'EVAPORATION FROM IMPOUNDED WATER =  ',f8.3,' (MM)',/,t15,    &
      &    'SEEPAGE INTO SOIL FROM IMPOUNDED WATER = ',f8.3,' (MM)',/,t15&
-     &    ,'RAINFALL ON IMPOUNDED WATER = ',f8.3,' (MM)')
+     &    ,'OVERFLOW FROM IMPOUNDED WATER = ',f8.3,' (MM)')
  2600 format (t15,'AVE ANNUAL BASIN VALUES')
  2700 format (//,t15,'NUTRIENTS',/,t20,'ORGANIC N =  ',f8.3,' (KG/HA)', &
      &    /,t20,'ORGANIC P =  ',f8.3,' (KG/HA)',/,t20,                  &

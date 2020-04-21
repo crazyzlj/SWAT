@@ -41,7 +41,7 @@
 !!    reset all hru_fr variables
 	do j = 1, mhru
 	 if (hru_fr(j) <= 0.) hru_fr(j) = .0000001
-	 hru_km(j) = sub_km(hru_sub(j)) * hru_fr(j)
+	     hru_km(j) = sub_km(hru_sub(j)) * hru_fr(j)
          hru_ha(j) = hru_km(j) * 100.  !MJW
          hru_dafr(j) = hru_km(j) / da_km  !MJW
 	  do mon = 1, 12
@@ -61,8 +61,8 @@
 	  wet_vol(j) = wet_vol(j) * hru_fr(j)
 	  hru_ha(j) = hru_km(j) * 100.
 !	  pot_vol(j) = 10. * pot_volmm(j) * hru_ha(j)   !! mm => m^3     NUBZ
-	  pot_volx(j) = 10. * pot_volxmm(j) * hru_ha(j) !! mm => m^3
-	  pot_tile(j) = 10. * pot_tilemm(j) * hru_ha(j) !! mm => m^3
+	  pot_volx(j) = pot_volxmm(j)
+	  pot_tile(j) = pot_tilemm(j) 
 	end do
 
 5101  format (a80)

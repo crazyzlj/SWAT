@@ -192,7 +192,7 @@
 	!! change for domain error 1/29/09 gsm check with Jeff !!!
 	    if (sol_st(kk,j) < 0.) sol_st(kk,j) = .0000001
           sut = .1 + .9 * Sqrt(sol_st(kk,j) / sol_fc(kk,j))
-          sut = Min(1., sut)
+!          sut = Min(1., sut)
           sut = Max(.05, sut)
 
           !!compute soil temperature factor
