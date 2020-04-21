@@ -14,7 +14,7 @@
 !!                               |4 = transfer    13 = 
 !!                               |5 = add         14 = saveconc
 !!                               |6 = rechour     15 = 
-!!                               |7 = recmon    
+!!                               |7 = recmon      16 = autocal
 !!                               |8 = recyear
 !!    ihout       |none          |water source type:
 !!                               |1 reach
@@ -122,21 +122,21 @@
 !!    ~ ~ ~ ~ ~ ~ END SPECIFICATIONS ~ ~ ~ ~ ~ ~
       use parm
 
-      integer :: k, ii, nhyd_tr
+      integer :: k, ii
       real :: volum, tranmx, ratio
 
 !! check beg/end months summer or winter
       if (mo_transb(inum5) < mo_transe(inum5)) then
-        if (i_mo < mo_transb(inum5).or.i_mo > mo_transe(inum5)) return
+        if (i_mo < mo_transb(inum5) .or. i_mo > mo_transe(inum5)) return
       else 
-        if (i_mo > mo_transe(inum5).and.i_mo < mo_transb(inum5))return
+        if (i_mo > mo_transe(inum5) .and. i_mo < mo_transb(inum5))return
       end if
 !! compute volume of water in source
       volum = 0.
       if (ihout == 2) then
         volum = res_vol(inum1)
       else
-        volum = rchdy(2,inum1) * 86400. + rchstor(inum1)
+        volum = rchdy(2,inum1) * 86400.
       end if
       if (volum <= 0.) return
 
@@ -145,38 +145,40 @@
       select case (inum4)
         case (1)     !! transfer fraction of water in source
           tranmx = volum * rnum1
-        case (2)     !! leave minimum volume or flow (m3/sec)
-          tranmx = volum - rnum1 * 86400.
+        case (2)     !! leave minimum volume or flow
+          tranmx = volum - rnum1
           if (tranmx < 0.) tranmx = 0.
-        case (3)     !! transfer volume specified (m3/sec)
-          tranmx = rnum1 * 86400.
+        case (3)     !! transfer volume specified
+          tranmx = rnum1
           if (tranmx > volum) tranmx = volum
       end select
  
       if (tranmx > 0.) then
 
         !! TRANSFER WATER TO DESTINATION
-        select case (inum2)
-          case (1)          !! TRANSFER WATER TO A CHANNEL
-            rchstor(inum3) = rchstor(inum3) + tranmx
-
-          case (2)          !! TRANSFER WATER TO A RESERVOIR
-            res_vol(inum3) = res_vol(inum3) + tranmx
-        end select
+!        select case (inum2)
+!          case (1)          !! TRANSFER WATER TO A CHANNEL
+!            rchstor(inum3) = rchstor(inum3) + tranmx
+!
+!          case (2)          !! TRANSFER WATER TO A RESERVOIR
+!            res_vol(inum3) = res_vol(inum3) + tranmx
+!        end select
  
         !! SUBTRACT AMOUNT TRANSFERED FROM SOURCE
         if (ihout == 2) then
           res_vol(inum1) = res_vol(inum1) - tranmx
         else
           xx = tranmx
-          if (xx > rchstor(inum1)) then
-            xx = tranmx - rchstor(inum1)
-            rchstor(inum1) = 0.
-          else
-            rchstor(inum1) = rchstor(inum1) - xx
-            xx = 0.
-          end if
-          nhyd_tr = ih_tran(inum5)
+!          if (xx > rchstor(inum1)) then
+!            xx = tranmx - rchstor(inum1)
+!            rchstor(inum1) = 0.
+!          else
+!            rchstor(inum1) = rchstor(inum1) - xx
+!            xx = 0.
+!          end if
+
+           nhyd_tr = ih_tran(inum5)
+      
           if (xx > varoute(2,nhyd_tr)) then
             xx = tranmx - varoute(2,nhyd_tr)
             varoute(2,nhyd_tr) = 0.
@@ -184,11 +186,32 @@
             varoute(2,nhyd_tr) = varoute(2,nhyd_tr) - xx
             xx = 0.
           end if
+          
           ratio = 0.
           if (rchdy(2,inum1) > 1.e-6) then
-            ratio = xx / (rchdy(2,inum1) * 86400.)
+            xx = tranmx - xx
+            ratio = 1. - xx / (rchdy(2,inum1) * 86400.)
           end if
-
+          
+          ratio1 = 1. - ratio
+          rchmono(2,inum1) = rchmono(2,inum1) - rchdy(2,inum1) * ratio1
+          rchmono(6,inum1) = rchmono(6,inum1) - rchdy(6,inum1) * ratio1
+          rchmono(9,inum1) = rchmono(9,inum1) - rchdy(9,inum1) * ratio1
+          rchmono(11,inum1)=rchmono(11,inum1) - rchdy(11,inum1) * ratio1
+          rchmono(13,inum1)=rchmono(13,inum1) - rchdy(13,inum1) * ratio1
+          rchmono(15,inum1)=rchmono(15,inum1) - rchdy(15,inum1) * ratio1
+          rchmono(17,inum1)=rchmono(17,inum1) - rchdy(17,inum1) * ratio1
+          rchmono(19,inum1)=rchmono(19,inum1) - rchdy(19,inum1) * ratio1
+          rchmono(21,inum1)=rchmono(21,inum1) - rchdy(21,inum1) * ratio1
+          rchmono(23,inum1)=rchmono(23,inum1) - rchdy(23,inum1) * ratio1
+          rchmono(25,inum1)=rchmono(25,inum1) - rchdy(25,inum1) * ratio1
+          rchmono(27,inum1)=rchmono(27,inum1) - rchdy(27,inum1) * ratio1
+          rchmono(29,inum1)=rchmono(29,inum1) - rchdy(29,inum1) * ratio1
+          rchmono(38,inum1)=rchmono(38,inum1) - rchdy(38,inum1) * ratio1
+          rchmono(39,inum1)=rchmono(39,inum1) - rchdy(39,inum1) * ratio1
+          rchmono(40,inum1)=rchmono(40,inum1) - rchdy(40,inum1) * ratio1
+          rchmono(41,inum1)=rchmono(41,inum1) - rchdy(41,inum1) * ratio1
+          
           rchdy(2,inum1) = rchdy(2,inum1) * ratio
           rchdy(6,inum1) = rchdy(6,inum1) * ratio
           rchdy(9,inum1) = rchdy(9,inum1) * ratio
@@ -204,61 +227,21 @@
           rchdy(29,inum1) = rchdy(29,inum1) * ratio
           rchdy(38,inum1) = rchdy(38,inum1) * ratio
           rchdy(39,inum1) = rchdy(39,inum1) * ratio
-
-
           rchdy(40,inum1) = rchdy(40,inum1) * ratio
           rchdy(41,inum1) = rchdy(41,inum1) * ratio
           rchdy(42,inum1) = rchdy(42,inum1) * ratio
-          rchdy(43,inum1) = rchdy(43,inum1) * ratio
-          rchdy(44,inum1) = rchdy(44,inum1) * ratio
-          rchdy(45,inum1) = rchdy(45,inum1) * ratio
-          rchdy(46,inum1) = rchdy(46,inum1) * ratio
-          rchdy(47,inum1) = rchdy(47,inum1) * ratio
-          rchdy(48,inum1) = rchdy(48,inum1) * ratio
-          rchdy(49,inum1) = rchdy(49,inum1) * ratio
-          rchdy(50,inum1) = rchdy(50,inum1) * ratio
-          rchdy(51,inum1) = rchdy(51,inum1) * ratio
-          rchdy(52,inum1) = rchdy(52,inum1) * ratio
-          rchdy(53,inum1) = rchdy(53,inum1) * ratio
-          rchdy(54,inum1) = rchdy(54,inum1) * ratio
-
-      rchmono(2,inum1) = rchmono(2,inum1)-rchdy(2,inum1)*(1. - ratio)
-      rchmono(6,inum1) = rchmono(6,inum1)-rchdy(6,inum1)*(1. - ratio)
-      rchmono(9,inum1) = rchmono(9,inum1)-rchdy(9,inum1)*(1. - ratio)
-      rchmono(11,inum1)=rchmono(11,inum1)-rchdy(11,inum1)*(1. - ratio)
-      rchmono(13,inum1)=rchmono(13,inum1)-rchdy(13,inum1)*(1. - ratio)
-      rchmono(15,inum1)=rchmono(15,inum1)-rchdy(15,inum1)*(1. - ratio)
-      rchmono(17,inum1)=rchmono(17,inum1)-rchdy(17,inum1)*(1. - ratio)
-      rchmono(19,inum1)=rchmono(19,inum1)-rchdy(19,inum1)*(1. - ratio)
-      rchmono(21,inum1)=rchmono(21,inum1)-rchdy(21,inum1)*(1. - ratio)
-      rchmono(23,inum1)=rchmono(23,inum1)-rchdy(23,inum1)*(1. - ratio)
-      rchmono(25,inum1)=rchmono(25,inum1)-rchdy(25,inum1)*(1. - ratio)
-      rchmono(27,inum1)=rchmono(27,inum1)-rchdy(27,inum1)*(1. - ratio)
-      rchmono(29,inum1)=rchmono(29,inum1)-rchdy(29,inum1)*(1. - ratio)
-      rchmono(38,inum1)=rchmono(38,inum1)-rchdy(38,inum1)*(1. - ratio)
-      rchmono(39,inum1)=rchmono(39,inum1)-rchdy(39,inum1)*(1. - ratio)
-        
-      rchmono(40,inum1) = rchmono(40,inum1)-rchdy(40,inum1)*(1. - ratio)
-      rchmono(41,inum1) = rchmono(41,inum1)-rchdy(41,inum1)*(1. - ratio)
-      rchmono(42,inum1) = rchmono(42,inum1)-rchdy(42,inum1)*(1. - ratio)
-      rchmono(43,inum1)=rchmono(43,inum1)-rchdy(43,inum1)*(1. - ratio)
-      rchmono(44,inum1)=rchmono(44,inum1)-rchdy(44,inum1)*(1. - ratio)
-      rchmono(45,inum1)=rchmono(45,inum1)-rchdy(45,inum1)*(1. - ratio)
-      rchmono(46,inum1)=rchmono(46,inum1)-rchdy(46,inum1)*(1. - ratio)
-      rchmono(47,inum1)=rchmono(47,inum1)-rchdy(47,inum1)*(1. - ratio)
-      rchmono(48,inum1)=rchmono(48,inum1)-rchdy(48,inum1)*(1. - ratio)
-      rchmono(49,inum1)=rchmono(49,inum1)-rchdy(49,inum1)*(1. - ratio)
-      rchmono(50,inum1)=rchmono(50,inum1)-rchdy(50,inum1)*(1. - ratio)
-      rchmono(51,inum1)=rchmono(51,inum1)-rchdy(51,inum1)*(1. - ratio)
-      rchmono(52,inum1)=rchmono(52,inum1)-rchdy(52,inum1)*(1. - ratio)
-      rchmono(53,inum1)=rchmono(53,inum1)-rchdy(53,inum1)*(1. - ratio)
-      rchmono(54,inum1)=rchmono(54,inum1)-rchdy(54,inum1)*(1. - ratio)
-
-          do ii = 1, mvaro
-             varoute(ii,nhyd_tr) = varoute(ii,nhyd_tr) * ratio
-          end do
-          
         end if
+        
+        !!subratct from source
+        do ii = 3, mvaro
+          varoute(ii,nhyd_tr) = varoute(ii,nhyd_tr) * ratio
+        end do
+        !!save vartran to add in rchinit and resinit
+        vartran(2,inum3) = varoute(2,nhyd_tr) / ratio * ratio1
+        do ii = 3, mvaro
+          vartran(ii,inum3) = varoute(ii,nhyd_tr) * ratio1
+        end do
+        
       end if
 
       return

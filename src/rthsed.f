@@ -91,10 +91,10 @@
 	real :: qin, qdin, sedin, vc, cyin, cych, depnet, deg, dep
 	real :: depdeg, dot, ycoeff, Reynolds_g, visco_h2o, tmpw
 	real :: channel_d50, particle_specific_gravity, Fr_g, Fr_gc
-	real :: log10sedcon, sedcon
+	real :: log10sedcon, sedcon, deg24, dep24
 	real :: vfall, coefa, coefb, coefc, coefd, coefe
 
-	jrch = 0
+	jrch = 0; deg24=0.; dep24=0
 	jrch = inum1
 	channel_d50 = ch_d50 / 1000. !! unit change mm->m
 	particle_specific_gravity = 2.65

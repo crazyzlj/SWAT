@@ -34,8 +34,8 @@
       integer :: sb, kk, ii
       real*8 :: tsa,mxvol,pdia,ksat,dp,sub_ha,mxh,hweir,phead,pipeflow
       real*8 :: qin,qout,qpnd,qpndi,sweir,spndconc,sedpnde,sedpndi,hpnd
-      real*8 :: qweir, qtrns,qpipe,decayexp,splw,sedconcweir
-      real, dimension(2,nstep), intent(inout) :: flw, sed
+      real*8 :: qweir, qtrns,qpipe,splw,sedconcweir,td,ksed,qevap
+      real, dimension(3,nstep), intent(inout) :: flw, sed
       
       sb = inum1
       sub_ha = da_ha * sub_fr(sb)
@@ -49,11 +49,12 @@
       splw = sp_bpw(sb,kk)       !spillway overflow weir width (m)
       pdia = sp_pd(sb,kk)       !outflow orifice pipe diameter (mm)
       ksat = sp_k(sb,kk)      !saturated hydraulic conductivity (mm/hr)
-      dp = sp_dp(sb,kk) / 1000. !median particle size of TSS, micrometer
+      dp = sp_dp(sb,kk) * 1000. !median particle size of TSS, micrometer
                                      
       !! Get initial values from previous day
       qpnd = sp_qi(sb,kk) !m^3
       spndconc = sp_sedi(sb,kk) 
+      qevap = 0
       
       do ii=1,nstep
          qweir = 0.; qtrns = 0.; qpipe = 0.
@@ -86,11 +87,20 @@
                               
             !Transmission loss through infiltration 
             qtrns = ksat * tsa / 1000./ 60. * idt
-            qpnd = max(0.,qpnd - qtrns)
+            qpnd = qpnd - qtrns
+            If (qpnd<0) then
+              qpnd = 0.
+              qtrns = 0.
+            endif
                            
             !Evapotranspiration loss
-            qpnd = qpnd - tsa * sub_etday(sb) / 1000. / 1440. * idt !m^3
-            If (qpnd<0) qpnd = 0.
+            qevap = tsa * sub_etday(sb) / 1000. / 1440. * idt !m^3
+            if(qevap<1e-6) qevap = 0.
+            qpnd = qpnd - qevap
+            If (qpnd<0) then
+              qpnd = 0.
+              qevap = 0.
+            endif
 
             !Outflow through orifice pipe
             hpnd = qpnd / tsa  !m
@@ -102,11 +112,13 @@
             endif
             
            !update out flow, m^3
-            qout = qpipe + qweir
+            qout = qpipe 
             qpnd = max(0.,qpnd - qout)
            
             !outflow normalized to subbasin area, mm
-            flw(2,ii) = qout / (sub_ha *10.) !mm
+            flw(1,ii) = qin / ((sub_ha - tsa / 10000.) *10.)
+            flw(2,ii) = qout / ((sub_ha - tsa / 10000.) *10.) !mm
+            flw(3,ii) = qweir / ((sub_ha - tsa / 10000.) *10.) !mm
          Endif
         
          !---------------------------------------------------------
@@ -140,17 +152,24 @@
         
         !Estimate TSS removal due to sedimentation
          if (spndconc>sp_sede(sb,kk)) then
-           decayexp = exp(-7.667e-3 * idt / 60. * dp)
-           spndconc = (spndconc - sp_sede(sb,kk)) * decayexp + 
+           ksed = min(134.8,41.1 * hpnd ** -0.999)  !decay coefficient, Huber et al. 2006
+           td = qpnd / qpipe / nstep !detention time, day
+           spndconc = (spndconc - sp_sede(sb,kk)) * exp(-ksed * td) + 
      &           sp_sede(sb,kk)
          endif
  
         !Sediment coming out of the pond
-         sed(2,ii) = spndconc * qpipe * 1.e-6 !tons
-         sedpnde = spndconc * qpnd * 1.e-6 !tons 
+         sed(2,ii) = spndconc * qpipe * 1.e-6  !tons
+         sedpnde = spndconc * qpnd * 1.e-6 !tons
+         sed(3,ii) = sweir 
         
         ! total sediment removed from the pond, tons
          sp_sed_cumul(sb,kk) = sp_sed_cumul(sb,kk) + sedpndi - sedpnde
+
+!       write(*,'(3i5,20f10.3)') iyr,iida,ii,precipdt(ii),qin,
+!     & qpipe,qweir,qtrns,qevap
+!       write(*,'(3i5,20f10.3)') iyr,iida,ii,precipdt(ii),qin,
+!     & qpipe,qweir,sed(1,ii)*1000,sed(2,ii)*1000,sweir*1000
                       
       end do
       

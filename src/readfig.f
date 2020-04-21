@@ -141,6 +141,9 @@
           read (102,5000) a, icodes(idum), ihouts(idum), inum1s(idum),  &
      &    inum2s(idum), inum3s(idum), rnum1s(idum), inum4s(idum),       &
      &    inum5s(idum)
+!           write (*,5000) a, icodes(idum), ihouts(idum), inum1s(idum),  &
+!     &    inum2s(idum), inum3s(idum), rnum1s(idum), inum4s(idum),       &
+!     &    inum5s(idum)
 	  end if
         mhyd_bsn = mhyd_bsn + 1    
 
@@ -164,6 +167,10 @@
 
             case (2)  !! icode = 2  ROUTE CHANNEL command
               nrch = nrch + 1
+!!            assume subbasin is the same number as the reach (if zero)              
+              if (inum3s(idum) == 0) then
+                inum3s(idum) = inum1s(idum)
+              end if  
               rtefile = ""
               swqfile = ""
               read (102,5100) rtefile, swqfile
@@ -313,14 +320,7 @@
               close(113)
               
             case (18)  !! icode = 18  LANDSCAPE ROUTING command
-              !! rutot = rutot + 1
-              !! rufile = ""
-              !! read (102,5100) rufile
-              !! call caps(rufile)
-              !! iru = inum1s(idum)
-              !! daru_km(inum1s(idum)) = rnum1s(idum)
-              !! open (113,file=rufile)
-              !! call readru
+              if (rnum1s(idum) < 1.e-9) rnum1s(idum) = 1.
               
           end select
           
@@ -373,7 +373,7 @@
 
       return
 !! isproj = 0
- 5000 format (a1,9x,5i6,f6.1,i9,i3)
+ 5000 format (a1,9x,5i6,f6.3,i9,i3)
  5001 format (7x,i3,4x,6f12.3)
  5002 format(a)
  5004 format (10x,3i4)

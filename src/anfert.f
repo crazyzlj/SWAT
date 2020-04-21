@@ -167,7 +167,6 @@
 
       use parm
 
-      integer, parameter :: nstress = 1 
       real, parameter :: rtoaf = 0.50
       integer :: j, ly, ifrt
       real :: tsno3, tpno3, dwfert, xx, targn, tfp
@@ -181,7 +180,7 @@
 !! determine amount of mineral N to be applied
       if (strsn(j) < auto_nstrs(j)) then
         targn = 0.
-        if (nstress == 0) then                !! n target approach
+        if (nstress(j) == 0) then                !! n target approach
          tsno3 = 0.
          tpno3 = 0.
          do ly = 1, sol_nly(j)

@@ -60,7 +60,7 @@
       sol_cov(j) = Max(sol_cov(j),0.)
 
       !! perform management operations
-      if (nrot(j) > 0) call operatn
+      call operatn
 
       !! compute plant water use and water stress
       !! compute actual plant transpiration

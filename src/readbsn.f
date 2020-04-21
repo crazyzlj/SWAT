@@ -490,8 +490,6 @@
 !!!!! following reads moved to end of .bsn file
 !     read (103,*,iostat=eof) sol_p_model  !! if = 1 use new soil P model
 !     if (eof < 0) exit
-!	read (103,*,iostat=eof) iabstr
-!	if (eof < 0) exit
 	read (103,*,iostat=eof) bf_flg
  	if (eof < 0) exit
       read (103,*,iostat=eof) iuh 
@@ -509,6 +507,7 @@
        if (len_trim(tlu).le.3) numlu = 0
        backspace(103)
        read (103,*) (lu_nodrain(kk), kk=1,numlu)
+       
 
  !! subdaily erosion modeling by Jaehak Jeong
       read (103,*,iostat=eof) titldum
@@ -547,10 +546,10 @@
       if (eof < 0) exit
  	read (103,*,iostat=eof) iabstr
  	if (eof < 0) exit
-!!!!! iatmodep = 0 - average annual
-!!!!!          = 1 - monthly
-!      read (103,*,iostat=eof) iatmodep
-!      if (eof < 0) exit
+! iatmodep = 0 - average annual
+!          = 1 - monthly
+      read (103,*,iostat=eof) iatmodep
+       if (eof < 0) exit
 	exit
 !!   Drainmod input variables - 01/2006
       end do
@@ -558,7 +557,10 @@
 !!    copy global values to local HRUs
       esco = escobsn
       epco = epcobsn
-
+      
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!ESCO
+!     esco = 0.05
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!ESCO
 !!    set default values for undefined parameters
 !     if (ievent == 1) nstep = 24
       if (drain_co_bsn < 1.e-6) drain_co_bsn = 10. 
@@ -620,8 +622,7 @@
 
 	! check parameter values for urban project jaehak 9/15/09 
 	 if(iuh/=1.and.iuh/=2) then
-	   write(*,*) 'Check iuh in bsn file: 1:triangular or 2=gamma func'
-	!  stop
+	      iuh = 1
 	 endif
 	 if(bf_flg>1.or.bf_flg<0) then
 	   write(*,*) 'The range of BFLO_DIST in bsn file should be 0-1'

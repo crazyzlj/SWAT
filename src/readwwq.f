@@ -134,7 +134,7 @@
       if (ai5 <= 0.) ai5 = 3.5
       if (ai6 <= 0.) ai6 = 1.07
       if (mumax <= 0.) mumax = 2.0
-      if (rhoq <= 0.) rhoq = 0.3
+      if (rhoq <= 0.) rhoq = 2.5      !! previous 0.3
       if (tfact <= 0.) tfact = 0.3
       if (k_l <= 0.) k_l = 0.75
       if (k_n <= 0.) k_n = 0.02
@@ -143,7 +143,7 @@
       if (lambda1 <= 0.) lambda1 = 0.03
       if (lambda2 <= 0.) lambda2 = 0.054
       if (p_n <= 0.) p_n = 0.5
-      if (chla_subco <= 0.) chla_subco = 1.0 
+      if (chla_subco <= 0.) chla_subco = 40.0 
 
 
 !!    currently, only one of the four light averaging options is coded

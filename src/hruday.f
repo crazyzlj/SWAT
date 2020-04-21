@@ -188,7 +188,7 @@
 
       j = 0
       j = ihru
-      
+      sb = hru_sub(j)
       iflag = 0
       do ii = 1, itoth
         if (ipdhru(ii) == j) iflag = 1
@@ -261,7 +261,7 @@
       pdvas(61) = (1.-strstmp(j))
       pdvas(62) = (1.-strsn(j))
       pdvas(63) = (1.-strsp(j))
-      pdvas(64) = bio_ms(j)
+      pdvas(64) = bio_ms(j) / 1000.
       pdvas(65) = laiday(j)
       pdvas(66) = yield
       yield = 0.
@@ -284,6 +284,8 @@
 !    latno3 - output.hru
       pdvas(76) = latno3(j)   
 
+      ii = icl(iida)
+      
       if (ipdvas(1) > 0) then
         do ii = 1, itots
           pdvs(ii) = pdvas(ipdvas(ii))
@@ -297,9 +299,15 @@
       endif
      
       if (iscen == 1 .and. isproj == 0) then
-           write (28,1001) cropname, j, subnum(j), hruno(j), sb,        &
-     &               nmgt(j), iida, hru_km(j), (pdvs(ii), ii = 1, itots)
-
+        if (icalen == 0) write (28,1001) cropname, j, subnum(j),        &
+     &      hruno(j), sb, nmgt(j), iida, hru_km(j),                     &
+     &       (pdvs(ii), ii = 1, itots)
+        if (icalen == 1) write (28,1002) cropname, j, subnum(j),        &
+     &      hruno(j), sb, nmgt(j), i_mo, iicl, iyr, hru_km(j),          &
+     &       (pdvs(ii), ii = 1, itots)
+1002  format (a4,i5,1x,a5,a7,i5,1x,i4,1x,i2,1x,i2,1x,i4,1x,e10.5,       &
+     & 66f10.3,1x,e10.5,1x,e10.5,8e10.3)
+      
 !!    added for binary files 3/25/09 gsm line below and write (33333
 	      if (ia_b == 1) then
 	        write (33333) j, hrugis(j), sb,                           
@@ -309,13 +317,21 @@
         write (21,1000) cropname, j, subnum(j), hruno(j), sb,           &
      &               nmgt(j), iida, hru_km(j), (pdvs(ii), ii = 1, itots)
         else if (iscen == 1 .and. isproj == 2) then
-        write (28,1000) cropname, j, subnum(j), hruno(j), sb,           &
-     &  nmgt(j), iida, hru_km(j), (pdvs(ii), ii = 1, itots), iyr
+        if(icalen == 0)write (28,1000) cropname, j, subnum(j), hruno(j),&
+     &      sb, nmgt(j), iida, hru_km(j), (pdvs(ii), ii = 1, itots), iyr
+        if(icalen == 1)write (28,1003) cropname, j, subnum(j), hruno(j),&
+     &      sb, nmgt(j), i_mo, iicl, iyr, hru_km(j),                    &
+     &      (pdvs(ii), ii = 1, itots), iyr
+1003  format(a4,i5,1x,a5,a7,i5,1x,i4,1x,i2,1x,i2,1x,i4,1x,e10.5,66f10.3,&
+     &1x,e10.5,1x,e10.5,8e10.3,1x,i4)
         end if
       else
         if (iscen == 1 .and. isproj == 0) then
-        write (28,1000) cropname, j, subnum(j), hruno(j), sb,           &
-     &              nmgt(j), iida, hru_km(j), (pdvas(ii), ii = 1, mhruo)
+        if(icalen == 0)write (28,1000) cropname, j, subnum(j), hruno(j),&
+     &        sb,nmgt(j), iida, hru_km(j), (pdvas(ii), ii = 1, mhruo)
+        if(icalen == 1)write (28,1003) cropname, j, subnum(j), hruno(j),&
+     &        sb,nmgt(j), i_mo, iicl, iyr, hru_km(j),                   &
+     &        (pdvas(ii), ii = 1, mhruo)
 !!    added for binary files 3/25/09 gsm line below and write (33333
 	    if (ia_b == 1) then
              write (33333)  j, hrugis(j), sb,                           &
@@ -326,8 +342,11 @@
         write (21,1000) cropname, j, subnum(j), hruno(j), sb,           &
      &              nmgt(j), iida, hru_km(j), (pdvas(ii), ii = 1, mhruo)
         else if (iscen == 1 .and. isproj == 2) then
-        write (28,1000) cropname, j, subnum(j), hruno(j), sb,           &
-     &  nmgt(j), iida, hru_km(j), (pdvas(ii), ii = 1, mhruo), iyr
+        if(icalen == 0)write (28,1000) cropname, j, subnum(j), hruno(j),& 
+     &      sb,nmgt(j), iida, hru_km(j), (pdvas(ii), ii = 1, mhruo), iyr
+         if(icalen == 1)write(28,1000) cropname, j, subnum(j), hruno(j),& 
+     &      sb,nmgt(j), i_mo, iicl, iyr, hru_km(j),                     &
+     &      (pdvas(ii), ii = 1, mhruo), iyr
         end if
       end if
 

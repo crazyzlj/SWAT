@@ -88,7 +88,11 @@
           end do
         end do
       endif
-
+      
+      do ii = 29, mvaro
+        varoute(ii,inum1) = 0.
+        varoute(ii,inum2) = 0.
+      end do
 
       return
       end

@@ -62,10 +62,10 @@
 
       use parm
       implicit none
-      integer :: k, eof
-      real :: hwq,wqv,sub_ha
+      integer :: k, eof,kk
+      real :: hwq,wqv,sub_ha,bmpfr
 
-      eof = 0
+      eof = 0; bmpfr=0.
       sub_ha = sub_km(i) * 100. 
 
       !! Detention pond
@@ -131,7 +131,35 @@
          if (wtp_pmann(i)<=0)    wtp_pmann(i) = 0.012 ! concrete surface
          if (wtp_ploss(i)<=0)    wtp_ploss(i) = 0
       end if
-
+      
+      !fraction runoff that directly enters the channel
+      if(num_sf(i)>=1) then
+         do kk=1,num_sf(i)
+             bmpfr = bmpfr + sf_fr(i,kk)
+         end do
+      endif
+      if(num_ri(i)>=1) then
+         do kk=1,num_ri(i)
+             bmpfr = bmpfr + ri_fr(i,kk)
+         end do
+      endif
+      if (bmpfr>1) then 
+         write (*,*) " "
+         write (*,*) "Urban BMP Warning!!"
+         write (*,*) "In subbasin ", i
+         write (*,*) "The fraction runoff draining to urban BMPs"
+         write (*,*) " are larger than one, so the fraction values"
+         write (*,*) " were automatically corrected"
+         write (*,*) " "
+         do kk=1,num_sf(i)
+             sf_fr(i,kk) = sf_fr(i,kk) / bmpfr
+         end do
+          do kk=1,num_sf(i)
+             ri_fr(i,kk) = ri_fr(i,kk) / bmpfr
+         end do
+         bmpfr = 1.
+      endif
+         
       !!Retention-Irrigation
       !!---------------------
       do k=1,num_ri(i)
@@ -139,9 +167,10 @@
          if (ri_fr(i,k)==0) cycle
 
          ! determine water quality volume for defult pond sizes
-         !City of Austin Design Guideline 1.6.2
+         !City of Austin Design Guideline 1.6.9.2 Table 1-12
+         !Retention-Irrigation for Barton Springs Zone
 
-         hwq = (0.5 + sub_ha_urb(i) / sub_ha - 0.2) !inches
+         hwq = (1.8 * sub_ha_imp(i) / sub_ha + 0.6) !inches
          wqv = hwq / 12. * sub_ha_urb(i) * ri_fr(i,k) * 107639.104167 !ft3
                   
          if (ri_dim(i,k)==0) then
@@ -178,20 +207,34 @@
          if (ri_iy(i,k)==0) ri_iy(i,k) = iyr
          if (ri_im(i,k)==0) ri_im(i,k) = 1   
 
+         write(77779,'(a11,i5)') 'Subbasin #:', i   ! bmp_sedfil.out
+         write(77779,'(a46)') '' 
+         write(77779,'(a10,i5)') 'RI #:', K   ! bmp_sedfil.out
+      write(77779,'(a17,f10.1,a4)') 'Total volume =',  ri_vol(i,k),'m^3'
+      write(77779,'(a17,f10.1,a4)') 'Surface area =', ri_sa(i,k),'m^2'
+      write(77779,'(a17,f10.1,a3)') 'Drawdown time =', ri_dd (i,k),'hr'
+      write(77779,'(a17)') ''
+
       end do
   
       !!Sedimentation-Filtration
       !!---------------------
+      
       do k=1,num_sf(i)
+         write(77778,'(a11,i5)') 'Subbasin #:', i   ! bmp_sedfil.out
+         write(77778,'(a46)') '' 
+         write(77778,'(a10,i5)') 'SED-FIL #:', K   ! bmp_sedfil.out
          !determine water quality volume for defult pond sizes
          !City of Austin Design Guideline 1.6.2
-         hwq = (0.5 + sub_ha_urb(i) / sub_ha - 0.2) !inches
+         hwq = (0.5 + sub_ha_imp(i) / sub_ha - 0.2) !inches
          wqv = hwq / 12. * sub_ha_urb(i) * sf_fr(i,k) * 107639.104167 !ft3
                   
          if (sf_dim(i,k)==0) then
-           !Determine pond size automatically based on City of Austin's Design Guideline 1.6
-            if (sf_typ(i,k)==1) then
-               ! full scale 
+            write(77778,'(a46)') 'This SED-FIL size is automatically 
+     &         estimated' 
+            !Determine pond size automatically based on City of Austin's Design Guideline 1.6
+            if (sf_typ(i,k)==1.or.sf_typ(i,k)==3) then
+               ! full scale or sedimentation basin only
                sp_pvol(i,k) = wqv * 0.028317 !m3
                sp_sa(i,k) = sp_pvol(i,k) / 1.5 !assume 1.5m depth for sed pond
                sp_pd(i,k) = sqrt(4. * 2. * sp_sa(i,k) * 1.5**0.5        
@@ -240,6 +283,22 @@
      &          / (0.6 * 172800. * 19.6**0.5) / 3.14159) * 1000. !mm
          end if
          
+         !Orifice pipe for sand filter should be equal or larger than 
+         !sedimentation pond outlet pipe for full-type SedFils
+         if (sf_typ(i,k)==1) then
+            if (ft_pd(i,k)<sp_pd(i,k)) then
+         write (*,*) " "
+         write (*,*) "Urban BMP Warning!!"
+         write (*,*) "In subbasin ", i
+         write (*,*) "The outlet pipe diameter for sandfilter is"
+         write (*,*) " larger than that for sedimentation basin."
+         write (*,*) "The filter pipe diameter was automatically"
+         write (*,*) "corrected to the pipe size of the "
+         write (*,*) "sedimentation basin."
+         ft_pd(i,k) = sp_pd(i,k)
+            endif
+         endif
+         
          if (ft_dep(i,k)<100) ft_dep(i,k) = 100.
          if (sf_ptp(i,k)>1) sf_ptp(i,k) = 1
          if (sf_typ(i,k)==1) sf_ptp(i,k) = 0 !no filter outflow control for partial systems
@@ -255,9 +314,36 @@
          if (sf_im(i,k)<0.or.sf_im(i,k)>12) sf_im(i,k) = 0
          if (sf_iy(i,k)<1000.and.sf_iy(i,k)>0) sf_iy(i,k) = 0
          if (sf_iy(i,k)==0) sf_iy(i,k) = iyr
-         if (sf_im(i,k)==0) sf_im(i,k) = 1   
-      end do 
-      
+         if (sf_im(i,k)==0) sf_im(i,k) = 1  
+         if (ft_fsa(i,k)==0) ft_fsa(i,k) = 0.85 
+         if (sf_typ(i,k)==1) ft_fsa(i,k) = 1 
+         
+ 
+         if (sf_typ(i,k)==1) then
+           write(77778,'(a37)') 'Full type sed-fil selected'
+         elseif (sf_typ(i,k)==2) then
+           write(77778,'(a40)') 'Partial type sed-fil selected'
+         else
+           write(77778,'(a43)') 'Sedimentation pond only selected'
+         endif
+         if (sf_typ(i,k)==1.or.sf_typ(i,k)==3) then     
+      write(77778,'(a18)') 'Sedimentation pond'
+      write(77778,'(a17,f10.1,a4)') 'Total volume =', sp_pvol(i,k),'m^3'
+      write(77778,'(a17,f10.1,a4)') 'Surface area =', sp_sa(i,k),'m^2'
+      write(77778,'(a17,f10.1,a3)') 'Drain Pipe Dia =', sp_pd(i,k),'mm'
+      write(77778,'(a17)') ''
+         endif
+         if (sf_typ(i,k)==1.or.sf_typ(i,k)==2) then     
+      write(77778,'(a11)') 'Sand Filter'
+      write(77778,'(a17,f10.1,a4)') 'Surface area =', ft_sa(i,k),'m^2'
+      write(77778,'(a17,f10.1,a3)') 'Max ponding =', ft_h(i,k),'mm'
+      write(77778,'(a17,f10.1,a3)') 'Filter depth =', ft_dep(i,k),'mm'
+      write(77778,'(a17,f10.1,a3)') 'Drain Pipe Dia =', ft_pd(i,k),'mm'
+      write(77778,'(a17)') ''
+        end if
+        end do 
+  
+     
       return
       end
    !-------------------------------------------------------------------

@@ -29,9 +29,10 @@
 !!
 
       use parm
-
+        inum2 = 1
         do kk = 1, hrutot(inum2)
 	    xx = hru_rufr(inum1,kk)* daru_km(inum1) * 100.     !!km2*100 = ha
+	    if (xx > 1.e-9) then
 	    jj= hru1(inum2) + kk - 1
           varoute(1,ihout) = 5.0 + 0.75 * tmpav(jj)
           varoute(2,ihout) = varoute(2,ihout) + qdr(jj) * xx * 10.     !! mm*ha*10 = m3
@@ -63,6 +64,7 @@
           varoute(30,ihout) = varoute(30,ihout) + latq(jj) * xx * 10.
           varoute(31,ihout) = varoute(31,ihout) + tileq(jj) * xx * 10.
           varoute(32,ihout) = varoute(32,ihout) + gw_q(jj) * xx * 10.
+          end if
         end do
       
 	return

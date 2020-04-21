@@ -146,7 +146,8 @@
       iflag = 0
       if (pnd_fr(j) >= 0.01) iflag = 1
       if (wet_fr(j) >= 0.01) iflag = 1
-      if (ipot(j) == j) iflag = 1
+  !!    if (ipot(j) == j) iflag = 1
+      if (pot_fr(j) > 0.) iflag = 1
 
       if (iflag == 1) then
       cnv = 0.

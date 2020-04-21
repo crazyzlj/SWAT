@@ -101,7 +101,7 @@
 
       do curyr = 1, nbyr
         write (*,1234) curyr
-
+        
         !! initialize annual variables
         call sim_inityr
        
@@ -137,8 +137,25 @@
         iida = id1
 
         call xmon
-
-
+       if (ifirstatmo == 1) then
+         ifirstatmo = 0
+         if (iatmodep == 1) then 
+           iyr_at = iyr_atmo1
+           mo_at = mo_atmo1
+            do
+              mo_atmo = mo_atmo + 1
+              if (iyr_at == iyr .and. mo_at == i_mo) exit
+              mo_at = mo_at + 1
+              if (mo_at > 12) then
+                mo_at = 1
+                iyr_at = iyr_at + 1
+              endif
+              if (mo_atmo > 1000) exit
+            end do  
+         endif
+       endif
+       
+       
         do i = id1, idlst                            !! begin daily loop
 
           !!if last day of month 

@@ -6,8 +6,8 @@
 !!    ~ ~ ~ INCOMING VARIABLES ~ ~ ~
 !!    name           |units         |definition
 !!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
-!!    lai_init(:,:,:) |none          |initial leaf area index of transplants
-!!    bio_init(:,:,:)|kg/ha         |initial biomass of transplants
+!!    lai_init       |none          |initial leaf area index of transplants
+!!    bio_init       |kg/ha         |initial biomass of transplants
 !!    cnop           |none          |SCS runoff curve number for moisture 
 !!                                  |condition II
 !!    icr(:)         |none          |sequence number of crop grown within the

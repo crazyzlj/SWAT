@@ -64,6 +64,7 @@
           read (100+j,5000) titldum
           if (ievent < 2) then   !daily records
             read (100+j,5001) (elevp(k), k = kk1, kk2)
+ 5001 format (7x,1800i5)         !!-----------------------------------------1800 precip gages test
           else                   !subdaily records
             read (100+j,5003) (elevp(k), k = kk1, kk2)
           endif
@@ -111,7 +112,7 @@
 
       return
  5000 format (a80)
- 5001 format (7x,300i5)
+! 5001 format (7x,300i5) !!-----------------------------------commented for test raingage 1800
  5002 format (7x,287i10)
  5003 format (12x,300i5)
       end

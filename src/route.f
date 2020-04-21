@@ -85,7 +85,8 @@
       call rchinit
 
 !! route overland flow
-      call rtover
+      iru_sub = inum4   !!routing unit number
+      call routels(iru_sub)
 
       vel_chan(jrch) = 0.
       dep_chan(jrch) = 0.
@@ -206,6 +207,9 @@
         if (iwq == 0) call hhnoqual
       end if
 
+!! perform in-stream pesticide calculations
+!!      call biofilm
+      
 !! perform in-stream pesticide calculations
       if (ievent < 3) then
         call rtpest

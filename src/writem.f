@@ -206,6 +206,7 @@
 !! if last day of month or last day in last year
  
       if (i_mo /= mo_chk .or. (curyr == nbyr .and. i == idal)) then
+        mo_atmo = mo_atmo + 1
  
         !! calculate current month (cumulative) of simulation
 !       immo = immo + 1

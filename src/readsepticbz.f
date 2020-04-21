@@ -57,7 +57,7 @@
         if (isep_typ(ihru) <= 0) return
 	  read (172,*,iostat=eof) isep_iyr(ihru)
 	  if (eof < 0) exit
-	  read (172,*,iostat=eof) isep_opt(ihru)
+	  read (172,*,iostat=eof) isep_opt(ihru)       
 	  if (eof < 0) exit
 	  read (172,*,iostat=eof) sep_cap(ihru)
 	  if (eof < 0) exit

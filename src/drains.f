@@ -80,19 +80,12 @@
 	real:: cone, depth, dg, ad, ap 
 	real:: hdrain, gee, e, gee1, gee2, gee3, pi	
       real:: k2, k3, k4, k5, k6 
-!!!!!! drains
-      real, dimension (:), allocatable :: w
-!!!!!!!!!! drains
-      allocate (w(mlyr))
-
 
       !! initialize variables
- 
-
-    
+   
       j = 0
       j = ihru
-	w = 0
+	wnan = 0
       y1 = dep_imp(j) - wt_shall 
 	if (y1 > dep_imp(j)) y1 = dep_imp(j)
 	above = 0.
@@ -105,13 +98,13 @@
 	end do
 
 !! find effective lateral hydraulic conductivity for the profile in hru j
-	do j1=1,nlayer
+	do j1 = 1, nlayer
         if(y1 > sol_z(j1,j)) then  
-          w(j1) = 0.
+          wnan(j1) = 0.
         else
-	    w(j1) = sol_z(j1,j) - y1  
+	    wnan(j1) = sol_z(j1,j) - y1  
 	    x = sol_z(j1,j) -  above  
-          if(w(j1) > x) w(j1) = x
+          if(wnan(j1) > x) wnan(j1) = x
 	  end if
 	  above = sol_z(j1,j)
       end do
@@ -119,8 +112,8 @@
 	deep = 0.
 	do j1=1,nlayer
 	  conk(j1,j) = sol_k(j1,j) * latksatf(j) !Daniel 2/26/09
-	  sum = sum + w(j1) * conk(j1,j)
-	  deep = deep + w(j1)
+	  sum = sum + wnan(j1) * conk(j1,j)
+	  deep = deep + wnan(j1)
       end do
 	if((deep <= 0.001).or.(sum <= 0.001)) then
         sum = 0.

@@ -146,6 +146,18 @@
       read (104,*,iostat=eof) sedpst_bry(irch) 
       if (eof < 0) exit
       read (104,*,iostat=eof) sedpst_act(irch)
+      if (eof < 0) exit
+!      read (104,*,iostat=eof) biofilm_mumax(irch)
+!      if (eof < 0) exit
+!      read (104,*,iostat=eof) biofilm_kinv(irch)
+!      if (eof < 0) exit
+!      read (104,*,iostat=eof) biofilm_klw(irch)
+!      if (eof < 0) exit
+!      read (104,*,iostat=eof) biofilm_kla(irch)
+!      if (eof < 0) exit
+!      read (104,*,iostat=eof) biofilm_cdet(irch)
+!      if (eof < 0) exit
+!      read (104,*,iostat=eof) biofilm_bm(irch)
       exit
       end do
 
@@ -158,7 +170,7 @@
       if (rs6(irch) <= 0.) rs6(irch) = 2.5
       if (rs7(irch) <= 0.) rs7(irch) = 2.5
       if (rk1(irch) <= 0.) rk1(irch) = 1.71
-      if (rk2(irch) <= 0.) rk2(irch) = 50.0
+      if (rk2(irch) <= 0.) rk2(irch) = 1.0    ! previous 50.0
       if (rk4(irch) <= 0.) rk4(irch) = 2.0
       if (rk5(irch) <= 0.) rk5(irch) = 2.0
       if (rk6(irch) <= 0.) rk6(irch) = 1.71

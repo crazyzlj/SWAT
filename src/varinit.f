@@ -220,8 +220,8 @@
         cfertn = 0.
         cfertp = 0.
         crk = 0.
-         deepstp = 0.
-         deepstp = deepst(j)
+        deepstp = 0.
+        deepstp = deepst(j)
         enratio = 0.
         ep_day = 0.
         ep_max = 0.
@@ -298,18 +298,18 @@
         roctl = 0.
         rwntl = 0.
         sepday = 0.
-         shallstp = 0.
-         shallstp = shallst(j)
+        shallstp = 0.
+        shallstp = shallst(j)
         snoev = 0.
         snofall = 0.
         snomlt = 0.
-         snoprev = 0.
-         snoprev = sno_hru(j)
+        snoprev = 0.
+        snoprev = sno_hru(j)
         sol_rd = 0.
         soxy = 0.
         sw_excess = 0.
-         swprev = 0.
-         swprev = sol_sw(j)
+        swprev = 0.
+        swprev = sol_sw(j)
         tloss = 0.
         twlpnd = 0.
         twlwet = 0.
@@ -332,6 +332,8 @@
 	  sedprev = 0.
 	  ubnrunoff = 0.
 	  irmmdt = 0.
+        hhsedy = 0.
+        ubntss = 0.
 
        return
        end

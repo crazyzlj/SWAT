@@ -162,6 +162,7 @@
 	  
 	!! lagged at the end of time step  
 	    sedprev = hhsurf_bs(2,j,k)
+      surf_bs(2,j) = Max(1.e-9, surf_bs(2,j) + sedyld(j))
 
 	   end do
 
@@ -187,12 +188,19 @@
       surf_bs(12,j) = Max(0., surf_bs(12,j) + bactsedp)
       if (hrupest(j) == 1) then
         do k = 1, npmx
-          pst_lag(k,1,j) = pst_lag(k,1,j) + pst_surq(k,j)
+          !MFW, 3/15/12: Modified to account for decay during lag
+          !pst_lag(k,1,j) = pst_lag(k,1,j) + pst_surq(k,j)
+          pst_lag(k,1,j) = (pst_lag(k,1,j) * EXP(-1. *                  &
+     &                      chpst_rea(inum1))) + pst_surq(k,j)
           if (pst_lag(k,1,j) < 1.e-10) pst_lag(k,1,j) = 0.0
-          pst_lag(k,2,j) = pst_lag(k,2,j) + pst_sed(k,j)
+          !pst_lag(k,2,j) = pst_lag(k,2,j) + pst_sed(k,j)
+          pst_lag(k,2,j) = (pst_lag(k,2,j) * EXP(-1. *                  &
+     &                      sedpst_rea(inum1))) + pst_sed(k,j)
           if (pst_lag(k,2,j) < 1.e-10) pst_lag(k,2,j) = 0.0
         end do
       end if
+
+      sedyld(j) = surf_bs(2,j) * brt(j)
 
       sanyld(j) = surf_bs(13,j) * brt(j)
       silyld(j) = surf_bs(14,j) * brt(j)
@@ -217,6 +225,8 @@
         end do
       end if
      
+      surf_bs(2,j) = surf_bs(2,j) - sedyld(j)
+
       surf_bs(13,j) = surf_bs(13,j) - sanyld(j)
       surf_bs(14,j) = surf_bs(14,j) - silyld(j)
       surf_bs(15,j) = surf_bs(15,j) - clayld(j)

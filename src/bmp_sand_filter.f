@@ -38,17 +38,17 @@
      & wetfsh,whd,sub_ha,dt,qcms,effct,effl,effg,effbr,vpipe,phead,hpnd,
      & tmpw,qloss,fsat,qpipe,mu,pipeflow,splw,hweir,tst,kb,qintns,qq, 
      & qfiltr,sloss,spndconc,sedpnd,qpndi,qpnde,sedrmeff,sed_removed,
-     & sedconc
+     & sedconc,qevap
       real*8, dimension(:) :: qpnd(0:nstep),qsw(0:nstep),qin(0:nstep),
      & qout(0:nstep),fc(0:nstep),f(0:nstep)
-      real, dimension(2,nstep), intent(inout) :: flw, sed
+      real, dimension(3,0:nstep), intent(inout) :: flw, sed
       
       sb = inum1
       sub_ha = da_ha * sub_fr(sb)
       dt = real(idt) / 60. !time interval in hours 
-      qin = 0.; qout = 0.
-      flw(2,:) = 0.; sed(2,:) = 0.
-      qpnd = 0.; qsw = 0.
+      qin = 0.; qout = 0.;qevap=0
+      flw(2,:) = 0.; sed(2,:) = 0.;f=0
+      qpnd = 0.; qsw = 0.; qpndi = 0.; qpnde = 0.; fc = 0.;qfiltr = 0.
       kb = 1.38e-16 !Boltzmann constant, g-cm^2/s^2-K
 
       !! Initialize parameters, coefficients, etc
@@ -93,7 +93,21 @@
            else
              qout(ii) = ksat * dt * qsw(ii-1) / vfiltr / 1000.* tsa 
      &          * ffsa !m^3
-             qsw(ii)= max(0.,qsw(ii-1) - qout(ii)) ! m^3
+            
+             ! outflow control
+             if (sf_ptp(sb,kk)==1) then
+                phead = (qsw(ii-1)/(tsa*ffsa)/por) * 1000.  !mm
+!                If (phead>pdia/2.) then
+                   qpipe = pipeflow(pdia,phead) * dt *3600. !m^3 
+!                else
+!                   qpipe = qout(ii) * 2. !pipe flow does not affect outflow
+!                endif
+
+                !recalculate water balance if orifice pipe limits outflow
+                if(qout(ii) > qpipe) qout(ii) = qpipe
+             end if
+  
+             qsw(ii) = max(0.,qsw(ii - 1) - qout(ii)) ! m^3
              flw(2,ii) = qout(ii)  / (sub_ha *10000. - tsa) * 1000.  !mm
            endif
         
@@ -112,41 +126,47 @@
            ! estimate unsaturated filter flow 
            if(qsw(ii-1)<0.99*vfiltr) then
             
-             whd = (wetfsh + hpnd) 
-             tst = ksat
-             Do  !green and ampt infiltration
-               fc(ii) = fc(ii - 1) + ksat * dt + whd * Log((tst + whd) /
-     &                 (fc(ii - 1) + whd))
-               If (Abs(fc(ii) - tst) < 0.0001) Then
-                 Exit 
-               Else
-                 tst = fc(ii)
-               End If
-             End do
+             if (qpnd(ii)>0) then
+               whd = (wetfsh + hpnd) 
+               tst = ksat
+               Do  !green and ampt infiltration
+                 fc(ii) = fc(ii - 1) + ksat * dt + whd * Log((tst + whd)
+     &                  / (fc(ii - 1) + whd))
+                 If (Abs(fc(ii) - tst) < 0.001) Then
+                   Exit 
+                 Else
+                   tst = fc(ii)
+                 End If
+               End do
           
-             !infiltration rate
-             f(ii) = ksat * (1 + whd / fc(ii)) !mm/hr
+               !infiltration rate
+               f(ii) = ksat * (1 + whd / fc(ii)) !mm/hr
             
-             !water infiltrated, m^3
-             qfiltr = f(ii) * dt / 1000. * tsa * ffsa 
+               !water infiltrated, m^3
+               qfiltr = f(ii) * dt / 1000. * tsa * ffsa 
             
-             !infiltration limited by the total available water
-             If (qfiltr > qpnd(ii)) then
-               qfiltr = qpnd(ii)
-               qpnd(ii) = 0.
-             else
-               qpnd(ii) = qpnd(ii) - qfiltr
-             endif
-             hpnd = qpnd(ii) / tsa * 1000. !mm
+               !infiltration limited by the total available water
+               If (qfiltr > qpnd(ii)) then
+                 qfiltr = qpnd(ii)
+                 qpnd(ii) = 0.
+               else
+                 qpnd(ii) = qpnd(ii) - qfiltr
+               endif
+               hpnd = qpnd(ii) / tsa * 1000. !mm
              
-             !update soil water
-             qsw(ii) = qsw(ii-1) + qfiltr
+               !update soil water
+               qsw(ii) = qsw(ii-1) + qfiltr
             
+             else
+               f(ii) = 0.
+               qfiltr = 0.
+             end if
+             
              !soil water no more than saturation
              if (qsw(ii) > vfiltr) then
-               qout(ii) = ksat * dt / 1000. * tsa * ffsa  !m3
-               qsw(ii) = vfiltr
-               qpnd(ii) = qpndi - qsw(ii) - qout(ii) 
+                 qout(ii) = ksat * dt / 1000. * tsa * ffsa  !m3
+                 qsw(ii) = vfiltr
+                 qpnd(ii) = qpndi - qsw(ii) - qout(ii) 
              else
                if (qpnd(ii)>=qpnd(ii-1).and.qout(ii-1)<0.001) then
                  !rising hydrograph, no outflow
@@ -163,36 +183,54 @@
            else
             
              !darcy flow when saturated
-             qout(ii) = ksat * (hpnd + ft_dep(sb,kk)) / 
+             qfiltr = ksat * (hpnd + ft_dep(sb,kk)) / 
      &                  ft_dep(sb,kk) * dt / 1000. * tsa * ffsa 
-             qpnd(ii) = qpnd(ii) - qout(ii)
+             qout(ii) = qfiltr
+             qpnd(ii) = qpnd(ii) - qfiltr
              
              if(qpnd(ii)<0) then
-               qsw(ii) = vfiltr + qpnd(ii)
                qpnd(ii) = 0.
+               qsw(ii) = qsw(ii-1)+qin(ii)+qpnd(ii-1)-qfiltr
+               qfiltr = qin(ii) + qpnd(ii-1)
              else
                qsw(ii) = vfiltr
+               qfiltr = qout(ii)
              endif
            end if
-               
+           
+           !Evapotranspiration loss
+            qevap = tsa * sub_etday(sb) / 1000. / 1440. * idt !m^3
+            if(qevap<1e-6) qevap = 0.
+            qpnd(ii) = qpnd(ii) - qevap
+            If (qpnd(ii)<0) then
+              qpnd(ii) = 0.
+              qevap = 0.
+            endif
+    
                        
            !check if orifice pipe limits outflow in case outflow control exists
             if (sf_ptp(sb,kk)==1) then
-               phead = (qsw(ii)/(tsa*ffsa)/por + qpnd(ii)/tsa) * 
-     &           1000. - pdia / 2. !mm
-               If (phead>pdia/2.) then
-                  qpipe = pipeflow(pdia,phead) * dt *3600. !m^3 
-               else
-                  qpipe = qout(ii) * 2. !pipe flow does not affect outflow
-               endif
+               phead = (qsw(ii)/(tsa*ffsa)/por + qpnd(ii)/tsa) * 1000. !mm
+               qpipe = pipeflow(pdia,phead) * dt *3600. !m^3 
 
                !recalculate water balance if orifice pipe limits outflow
                if(qout(ii) > qpipe) then
-                  qout(ii) = qpipe
-                  qsw(ii)= max(0.,qsw(ii - 1) + qfiltr - qout(ii)) ! m^3
-                  If (qsw(ii) > vfiltr) qsw(ii) = vfiltr   
-                  qfiltr = max(0.,qsw(ii) - qsw(ii-1) + qout(ii))
-                  qpnd(ii) = max(0.,qpnd(ii - 1) + qin(ii) - qfiltr) !m^3
+                  qout(ii) = qpipe ! m^3
+                  if (qout(ii)<qin(ii)+qpnd(ii-1)+qsw(ii-1)) then
+                    if (qout(ii)<qin(ii)+qpnd(ii-1)) then
+                      qfiltr = qout(ii)
+                    else
+                      qfiltr = qin(ii) + qpnd(ii-1)
+                    endif
+                    qsw(ii) = qsw(ii-1) + qfiltr - qout(ii)
+                    qpnd(ii) = qin(ii) + qpnd(ii-1) - qfiltr
+                  else
+                    qout(ii) = qin(ii) + qpnd(ii-1) + qsw(ii-1)
+                    qfiltr = qin(ii) + qpnd(ii-1)
+                    qsw(ii) = 0.
+                    qpnd(ii) = 0.
+                  endif
+                   
                   qloss = max(0.,qpnd(ii) - mxvol)
                   qpnd(ii) = max(0.,qpnd(ii) - qloss)
                endif
@@ -200,8 +238,10 @@
             qpnde = qpnd(ii) + qsw(ii)
             
             !effluent from the filter unit (through-flow+overflow), normalized to subbasin area
-            flw(2,ii) = (qout(ii) + qloss) / (sub_ha *10000. - tsa) *
-     &        1000.  !mm
+            flw(1,ii) = qin(ii) / (sub_ha *10000. - tsa) * 1000.  !mm
+            flw(2,ii) = qout(ii) / (sub_ha*10000.- tsa) *1000.  !mm
+            flw(3,ii) = qloss / (sub_ha *10000. - tsa) * 1000.  !mm
+     
          Endif
         
          !--------------------------------------------------------------------------------------
@@ -274,18 +314,19 @@
             ! sediment through filter, tons
             sed(2,ii) = spndconc * qout(ii) * (1. - sedrmeff)
             
-            ! add bypass sediment
-            sed(2,ii) = sed(2,ii) + sloss
             sedpnd = sedpnd - spndconc * qout(ii) !tons
+            sed(3,ii) = sloss
             if (sedpnd<0) sedpnd = 0.
             
             ! write cumulative amount of sediment removed
             ft_sed_cumul(sb,kk) = ft_sed_cumul(sb,kk) + sed_removed !tons
          End if
-      write(*,'(3i5,10f7.3)') iyr,iida,ii,precipdt(ii),qin(ii),qout(ii),
-     & qloss,qpndi,qpnde,qpnd(ii),qsw(ii),f(ii)
-!      write(*,'(3i5,10f7.3)') iyr,iida,ii,precipdt(ii),qin(ii),qout(ii),
-!     & qloss,sed(1,ii)*1000.,sed_removed*1000.,sloss*1000.
+
+       write(*,'(3i6,20f10.3)') iyr,iida,ii,qin(ii),
+     & qout(ii),qsw(ii),qpnd(ii),qloss,qevap
+!       write(*,'(3i5,20f10.3)') iyr,iida,ii,precipdt(ii),qin(ii),
+!     & qout(ii),qloss,qpndi,qpnde,qpnd(ii),qsw(ii),f(ii),sed(1,ii)*1000,
+!     & sed(2,ii)*1000,sloss*1000
       end do
       
       ! store end-of-day values for next day

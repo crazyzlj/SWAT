@@ -70,12 +70,12 @@
 !!                                    |to top 10 mm of soil (the remaining 
 !!                                    |fraction is applied to first soil 
 !!                                    |layer)
-!!    lai_init(:,:,:)  |none           |initial leaf area index of transplants
+!!    lai_init        |none           |initial leaf area index of transplants
 !!    auto_eff(:)     |none           |fertilizer application efficiency
 !!                                    |calculated as the amount of N applied
 !!                                    |divided by the amount of N removed at 
 !!                                    |harvest
-!!    auto_nyr(:)    |kg NO3-N/ha    |maximum NO3-N content allowed to be
+!!    auto_nyr(:)     |kg NO3-N/ha    |maximum NO3-N content allowed to be
 !!                                    |applied in one year
 !!    auto_napp(:)    |kg NO3-N/ha    |maximum NO3-N content allowed in one
 !!                                    |fertilizer application
@@ -85,7 +85,7 @@
 !!                                    |irrigation
 !!    fr_curb(:,:,:)    |none           |availability factor, the fraction of the
 !!                                    |curb length that is sweepable
-!!    bio_init(:,:,:) |kg/ha          |initial biomass of transplants
+!!    bio_init        |kg/ha          |initial biomass of transplants
 !!    bio_min(:)      |kg/ha          |minimum plant biomass for grazing
 !!    bio_ms(:)       |kg/ha          |cover/crop biomass
 !!    bio_targ(:,:,:)  |kg/ha          |biomass target
@@ -320,6 +320,9 @@
       read (109,5000) titldum
       read (109,*) biomix(ihru)
       read (109,*) cn2(ihru)
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!cn2
+!     cn2(ihru) = cn2(ihru) - 4.
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!cn2
       read (109,*) usle_p(ihru)
       read (109,*) bio_min(ihru)
       read (109,*) filterw(ihru)
@@ -337,7 +340,8 @@
       read (109,*) tdrain(ihru)
       read (109,*) gdrain(ihru)
       read (109,5000) titldum
-      read (109,*) nrot(ihru)
+!!      read (109,*) nrot(ihru)
+      read (109,5000) titldum
       read (109,5000) titldum
 
 !!    set pothole trigger
@@ -357,7 +361,7 @@
       if (irrsc(ihru) <= 0) irrsc(ihru) = 5
       if (irrno(ihru) <= 0) irrno(ihru) = ihru
       if (flowfr(ihru) <= 0.) flowfr(ihru) = 1.0
-      if(ddrain(ihru) < 1.e-6) ddrain(ihru) = ddrain_bsn
+      if (ddrain(ihru) < 1.e-6) ddrain(ihru) = ddrain_bsn
       if (ddrain(ihru) > .001) then 
       if (tdrain(ihru) <= .001) tdrain(ihru) = 24.
       if (gdrain(ihru) <= .001) gdrain(ihru) = 96.
@@ -412,7 +416,7 @@
 
 !!    If years of rotation are set to zero, assume continuous fallow. For
 !!    continuous fallow, no management practices allowed.
-      if (nrot(ihru) > 0) then
+!!      if (nrot(ihru) > 0) then
         mgt_opprev = 0
 !!      read scheduled management practices
         do                                      !! operation loop
@@ -442,8 +446,14 @@
               exit
             end if
           end if
-          if (mgt_opprev + mgt_op == 0) return
-          if (mgt_opprev == 17 .and. mgt_op == 0) return
+          if (mgt_opprev + mgt_op == 0) then
+              close (109)
+              return
+          endif
+          if (mgt_opprev == 17 .and. mgt_op == 0) then
+              close (109)
+              return
+          endif
           mgt_opprev = mgt_op
    
  !! 1/12/2012 in operations if mgt2i and mgt10i are 0 default to irrsc and irrno per jga  
@@ -515,7 +525,7 @@
 !!        mgtop(iop,ihru) = 17
 !!        idop(iop,ihru) = idop(iop - 1, ihru)
 !!        phu_op(iop,ihru) = phu_op(iop-1,ihru)    
-      endif  
+!!     endif  
       close (109)
      
       return

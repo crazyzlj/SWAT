@@ -64,12 +64,13 @@
 	
 
       if (ipdvas(1) > 0) then
-        write (28,1020) (heds(ipdvas(j)), j = 1, itots) !!custom printout
-
-	   
+        if (icalen == 0) write (28,1020) (heds(ipdvas(j)), j = 1, itots) !!custom printout
+        if (icalen == 1) write (28,1021) (heds(ipdvas(j)), j = 1, itots) !!custom printout
+1021  format (//'LULC  HRU          GIS  SUB  MGT MO DA   YR',          &
+     &'   AREAkm2', 76(a10))	   
 	else
-        write (28,1020) (heds(j), j = 1, mhruo)         !!default printout
-	    
+        if (icalen == 0) write (28,1020) (heds(j), j = 1, mhruo)         !!default printout
+	  if (icalen == 1) write (28,1021) (heds(j), j = 1, mhruo)         !!default printout
 	  
       endif
 
@@ -100,14 +101,17 @@
 
 !! write headings to subbasin output file (output.sub)
       write (31,1000) prog, values(2), values(3), values(1), values(5), &
-     &                values(6), values(7)
+     &    values(6), values(7)
       write (31,1010) title
 
       
       if (ipdvab(1) > 0) then
-        write (31,1030) (hedb(ipdvab(j)), j = 1, itotb) !!custom printout
+        if (icalen == 0) write (31,1030) (hedb(ipdvab(j)), j = 1, itotb) !!custom printout
+        if (icalen == 1) write (31,1031) (hedb(ipdvab(j)), j = 1, itotb) !! month/day/yr print
       else
-        write (31,1030) (hedb(j), j = 1, msubo)         !!default printout
+        if (icalen == 0) write (31,1030) (hedb(j), j = 1, msubo)         !!default printout
+        if (icalen == 1) write (31,1031) (hedb(j), j = 1, msubo)         !!month/day/yr print
+1031  format (//6x,' SUB      GIS  MO DA  YR   AREAkm2',22(a10))
       endif
 
 
@@ -130,13 +134,17 @@
 
       if (ipdvar(1) > 0) then
         if (iprint /= 3) then
-	    write (7,1040) (hedr(ipdvar(j)), j = 1, itotr)  !! daily/monthly output
+         if (icalen == 0) write (7,1040) (hedr(ipdvar(j)), j = 1, itotr)  !! daily/monthly output - julian day
+         if (icalen == 1) write (7,1042) (hedr(ipdvar(j)), j = 1, itotr)  !! daily output - calendar day
+ 1042 format (//7x,'RCH      GIS  MO DA   YR     AREAkm2',56a12)
+        
 	  else
 	    write (7,1041) (hedr(ipdvar(j)), j = 1, itotr)  !! subdaily output
 	  endif
       else     !! default printout
          if (iprint /= 3) then
-           write (7,1040) (hedr(j), j = 1, mrcho)       !! daily/monthly output   
+           if (icalen == 0) write (7,1040) (hedr(j), j = 1, mrcho)       !! daily/monthly output - julian day
+           if (icalen == 1) write (7,1042) (hedr(j), j = 1, mrcho)       !! daily output - calendar day
  	  else
             write (7,1041) (hedr(j), j = 1, mrcho)          !! subdaily output
  	  endif
@@ -202,6 +210,23 @@
         write (30,3002) (pname(npno(j)),pname(npno(j)), j = 1, npmx)
         write (30,3003) (("SOLUBLE mg       SORBED mg"), j = 1, npmx)
       end if
+!! Jaehak subdaily bmp output header
+!bmp-sedfil.out
+      write(77778,'(a21)') 'SED-FIL Basins output'                      
+      write(77778,'(a170)') '------------------------------   ----------
+     &------------ Sedimentation Pond --------------------------   -----
+     &----------------------- Sand Filter ------------------------------
+     &' 
+      write(77778,'(5a6,30a12)') 'year', 'day','time','sub','SFnum',
+     & 'inflw(m3)','outflw(m3)','bypass(m3)','sedin(kg)','sedout(kg)',
+     & 'sbypass(kg)','inflw(m3)','outflw(m3)','bypass(m3)','sedin(kg)',
+     & 'sedout(kg)','sbypass(kg)'
+
+!bmp-ri.out
+      write(77779,'(a21)') 'Retention-Irrigation output'                
+      write(77779,'(5a6,30a12)') 'year', 'day','time','sub','RInum',
+     & 'inflw(m3)','qbypass(m3)','pmpflw(m3)','sedin(kg)','sbypass(kg)',
+     & 'pmpsed(kg)'
 
       return
  1000 format ('1',/t5,a80,t105,2(i2,'/'),i4,5x,2(i2,':'),i2)

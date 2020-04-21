@@ -137,22 +137,9 @@
 		b = grwat_w(ihru) - 2. * grwat_d(ihru) * 8
 !! Depth and Width not possible with 8:1 sideslope and trapazoidal channel assume b =.25*width
 	    if (b <= 0.) grwat_d(ihru) = 3. / 64. * grwat_w(ihru)
-!! copy a few variables so that ttcoef can find them
-           ch_n(2,msub+1) = grwat_n(ihru)
-           ch_l2(msub+1) = grwat_l(ihru)
-           ch_w(2,msub+1) = grwat_w(ihru)
-           ch_d(msub+1) = grwat_d(ihru)
-           ch_s(2,msub+1) = grwat_s(ihru)
-           call ttcoef(msub+1)
+
+           call ttcoef_wway
 		      
-!! get data from ttcoef and store different array for waterways one place per hru
-		  do zz = 1, 13
-             wat_phi(zz,ihru) = phi(zz,msub+1)
-            end do
-		
-
-
-
         case (8)
            plant_no = cropno_upd(iops,ihru)
            blai(plant_no) = laimx_upd(iops,ihru)

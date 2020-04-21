@@ -4,7 +4,16 @@
 !!    this subroutine zeros all array values
 
       use parm
-
+      
+      hrumono = 0.
+      wtrmon = 0.
+      submono = 0.
+      rchmono = 0.
+      resoutm = 0.
+      yldaa = 0.
+      bio_aams = 0.
+      lai_aamx = 0.
+      
       aairr = 0.
       algae = 0.
       anion_excl = 0.
@@ -274,6 +283,7 @@
       usle_mult = 0.
       values = 0
       varoute = 0.
+      vartran = 0.
       volcr = 0.
       welev = 0.
       wet_chla = 0.
@@ -334,6 +344,8 @@
 	b_days = 0
 	sol_ph = 0
 	sol_cal = 0  
+	bio_init = 0
+	lai_init = 0
 	  
 	  
       return

@@ -314,8 +314,10 @@
               if (kk>30) exit
             end do
             if(bmpdrain(ihru)==1) then
-               sub_ha_urb(i) = sub_ha_urb(i) + hru_ha(ihru)
-            end if
+              sub_ha_imp(i) = sub_ha_imp(i) + hru_ha(ihru)              & 
+     &            * fimp(urblu(ihru))               !!!!   nubz
+              sub_ha_urb(i) = sub_ha_urb(i) + hru_ha(ihru) 
+           end if
           end if
           
           ! HRU selection criteria for Irrigation by retention-irrigation basins

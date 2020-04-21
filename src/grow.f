@@ -235,7 +235,7 @@
           end if
  
           bio_ms(j) = bio_ms(j) + bioday * reg
-          if (idc(idp) == 7) then
+          if (idc(idp) == 7 .and. igrotree(j) == 0) then
             if (mat_yrs(idp) > 0) then
               rto = float(curyr_mat(j)) / float(mat_yrs(idp))
               biomxyr = rto * bmx_trees(idp)

@@ -1,122 +1,29 @@
-      subroutine watqual
+      subroutine biofilm
 
 !!    ~ ~ ~ PURPOSE ~ ~ ~
-!!    this subroutine performs in-stream nutrient transformations and water
-!!    quality calculations
+!!    this subroutine calculates the growth and fate of a biofilm layer
+!!    in stream channels
 
 !!    ~ ~ ~ INCOMING VARIABLES ~ ~ ~
-!!    name         |units         |definition
+!!    name             |units          |definition
 !!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
-!!    ai0          |ug chla/mg alg|ratio of chlorophyll-a to algal biomass
-!!    ai1          |mg N/mg alg   |fraction of algal biomass that is nitrogen
-!!    ai2          |mg P/mg alg   |fraction of algal biomass that is phosphorus
-!!    ai3          |mg O2/mg alg  |the rate of oxygen production per unit of
-!!                                |algal photosynthesis
-!!    ai4          |mg O2/mg alg  |the rate of oxygen uptake per unit of algae
-!!                                |respiration
-!!    ai5          |mg O2/mg N    |the rate of oxygen uptake per unit of NH3
-!!                                |nitrogen oxidation
-!!    ai6          |mg O2/mg N    |the rate of oxygen uptake per unit of NO2
-!!                                |nitrogen oxidation
-!!    algae(:)     |mg alg/L      |algal biomass concentration in reach
-!!    ammonian(:)  |mg N/L        |ammonia concentration in reach
-!!    bc1(:)       |1/day         |rate constant for biological oxidation of NH3
-!!                                |to NO2 in reach at 20 deg C
-!!    bc2(:)       |1/day         |rate constant for biological oxidation of NO2
-!!                                |to NO3 in reach at 20 deg C
-!!    bc3(:)       |1/day         |rate constant for hydrolysis of organic N to
-!!                                |ammonia in reach at 20 deg C
-!!    bc4(:)       |1/day         |rate constant for the decay of organic P to
-!!                                |dissolved P in reach at 20 deg C
-!!    chlora(:)    |mg chl-a/L    |chlorophyll-a concentration in reach
-!!    dayl(:)      |hours         |day length for current day
-!!    disolvp(:)   |mg P/L        |dissolved phosphorus concentration in reach
-!!    hru_ra(:)    |MJ/m^2        |solar radiation for the day in HRU
-!!    igropt       |none          |Qual2E option for calculating the local
-!!                                |specific growth rate of algae
-!!                                |1: multiplicative:
-!!                                |   u = mumax * fll * fnn * fpp
-!!                                |2: limiting nutrient
-!!                                |   u = mumax * fll * Min(fnn, fpp)
-!!                                |3: harmonic mean
-!!                                |   u = mumax * fll * 2. / ((1/fnn)+(1/fpp))
-!!    inum1        |none          |reach number
-!!    inum2        |none          |inflow hydrograph storage location number
-!!    k_l          |MJ/(m2*hr)    |half saturation coefficient for light
-!!    k_n          |mg N/L        |michaelis-menton half-saturation constant
-!!                                |for nitrogen
-!!    k_p          |mg P/L        |michaelis-menton half saturation constant
-!!                                |for phosphorus
-!!    lambda0      |1/m           |non-algal portion of the light extinction
-!!                                |coefficient
-!!    lambda1      |1/(m*ug chla/L)|linear algal self-shading coefficient
-!!    lambda2      |(1/m)(ug chla/L)**(-2/3)
-!!                                |nonlinear algal self-shading coefficient
-!!    mumax        |1/day         |maximum specific algal growth rate at 20 deg 
-!!                                |C
-!!    nitraten(:)  |mg N/L        |nitrate concentration in reach
-!!    nitriten(:)  |mg N/L        |nitrite concentration in reach
-!!    organicn(:)  |mg N/L        |organic nitrogen concentration in reach
-!!    organicp(:)  |mg P/L        |organic phosphorus concentration in reach
-!!    p_n          |none          |algal preference factor for ammonia
-!!    rch_cbod(:)  |mg O2/L       |carbonaceous biochemical oxygen demand in
-!!                                |reach 
-!!    rch_dox(:)   |mg O2/L       |dissolved oxygen concentration in reach
-!!    rchdep       |m             |depth of flow on day
-!!    rchwtr       |m^3 H2O       |water stored in reach at beginning of day
-!!    rhoq         |1/day         |algal respiration rate at 20 deg C
-!!    rk1(:)       |1/day         |CBOD deoxygenation rate coefficient in reach 
-!!                                |at 20 deg C
-!!    rk2(:)       |1/day         |reaeration rate in accordance with Fickian
-!!                                |diffusion in reach at 20 deg C
-!!    rk3(:)       |1/day         |rate of loss of CBOD due to settling in reach
-!!                                |at 20 deg C
-!!    rk4(:)       |mg O2/        |sediment oxygen demand rate in reach
-!!                 |  ((m**2)*day)|at 20 deg C
-!!    rnum1        |none          |fraction of overland flow
-!!    rs1(:)       |m/day         |local algal settling rate in reach at 20 deg
-!!                                |C
-!!    rs2(:)       |(mg disP-P)/  |benthos source rate for dissolved phosphorus
-!!                 |  ((m**2)*day)|in reach at 20 deg C
-!!    rs3(:)       |(mg NH4-N)/   |benthos source rate for ammonia nitrogen in
-!!                 |  ((m**2)*day)|reach at 20 deg C
-!!    rs4(:)       |1/day         |rate coefficient for organic nitrogen
-!!                                |settling in reach at 20 deg C
-!!    rs5(:)       |1/day         |organic phosphorus settling rate in reach at
-!!                                |20 deg C
-!!    rttime       |hr            |reach travel time
-!!    rtwtr        |m^3 H2O       |flow out of reach
-!!    tfact        |none          |fraction of solar radiation computed in the
-!!                                |temperature heat balance that is
-!!                                |photosynthetically active
-!!    tmpav(:)     |deg C         |average air temperature on current day in HRU
-!!    varoute(2,:) |m^3 H2O       |water
-!!    varoute(4,:) |kg N          |organic nitrogen
-!!    varoute(5,:) |kg P          |organic posphorus
-!!    varoute(6,:) |kg N          |nitrate
-!!    varoute(7,:) |kg P          |soluble phosphorus
-!!    varoute(13,:)|kg            |chlorophyll-a
-!!    varoute(14,:)|kg N          |ammonium
-!!    varoute(15,:)|kg N          |nitrite
-!!    varoute(16,:)|kg            |carbonaceous biological oxygen demand
-!!    varoute(17,:)|kg O2         |dissolved oxygen
+!!    biofilm_mumax(:) |               |
+!!    biofilm_kinv(:)  |               |
+!!    biofilm_klw(:)   |               |
+!!    biofilm_kla(:)   |               |
+!!    biofilm_cdet(:)  |               |
+!!    biofilm_bm(:)    |kg/m^2         |mass of boifilm
+!!    dep_chan(:)      |m              |average daily water depth in channel
+!!    vel_chan(:)      |m/s            |average flow velocity in channel
+!!    rtwtr            |m^3 H2O        |water leaving reach on day
+!!    varoute(2,:inum2)|m^3 H2O        |flow into reach
 !!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
 
 !!    ~ ~ ~ OUTGOING VARIABLES ~ ~ ~
-!!    name        |units         |definition
+!!    name             |units         |definition
 !!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
-!!    algae(:)    |mg alg/L      |algal biomass concentration in reach
-!!    ammonian(:) |mg N/L        |ammonia concentration in reach
-!!    chlora(:)   |mg chl-a/L    |chlorophyll-a concentration in reach
-!!    disolvp(:)  |mg P/L        |dissolved phosphorus concentration in reach
-!!    nitraten(:) |mg N/L        |nitrate concentration in reach
-!!    nitriten(:) |mg N/L        |nitrite concentration in reach
-!!    organicn(:) |mg N/L        |organic nitrogen concentration in reach
-!!    organicp(:) |mg P/L        |organic phosphorus concentration in reach
-!!    rch_cbod(:) |mg O2/L       |carbonaceous biochemical oxygen demand in
-!!                               |reach
-!!    rch_dox(:)  |mg O2/L       |dissolved oxygen concentration in reach
-!!    soxy        |mg O2/L       |saturation concetration of dissolved oxygen
+!!    varoute(33,:)    |kg            |biofilm transported out of reach with flow
+
 !!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
 
 !!    ~ ~ ~ LOCAL DEFINITIONS ~ ~ ~
@@ -235,13 +142,12 @@
 
       jrch = 0
       jrch = inum1
-      dcoef= 3.
 
        !! initialize water flowing into reach
        wtrin = 0.
        wtrin = varoute(2,inum2) * (1. - rnum1)
 
-       if (wtrin > 1.e-4) then
+       if (rtwtr / 86400. > 0.01 .and. wtrin > 1.e-4) then
 !! concentrations
          !! initialize inflow concentrations
          chlin = 0.
@@ -265,7 +171,7 @@
          orgpin = 1000. * varoute(5,inum2) * (1. - rnum1) / wtrin
          dispin = 1000. * varoute(7,inum2) * (1. - rnum1) / wtrin
          cbodin = 1000. * varoute(16,inum2) * (1. - rnum1) / wtrin
-         disoxin = 1000. * varoute(17,inum2) * (1. - rnum1) / wtrin
+         disoxin= 1000. * varoute(17,inum2) * (1. - rnum1) / wtrin
          end if
 
          !! initialize concentration of nutrient in reach
@@ -429,16 +335,6 @@
          zz = Theta(rk3(jrch),thrk3,wtmp) * cbodcon
          rch_cbod(jrch) = 0.
          rch_cbod(jrch) = cbodcon - (yy + zz) * tday
-         
-         !!deoxygenation rate
-         rk1(jrch) = .5
-         coef = exp(-Theta(rk1(jrch),thrk1,wtmp) * tday)
-         cbodrch = coef * cbodcon
-         !!cbod rate loss due to settling
-         coef = exp(-Theta(rk3(jrch),thrk3,wtmp) * tday)
-         cbodrch = coef * cbodrch
-         
-         rch_cbod(jrch) = cbodrch
          if (rch_cbod(jrch) < 1.e-6) rch_cbod(jrch) = 0.
 	   if (rch_cbod(jrch) > dcoef * cbodcon) rch_cbod(jrch) = dcoef * 
      &	   cbodcon
@@ -451,8 +347,6 @@
          xx = 0.
          yy = 0.
          zz = 0.
-         rhoq = 1.0
-         rk2(jrch) = 1.0
          uu = Theta(rk2(jrch),thrk2,wtmp) * (soxy - o2con)
          vv = (ai3 * Theta(gra,thgra,wtmp) - ai4 *                      &
      &                                  Theta(rhoq,thrho,wtmp)) * algcon
@@ -462,38 +356,8 @@
          zz = ai6 * Theta(bc2mod,thbc2,wtmp) * no2con
          rch_dox(jrch) = 0.
          rch_dox(jrch) = o2con + (uu + vv - ww - xx - yy - zz) * tday
-         
-         !algea O2 production minus respiration
-         if (vv > 0.) then
-           doxrch = soxy
-         else
-           coef = exp(-0.03 * vv)
-           doxrch = coef * soxy
-         end if
-         
-         !cbod deoxygenation
-         coef = exp(-0.1 * ww)
-         doxrch = coef * doxrch
-         
-         !benthic sediment oxidation
-         coef = 1. - (Theta(rk4(jrch),thrk4,wtmp) / 100.)
-         doxrch = coef * doxrch
-         
-         !ammonia oxydation
-         coef = exp(-0.05 * yy)
-         doxrch = coef * doxrch
-         
-         !nitrite oxydation
-         coef = exp(-0.05 * zz)
-         doxrch = coef * doxrch
-         
-         !reaeration
-         uu = Theta(rk2(jrch),thrk2,wtmp) / 100. * (soxy - doxrch)
-         rch_dox(jrch) = doxrch + uu
-         
          if (rch_dox(jrch) < 1.e-6) rch_dox(jrch) = 0.
-         if (rch_dox(jrch) > soxy) rch_dox(jrch) = soxy
-         if (rch_dox(jrch) > dcoef * o2con) rch_dox(jrch)= dcoef * o2con
+	     if (rch_dox(jrch) > dcoef * o2con) rch_dox(jrch) = dcoef * o2con
 !! end oxygen calculations
 
 !! nitrogen calculations

@@ -184,6 +184,19 @@
       potevmm = 0.
       potsepmm = 0.
       potflwo = 0.
+      potsedo = 0.
+      potsano = 0.
+      potsilo = 0.
+      potclao = 0.
+      potsago = 0.
+      potlago = 0.
+      potno3o = 0.
+      potsolpo = 0.
+      potorgno = 0.
+      potorgpo = 0.
+      potmpso = 0.
+      potmpao = 0.
+      
       qin = qdr(j)    !inflow = water yield (surf+lat+gw)
       no3in = surqno3(j) + latno3(j)    ! + gwno3(j) - don't include groundwater no3
       
@@ -322,7 +335,7 @@
          pot_cla(j) = drcla * pot_cla(j)
          
          if (pot_depth > 1000.) then    !assume silt v(fall)= 1000 mm/d
-           drsil = 1. - .5 * 10. / pot_depth
+           drsil = 1. - .5 * 1000. / pot_depth
          else
            drsil = .5 * pot_depth / 1000.
          end if
