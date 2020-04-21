@@ -1,11 +1,37 @@
 # Unofficial collection of SWAT code
 
-# 0. Branches
+## 1. About SWAT (Soil & Water Assessment Tool)
+
+> The Soil & Water Assessment Tool is a small watershed to river basin-scale model used to simulate the quality and quantity of surface and ground water and predict the environmental impact of land use, land management practices, and climate change. SWAT is widely used in assessing soil erosion prevention and control, non-point source pollution control and regional management in watersheds.
+
+From official site: https://swat.tamu.edu/
+
+## 2. About this repository
+
+This is **not** an official repository of SWAT. It exists mostly because of personal interests and the lack of official public one. There used to be a excellent unofficial [repository](https://github.com/mlt/swat) created by [mlt](https://github.com/mlt). Unfortunately, it seems to have stopped updating since Apr. 2013.
+
+This repository is an attempt to bring historical releases from official develop team and various enhancement or improvement from scientific community, i.e., the unofficial collection of SWAT code. 
+
+CMake build system is used for cross-platform compiling. The [cmake_fortran_template](https://github.com/SethMMorton/cmake_fortran_template) created by [SethMMorton](https://github.com/SethMMorton) is adopted.
+
+Routine testing is done with gfortran compiler within MinGW64 on MS Windows and Ubuntu GNU/Linux, and Intel Fortran compiler integrated with MS Visual Studio 2013.
+
+1. Windows 10-64bit with Visual Studio 2013, Intel Compiler 17.0 Update 4 (ifort 17.0.4.210)
+
+2. Windows 10-64bit with mingw64 (GCC-9.1.0), gfortran-9.1.0
+
+3. Ubuntu 16.04 LTS with GCC-5.4.0, gfortran-5.4.0
+
+   For the convenience of end-users, executables of debug and release versions under x86 and x64 architectures compiled by VS2013+IntelFortran17.0 can be found in [releases](https://github.com/WatershedModels/SWAT/releases).
+
+Since I do not have enough test data and the associated SWAT input files, I have to say, I only compiled various SWAT versions successfully, but cannot guarantee the validity of running them. So, if you have qualified test data, welcome to contact me (zlj@lreis.ac.cn) for model development and validation and any other purposes.
+
+### 2.1 Branches
 
 + **master**: Branch of revised official code. DO NOT merge other branches to the master branch!!! Once a new version of SWAT source code available, the master branch should be updated accordingly and merged to other branches!
 + **swat-rice**: SWAT for paddy rice modeling which is under development.
 
-# 1. Prerequisite
+### 2.2. Prerequisite
 
 + CMake2.8+
 + Windows:
@@ -15,7 +41,7 @@
   + GCC (with gfortran installed) 4.8+
   + ifort 12.0+
 
-# 2. Compile procedure
+### 2.3. Compile procedure
 
 + common commands
 
@@ -27,43 +53,9 @@
   make && make install
   ```
 
-## 2.1. Using Visual Studio and Intel Parallel Studio XE under Windows
-
- Take VS2013 and Intel_Parallel_Studio_XE_2017 (Intel 17.0.4) as an example.
-
-+ Open "Intel compiler 17.0 Update 4 Intel(R) 64 Visual Studio 2013" from start menu.
-+ cd to the compile destination folder. e.g., `cd D:/compile/SWAT_ifort`
-+ Run `cmake <path to SWAT src path>`. e.g., `cmake C:\z_code\Hydro\SWAT`
-  + Compile 64-bit version: `cmake -G "Visual Studio 12 2013 Win64" C:\z_code\Hydro\SWAT`
-+ Open the project `SWAT<yyyy>rev<Num>.sln`, e.g. `SWAT2012rev664.sln`, right-click the solution name and select `Build Solution`.
-+ After the compilation, right-click the `INSTALL` project and select `Build`, the executable of SWAT named `swat<yyyy>Rev<Num><BuildType>` will be located in `<path to SWAT src path>/bin`, e.g., `C:\z_code\Hydro\SWAT\swat2012Rev664Rel.exe`. In which `Dbg` for Debug, `Rel` for Release, etc.
-
-## 2.2. Using GCC(gfortran) under Windows, Linux, and macOS
-
-If you prefer the command line, the common commands above should be OK. Note that if you want specify a Fortran compiler, please add the following command before `cmake` command.
-
-```shell
-export FC=/path/to/your/own/Fortran/compiler
-# e.g., ifort
-export FC=/share/soft/intel/composer_xe_2011_sp1.6.233/bin/intel64/ifort
-# e.g., gfortran
-export FC=/home/zhulj/gcc4.8.4/bin/gfortran
-```
-
-However, if you want a user-friendly IDE for to learn and improve the SWAT model, I recommend the cross-platform IDE [CLion](https://www.jetbrains.com/clion/) with [Fortran plugin](https://plugins.jetbrains.com/plugin/9699-fortran).
-
-CLion use CMake to manage projects. Under Windows, you may also install mingw64 (or mingw) for the gfortran compiler.
-
-Using CLion is quite easy and intuitive. Just open the SWAT path from `File -> Open...`. Then CLion will automatically load the project by CMakeLists.txt existed in SWAT directory.  Now, you can build SWAT model by typing `Ctrl+F9` or clicking the build button.
-
-With the latest [Fortran plugin with GDB support](https://plugins.jetbrains.com/plugin/9699-fortran/update/39683),
-we can debugging SWAT in the familiar JetBrains' way.
-
-![Debugging by Fortran plugin with GDB support](doc/img/debug_using_CLion_with_Fortran_plugin_based_on_gfortran_and_gdb.jpg)
-
-![Debugging by Fortran plugin with GDB support 2](doc/img/debug_using_CLion_with_Fortran_plugin_based_on_gfortran_and_gdb_2.jpg)
++ More details can be found in [wiki](https://github.com/WatershedModels/SWAT/wiki).
 
 
 # 3. References
-+ [Compile and Debug SWAT with gfortran and Eclipse by Dr. Zhiqiang Yu](https://zhiqiangyu.wordpress.com/2014/10/01/compile-and-debug-swat-with-gfortran-and-eclipse/)
++ [Compile and Debug SWAT with gfortran and Eclipse](https://zhiqiangyu.wordpress.com/2014/10/01/compile-and-debug-swat-with-gfortran-and-eclipse/) by [Dr. Zhiqiang Yu](https://github.com/hawklorry)
 + https://github.com/mlt/swat
