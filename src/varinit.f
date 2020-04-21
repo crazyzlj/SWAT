@@ -327,6 +327,11 @@
         wetsedi = 0.
         wetsedo = 0.
         wetsep = 0.
+        
+	!! urban modeling by J.Jeong
+	  sedprev = 0.
+	  ubnrunoff = 0.
+	  irmmdt = 0.
 
        return
        end

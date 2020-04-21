@@ -32,7 +32,7 @@
 !!    idorm(:)       |none          |dormancy status code:
 !!                                  |0 land cover growing
 !!                                  |1 land cover dormant
-!!    idplt(:,:,:)   |none          |land cover code from crop.dat
+!!    idplt(:)       |none          |land cover code from crop.dat
 !!    ihru           |none          |HRU number
 !!    nro(:)         |none          |sequence number for year in rotation
 !!    phuacc(:)      |none          |fraction of plant heat units accumulated
@@ -96,53 +96,60 @@
       if (idorm(j) == 0 .and. dayl(j)-dormhr(j) < daylmn(hru_sub(j)))   &
      &                                                              then
 
-        select case (idc(idplt(nro(j),icr(j),j)))
+        select case (idc(idplt(j)))
+        
+          !! make sure all operations are scheduled during growing season of warm season annual
+          case (1,4)
+            dorm_flag = 1
+            call operatn
+            dorm_flag = 0
 
           !! beginning of forest dormant period
           case (7)
             idorm(j) = 1
             resnew = 0.
-            resnew = bio_ms(j) * bio_leaf(idplt(nro(j),icr(j),j))
+            resnew = bio_ms(j) * bio_leaf(idplt(j))
             sol_rsd(1,j) = sol_rsd(1,j) + resnew
             sol_rsd(1,j) = Max(sol_rsd(1,j),0.)
             sol_fon(1,j) = resnew * pltfr_n(j) + sol_fon(1,j)
             sol_fop(1,j) = resnew * pltfr_p(j) + sol_fop(1,j)
-            bio_hv(nro(j),icr(j),j) = bio_ms(j) +                       &
-     &                                           bio_hv(nro(j),icr(j),j)
+            bio_hv(icr(j),j) = bio_ms(j) + bio_hv(icr(j),j)
             bio_yrms(j) = bio_yrms(j) + bio_ms(j) / 1000.
-            bio_ms(j) = bio_ms(j) *                                     &
-     &                           (1. - bio_leaf(idplt(nro(j),icr(j),j)))
+            bio_ms(j) = bio_ms(j) * (1. - bio_leaf(idplt(j)))
             plantn(j) = plantn(j) - resnew * pltfr_n(j)
             plantp(j) = plantp(j) - resnew * pltfr_p(j)
             strsw(j) = 1.
-            laiday(j) = alai_min(idplt(nro(j),icr(j),j))
+            laiday(j) = alai_min(idplt(j))
             phuacc(j) = 0.
+            laimxfr(j) = 0.        !Sue White - dormancy
+            ncrops(icr(j),j) = ncrops(icr(j),j) + 1
 
           !! beginning of perennial (pasture/alfalfa) dormant period
           case (3, 6)
             idorm(j) = 1
             resnew = 0.
-            resnew = bm_dieoff(idplt(nro(j),icr(j),j)) * bio_ms(j)
+            resnew = bm_dieoff(idplt(j)) * bio_ms(j)
             sol_rsd(1,j) = sol_rsd(1,j) + resnew
             sol_rsd(1,j) = Max(sol_rsd(1,j),0.)
             sol_fon(1,j) = sol_fon(1,j) +                               &
-     &         bm_dieoff(idplt(nro(j),icr(j),j)) * plantn(j)
+     &         bm_dieoff(idplt(j)) * plantn(j)
             sol_fop(1,j) = sol_fop(1,j) +                               &
-     &         bm_dieoff(idplt(nro(j),icr(j),j)) * plantp(j)
-            bio_hv(nro(j),icr(j),j) = bio_ms(j) *                       & 
-     &        bm_dieoff(idplt(nro(j),icr(j),j)) +                       &
-     &	    bio_hv(nro(j),icr(j),j)
+     &         bm_dieoff(idplt(j)) * plantp(j)
+            bio_hv(icr(j),j) = bio_ms(j) *                              & 
+     &        bm_dieoff(idplt(j)) +                                     &
+     &	    bio_hv(icr(j),j)
             bio_yrms(j) = bio_yrms(j) + bio_ms(j) *                     &
-     &         bm_dieoff(idplt(nro(j),icr(j),j)) / 1000.
-            bio_ms(j) = (1. - bm_dieoff(idplt(nro(j),icr(j),j))) *      &
+     &         bm_dieoff(idplt(j)) / 1000.
+            bio_ms(j) = (1. - bm_dieoff(idplt(j))) *                    &
      &         bio_ms(j)
-            plantn(j) = (1. - bm_dieoff(idplt(nro(j),icr(j),j))) *      &
+            plantn(j) = (1. - bm_dieoff(idplt(j))) *                    &
      &         plantn(j)
-            plantp(j) = (1. - bm_dieoff(idplt(nro(j),icr(j),j))) *      &
+            plantp(j) = (1. - bm_dieoff(idplt(j))) *                    &
      &         plantp(j)
             strsw(j) = 1.
-            laiday(j) = alai_min(idplt(nro(j),icr(j),j))
+            laiday(j) = alai_min(idplt(j))
             phuacc(j) = 0.
+            ncrops(icr(j),j) = ncrops(icr(j),j) + 1
 
           !! beginning of cool season annual dormant period
           case (2, 5)
@@ -151,7 +158,13 @@
               strsw(j) = 1.
             end if
 
-        end select
+          end select
+          if (imgt == 1) then
+           write (143, 1000) subnum(j), hruno(j), iyr, i_mo, iida, 
+     *     cpnm(idplt(j)),"START-DORM", phubase(j), phuacc(j), 
+     *     sol_sw(j),bio_ms(j), sol_rsd(1,j), sol_sumno3(j),
+     *     sol_sumsolp(j)
+          endif
       end if
 
 
@@ -159,7 +172,7 @@
         if (idorm(j) == 1 .and. dayl(j)-dormhr(j) >= daylmn(hru_sub(j)))&
      &                                                              then
 
-          select case (idc(idplt(nro(j),icr(j),j)))
+          select case (idc(idplt(j)))
           
             !! end of perennial dormant period
             case (3, 6, 7)
@@ -169,11 +182,17 @@
             case (2, 5)
               idorm(j) = 0
 
-          end select
+            end select
+            
+            if (imgt == 1) then
+                 write (143,1000) subnum(j), hruno(j), iyr, i_mo, iida, 
+     *       cpnm(idplt(j)), "END-DORM", phubase(j), phuacc(j), 
+     *       sol_sw(j), bio_ms(j), sol_rsd(1,j), sol_sumno3(j),
+     *       sol_sumsolp(j)
+           end if
 
         end if
 
-
-
+1000  format (a5,1x,a7,3i6,2a15,7f10.2)
       return
       end

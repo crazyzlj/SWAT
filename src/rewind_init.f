@@ -7,7 +7,7 @@
       use parm
 
       character (len=80) :: titldum
-      integer :: idum, ii
+      integer :: ii
 
 !! reset output arrays/variables
       aairr = 0.

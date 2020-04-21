@@ -94,7 +94,6 @@
 
       use parm
 
-
       character (len=13) :: urbandb, plantdb, tilldb, pestdb, figfile,  &
      &                      fertdb, subfile, fcstfile, bsnfile
       character (len=1) ::  a
@@ -196,6 +195,7 @@
 !!       1 for binary file!!    added for 
       read (23, *, iostat=eof) ia_b
 
+      close (23)
 !! calculate max number of years simulated, daily time increment
       myr = myr + 2
       if (nstep <= 0) then
@@ -223,22 +223,12 @@
       end do
         read (103,*,iostat=eof) ievent
       if (ievent == 1) nstep = 24
-     
+      close (103)
+
 
 !!    open routing file
-      open (27,file=figfile)
 
-!!    opens database files
-      open (29,file=plantdb)
-      open (30,file=tilldb)
-      open (31,file=pestdb)
-      open (7,file=fertdb)
-      open (8,file=urbandb)
 
-!     septic database
-      if (septdb /= '             ') then
-        open (171,file=septdb) !! CS
-      end if
 
 !!    initialize variables
       a = ""
@@ -267,11 +257,13 @@
       mrecy = 0
       mtran = 0
       nsave = 0
-      nauto = 0
+      nlsu = 0
+   !!   nauto = 0
 
 !! calculate number of records in plant growth database
       eof = 0
       mcrdb = 0
+      open (29,file=plantdb)
       do
         ic = 0
         read (29,*,iostat=eof) ic
@@ -286,11 +278,13 @@
         if (eof < 0) exit
         mcrdb = Max(mcrdb,ic)
       end do
+      close (29)
       if (mcrdb <= 0) mcrdb = 1
 
 !! calculate number of records in urban database
       eof = 0
       mudb = 0
+      open (8,file=urbandb)
       do
         iunum = 0
         read (8,6200,iostat=eof) iunum
@@ -299,6 +293,7 @@
         if (eof < 0) exit
         mudb = Max(mudb,iunum)
       end do
+      close (8)
       if (mudb <= 0) mudb = 1
 
 !!     calculate number of records in septic tank database !! CS
@@ -306,29 +301,29 @@
       eof = 0
       msdb = 0
 !!    read title lines from septic database file
+!     septic database
       if (septdb /= '             ') then
-       do jj = 1,4
-         read (171,6000) titldum
-       end do
-
-
-        do
+         open (171,file=septdb) !! CS
+         do jj = 1,4
+            read (171,6000) titldum
+         end do
+         do
           isnum = 0
           read (171,6200,iostat=eof) isnum  !!
           if (eof < 0) exit
-       
-        read (171,6000,iostat=eof) titldum  !!
-        read (171,6000,iostat=eof) titldum  !!
+          read (171,6000,iostat=eof) titldum  !!
+          read (171,6000,iostat=eof) titldum  !!
           if (eof < 0) exit
-            msdb = Max(msdb,isnum)
+          msdb = Max(msdb,isnum)
         end do
         if (msdb <= 0) msdb = 1
+        close (171)       
       end if
-
 
 !! calculate number of records in fertilizer database
       eof = 0
       mfdb = 0
+      open (7,file=fertdb)
       do
         ifnum = 0
         read (7,6300,iostat=eof) ifnum
@@ -336,21 +331,25 @@
         mfdb = Max(mfdb,ifnum)
       end do
       if (mfdb <= 0) mfdb = 1
+      close (7)
 
 !! calculate number of records in pesticide database
       eof = 0
       mpdb = 0
+      open (31,file=pestdb)
       do
         ipnum = 0
         read (31,6200,iostat=eof) ipnum
         if (eof < 0) exit
         mpdb = Max(mpdb,ipnum)
       end do
+      close (31)
       if (mpdb <= 0) mpdb = 1
 
 !! calculate number of records in tillage database
       eof = 0
       mtil = 0
+      open (30,file=tilldb)
       do
         itnum = 0
         read (30,6300,iostat=eof) itnum
@@ -358,11 +357,13 @@
         mtil = Max(mtil,itnum)
       end do
       if (mtil <= 0) mtil = 1
+      close (30)
 
 
 !! process .fig file
       allocate (pstflg(mpdb))
       pstflg = 0
+      open (27,file=figfile)
       do while (icd > 0)
         read (27,5002) a
         if (a /= "*") then
@@ -419,15 +420,16 @@
           case (14)                     !! icd = 14 SAVECONC command
             read (27,5002) a
             nsave = nsave + 1
-          case (16)                     !! icd = 16 AUTOCAL command
+          case (17)                     !! icd = 17 ROUTING UNIT command
             read (27,5002) a
-            nauto = nauto + 1
+            rutot = rutot + 1
           end select
 
           mhyd = Max(mhyd,iht)
 
         end if
       end do
+      close (27)
       if (mhru <= 0) mhru = 1
       if (msub <= 0) msub = 1
       if (mch <= 0) mch = 1
@@ -438,7 +440,8 @@
       if (mrecy <= 0) mrecy = 1
       if (mres <= 0) mres = 1
 
-      mhyd = mhyd + nsave + nauto + mtran + 1
+ !!     mhyd = mhyd + nsave + nauto + mtran + 1
+      mhyd = mhyd + nsave + mtran + 1
 !! septic change 1-28-09 gsm
       mlyr = mlyr + 4 
 !! septic change 1-28-09 gsm
@@ -479,15 +482,6 @@
         mfcst = 1
       end if
 
-      close (23)
-      close (27)
-      close (29)
-      close (30)
-      close (31)
-      close (7)
-      close (8)
-      close (103)
-      close (171)       
       return
  5000 format (6a)
  5001 format (a1,9x,5i6)

@@ -8,9 +8,9 @@
 !!    ~ ~ ~ INCOMING VARIABLES ~ ~ ~
 !!    name          |units         |definition
 !!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
-!!    i          |none          |HRU number
+!!    i             |none          |HRU number
 !!    mlyr          |none          |maximum number of soil layers
-!!    idplt(1,1,:)  |none          |land cover/crop identification code for
+!!    idplt(:)      |none          |land cover/crop identification code for
 !!                                 |first crop grown in HRU (the only crop if
 !!                                 |there is no rotation)
 !!    rdmx(:)       |m             |maximum root depth of plant
@@ -100,7 +100,7 @@
 !!    compare maximum rooting depth in soil to maximum rooting depth of
 !!    plant
       if (sol_zmx(i) <= 0.001) sol_zmx(i) = sol_z(nly,i)
-      plt_zmx = 1000. * rdmx(idplt(1,1,i))
+      plt_zmx = 1000. * rdmx(idplt(i))
       if (sol_zmx(i) > 1. .and. plt_zmx > 1.) then
          sol_zmx(i) = Min(sol_zmx(i),plt_zmx)
       else

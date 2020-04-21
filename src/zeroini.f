@@ -4,7 +4,10 @@
 !!    this subroutine zeros values for single array variables
 
       use parm
-
+      dpd_file = ""
+      wpd_file = ""
+      rib_file = ""
+      sfb_file = ""
       ai0 = 0.
       ai1 = 0.
       ai2 = 0.
@@ -48,7 +51,6 @@
       ffcb = 0.
 !! burn
       i_burn = 0
-	  iburn = 0
       iclb = 0
       icrk = 0
       icfac = 0      !CB 12/2/09

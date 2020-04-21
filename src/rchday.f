@@ -78,6 +78,9 @@
 !!                               |out of reach on day
 !!    rchdy(42,:)  |kg           |amount of conservative metal #3 transported
 !!                               |out of reach on day
+!!    rchday(43,:) |kg           |Total N (org N + no3 + no2 + nh4 outs)
+!!    rchday(44,:) |kg           |Total P (org P + sol p outs)
+
 !!    subgis(:)    |none         |GIS code printed to output files(output.sub,.rch)
 !!    subtot       |none         |number of subbasins in watershed
 !!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
@@ -169,7 +172,39 @@
         pdvar(40) = rchdy(40,j)     !!metal #1
         pdvar(41) = rchdy(41,j)     !!metal #2
         pdvar(42) = rchdy(42,j)     !!metal #3
+ !! added for Total N (org N + no3 + no2 + nh4 outs) to output.rch gsm 10/17/2011
+        pdvar(43) = rchdy(9,j)+ rchdy(13,j) + rchdy(17,j) + rchdy(15,j) !!Total N
+ !! added for Total P (org P + sol p outs)to output.rch gsm 10/17/2011
+        pdvar(44) = rchdy(11,j) + rchdy(19,j)                            !! Total P
+ !! added for NO3 Concentration to output.rch (daily only) gsm 10/26/2011
+        if (srch_av(2) > .001) then            
+          pdvar(45) = rchdy(13,j) / (srch_av(2)* 86.4)    !! NO3 Concentration
+        else
+          pdvar(45) = 0. 
+        endif
+       
 
+      if (ievent==3.and.iprint==3) then
+	  ! print out subdaily reach output in output.rch
+        if (ipdvar(1) > 0) then
+          do kk=1,nstep
+           do ii = 1, itotr
+             pdvr(ii) = rchhr(ipdvar(ii),j,kk)
+           end do
+           if (iscen == 1 .and. isproj == 0) then
+             write (7,5001) j, subgis(j), iida, kk, rch_dakm(j),               &
+     &                                         (pdvr(ii), ii = 1, itotr)
+           end if
+          end do
+	  else
+	    if (iscen == 1 .and. isproj == 0) then
+           do kk=1,nstep
+             write (7,5001) j, subgis(j), iida, kk, rch_dakm(j),               &
+     &                                      (rchhr(ii,j,kk), ii = 1, 7)
+	     end do
+	     endif
+	  endif
+      else
         if (ipdvar(1) > 0) then
           do ii = 1, itotr
             pdvr(ii) = pdvar(ipdvar(ii))
@@ -190,9 +225,11 @@
      &                               (pdvr(ii), ii = 1, itotr),iyr  
           endif
         else
+        
+  !  increase to 45 in loops below from 42 gsm 10/26/2011      
           if (iscen == 1 .and. isproj == 0) then
           write (7,5000) j, subgis(j), iida, rch_dakm(j),               &
-     &                                        (pdvar(ii), ii = 1, 42)
+     &                                        (pdvar(ii), ii = 1, 45)
 
 !!    added for binary files 3/25/09 gsm line below and write (77777
              if (ia_b == 1) then
@@ -202,16 +239,17 @@
              
           else if (isproj == 1) then
           write (20,5000) j, subgis(j), iida, rch_dakm(j),              &
-     &                                        (pdvar(ii), ii = 1, 42)    
+     &                                        (pdvar(ii), ii = 1, 45)    
           else if (iscen == 1 .and. isproj == 2) then
           write (7,6000) j, subgis(j), iida, rch_dakm(j),               &
-     &                               (pdvar(ii), ii = 1, 42), iyr     
+     &                               (pdvar(ii), ii = 1, 45), iyr     
           endif
         end if
-
+      endif
       end do
       return
- 5000 format ('REACH ',i4,1x,i8,1x,i5,43e12.4)
- 6000 format ('REACH ',i4,1x,i8,1x,i5,43e12.4,1x,i4)
+ 5001 format ('REACH ',i4,1x,i8,1x,i5,1x,i5,46e12.4)
+ 5000 format ('REACH ',i4,1x,i8,1x,i5,46e12.4)
+ 6000 format ('REACH ',i4,1x,i8,1x,i5,46e12.4,1x,i4)
       end
 

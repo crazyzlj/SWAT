@@ -108,12 +108,12 @@
       iyp = 0
       do j = 1, mvaro
         varoute(j,ihout) = 0.
-        do ii = 1, 24
+        do ii = 1, nstep   ! subhourly time step, jaehak jeong
           hhvaroute(j,ihout,ii) = 0.
         end do
       end do
 
-      do ii = 1, 24
+      do ii = 1, nstep   ! subhourly time step, jaehak jeong
         flohr = 0.
         sedhr = 0.
         orgnhr = 0.

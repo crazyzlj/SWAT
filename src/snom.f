@@ -154,7 +154,10 @@
           endif
           sum = sum + snoeb(ib,j) * elevb_fr(ib,isub)
           smp = smp + pcpband(ib,j) * elevb_fr(ib,isub)
+          
         end do
+        
+
 
         !! add/sub aggregate snow fall and melt from effective precip 
         !! and snow cover

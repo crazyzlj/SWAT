@@ -99,6 +99,7 @@
       ida_lup = 0           !CB 8/24/09
       ifilt = 0
       ngrwat = 0
+      nop = 1
       orig_phu = 0.
       orig_phuacc = 0.
       orig_pltpst = 0.
@@ -124,7 +125,7 @@
       orig_solsolp = 0.
       orig_solstap = 0.
       orig_sumix = 0.
-      orig_tnylda = 0.
+!!    orig_tnylda = 0.
       orig_wetsed = 0.
       orig_wetvol = 0.
       opcp_stat = 0.
@@ -137,29 +138,8 @@
       pperco_sub = 0.
       phu_plt = 0.
       phuacc = 0.
-      phuaf = 300.
-      phuai = 300.
-      phucf = 300.
-      phucp = 300.
       phug = 300.
-      phuh = 300.
-      phuho = 300.
-      phuimp = 300.
-      phuimp_nocrop = 300.
-      phuirr = 300.
-      phuirr_nocrop = 300.
-      phuk = 300.
-      phun = 300.
-      phun_nocrop = 300.
-      phup = 300.
-      phupst = 300.
-      phupst_nocrop = 300.
-      phusw = 300.
-      phusw_nocrop = 300.
-      phut = 300.
-      phut_nocrop = 300.
-
-      phub = 300.
+      phu_op = 0.
       phutot = 0.
       plaps = 0.
 !!  septic changes 1/29/09 

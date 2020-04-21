@@ -202,13 +202,13 @@
      &            wshdyro(104), wshdyro(5), wshdyro(109), wshddayo(35), &
      &            wshdyro(7), wshdyro(108), wshdyro(6), wshdyro(12),    &
      &            wshdyro(42), wshdyro(45), wshdyro(46), wshdyro(44),   &
-     &            wshdyro(40), wshdyro(43), wshdyro(41)
+     &            wshdyro(40), wshdyro(43), wshdyro(41), wshdyro(111)
           else if (isproj == 1) then
           write (19,6300) iyr, wshdyro(1), wshdyro(3), wshdyro(4),      &
      &            wshdyro(104), wshdyro(5), wshdyro(109), wshddayo(35), &
      &            wshdyro(7), wshdyro(108), wshdyro(6), wshdyro(12),    &
      &            wshdyro(42), wshdyro(45), wshdyro(46), wshdyro(44),   &
-     &            wshdyro(40), wshdyro(43), wshdyro(41)
+     &            wshdyro(40), wshdyro(43), wshdyro(41), wshdyro(111)
           endif
 
           !!write channel degradation data (chan.deg)
@@ -314,6 +314,7 @@
             yldaa(j) = yldaa(j) + yldanu(j)
           end do
 
+      
           wshdaao = wshdaao + wshdyro
           wpstaao = wpstaao + wpstyro
           hruaao = hruaao + hruyro
@@ -345,6 +346,6 @@
  5300 format (1x,i4,a4,1x,10f12.2,/)
  5800 format ('RES   ',i8,1x,i4,41e12.4)
  6800 format ('RES   ',i8,1x,i4,41e12.4,1x,i4)
- 6300 format (/i5,15f7.2,1x,4f8.2//)
+ 6300 format (/i5,15f7.2,1x,5f8.2//)
       end
 

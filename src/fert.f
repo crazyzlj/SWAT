@@ -34,8 +34,8 @@
 !!                                 |is NH3-N
 !!    forgn(:)      |kg orgN/kg frt|fraction of fertilizer that is organic N
 !!    forgp(:)      |kg orgP/kg frt|fraction of fertilizer that is organic P
-!!    frt_kg(:,:,:) |kg/ha         |amount of fertilizer applied to HRU
-!!    frt_surface(:,:,:)|none          |fraction of fertilizer which is applied to
+!!    frt_kg        |kg/ha         |amount of fertilizer applied to HRU
+!!    frt_surface   |none          |fraction of fertilizer which is applied to
 !!                                 |the top 10 mm of soil (the remaining
 !!                                 |fraction is applied to first soil layer)
 !!    hru_dafr(:)   |km2/km2       |fraction of watershed area in HRU
@@ -154,41 +154,41 @@
       j = ihru
 
       ifrt = 0
-      ifrt = ifrttyp(nro(j),nfert(j),j)
+      ifrt = ifrttyp
 
       do l = 1, 2
         xx = 0.
         if (l == 1) then
-          xx = frt_surface(nro(j),nfert(j),j)
+          xx = frt_surface                       
         else
-          xx = 1. - frt_surface(nro(j),nfert(j),j)
+          xx = 1. - frt_surface                     
         endif
 
-        sol_no3(l,j) = sol_no3(l,j) + xx * frt_kg(nro(j),nfert(j),j) *  &
+        sol_no3(l,j) = sol_no3(l,j) + xx * frt_kg                    *  &
      &      (1. - fnh3n(ifrt)) * fminn(ifrt)
 
         if (cswat == 0) then
         sol_fon(l,j) = sol_fon(l,j) + rtof * xx *                       &
-     &     frt_kg(nro(j),nfert(j),j) * forgn(ifrt)
+     &     frt_kg                    * forgn(ifrt)
 	  sol_aorgn(l,j) = sol_aorgn(l,j) + (1. - rtof) * xx *            
-     &     frt_kg(nro(j),nfert(j),j) * forgn(ifrt)
+     &     frt_kg                    * forgn(ifrt)
         sol_fop(l,j) = sol_fop(l,j) + rtof * xx *                       &
-     &      frt_kg(nro(j),nfert(j),j) * forgp(ifrt)
+     &      frt_kg                    * forgp(ifrt)
         sol_orgp(l,j) = sol_orgp(l,j) + (1. - rtof) * xx *              &
-     &      frt_kg(nro(j),nfert(j),j) * forgp(ifrt)
+     &      frt_kg                    * forgp(ifrt)
 	  else
-	  sol_mc(l,j) = sol_mc(l,j) + xx * frt_kg(nro(j),nfert(j),j) *
+	  sol_mc(l,j) = sol_mc(l,j) + xx * frt_kg                    *
      &		forgn(ifrt) * 10.
-	  sol_mn(l,j) = sol_mn(l,j) + xx * frt_kg(nro(j),nfert(j),j) *
+	  sol_mn(l,j) = sol_mn(l,j) + xx * frt_kg                    *
      &		forgn(ifrt)
-	  sol_mp(l,j) = sol_mp(l,j) + xx * frt_kg(nro(j),nfert(j),j) *
+	  sol_mp(l,j) = sol_mp(l,j) + xx * frt_kg                    *
      &		forgp(ifrt)
 	  end if
 
-        sol_nh3(l,j) = sol_nh3(l,j) + xx * frt_kg(nro(j),nfert(j),j) *  &
+        sol_nh3(l,j) = sol_nh3(l,j) + xx * frt_kg                    *  &
      &      fnh3n(ifrt) * fminn(ifrt)
 
-        sol_solp(l,j) = sol_solp(l,j) + xx * frt_kg(nro(j),nfert(j),j) *&
+        sol_solp(l,j) = sol_solp(l,j) + xx * frt_kg                    *&
      &      fminp(ifrt)
 
       end do 
@@ -211,7 +211,7 @@
 
 
       frt_t = 0.
-      frt_t = bact_swf * frt_kg(nro(j),nfert(j),j) / 1000.
+      frt_t = bact_swf * frt_kg                    / 1000.
 
       bactp_plt(j) = gc * bactpdb(ifrt) * frt_t * 100. + bactp_plt(j)
       bactlp_plt(j) = gc * bactlpdb(ifrt) * frt_t * 100. + bactlp_plt(j)
@@ -230,35 +230,40 @@
 
 
 !! summary calculations
-      fertn = fertn + (frt_kg(nro(j),nfert(j),j) + cfertn) *             &           
+      fertno3 = frt_kg * fminn(ifrt) * (1. - fnh3n(ifrt))
+      fertnh3 = frt_kg * (fminn(ifrt) * fnh3n(ifrt))
+      fertorgn = frt_kg * forgn(ifrt)
+      fertsolp = frt_kg * fminp(ifrt)
+      fertorgp = frt_kg * forgp(ifrt)  
+      fertn = fertn + (frt_kg                    + cfertn) *             &           
      &   (fminn(ifrt) + forgn(ifrt))
 
-      fertp = fertp + (frt_kg(nro(j),nfert(j),j) + cfertp) *             &
+      fertp = fertp + (frt_kg                    + cfertp) *             &
      &   (fminp(ifrt) + forgp(ifrt))
 
       tfertn(j) = tfertn(j) + fertn
       tfertp(j) = tfertp(j) + fertp
 
       if (curyr > nyskip) then
-      wshd_ftotn = wshd_ftotn + frt_kg(nro(j),nfert(j),j) * hru_dafr(j) &
+      wshd_ftotn = wshd_ftotn + frt_kg                    * hru_dafr(j) &
      &   * (fminn(ifrt) + forgn(ifrt))
 
-      wshd_forgn = wshd_forgn + frt_kg(nro(j),nfert(j),j) * hru_dafr(j) &
+      wshd_forgn = wshd_forgn + frt_kg                    * hru_dafr(j) &
      &   * forgn(ifrt)
 
-      wshd_fno3 = wshd_fno3 + frt_kg(nro(j),nfert(j),j) * hru_dafr(j) * &
+      wshd_fno3 = wshd_fno3 + frt_kg                    * hru_dafr(j) * &
      &   fminn(ifrt) * (1. - fnh3n(ifrt))
 
-      wshd_fnh3 = wshd_fnh3 + frt_kg(nro(j),nfert(j),j) * hru_dafr(j) * &
+      wshd_fnh3 = wshd_fnh3 + frt_kg                    * hru_dafr(j) * &
      &   fminn(ifrt) * fnh3n(ifrt)
 
-      wshd_ftotp = wshd_ftotp + frt_kg(nro(j),nfert(j),j) * hru_dafr(j) &
+      wshd_ftotp = wshd_ftotp + frt_kg                    * hru_dafr(j) &
      &   * (fminp(ifrt) + forgp(ifrt))
 
-      wshd_fminp = wshd_fminp + frt_kg(nro(j),nfert(j),j) * hru_dafr(j) &
+      wshd_fminp = wshd_fminp + frt_kg                    * hru_dafr(j) &
      &   * fminp(ifrt)
 
-      wshd_forgp = wshd_forgp + frt_kg(nro(j),nfert(j),j) * hru_dafr(j) &
+      wshd_forgp = wshd_forgp + frt_kg                    * hru_dafr(j) &
      &   * forgp(ifrt)
 
       end if

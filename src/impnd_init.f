@@ -196,13 +196,13 @@
               end if
               if (bp2(j) > .9) then
                 bp2(j) = .9
-                bp1(j) = pnd_psa(j) / pnd_pvol(j) ** .9
+                bp1(j) = (pnd_psa(j) / pnd_pvol(j)) ** .9
               else
-                bp1(j) = pnd_esa(j) / pnd_evol(j) ** bp2(j)
+                bp1(j) = (pnd_esa(j) / pnd_evol(j)) ** bp2(j)
               endif
             else
               bp2(j) = .9
-              bp1(j) = pnd_psa(j) / pnd_pvol(j) ** .9
+              bp1(j) = (pnd_psa(j) / pnd_pvol(j)) ** .9
             end if
 
           else
@@ -263,10 +263,10 @@
                bw2(j) = (Log10(wet_mxsa(j)) - Log10(wet_nsa(j))) / 0.001
               end if
               if (bw2(j) > 0.9) bw2(j) = .9
-              bw1(j) = wet_mxsa(j) / wet_mxvol(j) ** bw2(j)
+              bw1(j) = (wet_mxsa(j) / wet_mxvol(j)) ** bw2(j)
             else
               bw2(j) = .9
-              bw1(j) = wet_nsa(j) / wet_nvol(j) ** .9
+              bw1(j) = (wet_nsa(j) / wet_nvol(j)) ** .9
             end if
           else
             wet_fr(j) = 0.

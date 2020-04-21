@@ -178,6 +178,21 @@
              hi_upd(iops,ihru) = mgt4
              laimx_upd(iops,ihru) = mgt5
 
+
+	!!	case (9) !! Residue Managment  mjw
+	!! Force residue to a minimum value regardless of tillage.		mjw
+		so_res_flag(iops,ihru) = mgt1i !!mjw
+		so_res(iops,ihru) = mgt4 !!mjw
+
+		case (10) !! Generic Conservation Practice  mjw
+	!! Get user defined removal eff and use these		mjw
+		ro_bmp_flag(iops,ihru) = mgt1i !! Flag to turn on or off user BMP
+		ro_bmp_sed(iops,ihru) = mgt3 !! Sediment
+		ro_bmp_pp(iops,ihru) = mgt4 !! Particulate P
+		ro_bmp_sp(iops,ihru) = mgt5 !! Soluble P
+		ro_bmp_pn(iops,ihru) = mgt7 !! Particulate N
+		ro_bmp_sn(iops,ihru) = mgt8 !! Soluble N
+		ro_bmp_bac(iops,ihru) = mgt9 !! Bacteria
           end select
           end do
 

@@ -98,9 +98,15 @@
       dstor = 0.
       h2oloss = 0.
 
-      dstor = sno_hru(j) - snoprev + sol_sw(j) - swprev +               &
+      if (ievent<3) then
+          dstor = sno_hru(j) - snoprev + sol_sw(j) - swprev +               &
      &        shallst(j) - shallstp + deepst(j) - deepstp +             &
      &        surf_bs(1,j) - bsprev + bss(1,j) - bssprev
+      else
+         dstor = sno_hru(j) - snoprev + sol_sw(j) - swprev +               &
+     &        shallst(j) - shallstp + deepst(j) - deepstp +             &
+     &        hhsurf_bs(1,j,nstep) - bsprev + bss(1,j) - bssprev
+      endif
 
 !!   subtraction of snoev term in h2oloss variable removed
 !!   this term is already included in the variable:

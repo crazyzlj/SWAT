@@ -127,8 +127,8 @@
           else
             kwet = " "
           end if
-          write (24,1001) j, sub_lat(j), sub_elev(j), hrutot(j), kpnd,  &
-     &                   kbnd, kwet
+          write (24,1001)j, sub_lat(hru_sub(j)), sub_elev(j), hrutot(j), 
+     *         kpnd, kbnd, kwet
 
         end do
 
@@ -147,11 +147,9 @@
         
         write (24,1028)
         do j = 1, nhru
-	if (idplt(nro(j),icr(j),j) > 0) then
-         write (24,1029) hru_sub(j), j, hru_ha(j),                      &
-     &                      cpnm(idplt(nro(j),icr(j),j)), snam(j), 
-     &                      cn1(j), cn2(j), cn3(j), sol_sumwp(j),       &
-     &                      sol_sumfc(j), sol_sumul(j)
+	if (idplt(j) > 0) then
+       write (24,1029) hru_sub(j), j, hru_ha(j),cpnm(idplt(j)),snam(j), &
+     &  cn1(j), cn2(j), cn3(j), sol_sumwp(j),sol_sumfc(j), sol_sumul(j)
       else
         write (24,1030)hru_sub(j),j,hru_ha(j), snam(j), cn1(j), cn2(j), &
      &   cn3(j), sol_sumwp(j), sol_sumfc(j), sol_sumul(j)

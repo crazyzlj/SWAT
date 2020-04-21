@@ -18,7 +18,7 @@
 !!    hru_sub(:) |none           |subbasin in which HRU is located
 !!    icr(:)     |none           |sequence number of crop grown within the
 !!                               |current year
-!!    idplt(:,:,:)|none           |land cover code from crop.dat
+!!    idplt(:)   |none           |land cover code from crop.dat
 !!    igro(:)    |none           |land cover status code
 !!                               |0 no land cover currently growing
 !!                               |1 land cover growing
@@ -282,12 +282,12 @@
             fvpd = 0.
             xx = vpd - 1.
             if (xx > 0.0) then
-              fvpd = Max(0.1,1.0 - vpd2(idplt(nro(j),icr(j),j)) * xx)
+              fvpd = Max(0.1,1.0 - vpd2(idplt(j)) * xx)
             else
               fvpd = 1.0
             end if
             gsi_adj = 0.
-            gsi_adj = gsi(idplt(nro(j),icr(j),j)) * fvpd
+            gsi_adj = gsi(idplt(j)) * fvpd
             
             !! calculate canopy resistance
             rc = 0.

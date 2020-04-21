@@ -21,7 +21,7 @@
 !!                               |5 cold season annual
 !!                               |6 perennial
 !!                               |7 trees
-!!    idplt(:,:,:)|none          |land cover code from crop.dat
+!!    idplt(:)    |none          |land cover code from crop.dat
 !!    ihru        |none          |HRU number
 !!    iwatable    |none          |high water table code:
 !!                               |0 no high water table
@@ -103,7 +103,7 @@
       j = 0
       j = ihru
 
-      select case (idc(idplt(nro(j),icr(j),j)))
+      select case (idc(idplt(j)))
         case (1, 2, 4, 5)
           sol_rd = 2.5 * phuacc(j) * sol_zmx(j)
           if (sol_rd > sol_zmx(j)) sol_rd = sol_zmx(j)
@@ -164,7 +164,7 @@
 !!! commented aeration stress out !!!
           !! adjust uptake if sw is greater than 90% of plant available water
           !! aeration stress
-!         yy = air_str(idplt(nro(j),icr(j),j))
+!         yy = air_str(idplt(j))
 !         satco = 100. * (sol_st(k,j) / sol_ul(k,j) - yy) / (1. - yy)
 !         if (satco > 0.) then 
 !           strsa(j) = 1. - (1. - (satco / (satco + Exp(5.1 - .082 * 

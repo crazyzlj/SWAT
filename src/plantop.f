@@ -8,7 +8,7 @@
 !!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
 !!    lai_init(:,:,:) |none          |initial leaf area index of transplants
 !!    bio_init(:,:,:)|kg/ha         |initial biomass of transplants
-!!    cnop(:,:,:)    |none          |SCS runoff curve number for moisture 
+!!    cnop           |none          |SCS runoff curve number for moisture 
 !!                                  |condition II
 !!    icr(:)         |none          |sequence number of crop grown within the
 !!                                  |current year
@@ -72,18 +72,31 @@
       olai(j) = 0.
       rwt(j) = 0.
       icr(j) = icr(j) + 1
+ !!   added for Srini in output.mgt per JGA by gsm 9/8/2011     
+      strsw_sum = 0.
+      strstmp_sum = 0.
+      strsn_sum = 0.
+      strsp_sum = 0.
+      strsa_sum = 0.  
+      
+      if (icr(j) > icrmx(j)) then
+        icr(j) = 1
+      end if
 
       !! initialize transplant variables
-      if (lai_init(nro(j),icr(j),j) > 0.) then
-          laiday(j) = lai_init(nro(j),icr(j),j)
-          bio_ms(j) = bio_init(nro(j),icr(j),j)
+      if (lai_init > 0.) then
+          laiday(j) = lai_init
+          bio_ms(j) = bio_init
       endif
-
+      
+      !! compare maximum rooting depth in soil to maximum rooting depth of plant
+      nly = sol_nly(j)
+      sol_zmx(ihru) = sol_z(nly,j)
+      plt_zmx = 1000. * rdmx(idplt(j))
+      sol_zmx(ihru) = Min(sol_zmx(ihru),plt_zmx)
+      
       !! reset curve number if given in .mgt file
-      if (cnop(nro(j),icnop(j),j) >0.) 
-     *      call curno(cnop(nro(j),icnop(j),j),j)
-      icnop(j) = icnop(j) + 1
-
+      if (cnop > 0.) call curno(cnop,j)
 
       return
       end

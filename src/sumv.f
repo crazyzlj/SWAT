@@ -397,6 +397,8 @@
 !!                               |on day
 !!    wshddayo(109)|mm H2O        |drainage tile flow contribution to stream
 !!                               |in watershed on day
+!!    wshddayo(110)|kg/ha        |NO3 yield (gwq)                          
+!!    wshddayo(111)|mm H2O       |NO3 yield (tile)                          
 !!    wtrmon(1,:) |mm H2O        |evaporation from ponds in HRU for month
 !!    wtrmon(2,:) |mm H2O        |seepage from ponds in HRU for month
 !!    wtrmon(3,:) |mm H2O        |precipitation on ponds in HRU for month
@@ -515,6 +517,8 @@
         hrumono(65,j) = hrumono(65,j) + no3gw(j)
         hrumono(66,j) = hrumono(66,j) + minpgw(j)
         hrumono(67,j) = hrumono(67,j) + sedminpa(j) + sedminps(j)
+        hrumono(68,j) = hrumono(68,j) + tileno3(j)
+        hrumono(69,j) = hrumono(69,j) + latno3(j)
 
         wtrmon(1,j) = wtrmon(1,j) + pndev / cnv
         wtrmon(2,j) = wtrmon(2,j) + pndsep / cnv
@@ -588,9 +592,11 @@
         wshddayo(108) = wshddayo(108) + pet_day * hru_dafr(j)
         wshddayo(109) = wshddayo(109) + qtile * hru_dafr(j)
         wshddayo(110) = wshddayo(110) + no3gw(j) * hru_dafr(j)
+        wshddayo(111) = wshddayo(111) + tileno3(j) * hru_dafr(j)
           do ii=1,mstdo
             if(wshddayo(ii).ne.wshddayo(ii)) wshddayo(ii) = 0  !! float error debug, Jaehak Jeong, 2011 Feb
           end do     
+        
         else if (ffcst == 1) then
           if (j == 1) fcstcnt = fcstcnt + 1
           fcstaao(1) = fcstaao(1) + subp(j) * hru_dafr(j)

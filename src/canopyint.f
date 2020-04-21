@@ -59,7 +59,7 @@
       j = 0
       j = ihru
 
-      if (blai(idplt(nro(j),icr(j),j)) < 0.001) return
+      if (blai(idplt(j)) < 0.001) return
 
       select case (ievent)
         case (2,3)
@@ -67,7 +67,7 @@
           canstori = 0.
           canmxl = 0.
           canstori = canstor(j)
-          canmxl = canmx(j) * laiday(j) / blai(idplt(nro(j),icr(j),j))
+          canmxl = canmx(j) * laiday(j) / blai(idplt(j))
           do ii = 2, nstep+1
             xx = 0.
             xx = precipdt(ii)
@@ -99,7 +99,7 @@
           xx = 0.
           canmxl = 0.
           xx = precipday
-          canmxl = canmx(j) * laiday(j) / blai(idplt(nro(j),icr(j),j))
+          canmxl = canmx(j) * laiday(j) / blai(idplt(j))
           precipday = precipday - (canmxl - canstor(j))
           if (precipday < 0.) then
             canstor(j) = canstor(j) + xx

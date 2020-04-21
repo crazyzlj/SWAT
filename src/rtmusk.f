@@ -82,6 +82,8 @@
 !!    c4          |m^3 H2O       |
 !!    det         |hr            |time step (24 hours)
 !!    jrch        |none          |reach number
+!!    nn          |              |number of subdaily computation points for stable 
+!!                               |routing in the muskingum routing method
 !!    p           |m             |wetted perimeter
 !!    rh          |m             |hydraulic radius
 !!    tbase       |none          |flow duration (fraction of 24 hr)
@@ -108,25 +110,61 @@
   
       use parm
 
-      integer :: jrch
+      integer :: jrch,nn,ii
       real :: xkm, det, yy, c1, c2, c3, c4, wtrin, p, vol, c, rh
-      real :: topw,msk1,msk2
+      real :: topw,msk1,msk2,detmax,detmin,qinday,qoutday
 	real :: volrt, maxrt, adddep, addp, addarea
 	real :: rttlc1, rttlc2, rtevp1, rtevp2
 
       jrch = 0
       jrch = inum1
+      qinday = 0; qoutday = 0
+      
+      det = 24.
+      
 
 !! Water entering reach on day
       wtrin = 0.
       wtrin = varoute(2,inum2) * (1. - rnum1)
 
-!! calculate volume of water in reach
-      vol = 0.
-      vol = wtrin + rchstor(jrch)
+!! Compute storage time constant for reach (msk_co1 + msk_co2 = 1.)
+	msk1 = msk_co1 / (msk_co1 + msk_co2)
+	msk2 = msk_co2 / (msk_co1 + msk_co2)
+	msk_co1 = msk1
+	msk_co2 = msk2
+      xkm = 0.
+      xkm = phi(10,jrch) * msk_co1 + phi(13,jrch) * msk_co2
+      
+!! Muskingum numerical stability -Jaehak Jeong, 2011
+!! Check numerical stability
+      detmax = 2.* xkm * (1.- msk_x)
+      detmin = 2.* xkm * msk_x
+      
+!! Discretize time interval to meet the stability criterion 
+      if (det>detmax) then
+        if (det/2.<=detmax) then
+            det = 12; nn = 2
+        elseif (det/4.<=detmax) then
+            det = 6; nn = 4
+        else
+            det = 1; nn = 24
+        endif
+      else
+        det = 24; nn = 1
+      end if
+      
+ !! Inflow during a sub time interval     
+      wtrin = wtrin / nn
+      
+!! Iterate for the day      
+      do ii=1,nn
+      
+ !! calculate volume of water in reach
+         vol = 0.
+         vol = wtrin + rchstor(jrch)
 
-!! Find average flowrate in a day
-      volrt = vol / 86400
+!! Find average flowrate in a sub time interval
+         volrt = vol / (86400. / nn)
 
 !! Find maximum flow capacity of the channel at bank full
       c = 0.
@@ -179,31 +217,19 @@
 	end if
 
 !! calculate top width of channel at water level
-      topw = 0.
-      if (rchdep <= ch_d(jrch)) then
-        topw = phi(6,jrch) + 2. * rchdep * c
-      else
-        topw = 5 * ch_w(2,jrch) + 2. * (rchdep - ch_d(jrch)) * 4.
-      end if
-
-!!	Time step of simulation (in hour)
-        det = 24.
+         topw = 0.
+         if (rchdep <= ch_d(jrch)) then
+           topw = phi(6,jrch) + 2. * rchdep * c
+         else
+           topw = 5 * ch_w(2,jrch) + 2. * (rchdep - ch_d(jrch)) * 4.
+         end if
 
       if (sdti > 0) then
 
 !! calculate velocity and travel time
-	vc = sdti / rcharea
-      vel_chan(jrch) = vc
-	rttime = ch_l2(jrch) * 1000. / (3600. * vc)
-
-
-!! Compute storage time constant for reach (msk_co1 + msk_co2 = 1.)
-	msk1 = msk_co1 / (msk_co1 + msk_co2)
-	msk2 = msk_co2 / (msk_co1 + msk_co2)
-	msk_co1 = msk1
-	msk_co2 = msk2
-      xkm = 0.
-      xkm = phi(10,jrch) * msk_co1 + phi(13,jrch) * msk_co2
+	   vc = sdti / rcharea
+         vel_chan(jrch) = vc
+	   rttime = ch_l2(jrch) * 1000. / (3600. * vc)
 
 !! Compute coefficients
       yy = 0.
@@ -217,14 +243,13 @@
       c3 = (2. * xkm * (1. - msk_x) - det) / yy
 
 !! Compute water leaving reach on day
-	if (curyr == 1 .and. i == id1) then
-	  flwin(jrch) = rchstor(jrch)
-	  flwout(jrch) = rchstor(jrch)
-	end if
+	   if (curyr == 1 .and. i == id1) then
+	     flwin(jrch) = rchstor(jrch)
+	     flwout(jrch) = rchstor(jrch)
+	   end if
 
-      rtwtr = c1 * wtrin + c2 * flwin(jrch) + c3 * flwout(jrch)
-
-	if (rtwtr < 0.) rtwtr = 0.
+         rtwtr = c1 * wtrin + c2 * flwin(jrch) + c3 * flwout(jrch)
+	   if (rtwtr < 0.) rtwtr = 0.
 
 	rtwtr = Min(rtwtr, (wtrin + rchstor(jrch)))
 
@@ -276,49 +301,57 @@
 
           aaa = evrch * pet_day / 1000.
 
-	    if (rchdep <= ch_d(jrch)) then
-            rtevp = aaa * ch_l2(jrch) * 1000. * topw
-	    else
-		  if (aaa <=  (rchdep - ch_d(jrch))) then
-              rtevp = aaa * ch_l2(jrch) * 1000. * topw
+	      if (rchdep <= ch_d(jrch)) then
+               rtevp = aaa * ch_l2(jrch) * 1000. * topw
 	      else
-	        rtevp = (rchdep - ch_d(jrch)) 
-	        rtevp = rtevp + (aaa - (rchdep - ch_d(jrch))) 
-              topw = phi(6,jrch) + 2. * ch_d(jrch) * c           
-	        rtevp = rtevp * ch_l2(jrch) * 1000. * topw
+		      if (aaa <=  (rchdep - ch_d(jrch))) then
+                 rtevp = aaa * ch_l2(jrch) * 1000. * topw
+	         else
+	           rtevp = (rchdep - ch_d(jrch)) 
+	           rtevp = rtevp + (aaa - (rchdep - ch_d(jrch))) 
+                 topw = phi(6,jrch) + 2. * ch_d(jrch) * c           
+	           rtevp = rtevp * ch_l2(jrch) * 1000. * topw
+	         end if
 	      end if
-	    end if
 
 	    rtevp2 = rtevp * rchstor(jrch) / (rtwtr + rchstor(jrch))
 
-	    if (rchstor(jrch) <= rtevp2) then
-	      rtevp2 = min(rtevp2, rchstor(jrch))
-	      rchstor(jrch) = rchstor(jrch) - rtevp2
-	      rtevp1 = rtevp - rtevp2
-	      if (rtwtr <= rtevp1) then
-	        rtevp1 = min(rtevp1, rtwtr)
-	        rtwtr = rtwtr - rtevp1
+	      if (rchstor(jrch) <= rtevp2) then
+	         rtevp2 = min(rtevp2, rchstor(jrch))
+	         rchstor(jrch) = rchstor(jrch) - rtevp2
+	         rtevp1 = rtevp - rtevp2
+	         if (rtwtr <= rtevp1) then
+	           rtevp1 = min(rtevp1, rtwtr)
+	           rtwtr = rtwtr - rtevp1
+	         else
+	           rtwtr = rtwtr - rtevp1
+	         end if
 	      else
-	        rtwtr = rtwtr - rtevp1
+	         rchstor(jrch) = rchstor(jrch) - rtevp2
+	         rtevp1 = rtevp - rtevp2
+	         if (rtwtr <= rtevp1) then
+	           rtevp1 = min(rtevp1, rtwtr)
+	           rtwtr = rtwtr - rtevp1
+	         else
+	           rtwtr = rtwtr - rtevp1
+	         end if
 	      end if
-	    else
-	      rchstor(jrch) = rchstor(jrch) - rtevp2
-	      rtevp1 = rtevp - rtevp2
-	      if (rtwtr <= rtevp1) then
-	        rtevp1 = min(rtevp1, rtwtr)
-	        rtwtr = rtwtr - rtevp1
-	      else
-	        rtwtr = rtwtr - rtevp1
-	      end if
-	    end if
-	  rtevp = rtevp1 + rtevp2
-        end if
+	      rtevp = rtevp1 + rtevp2
+         end if
+
+!! define flow parameters for current iteration
+         flwin(jrch) = 0.
+         flwout(jrch) = 0.
+         flwin(jrch) = wtrin
+         flwout(jrch) = rtwtr
 
 !! define flow parameters for current day
-      flwin(jrch) = 0.
-      flwout(jrch) = 0.
-      flwin(jrch) = wtrin
-      flwout(jrch) = rtwtr
+         qinday = qinday + wtrin
+         qoutday = qoutday + rtwtr      
+      
+      
+!! total outflow for the day
+      rtwtr = qoutday
 
       else
         rtwtr = 0.
@@ -328,6 +361,8 @@
         flwin(jrch) = 0.
         flwout(jrch) = 0.
       end if
+      
+      end do
 
 !! precipitation on reach is not calculated because area of HRUs 
 !! in subbasin sums up to entire subbasin area (including channel

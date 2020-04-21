@@ -7,7 +7,7 @@
 !!    name        |units         |definition
 !!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
 !!    ibrn        |none          |counter in readmgt 
-!!    iburn(:,:,:)|julian date   |date of burning  
+!!    iburn(:     |julian date   |date of burning  
 !!    i_burn      |none          |counter that tracks curent burn operation  
 !!    burn_frlb   |none          |fraction of biomass and residue that burn(input in
 !!                               |management file) range (0 - 1.0)                         
@@ -26,7 +26,7 @@
       j = 0
       j = ihru
 
-      xx = burn_frlb(nro(j),i_burn(j)+1,j)
+      xx = burn_frlb
       bio_ms(j) = bio_ms(j) * xx
       plantn(j) = plantn(j) * xx
       pburn = plantp(j) * xx

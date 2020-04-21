@@ -80,12 +80,6 @@
         return
       end if
 
-!     ldrain(j) = 0
-!     if (ldrain(j) == ly1) then
-!       !! COMPUTE LATERAL FLOW WITH TILE DRAINS
-!       lyrtile = 0.
-!       lyrtile = sw_excess * (1. - Exp(-24. / tdrain(j)))
-!     else
         !! COMPUTE LATERAL FLOW USING HILLSLOPE STORAGE METHOD
         if (ly1 == 1) then
           yy = 0.

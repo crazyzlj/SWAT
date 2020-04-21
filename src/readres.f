@@ -283,19 +283,24 @@
       end if
         if (br2(i) > 0.9) then
           br2(i) = 0.9
-          br1(i) = res_psa(i)/res_pvol(i) ** 0.9
+          br1(i) = (res_psa(i)/res_pvol(i)) ** 0.9
         else
-          br1(i) = res_esa(i)/res_evol(i) ** br2(i)
+          br1(i) = (res_esa(i)/res_evol(i)) ** br2(i)
         end if  
       else
         br2(i) = 0.9
-        br1(i) = res_psa(i)/res_pvol(i) ** 0.9
+        br1(i) = (res_psa(i)/res_pvol(i)) ** 0.9
       end if
 
 !! calculate sediment settling rate
-      xx = res_stlr_co * res_d50
-	if (xx > 20.) xx = 20.
-      sed_stlr(i) = Exp(-xx)
+      if(ievent<3) then
+	  sed_stlr(i) = Exp(-.184 * res_d50)
+	else
+	  sed_stlr(i) = Exp(-.184 * res_d50 / nstep)	!! urban modeling by J.Jeong
+	endif
+!!     xx = res_stlr_co * res_d50
+!!	if (xx > 20.) xx = 20.
+!!    sed_stlr(i) = Exp(-xx)
 
 !! read in monthly release data
       if (iresco(i) == 1) then

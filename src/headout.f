@@ -129,11 +129,17 @@
 
 
       if (ipdvar(1) > 0) then
-        write (7,1040) (hedr(ipdvar(j)), j = 1, itotr)  !! custom printout
-
-      else
-        write (7,1040) (hedr(j), j = 1, mrcho)          !! default printout
-	  
+        if (iprint /= 3) then
+	    write (7,1040) (hedr(ipdvar(j)), j = 1, itotr)  !! daily/monthly output
+	  else
+	    write (7,1041) (hedr(ipdvar(j)), j = 1, itotr)  !! subdaily output
+	  endif
+      else     !! default printout
+         if (iprint /= 3) then
+           write (7,1040) (hedr(j), j = 1, mrcho)       !! daily/monthly output   
+ 	  else
+            write (7,1041) (hedr(j), j = 1, mrcho)          !! subdaily output
+ 	  endif
       endif 
 
 !! write headings to reach output file (output2.rch)
@@ -179,10 +185,12 @@
 
  
 !! write headings to HRU impoundment output file (output.wtr)
-      write (29,1000) prog, values(2), values(3), values(1), values(5), &
+      if (iwtr == 1) then
+        write (29,1000)prog, values(2), values(3), values(1), values(5), &
      &                values(6), values(7)
-      write (29,1010) title
-      write (29,1020) (hedwtr(j), j = 1, 40)
+        write (29,1010) title
+        write (29,1020) (hedwtr(j), j = 1, 40)
+      end if
 
 !! write headings to pesticide output file (output.pst)
       if (iprp /= 0) then
@@ -198,9 +206,11 @@
       return
  1000 format ('1',/t5,a80,t105,2(i2,'/'),i4,5x,2(i2,':'),i2)
  1010 format (/(t5,20a4))
- 1020 format (//'LULC HRU      GIS  SUB  MGT  MON','   AREAkm2',73(a10))
- 1030 format (//6x,' SUB      GIS  MON   AREAkm2',21(a10))
- 1040 format (//7x,'RCH      GIS   MON     AREAkm2',54a12)
+ 1020 format (//'LULC  HRU          GIS  SUB  MGT  MON','   AREAkm2',
+     * 76(a10))
+ 1030 format (//6x,' SUB      GIS  MON   AREAkm2',22(a10))
+ 1040 format (//7x,'RCH      GIS   MON     AREAkm2',56a12)
+ 1041 format (//7x,'RCH      GIS   DAY   DET     AREAkm2',45a12)    
  1050 format (//6x,'     RES  MON',41a12)
  1060 format (//6x,'RCH GIS  MON',26a12)
  2000 format (a12,12x,i4,4x,i4)

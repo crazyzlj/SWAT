@@ -10,7 +10,7 @@
 !!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
 !!    ihru          |none          |HRU number
 !!    mlyr          |none          |maximum number of soil layers
-!!    idplt(1,1,:)  |none          |land cover/crop identification code for
+!!    idplt(:)      |none          |land cover/crop identification code for
 !!                                 |first crop grown in HRU (the only crop if
 !!                                 |there is no rotation)
 !!    rdmx(:)       |m             |maximum root depth of plant
@@ -85,13 +85,6 @@
       nly = 0
       plt_zmx = 0.
 
-!!    initialize remaining soil parameters      
-      sol_sand = 0.
-      sol_ec = 0.
-      sol_silt = 0.
-
-
-
       read (107,5500) titldum
       read (107,5100) snam(ihru)
       read (107,5200) hydgrp(ihru)
@@ -128,6 +121,15 @@
 !    change below double subscripted sol_ec statement 1/27/09 when making septic changes
       read (107,5000,iostat=eof) (sol_ec(j,ihru), j = 1, nly)
 !    change below double subscripted sol_ec statement 1/27/09 when making septic changes
+ 
+      !! MJW added rev 490
+	!!CaCo3 content (%) 
+	if (eof < 0) exit	
+	  read (107,5000,iostat=eof) (sol_cal(j,ihru), j = 1, nly) 	
+	!! PH-H20  
+	if (eof < 0) exit
+	  read (107,5000,iostat=eof) (sol_ph(j,ihru), j = 1, nly) 
+      
       if (eof < 0) exit
       exit
       end do
@@ -160,7 +162,8 @@
                   sol_clay(j,ihru) = sol_clay(j-1,ihru)
                   sol_sand(j,ihru) = sol_sand(j-1,ihru) !!! Claire 2 Dec 2009
                   sol_silt(j,ihru) = sol_silt(j-1,ihru) !!! Claire 2 Dec 2009
-		    
+                  sol_ph(j,ihru) = sol_ph(j-1,ihru) !! mjw rev 490
+		          sol_cal(j,ihru) = sol_cal(j-1,ihru) !! mjw rev 490
 	!!Armen January 2009 end
 !    change below double subscripted sol_ec statement 1/27/09 when making septic changes
           sol_ec(j,ihru) = sol_ec(j-1,ihru)
@@ -181,8 +184,11 @@
 !!    compare maximum rooting depth in soil to maximum rooting depth of
 !!    plant
       if (sol_zmx(ihru) <= 0.001) sol_zmx(ihru) = sol_z(nly,ihru)
-      if (nrot(ihru) > 0) then
-        plt_zmx = 1000. * rdmx(idplt(1,1,ihru))
+      plt_zmx = 0.
+	if (idplt(ihru) > 0) then
+	   if (idc(idplt(ihru)) > 0) then
+           plt_zmx = 1000. * rdmx(idplt(ihru))
+	   end if
       end if
       if (sol_zmx(ihru) > 1. .and. plt_zmx > 1.) then
          sol_zmx(ihru) = Min(sol_zmx(ihru),plt_zmx)
@@ -192,9 +198,9 @@
       end if
 
 !! create a layer boundary at maximum rooting depth (sol_zmx)
-      if (sol_zmx(i) > 0.001.and.sol_zmx(ihru)/=sol_z(nly,ihru)) then
-         call layersplit (sol_zmx(ihru))
-      end if
+      !if (sol_zmx(i) > 0.001.and.sol_zmx(ihru)/=sol_z(nly,ihru)) then
+      !   call layersplit (sol_zmx(ihru))
+      !end if
 
 !! create a bizone layer in septic HRUs
       if (isep_opt(ihru) /= 0) then 
@@ -248,6 +254,9 @@
         if (sol_bd(j,ihru) <= 1.e-6) sol_bd(j,ihru) = 1.3
         if (sol_bd(j,ihru) > 2.) sol_bd(j,ihru) = 2.0
         if (sol_awc(j,ihru) <= 0.) sol_awc(j,ihru) = .005
+        !! Defaults for ph and calcium mjw average of 20,000 SSURGO soils mjw rev 490
+        if (sol_cal(j,ihru)<= 1.e-6) sol_cal(j,ihru) = 2.8
+        if (sol_ph(j,ihru)<= 1.e-6) sol_ph(j,ihru) = 6.5
       end do
 
 

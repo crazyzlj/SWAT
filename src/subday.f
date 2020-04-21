@@ -92,6 +92,7 @@
 !     pdvab(19) = chl_a(sb)
 !     pdvab(20) = cbodu(sb)
 !     pdvab(21) = doxq(sb)
+      pdvab(22) = sub_tileno3(sb)
       pdvab(19) = sub_chl(sb) / sub_ha
       pdvab(20) = sub_cbod(sb) / sub_ha
       pdvab(21) = sub_dox(sb) / sub_ha
@@ -123,5 +124,5 @@
 !     changed for jennifer b.
 !1000 format ('BIGSUB',i4,1x,i8,1x,i4,e10.5,18f10.3)
 !1000 format ('BIGSUB',i4,1x,i8,1x,i4,e10.5,21f10.3)
- 1000 format ('BIGSUB',i4,1x,i8,1x,i4,e10.5,18e10.3,1x,e10.5,2e10.3)
+ 1000 format ('BIGSUB',i4,1x,i8,1x,i4,e10.5,18e10.3,1x,e10.5,3e10.3)
       end 

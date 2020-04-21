@@ -30,25 +30,36 @@
       integer :: eof 
   
       eof = 0
-
-	  rcn_sub = rcn_sub_bsn
+  
+      rcn_sub = rcn_sub_bsn
 
 !!    Atmosperic deposition filename present in file.cio
       if (atmofile /= '             ') then
         open (127,file=atmofile)
-        do iii = 1, 5
-          read (127,5101) titldum
-        end do
-        do isub = 1, subtot
-          read (127,1000,iostat=eof)  rammo_sub(isub), rcn_sub(isub),
-     &    drydep_nh4(isub), drydep_no3(isub)
-          if (eof < 0) exit
-        end do
-      else
+          do iii = 1, 5
+            read (127,5101) titldum
+          end do
+  !!      if (iatmodep == 0) then
+          do isub = 1, subtot
+            read (127,1000,iostat=eof) rammo_sub(isub), rcn_sub(isub),  &
+     &        drydep_nh4(isub), drydep_no3(isub)
+            if (eof < 0) exit
+          end do
+  !!      else
+  !!          read (127,1001,iostat=eof) mo_atmo1, iyr_atmo1
+  !!          iii = 0
+  !!        do isub = 1, subtot
+  !1          iii = iii + 1
+  !!          read (127,1002) iim, iiyrm, (rammo(imo,isub),imo = 1,
+  !!          read (127,1002) iim, iiyrm, rcn(
+  !!          read (127,1002) iim, iiyrm, drydep_nh4(
+  !!          read (127,1002) iim, iiyrm, drydep_no3(
+  !!    else
 !!    no filename present in file.cio - set defaults
         rammo_sub = 0.
 	  rcn_sub = rcn_sub_bsn
-      end if
+        endif
+   !!   end if
 
 
 1000  format (8x,4f10.3)

@@ -9,7 +9,7 @@
 !!    name        |units            |definition
 !!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
 !!    blai(:)     |none             |maximum (potential) leaf area index
-!!    auto_nstrs(:)|none             |nitrogen stress factor which triggers
+!!    auto_nstrs(:) |none           |nitrogen stress factor which triggers
 !!                                  |auto fertilization
 !!    bio_e(:)    |(kg/ha)/(MJ/m**2)|biomass-energy ratio
 !!                                  |The potential (unstressed) growth rate per
@@ -43,7 +43,7 @@
 !!    idorm(:)    |none             |dormancy status code:
 !!                                  |0 land cover growing (not dormant)
 !!                                  |1 land cover dormant
-!!    idplt(:,:,:)|none             |land cover code from crop.dat
+!!    idplt(:)    |none             |land cover code from crop.dat
 !!    igro(:)     |none             |land cover status code:
 !!                                  |0 no land cover currently growing
 !!                                  |1 land cover growing
@@ -62,7 +62,7 @@
 !!    olai(:)     |
 !!    pet_day     |mm H2O           |potential evapotranspiration on current day
 !!                                  |in HRU
-!!    phu_plt(:,:,:)|heat units       |total number of heat units to bring plant
+!!    phu_plt(:)  |heat units       |total number of heat units to bring plant
 !!                                  |to maturity
 !!    phuacc(:)   |none             |fraction of plant heat units accumulated
 !!    plt_et(:)   |mm H2O           |actual ET simulated during life of plant
@@ -165,12 +165,12 @@
 
         !! plant will not undergo stress if dormant
         if (idorm(j) == 1) return
-        idp = idplt(nro(j),icr(j),j)
+        idp = idplt(j)
 
         !! update accumulated heat units for the plant
         delg = 0.
-        if (phu_plt(nro(j),icr(j),j) > 0.1) then
-          delg = (tmpav(j) - t_base(idp)) / phu_plt(nro(j),icr(j),j)
+        if (phu_plt(j) > 0.1) then
+          delg = (tmpav(j) - t_base(idp)) / phu_plt(j)
         end if
         if (delg < 0.) delg = 0.
         phuacc(j) = phuacc(j) + delg  
@@ -228,9 +228,9 @@
           if (reg < 0.) reg = 0.
           if (reg > 1.) reg = 1.
 
-          if (bio_targ(nro(j),icr(j),j) > 1.e-2) then
-            bioday = bioday * (bio_targ(nro(j),icr(j),j) - bio_ms(j)) / &
-     &                                         bio_targ(nro(j),icr(j),j)
+          if (bio_targ(j) > 1.e-2) then
+            bioday = bioday * (bio_targ(j) - bio_ms(j)) / 
+     &                                         bio_targ(j)
             reg = 1.
           end if
  
@@ -249,9 +249,8 @@
 
 
           !! calculate fraction of total biomass that is in the roots
-  !!        rwt(j) = .4 - .2 * phuacc(j)
-      rwt(j) = rsr1(idplt(nro(j),icr(j),j))-rsr2(idplt(nro(j),icr(j),j))&
-     &                  * phuacc(j)
+          rwt(j) = .4 - .2 * phuacc(j)
+
           f = 0.
           ff = 0.
           f = phuacc(j) / (phuacc(j) + Exp(leaf1(idp)                   &
@@ -275,6 +274,7 @@
             else
               laimax = blai(idp)
             end if
+
             if (laiday(j) > laimax) laiday(j) = laimax
             deltalai = ff * laimax * (1.0 - Exp(5.0 * (laiday(j) -      &
      &                                             laimax))) * Sqrt(reg)
@@ -286,8 +286,10 @@
             laiday(j) = olai(j) * (1. - phuacc(j)) /                    &
      &                               (1. - dlai(idp))
           end if
-          if (laiday(j) < 0.) laiday(j) = 0.
-
+          if (laiday(j) < alai_min(idplt(j))) then   !Sue White dormancy
+            laiday(j) = alai_min(idplt(j))
+          end if
+          
           !! calculate plant ET values
           if (phuacc(j) > 0.5 .and. phuacc(j) < dlai(idp)) then
             plt_et(j) = plt_et(j) + ep_day + es_day
@@ -296,6 +298,13 @@
 
           hvstiadj(j) = hvsti(idp) * 100. * phuacc(j)                   &
      &                / (100. * phuacc(j) + Exp(11.1 - 10. * phuacc(j)))
+
+!!  added per JGA for Srini by gsm 9/8/2011
+          strsw_sum(j) = strsw_sum(j) + (1. - strsw(j))
+          strstmp_sum(j) = strstmp_sum(j) + (1. - strstmp(j))
+          strsn_sum(j) = strsn_sum(j) + (1. - strsn(j))
+          strsp_sum(j) = strsp_sum(j) + (1. - strsp(j)) 
+          strsa_sum(j) = strsa_sum(j) + (1. - strsa(j))             
 
           !! summary calculations
           if (curyr > nyskip) then

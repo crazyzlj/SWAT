@@ -15,7 +15,7 @@
 !!    hru_dafr(:)  |km**2/km**2      |fraction of watershed area in HRU
 !!    hru_km(:)    |km**2            |area of HRU in square kilometers
 !!    ihru         |none             |HRU number
-!!    ipest(:,:,:) |none             |pesticide identification number from
+!!    ipest        |none             |pesticide identification number from
 !!                                   |pest.dat
 !!    irtpest      |none             |the sequence number of the pesticide type
 !!                                   |in NPNO(:) which is to be routed through
@@ -28,8 +28,8 @@
 !!    nyskip       |none             |number of years to skip output
 !!                                   |summarization/printing
 !!    plt_pst(:,:) |kg/ha            |pesticide on plant foliage
-!!    pst_dep(:,:,:) |kg/ha          |depth of pesticide in soil
-!!    pst_kg(:,:,:)|kg/ha            |amount of pesticide applied to HRU
+!!    pst_dep(:,:) |kg/ha          |depth of pesticide in soil
+!!    pst_kg       |kg/ha            |amount of pesticide applied to HRU
 !!    sol_pst(:,:,1)|kg/ha           |pesticide in first layer of soil
 !!    wshd_pstap(:)|kg/ha            |total amount of pesticide type applied in 
 !!                                   |watershed during simulation
@@ -79,11 +79,11 @@
       jj = 0
       xx = 0.
 
-      kk = ipest(nro(j),npest(j),j)
+      kk = ipest                      
 
       k = nope(kk)
 
-      xx = pst_kg(nro(j),npest(j),j)
+      xx = pst_kg                       
 
       jj = inum1
 
@@ -96,16 +96,16 @@
       xx = xx * ap_ef(kk) 
 
 !   added for pesticide incorporation 3/31/08 gsm
-      if (pst_dep(nro(j),npest(j),j) > 1.e-6) then
+      if (pst_dep(npest(j),j) > 1.e-6) then
        do nly = 1,sol_nly(j)
          if (nly == 1) then
-         if (pst_dep(nro(j),npest(j),j) < sol_z(nly,j)) then
+         if (pst_dep(npest(j),j) < sol_z(nly,j)) then
            sol_pst(k,j,1) = sol_pst(k,j,1) + xx
            exit
          endif
        else
-         if (pst_dep(nro(j),npest(j),j) > sol_z((nly-1),j) .and.         &
-     &                 pst_dep(nro(j),npest(j),j) < sol_z(nly,j)) then
+          if (pst_dep(npest(j),j) > sol_z((nly-1),j) .and.                &     
+     &                 pst_dep(npest(j),j) < sol_z(nly,j)) then
              sol_pst(k,j,nly) = sol_pst(k,j,nly) + xx
            exit
            endif
@@ -127,7 +127,7 @@
 
 !! summary calculations
       if (curyr > nyskip) then
-        wshd_pstap(k) = wshd_pstap(k) + pst_kg(nro(j),npest(j),j) *     &
+        wshd_pstap(k) = wshd_pstap(k) + pst_kg                    *     &
      &                                           ap_ef(kk) * hru_dafr(j)
       end if
 

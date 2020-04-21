@@ -15,11 +15,11 @@
 !!    cnyld(:)    |kg N/kg yield  |fraction of nitrogen in yield
 !!    cpyld(:)    |kg P/kg yield  |fraction of phosphorus in yield
 !!    curyr       |none           |current year in simulation
-!!    harveff(:,:,:)|none         |harvest efficiency: fraction of harvested 
+!!    harveff       |none         |harvest efficiency: fraction of harvested 
 !!                                |yield that is removed from HRU; the 
 !!                                |remainder becomes residue on the soil
 !!                                |surface
-!!    hi_ovr(:,:,:)|(kg/ha)/(kg/ha)|harvest index target specified at
+!!    hi_ovr      |(kg/ha)/(kg/ha)|harvest index target specified at
 !!                                |harvest
 !!    hru_dafr(:) |km2/km2        |fraction of watershed area in HRU
 !!    hrupest(:)  |none           |pesticide use flag:
@@ -39,7 +39,7 @@
 !!                                |5 cold season annual
 !!                                |6 perennial
 !!                                |7 trees
-!!    idplt(:,:,:)|none           |land cover code from crop.dat
+!!    idplt(:)    |none           |land cover code from crop.dat
 !!    ihru        |none           |HRU number
 !!    laiday(:)   |none           |leaf area index
 !!    ncut(:)     |none           |sequence number of harvest operation within
@@ -97,7 +97,7 @@
 !!    sol_pst(:,:,1)|kg/ha        |pesticide in first layer of soil
 !!    sol_rsd(:,:)|kg/ha          |amount of organic matter in the soil
 !!                                |classified as residue
-!!    tnyld(:,:,:)|kg N/kg yield  |modifier for autofertilization target
+!!    tnyld(:)    |kg N/kg yield  |modifier for autofertilization target
 !!                                |nitrogen content for plant
 !!    wshd_yldn   |kg N/ha        |amount of nitrogen removed from soil in
 !!                                |watershed in the yield
@@ -132,7 +132,10 @@
       use parm
   
       integer :: j, k
-      real :: hiad1, wur, yield, clip, yieldn, yieldp, clipn, clipp
+      
+!!   change per JGA 8/31/2011 gsm PUT YIELD IN modparm.f
+!!    real :: hiad1, wur, yield, clip, yieldn, yieldp, clipn, clipp
+      real :: hiad1, wur, clip, yieldn, yieldp, clipn, clipp
       real :: yldpst, clippst, rtresnew
 
       j = 0
@@ -151,18 +154,17 @@
 	
 	
 !! calculate modifier for autofertilization target nitrogen content
-      tnyld(nro(j),icr(j),j) = 0.
-      tnyld(nro(j),icr(j),j) = (1. - rwt(j)) * bio_ms(j) * pltfr_n(j) * &
-     &                                                       auto_eff(j)
-      if (icr(j) > 1) then
-        tnyld(nro(j),icr(j)-1,j) = tnyld(nro(j),icr(j),j)
-      else
-        tnyld(nro(j),icr(j)+1,j) = tnyld(nro(j),icr(j),j)
-      end if
+      tnyld(j) = 0.
+      tnyld(j) = (1. - rwt(j)) * bio_ms(j) * pltfr_n(j) * auto_eff(j)
+!     if (icr(j) > 1) then
+!       tnyld(nro(j),icr(j)-1,j) = tnyld(nro(j),icr(j),j)
+!     else
+!       tnyld(nro(j),icr(j)+1,j) = tnyld(nro(j),icr(j),j)
+!     end if
 
       hiad1 = 0.
-      if (hi_ovr(nro(j),ncut(j),j) > 0.) then
-        hiad1 = hi_ovr(nro(j),ncut(j),j)
+      if (hi_ovr > 0.) then
+        hiad1 = hi_ovr
       else
         if (plt_pet(j) < 10.) then
           wur = 100.
@@ -170,18 +172,18 @@
           wur = 0.
           wur = 100. * plt_et(j) / plt_pet(j)
         endif
-        hiad1 = (hvstiadj(j) - wsyf(idplt(nro(j),icr(j),j))) *          &
+        hiad1 = (hvstiadj(j) - wsyf(idplt(j))) *                        &
      &      (wur / (wur + Exp(6.13 - .0883 * wur))) +                   &
-     &      wsyf(idplt(nro(j),icr(j),j))
-        if (hiad1 > hvsti(idplt(nro(j),icr(j),j))) then
-          hiad1 = hvsti(idplt(nro(j),icr(j),j))
+     &      wsyf(idplt(j))
+        if (hiad1 > hvsti(idplt(j))) then
+          hiad1 = hvsti(idplt(j))
         end if
       end if
 
 
 !! check if yield is from above or below ground
       yield = 0.
-      if (hvsti(idplt(nro(j),icr(j),j)) > 1.001) then
+      if (hvsti(idplt(j)) > 1.001) then
         yield = bio_ms(j) * (1. - 1. / (1. + hiad1))
       else
         yield = (1.-rwt(j)) * bio_ms(j) * hiad1
@@ -190,12 +192,12 @@
 
 !! determine clippings (biomass left behind) and update yield
       clip = 0.
-      clip = yield * (1. - harveff(nro(j),ncut(j),j))
-      yield = yield * harveff(nro(j),ncut(j),j)
+      clip = yield * (1. - harveff)
+      yield = yield * harveff
       if (yield < 0.) yield = 0.
       if (clip < 0.) clip = 0.
 
-      if (hi_ovr(nro(j),ncut(j),j) > 0.) then
+      if (hi_ovr                   > 0.) then
         !! calculate nutrients removed with yield
         yieldn = 0.
         yieldp = 0.
@@ -214,15 +216,15 @@
         !! calculate nutrients removed with yield
         yieldn = 0.
         yieldp = 0.
-        yieldn = yield * cnyld(idplt(nro(j),icr(j),j))
-        yieldp = yield * cpyld(idplt(nro(j),icr(j),j))
+        yieldn = yield * cnyld(idplt(j))
+        yieldp = yield * cpyld(idplt(j))
         yieldn = Min(yieldn, 0.80 * plantn(j)) ! note Armen changed .80 for 0.9
         yieldp = Min(yieldp, 0.80 * plantp(j)) ! note Armen changed .80 for 0.9
         !! calculate nutrients removed with clippings
         clipn = 0.
         clipp = 0.
-        clipn = clip * cnyld(idplt(nro(j),icr(j),j))
-        clipp = clip * cpyld(idplt(nro(j),icr(j),j))
+        clipn = clip * cnyld(idplt(j))
+        clipp = clip * cpyld(idplt(j))
         clipn = Min(clipn,plantn(j)-yieldn)
         clipp = Min(clipp,plantp(j)-yieldp)
       endif
@@ -262,11 +264,12 @@
 
       !! reset leaf area index and fraction of growing season
       if (ssb > 0.001) then
-        laiday(j) = laiday(j) * (1. - ff3)  
+        laiday(j) = laiday(j) * (1. - ff3)
+        if (laiday(j) < alai_min(idplt(j))) then   !Sue
+          laiday(j) = alai_min(idplt(j))
+        end if
         if (phuacc(j) < .999) phuacc(j) = phuacc(j) * (1. - ff3)  
-!!        rwt(j) = .4 - .2 * phuacc(j)
-      rwt(j) = rsr1(idplt(nro(j),icr(j),j))-rsr2(idplt(nro(j),icr(j),j))& 
-     &          * phuacc(j)        
+        rwt(j) = .4 - .2 * phuacc(j)        
       else
         bio_ms(j) = 0.
         laiday(j) = 0.
@@ -299,7 +302,7 @@
           !! calculate amount of pesticide removed with yield and clippings
           yldpst = 0.
           clippst = 0.
-          if (hvsti(idplt(nro(j),icr(j),j)) > 1.001) then
+          if (hvsti(idplt(j)) > 1.001) then
             yldpst = plt_pst(k,j)
             plt_pst(k,j) = 0.
           else
@@ -307,7 +310,7 @@
             plt_pst(k,j) = plt_pst(k,j) - yldpst
             if (plt_pst(k,j) < 0.) plt_pst(k,j) = 0.
           endif
-          clippst = yldpst * (1. - harveff(nro(j),ncut(j),j))
+          clippst = yldpst * (1. - harveff)
           if (clippst < 0.) clippst = 0.
           !! add pesticide in clippings to soil surface
           sol_pst(k,j,1) = sol_pst(k,j,1) + clippst
@@ -318,16 +321,16 @@
       if (curyr > nyskip) then
         wshd_yldn = wshd_yldn + yieldn * hru_dafr(j)
         wshd_yldp = wshd_yldp + yieldp * hru_dafr(j)
-        yldkg(nro(j),icr(j),j) = yldkg(nro(j),icr(j),j) + yield
+        yldkg(icr(j),j) = yldkg(icr(j),j) + yield
         yldanu(j) = yldanu(j) + yield  / 1000.    
 
-       ! select case (idc(idplt(nro(j),icr(j),j)))
+       ! select case (idc(idplt(j)))
        !   case (3, 6, 7)
        !     bio_hv(nro(j),icr(j),j) = (yield + clip) + bio_hv(nro(j),icr(j),j)
        !     bio_yrms(j) = bio_yrms(j) + (yield + clip) / 1000.
        !   case default
-        bio_hv(nro(j),icr(j),j) = (yield + clip + rtresnew) + 
-     &                                           bio_hv(nro(j),icr(j),j)      !! Jeff, is this the intention
+        bio_hv(icr(j),j) = (yield + clip + rtresnew) + 
+     &                                           bio_hv(icr(j),j)                       !! Jeff, is this the intention
         bio_yrms(j) = bio_yrms(j) + (yield + clip + rtresnew) / 1000.		            !! Jeff, is this the intention
        ! end select
       endif

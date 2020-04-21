@@ -90,7 +90,7 @@
 !! zero flow out variables
       do j = 1, mvaro
         varoute(j,ihout) = 0.
-        do ii = 1, 24
+        do ii = 1, nstep
           hhvaroute(j,ihout,ii) = 0.
         end do
       end do
@@ -124,25 +124,25 @@
       varoute(28,ihout) = 0.                        ! gravel
 
       if (ievent > 2) then
-        do ii = 1, 24
-          hhvaroute(2,ihout,ii) = floyr(inum1,curyr) / 24.
-          hhvaroute(3,ihout,ii) = sedyr(inum1,curyr) / 24.
-          hhvaroute(4,ihout,ii) = orgnyr(inum1,curyr) / 24.
-          hhvaroute(5,ihout,ii) = orgpyr(inum1,curyr) / 24.
-          hhvaroute(6,ihout,ii) = no3yr(inum1,curyr) / 24.
-          hhvaroute(7,ihout,ii) = minpyr(inum1,curyr) / 24.
-          hhvaroute(11,ihout,ii) = solpstyr(inum1,curyr) / 24.
-          hhvaroute(12,ihout,ii) = srbpstyr(inum1,curyr) / 24.
-          hhvaroute(13,ihout,ii) = chlayr(inum1,curyr) / 24.
-          hhvaroute(14,ihout,ii) = nh3yr(inum1,curyr) / 24.
-          hhvaroute(15,ihout,ii) = no2yr(inum1,curyr) / 24.
-          hhvaroute(16,ihout,ii) = cbodyr(inum1,curyr) / 24.
-          hhvaroute(17,ihout,ii) = disoxyr(inum1,curyr) / 24.
-          hhvaroute(18,ihout,ii) = bactpyr(inum1,curyr) / 24.
-          hhvaroute(19,ihout,ii) = bactlpyr(inum1,curyr) / 24.
-          hhvaroute(20,ihout,ii) = cmtl1yr(inum1,curyr) / 24.
-          hhvaroute(21,ihout,ii) = cmtl2yr(inum1,curyr) / 24.
-          hhvaroute(22,ihout,ii) = cmtl3yr(inum1,curyr) / 24.
+        do ii = 1, nstep
+          hhvaroute(2,ihout,ii) = floyr(inum1,curyr) / real(nstep)
+          hhvaroute(3,ihout,ii) = sedyr(inum1,curyr) / real(nstep)
+          hhvaroute(4,ihout,ii) = orgnyr(inum1,curyr) / real(nstep)
+          hhvaroute(5,ihout,ii) = orgpyr(inum1,curyr) / real(nstep)
+          hhvaroute(6,ihout,ii) = no3yr(inum1,curyr) / real(nstep)
+          hhvaroute(7,ihout,ii) = minpyr(inum1,curyr) / real(nstep)
+          hhvaroute(11,ihout,ii) = solpstyr(inum1,curyr) / real(nstep)
+          hhvaroute(12,ihout,ii) = srbpstyr(inum1,curyr) / real(nstep)
+          hhvaroute(13,ihout,ii) = chlayr(inum1,curyr) / real(nstep)
+          hhvaroute(14,ihout,ii) = nh3yr(inum1,curyr) / real(nstep)
+          hhvaroute(15,ihout,ii) = no2yr(inum1,curyr) / real(nstep)
+          hhvaroute(16,ihout,ii) = cbodyr(inum1,curyr) / real(nstep)
+          hhvaroute(17,ihout,ii) = disoxyr(inum1,curyr) / real(nstep)
+          hhvaroute(18,ihout,ii) = bactpyr(inum1,curyr) / real(nstep)
+          hhvaroute(19,ihout,ii) = bactlpyr(inum1,curyr) / real(nstep)
+          hhvaroute(20,ihout,ii) = cmtl1yr(inum1,curyr) / real(nstep)
+          hhvaroute(21,ihout,ii) = cmtl2yr(inum1,curyr) / real(nstep)
+          hhvaroute(22,ihout,ii) = cmtl3yr(inum1,curyr) / real(nstep)
         end do
       end if
 

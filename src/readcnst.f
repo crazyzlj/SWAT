@@ -60,9 +60,6 @@
      &             solpstcnst(i), srbpstcnst(i), bactpcnst(i),          &
      &             bactlpcnst(i), cmtl1cnst(i), cmtl2cnst(i),           &
      &             cmtl3cnst(i)
-!! Pinue adjustments!!
-c	written by Ann van Griensven	
-	
 
       close (109)
 

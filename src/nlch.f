@@ -2,7 +2,7 @@
       
 !!    ~ ~ ~ PURPOSE ~ ~ ~
 !!    this subroutine simulates the loss of nitrate via surface runoff, 
-!!    lateral flow, and percolation out of the profile
+!!    lateral flow, tile flow, and percolation out of the profile
 
 !!    ~ ~ ~ INCOMING VARIABLES ~ ~ ~
 !!    name        |units         |definition
@@ -86,6 +86,7 @@
           sro = 0.
         end if
         vv = sol_prk(jj,j) + sro + flat(jj,j) + 1.e-10
+        if (ldrain(j) == jj) vv = vv + qtile
         ww = -vv / ((1. - anion_excl(j)) * sol_ul(jj,j))
         vno3 = sol_no3(jj,j) * (1. - Exp(ww))
         co = Max(vno3 / vv, 0.)
@@ -98,17 +99,21 @@
           surqno3(j) = Min(surqno3(j), sol_no3(jj,j))
           sol_no3(jj,j) = sol_no3(jj,j) - surqno3(j)
         endif
+ !Daniel 1/2012    
+        !! calculate nitrate in tile flow 
+        if (ldrain(j) == jj) then
+          tileno3(j) = nperco * co * qtile     !Daniel 1/2012
+          tileno3(j) = Min(tileno3(j), sol_no3(jj,j))
+          sol_no3(jj,j) = sol_no3(jj,j) - tileno3(j)          
+        end if
+ !Daniel 1/2012                  
 
         !! calculate nitrate in lateral flow
         ssfnlyr = 0.
         if (jj == 1) then
           ssfnlyr = cosurf * flat(jj,j)
         else
-          if (ldrain(j) == jj) then
-            ssfnlyr = co * (flat(jj,j) + qtile)
-          else
-            ssfnlyr = co * flat(jj,j)
-          end if 
+          ssfnlyr = co * flat(jj,j)
         end if
         ssfnlyr = Min(ssfnlyr, sol_no3(jj,j))
         latno3(j) = latno3(j) + ssfnlyr

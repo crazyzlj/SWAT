@@ -12,7 +12,7 @@
 !!    bio_hv(:,:,:)|kg/ha          |harvested biomass (dry weight)
 !!    bio_ms(:)   |kg/ha          |land cover/crop biomass (dry weight)
 !!    bio_yrms(:) |metric tons/ha |annual biomass (dry weight) in the HRU
-!!    cnop(:,:,:) |none           |SCS runoff curve number for moisture
+!!    cnop        |none           |SCS runoff curve number for moisture
 !!                                |condition II
 !!    cnyld(:)    |kg N/kg yield  |fraction of nitrogen in yield
 !!    cpyld(:)    |kg P/kg yield  |fraction of phosphorus in yield
@@ -29,7 +29,7 @@
 !!                                |growing season
 !!    icr(:)      |none           |sequence number of crop grown within the
 !!                                |current year
-!!    idplt(:,:,:)|none           |land cover code from crop.dat
+!!    idplt(:)    |none           |land cover code from crop.dat
 !!    ihru        |none           |HRU number
 !!    ncrops(:,:,:)|
 !!    npmx        |none           |number of different pesticides used in
@@ -92,7 +92,7 @@
 !!    strsw(:)    |none          |fraction of potential plant growth achieved
 !!                               |on the day where the reduction is caused by
 !!                               |water stress
-!!    tnyld(:,:,:)|kg N/kg yield |modifier for autofertilization target
+!!    tnyld(:)    |kg N/kg yield |modifier for autofertilization target
 !!                               |nitrogen content for plant
 !!    wshd_yldn   |kg N/ha       |amount of nitrogen removed from soil in
 !!                               |watershed in the yield
@@ -125,7 +125,10 @@
       use parm
   
       integer :: j, k
-      real :: wur, hiad1, yield, yieldn, yieldp, yldpst
+      
+!!   change per JGA 8/31/2011 gsm PUT YIELD IN modparm.f
+!!      real :: wur, hiad1, yield, yieldn, yieldp, yldpst
+      real :: wur, hiad1, yieldn, yieldp, yldpst
 	real :: resnew, rtresnew 
 	
 
@@ -133,19 +136,18 @@
       j = ihru
 
 	!! calculate modifier for autofertilization target nitrogen content
-      tnyld(nro(j),icr(j),j) = 0.
-      tnyld(nro(j),icr(j),j) = (1. - rwt(j)) * bio_ms(j) * pltfr_n(j) * &
-     &                                                       auto_eff(j)
-      if (icr(j) > 1) then
-        tnyld(nro(j),icr(j)-1,j) = tnyld(nro(j),icr(j),j)
-      else
-        tnyld(nro(j),icr(j)+1,j) = tnyld(nro(j),icr(j),j)
-      end if
+      tnyld(j) = 0.
+      tnyld(j) = (1. - rwt(j)) * bio_ms(j) * pltfr_n(j) * auto_eff(j)
+!     if (icr(j) > 1) then
+!       tnyld(nro(j),icr(j)-1,j) = tnyld(nro(j),icr(j),j)
+!     else
+!       tnyld(nro(j),icr(j)+1,j) = tnyld(nro(j),icr(j),j)
+!     end if
 
 
       hiad1 = 0.
-      if (hi_targ(nro(j),icr(j),j) > 0.) then
-        hiad1 = hi_targ(nro(j),icr(j),j)
+      if (hi_targ(j) > 0.) then
+        hiad1 = hi_targ(j)
       else
         if (plt_pet(j) < 10.) then
           wur = 100.
@@ -154,12 +156,12 @@
           wur = 100. * plt_et(j) / plt_pet(j)
         endif
 
-        hiad1 = (hvstiadj(j) - wsyf(idplt(nro(j),icr(j),j))) *          &
+        hiad1 = (hvstiadj(j) - wsyf(idplt(j))) *                        &
      &      (wur / (wur + Exp(6.13 - .0883 * wur))) +                   &
-     &      wsyf(idplt(nro(j),icr(j),j))
+     &      wsyf(idplt(j))
 
-        if (hiad1 > hvsti(idplt(nro(j),icr(j),j))) then 
-          hiad1 = hvsti(idplt(nro(j),icr(j),j))
+        if (hiad1 > hvsti(idplt(j))) then 
+          hiad1 = hvsti(idplt(j))
         end if
       end if
 
@@ -170,14 +172,13 @@
       rtresnew = 0.
 
 !! stover fraction during harvkillop
-      xx = frac_harvk(nro(j),icr(j),j)
+      xx = frac_harvk
       if (xx .lt. 1.e-6) then
-!       xx = hi_ovr(nro(j),icr(j),j)
-        xx = hi_ovr(nro(j),ncut(j),j)
+        xx = hi_ovr                      
       endif
 !! stover fraction during harvkillop
 
-      if (hvsti(idplt(nro(j),icr(j),j)) > 1.001) then
+      if (hvsti(idplt(j)) > 1.001) then
         yield = bio_ms(j) * (1. - 1. / (1. + hiad1))
         resnew = bio_ms(j) / (1. + hiad1)
         resnew = resnew * (1. - xx)
@@ -197,8 +198,8 @@
 	!! calculate nutrients removed with yield
       yieldn = 0.
       yieldp = 0.
-      yieldn = yield * cnyld(idplt(nro(j),icr(j),j))
-      yieldp = yield * cpyld(idplt(nro(j),icr(j),j))
+      yieldn = yield * cnyld(idplt(j))
+      yieldp = yield * cpyld(idplt(j))
       yieldn = Min(yieldn, 0.80 * plantn(j))
       yieldp = Min(yieldp, 0.80 * plantp(j))
 
@@ -230,7 +231,7 @@
         do k = 1, npmx
           !! calculate amount of pesticide removed with yield
           yldpst = 0.
-          if (hvsti(idplt(nro(j),icr(j),j)) > 1.001) then
+          if (hvsti(idplt(j)) > 1.001) then
             yldpst = plt_pst(k,j)
             plt_pst(k,j) = 0.
           else
@@ -248,16 +249,16 @@
       if (curyr > nyskip) then
        wshd_yldn = wshd_yldn + yieldn * hru_dafr(j)
        wshd_yldp = wshd_yldp + yieldp * hru_dafr(j)
-       yldkg(nro(j),icr(j),j) = yldkg(nro(j),icr(j),j) + yield
-       bio_hv(nro(j),icr(j),j) = bio_ms(j) + bio_hv(nro(j),icr(j),j)
+       yldkg(icr(j),j) = yldkg(icr(j),j) + yield
+       bio_hv(icr(j),j) = bio_ms(j) + bio_hv(icr(j),j)
        yldanu(j) = yldanu(j) + yield / 1000.
        bio_yrms(j) = bio_yrms(j) + bio_ms(j) / 1000.
-       ncrops(nro(j),icr(j),j) = ncrops(nro(j),icr(j),j) + 1
+       ncrops(icr(j),j) = ncrops(icr(j),j) + 1
       endif
 
 	!! update curve number
-      if (cnop(nro(j),icnop(j),j)>0.) 
-     *      call curno(cnop(nro(j),icnop(j),j),j)
+      if (cnop > 0.) 
+     *      call curno(cnop,j)
 
 	!! reset variables
       igro(j) = 0
@@ -269,9 +270,6 @@
       strsw(j) = 1.
       laiday(j) = 0.
       hvstiadj(j) = 0.
-      phuacc(j) = 0.
-!      phubase(j) = 0.
-      icnop(j) = 1
 	rtfr = 0. ! resetting root fraction per layer array to 0
 
       return

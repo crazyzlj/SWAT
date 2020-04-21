@@ -239,14 +239,16 @@
           pdvas(39) = hruaao(15,j)
           pdvas(40) = hruaao(16,j)
 
-      if (idplt(nro(j),icr(j),j) > 0) then
-        cropname = cpnm(idplt(nro(j),icr(j),j))
+      if (idplt(j) > 0) then
+        cropname = cpnm(idplt(j))
       else
         cropname = 'BARR'
       end if
 
+      if (iwtr == 1) then
           write (29,1000) cropname, j, hrugis(j), sb,                   &
      &               nmgt(j), years, hru_km(j), (pdvas(ii), ii = 1, 40)
+      endif
         end if
       end do
 

@@ -114,86 +114,22 @@
           mnr = Max(mnr,rot)
           read (10,6000) titldum
         !! calculate maximum number of crops grown in a year
-          ap_f = 0
-          ap_t = 0
-          ap_p = 0
-          ap_r = 0
-          ap_s = 0
-          ap_i = 0
-          ap_ai = 0
-          ap_af = 0
-          ap_cf = 0
-          ap_cc = 0
-          ap_ci = 0
-          cut = 0
-          grz = 0
-          plt = 1
-          kll = 0
-          hkll = 0
+          nopp = 0
+          
           do k = 1, rot
             do
             mgt_op = 0
             mgt1i = 0
             read (10,6300) mgt_op, mgt1i
-            select case (mgt_op)
-             case (0) !! end of year flag
-              mcr = Max(mcr,plt,kll,hkll)
-              mapp = Max(mapp,ap_i,ap_f,ap_p,ap_t,ap_r,ap_s,ap_ai,ap_af)
-              mapp = Max(mapp,plt,ap_cf,ap_ci)
-              mgr = Max(mgr,grz)
-              mcut = Max(mcut,cut,ap_cc)
-                plt = 1 
-                ap_i = 0
-                ap_f = 0
-                ap_p = 0
-                ap_r = 0
-                ap_s = 0
-                ap_t = 0
-                ap_ai = 0
-                ap_af = 0
-                ap_cf = 0
-                ap_cc = 0
-                ap_ci = 0
-                cut = 0
-                grz = 0
-                kll = 0
-                hkll = 0
-                exit
-              case (1) !!plant operation
-                plt = plt + 1
-              case (2) !! irrigation operation
-                ap_i = ap_i + 1
-              case (3) !! fertilizer operation
-                ap_f = ap_f + 1
-              case (4) !! pesticide operation
-                ap_p = ap_p + 1
-                if (mgt1i > 0) pstflg(mgt1i) = 1
-              case (5) !! harvest/kill operation
-                hkll = hkll + 1
-              case (6) !! tillage operation
-                ap_t = ap_t + 1
-              case (7) !! harvest only operation
-                cut = cut + 1
-              case (8) !! kill operation
-                kll = kll + 1
-              case (9) !! grazing operation
-                grz = grz + 1
-              case (10) !! autoirr operation
-                ap_ai = ap_ai + 1
-              case (11) !! autofert operation
-                ap_af = ap_af + 1
-              case (12) !! sweep operation
-                ap_s = ap_s + 1
-              case (13) !! impound/release operation
-                ap_r = ap_r + 1
-              case (14) !! continuous fertilization
-                ap_cf = ap_cf+ 1
-              case (15) !! continuous cutting
-                ap_cc = ap_cc + 1
-              case (16) !! continuous irrigation
-                ap_ci = ap_ci + 1
-            end select
+	      if (mgt_op == 4 .and. mgt1i > 0) pstflg(mgt1i) = 1
+            if (mgt_op == 0) exit
+            
+            nopp = nopp + 1
+            
+            
             end do
+            mapp = Max(mapp,nopp)
+            
           end do
         open (11,file=chmfile)
           eof = 0
@@ -254,87 +190,27 @@
           mnr = Max(mnr,rot)
         !! calculate maximum number of crops grown in a year
           read (10,6000) titldum
-          ap_f = 0
-          ap_t = 0
-          ap_p = 0
-          ap_r = 0
-          ap_s = 0
-          ap_i = 0
-          ap_ai = 0
-          ap_af = 0
-          ap_cf = 0
-          ap_cc = 0
-          ap_ci = 0
-          cut = 0
-          grz = 0
-          plt = 1
-          kll = 0
-          hkll = 0
-          do k = 1, rot
+          nopp = 0
+          mcri = 0
+          
+!!          do k = 1, rot
             do
             mgt_op = 0
             mgt1i = 0
-            read (10,6300) mgt_op, mgt1i
-            select case (mgt_op)
-             case (0) !! end of year flag
-              mcr = Max(mcr,plt,kll,hkll)
-              mapp = Max(mapp,ap_i,ap_f,ap_p,ap_t,ap_r,ap_s,ap_ai,ap_af)
-              mapp = Max(mapp,plt,ap_cf,ap_ci)
-              mgr = Max(mgr,grz)
-              mcut = Max(mcut,cut,ap_cc)
-                plt = 1 
-                ap_i = 0
-                ap_f = 0
-                ap_p = 0
-                ap_r = 0
-                ap_s = 0
-                ap_t = 0
-                ap_ai = 0
-                ap_af = 0
-                ap_cf = 0
-                ap_cc = 0
-                ap_ci = 0
-                cut = 0
-                grz = 0
-                kll = 0
-                hkll = 0
-                exit
-              case (1) !!plant operation
-                plt = plt + 1
-              case (2) !! irrigation operation
-                ap_i = ap_i + 1
-              case (3) !! fertilizer operation
-                ap_f = ap_f + 1
-              case (4) !! pesticide operation
-                ap_p = ap_p + 1
-                if (mgt1i > 0) pstflg(mgt1i) = 1
-              case (5) !! harvest/kill operation
-                hkll = hkll + 1
-              case (6) !! tillage operation
-                ap_t = ap_t + 1
-              case (7) !! harvest only operation
-                cut = cut + 1
-              case (8) !! kill operation
-                kll = kll + 1
-              case (9) !! grazing operation
-                grz = grz + 1
-              case (10) !! autoirr operation
-                ap_ai = ap_ai + 1
-              case (11) !! autofert operation
-                ap_af = ap_af + 1
-              case (12) !! sweep operation
-                ap_s = ap_s + 1
-              case (13) !! impound/release operation
-                ap_r = ap_r + 1
-              case (14) !! continuous fertilization
-                ap_cf = ap_cf+ 1
-              case (15) !! continuous cutting
-                ap_cc = ap_cc + 1
-              case (16) !! continuous irrigation
-                ap_ci = ap_ci + 1
-            end select
+            read (10,6300,iostat=eof) mgt_op, mgt1i
+            if (eof < 0) exit
+	      if (mgt_op == 4 .and. mgt1i > 0) pstflg(mgt1i) = 1
+            if (mgt_op == 1) then
+              mcri = mcri + 1
+            end if
+            nopp = nopp + 1
+            
             end do
-          end do
+            
+            mcr = Max(mcr,mcri)
+            mapp = Max(mapp,nopp)
+            
+!!          end do
         open (11,file=chmfile)
           eof = 0
           do 

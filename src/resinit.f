@@ -94,7 +94,12 @@
       reschlao = 0.
       resev = 0.
       resflwi = 0.
-      resflwi = varoute(2,inum2)
+      if(ievent<3) then		!!urban modeling by J.Jeong
+	  resflwi = varoute(2,inum2)
+	else
+	  resflwi = hhvaroute(2,inum2,1)
+	endif
+ !!     resflwi = varoute(2,inum2)
       resflwo = 0.
       respcp = 0.
       resnh3o = 0.
@@ -116,6 +121,11 @@
 	  resgrai = varoute(28,inum2)
 
       if (varoute(3,inum2) < 1.e-6) varoute(3,inum2) = 0.0
+      if(ievent<3) then		!!urban modeling by J.Jeong
+	  ressedi = varoute(3,inum2)
+	else
+	  ressedi = hhvaroute(3,inum2,1)
+	endif
       ressedo = 0.
 
       ressano = 0.

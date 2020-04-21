@@ -46,8 +46,9 @@
       if (rtwtr < 0.) rtwtr = 0.
 
       if (ievent > 2) then
-        do ii = 1, 24
-          hrtwtr(ii) = hrtwtr(ii) - wurch(i_mo,jrch) * 10000. / 24.
+        do ii = 1, nstep
+          hrtwtr(ii) = hrtwtr(ii) - wurch(i_mo,jrch) * 10000. 
+     &      / real(nstep)
           if (hrtwtr(ii) < 0.) hrtwtr(ii) = 0.
         end do
       end if
@@ -73,7 +74,7 @@
 	  end if
 
         if (ievent > 2) then
-          do ii = 1, 24
+          do ii = 1, nstep
             hsedyld(ii) = hsedyld(ii) * rtwtr / wtrin
             if (hrtwtr(ii) == 0.) hsedyld(ii) = 0.
           end do

@@ -14,7 +14,7 @@
 !!                               |4 = transfer    13 = 
 !!                               |5 = add         14 = saveconc
 !!                               |6 = rechour     15 = 
-!!                               |7 = recmon      16 = autocal
+!!                               |7 = recmon    
 !!                               |8 = recyear
 !!    ihout       |none          |water source type:
 !!                               |1 reach
@@ -145,11 +145,11 @@
       select case (inum4)
         case (1)     !! transfer fraction of water in source
           tranmx = volum * rnum1
-        case (2)     !! leave minimum volume or flow
-          tranmx = volum - rnum1
+        case (2)     !! leave minimum volume or flow (m3/sec)
+          tranmx = volum - rnum1 * 86400.
           if (tranmx < 0.) tranmx = 0.
-        case (3)     !! transfer volume specified
-          tranmx = rnum1
+        case (3)     !! transfer volume specified (m3/sec)
+          tranmx = rnum1 * 86400.
           if (tranmx > volum) tranmx = volum
       end select
  

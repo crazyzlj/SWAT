@@ -22,9 +22,9 @@
 !!    bactps(:)    |# cfu/m^2     |persistent bacteria attached to soil particles
 !!    bio_min(:)   |kg/ha         |minimum plant biomass for grazing
 !!    bio_ms(:)    |kg/ha         |land cover/crop biomass (dry weight)
-!!    bio_eat(:,:,:) |(kg/ha)/day   |dry weight of biomass removed by grazing
+!!    bio_eat(:)   |(kg/ha)/day   |dry weight of biomass removed by grazing
 !!                                |daily
-!!    bio_trmp(:,:,:)|(kg/ha)/day   |dry weight of biomass removed by
+!!    bio_trmp(:)  |(kg/ha)/day   |dry weight of biomass removed by
 !!                                |trampling daily
 !!    curyr        |none          |current year of simulation
 !!    fminn(:)     |kg minN/kg frt|fraction of mineral N (NO3 + NH3) in 
@@ -42,15 +42,14 @@
 !!    icr(:)       |none          |sequence number of crop grown within the
 !!                                |current year
 !!    iida         |julian date   |day being simulated (current julian day
-!!    manure_id(:,:,:)|none          |manure (fertilizer) identification
+!!    manure_id(:) |none          |manure (fertilizer) identification
 !!                                |number from fert.dat
-!!    igraz(:,:,:) |julian date   |date grazing operation begins
 !!    igrz(:)      |none          |grazing flag for HRU:
 !!                                |0 HRU currently not grazed
 !!                                |1 HRU currently grazed
 !!    ihru         |none          |HRU number
 !!    laiday(:)    |m**2/m**2     |leaf area index
-!!    grz_days(:,:,:)|none          |number of days grazing will be simulated
+!!    grz_days(:)  |none          |number of days grazing will be simulated
 !!    ngr(:)       |none          |sequence number of grazing operation
 !!                                |within the year
 !!    nro(:)       |none          |sequence number of year in rotation
@@ -76,7 +75,7 @@
 !!                                |classified as residue
 !!    sol_solp(:,:)|kg P/ha       |amount of phosohorus stored in solution
 !!    sol_z(:,:)   |mm            |depth to bottom of soil layer
-!!    manure_kg(:,:,:)|(kg/ha)/day  |dry weight of manure deposited on HRU
+!!    manure_kg(:) |(kg/ha)/day   |dry weight of manure deposited on HRU
 !!                                |daily
 !!    wshd_fminp   |kg P/ha       |average annual amount of mineral P applied
 !!                                |in watershed
@@ -177,31 +176,13 @@
       j = 0
       j = ihru
 
-!! if HRU currently not grazed, check to see if it is time
-!! to initialize grazing
-      if (igrz(j) == 0) then
-        if (igraz(nro(j),ngr(j),j) > 0 .and.                            &
-     &                              iida >= igraz(nro(j),ngr(j),j)) then
-          igrz(j) = 1
-          ndeat(j) = 1
-        else if (phuacc(j) > phug(nro(j),ngr(j),j)) then
-          igrz(j) = 1
-          ndeat(j) = 1
-        else
-          return
-        end if
-      else
-        !! if not first day of grazing increment total days of grazing by one
-        ndeat(j) = ndeat(j) + 1
-      end if
-
 !! graze only if adequate biomass in HRU
       if (bio_ms(j) > bio_min(j)) then
 
         !! determine new biomass in HRU
         dmi = 0.
         dmi = bio_ms(j)
-        bio_ms(j) = bio_ms(j) - bio_eat(nro(j),ngr(j),j)
+        bio_ms(j) = bio_ms(j) - bio_eat(j)
         if (bio_ms(j) < bio_min(j)) bio_ms(j) = bio_min(j)
 
         !! adjust nutrient content of biomass
@@ -213,12 +194,12 @@
         !! remove trampled biomass and add to residue
         dmii = 0.
         dmii = bio_ms(j)
-        bio_ms(j) = bio_ms(j) - bio_trmp(nro(j),ngr(j),j)
+        bio_ms(j) = bio_ms(j) - bio_trmp(j)                   
         if (bio_ms(j) < bio_min(j))  then
           sol_rsd(1,j) = sol_rsd(1,j) + dmii - bio_min(j)
           bio_ms(j) = bio_min(j)
         else
-          sol_rsd(1,j) = sol_rsd(1,j) + bio_trmp(nro(j),ngr(j),j)
+          sol_rsd(1,j) = sol_rsd(1,j) + bio_trmp(j)                    
         endif
         sol_rsd(1,j) = Max(sol_rsd(1,j),0.)
         bio_ms(j) = Max(bio_ms(j),0.)
@@ -237,34 +218,34 @@
 
         !! apply manure
         it = 0
-        it = manure_id(nro(j),ngr(j),j)
-        if (manure_kg(nro(j),ngr(j),j) > 0.) then
+        it = manure_id(j)
+        if (manure_kg(j) > 0.) then 
           l = 1
           
           if (cswat == 0) then
 
-          sol_no3(l,j) = sol_no3(l,j) + manure_kg(nro(j),ngr(j),j) *    &
+          sol_no3(l,j) = sol_no3(l,j) + manure_kg(j)               *    &
      &                 (1. - fnh3n(it)) * fminn(it)
-          sol_fon(l,j) = sol_fon(l,j) + manure_kg(nro(j),ngr(j),j) *    &
+          sol_fon(l,j) = sol_fon(l,j) + manure_kg(j)               *    &
      &                 forgn(it)
-          sol_nh3(l,j) = sol_nh3(l,j) + manure_kg(nro(j),ngr(j),j) *    &
+          sol_nh3(l,j) = sol_nh3(l,j) + manure_kg(j)               *    &
      &                 fnh3n(it) * fminn(it)
-          sol_solp(l,j) = sol_solp(l,j) + manure_kg(nro(j),ngr(j),j) *  &
+          sol_solp(l,j) = sol_solp(l,j) + manure_kg(j)             *    &
      &                 fminp(it)
-          sol_fop(l,j) = sol_fop(l,j) + manure_kg(nro(j),ngr(j),j) *    &
+          sol_fop(l,j) = sol_fop(l,j) + manure_kg(j)               *    &
      &                 forgp(it)
           else
-          sol_no3(l,j) = sol_no3(l,j) + manure_kg(nro(j),ngr(j),j) *    &
+          sol_no3(l,j) = sol_no3(l,j) + manure_kg(j)               *    &
      &                 (1. - fnh3n(it)) * fminn(it)
-          sol_mn(l,j) = sol_mn(l,j) + manure_kg(nro(j),ngr(j),j) *
+          sol_mn(l,j) = sol_mn(l,j) + manure_kg(j)                 *
      &                 forgn(it)
-          sol_nh3(l,j) = sol_nh3(l,j) + manure_kg(nro(j),ngr(j),j) *    &
+          sol_nh3(l,j) = sol_nh3(l,j) + manure_kg(j)               *    &
      &                 fnh3n(it) * fminn(it)
-          sol_solp(l,j) = sol_solp(l,j) + manure_kg(nro(j),ngr(j),j) *  &
+          sol_solp(l,j) = sol_solp(l,j) + manure_kg(j)             *    &
      &                 fminp(it)
-          sol_mp(l,j) = sol_mp(l,j) + manure_kg(nro(j),ngr(j),j) *
+          sol_mp(l,j) = sol_mp(l,j) + manure_kg(j)               *
      &                 forgp(it)          
-          sol_mc(l,j) = sol_mc(l,j) + manure_kg(nro(j),ngr(j),j) *
+          sol_mc(l,j) = sol_mc(l,j) + manure_kg(j)               *
      &                 forgn(it) * 10.
           end if
 
@@ -280,7 +261,7 @@
           swf = .15
 
           frt_t = 0.
-          frt_t = bact_swf * manure_kg(nro(j),ngr(j),j) / 1000.
+          frt_t = bact_swf * manure_kg(j) / 1000.
 
           bactp_plt(j) = gc * bactpdb(it) * frt_t * 100. + bactp_plt(j)
           bactlp_plt(j) = gc * bactlpdb(it) * frt_t * 100.+bactlp_plt(j)
@@ -308,41 +289,38 @@
           phuacc(j) = 0.
         endif
 
-!       write (999,5555) i, bio_ms(j),sol_no3(1,j),                     &
-!    &  bio_eat(nro(j),ngr(j),j)
-!5555    format (i4,3f10.2)
 
         !! summary calculations
         !! I do not understand these summary calculations Armen March 2009
-        grazn = grazn + manure_kg(nro(j),ngr(j),j) *                    &
+        grazn = grazn + manure_kg(j)               *                    &
      &               (fminn(it) + forgn(it))
-        grazp = grazp + manure_kg(nro(j),ngr(j),j) *                    &
+        grazp = grazp + manure_kg(j)               *                    &
      &               (fminp(it) + forgp(it))
         tgrazn(j) = tgrazn(j) + grazn
         tgrazp(j) = tgrazp(j) + grazp
 
         if (curyr > nyskip) then
-          wshd_ftotn = wshd_ftotn + manure_kg(nro(j),ngr(j),j) *        &
+          wshd_ftotn = wshd_ftotn + manure_kg(j)               *        &
      &               hru_dafr(j) * (fminn(it) + forgn(it))
-          wshd_forgn = wshd_forgn + manure_kg(nro(j),ngr(j),j) *        &
+          wshd_forgn = wshd_forgn + manure_kg(j)               *        &
      &               hru_dafr(j) * forgn(it)
-          wshd_fno3 = wshd_fno3 + manure_kg(nro(j),ngr(j),j) *          &
+          wshd_fno3 = wshd_fno3 + manure_kg(j)               *          &
      &               hru_dafr(j) * fminn(it) * (1. - fnh3n(it))
-          wshd_fnh3 = wshd_fnh3 + manure_kg(nro(j),ngr(j),j) *          &
+          wshd_fnh3 = wshd_fnh3 + manure_kg(j)               *          &
      &               hru_dafr(j) * fminn(it) * fnh3n(it)
-          wshd_ftotp = wshd_ftotp + manure_kg(nro(j),ngr(j),j) *        &
+          wshd_ftotp = wshd_ftotp + manure_kg(j)               *        &
      &               hru_dafr(j) * (fminp(it) + forgp(it))
-          wshd_fminp = wshd_fminp + manure_kg(nro(j),ngr(j),j) *        &
+          wshd_fminp = wshd_fminp + manure_kg(j)               *        &
      &               hru_dafr(j) * fminp(it)
-          wshd_forgp = wshd_forgp + manure_kg(nro(j),ngr(j),j) *        &
+          wshd_forgp = wshd_forgp + manure_kg(j)               *        &
      &               hru_dafr(j) * forgp(it)
   !       yldkg(nro(j),1,j) = yldkg(nro(j),1,j) + (dmi - bio_ms(j))
-      yldkg(nro(j),icr(j),j)=yldkg(nro(j),icr(j),j) + (dmi - bio_ms(j))
+      yldkg(icr(j),j)=yldkg(icr(j),j) + (dmi - bio_ms(j))
         end if
       end if
 
 !! check to set if grazing period is over
-      if (ndeat(j) == grz_days(nro(j),ngr(j),j)) then
+      if (ndeat(j) == grz_days(j)) then
         igrz(j) = 0
         ndeat(j) = 0
         ngr(j) = ngr(j) + 1

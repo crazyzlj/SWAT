@@ -348,7 +348,10 @@
              !![  40] Conservative metal #1 transported out of reach (kg)
              !![  41] Conservative metal #2 transported out of reach (kg)
              !![  42] Conservative metal #3 transported out of reach (kg)
-
+             !![  43] Total N (org N + no3 + no2 + nh4 outs) to output.rch gsm 10/17/2011
+             !![  44] Total P (org P + sol p outs)to output.rch gsm 10/17/2011
+             !![  45] NO3 concentration output.rch (daily only) gsm 10/30/2011
+             
 
       !!Output variables printed in SUBASIN (output.sub) file
 
@@ -532,8 +535,8 @@
 !!    output by elevation band to snowband.out
       read (101,*,iostat=eof) isnow
 	if (isnow == 1) then
-         open (114,file='snowband.out')
-         write (114,1010)
+         open (115,file='snowband.out')
+         write (115,1010)
       end if
 
 
@@ -550,10 +553,11 @@
       end do
 
       if (ipdvar(1) <= 0) then
-        do ii = 1, 42
+ !! change 42 to 45 for output.rch file gsm 10/30/2011     
+        do ii = 1, 45
           ipdvar(ii) = ii
         end do
-        itotr = 42
+        itotr = 45
       end if
 
 
@@ -598,16 +602,21 @@
       open (24,file="input.std")
       open (26,file="output.std")
 
-      open (28,file="output.hru",recl=1000) 
-      open (33333,file="outputb.hru",form='unformatted')
-      open (29,file="output.wtr",recl=800)
+      open (28,file="output.hru",recl=1000)
+      if (ia_b == 1) then 
+        open (33333,file="outputb.hru",form='unformatted')
+      end if
       open (30,file="output.pst",recl=600)
       open (31,file="output.sub",recl=600)
-      open (66666,file = "outputb.sub", form = 'unformatted')
+      if (ia_b == 1) then
+        open (66666,file = "outputb.sub", form = 'unformatted')
+      end if
       open (7,file="output.rch",recl=800)
       open (8,file="output.rsv",recl=800)
-      open (77777,file = "outputb.rch", form = 'unformatted')
-
+      if (ia_b == 1) then
+        open (77777,file = "outputb.rch", form = 'unformatted')
+      end if
+      
 !!    sediment routing output file
       open (84,file="output.sed",recl=800)
 !! write headings to sediment outputfile (output.sed)
@@ -676,8 +685,38 @@
       read (101, *,iostat=eof) imgt
 	if (imgt==1) then
          open (143, file="output.mgt", recl=600)
-	end if
-
+         write(143,999)
+999   format(2x,'Sub',4x,'Hru',3x,'Year',3x,'Mon',3x,'Day',3x,
+     *'crop/fert/pest', 4x,
+     *'Operation',4x,'phubase',3x,'phuacc',4x,'sol_sw',4x,'bio_ms',3x,
+     *'sol_rsd',7x,'sol',7x,'sol',5x,'yield',3x,'irr amt',
+     *5x,'amt',5x,'mix eff',
+     *5x,'strsn',
+     *5x,'strsp',3x,'strstmp',5x,'strsw',5x,'strsa',2x,'irrsc',
+     *2x,'irrno',/,114x,
+     *' sumno3',2x,' sumsolp',23x,'frt-kg',17x,' sum',6x,' sum',6x,
+     *' sum',6x,' sum',6x,' sum',/,88x,'mm', 6x,'kg/ha',5x,'kg/ha', 5x,
+     *'kg/ha', 5x,'kg/ha',5x, 'kg/ha',5x, 'mm',4x,'or dwfert',3x,
+     *'frac',6x,'fertno3',7x,'nh3',6x,'orgn',6x,'solp',6x,'orgp',
+     */,'_______________________________________________________________
+     *__________________________________________________________________
+     *__________________________________________________________________
+     *_________________________________________',/)
+	end if     
+      
+!! Code for output.wtr and output.pot files
+! 0 =no print  1 =print
+      read (101,*,iostat=eof) iwtr
+        if (iwtr == 1) then
+          open (29,file="output.wtr",recl=800)
+! write statement added for Aziz (06/25/09)
+          open (125,file='output.pot')
+          write (125, 1000) 
+        end if
+        
+ 1000  format (1x,'DAY',t6,'HRU',t12,'POT_VOL',t24,'POTSA',t33,'SPILLO', &
+     &t43,'POTSEP',t54,'POTEV',t63,'SOL_SW'/,t14,'(m3)',t24,'(ha)',t34,
+     &'(m3)',t44,'(m3)',t55,'(m3)',t64,'(m3)')  
  
 
 !! Atmospheric deposition input file (kannan/santhi)
@@ -740,13 +779,6 @@
 !     write (333,1114)
 !1114  format (12x,'WTABLE DEP',1x,'WTABLE DEP',/,13x,'ABOVE IMP',
 !    *3x,'BELOW GRD',/,13x,'LAYER (MM)',2x,'SURF (M)')
-
-!    write statement added for Aziz (06/25/09)
-!     open (125,file='output.pot')
-!     write (125, 1000) 
-!1000  format (1x,'DAY',t6,'HRU',t16,'POT_VOL',t26,'POTSA',t35,'SPILLO', &
-!    & t45,'POTSEP',t56,'POTEV',t65,'SOL_SW')
-
 
       close (101)
       return

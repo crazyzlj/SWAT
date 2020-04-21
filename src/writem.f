@@ -240,14 +240,14 @@
      &            wshddayo(35), wshdmono(7), wshdmono(108), wshdmono(6),&
      &            wshdmono(12), wshdmono(42), wshdmono(45),             &
      &            wshdmono(46), wshdmono(44), wshdmono(40),             &
-     &            wshdmono(43), wshdmono(41)
+     &            wshdmono(43), wshdmono(41), wshdmono(111)
           else if (isproj == 1) then
           write (19,6200) mo_chk, wshdmono(1), wshdmono(3), wshdmono(4),&
      &            wshdmono(104), wshdmono(5), wshdmono(109),            &
      &            wshddayo(35), wshdmono(7), wshdmono(108), wshdmono(6),&
      &            wshdmono(12), wshdmono(42), wshdmono(45),             &
      &            wshdmono(46), wshdmono(44), wshdmono(40),             &
-     &            wshdmono(43), wshdmono(41)
+     &            wshdmono(43), wshdmono(41), wshdmono(111)
           endif
 
           if (iprint == 0) then
@@ -402,6 +402,6 @@
  5300 format (1x,i4,a4,1x,10f12.2,/)
  5800 format ('RES   ',i8,1x,i4,41e12.4)
  6800 format ('RES   ',i8,1x,i4,41e12.4,1x,i4)
- 6200 format (i5,15f7.2,1x,4f8.2)
+ 6200 format (i5,15f7.2,1x,5f8.2)
       end
 

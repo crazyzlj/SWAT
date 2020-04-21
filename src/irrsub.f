@@ -17,7 +17,7 @@
 !!                                  |current HRU drains into. This variable is
 !!                                  |used only for rice paddys or closed
 !!                                  |depressional areas
-!!    irr_amt(:,:,:) |mm H2O        |depth of irrigation water applied to
+!!    irramt(:)      |mm H2O        |depth of irrigation water applied to
 !!                                  |HRU
 !!    irrno(:)       |none          |irrigation source location
 !!                                  |if IRR=1, IRRNO is the number of the
@@ -96,11 +96,8 @@
       vmms = 0.
       vmmd = 0.
       vmm = 0.
-
-!!!! Srin's irrigation source by each application changes
-      irrsc(j) = irr_sc(nro(j),nirr(j),j)
-      irrno(j) = irr_no(nro(j),nirr(j),j)
-!!!! Srin's irrigation source by each application changes
+      irrsc(j) = irr_sc(j)
+      irrno(j) = irr_no(j)
 
       select case (irrsc(j))
         case (3)   !! shallow aquifer source
@@ -109,7 +106,7 @@
               cnv = 0.
               cnv = hru_ha(k) * 10.
 	        if (shallst(k) < 1.e-6) shallst(k) = 0.0
-              vmma = vmma + shallst(k) * cnv * irr_efm(nro(j),nirr(j),j)
+              vmma = vmma + shallst(k) * cnv * irrefm(j)
             end if
           end do
           vmms = vmma
@@ -123,7 +120,7 @@
             if (hru_sub(k) == irrno(j)) then
               cnv = 0.
               cnv = hru_ha(k) * 10.
-              vmma = vmma + deepst(k) * cnv * irr_efm(nro(j),nirr(j),j)
+              vmma = vmma + deepst(k) * cnv * irrefm(j)
             end if
           end do
           vmmd = vmma
@@ -143,7 +140,7 @@
         cnv = hru_ha(j) * 10.
 
         vmxi = 0.
-        vmxi = irr_amt(nro(j),nirr(j),j)
+        vmxi = irramt(j)
         if (vmxi < 1.e-6) vmxi = sol_sumfc(j)
         if (vmm > vmxi) vmm = vmxi
 
@@ -152,11 +149,12 @@
 
         if (ipot(j) == j) then
           pot_vol(j) = pot_vol(j) + vol
+          aird(j) = vmm                 !!added rice irrigation 11/10/11
         else
 !! get correct SQ_RTO is this manual or auto
-		 sq_rto = irr_sq(nro(j),nirr(j),j) 
-            if (auto_wstr(nro(j),nair(j),j) > 0.)  then
-				sq_rto = irr_asq(nro(j),nair(j),j)
+          sq_rto = irrsq(j) 
+            if (auto_wstr(j) > 0.)  then
+				sq_rto = irr_asq(j)
 		  end if
         call irrigate(j,vmm)
         end if
@@ -164,7 +162,7 @@
         !! subtract irrigation from shallow or deep aquifer
         if (ipot(j) /= j) then
           vol = 0.
-          vol = aird(j) * cnv * irr_efm(nro(j),nirr(j),j)
+          vol = aird(j) * cnv * irrefm(j)
         end if
         select case (irrsc(j))
           case (3)   !! shallow aquifer source

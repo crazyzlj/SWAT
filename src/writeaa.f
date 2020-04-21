@@ -30,7 +30,7 @@
 !!                                |4 = transfer    13 = 
 !!                                |5 = add         14 = saveconc
 !!                                |6 = rechour     15 = 
-!!                                |7 = recmon      16 = autocal
+!!                                |7 = recmon 
 !!                                |8 = recyear
 !!    idaf         |julian date   |beginning day of simulation
 !!    idal         |julian date   |ending day of simulation
@@ -311,7 +311,7 @@
       use parm
 
       real :: yrs, xx, xmm, sumno3, sumorgn, summinp, sumorgp
-      integer :: j, nnro, nicr, k, ly, idum, ic, ii
+      integer :: j, nnro, nicr, k, ly, ic, ii
 
 !! calculate number of years simulated
       yrs = 0.
@@ -348,13 +348,14 @@
       irn = irn / yrs
       aairr = aairr / yrs
       do j = 1, nhru
-        do nnro = 1, nrot(j)
-          do nicr = 1, mcr
-            yldn(nnro,nicr,j) = yldkg(nnro,nicr,j) /                    &
-     &                               (Real(ncrops(nnro,nicr,j)) + 1.e-6)
-            bio_aahv(nnro,nicr,j) = bio_hv(nnro,nicr,j) /               &
-     &                               (Real(ncrops(nnro,nicr,j)) + 1.e-6)
-          end do
+        do nicr = 1, mcr
+          if (ncrops(nicr,j) > 0) then
+            yldn(nicr,j) = yldkg(nicr,j) /  ncrops(nicr,j)
+            bio_aahv(nicr,j) = bio_hv(nicr,j) / ncrops(nicr,j)  
+          else
+            yldn(nicr,j) = 0.
+            bio_aahv(nicr,j) = 0.
+          end if
         end do
       end do
       hrupsta = hrupsta / yrs
@@ -488,7 +489,8 @@
       
 
 !! write average annual data
-      if (iprint /= 1) then
+!      if (iprint /= 1) then
+      if (iprint == 2) then  ! urban project, jaehak /11/09
         !! write average annual output--HRU (output.hru)
         call hruaa(yrs)
         call impndaa(yrs)
@@ -515,14 +517,14 @@
       end if
 
 !! write to hydrograph output file
-      idum = 1
-      do while (icodes(idum) > 0)
+      idmm = 1
+      do while (icodes(idmm) > 0)
         ic = 0
-        ic = ihouts(idum)
-        write(11123,9400) icodes(idum), ic, inum1s(idum), inum2s(idum), &
-     &               inum3s(idum),subed(ic),recmonps(ic),reccnstps(ic), &
+        ic = ihouts(idmm)
+        write(11123,9400) icodes(idmm), ic, inum1s(idmm), inum2s(idmm), &
+     &               inum3s(idmm),subed(ic),recmonps(ic),reccnstps(ic), &
      &               (shyd(ii,ic), ii = 1, 8)
-        idum = idum + 1
+        idmm = idmm + 1
       end do
 
 !! average septic outputs for output.std

@@ -91,114 +91,114 @@
       if (eof < 0) exit
       read (104,5100,iostat=eof) titldum
       if (eof < 0) exit
-      read (104,*,iostat=eof) rs1(i) 
+      read (104,*,iostat=eof) rs1(irch) 
       if (eof < 0) exit
-      read (104,*,iostat=eof) rs2(i) 
+      read (104,*,iostat=eof) rs2(irch) 
       if (eof < 0) exit
-      read (104,*,iostat=eof) rs3(i) 
+      read (104,*,iostat=eof) rs3(irch) 
       if (eof < 0) exit
-      read (104,*,iostat=eof) rs4(i)
+      read (104,*,iostat=eof) rs4(irch)
       if (eof < 0) exit
-      read (104,*,iostat=eof) rs5(i) 
+      read (104,*,iostat=eof) rs5(irch) 
       if (eof < 0) exit
-      read (104,*,iostat=eof) rs6(i) 
+      read (104,*,iostat=eof) rs6(irch) 
       if (eof < 0) exit
-      read (104,*,iostat=eof) rs7(i) 
+      read (104,*,iostat=eof) rs7(irch) 
       if (eof < 0) exit
-      read (104,*,iostat=eof) rk1(i) 
+      read (104,*,iostat=eof) rk1(irch) 
       if (eof < 0) exit
-      read (104,*,iostat=eof) rk2(i) 
+      read (104,*,iostat=eof) rk2(irch) 
       if (eof < 0) exit
-      read (104,*,iostat=eof) rk3(i) 
+      read (104,*,iostat=eof) rk3(irch) 
       if (eof < 0) exit
-      read (104,*,iostat=eof) rk4(i)
+      read (104,*,iostat=eof) rk4(irch)
       if (eof < 0) exit
-      read (104,*,iostat=eof) rk5(i) 
+      read (104,*,iostat=eof) rk5(irch) 
       if (eof < 0) exit
-      read (104,*,iostat=eof) rk6(i) 
+      read (104,*,iostat=eof) rk6(irch) 
       if (eof < 0) exit
-      read (104,*,iostat=eof) bc1(i) 
+      read (104,*,iostat=eof) bc1(irch) 
       if (eof < 0) exit
-      read (104,*,iostat=eof) bc2(i) 
+      read (104,*,iostat=eof) bc2(irch) 
       if (eof < 0) exit
-      read (104,*,iostat=eof) bc3(i) 
+      read (104,*,iostat=eof) bc3(irch) 
       if (eof < 0) exit
-      read (104,*,iostat=eof) bc4(i)
+      read (104,*,iostat=eof) bc4(irch)
       if (eof < 0) exit
       read (104,5100,iostat=eof) titldum
       if (eof < 0) exit
-      read (104,*,iostat=eof) chpst_rea(i)
+      read (104,*,iostat=eof) chpst_rea(irch)
       if (eof < 0) exit
-      read (104,*,iostat=eof) chpst_vol(i) 
+      read (104,*,iostat=eof) chpst_vol(irch) 
       if (eof < 0) exit
-      read (104,*,iostat=eof) chpst_koc(i) 
+      read (104,*,iostat=eof) chpst_koc(irch) 
       if (eof < 0) exit
-      read (104,*,iostat=eof) chpst_stl(i) 
+      read (104,*,iostat=eof) chpst_stl(irch) 
       if (eof < 0) exit
-      read (104,*,iostat=eof) chpst_rsp(i)
+      read (104,*,iostat=eof) chpst_rsp(irch)
       if (eof < 0) exit
-      read (104,*,iostat=eof) chpst_mix(i)
+      read (104,*,iostat=eof) chpst_mix(irch)
       if (eof < 0) exit
-      read (104,*,iostat=eof) sedpst_conc(i) 
+      read (104,*,iostat=eof) sedpst_conc(irch) 
       if (eof < 0) exit
-      read (104,*,iostat=eof) sedpst_rea(i)
+      read (104,*,iostat=eof) sedpst_rea(irch)
       if (eof < 0) exit
-      read (104,*,iostat=eof) sedpst_bry(i) 
+      read (104,*,iostat=eof) sedpst_bry(irch) 
       if (eof < 0) exit
-      read (104,*,iostat=eof) sedpst_act(i)
+      read (104,*,iostat=eof) sedpst_act(irch)
       exit
       end do
 
 !!    set default values for undefined parameters
-      if (rs1(i) <= 0.) rs1(i) = 1.0
-      if (rs2(i) <= 0.) rs2(i) = 0.05
-      if (rs3(i) <= 0.) rs3(i) = 0.5
-      if (rs4(i) <= 0.) rs4(i) = 0.05
-      if (rs5(i) <= 0.) rs5(i) = 0.05
-      if (rs6(i) <= 0.) rs6(i) = 2.5
-      if (rs7(i) <= 0.) rs7(i) = 2.5
-      if (rk1(i) <= 0.) rk1(i) = 1.71
-      if (rk2(i) <= 0.) rk2(i) = 50.0
-      if (rk4(i) <= 0.) rk4(i) = 2.0
-      if (rk5(i) <= 0.) rk5(i) = 2.0
-      if (rk6(i) <= 0.) rk6(i) = 1.71
-      if (bc1(i) <= 0.) bc1(i) = 0.55 
-      if (bc2(i) <= 0.) bc2(i) = 1.1
-      if (bc3(i) <= 0.) bc3(i) = 0.21
-      if (bc4(i) <= 0.) bc4(i) = 0.35
-      if (chpst_rea(i) <= 1.e-6) chpst_rea(i) = 0.007
-      if (chpst_vol(i) <= 1.e-6) chpst_vol(i) = 0.01
-      if (chpst_koc(i) <= 1.e-12) chpst_koc(i) = 0.
-      if (chpst_stl(i) <= 1.e-6) chpst_stl(i) = 1.
-      if (chpst_rsp(i) <= 1.e-6) chpst_rsp(i) = 0.002
-      if (chpst_mix(i) <= 1.e-6) chpst_mix(i) = 0.001
-      if (sedpst_conc(i) <= 1.e-6) sedpst_conc(i) = 0.
-      if (sedpst_rea(i) <= 1.e-6) sedpst_rea(i) = 0.05
-      if (sedpst_bry(i) <= 1.e-6) sedpst_bry(i) = 0.002
-      if (sedpst_act(i) <= 1.e-6) sedpst_act(i) = 0.030
+      if (rs1(irch) <= 0.) rs1(irch) = 1.0
+      if (rs2(irch) <= 0.) rs2(irch) = 0.05
+      if (rs3(irch) <= 0.) rs3(irch) = 0.5
+      if (rs4(irch) <= 0.) rs4(irch) = 0.05
+      if (rs5(irch) <= 0.) rs5(irch) = 0.05
+      if (rs6(irch) <= 0.) rs6(irch) = 2.5
+      if (rs7(irch) <= 0.) rs7(irch) = 2.5
+      if (rk1(irch) <= 0.) rk1(irch) = 1.71
+      if (rk2(irch) <= 0.) rk2(irch) = 50.0
+      if (rk4(irch) <= 0.) rk4(irch) = 2.0
+      if (rk5(irch) <= 0.) rk5(irch) = 2.0
+      if (rk6(irch) <= 0.) rk6(irch) = 1.71
+      if (bc1(irch) <= 0.) bc1(irch) = 0.55 
+      if (bc2(irch) <= 0.) bc2(irch) = 1.1
+      if (bc3(irch) <= 0.) bc3(irch) = 0.21
+      if (bc4(irch) <= 0.) bc4(irch) = 0.35
+      if (chpst_rea(irch) <= 1.e-6) chpst_rea(irch) = 0.007
+      if (chpst_vol(irch) <= 1.e-6) chpst_vol(irch) = 0.01
+      if (chpst_koc(irch) <= 1.e-6) chpst_koc(irch) = 0.
+      if (chpst_stl(irch) <= 1.e-6) chpst_stl(irch) = 1.
+      if (chpst_rsp(irch) <= 1.e-6) chpst_rsp(irch) = 0.002
+      if (chpst_mix(irch) <= 1.e-6) chpst_mix(irch) = 0.001
+      if (sedpst_conc(irch) <= 1.e-6) sedpst_conc(irch) = 0.
+      if (sedpst_rea(irch) <= 1.e-6) sedpst_rea(irch) = 0.05
+      if (sedpst_bry(irch) <= 1.e-6) sedpst_bry(irch) = 0.002
+      if (sedpst_act(irch) <= 1.e-6) sedpst_act(irch) = 0.030
 
 !!  set default values for mike van liew
-      if (bc1(i) <= 0.) bc1(i) = bc1_bsn
-      if (bc2(i) <= 0.) bc2(i) = bc2_bsn
-      if (bc3(i) <= 0.) bc3(i) = bc3_bsn
-      if (bc4(i) <= 0.) bc4(i) = bc4_bsn
+      if (bc1(irch) <= 0.) bc1(irch) = bc1_bsn
+      if (bc2(irch) <= 0.) bc2(irch) = bc2_bsn
+      if (bc3(irch) <= 0.) bc3(irch) = bc3_bsn
+      if (bc4(irch) <= 0.) bc4(irch) = bc4_bsn
 !!  set default values for mike van liew
 
 !! change units from day to hour if hourly routing is performed
       if (ievent > 2) then
-        rs1(i) = rs1(i) / 24.
-        rs2(i) = rs2(i) / 24.
-        rs3(i) = rs3(i) / 24.
-        rs4(i) = rs4(i) / 24.
-        rs5(i) = rs5(i) / 24.
-        rk1(i) = rk1(i) / 24.
-        rk2(i) = rk2(i) / 24.
-        rk3(i) = rk3(i) / 24.
-        rk4(i) = rk4(i) / 24.
-        bc1(i) = bc1(i) / 24.
-        bc2(i) = bc2(i) / 24.
-        bc3(i) = bc3(i) / 24.
-        bc4(i) = bc4(i) / 24.
+        rs1(irch) = rs1(irch) / 24.
+        rs2(irch) = rs2(irch) / 24.
+        rs3(irch) = rs3(irch) / 24.
+        rs4(irch) = rs4(irch) / 24.
+        rs5(irch) = rs5(irch) / 24.
+        rk1(irch) = rk1(irch) / 24.
+        rk2(irch) = rk2(irch) / 24.
+        rk3(irch) = rk3(irch) / 24.
+        rk4(irch) = rk4(irch) / 24.
+        bc1(irch) = bc1(irch) / 24.
+        bc2(irch) = bc2(irch) / 24.
+        bc3(irch) = bc3(irch) / 24.
+        bc4(irch) = bc4(irch) / 24.
       end if
 
       close (104)

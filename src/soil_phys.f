@@ -106,7 +106,6 @@
     
       nly = sol_nly(i)
 
-
 !!    calculate composite usle value
       sol_rock(1,i) = Exp(-.053 * sol_rock(1,i))
       usle_mult(i) = sol_rock(1,i) * usle_k(i) * usle_p(i)              &
@@ -127,7 +126,10 @@
           sol_wp(j,i) = sol_por(j,i) * .25
         end if
         end if
-      end do
+        !! compute drainable porosity and variable water table factor - Daniel
+        drpor = sol_por(j,i) - sol_up(j,i)
+        vwt(j,i) = (437.13 * drpor**2) - (95.08 * drpor) + 8.257             
+       end do
 
       sa = sol_sand(1,i) / 100.
       cl = sol_clay(1,i) / 100.
@@ -185,12 +187,20 @@
      &       (sol_fc(j,i))
         xx = sol_z(j,i)
       end do
+      !! initialize water table depth and soil water for Daniel
+      sol_swpwt(i) = sol_sw(i)
+      if (ffc(i) > 1.) then
+        wat_tbl(i) = (sol_sumul(i) - ffc(i) * sol_sumfc(i)) /           &
+     &                                                      sol_z(nly,i)
+      else
+        wat_tbl(i) = 0.
+      end if
       sol_avpor(i) = sumpor / sol_z(nly,i)
       sol_avbd(i) = 2.65 * (1. - sol_avpor(i))
 
 
 !!    define soil layer that the drainage tile is in
-      if (ddrain(i) > 0) then
+      if (ddrain(i) > 0.) then
         do j = 1, nly
           if (ddrain(i) < sol_z(j,i)) ldrain(i) = j
           if (ddrain(i) < sol_z(j,i)) exit
@@ -220,7 +230,8 @@
       wshd_snob = wshd_snob + sno_hru(i) * hru_dafr(i)
 
 
-      call curno(cn2(i),i)
+      call curno(cn2(i),i) !! J.Jeong 4/18/2008
+!      call curno_subd(cn2(i),i)  !! changed for URBAN
 
       return
       end

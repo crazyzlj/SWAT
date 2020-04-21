@@ -16,7 +16,7 @@
 !!    hru_dafr(:) |km**2/km**2    |fraction of watershed area in HRU
 !!    icr(:)      |none           |sequence number of crop grown within the
 !!                                |current year
-!!    idplt(:,:,:)|none           |land cover code from crop.dat
+!!    idplt(:)    |none           |land cover code from crop.dat
 !!    ihru        |none           |HRU number
 !!    nro(:)      |none           |sequence number of year in rotation
 !!    nyskip      |none           |number of years to skip output summarization/
@@ -97,7 +97,7 @@
       j = ihru
 
       icrop = 0
-      icrop = idplt(nro(j),icr(j),j)
+      icrop = idplt(j)
       pltfr_p(j) = (pltpfr(1,icrop) - pltpfr(3,icrop)) * (1. - phuacc(j)&
      &   / (phuacc(j) + Exp(bio_p1(icrop) - bio_p2(icrop) * phuacc(j))))&
      &   + pltpfr(3,icrop)

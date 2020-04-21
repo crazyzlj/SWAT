@@ -242,7 +242,7 @@
       mrecy = 0
       mtran = 0
       nsave = 0
-      nauto = 0
+ !!     nauto = 0
 
 
 !! calculate number of records in plant growth database
@@ -335,7 +335,16 @@
             read (25,*) numhru
             mhru = mhru + numhru
             call hruallo(numhru)
-            close (25)
+!! routing add 5/24/2010
+	      read (25,6000,iostat=eof) titldum
+!!	      if (eof >= 0) then
+		  if (eof > 0) then	       
+              read (25,5002,iostat=eof) irt
+	        if (irt == 1) then
+		      call ruallo 
+	        end if
+		  end if 
+		  close (25)
           case (2)                      !! icd = 2  ROUTE command
             mch = mch + 1               !! # channels
             read (27,5002) a
@@ -368,9 +377,6 @@
           case (14)                     !! icd = 14 SAVECONC command
             read (27,5002) a
             nsave = nsave + 1
-          case (16)                     !! icd = 16 AUTOCAL command
-            read (27,5002) a
-            nauto = nauto + 1
           end select
 
           mhyd = Max(mhyd,iht)
@@ -380,6 +386,7 @@
       if (mhru <= 0) mhru = 1
       if (msub <= 0) msub = 1
       if (mch <= 0) mch = 1
+	  mch = Max(mch,msub+1)
       if (mrecc <= 0) mrecc = 1
       if (mrecd <= 0) mrecd = 1
       if (mrech <= 0) mrech = 1
@@ -387,7 +394,8 @@
       if (mrecy <= 0) mrecy = 1
       if (mres <= 0) mres = 1
 
-      mhyd = mhyd + nsave + nauto + mtran + 1
+ !!     mhyd = mhyd + nsave + nauto + mtran + 1
+        mhyd = mhyd + nsave + mtran + 1
 !! septic change 1-28-09 gsm
       mlyr = mlyr + 4
 !! septic change 1-28-09 gsm

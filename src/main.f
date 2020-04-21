@@ -55,19 +55,17 @@
 
       use parm
       implicit none
-      prog = "SWAT Jul 26 2011    VER 2009/Rev. 486"
+      prog = "SWAT Feb 9 2012    VER 2009/Rev 510"
 
       write (*,1000)
  1000 format(1x,"               SWAT2009               ",/,             &
-     &          "               Rev. 486               ",/,             &
+     &          "               Rev. 510               ",/,             &
      &          "      Soil & Water Assessment Tool    ",/,             &
      &          "               PC Version             ",/,             &
      &          " Program reading from file.cio . . . executing",/)
 
 !! process input
 		
-
-
       call getallo
       call allocate_parms
       call readfile
@@ -88,8 +86,15 @@
       call std1
       call std2
       call openwth
-      call headout 
+      call headout
 
+      !! convert integer to string for output.mgt file
+      subnum = ""
+      hruno = ""
+      do i = 1, mhru
+        write (subnum(i),fmt=' (i5.5)') hru_sub(i)
+        write (hruno(i),fmt=' (i7.7)') hru_seq(i)  
+      end do
 
       if (isproj == 2) then 
         hi_targ = 0.0
@@ -130,6 +135,5 @@
 	
 
         iscen=1
-        if (iclb > 0) call automet
 	stop
       end

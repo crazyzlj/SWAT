@@ -75,8 +75,26 @@
       ihgage = 0
       ipnd1 = 0
       ipnd2 = 0
-      imp_trig = 1
+      
+      imp_trig = 0   !!Srini pothole
+      pot_orgn = 0.
+      pot_orgp = 0.
+      pot_mps = 0.
+      pot_mpa = 0.
+      pot_no3 = 0.
+      pot_solp = 0.
+      pot_evap = 0.
+      tile_out = 0.
+      tile_sedo = 0.
+      tile_no3o = 0.
+      tile_solpo = 0.
+      tile_orgno = 0.
+      tile_orgpo = 0.
+      tile_minpso = 0.
+      tile_minpao = 0.
+      
       irelease = 0
+      imp_trig = 1
       ires1 = 0
       ires2 = 0
       iresco = 0
@@ -285,13 +303,38 @@
       wurtnf = 0.
       yldn = 0.
       zdb = 0.
-      itelmon = 0
-      variimon = 0.
-	  itelyr = 0
-	  variiyr = 0.
-	  itelmons = 0
-      variimons = 0.
-	  itelyrs = 0
-	  variiyrs = 0.
+  !!    itelmon = 0
+  !!   variimon = 0.
+!!	  itelyr = 0
+!!	  variiyr = 0.
+!!	  itelmons = 0
+!!      variimons = 0.
+!!	  itelyrs = 0
+!!	  variiyrs = 0.
+	  
+	  
+	!! MJW
+	sol_P_model = 0
+	ro_bmp_flag = 0
+      ro_bmp_sed = 0.
+      ro_bmp_pp = 0.
+	ro_bmp_sp = 0.
+	ro_bmp_pn = 0.
+	ro_bmp_sn = 0.
+	ro_bmp_bac = 0.
+      bmp_sed = 0.	
+	bmp_pp = 0.	
+	bmp_sp = 0.
+	bmp_pn = 0.	
+	bmp_sn = 0.
+	bmp_bac = 0.
+	ssp_store = 0.
+	psp_store = 0.
+	a_days = 0
+	b_days = 0
+	sol_ph = 0
+	sol_cal = 0  
+	  
+	  
       return
       end

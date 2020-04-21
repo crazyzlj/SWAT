@@ -23,7 +23,7 @@ c  THIS SUBROUTINE IS FROM "NUMERICAL RECIPES" BY PRESS ET AL.
       ix2 = mod((ia2 * ix2) + ic2,m2)
       rqq(j) = (dble(ix1) + (dble(ix2) * rm2)) * rm1
    11 continue
-      idum = 1
+!!    idum = 1
       end if
       ix1 = mod((ia1 * ix1) + ic1,m1)
       ix2 = mod((ia2 * ix2) + ic2,m2)

@@ -20,9 +20,9 @@
 !!                                |in manure(fertilizer)
 !!    bactpq(:)    |# colonies/ha |persistent bacteria in soil solution
 !!    bactps(:)    |# colonies/ha |persistent bacteria attached to soil particles
-!!    cfrt_id(:,:,:)|none         |manure (fertilizer) identification
+!!    cfrt_id(:)   |none          |manure (fertilizer) identification
 !!                                |number from fert.dat
-!!    cfrt_kg(:,:,:)|(kg/ha)/day  |dry weight of fertilizer/manure deposited
+!!    cfrt_kg(:)   |(kg/ha)/day   |dry weight of fertilizer/manure deposited
 !!                                |on HRU daily
 !!    curyr        |none          |current year of simulation
 !!    fminn(:)     |kg minN/kg frt|fraction of mineral N (NO3 + NH3) in 
@@ -39,7 +39,6 @@
 !!                                |during continuous fertilizer operation in 
 !!                                |HRU on day
 !!    hru_dafr(:)  |km**2/km**2   |fraction of watershed area in HRU
-!!    icfert(:,:,:)|julian date   |date continuous fertilizer operation begins
 !!    icfrt(:)     |none          |continuous fert flag for HRU:
 !!                                |0 HRU currently not continuously fertilized
 !!                                |1 HRU currently continuously fertilized
@@ -50,13 +49,12 @@
 !!                                |operation within the year
 !!    ndcfrt(:)    |days          |number of days HRU has been continuously
 !!                                |fertilized
-!!    fert_days(:,:,:)|none          |number of days continuous fertilization
+!!    fert_days(:) |none          |number of days continuous fertilization
 !!                                |will be simulated
 !!    nro(:)       |none          |sequence number of year in rotation
 !!    nyskip       |none          |number of years to skip output summarization
 !!                                |and printing
 !!    phuacc(:)    |none          |fraction of plant heat units accumulated
-!!    phucf(:,:,:) |none          |fraction of plant heat units at which
 !!                                |continuous fertilization begins
 !!    sol_bd(:,:)  |Mg/m**3       |bulk density of the soil
 !!    sol_fon(:,:) |kg N/ha       |amount of nitrogen stored in the fresh
@@ -104,6 +102,8 @@
 !!    icfrt(:)    |none          |continuous fertilizer flag for HRU:
 !!                               |0 HRU currently not continuously fertilized
 !!                               |1 HRU currently continuously fertilized
+!!    ifrt_freq(:)|days          |number of days between applications in 
+!!                               |continuous fertlizer operation
 !!    ncf(:)      |none          |sequence number of continuous fertilizer
 !!                               |operation within the year
 !!    ndcfrt(:)   |days          |number of days HRU has been continuously
@@ -162,41 +162,23 @@
 
 !! if continuous fertilization not currently on, check to see if it is time
 !! to initialize continuous fertilization
-      if (icfrt(j) == 0) then
-        if (icfert(nro(j),ncf(j),j) > 0 .and.                           &
-     &                             iida >= icfert(nro(j),ncf(j),j)) then
-          icfrt(j) = 1
-          ndcfrt(j) = 1
-          iday_fert(j) = ifrt_freq(nro(j),ncf(j),j)
-        else if (phuacc(j) > phucf(nro(j),ncf(j),j)) then
-          icfrt(j) = 1
-          ndcfrt(j) = 1
-          iday_fert(j) = ifrt_freq(nro(j),ncf(j),j)
-        else
-          return
-        end if
-      else
-        !! if not first day of continuous fert increment total days of 
-        !! continuous fert by one
-        ndcfrt(j) = ndcfrt(j) + 1
-      end if
-
-      if (iday_fert(j) == ifrt_freq(nro(j),ncf(j),j)) then
+      
+      if (iday_fert(j) == ifrt_freq(j)) then
         !! apply manure
         it = 0
-        it = cfrt_id(nro(j),ncf(j),j)
-        if (cfrt_kg(nro(j),ncf(j),j) > 0.) then
+        it = cfrt_id(j)
+        if (cfrt_kg(j) > 0.) then
           l = 1
 
-          sol_no3(l,j) = sol_no3(l,j) + cfrt_kg(nro(j),ncf(j),j) *      &
+          sol_no3(l,j) = sol_no3(l,j) + cfrt_kg(j) *                    &
      &                 (1. - fnh3n(it)) * fminn(it)
-          sol_fon(l,j) = sol_fon(l,j) + cfrt_kg(nro(j),ncf(j),j) *      &
+          sol_fon(l,j) = sol_fon(l,j) + cfrt_kg(j) *                    &
      &                 forgn(it)
-          sol_nh3(l,j) = sol_nh3(l,j) + cfrt_kg(nro(j),ncf(j),j) *      &
+          sol_nh3(l,j) = sol_nh3(l,j) + cfrt_kg(j) *                    &
      &                 fnh3n(it) * fminn(it)
-          sol_solp(l,j) = sol_solp(l,j) + cfrt_kg(nro(j),ncf(j),j) *    &
+          sol_solp(l,j) = sol_solp(l,j) + cfrt_kg(j) *                  &
      &                 fminp(it)
-          sol_fop(l,j) = sol_fop(l,j) + cfrt_kg(nro(j),ncf(j),j) *      &
+          sol_fop(l,j) = sol_fop(l,j) + cfrt_kg(j) *                    &
      &                 forgp(it)
 
 !! add bacteria - (cells/t*t/ha + 10t/m^3*mm*cells/t)/(t/ha + 10t/m^3*mm)
@@ -209,7 +191,7 @@
           gc1 = 1. - gc
 
           frt_t = 0.
-          frt_t = bact_swf * cfrt_kg(nro(j),ncf(j),j) / 1000.
+          frt_t = bact_swf * cfrt_kg(j) / 1000.
 
           bactp_plt(j) = gc * bactpdb(it) * frt_t * 100. +              &
      &           bactp_plt(j)
@@ -234,41 +216,49 @@
         iday_fert(j) = 1
 
         !! summary calculations
-        cfertn = cfertn + cfrt_kg(nro(j),ncf(j),j) *                    &
+        cfertn = cfertn + cfrt_kg(j) *                                  &
      &               (fminn(it) + forgn(it))
-        cfertp = cfertp + cfrt_kg(nro(j),ncf(j),j) *                    &
+        cfertp = cfertp + cfrt_kg(j) *                                  &
      &               (fminp(it) + forgp(it))
         tcfrtn(j) = tcfrtn(j) + cfertn
         tcfrtp(j) = tcfrtp(j) + cfertp
 
         if (curyr > nyskip) then
-          wshd_ftotn = wshd_ftotn + cfrt_kg(nro(j),ncf(j),j) *          &
+          wshd_ftotn = wshd_ftotn + cfrt_kg(j) *                        &
      &                 hru_dafr(j) * (fminn(it) + forgn(it))
-          wshd_forgn = wshd_forgn + cfrt_kg(nro(j),ncf(j),j) *          &
+          wshd_forgn = wshd_forgn + cfrt_kg(j) *                        &
      &                 hru_dafr(j) * forgn(it)
-          wshd_fno3 = wshd_fno3 + cfrt_kg(nro(j),ncf(j),j) *            &
+          wshd_fno3 = wshd_fno3 + cfrt_kg(j) *                          &
      &                hru_dafr(j) * fminn(it) * (1. - fnh3n(it))
-          wshd_fnh3 = wshd_fnh3 + cfrt_kg(nro(j),ncf(j),j) * hru_dafr(j)&
+          wshd_fnh3 = wshd_fnh3 + cfrt_kg(j) * hru_dafr(j)              &
      &               * fminn(it) * fnh3n(it)
-          wshd_ftotp = wshd_ftotp + cfrt_kg(nro(j),ncf(j),j) *          &
+          wshd_ftotp = wshd_ftotp + cfrt_kg(j) *                        &
      &                 hru_dafr(j) * (fminp(it) + forgp(it))
-          wshd_fminp = wshd_fminp + cfrt_kg(nro(j),ncf(j),j) *          &
+          wshd_fminp = wshd_fminp + cfrt_kg(j) *                        &
      &                 hru_dafr(j) * fminp(it)
-          wshd_forgp = wshd_forgp + cfrt_kg(nro(j),ncf(j),j) *          &
+          wshd_forgp = wshd_forgp + cfrt_kg(j) *                        &
      &                 hru_dafr(j) * forgp(it)
         end if
+          
+        if (imgt ==1) then
+         write (143, 1000) subnum(j), hruno(j), iyr, i_mo, iida,
+     *      "         ",
+     *      "CONT FERT", phubase(j), phuacc(j), sol_sw(j),bio_ms(j), 
+     *      sol_rsd(1,j),sol_sumno3(j),sol_sumsolp(j), cfrt_kg(j)
+        end if
+     
       else
         iday_fert(j) = iday_fert(j) + 1
       end if
 
 !! check to set if continuous fertilizer period is over
-      if (ndcfrt(j) == fert_days(nro(j),ncf(j),j)) then
+      if (ndcfrt(j) == fert_days(j)) then
         icfrt(j) = 0
         ndcfrt(j) = 0
         iday_fert(j) = 0
         ncf(j) = ncf(j) + 1
       end if
 
-
+1000  format (a5,1x,a7,3i6,2a15,7f10.2,20x,f10.2)
       return
       end
