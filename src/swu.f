@@ -84,7 +84,6 @@
 !!                               |content
 !!    sum         |
 !!    sump        |
-!!    ul4         |
 !!    wuse(:)     |mm H2O        |water uptake by plants in each soil layer
 !!    xx          |mm H2O        |water uptake by plants from all layers
 !!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
@@ -98,7 +97,7 @@
 
       integer :: j, k, ir
       real, dimension(mlyr) :: wuse
-      real :: sum, xx, gx, reduc, ul4, sump
+      real :: sum, xx, gx, reduc, sump
 
       j = 0
       j = ihru

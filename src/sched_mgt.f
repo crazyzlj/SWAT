@@ -48,7 +48,7 @@
             idplt(j) = mgt1iop(nop(j),j)
          
             if (mgt4op(nop(j),j) < 700.) mgt4op(nop(j),j) = 1700.
-            if (mgt4op(nop(j),j) > 5000.) mgt4op(nop(j),j) = 5000.
+!            if (mgt4op(nop(j),j) > 5000.) mgt4op(nop(j),j) = 5000.
             phu_plt(j) = mgt4op(nop(j),j)
 
             call plantop 
@@ -81,7 +81,7 @@
      *        "IRRIGATE", phubase(j), phuacc(j), sol_sw(j),bio_ms(j), 
      *        sol_rsd(1,j), sol_sumno3(j),sol_sumsolp(j),irramt(j),
      *        irrsc(j), irrno(j)
-1002  format (a5,1x,a7,3i6,2a15,7f10.2,10x,f10.2,70x,2i7)
+1002  format (a5,1x,a4,3i6,2a15,7f10.2,10x,f10.2,70x,2i7)
       
             end if
             
@@ -100,11 +100,12 @@
      *        "   FERT", phubase(j), phuacc(j), sol_sw(j),bio_ms(j), 
      *        sol_rsd(1,j), sol_sumno3(j),sol_sumsolp(j),frt_kg,
      *        fertno3, fertnh3, fertorgn, fertsolp, fertorgp
-1004  format (a5,1x,a7,3i6,2a15,7f10.2,20x,f10.2,10x,5f10.2)
+1004  format (a5,1x,a4,3i6,2a15,7f10.2,20x,f10.2,10x,5f10.2)
             endif
             
    
           case (4)   !! pesticide operation
+            hrupest(ihru) = 1
             ipest = mgt1iop(nop(j),j)
             pst_kg = mgt4op(nop(j),j)
             
@@ -123,7 +124,7 @@
             frac_harvk = mgt4op(nop(j),j)
             biomass = bio_ms(j)
             
-            call harvkillop
+            call harvkillop       
             
             if (imgt ==1) then
               write (143, 1001) subnum(j), hruno(j), iyr, i_mo, iida, 
@@ -132,7 +133,7 @@
      *        sol_rsd(1,j), sol_sumno3(j),sol_sumsolp(j),yield,
      *        strsn_sum(j), strsp_sum(j), strstmp_sum(j), strsw_sum(j),
      *        strsa_sum(j)
-1001  format (a5,1x,a7,3i6,2a15,8f10.2,30x,5f10.2) 
+1001  format (a5,1x,a4,3i6,2a15,8f10.2,30x,5f10.2) 
             end if 
             
             phubase(j) = 0.
@@ -149,7 +150,7 @@
      *        tillnm(idtill),
      *        "TILLAGE", phubase(j), phuacc(j), sol_sw(j),bio_ms(j), 
      *        sol_rsd(1,j),sol_sumno3(j),sol_sumsolp(j), effmix(idtill)
-1003  format (a5,1x,a7,3i6,2a15,7f10.2,30x,f10.2)
+1003  format (a5,1x,a4,3i6,2a15,7f10.2,30x,f10.2)
             end if
             
           case (7)  !! harvest only operation
@@ -200,7 +201,7 @@
      *        "         ",
      *        "   GRAZE", phubase(j), phuacc(j), sol_sw(j),bio_ms(j), 
      *        sol_rsd(1,j),sol_sumno3(j),sol_sumsolp(j),manure_kg(j)
-1005  format (a5,1x,a7,3i6,2a15,7f10.2,20x,f10.2)
+1005  format (a5,1x,a4,3i6,2a15,7f10.2,20x,f10.2)
             end if
           
           case (10)   !! auto irrigation operation 
@@ -288,7 +289,7 @@
 
           case (16)   !! burning
             burn_frlb = mgt4op(nop(j),j)
-
+            call burnop
             if (imgt == 1) then
               write (143, 1000) subnum(j), hruno(j), iyr, i_mo, iida, 
      *        "         ",
@@ -309,7 +310,7 @@
         nop(j) = 1
       end if
       
-1000  format (a5,1x,a7,3i6,2a15,7f10.2)    
+1000  format (a5,1x,a4,3i6,2a15,7f10.2)    
       return
 
       end

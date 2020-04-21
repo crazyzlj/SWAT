@@ -57,10 +57,10 @@
       !! compute snow melt
       call snom
 
-      !! output by elevation band to snowband.out
-      if (isnow == 1) then 
-	 
-         write(115,1010) i, iyr, j, (snoeb(ib,j), ib = 1,10)
+      !! output by elevation band to output.snw
+      if (isnow == 1) then 	 
+         write(115,1010) i, iyr, subnum(j), hruno(j),                   &
+     &                (snoeb(ib,j), ib = 1,10)
       end if
 
       !! compute crack volume
@@ -139,6 +139,6 @@
 
       if (qday < 0.) qday = 0.
 
-1010  format(3(i4,1x),10f8.3)
+1010  format (2(i4,1x),a5,a4,1x,10f8.3)
       return
       end

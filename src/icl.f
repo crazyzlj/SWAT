@@ -1,4 +1,4 @@
-      subroutine icl(id)
+      function icl(id)
 !!    ~ ~ ~ PURPOSE ~ ~ ~
 !!    this subroutine determines the month and day, given the julian date
 
@@ -30,10 +30,11 @@
 
 !!    ~ ~ ~ ~ ~ ~ END SPECIFICATIONS ~ ~ ~ ~ ~ ~
       use parm
+      integer :: icl
       if (i_mo.le.2) then
-          iicl = id - ndays(i_mo)
+           icl = id - ndays(i_mo)
       else 
-          iicl = id - ndays(i_mo) + leapyr
+           icl = id - ndays(i_mo) + leapyr
       end if
       return
       end

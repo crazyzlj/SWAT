@@ -89,8 +89,6 @@
       if (eof < 0) exit
       read (106,5000,iostat=eof) titldum
       if (eof < 0) exit
-      read (106,5000,iostat=eof) titldum
-      if (eof < 0) exit
 !!	end do
 
       do j = 1, mpst

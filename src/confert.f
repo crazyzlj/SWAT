@@ -259,6 +259,6 @@
         ncf(j) = ncf(j) + 1
       end if
 
-1000  format (a5,1x,a7,3i6,2a15,7f10.2,20x,f10.2)
+1000  format (a5,1x,a4,3i6,2a15,7f10.2,20x,f10.2)
       return
       end

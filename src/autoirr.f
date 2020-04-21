@@ -194,7 +194,7 @@
         
 !! changed format below     
 !!1000  format (a5,1x,a7,3i6,2a15,7f10.2,10x,f10.2,70x,f10.2) 
-1000  format (a5,1x,a7,3i6,2a15,7f10.2,10x,f10.2,70x,i10,10x,i10) 
+1000  format (a5,1x,a4,3i6,2a15,7f10.2,10x,f10.2,70x,i10,10x,i10) 
 
       return
       end

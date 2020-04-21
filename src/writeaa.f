@@ -348,7 +348,7 @@
       irn = irn / yrs
       aairr = aairr / yrs
       do j = 1, nhru
-        do nicr = 1, mcr
+        do nicr = 1, mcrhru(j)
           if (ncrops(nicr,j) > 0) then
             yldn(nicr,j) = yldkg(nicr,j) /  ncrops(nicr,j)
             bio_aahv(nicr,j) = bio_hv(nicr,j) / ncrops(nicr,j)  
@@ -489,14 +489,13 @@
       
 
 !! write average annual data
-!      if (iprint /= 1) then
-      if (iprint == 2) then  ! urban project, jaehak /11/09
+      if (iprint /= 1) then
         !! write average annual output--HRU (output.hru)
         call hruaa(yrs)
         call impndaa(yrs)
 
         !! write average annual output--reach (.rch)
-        call rchaa(yrs)
+        if (iprint /= 3) call rchaa(yrs)
 
 !       !! write average annual output--sediment routing (.sed)
         call rsedaa(yrs)
@@ -510,7 +509,7 @@
         write (30,5500)
         do j = 1, nhru
           if (hrupest(j) == 1) then
-                write (30,5600) j, yrs,                                 &
+                write (30,5600) subnum(j), hruno(j), yrs,               &
      &                     (hrupsta(k,1,j), hrupsta(k,2,j), k = 1, npmx)
           end if
         end do
@@ -560,7 +559,7 @@
 
       return
  5500 format ("Average Annual Loadings")
- 5600 format (1x,i4,1x,f4.0,4x,1x,250(e16.4,1x))
+ 5600 format (1x,a5,a4,1x,f4.0,4x,1x,250(e16.4,1x))
 !!! changed the format for hyd.out for Bill Komar
 !9400 format (6i8,2(5x,a),8e12.4)
  9400 format (6(i8,1x),2(a10,1x),8e12.4)

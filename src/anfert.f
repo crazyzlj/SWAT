@@ -285,17 +285,19 @@
          wshd_fminp = wshd_fminp + dwfert * tfp * hru_dafr(j)
          wshd_forgp = wshd_forgp + dwfert * forgp(ifrt) * hru_dafr(j)
         end if
-
-      endif
-      
-      if (imgt == 1) then
+        
+        if (imgt == 1) then
               write (143, 1000) subnum(j), hruno(j), iyr, i_mo, iida, 
      *        "         ",
      *        "AUTOFERT", phubase(j), phuacc(j), sol_sw(j),bio_ms(j), 
      *        sol_rsd(1,j),sol_sumno3(j),sol_sumsolp(j), dwfert,
-     *        fertno3, fertnh3, fertorgn, fertsolp, fertorgp
-      end if
-1000  format (a5,1x,a7,3i6,2a15,7f10.2,20x,f10.2,10x,5f10.2) 
+     *        fertno3, fertnh3, fertorgn, fertsolp, fertorgp            
+        end if
+      
+      endif
+      
+
+1000  format (a5,1x,a4,3i6,2a15,7f10.2,20x,f10.2,10x,5f10.2) 
       
       return
       end subroutine

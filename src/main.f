@@ -55,11 +55,11 @@
 
       use parm
       implicit none
-      prog = "SWAT May 8 2012    VER 2009/Rev 528"
+      prog = "SWAT June 26 2012    VER 2012/Rev 535"
 
       write (*,1000)
- 1000 format(1x,"               SWAT2009               ",/,             &
-     &          "               Rev. 528               ",/,             &
+ 1000 format(1x,"               SWAT2012               ",/,             &
+     &          "               Rev. 535               ",/,             &
      &          "      Soil & Water Assessment Tool    ",/,             &
      &          "               PC Version             ",/,             &
      &          " Program reading from file.cio . . . executing",/)
@@ -93,7 +93,7 @@
       hruno = ""
       do i = 1, mhru
         write (subnum(i),fmt=' (i5.5)') hru_sub(i)
-        write (hruno(i),fmt=' (i7.7)') hru_seq(i)  
+        write (hruno(i),fmt=' (i4.4)') hru_seq(i)  
       end do
 
       if (isproj == 2) then 

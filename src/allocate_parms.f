@@ -976,8 +976,6 @@
       allocate (hrupest(mhru))
       allocate (hvstiadj(mhru))
       allocate (iafrttyp(mhru))
-      !! burns 3/5/09
-      allocate (i_burn(mhru))
       allocate (icont(20,mhru))
       allocate (icfrt(mhru))
       allocate (icpst(mhru))

@@ -260,7 +260,7 @@
                 sum = sum + hrupstm(k,1,j) + hrupstm(k,2,j)
               end do
               if (sum > 0. .and. iprp == 1) then
-                write (30,5100) j, iyr, mo_chk,                         &
+                write (30,5100) subnum(j), hruno(j), iyr, mo_chk,       &
      &                     (hrupstm(k,1,j), hrupstm(k,2,j), k = 1, npmx) 
               end if
               end if
@@ -398,7 +398,7 @@
       endif
   
       return
- 5100 format (1x,i4,1x,i4,1x,i3,1x,250(e16.4,1x))
+ 5100 format (1x,a5,a4,1x,i4,1x,i3,1x,250(e16.4,1x))
  5200 format (/,1x,i4,a4,1x,10f12.2)
  5300 format (1x,i4,a4,1x,10f12.2,/)
  5800 format ('RES   ',i8,1x,i4,41e12.4)
