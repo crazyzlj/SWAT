@@ -90,21 +90,21 @@
 !!                               |reactions during month
 !!    resoutm(8,:) |mg pst       |pesticide lost from reservoir through
 !!                               |volatilization during month
-!!    resoutm(9,:) |mg pst       |pesticide moving from water to sediment
+!!    resoutm(9,:) |mg pst       |pesticide moving from water to sediment  <
 !!                               |through settling during month
-!!    resoutm(10,:)|mg pst       |pesticide moving from sediment to water
+!!    resoutm(10,:)|mg pst       |pesticide moving from sediment to water <
 !!                               |through resuspension during month
-!!    resoutm(11,:)|mg pst       |pesticide moving from water to sediment
+!!    resoutm(11,:)|mg pst       |pesticide moving from water to sediment <
 !!                               |through diffusion during month
-!!    resoutm(12,:)|mg pst       |pesticide lost from reservoir sediment layer
+!!    resoutm(12,:)|mg pst       |pesticide lost from reservoir sediment layer <
 !!                               |through reactions during month
-!!    resoutm(13,:)|mg pst       |pesticide lost from reservoir sediment layer
+!!    resoutm(13,:)|mg pst       |pesticide lost from reservoir sediment layer <
 !!                               |through burial during month
-!!    resoutm(14,:)|mg pst       |pesticide transported out of reservoir during
+!!    resoutm(14,:)|mg pst       |pesticide transported out of reservoir during <
 !!                               |month
 !!    resoutm(15,:)|mg pst/m^3   |pesticide concentration in reservoir water
 !!                               |during month
-!!    resoutm(16,:)|mg pst/m^3   |pesticide concentration in reservoir sediment
+!!    resoutm(16,:)|mg pst/m^3   |pesticide concentration in reservoir sediment <
 !!                               |layer during month
 !!    resoutm(17,:)|m^3 H2O      |evaporation from reservoir during month
 !!    resoutm(18,:)|m^3 H2O      |seepage from reservoir during month

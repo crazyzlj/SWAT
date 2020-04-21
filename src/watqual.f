@@ -431,7 +431,6 @@
          rch_cbod(jrch) = cbodcon - (yy + zz) * tday
          
          !!deoxygenation rate
-         rk1(jrch) = .5
          coef = exp(-Theta(rk1(jrch),thrk1,wtmp) * tday)
          cbodrch = coef * cbodcon
          !!cbod rate loss due to settling

@@ -558,6 +558,7 @@
       real, dimension (:), allocatable :: det_san, det_sil, det_cla
       real, dimension (:), allocatable :: det_sag, det_lag
       real, dimension (:), allocatable :: tnylda, afrt_surface
+      real :: frt_surface
       real, dimension (:), allocatable :: auto_nyr, auto_napp
       real, dimension (:), allocatable :: manure_kg, auto_nstrs
       real, dimension (:,:), allocatable :: rcn_mo, rammo_mo

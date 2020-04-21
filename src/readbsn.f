@@ -570,6 +570,7 @@
       
 !!    set default values for undefined parameters
 !     if (ievent == 1) nstep = 24
+      if (r2adj < 1.e-6) r2adj = 1.
       if (drain_co_bsn < 1.e-6) drain_co_bsn = 10. 
       if (res_stlr_co < 1.e-6) res_stlr_co = .184
       if (depimp_bsn < 1.e-6) depimp_bsn = 6000.

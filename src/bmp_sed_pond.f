@@ -35,7 +35,7 @@
       real*8 :: tsa,mxvol,pdia,ksat,dp,sub_ha,mxh,hweir,phead,pipeflow
       real*8 :: qin,qout,qpnd,qpndi,sweir,spndconc,sedpnde,sedpndi,hpnd
       real*8 :: qweir, qtrns,qpipe,splw,sedconcweir,td,ksed,qevap
-      real, dimension(3,nstep), intent(inout) :: flw, sed
+      real, dimension(3,0:nstep), intent(inout) :: flw, sed
       
       sb = inum1
       sub_ha = da_ha * sub_fr(sb)
@@ -72,7 +72,7 @@
             If (hpnd > mxh) Then
                hweir = max(0.,hpnd - mxh)  !water depth over weir crest, m
                !weir overflow, m^3
-               qweir = 1.8 * (splw - 0.2 * hweir) * hweir ** 1.5 * 
+               qweir = 3.33 * splw * hweir ** 1.5 * 
      &           idt * 60.
                hpnd = max(0.,(qpndi - qweir) / tsa) !m
                !overflow amount is no larger than surplus water above spillway height
@@ -105,11 +105,11 @@
             !Outflow through orifice pipe
             hpnd = qpnd / tsa  !m
             phead = max(0.,hpnd * 1000. - pdia / 2.)  !mm
-            If (phead>pdia/2.) then
+!            If (phead>pdia/2.) then
                qpipe = pipeflow(pdia,phead) * idt *60. !m^3 
-            else
-               qpipe = qpnd *  0.1 
-            endif
+!            else
+!               qpipe = qout *  0.9 
+!            endif
             
            !update out flow, m^3
             qout = qpipe 

@@ -349,7 +349,7 @@
       aairr = aairr / yrs
       do j = 1, nhru
         do nicr = 1, mcrhru(j)
-          if (ncrops(nicr,j) > 0) then
+          if (ncrops(nicr,j) > 0) then            
             yldn(nicr,j) = yldkg(nicr,j) /  ncrops(nicr,j)
             bio_aahv(nicr,j) = bio_hv(nicr,j) / ncrops(nicr,j)  
           else

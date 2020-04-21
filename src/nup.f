@@ -156,8 +156,8 @@
           else
             xx = 1.
           end if
-          strsn = amax1(strsn, xx)
-          strsn = amin1(strsn, 1.)
+          strsn(j) = amax1(strsn(j), xx)
+          strsn(j) = amin1(strsn(j), 1.)
       end select
 
       return

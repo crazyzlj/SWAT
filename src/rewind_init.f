@@ -139,7 +139,6 @@
       igen = 0
       igen = ogen
 
-
 !! HRU variables
       snoeb = 0.
       snoeb = orig_snoeb

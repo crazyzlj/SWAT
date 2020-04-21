@@ -265,7 +265,7 @@
 
       integer :: j, sb, kk, ii
       real :: cnv, sub_ha, wtmp, baseflw, bf_fr,hr
-      real :: sub_hwyld(nstep), hqd(3*nstep), hsd(3*nstep),hqdtst(nstep)   ! hqd, hsd locally defined. J.Jeong 4/26/2009
+      real :: sub_hwyld(nstep), hqd(4*nstep), hsd(4*nstep),hqdtst(nstep)   ! hqd, hsd locally defined. J.Jeong 4/26/2009
 
       j = ihru
       sb = inum1
@@ -443,14 +443,14 @@
         if (ievent >= 2) then
 !
          ! subdaily surface runoff, upland sediment for the subbasin
-         sub_ubnrunoff(sb,1:nstep) = sub_ubnrunoff(sb,1:nstep) 
-     &        / sub_fr(sb)
-         sub_ubntss(sb,1:nstep) = sub_ubntss(sb,1:nstep) / sub_fr(sb)
-         
-         sub_hhqd(sb,1:nstep) = sub_hhqd(sb,1:nstep) / sub_fr(sb)
-         sub_hhsedy(sb,1:nstep) = sub_hhsedy(sb,1:nstep)
-     &        / sub_fr(sb)
-         sub_atmp(sb,1:nstep) = sub_atmp(sb,1:nstep) / sub_fr(sb)
+!         sub_ubnrunoff(sb,1:nstep) = sub_ubnrunoff(sb,1:nstep) 
+!     &        / sub_fr(sb)
+!         sub_ubntss(sb,1:nstep) = sub_ubntss(sb,1:nstep) / sub_fr(sb)
+!         
+!         sub_hhqd(sb,1:nstep) = sub_hhqd(sb,1:nstep) / sub_fr(sb)
+!         sub_hhsedy(sb,1:nstep) = sub_hhsedy(sb,1:nstep)
+!     &        / sub_fr(sb)
+!         sub_atmp(sb,1:nstep) = sub_atmp(sb,1:nstep) / sub_fr(sb)
  
         !----------------------------------------------------
         ! Simulate distributed urban BMPs in the subbasin
@@ -561,7 +561,7 @@
          varoute(27,ihout) = sub_dlag(sb)                  !! detached lrg ag 
          varoute(29,ihout) = sub_qd(sb) * sub_ha * 10.     !! surface runoff
          varoute(30,ihout) = sub_latq(sb) * sub_ha * 10.   !! lateral flow
-         varoute(30,ihout) = sub_tileq(sb) * sub_ha * 10.  !! tile flow
+         varoute(31,ihout) = sub_tileq(sb) * sub_ha * 10.  !! tile flow
          varoute(32,ihout) = sub_gwq(sb) * sub_ha * 10.    !! groundwater flow 
          !! varoute array has space for 33 different routing components
 
@@ -632,8 +632,6 @@
               hhvaroute(20,ihout,ii) = 0.                          !!cmetal#1
               hhvaroute(21,ihout,ii) = 0.                          !!cmetal#2
               hhvaroute(22,ihout,ii) = 0.                          !!cmetal#3
-	          hhvaroute(23,ihout,ii) = baseflw
-   
             end if
 		  end do
         end if

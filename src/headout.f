@@ -83,17 +83,6 @@
       endif
       endif
 
-!! write headings to VB interface HRU output file (hru.dat)
-      ilen = 10
-      if (ipdvas(1) > 0) then
-        write (12,2000) (heds(ipdvas(j)), icols(ipdvas(j)), ilen,       &
-     &                  j = 1, itots)
-      else
-        write (12,2000) (heds(j), icols(j), ilen, j = 1, mhruo)
-      endif
-      close (12)
-
-
 !! write headings to subbasin output file (output.sub)
       write (31,1000) prog, values(2), values(3), values(1), values(5), &
      &    values(6), values(7)
@@ -108,18 +97,6 @@
         if (icalen == 1) write (31,1031) (hedb(j), j = 1, msubo)         !!month/day/yr print
 1031  format (//6x,' SUB      GIS  MO DA  YR   AREAkm2',22(a10))
       endif
-
-
-!! write headings to VB interface subbasin output file (sub.dat)
-      ilen = 10
-      if (ipdvab(1) > 0) then
-        write (13,2000) (hedb(ipdvab(j)), icolb(ipdvab(j)), ilen,       &
-     &                  j = 1, itotb)
-      else
-        write (13,2000) (hedb(j), icolb(j), ilen, j = 1, msubo)
-      endif
-      close (13)
-
 
 !! write headings to reach output file (output.rch)
       write (7,1000) prog, values(2), values(3), values(1), values(5),  &
@@ -157,17 +134,6 @@
       endif 
       endif 
 
-!! write headings to VB interface reach output file (rch.dat)
-      ilen = 12
-      if (ipdvar(1) > 0) then
-        write (11,2000) (hedr(ipdvar(j)), icolr(ipdvar(j)), ilen,       &
-     &                  j = 1, itotr)
-      else
-        write (11,2000) (hedr(j), icolr(j), ilen, j = 1, mrcho)
-      endif
-      close (11)
-
-
 !! write headings to reservoir output file (output.rsv)
       write (8,1000) prog, values(2), values(3), values(1), values(5),  &
      &               values(6), values(7)
@@ -180,12 +146,6 @@
       write (22,1010) title
       write (22,1050) (hedrsv(j), j = 1, 41)
       end if
-
-!!    write headings to VB interface reservoir output file (rsv.dat)
-      ilen = 12
-      write (14,2000) (hedrsv(j), icolrsv(j-1), ilen, j = 2, 19)
-      close (14)
-
  
 !! write headings to HRU impoundment output file (output.wtr)
       if (iwtr == 1) then

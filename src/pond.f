@@ -154,7 +154,7 @@
 
         !! calculate water balance for day
         pndsa = 0.
-        pndsa = bp1(k) * pnd_vol(k) ** bp2(k)
+        pndsa = hru_fr(k) * bp1(k) * pnd_vol(k) ** bp2(k)
         pndev = 10. * evpnd(k) * pet_day * pndsa
         pndsep = pnd_k(k) * pndsa * 240.
         pndpcp = subp(k) * pndsa * 10.

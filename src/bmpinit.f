@@ -75,9 +75,14 @@
          if (dtp_iyr(i)<=1000)   dtp_iyr(i) = iyr
    	   if (dtp_evrsv(i)<=0)    dtp_evrsv(i) = 0.1
 	   if (dtp_numweir(i)<=0)  dtp_numweir(i) = 1
-	   if (dtp_numstage(i)<=0) dtp_numstage(i) = 2
+	   if (dtp_numstage(i)<=0) dtp_numstage(i) = 1
+	   if (dtp_numstage(i)>1) then
+	      do k=2,dtp_numstage(i)
+	          if (dtp_weirtype(i,k)==1) dtp_addon(i,k) = 0.
+	      end do
+	   endif
 
-         !!	Estimating emergency spillway volumes if not entered by user
+         !!	Estimating design flow rate if not entered by user
          do k=1,dtp_numstage(i)
             if (dtp_flowrate(i,k)<=0.0) then 
                 dtp_flowrate(i,k) = 0.5 * 1000.0 * dtp_pcpret(i,k) 
@@ -92,10 +97,9 @@
 	      end if
          end do
 
-         !!	Separate cumulative flow information to individual weir stages
+         !!	Separate cumulative flow information to individual weir 
          do k=2,dtp_numstage(i)
-            dtp_flowrate(i,k) = (dtp_flowrate(i,k) 
-     &         - sum(dtp_flowrate(i,1:k-1))) / dtp_numweir(i)
+            dtp_flowrate(i,k) = dtp_flowrate(i,k) / dtp_numweir(i)
          end do
       	
          !!Estimate weir dimensions based on existing data 
@@ -108,11 +112,21 @@
                   call est_weirdim(dtp_wdratio(i,k),dtp_flowrate(i,k)
      &                  ,dtp_wrwid(i,k),dtp_depweir(i,k),dtp_cdis(i,k))
                end if 
-            else
-               if (dtp_weirtype(i,k)==1) then  !! reading user-entered data
+            else  !! read user-entered data
+               if (dtp_weirtype(i,k)==1) then  
                   dtp_wrwid(i,k) = dtp_wdratio(i,k) * dtp_depweir(i,k)
                end if  
             end if
+         end do
+        
+         !! divide rectangular weirs into multiple single stage weirs
+         do k = 2, dtp_numstage(i)
+            dtp_addon(i,k) = dtp_addon(i,k-1) + dtp_depweir(i,k-1) 
+         end do
+         
+         do k = dtp_numstage(i), 2, -1
+            dtp_wrwid(i,k) = dtp_wrwid(i,k) - dtp_wrwid(i,k-1)
+            dtp_depweir(i,k-1) = dtp_depweir(i,k) + dtp_depweir(i,k-1)
          end do
       end if
  
@@ -230,8 +244,8 @@
          wqv = hwq / 12. * sub_ha_urb(i) * sf_fr(i,k) * 107639.104167 !ft3
                   
          if (sf_dim(i,k)==0) then
-            write(77778,'(a46)') 'This SED-FIL size is automatically 
-     &         estimated' 
+            write(77778,'(a46)') 'This SED-FIL size is automatically' 
+     &         // ' estimated based on WQV.' 
             !Determine pond size automatically based on City of Austin's Design Guideline 1.6
             if (sf_typ(i,k)==1.or.sf_typ(i,k)==3) then
                ! full scale or sedimentation basin only
@@ -248,6 +262,7 @@
 !               wqv/(4.+1.33*4.) * 0.093
                
             end if
+            sp_bpw(i,k) = 10. !m overflow weir width
             ft_pd(i,k) = 1524. !mm
             ft_dep(i,k) = 420. !mm
             ft_h(i,k) = 1200. !mm
@@ -285,17 +300,7 @@
          
          !Orifice pipe for sand filter should be equal or larger than 
          !sedimentation pond outlet pipe for full-type SedFils
-         if (ft_pd(i,k)<sp_pd(i,k)) then
-           write (*,*) " "
-           write (*,*) "Urban BMP Warning!!"
-           write (*,*) "In subbasin ", i
-           write (*,*) "The outlet pipe diameter for sandfilter is"
-           write (*,*) " larger than that for sedimentation basin."
-           write (*,*) "The filter pipe diameter was automatically"
-           write (*,*) "corrected to the pipe size of the "
-           write (*,*) "sedimentation basin."
-           ft_pd(i,k) = sp_pd(i,k)
-         endif
+         if (ft_pd(i,k)<sp_pd(i,k)) ft_pd(i,k) = sp_pd(i,k)
          
          if (ft_dep(i,k)<100) ft_dep(i,k) = 100.
          if (sf_ptp(i,k)>1) sf_ptp(i,k) = 1

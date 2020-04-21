@@ -418,7 +418,7 @@
         if (laiday(j) < alai_min(idplt(j))) then   !Sue
           laiday(j) = alai_min(idplt(j))
         end if
-        if (phuacc(j) < .999) phuacc(j) = phuacc(j) * (1. - ff3)  
+        phuacc(j) = phuacc(j) * (1. - ff3)  
         rwt(j) = .4 - .2 * phuacc(j)        
       else
         bio_ms(j) = 0.

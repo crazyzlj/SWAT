@@ -38,7 +38,7 @@
      & wetfsh,whd,sub_ha,dt,qcms,effct,effl,effg,effbr,vpipe,phead,hpnd,
      & tmpw,qloss,fsat,qpipe,mu,pipeflow,splw,hweir,tst,kb,qintns,qq, 
      & qfiltr,sloss,spndconc,sedpnd,qpndi,qpnde,sedrmeff,sed_removed,
-     & sedconc,qevap
+     & sedconc,qevap,hrd
       real*8, dimension(:) :: qpnd(0:nstep),qsw(0:nstep),qin(0:nstep),
      & qout(0:nstep),fc(0:nstep),f(0:nstep)
       real, dimension(3,0:nstep), intent(inout) :: flw, sed
@@ -164,8 +164,9 @@
              
              !soil water no more than saturation
              if (qsw(ii) > vfiltr) then
-                 qout(ii) = ksat * dt / 1000. * tsa * ffsa  !m3
-                 qsw(ii) = vfiltr
+                 hrd = qsw(ii) / vfiltr            
+                 qout(ii) = ksat * hrd * dt / 1000. * tsa * ffsa  !m3
+                 qsw(ii) = qsw(ii) - qout(ii)
                  qpnd(ii) = qpndi - qsw(ii) - qout(ii) 
              else
                if (qpnd(ii)>=qpnd(ii-1).and.qout(ii-1)<0.001) then
@@ -243,7 +244,8 @@
             flw(3,ii) = qloss / (sub_ha *10000. - tsa) * 1000.  !mm
      
          Endif
-        
+!         write(*,'(2i3,20f7.3)') iida, ii, qin(ii),qout(ii),qpnd(ii), 
+!     &      qsw(ii),qloss
          !--------------------------------------------------------------------------------------
          ! TSS removal 
          sloss = 0.; sedrmeff = 0.

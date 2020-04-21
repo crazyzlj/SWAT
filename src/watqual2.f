@@ -246,11 +246,6 @@
 
        if (rtwtr / 86400.> 0.01.and.wtrin>0.001) then
 !! concentrations
-
-
-
-
-
          !! initialize concentration of nutrient in reach
          wtrtot = 0.
          algcon = 0.
@@ -263,10 +258,7 @@
          cbodcon = 0.
          o2con = 0.
          wtrtot = wtrin + rchwtr
-
-
-
-
+         
          algcon = algae(jrch)
          orgncon = organicn(jrch)
          nh3con = ammonian(jrch)
@@ -277,8 +269,6 @@
          cbodcon = rch_cbod(jrch)
          o2con  = rch_dox(jrch)
 	   wtmp = wattemp(jrch)
-
-		
 
 c	write(104,*) 't',jrch,disoxin, wtrin, rch_dox(jrch)	
 c         o2con = (disoxin * wtrin + rch_dox(jrch) * rchwtr) / wtrtot
@@ -330,9 +320,7 @@ c         o2con = (disoxin * wtrin + rch_dox(jrch) * rchwtr) / wtrtot
         bc2mod = bc2(jrch) * cordo
 !! end O2 impact calculations
 
-         
 C	tday is the calculation time step = 1 day
-
          tday = 1.0
 
 !! algal growth
@@ -387,8 +375,7 @@ C	tday is the calculation time step = 1 day
                gra = 0.
              endif
          end select
-
-    
+  
          !! calculate algal biomass concentration at end of day
          !! (phytoplanktonic algae)
          !! QUAL2E equation III-2
@@ -418,9 +405,7 @@ C	tday is the calculation time step = 1 day
 
          !! calculate dissolved oxygen concentration if reach at 
          !! end of day QUAL2E section 3.6 equation III-28
-  
-      
-
+         
 	   uu = 0.
          vv = 0.
          ww = 0.
@@ -452,9 +437,7 @@ C	tday is the calculation time step = 1 day
 	   end if
          ddisox = o2con + (uu + vv - ww - xx - yy - zz) * tday
 		o2proc=o2con-ddisox
-         if (ddisox < 0.00001) ddisox = 0.00001
-
- 
+         if (ddisox < 0.00001) ddisox = 0.00001 
 !! end oxygen calculations
 
 !! nitrogen calculations
@@ -470,13 +453,12 @@ C	tday is the calculation time step = 1 day
          dorgn = orgncon + (xx - yy - zz) * tday
          if (dorgn < 0.00001) dorgn = 0.00001
 
-
         !! calculate fraction of algal nitrogen uptake from ammonia
         !! pool QUAL2E equation III-18
         f1 = 0.
         f1 = p_n * nh3con / (p_n * nh3con + (1. - p_n) * no3con +       &
      &                                                            1.e-6)
-
+        
         !! calculate ammonia nitrogen concentration at end of day
         !! QUAL2E section 3.3.2 equation III-17
         ww = 0.
@@ -500,8 +482,6 @@ C	tday is the calculation time step = 1 day
         dno2 = 0.
         dno2 = no2con + (yy - zz) * tday
         if (dno2 < 1.e-6) dno2 = 0.
-
-
 
         !! calculate nitrate concentration at end of day
         !! QUAL2E section 3.3.4 equation III-20
@@ -538,16 +518,7 @@ C	tday is the calculation time step = 1 day
         dsolp  = 0.
         dsolp  = solpcon + (xx + yy - zz) * tday
         if (dsolp  < 1.e-6) dsolp  = 0.
-
-
-
-
 !! end phosphorus calculations
-
-
-
-
-
 
          wtrtot = wtrin + rchwtr
          !! initialize inflow concentrations
@@ -576,7 +547,6 @@ C	tday is the calculation time step = 1 day
          disoxin= 1000. * varoute(17,inum2) * (1. - rnum1) / wtrin
 	   heatin = varoute(1,inum2) * (1. - rnum1)    
          end if
-
 
 	   wattemp(jrch) =(heatin * wtrin + wtmp * rchwtr) / wtrtot
          algae(jrch) = (algin * wtrin + dalgae * rchwtr) / wtrtot
@@ -617,16 +587,16 @@ C	tday is the calculation time step = 1 day
         disolvp(jrch) = 0.0
         rch_cbod(jrch) = 0.0
         rch_dox(jrch) = 0.0
-	   dalgae = 0.0
-         dchla = 0.0
-         dorgn = 0.0
-         dnh4 = 0.0
-         dno2 = 0.0
-         dno3 = 0.0
-         dorgp= 0.0
-         dsolp = 0.0
-         dbod = 0.0
-         ddisox = 0.0   
+        dalgae = 0.0
+        dchla = 0.0
+        dorgn = 0.0
+        dnh4 = 0.0
+        dno2 = 0.0
+        dno3 = 0.0
+        dorgp= 0.0
+        dsolp = 0.0
+        dbod = 0.0
+        ddisox = 0.0   
         soxy = 0.0
       endif
 

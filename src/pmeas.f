@@ -92,6 +92,8 @@
 !        allocate (hrmeas(mrg,25))
 !       allocate (rhrbsb(24))
       end if
+      
+      inum3sprev = 0
 
       !! initialize variables for the day
       rmeas = 0.

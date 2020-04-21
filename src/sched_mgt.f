@@ -71,6 +71,8 @@
 	      irr_flag(ihru) = 1
             
             if (irrefm(ihru) < 1.e-6) irrefm(ihru)=1.0
+            if (irr_sc(j) <= 0) irr_sc(j) = irrsc(j)
+            if (irr_no(j) <= 0) irr_no(j) = irrno(j)
             if (irr_no(j) <= 0) irr_no(j) = hru_sub(j)
             if (irr_sc(ihru) > 2) then    !! reach and res flag ??
               call irrsub
@@ -81,7 +83,7 @@
      *        iida, "        ",
      *        "IRRIGATE", phubase(j), phuacc(j), sol_sw(j),bio_ms(j), 
      *        sol_rsd(1,j), sol_sumno3(j),sol_sumsolp(j),irramt(j),
-     *        irrsc(j), irrno(j)
+     *        irr_sc(j), irr_no(j)
 1002  format (a5,1x,a4,3i6,2a15,7f10.2,10x,f10.2,70x,2i7)
       
             end if
@@ -218,6 +220,7 @@
             irr_asq(j) = mgt7op(nop(j),j)
             irr_sca(j) = mgt2iop(nop(j),j)
             irr_noa(j) = mgt10iop(nop(j),j)
+            if (irr_noa(j) <= 0) irr_noa(j) = irrno(j)
             if (irr_noa(j) <= 0) irr_noa(j) = hru_sub(j)
             if (wstrs_id(j) <= 0.) wstrs_id(j) = 1.     
             if (irr_eff(j) > 1.) irr_eff(j) = 0.
@@ -235,16 +238,18 @@
             auto_nyr(j) = mgt6op(nop(j),j)
             if (auto_nyr(j) < 1.e-6) auto_nyr(j) = 350.
             auto_eff(j) = mgt7op(nop(j),j)
-            if (auto_eff(ihru) <= 0.) auto_eff(ihru) = 1.3
+            if (auto_eff(j) <= 0.) auto_eff(j) = 1.3
             afrt_surface(j) = mgt8op(nop(j),j)
-            if (afrt_surface(ihru) <= 1.e-6) afrt_surface(ihru) = .8
+            if (afrt_surface(j) <= 1.e-6) afrt_surface(j) = .8
             !! calculate tnylda for autofertilization
             ncrp = idplt(j)
-            if (hvsti(ncrp) < 1.) then
-              tnylda(j) = 350. * cnyld(ncrp) * bio_e(ncrp)
-            else
-              tnylda(j) = 1000. * cnyld(ncrp) * bio_e(ncrp)
-            endif
+            if (tnylda(j) < 1.e-6)tnylda(j)=150.*cnyld(ncrp)*bio_e(ncrp)
+      !      if (tnylda(j) < 1.e-6)tnylda(j)=350.*cnyld(ncrp)*bio_e(ncrp)
+      !         tnylda(j) = 350. * cnyld(ncrp) * bio_e(ncrp)
+      !        tnylda(j) = 350. * cnyld(ncrp) * bio_e(ncrp)
+      !       else
+      !         tnylda(j) = 1000. * cnyld(ncrp) * bio_e(ncrp)
+      !    endif
           
           case (12)   !! street sweeping (only if iurban=2)
 

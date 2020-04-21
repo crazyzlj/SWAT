@@ -219,6 +219,7 @@
       pndevcoeff = 0. 
       wetevcoeff = 0.
       sub_ha = sub_km(i) * 100. 
+      velsetlpnd = 0.
 
       do
       read (104,5100,iostat=eof) titldum

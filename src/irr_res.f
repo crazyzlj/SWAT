@@ -106,7 +106,7 @@
 
           !! check for timing of irrigation operation
           flag = 0
-          flag = irra_flag(k)
+          flag = irr_flag(k)
           if (auto_wstr(k) > 0.) then
             if (wstrs_id(k) == 1 .and. strsw(k) < auto_wstr(k)) flag = 2
             if (wstrs_id(k) == 2 .and. sol_sumfc(k) - sol_sw(k) >       &

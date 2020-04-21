@@ -287,6 +287,9 @@
       read (101,5101) titldum
       read (101,*) iprint
       read (101,*) nyskip
+!!! check that nyskip input is not greater or equal to nbyr input
+      if (nyskip >= nbyr) nyskip = nbyr - 1
+      
       read (101,*) ilog
       read (101,*) iprp
       read (101,5101) titldum

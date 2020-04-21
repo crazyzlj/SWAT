@@ -7,7 +7,7 @@
 !!    Mixing was extended to all layers
 !!    A subroutine to simulate stimulation of organic matter decomposition was added
 !!    March 2009: testing has been minimal and further adjustments are expected
-!!    use with caution and report anomalous results to akemanian@brc.tamus.edu and jeff.arnold@ars.usda.edu
+!!    use with caution 
 
 !!    ~ ~ ~ INCOMING VARIABLES ~ ~ ~
 !!    name          |units         |definition

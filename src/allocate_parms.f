@@ -355,8 +355,8 @@
       allocate (fcst_reg(msub))
       allocate (harg_petco(msub))
 !      allocate (hqd(nstep*3+1))  !! was 73, changed for urban
-      allocate (hqdsave(msub,nstep*2))  !! was 49, changed for urban -> changed to 2d array J.Jeong 4/17/2009
-      allocate (hsdsave(msub,nstep*2))  !! J.Jeong 4/22/2009
+      allocate (hqdsave(msub,nstep*4))  !! was 49, changed for urban -> changed to 2d array J.Jeong 4/17/2009
+      allocate (hsdsave(msub,nstep*4))  !! J.Jeong 4/22/2009
   !!    allocate (hqd(73))
   !!    allocate (hqdsave(msub,49))
       allocate (hru1(msub))
@@ -1184,7 +1184,7 @@
       allocate (qdayout(mhru))
       allocate (rch_dakm(mxsubch))  
       allocate (rchrg(mhru))
-      allocate (rchrg_n(mhru))
+      allocate (rchrg_n(mhru))    !! amount of nitrate getting to the shallow aquifer
       allocate (rchrg_dp(mhru))
       allocate (re(mhru))
       allocate (revapmn(mhru))
@@ -1509,7 +1509,7 @@
       allocate (wshddayo(mstdo))
       allocate (wshdmono(mstdo))
       allocate (wshdyro(mstdo))
-      allocate (fcstaao(nstep))
+      allocate (fcstaao(16))
 
       allocate (wpstaao(mpst,5))
       allocate (wpstmono(mpst,5))

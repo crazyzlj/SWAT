@@ -157,11 +157,11 @@
 
       integer :: j
       real :: delg, par, ruedecl, beadj, reg, f, ff, deltalai
-      real :: laimax
+      real :: laimax, rto
 
       j = 0
       j = ihru
-
+      rto = 1.
 
         !! plant will not undergo stress if dormant
         if (idorm(j) == 1) return

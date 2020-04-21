@@ -238,14 +238,14 @@
                   call operatn
                   dorm_flag = 0
                endif
-                nop(ihru) = nop(ihru) + 1
+               nop(ihru) = nop(ihru) + 1
           
                 if (nop(ihru) > nopmx(ihru)) then
                   nop(ihru) = 1
                 end if
       
               phubase(ihru) = 0.
-	        yr_skip = 0
+	        yr_skip(ihru) = 0
 	      endif
 	    
 	    endif
@@ -308,7 +308,13 @@
             end if
             
             phubase(j) = 0.
-            yr_skip = 0
+            yr_skip(j) = 0
+          endif
+          if (mgtop(nop(j),j) == 17) then
+            nop(j) = nop(j) + 1
+            if (mgtop(nop(j),j) == 17) then
+              yr_skip(j) = 1
+            end if
           endif
 
         end do

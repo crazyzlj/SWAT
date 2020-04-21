@@ -255,11 +255,10 @@
             !! Limit PSP range
             if (psp <.05) then
               psp = 0.05
-            end if
-	      if (psp > 0.9) then
+	      else if (psp > 0.9) then
               psp = 0.9
             end if
-	    end if
+            end if
 	    
         sol_actp(j,i) = sol_solp(j,i) * (1. - psp) / psp
 
@@ -401,7 +400,7 @@
             sol_LMN(j,i)=.1*sol_LMC(j,i)                            
             sol_LSC(j,i)=.42*sol_LS(j,i)                              
             sol_LSLC(j,i)=.8*sol_LSC(j,i)                            
-            sol_LSLNC(j,i)=.2*sol_LSC(j,i)                          
+            sol_LSLNC(j,i)=.2*sol_LSC(j,i)
             sol_LSN(j,i)=sol_LSC(j,i)/150.                          
             !sol_WOC(j,ihru)=sol_WOC(j,ihru)+sol_LSC(j,ihru)+sol_WLMC(j,ihru)
             sol_WOC(j,i)=sol_WOC(j,i)+sol_LSC(j,i)+sol_LMC(j,i)        

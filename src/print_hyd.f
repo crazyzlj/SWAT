@@ -25,7 +25,7 @@
       use parm
 
 !!    mauro/jerry whittaker hourly output file
-      if (iphr > 0) then 
+      if (iphr > 0 .and. curyr > nyskip) then 
          do ij = 1, nstep
           write (83,1000) iyr,i,ij,ihout,hhvaroute(2,ihout,ij)
          end do 
@@ -35,4 +35,3 @@
 
       return
       end
-

@@ -203,13 +203,10 @@
             ql = q
             sumq = sumq + uh(isb,i)
 	      i = i + 1
-	      if (i>2*nstep) then
-		    write(*,*) "Unit Hydrograph duration is too long"
-	        exit
-	      endif
+	      if (i>3.*nstep) exit
 	    end do
 	    itb(isb) = i - 1
-		do i = 1, itb(isb)
+		  do i = 1, itb(isb)
             uh(isb,i) = uh(isb,i) / sumq
           end do
 	  endif 

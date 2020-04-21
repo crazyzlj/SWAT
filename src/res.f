@@ -155,11 +155,6 @@
             resflwo = res_out(jres,i_mo,curyr)
           !! This will override the measured outflow! This is just a check 
           !! should really calibrate inflow or check res volumes
-            ndespill = ndtargr(nres)
-            if (ndespill <= 0.) ndespill = 10.
-            if (res_vol(jres) > res_evol(jres)) then
-             resflwo = resflwo+(res_vol(jres)-res_evol(jres))/ndespill
-            endif
 
           case (2)                   !! controlled outflow-target release
             targ = 0.
@@ -208,6 +203,12 @@
             if (resflwo < oflowmn_fps(jres)) resflwo = oflowmn_fps(jres)
 
         end select
+          
+            ndespill = ndtargr(nres)
+            if (ndespill <= 0.) ndespill = 10.
+            if (res_vol(jres) > res_evol(jres)) then
+              resflwo = resflwo+(res_vol(jres)-res_evol(jres))/ndespill
+            endif
 
 !! if reservoir volume is zero
       if (res_vol(jres) < 0.001) then

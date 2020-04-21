@@ -128,7 +128,7 @@
 !! method is used to calculate surface runoff. The curve number methods
 !! take canopy effects into account in the equations. For either of the
 !! CN methods, canstor will always equal zero.
-      pet = pet - canstor(j)
+      pet = pet - canev
       if (pet < 0.) then
         canstor(j) = -pet
         canev = pet_day

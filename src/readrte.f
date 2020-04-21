@@ -260,22 +260,22 @@
 !!  An estimate of channel bank erodibility coefficient from jet test if it is not available
 !!  Units of kd is (cm^3/N/s)
 !!  Base on Hanson and Simon, 2001
-      if (ch_bnk_kd(i) <= 1.e-6) then
-	  if (tc_bnk(i) <= 1.e-6) then
-	    ch_bnk_kd(i) = 0.2
+      if (ch_bnk_kd(irch) <= 1.e-6) then
+	  if (tc_bnk(irch) <= 1.e-6) then
+	    ch_bnk_kd(irch) = 0.2
 	  else 
-          ch_bnk_kd(i) = 0.2 / sqrt(tc_bnk(i))
+          ch_bnk_kd(irch) = 0.2 / sqrt(tc_bnk(irch))
 	  end if
 	end if
 
 !!  An estimate of channel bed erodibility coefficient from jet test if it is not available
 !!  Units of kd is (cm^3/N/s)
 !!  Base on Hanson and Simon, 2001
-      if (ch_bed_kd(i) <= 1.e-6) then
-	  if (tc_bed(i) <= 1.e-6) then
-	    ch_bed_kd(i) = 0.2
+      if (ch_bed_kd(irch) <= 1.e-6) then
+	  if (tc_bed(irch) <= 1.e-6) then
+	    ch_bed_kd(irch) = 0.2
 	  else 
-          ch_bed_kd(i) = 0.2 / sqrt(tc_bed(i))
+          ch_bed_kd(irch) = 0.2 / sqrt(tc_bed(irch))
 	  end if
 	end if
      

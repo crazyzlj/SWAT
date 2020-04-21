@@ -113,7 +113,7 @@
 
         !! calculate area of HRU covered by pond
         pndsa = 0.
-        pndsa = bp1(j) * pnd_vol(j) ** bp2(j)
+        pndsa = hru_fr(j) * bp1(j) * pnd_vol(j) ** bp2(j)
 
         !! calculate water flowing into pond for day
         pndflwi = qday + latq(j)
@@ -179,7 +179,7 @@
         call pond(j)
 
         !! compute water leaving pond
-        qday= qday + pndflwo / cnv
+!        qday = qday + pndflwo / cnv
         qdr(j) = qdr(j) + pndflwo / cnv
 
         !! compute sediment leaving pond
