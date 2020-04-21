@@ -1,5 +1,5 @@
 # ----------------------------------------------------------------------------------------------
-#  Root CMake file for SWAT.
+#  Root CMake file for origin official SWAT and its variants developed by community.
 #     Soil and Water Assessment Tool,
 #       a public domain model jointly developed by USDA Agricultural Research Service (USDA-ARS)
 #       and Texas A&M AgriLife Research, part of The Texas A&M University System.
@@ -8,28 +8,43 @@
 #     Please from the off-tree build directory, invoke:
 #       $ cmake <path/to/SWAT>
 #
-#     This is an unofficial project maintained by Dr. Junzhi Liu and Liangjun Zhu
+#     This is an unofficial repository maintained by Dr. Liang-Jun Zhu (zlj@lreis.ac.cn)
 #       for non-commercial, educational, and scientific purpose.
 #
 #  Routine testing platforms and compilers include:
 #     1. Windows 10 with Visual Studio 2013, Intel Compiler 17.0 Update 4 (ifort 17.0.4.210)
-#     2. Windows 10 with mingw64 (GCC-4.9.3), gfortran-4.9.3
-#     3. CentOS 6.2 (cluster) with GCC-4.8.4, gfortran-4.8.4
-#     4. Red Hat Server 6.2 (cluster), Intel Compiler 12 SP1 (ifort 12.1.0)
+#     2. Windows 10 with mingw64 (GCC-9.1.0), gfortran-9.1.0
+#     3. Ubuntu 16.04 with GCC-5.4.0, gfortran-5.4.0
 #
-#  Created by Liangjun Zhu with the help of @SethMMorton (https://github.com/SethMMorton)
+#  This CMake build script was maintained by Liang-Jun Zhu based on cmake_fortran_template
+#    https://github.com/SethMMorton/cmake_fortran_template @SethMMorton (https://github.com/SethMMorton)
+#  
 #  Contact: zlj@lreis.ac.cn
-#  Latest updated: Nov. 1, 2017
+#  Latest updated: Apr. 20 2020
+#  Copyright (C) 2017-2020 LREIS, IGSNRR, CAS
 # ----------------------------------------------------------------------------------------------
 cmake_minimum_required(VERSION 2.8.5)
 
-### SWAT version
-set(SWAT_VER_MAJOR 2012)
-set(SWAT_VER_MINOR 664)
+### Read SWAT versions and set project name
+file(READ "VERSIONS" ver)
+string(REGEX MATCH "VERSION_MAJOR ([0-9]*)" _ ${ver})  # major version, e.g., 2009 and 2012
+set(SWAT_VER_MAJOR ${CMAKE_MATCH_1})
+string(REGEX MATCH "VERSION_MINOR ([0-9]*)" _ ${ver})
+set(SWAT_VER_MINOR ${CMAKE_MATCH_1})
 
-### Project name and language
-set(prjname SWAT${SWAT_VER_MAJOR}rev${SWAT_VER_MINOR})
+set(SWAT_VER_STR ${SWAT_VER_MAJOR}.${SWAT_VER_MINOR})
+set(prjname SWAT${SWAT_VER_MAJOR}Rev${SWAT_VER_MINOR})
+
+if(${ver} MATCHES "VERSION_PATCH ([a-zA-Z0-9_.-]*)")
+    set(SWAT_VER_PATCH ${CMAKE_MATCH_1})
+    set(SWAT_VER_STR ${SWAT_VER_MAJOR}.${SWAT_VER_MINOR}.${SWAT_VER_PATCH})
+    set(prjname SWAT${SWAT_VER_MAJOR}Rev${SWAT_VER_MINOR}-${SWAT_VER_PATCH})
+endif()
+
+message("Compiling SWAT version: ${SWAT_VER_STR}")
+
 project(${prjname} Fortran)
+set(CMAKE_VERBOSE_MAKEFILE ON)
 
 ### Set cmake find path
 set(CMAKE_MODULE_PATH
@@ -41,14 +56,26 @@ INCLUDE(Utils)
 ### Set default or specified installation directory.
 IF (INSTALL_PREFIX)
     SET(CMAKE_INSTALL_PREFIX ${INSTALL_PREFIX} CACHE PATH "Set specified install path" FORCE)
-ELSEIF(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
+ELSE()
     SET(CMAKE_INSTALL_PREFIX ${CMAKE_SOURCE_DIR}/bin CACHE PATH "Set default install path" FORCE)
 ENDIF ()
 SET(INSTALL_DIR ${CMAKE_INSTALL_PREFIX})
 
 ### In case of Makefiles if the user does not setup CMAKE_BUILD_TYPE, assume it's Release.
 IF(CMAKE_GENERATOR MATCHES "Makefiles|Ninja" AND "${CMAKE_BUILD_TYPE}" STREQUAL "")
-    SET(CMAKE_BUILD_TYPE Release)
+    SET(CMAKE_BUILD_TYPE "Release")
+ENDIF()
+IF(MSVC)
+    IF(CMAKE_GENERATOR MATCHES "Win64")
+        SET(CMAKE_BUILD_BIT "x64")
+    ELSE()
+        SET(CMAKE_BUILD_BIT "x86")
+    ENDIF()
+ENDIF()
+IF(MINGW)
+    SET(TOOL_CHAIN "mingw64")
+ELSEIF(MSVC)
+    SET(TOOL_CHAIN "msvc.ifort")
 ENDIF()
 
 ### Break in case of popular CMake configuration mistakes.
@@ -78,8 +105,12 @@ IF(MSVC)
     OPTION(BUILD_WITH_STATIC_CRT "Build against dynamic CRT on windows." ON)
     INCLUDE(CRTLinkage)
 ELSE()
-    OPTION(ENABLE_STATIC_LINKING "Enable static libraries linking" ON)
-    INCLUDE(StaticLinking)
+    IF(Apple)
+        OPTION(ENABLE_STATIC_LINKING "Enable static libraries linking" OFF)
+    ELSE()
+        OPTION(ENABLE_STATIC_LINKING "Enable static libraries linking" ON)
+        INCLUDE(StaticLinking)
+    ENDIF()
 ENDIF()
 
 ### There is an error in CMAKE with this flag for pgf90.  Unset it
@@ -87,13 +118,20 @@ GET_FILENAME_COMPONENT(FCNAME ${CMAKE_Fortran_COMPILER} NAME)
 IF(FCNAME STREQUAL "pgf90")
     UNSET(CMAKE_SHARED_LIBRARY_LINK_Fortran_FLAGS)
 ENDIF(FCNAME STREQUAL "pgf90")
+#set(CMAKE_Fortran_FLAGS_COVERAGE "-fprofile-arcs -ftest-coverage")
+#set(CMAKE_Fortran_FLAGS_LLVM "-fplugin=dragonegg -O4")
 
 ############################################################
 # Define the actual files and folders that make up the build
 ############################################################
 
 ### Add subdirectories.
-ADD_SUBDIRECTORY(swat_src/src)
+ADD_SUBDIRECTORY(src)
+
+### Add a distclean target to the Makefile
+ADD_CUSTOM_TARGET(distclean 
+    COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_SOURCE_DIR}/cmake/distclean.cmake
+)
 
 ############################################################
 # Build information

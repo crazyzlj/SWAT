@@ -25,8 +25,8 @@
 # contents and assign new values to it from within a function.
 #############################################################################
 
-INCLUDE(CheckCCompilerFlag)
-INCLUDE(CheckCXXCompilerFlag)
+INCLUDE(${CMAKE_ROOT}/Modules/CheckCCompilerFlag.cmake)
+INCLUDE(${CMAKE_ROOT}/Modules/CheckCXXCompilerFlag.cmake)
 
 FUNCTION(SET_COMPILE_FLAG FLAGVAR FLAGVAL LANG)
 
