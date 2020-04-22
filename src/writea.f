@@ -189,7 +189,7 @@
       use parm
 
       integer :: j, k
-      real :: sum
+      real*8 :: sum
 
       if (i_mo <= mo_chk .or. (curyr == nbyr .and. i == idal)) then
         !! calculate average annual max and min temperature
@@ -250,17 +250,17 @@
           idlast = 0
           idlast = i - (id1 - 1)
           do j = 1, nres
-            resouty(1,j) = resouty(1,j) / Real(idlast)
-            resouty(2,j) = resouty(2,j) / Real(idlast)
-            resouty(5,j) = resouty(5,j) / Real(idlast)
-            resouty(15,j) = resouty(15,j) / Real(idlast)
-            resouty(16,j) = resouty(16,j) / Real(idlast)
-            resouty(36,j) = resouty(36,j) / Real(idlast)
-            resouty(37,j) = resouty(37,j) / Real(idlast)
-            resouty(38,j) = resouty(38,j) / Real(idlast)
-            resouty(39,j) = resouty(39,j) / Real(idlast)
-            resouty(40,j) = resouty(40,j) / Real(idlast)
-            resouty(41,j) = resouty(41,j) / Real(idlast)
+            resouty(1,j) = resouty(1,j) / dfloat(idlast)
+            resouty(2,j) = resouty(2,j) / dfloat(idlast)
+            resouty(5,j) = resouty(5,j) / dfloat(idlast)
+            resouty(15,j) = resouty(15,j) / dfloat(idlast)
+            resouty(16,j) = resouty(16,j) / dfloat(idlast)
+            resouty(36,j) = resouty(36,j) / dfloat(idlast)
+            resouty(37,j) = resouty(37,j) / dfloat(idlast)
+            resouty(38,j) = resouty(38,j) / dfloat(idlast)
+            resouty(39,j) = resouty(39,j) / dfloat(idlast)
+            resouty(40,j) = resouty(40,j) / dfloat(idlast)
+            resouty(41,j) = resouty(41,j) / dfloat(idlast)
             if (iyr >= iyres(j)) then
               if (iscen == 1 .and. isproj == 0) then
               write (8,5800) j, iyr, res_vol(j), resouty(1,j),          

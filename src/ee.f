@@ -1,4 +1,4 @@
-      function ee(tk)
+      real*8 function ee(tk) result (r_ee)
 
 !!    ~ ~ ~ PURPOSE ~ ~ ~
 !!    This function calculates saturation vapor pressure at a given 
@@ -21,13 +21,12 @@
 
 !!    ~ ~ ~ ~ ~ ~ END SPECIFICATIONS ~ ~ ~ ~ ~ ~
 
-      real, intent (in) :: tk
-      real :: ee
+      real*8, intent (in) :: tk
 
-      ee = 0.
+      r_ee = 0.
       if (tk + 237.3 /= 0.) then
-        ee = (16.78 * tk - 116.9) / (tk + 237.3)
-        ee = Exp(ee)
+        r_ee = (16.78 * tk - 116.9) / (tk + 237.3)
+        r_ee = Exp(r_ee)
       end if
 
       return

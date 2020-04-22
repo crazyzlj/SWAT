@@ -178,12 +178,12 @@
      
       if (ievent > 0) then
         do ii = 1, nstep
-          hhvaroute(2,ihout,ii) = flodaya(inum1) / real(nstep)
-          hhvaroute(3,ihout,ii) = seddaya(inum1) / real(nstep)
-          hhvaroute(4,ihout,ii) = orgndaya(inum1) / real(nstep)
-          hhvaroute(5,ihout,ii) = orgpdaya(inum1) / real(nstep)
-          hhvaroute(6,ihout,ii) = no3daya(inum1) / real(nstep)
-          hhvaroute(7,ihout,ii) = minpdaya(inum1) / real(nstep)
+          hhvaroute(2,ihout,ii) = flodaya(inum1) / dfloat(nstep)
+          hhvaroute(3,ihout,ii) = seddaya(inum1) / dfloat(nstep)
+          hhvaroute(4,ihout,ii) = orgndaya(inum1) / dfloat(nstep)
+          hhvaroute(5,ihout,ii) = orgpdaya(inum1) / dfloat(nstep)
+          hhvaroute(6,ihout,ii) = no3daya(inum1) / dfloat(nstep)
+          hhvaroute(7,ihout,ii) = minpdaya(inum1) / dfloat(nstep)
 
         end do
       end if

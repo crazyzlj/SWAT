@@ -126,10 +126,10 @@
   
       integer :: j, k
 !!   change per JGA 8/31/2011 gsm PUT YIELD IN modparm.f
-!!      real :: wur, hiad1, yield, yieldn, yieldp, yldpst
+!!      real*8 :: wur, hiad1, yield, yieldn, yieldp, yldpst
   
-      real :: wur, hiad1, resnew, yldpst
-!      real :: wur, hiad1, resnew, yield, yieldn, yieldp, yldpst
+      real*8 :: wur, hiad1, resnew, yldpst
+!      real*8 :: wur, hiad1, resnew, yield, yieldn, yieldp, yldpst
 
       j = 0
       j = ihru
@@ -185,9 +185,9 @@
       yieldn = Min(yieldn, 0.85 * plantn(j))
       yieldp = Min(yieldp, 0.85 * plantp(j))
       plantn(j) = plantn(j) - yieldn
-      plantn(j) = amax1(0.,plantn(j))
+      plantn(j) = dmax1(0.0D+00,plantn(j))
       plantp(j) = plantp(j) - yieldp
-      plantp(j) = amax1(0.,plantp(j))
+      plantp(j) = dmax1(0.0D+00,plantp(j))
 
 !! calculate modifier for autofertilization target nitrogen content
       tnyld(j) = 0.

@@ -85,13 +85,13 @@
       use parm
 
       integer :: jrch, ch_d50type
-      real :: qdin, sedin, vc, cyin, cych, depnet, deg, dep, tbase
-      real :: depdeg, dot, vs, x, SC, Tcbnk, Tcbed,Tbank,Tbed,asinea,Tou
-      real :: sanin, silin, clain, sagin, lagin, grain, outfract
-      real :: depsan, depsil, depcla, depsag, deplag, depgra
-      real :: degsan, degsil, degcla, deggra, degrte
-      real :: bnksan, bnksil, bnkcla, bnkgra, pdep, pdepbed, bedsize
-      real :: USpower,bnkrte,adddep,fpratio,watdep,bnkrt,bedrt,effbnkbed
+      real*8 :: qdin, sedin, vc, cyin, cych, depnet, deg, dep, tbase
+      real*8 :: depdeg, dot, vs, x, SC, Tcbnk, Tcbed,Tbank,Tbed,asinea,Tou
+      real*8 :: sanin, silin, clain, sagin, lagin, grain, outfract
+      real*8 :: depsan, depsil, depcla, depsag, deplag, depgra
+      real*8 :: degsan, degsil, degcla, deggra, degrte
+      real*8 :: bnksan, bnksil, bnkcla, bnkgra, pdep, pdepbed, bedsize
+      real*8 :: USpower,bnkrte,adddep,fpratio,watdep,bnkrt,bedrt,effbnkbed
 
       jrch = 0
       jrch = inum1

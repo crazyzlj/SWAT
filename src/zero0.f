@@ -5,6 +5,10 @@
 
       use parm
       
+!!    Srin co2 (EPA)
+      co2_x2 = 0.
+      co2_x = 0.
+      
       lid_sw_add = 0.
       lid_farea = 0.
       rg_sarea = 0.
@@ -541,6 +545,17 @@
       wshd_aamon = 0.
 !      wshddayo = 0.
       yr_skip = 0
-
+      
+      !initialize flood routing variables
+      do i=1,4
+          IHX(i) = i
+      end do
+      QHY = 0.
+      NHY = 1
+      RCHX = 0.
+      RCSS = 0.
+      QCAP = 0.
+      CHXA = 0.
+      CHXP = 0.
       return
       end

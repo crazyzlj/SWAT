@@ -71,9 +71,9 @@
       use parm
 
       integer :: jrch
-      real :: wtrin, scoef, p, tbase, topw, vol, c, rh
-	  real :: volrt, maxrt, adddep, addp, addarea, vc, aaa
-	  real :: rttlc1, rttlc2, rtevp1, rtevp2, det
+      real*8 :: wtrin, scoef, p, tbase, topw, vol, c, rh
+	  real*8 :: volrt, maxrt, adddep, addp, addarea, vc, aaa
+	  real*8 :: rttlc1, rttlc2, rtevp1, rtevp2, det
 
       jrch = 0
       jrch = inum1
@@ -165,7 +165,7 @@
         rtwtr = scoef * (wtrin + rchstor(jrch))
         !new storage coefficient replacement
         rtwtr = vc * rcharea * 86400.
-        rtwtr = amin1 (rtwtr, wtrin)
+        rtwtr = dmin1 (rtwtr, wtrin)
 
 !! calculate amount of water in channel at end of day
       rchstor(jrch) = rchstor(jrch) + wtrin - rtwtr

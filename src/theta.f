@@ -1,4 +1,4 @@
-      function theta(r20,thk,tmp)
+      real*8 function theta(r20,thk,tmp) result (r_theta)
       
 !!    ~ ~ ~ PURPOSE ~ ~ ~
 !!    this function corrects rate constants for temperature
@@ -23,11 +23,10 @@
 
 !!    ~ ~ ~ ~ ~ ~ END SPECIFICATIONS ~ ~ ~ ~ ~ ~
 
-      real, intent (in) :: r20, thk, tmp
-      real :: theta
+      real*8, intent (in) :: r20, thk, tmp
 
-      theta = 0.
-      theta = r20 * thk ** (tmp - 20.)
+      r_theta = 0.
+      r_theta = r20 * thk ** (tmp - 20.)
 
       return
       end

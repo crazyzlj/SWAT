@@ -49,7 +49,7 @@
 !!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
 
 !!    ~ ~ ~ SUBROUTINES/FUNCTIONS CALLED ~ ~ ~
-!!    Intrinsic: Sin, Cos, Tan, Abs, Acos, Log, Exp, MaxVal
+!!    Intrinsic: Sin, Cos, Tan, abs, Acos, Log, Exp, MaxVal
 !!    SWAT: Aunif, Dstn1
 
 !!    ~ ~ ~ ~ ~ ~ END SPECIFICATIONS ~ ~ ~ ~ ~ ~
@@ -57,7 +57,7 @@
       use parm
 
       character (len=80) :: titldum
-      real, dimension (12) :: pcpmm, pcpd
+      real*8, dimension (12) :: pcpmm, pcpd
       integer :: mon, mdays, j, fcstregtot
 
 

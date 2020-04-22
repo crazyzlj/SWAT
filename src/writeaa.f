@@ -303,26 +303,26 @@
 !!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
 
 !!    ~ ~ ~ SUBROUTINES/FUNCTIONS CALLED ~ ~ ~
-!!    Intrinsic: Real
+!!    Intrinsic: real*8
 !!    SWAT: hruaa, impndaa, rchaa, subaa, stdaa
 
 !!    ~ ~ ~ ~ ~ ~ END SPECIFICATIONS ~ ~ ~ ~ ~ ~
 
       use parm
 
-      real :: yrs, xx, xmm, sumno3, sumorgn, summinp, sumorgp
+      real*8 :: yrs, xx, xmm, sumno3, sumorgn, summinp, sumorgp
       integer :: j, nnro, nicr, k, ly, ic, ii
 
 !! calculate number of years simulated
       yrs = 0.
       do j = 1, nbyr
         xx = 0.
-        xx = 366. - Real(leapyr)
+        xx = 366. - dfloat(leapyr)
         if (j > nyskip) then
           if (j == 1 .and. idaf > 0) then
-            yrs = yrs + (xx - (Real(idaf) - 1. - Real(fcstcnt))) / xx
+            yrs = yrs + (xx - (dfloat(idaf) - 1. - dfloat(fcstcnt))) / xx
           elseif (j == nbyr .and. idal > 0) then
-            yrs = yrs + ((Real(idal) - Real(fcstcnt)) / xx)
+            yrs = yrs + ((dfloat(idal) - dfloat(fcstcnt)) / xx)
           else
             yrs = yrs + 1.
           end if
@@ -403,7 +403,7 @@
       wshd_pstdg = wshd_pstdg / yrs
       !! calculate monthly averages
       do j = 1, 12
-        xmm = Real(ndmo(j)) / Real(ndays(j+1) - ndays(j))
+        xmm = dfloat(ndmo(j)) / dfloat(ndays(j+1) - ndays(j))
         if (xmm > 0.) then
           do k = 1, 8
             wshd_aamon(j,k) = wshd_aamon(j,k) / xmm
@@ -562,12 +562,12 @@
       end if
 
 !! write life span of septic HRUs (time to first failure, years)
-	write(173,'(a50)') 'Year the first failure occured'
-      write(173,'(1/,a5,a7)') 'HRU','Failyr'
+	write(173,'(1/,a50)') ' Year the first failure occurred'
+      write(173,'(1/,20x,a5,a7)') 'HRU',' Failyr'
       do j=1,nhru
 	  if (isep_opt(j)/=0) then
-	    if(failyr(j)==0) write(173,'(i5,a7)') j,'No Fail'
-	    if(failyr(j)/=0) write(173,'(i5,f7.3)') j,failyr(j)
+	    if(failyr(j)==0) write(173,'(20x,i5,a8)') j,' No Fail'
+	    if(failyr(j)/=0) write(173,'(20x,i5,f7.3)') j,failyr(j)
         end if
       end do
 

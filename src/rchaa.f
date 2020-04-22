@@ -123,10 +123,10 @@
 
       use parm
 
-      real, intent (in) :: years
+      real*8, intent (in) :: years
       integer :: j
-      real, dimension (mrcho) :: pdvar, pdvr
-      real, dimension (2) :: srch_av
+      real*8, dimension (mrcho) :: pdvar, pdvr
+      real*8, dimension (2) :: srch_av
 
       do j = 1, subtot
 
@@ -232,6 +232,6 @@
       end do
 
       return
- 5000 format ('REACH ',i4,1x,i8,1x,f5.1,47e12.4)
- 6000 format ('REACH ',i4,1x,i8,1x,f5.1,47e12.4,1x,i4)
+ 5000 format ('REACH ',i5,1x,i8,1x,f5.1,47e12.4)
+ 6000 format ('REACH ',i5,1x,i8,1x,f5.1,47e12.4,1x,i4)
       end

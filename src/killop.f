@@ -74,13 +74,13 @@
       use parm
   
       integer :: j, k
-      real :: resnew
+      real*8 :: resnew
       
       !!by zhang
       !!====================
-      real :: BLG1, BLG2, BLG3,  CLG, sf
-      real :: sol_min_n, resnew_n, resnew_ne
-      real :: LMF, LSF, LSLF, LSNF,LMNF 
+      real*8 :: BLG1, BLG2, BLG3,  CLG, sf
+      real*8 :: sol_min_n, resnew_n, resnew_ne
+      real*8 :: LMF, LSF, LSLF, LSNF,LMNF 
       orgc_f = 0.
       BLG1 = 0.
       BLG2 = 0.

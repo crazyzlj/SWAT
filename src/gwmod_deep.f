@@ -39,7 +39,7 @@
       use parm
 
       integer :: j
-      real :: rchrg1
+      real*8 :: rchrg1
 
       j = 0
       j = ihru

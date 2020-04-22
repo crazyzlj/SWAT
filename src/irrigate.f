@@ -57,9 +57,9 @@
       use parm
 
       integer, intent (in) :: jj
-      real, intent (in out) :: volmm
+      real*8, intent (in out) :: volmm
       integer :: k
-      real :: fcx, stx, yy
+      real*8 :: fcx, stx, yy
 
 !! initialize variable for HRU
 !! (because irrigation can be applied in different command loops

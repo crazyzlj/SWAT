@@ -73,7 +73,7 @@
       real*8 :: lid_ksat,lid_por,lid_fc,lid_wp,whd,tst,cvwc,
      & lid_usat_ratio,lid_excum,lid_exinc,lid_et,lid_qinf,lid_qseep,dt,
      & lid_re_sw,lid_adj_ksat,lid_sw,lid_f,lid_cuminf,lid_soldpt,lid_f1
-      real :: lid_prec,lid_cumr,lid_etcoef,lid_hydeff
+      real*8 :: lid_prec,lid_cumr,lid_etcoef,lid_hydeff
       
       jj = urblu(j)
 
@@ -86,7 +86,7 @@
       lid_etcoef = gr_etcoef(sb,jj)
       lid_hydeff = gr_hydeff(sb,jj)
 
-      dt = real(idt) / 60.
+      dt = dfloat(idt) / 60.
       
 !!    Initialize parameters and coefficients for green roof modeling
       lid_sw = lid_sw_last(j,1)
@@ -118,7 +118,7 @@
      &    + whd * cvwc
      &    * Log((tst + whd * cvwc) / (lid_cuminf_last(j,1) + whd *
      &    cvwc))
-          if (Abs(lid_f1 - tst) < 0.001) then
+          if (abs(lid_f1 - tst) < 0.001) then
             lid_f = lid_adj_ksat * (1 + (whd * cvwc)/lid_f1)
             lid_qinf = lid_f * dt
             if (lid_f > (lid_prec / dt)) then
@@ -158,7 +158,7 @@
       
 !!    Calculate amount of soil water evapotranspirated into the air
       call etpot
-      lid_et = lid_etcoef * pet_day / 1440. * real(idt)
+      lid_et = lid_etcoef * pet_day / 1440. * dfloat(idt)
 
 !!    Update soil water content of the amended soil layer considering infiltration, seepage, and evapotranspiration
       lid_sw = lid_sw_last(j,1) + (lid_qinf - lid_qseep - lid_et) /

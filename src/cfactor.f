@@ -58,7 +58,7 @@
       use parm
 
       integer :: j
-      real :: c
+      real*8 :: c, bio_frcov, rsd_frcov
 
       j = 0
       j = ihru
@@ -83,7 +83,7 @@
         grcov_fr = laiday(j) / (laiday(j) + 
      *          Exp(1.748 - 1.748*laiday(j)))
         bio_frcov = 1. - grcov_fr * Exp(-.01*cht(j))
-        c = amax1(1.e-10,rsd_frcov*bio_frcov)
+        c = dmax1(1.e-10,rsd_frcov*bio_frcov)
       end if
 
       usle_cfac(ihru) = c

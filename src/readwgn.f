@@ -123,7 +123,7 @@
 !!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
 
 !!    ~ ~ ~ SUBROUTINES/FUNCTIONS CALLED ~ ~ ~
-!!    Intrinsic: Sin, Cos, Tan, Abs, Acos, Log, Exp, MaxVal
+!!    Intrinsic: Sin, Cos, Tan, abs, Acos, Log, Exp, MaxVal
 !!    SWAT: Aunif, Dstn1
 
 !!    ~ ~ ~ ~ ~ ~ END SPECIFICATIONS ~ ~ ~ ~ ~ ~
@@ -131,10 +131,10 @@
       use parm
 
       character (len=80) :: titldum
-      real :: xx, lattan, x1, x2, x3, tav, tmin, tmax, rain_yrs
-      real :: summx_t, summn_t, summm_p, sum, rnm2, r6, xlv, pcp
-      real, dimension (12) :: rainhhmx, rain_hhsm, pcpmm, pcpd
-      real :: tmpsoil, sffc, rndm1, dl
+      real*8 :: xx, lattan, x1, x2, x3, tav, tmin, tmax, rain_yrs
+      real*8 :: summx_t, summn_t, summm_p, sum, rnm2, r6, xlv, pcp
+      real*8, dimension (12) :: rainhhmx, rain_hhsm, pcpmm, pcpd
+      real*8 :: tmpsoil, sffc, rndm1, dl
       integer :: mon, mdays, j, m1, nda, xrnd
 
 
@@ -183,11 +183,11 @@
 !! daylength=2*acos(-tan(sd)*tan(lat))/omega
 !! where solar declination, sd, = -23.5 degrees for minimum daylength in
 !!                      northern hemisphere and -tan(sd) = .4348
-!!       absolute value is taken of tan(lat) to convert southern hemisphere
+!!       dabsolute value is taken of tan(lat) to convert southern hemisphere
 !!                      values to northern hemisphere
 !!       the angular velocity of the earth's rotation, omega, = 15 deg/hr or
 !!                      0.2618 rad/hr and 2/0.2618 = 7.6394
-      x1 = .4348 * Abs(lattan)      
+      x1 = .4348 * abs(lattan)      
       if (x1 < 1.) x2 = Acos(x1) 
                          !!x1 will be >= 1. if sub_lat > 66.5 or < -66.5
       daylmn(i) = 7.6394 * x2
@@ -195,12 +195,12 @@
 !! calculate day length threshold for dormancy
       if (dorm_hr < -1.e-6) then
         dl = 0.
-         if (Abs(sub_lat(i)) > 40.) then
+         if (abs(sub_lat(i)) > 40.) then
           dl = 1.
-         else if (Abs(sub_lat(i)) < 20.) then
+         else if (abs(sub_lat(i)) < 20.) then
           dl = -1.
          else
-         dl = (Abs(sub_lat(i)) - 20.) / 20.
+         dl = (abs(sub_lat(i)) - 20.) / 20.
          end if
       else
          dl = dorm_hr

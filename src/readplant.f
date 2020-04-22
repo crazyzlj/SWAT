@@ -143,7 +143,7 @@
 !!    vpdfr     |kPa              |vapor pressure deficit at which FRGMAX is
 !!                                |valid
 !!    xx        |none             |dummy variable to hold IDC expressed as a
-!!                                |real number
+!!                                |real*8 number
 !!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
 
 !!    ~ ~ ~ SUBROUTINES/FUNCTIONS CALLED ~ ~ ~
@@ -154,11 +154,11 @@
       use parm
 
       integer :: ic, eof, icnum, yrsmat
-      real :: xx, usle_c, frgrw2, laimx2, co2hi, bioehi, vpdfr, blaic
-      real :: b1, b2, b3, c1, frgrw1, laimx1, frgmax, bioe, hvstc, dlaic
-      real :: chtmxc, rdmxc, topt, tbase, cnyldc, cpyldc, bn1, bn2, bn3
-      real :: bp1c, bp2c, bp3c, wsyfc, gsic, wavpc, rsdcopl, alaimin
-      real :: bioleaf
+      real*8 :: xx, usle_c, frgrw2, laimx2, co2hi, bioehi, vpdfr, blaic
+      real*8 :: b1, b2, b3, c1, frgrw1, laimx1, frgmax, bioe, hvstc, dlaic
+      real*8 :: chtmxc, rdmxc, topt, tbase, cnyldc, cpyldc, bn1, bn2, bn3
+      real*8 :: bp1c, bp2c, bp3c, wsyfc, gsic, wavpc, rsdcopl, alaimin
+      real*8 :: bioleaf
       character (len=4) :: cname
 
       eof = 0
@@ -215,8 +215,9 @@
         if (eof < 0) exit
         read (104,777,iostat=eof) bioleaf, yrsmat, biomxtrees, extcoef, 
      &     bmdieoff, rsr1c, rsr2c
-!! 777    format (7f8.3)
+
  777    format (f8.3,i5,5f8.3)
+ !777    format (f8.3,i5,5f8.3)
 
         if (eof < 0) exit
 
@@ -302,7 +303,7 @@
           b2 = 1. - (pltnfr(2,ic) - pltnfr(3,ic)) / b1
           b3 = 1. - .00001 / b1
 !!        determine shape parameters for plant nitrogen uptake equation
-          call ascrv(b2, b3, 0.5, 1.0, bio_n1(ic), bio_n2(ic))
+          call ascrv(b2, b3, 5.0D-01, 1.0D+00, bio_n1(ic), bio_n2(ic))
 
 
 !!        phosphorus uptake parameters
@@ -318,7 +319,7 @@
           b2 = 1. - (pltpfr(2,ic) - pltpfr(3,ic)) / b1
           b3 = 1. - .00001 / b1
 !!        determine shape parameters for plant phosphorus uptake equation
-          call ascrv(b2, b3, .5, 1., bio_p1(ic), bio_p2(ic))
+          call ascrv(b2, b3, 5.0D-01, 1.0D+00, bio_p1(ic), bio_p2(ic))
 
 
 !!        calculate slope in stomatal conductance equation

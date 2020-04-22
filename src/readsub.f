@@ -138,7 +138,7 @@
       character (len=13) :: opsfile, wgnfile, pndfile, wusfile, septfile
 	  character (len=13) :: sdrfile, ltcfile
       integer :: eof, mon, j, jj, ip, if, ir
-      real :: ssnoeb(10), sno_sub, ch_ls, sumebfr
+      real*8 :: ssnoeb(10), sno_sub, ch_ls, sumebfr
 
       wgnfile = ""
       pndfile = ""
@@ -154,7 +154,7 @@
 
       read (101,5100) titldum
       read (101,*) sub_km(i)
-      if (isproj == 2) then
+      if (isproj == 3) then
        read (101,5101) harg_petco(i), cncoef_sub(i), sub_smfmx(1,i),
      &  sub_smfmn(1,i), sub_sftmp(1,i), sub_smtmp(1,i), sub_timp(1,i)
         do ib = 2, 10
@@ -274,6 +274,7 @@
 	      call caps(sdrfile)
 	      open (112,file=sdrfile)
 	      call readsdr
+            if (sdrain(ihru) <= 0.) sdrain(ihru) = sdrain_bsn   !! todd campbell 06/07/18
           else
             if (re(ihru) <= 0.) re(ihru) = re_bsn
             if (sdrain(ihru) <= 0.) sdrain(ihru) = sdrain_bsn

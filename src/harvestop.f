@@ -134,19 +134,19 @@
       integer :: j, k
       
 !!   change per JGA 8/31/2011 gsm PUT YIELD IN modparm.f
-!!    real :: hiad1, wur, yield, clip, yieldn, yieldp, clipn, clipp
-      real :: hiad1, wur, clip, clipn, clipp
-      real :: yldpst, clippst, rtresnew
-      real :: clipgrn,cliptbr,clipngrn,clippgrn,yieldngrn
-      real :: yieldntbr,yieldnrsd,yieldpgrn,yieldptbr,yieldprsd
-      real :: clipntbr,clipptbr,rtresp
+!!    real*8 :: hiad1, wur, yield, clip, yieldn, yieldp, clipn, clipp
+      real*8 :: hiad1, wur, clip, clipn, clipp
+      real*8 :: yldpst, clippst, rtresnew
+      real*8 :: clipgrn,cliptbr,clipngrn,clippgrn,yieldngrn
+      real*8 :: yieldntbr,yieldnrsd,yieldpgrn,yieldptbr,yieldprsd
+      real*8 :: clipntbr,clipptbr,rtresp
 
       !!add by zhang
       !!===================
-      real :: BLG1, BLG2, BLG3,  CLG, sf
-      real :: sol_min_n, resnew, resnew_n, resnew_ne
-      real :: LMF, LSF, LSLF, LSNF,LMNF 
-      real ::  RLN, RLR
+      real*8 :: BLG1, BLG2, BLG3,  CLG, sf
+      real*8 :: sol_min_n, resnew, resnew_n, resnew_ne
+      real*8 :: LMF, LSF, LSLF, LSNF,LMNF 
+      real*8 ::  RLN, RLR
       orgc_f = 0.
       BLG1 = 0.
       BLG2 = 0.
@@ -278,7 +278,7 @@
       if (hi_rsd > 0.) then
         yieldrsd = hi_rsd * sol_rsd(1,j)
         yieldnrsd = hi_rsd * sol_fon(1,j)
-        yieldprsd = hi_rsd * sol_fon(1,j)
+        yieldprsd = hi_rsd * sol_fop(1,j)
         sol_rsd(1,j) = sol_rsd(1,j) - yieldrsd
         sol_fon(1,j) = sol_fon(1,j) - yieldnrsd
         sol_fop(1,j) = sol_fop(1,j) - yieldprsd

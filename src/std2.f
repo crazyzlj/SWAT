@@ -102,7 +102,7 @@
       use parm
  
       integer :: j
-      real :: sumarea, xkm, xch_l1
+      real*8 :: sumarea, xkm, xch_l1
       character (len=1) :: kpnd, kbnd, kwet, kubn, kpot, kdrn, kpst,ksep
 
 !!    input summary file
@@ -205,10 +205,10 @@
         do j = 1, subtot
           xch_l1 = 0.
           xch_l1 = ch_l1(hru1(j)) / hru_fr(hru1(j))
-          write (24,1012) j,xch_l1,ch_s(1,j),ch_w(1,j),ch_k(1,j)        
-     &          ,ch_n(1,j),ch_l2(j),ch_s(2,j),ch_w(2,j),ch_d(j),        
+          write (24,1012) j,xch_l1,ch_s(1,j),ch_w(1,j),ch_k(1,j), 
+     &          ch_n(1,j),ch_l2(j),ch_s(2,j),ch_w(2,j),ch_d(j),        
      &          ch_k(2,j),ch_n(2,j)
-        end do
+         end do
       end if
 
 !!    standard output file

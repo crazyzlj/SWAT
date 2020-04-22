@@ -53,8 +53,8 @@
       use parm
 
       integer :: k, iyp, idap, l, inum3sprev
-      real :: rabsb
-      real, dimension (mrg) :: slrmeas
+      real*8 :: rabsb
+      real*8, dimension (mrg) :: slrmeas
 
       !! initialize variables for the day
       slrmeas = 0.

@@ -105,7 +105,7 @@
       use parm
 
       integer :: j
-      real :: cnv, pndsa, xx, yy
+      real*8 :: cnv, pndsa, xx, yy
 
       j = 0
       j = ihru
@@ -206,7 +206,7 @@
         shallst(j) = shallst(j) + pndsep / cnv
 
         !! compute seepage depth for HRU water balance
-        twlpnd = pndsep / cnv
+        twlpnd(j) = pndsep / cnv
 
       if (hhqday(k) < 0.) hhqday(k) = 0.			
       if (hhsedy(j,k) < 0.) hhsedy(j,k) = 0.

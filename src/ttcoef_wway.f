@@ -72,7 +72,7 @@
  
 
       integer :: jj, k
-      real :: fps, d, b, p, a, qq1, rh, tt1, tt2, aa
+      real*8 :: fps, d, b, p, a, qq1, rh, tt1, tt2, aa
       
       k = ihru
       

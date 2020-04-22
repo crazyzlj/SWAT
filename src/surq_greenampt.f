@@ -65,23 +65,24 @@
 !!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
 
 !!    ~ ~ ~ SUBROUTINES/FUNCTIONS CALLED ~ ~ ~
-!!    Intrinsic: Sum, Exp, Real, Mod
+!!    Intrinsic: Sum, Exp, real*8, Mod
 
 !!    ~ ~ ~ ~ ~ ~ END SPECIFICATIONS ~ ~ ~ ~ ~ ~
 
 
       use parm
 
-      integer :: j, k, kk, sb, ii
-      real :: adj_hc, dthet, soilw, psidt, tst, f1
-      real :: lid_prec, lid_cumr, urban_prec
-      real, dimension (nstep+1) :: cumr, cuminf, excum, exinc, rateinf
-      real, dimension (nstep+1) :: rintns
+      integer :: j, k, kk, sb, ii,ida
+      real*8 :: adj_hc, dthet, soilw, psidt, tst, f1
+      real*8 :: lid_prec, lid_cumr, urban_prec
+      real*8, dimension (nstep+1) :: cumr, cuminf, excum, exinc, rateinf
+      real*8, dimension (nstep+1) :: rintns
         !! array location #1 is for last time step of prev day
 
        j = 0
        j = ihru
        sb = hru_sub(j)     
+       ida=iida
       
        !! reset values for day
        cumr = 0.
@@ -118,18 +119,18 @@
        psidt = dthet * wfsh(j)
 
        k = 1
-       rintns(1) = 60. * precipdt(2) / Real(idt)  !! urban 60./idt  NK Feb 4,08
+       rintns(1) = 60. * precipdt(2) / dfloat(idt)  !! urban 60./idt  NK Feb 4,08
 
        do k = 2, nstep+1
          !! calculate total amount of rainfall during day for time step
          cumr(k) = cumr(k-1) + precipdt(k)
          !! and rainfall intensity for time step
-         rintns(k) = 60. * precipdt(k+1) / Real(idt) !!urban 60./idt NK Feb 4,08 
+         rintns(k) = 60. * precipdt(k+1) / dfloat(idt) !!urban 60./idt NK Feb 4,08 
 
          !! if rainfall intensity is less than infiltration rate
          !! everything will infiltrate
          if (rateinf(k-1) >= rintns(k-1)) then
-           cuminf(k) = cuminf(k-1) + rintns(k-1) * Real(idt) / 60. !!urban 60./idt NK Feb 4,08
+           cuminf(k) = cuminf(k-1) + rintns(k-1) * dfloat(idt) / 60. !!urban 60./idt NK Feb 4,08
            if (excum(k-1) > 0.) then
              excum(k) = excum(k-1)
              exinc(k) = 0.
@@ -142,12 +143,12 @@
           !! find cumulative infiltration for time step by successive
           !! substitution
            tst = 0.
-           tst = adj_hc * Real(idt) / 60.  !!urban 60./idt NK Feb 4,08
+           tst = adj_hc * dfloat(idt) / 60.  !!urban 60./idt NK Feb 4,08
            do
              f1 = 0.
-             f1 = cuminf(k-1) + adj_hc * Real(idt) / 60. +             
+             f1 = cuminf(k-1) + adj_hc * dfloat(idt) / 60. +             
      &             psidt * Log((tst + psidt)/(cuminf(k-1) + psidt))
-             if (Abs(f1 - tst) <= 0.001) then
+             if (abs(f1 - tst) <= 0.001) then
                cuminf(k) = f1
                excum(k) = cumr(k) - cuminf(k)
                exinc(k) = excum(k) - excum(k-1)
@@ -169,7 +170,7 @@
 
            ! runoff from a LID and its upstream drainage areas (green roof, rain garden, cistern, and porous pavement)
            if (lid_onoff(sb,urblu(j))==1) then
-             lid_prec = real(precipdt(k) - abstinit)
+             !lid_prec = dfloat(precipdt(k) - abstinit)   commented by Todd - double precision chgs
              if (lid_prec < 0.) lid_prec = 0.
              call lids(sb,j,k,lid_prec)
              lid_qsurf_total = 0.

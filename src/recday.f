@@ -102,9 +102,9 @@
 
       use parm
 
-      real :: floday, sedday, orgnday, orgpday, no3day, minpday
-      real :: nh3day, no2day, cmtl1day, cmtl2day, cmtl3day, solpstday
-      real :: bactpday, bactlpday, chladay, disoxday, cbodday, srbpstday
+      real*8 :: floday, sedday, orgnday, orgpday, no3day, minpday
+      real*8 :: nh3day, no2day, cmtl1day, cmtl2day, cmtl3day, solpstday
+      real*8 :: bactpday, bactlpday, chladay, disoxday, cbodday, srbpstday
       integer :: idap, iyp, ii, j
 
 !! initialize variables
@@ -181,24 +181,24 @@
 
       if (ievent > 0) then
         do ii = 1, nstep
-          hhvaroute(2,ihout,ii) = floday / real(nstep)
-          hhvaroute(3,ihout,ii) = sedday / real(nstep)
-          hhvaroute(4,ihout,ii) = orgnday / real(nstep)
-          hhvaroute(5,ihout,ii) = orgpday / real(nstep)
-          hhvaroute(6,ihout,ii) = no3day / real(nstep)
-          hhvaroute(7,ihout,ii) = minpday / real(nstep)
-          hhvaroute(11,ihout,ii) = solpstday / real(nstep)
-          hhvaroute(12,ihout,ii) = srbpstday / real(nstep)
-          hhvaroute(13,ihout,ii) = chladay / real(nstep)
-          hhvaroute(14,ihout,ii) = nh3day / real(nstep)
-          hhvaroute(15,ihout,ii) = no2day / real(nstep)
-          hhvaroute(16,ihout,ii) = cbodday / real(nstep)
-          hhvaroute(17,ihout,ii) = disoxday / real(nstep)
-          hhvaroute(18,ihout,ii) = bactpday / real(nstep)
-          hhvaroute(19,ihout,ii) = bactlpday / real(nstep)
-          hhvaroute(20,ihout,ii) = cmtl1day / real(nstep)
-          hhvaroute(21,ihout,ii) = cmtl2day / real(nstep)
-          hhvaroute(22,ihout,ii) = cmtl3day / real(nstep)
+          hhvaroute(2,ihout,ii) = floday / dfloat(nstep)
+          hhvaroute(3,ihout,ii) = sedday / dfloat(nstep)
+          hhvaroute(4,ihout,ii) = orgnday / dfloat(nstep)
+          hhvaroute(5,ihout,ii) = orgpday / dfloat(nstep)
+          hhvaroute(6,ihout,ii) = no3day / dfloat(nstep)
+          hhvaroute(7,ihout,ii) = minpday / dfloat(nstep)
+          hhvaroute(11,ihout,ii) = solpstday / dfloat(nstep)
+          hhvaroute(12,ihout,ii) = srbpstday / dfloat(nstep)
+          hhvaroute(13,ihout,ii) = chladay / dfloat(nstep)
+          hhvaroute(14,ihout,ii) = nh3day / dfloat(nstep)
+          hhvaroute(15,ihout,ii) = no2day / dfloat(nstep)
+          hhvaroute(16,ihout,ii) = cbodday / dfloat(nstep)
+          hhvaroute(17,ihout,ii) = disoxday / dfloat(nstep)
+          hhvaroute(18,ihout,ii) = bactpday / dfloat(nstep)
+          hhvaroute(19,ihout,ii) = bactlpday / dfloat(nstep)
+          hhvaroute(20,ihout,ii) = cmtl1day / dfloat(nstep)
+          hhvaroute(21,ihout,ii) = cmtl2day / dfloat(nstep)
+          hhvaroute(22,ihout,ii) = cmtl3day / dfloat(nstep)
         end do
       end if
 

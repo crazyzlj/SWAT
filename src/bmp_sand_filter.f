@@ -1,4 +1,4 @@
-      subroutine sand_filter(kk,flw,sed)
+      subroutine bmp_sand_filter(kk,flw,sed)
       
 !!    ~ ~ ~ PURPOSE ~ ~ ~
 !!    this subroutine routes water and sediment through sand filters in the subbasin
@@ -41,11 +41,12 @@
      & sedconc,qevap,hrd,qrchg
       real*8, dimension(:) :: qpnd(0:nstep),qsw(0:nstep),qin(0:nstep),
      & qout(0:nstep),fc(0:nstep),f(0:nstep)
-      real, dimension(4,0:nstep), intent(inout) :: flw, sed
+      real*8, dimension(4,0:nstep), intent(inout) :: flw, sed
+      real*8 :: sedoutc
       
       sb = inum1
       sub_ha = da_ha * sub_fr(sb)
-      dt = real(idt) / 60. !time interval in hours 
+      dt = dfloat(idt) / 60. !time interval in hours 
       qin = 0.; qout = 0.;qevap=0
       flw(2,:) = 0.; sed(2,:) = 0.;f=0; qrchg = 0
       qpnd = 0.; qsw = 0.; qpndi = 0.; qpnde = 0.; fc = 0.;qfiltr = 0.
@@ -137,7 +138,7 @@
                Do  !green and ampt infiltration
                  fc(ii) = fc(ii - 1) + ksat * dt + whd * Log((tst + whd)
      &                  / (fc(ii - 1) + whd))
-                 If (Abs(fc(ii) - tst) < 0.001) Then
+                 If (abs(fc(ii) - tst) < 0.001) Then
                    Exit 
                  Else
                    tst = fc(ii)
@@ -260,8 +261,6 @@
         flw(3,ii) = qloss / (sub_ha *10000. - tsa) * 1000.  !mm
         flw(4,ii) = qrchg / (sub_ha *10000. - tsa) * 1000.  !mm
          
-!         write(*,'(2i3,20f7.3)') iida, ii, qin(ii),qout(ii),qpnd(ii), 
-!     &      qsw(ii),qloss
          !--------------------------------------------------------------------------------------
          ! TSS removal 
          sloss = 0.; sedrmeff = 0.
@@ -275,6 +274,8 @@
             endif 
             sloss = sedconc * qloss !tons
             sedpnd = sedpnd + sed(1,ii) - sloss !tons
+            sed(3,ii) = sloss
+
          end if
          
          if (qpndi>0.001) then
@@ -285,16 +286,19 @@
          
          If (qout(ii)<0.001)then
             ! no outflow through filter media
-            if (qloss>0.001) then
-               sed(2,ii) = sloss
-            else
-               sed(2,ii) = 0.
-            end if
+            sed(2,ii) = 0.
          Else
-            ! water temperature, C
-            tmpw = sub_hhwtmp(sb,ii)  
-            ! water viscosity (g/cm-s) using 3rd order polynomial interpolation
-	         mu = -3.e-6 * tmpw ** 3 + 0.0006 * tmpw ** 2 - 
+            if (sfsedstdev>0) then
+               !calculate sediment yield using effluent probability method
+               call log_normal(sfsedmean,sfsedstdev,sedoutc)
+               sed(2,ii) = sedoutc * qout(ii) / 1.e6  !tons 
+               sed(2,ii) = max(0.,sed(2,ii))
+            else
+               !calculate sediment filtration and yield using Yao et al. (1971)  
+               ! water temperature, C
+               tmpw = sub_hhwtmp(sb,ii)  
+               ! water viscosity (g/cm-s) using 3rd order polynomial interpolation
+	            mu = -3.e-6 * tmpw ** 3 + 0.0006 * tmpw ** 2 - 
      &	         0.0469 * tmpw + 1.7517		
 	         mu = mu * 1.e-2
 
@@ -313,38 +317,31 @@
                effbr = 0.999
             End If
 
-            !interception efficiency
-            effl = 1.5 * (dp / dc) ** 2
-               
-            If (effl > 0.999) effl = 0.99
-            If (effg > 0.999) effg = 0.99
-            If (effbr > 0.999) effbr = 0.99
+               !interception efficiency
+               effl = 1.5 * (dp / dc) ** 2
+              
+               If (effl > 0.999) effl = 0.99
+               If (effg > 0.999) effg = 0.99
+               If (effbr > 0.999) effbr = 0.99
            
-            !contact efficiency
-            effct = effl + effg + effbr
-            If (effct > 0.999) effct = 0.99
+               !contact efficiency
+               effct = effl + effg + effbr
+               If (effct > 0.999) effct = 0.99
            
-            ! sediment removal efficiency
-            sedrmeff = 1. - Exp(-1.5 * (1. - por) * alp * effct * 
-     &       ft_dep(sb,kk) / ft_dc(sb,kk))
-            ! sediment removed during the time step
-            sed_removed =  spndconc * qout(ii) * sedrmeff
-            ! sediment through filter, tons
-            sed(2,ii) = spndconc * qout(ii) * (1. - sedrmeff)
-            
-            sedpnd = sedpnd - spndconc * qout(ii) !tons
-            sed(3,ii) = sloss
-            if (sedpnd<0) sedpnd = 0.
+               ! sediment removal efficiency
+               sedrmeff = 1. - Exp(-1.5 * (1. - por) * alp * effct * 
+     &           ft_dep(sb,kk) / ft_dc(sb,kk))
+               ! sediment removed during the time step, tons
+               sed_removed =  spndconc * qout(ii) * sedrmeff
+               sed(2,ii) = sed_removed
+           
+            end if    
+            sedpnd = max(0.,sedpnd - sed(2,ii)) !tons
             
             ! write cumulative amount of sediment removed
             ft_sed_cumul(sb,kk) = ft_sed_cumul(sb,kk) + sed_removed !tons
          End if
 
-!       write(*,'(3i6,20f10.3)') iyr,iida,ii,qin(ii),
-!     & qout(ii),qsw(ii),qpnd(ii),qloss,qevap
-!       write(*,'(3i5,20f10.3)') iyr,iida,ii,precipdt(ii),qin(ii),
-!     & qout(ii),qloss,qpndi,qpnde,qpnd(ii),qsw(ii),f(ii),sed(1,ii)*1000,
-!     & sed(2,ii)*1000,sloss*1000
       end do
       
       ! store end-of-day values for next day
@@ -356,4 +353,4 @@
       ft_fc(sb,kk) = fc(nstep)
 
       return
-      end subroutine
+      end subroutine bmp_sand_filter

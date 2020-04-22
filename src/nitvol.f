@@ -75,9 +75,9 @@
       use parm
 
       integer :: j, k
-      real :: sw25, swwp, swf, xx, dmidl, dpf, akn, akv, rnv, rnit, rvol
-      real :: tf 
-      real :: cecf = 0.15
+      real*8 :: sw25, swwp, swf, xx, dmidl, dpf, akn, akv, rnv, rnit, rvol
+      real*8 :: tf 
+      real*8 :: cecf = 0.15
 
       j = 0
       j = ihru 

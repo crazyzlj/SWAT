@@ -38,7 +38,7 @@
 
       integer, intent (in) :: iwave
       integer :: j
-      real :: cy
+      real*8 :: cy
  
       j = 0
       j = ihru

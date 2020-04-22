@@ -148,11 +148,11 @@
 
       use parm
 
-      real, intent (in) :: years
-      real :: orgn_ppm, orgp_ppm, ano3_ppm, minp_ppm, chla_ppm
-      real :: orgn_ppw, orgp_ppw, ano3_ppw, solp_ppw, chla_ppw
+      real*8, intent (in) :: years
+      real*8 :: orgn_ppm, orgp_ppm, ano3_ppm, minp_ppm, chla_ppm
+      real*8 :: orgn_ppw, orgp_ppw, ano3_ppw, solp_ppw, chla_ppw
       integer :: j, sb, ii, iflag
-      real, dimension (40) :: pdvas
+      real*8, dimension (40) :: pdvas
       character*4 cropname
 
       do j = 1, nhru

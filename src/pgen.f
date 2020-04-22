@@ -64,7 +64,7 @@
 
       integer, intent (in) :: j
  
-      real :: vv, pcpgen, v8, r6, xlv
+      real*8 :: vv, pcpgen, v8, r6, xlv
 
       pcpgen = 0.
       vv = 0.

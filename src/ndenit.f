@@ -1,9 +1,9 @@
       subroutine ndenit(k,j,cdg,wdn,void)
 !!    this subroutine computes denitrification 
 
-	use parm
+	use parm, except_this_one => ndenit
 	integer :: k,j
-	real :: cdg, wdn, void
+	real*8 :: cdg, wdn, void
 
       wdn = 0.
 	vof = 1. / (1. + (void/0.04)**5)

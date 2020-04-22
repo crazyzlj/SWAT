@@ -31,7 +31,7 @@
       use parm
 
       integer :: j, plant_no , zz
-	real:: b
+	real*8 :: b
 	j = 0
 	j = ihru
 

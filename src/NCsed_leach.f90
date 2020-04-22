@@ -54,9 +54,9 @@
 
       integer, intent (in) :: iwave
       integer :: j
-      real :: xx, wt1, er, conc
-      real :: sol_mass, QBC, VBC, YBC, YOC, YW, TOT, YEW, X1, PRMT_21, PRMT_44
-      real :: DK,  V, X3, CO, CS, perc_clyr, latc_clyr  
+      real*8 :: xx, wt1, er, conc
+      real*8 :: sol_mass, QBC, VBC, YBC, YOC, YW, TOT, YEW, X1, PRMT_21, PRMT_44
+      real*8 :: DK,  V, X3, CO, CS, perc_clyr, latc_clyr  
       integer :: k
       latc_clyr = 0.
         

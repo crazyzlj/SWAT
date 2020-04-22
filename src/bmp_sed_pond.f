@@ -1,4 +1,4 @@
-      subroutine sed_pond(kk,flw,sed)
+      subroutine bmp_sed_pond(kk,flw,sed)
       
 !!    ~ ~ ~ PURPOSE ~ ~ ~
 !!    this subroutine routes water and sediment through a sedimentation pond in the subbasin
@@ -35,7 +35,7 @@
       real*8 :: tsa,mxvol,pdia,ksat,dp,sub_ha,mxh,hweir,phead,pipeflow
       real*8 :: qin,qout,qpnd,qpndi,sweir,spndconc,sedpnde,sedpndi,hpnd
       real*8 :: qweir, qtrns,qpipe,splw,sedconcweir,td,ksed,qevap
-      real, dimension(4,0:nstep), intent(inout) :: flw, sed
+      real*8, dimension(4,0:nstep), intent(inout) :: flw, sed
       
       sb = inum1
       sub_ha = da_ha * sub_fr(sb)
@@ -183,7 +183,7 @@
 
 
       return
-      end subroutine
+      end subroutine bmp_sed _pond
    
  !-------------------------------------------------------------------------------
       function pipeflow(d,h)

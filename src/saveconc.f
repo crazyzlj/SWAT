@@ -97,8 +97,10 @@
 
       use parm
 
-      real, dimension (19) :: varii
+      real*8, dimension (19) :: varii
       integer :: ii, j
+      real*8 :: inflow
+      
       if (inum1 <= 50 .and. inum1 > 0) then
       if (ievent == 1 .and. inum2 == 1) then
 
@@ -112,43 +114,45 @@
             varii(1) = hhvaroute(2,ihout,ii) / (idt * 60.)  !! urban modeling by J.Jeong 4/17/2008
             varii(2) = hhvaroute(3,ihout,ii) * 1.e6                     
      &                                           / hhvaroute(2,ihout,ii)
-            varii(3) = hhvaroute(4,ihout,ii) * 1000.                    
-     &                                           / hhvaroute(2,ihout,ii)
-            varii(4) = hhvaroute(5,ihout,ii) * 1000.                    
-     &                                           / hhvaroute(2,ihout,ii)
-            varii(5) = hhvaroute(6,ihout,ii) * 1000.                    
-     &                                           / hhvaroute(2,ihout,ii)
-            varii(6) = hhvaroute(14,ihout,ii) * 1000.                   
-     &                                           / hhvaroute(2,ihout,ii)
-            varii(7) = hhvaroute(15,ihout,ii) * 1000.                   
-     &                                           / hhvaroute(2,ihout,ii)
-            varii(8) = hhvaroute(7,ihout,ii) * 1000.                    
-     &                                           / hhvaroute(2,ihout,ii)
-            varii(9) = hhvaroute(16,ihout,ii) * 1000.                   
-     &                                           / hhvaroute(2,ihout,ii)
-            varii(10) = hhvaroute(17,ihout,ii) * 1000.                  
-     &                                           / hhvaroute(2,ihout,ii)
-            varii(11) = hhvaroute(13,ihout,ii) * 1.e6                   
-     &                                           / hhvaroute(2,ihout,ii)
-            varii(12) = hhvaroute(11,ihout,ii)                          
-     &                                 / (1000. * hhvaroute(2,ihout,ii))
-            varii(13) = hhvaroute(12,ihout,ii)                          
-     &                                 / (1000. * hhvaroute(2,ihout,ii))
-            varii(14) = hhvaroute(18,ihout,ii)                          
-     &                                 / (1000. * hhvaroute(2,ihout,ii))
-            varii(15) = hhvaroute(19,ihout,ii)                          
-     &                                 / (1000. * hhvaroute(2,ihout,ii))
-            varii(16) = hhvaroute(20,ihout,ii) * 1000.                  
-     &                                           / hhvaroute(2,ihout,ii)
-            varii(17) = hhvaroute(21,ihout,ii) * 1000.                  
-     &                                           / hhvaroute(2,ihout,ii)
-            varii(18) = hhvaroute(22,ihout,ii) * 1000.                  
-     &                                           / hhvaroute(2,ihout,ii)
-            varii(19) = hhvaroute(1,ihout,ii)
-          end if
+     !!       varii(3) = hhvaroute(4,ihout,ii) * 1000.                    
+     !!&                                           / hhvaroute(2,ihout,ii)
+     !!       varii(4) = hhvaroute(5,ihout,ii) * 1000.                    
+     !!&                                           / hhvaroute(2,ihout,ii)
+     !!       varii(5) = hhvaroute(6,ihout,ii) * 1000.                    
+     !!&                                           / hhvaroute(2,ihout,ii)
+     !!       varii(6) = hhvaroute(14,ihout,ii) * 1000.                   
+     !!&                                           / hhvaroute(2,ihout,ii)
+     !!       varii(7) = hhvaroute(15,ihout,ii) * 1000.                   
+     !!&                                           / hhvaroute(2,ihout,ii)
+     !!       varii(8) = hhvaroute(7,ihout,ii) * 1000.                    
+     !!&                                           / hhvaroute(2,ihout,ii)
+     !!       varii(9) = hhvaroute(16,ihout,ii) * 1000.                   
+     !!&                                           / hhvaroute(2,ihout,ii)
+     !!       varii(10) = hhvaroute(17,ihout,ii) * 1000.                  
+     !!&                                           / hhvaroute(2,ihout,ii)
+     !!       varii(11) = hhvaroute(13,ihout,ii) * 1.e6                   
+     !!&                                           / hhvaroute(2,ihout,ii)
+     !!       varii(12) = hhvaroute(11,ihout,ii)                          
+     !!&                                 / (1000. * hhvaroute(2,ihout,ii))
+     !!       varii(13) = hhvaroute(12,ihout,ii)                          
+     !!&                                 / (1000. * hhvaroute(2,ihout,ii))
+     !!       varii(14) = hhvaroute(18,ihout,ii)                          
+     !!&                                 / (1000. * hhvaroute(2,ihout,ii))
+     !!       varii(15) = hhvaroute(19,ihout,ii)                          
+     !!&                                 / (1000. * hhvaroute(2,ihout,ii))
+     !!       varii(16) = hhvaroute(20,ihout,ii) * 1000.                  
+     !!&                                           / hhvaroute(2,ihout,ii)
+     !!       varii(17) = hhvaroute(21,ihout,ii) * 1000.                  
+     !!&                                           / hhvaroute(2,ihout,ii)
+     !!       varii(18) = hhvaroute(22,ihout,ii) * 1000.                  
+     !!&                                           / hhvaroute(2,ihout,ii)
+     !!       varii(19) = hhvaroute(1,ihout,ii)
+     !     !end if
           if (curyr > nyskip) then
-		  write (50+inum1,2000) iyr, iida, ii-1, (varii(j), j = 1, 19)
-	    endif
+		  !write (50+inum1,2000) iyr, iida, ii-1, (varii(j), j = 1, 19)
+		  write (50+inum1,2000) iyr, iida, ii-1, (varii(j), j = 1, 2)
+           endif
+           endif
         end do
       else
         !! Write daily values
@@ -199,6 +203,6 @@
       endif
 
       return
- 2000 format (1x,i4,2x,i3,1x,i4,19(1x,e10.3))
+ 2000 format (1x,i4,2x,i3,1x,i4,20(1x,e10.3))
  1000 format (1x,i4,2x,i3,3x,a4,19(1x,e10.3))
       end

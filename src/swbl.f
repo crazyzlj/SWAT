@@ -45,7 +45,7 @@
 
       use parm
 
-      real, intent (in) :: snow, irrg
+      real*8, intent (in) :: snow, irrg
 
       wshd_sw = wshd_sw  + wshd_snob - snow + wshdaao(1) - wshdaao(3) - 
      &          wshdaao(4) - wshdaao(7) - wshdaao(5) - wshddayo(35) +   

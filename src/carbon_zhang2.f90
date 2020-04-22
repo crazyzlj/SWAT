@@ -99,19 +99,27 @@
        !XLSLF   : control on potential transformation of structural litter by lignin fraction
                 !of structural litter [XLSLF = exp(-3* LSLF) (Parton et al., 1993, 1994)]
        integer :: j, k, kk
-       real :: sol_mass, sol_min_n 
-       real :: fc, wc, sat, void, sut, cdg, OX, CS
-       real :: X1,X3, XX
-       real :: LMF, LSF, LSLF, XLSLF, LSR, BMR, XBMT, HSR, HPR       
-       real :: LSCTA, LSLCTA, LSLNCTA,LSNTA, LMCTA, LMNTA, BMCTA, BMNTA, HSCTA, HSNTA, HPCTA, HPNTA
-       real :: LSCTP, LSLCTP, LSLNCTP, LSNTP, LMR, LMCTP, LMNTP, BMCTP,HSCTP, HSNTP, HPCTP, HPNTP
-       real :: NCHP, Nf, NCBM, NCHS, ALSLCO2, ALSLNCO2,ALMCO2,ABCO2, A1CO2, APCO2, ASCO2, ABP, ASP, A1, ASX, APX
-       real :: PRMT_51, PRMT_45
-       real :: DF1, DF2, SNMN,  DF3, DF4, DF5, DF6, ADD, ADF1, ADF2, ADF3, ADF4, ADF5
-       real :: TOT
-       real :: PN1, PN2, PN3, PN4, PN5, PN6, PN7, PN8, PN9
-       real :: SUM, CPN1, CPN2, CPN3, CPN4, CPN5
-       real :: WMIN,DMDN, wdn, Delta_BMC, DeltaWN
+       real*8 :: sol_mass, sol_min_n 
+       real*8 :: fc, wc, sat, void, sut, cdg, OX, CS
+       real*8 :: X1,X3, XX
+       real*8 :: LMF, LSF, LSLF, XLSLF, LSR, BMR, XBMT, HSR, HPR       
+       real*8 :: LSCTA, LSLCTA, LSLNCTA,LSNTA, LMCTA, LMNTA, BMCTA, BMNTA, HSCTA, HSNTA, HPCTA, HPNTA
+       real*8 :: LSCTP, LSLCTP, LSLNCTP, LSNTP, LMR, LMCTP, LMNTP, BMCTP,HSCTP, HSNTP, HPCTP, HPNTP
+       real*8 :: NCHP, Nf, NCBM, NCHS, ALSLCO2, ALSLNCO2,ALMCO2,ABCO2, A1CO2, APCO2, ASCO2, ABP, ASP, A1, ASX, APX
+       real*8 :: PRMT_51, PRMT_45
+       real*8 :: DF1, DF2, SNMN,  DF3, DF4, DF5, DF6, ADD, ADF1, ADF2, ADF3, ADF4, ADF5
+       real*8 :: TOT
+       real*8 :: PN1, PN2, PN3, PN4, PN5, PN6, PN7, PN8, PN9
+       real*8 :: SUM, CPN1, CPN2, CPN3, CPN4, CPN5
+       real*8 :: WMIN,DMDN, wdn, Delta_BMC, DeltaWN
+       
+
+      j = 0
+      j = ihru
+       
+       !!    zero new carbon variables for output.hru
+        cmup_kgh(j) = 0.
+        cmtot_kgh(j) = 0.
        !! initilize local variables
        DeltaWN = 0.
        DeltaBMC = 0.   
@@ -503,7 +511,7 @@
                   LSCTA=LSCTP
                   LSNTA=LSNTP
                   LSLCTA=LSLCTP
-                  LSLNCAT=LSLNCTP
+                  LSLNCTA=LSLNCTP
               END IF
               IF(CPN2>0.)THEN
                   LMCTA=LMCTP*X3
@@ -671,11 +679,11 @@
               !!DF6 Supply of mineral N - available mineral N = N demanded from mineral pool
               !SMS(10,ISL)=SMS(10,ISL)-DF6
               ADD=DF1+DF2+DF3+DF4+DF5+DF6
-              ADF1=ABS(DF1)
-              ADF2=ABS(DF2)
-              ADF3=ABS(DF3)
-              ADF4=ABS(DF4)
-              ADF5=ABS(DF5)
+              ADF1=abs(DF1)
+              ADF2=abs(DF2)
+              ADF3=abs(DF3)
+              ADF4=abs(DF4)
+              ADF5=abs(DF5)
               TOT=ADF1+ADF2+ADF3+ADF4+ADF5
               XX=ADD/(TOT+1.E-10)
               sol_LSN(k,j)=MAX(.001,sol_LSN(k,j)-DF1+XX*ADF1)
@@ -694,10 +702,13 @@
               sol_orgn(k,j) = sol_HPN(k,j)
               sol_aorgn(k,j) = sol_HSN(k,j)
               sol_fon(k,j) = sol_LMN(k,j) + sol_LSN(k,j) 
-              sol_cbn(k,j) = 100*(sol_LSC(k,j)+sol_LMC(k,j) +sol_HSC(k,j) + sol_HPC(k,j) + sol_BMC(k,j))/sol_mass    
+              sol_cbn(k,j) = 100*(sol_LSC(k,j)+sol_LMC(k,j) +sol_HSC(k,j) + sol_HPC(k,j) + sol_BMC(k,j))/sol_mass 
+              
+              !!    carbon outputs for .hru file
+              if (k == 1) cmup_kgh(j) = sol_cbn(k,j) * sol_mass / 100.
+              cmtot_kgh(j) = cmtot_kgh(j) + sol_cbn(k,j) * sol_mass / 100.
  
 
- 
 !! septic changes 1/28/09 gsm
 !!  compute denitrification while simulating septic tank
       !wdn = 0.   

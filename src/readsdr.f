@@ -71,7 +71,7 @@
       character (len=80) :: titldum
 	integer :: eof
 	integer :: mon, day, mgt_op, mgt2i, mgt1i
-	real :: mgt6, mgt9, mgt4, mgt5, mgt7, mgt8
+	real*8 :: mgt6, mgt9, mgt4, mgt5, mgt7, mgt8
 
       do
 	  read (112,5000,iostat=eof) titldum

@@ -20,7 +20,7 @@
       use parm
    
       integer :: j
-      real :: aphu
+      real*8 :: aphu
 
       j = 0
       j = ihru

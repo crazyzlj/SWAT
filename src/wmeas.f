@@ -53,8 +53,8 @@
       use parm
 
       integer :: k, iyp, idap, l, inum3sprev
-      real :: u10bsb
-      real, dimension (mrg) :: wndmeas
+      real*8 :: u10bsb
+      real*8, dimension (mrg) :: wndmeas
 
       !! initialize variables for the day
       wndmeas = 0.

@@ -47,7 +47,7 @@
       use parm
  
       integer :: l, j
-      real :: volcrnew, crlag, crlagdry = .99, crlagwet = 0.
+      real*8 :: volcrnew, crlag, crlagdry = .99, crlagwet = 0.
 
       j = 0
       j = ihru

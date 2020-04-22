@@ -88,13 +88,13 @@
 	use parm
 
 	integer :: jrch, ii
-	real :: qin, qdin, sedin, vc, cyin, cych, depnet, deg, dep
-	real :: depdeg, dot, ycoeff, Reynolds_g, visco_h2o, tmpw
-	real :: channel_d50, particle_specific_gravity, Fr_g, Fr_gc
-	real :: log10sedcon, sedcon, deg24, dep24
-	real :: vfall, coefa, coefb, coefc, coefd, coefe
+	real*8 :: qin, qdin, sedin, vc, cyin, cych, depnet, deg, dep
+	real*8 :: depdeg, dot, ycoeff, Reynolds_g, visco_h2o, tmpw
+	real*8 :: channel_d50, particle_specific_gravity, Fr_g, Fr_gc
+	real*8 :: log10sedcon, sedcon, deg24, dep24
+	real*8 :: vfall, coefa, coefb, coefc, coefd, coefe
       
-      real :: thbase,  shear_stress, vshear, deg1, deg2, d_fract, dat2
+      real*8 :: thbase,  shear_stress, vshear, deg1, deg2, d_fract, dat2
 
 	jrch = 0; deg24=0.; dep24=0
 	jrch = inum1

@@ -274,7 +274,7 @@
       implicit none
 
       integer :: jrch, ii
-      real :: sedcon, bedvol, sedpest, wtmp
+      real*8 :: sedcon, bedvol, sedpest, wtmp
 
       jrch = 0
       jrch = inum1

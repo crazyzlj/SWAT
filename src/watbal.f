@@ -90,7 +90,7 @@
       use parm
 
       integer :: j
-      real :: dstor, h2oloss
+      real*8 :: dstor, h2oloss
 
       j = 0
       j = ihru
@@ -113,7 +113,7 @@
 !!        etday = ep_day + es_day + canev
 !!   es_day includes the value of the variable snoev (see etact.f routine)
 !$$$$$$       h2oloss = subp(j) - qday - latq(j) - etday - gw_q(j) -            &
-!$$$$$$      &          revapday + twlpnd + twlwet + aird(j) + rchrg(j) - qtile &
+!$$$$$$      &          revapday + twlpnd(j) + twlwet(j) + aird(j) + rchrg(j) - qtile &
 !$$$$$$      &          - sepbtm(j)
       h2oloss = subp(j) - qday - latq(j) - qtile - etday - gw_q(j)    
      &          + aird(j) - revapday + rchrg(j) - sepbtm(j) - tloss  
@@ -125,7 +125,7 @@
 !$$$$$$      &                gw_q(j), revapday, gwseep, tloss
 !$$$$$$ 
 !$$$$$$       write (17,100) iida, dstor, h2oloss
-!     if (Abs(dstor - h2oloss) > 0.001) then
+!     if (abs(dstor - h2oloss) > 0.001) then
 !       write (17,101) j, iida, curyr, dstor - h2oloss
 !     endif
 

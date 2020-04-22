@@ -300,8 +300,8 @@
       integer :: ncrp, iro, npl, mon, day, mgt_op, mgt2i, mgt1i, lcr
       integer :: nir, ifn, npst, j, nhv, inop, nhvo, nkill, newpest
       integer :: igr, nairr, nafer, nsw, nrel, icf, mgt3i
-      real :: husc, mgt6, mgt9, mgt4, mgt5, mgt7, mgt8
-      real :: disc
+      real*8 :: husc, mgt6, mgt9, mgt4, mgt5, mgt7, mgt8
+      real*8 :: disc
       
       eof = 0
       iop = 0
@@ -531,4 +531,5 @@
  5000 format (a)
  5200 format (1x,i2,1x,i2,1x,f8.3,1x,i2,1x,i4,1x,i3,1x,i2,1x,f12.5,1x,  
      &        f6.2,1x,f11.5,1x,f4.2,1x,f6.2,1x,f5.2,i12)
+
       end

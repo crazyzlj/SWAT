@@ -171,7 +171,8 @@
       use parm
 
       integer :: j, l, it
-      real :: dmi, dmii, gc, gc1, swf, frt_t, xx
+      real*8 :: dmi, dmii, gc, gc1, swf, frt_t, xx
+      real*8 :: LMF, LSF
 
       j = 0
       j = ihru
@@ -389,7 +390,7 @@
           orgc_f = 0.35  
           X1 = manure_kg(j)
           X8 = X1 * orgc_f          
-          RLN = .175 *(orgc_f)/(fminp(it) + forgn(it) + 1.e-5)
+          RLN = .175 *(orgc_f)/(fminn(it) + forgn(it) + 1.e-5)
           X10 = .85-.018*RLN
           if (X10<0.01) then
             X10 = 0.01

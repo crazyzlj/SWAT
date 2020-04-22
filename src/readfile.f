@@ -124,7 +124,7 @@
      &    pestdb, fertdb, fcstfile
 	
       character (len=80) :: titldum
-      real :: sumv, xx
+      real*8 :: sumv, xx
       integer :: rn, j, ii, eof
       eof = 0
 
@@ -732,9 +732,9 @@
      &'(mm)',t77,'(mm)',t87,'(mm)',t97,'(mm)',t107,'(ha)')  
        
 !     code for writing out calendar day or julian day to output.rch, .sub, .hru files
-!     icalen = 0 (print julian day) 1 (print month/day/year) 
+!     icalen = 0 (print julian day) 1 (print month/day/year)
+!     icalen MUST be == zero  if IPRINT == 3 to print subdaily;
       read (101,*, iostat=eof) icalen
-!!!!! if icalen == 1 (print month/day/year) - force iprint to be daily  <--nubz asked srin 06/11/2012
       if (icalen == 1) iprint = 1
       
       if (isproj == 1) then

@@ -61,7 +61,7 @@
 
       character (len=80) :: titldum
       integer :: j, eof, k, newpest, pstnum
-      real :: pltpst, solpst, pstenr
+      real*8 :: pltpst, solpst, pstenr
 
       eof = 0
 

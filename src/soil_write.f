@@ -22,7 +22,7 @@
       use parm
 
       integer :: j, l
-      real :: solp_t, solno3_t, solorgn_t, solorgp_t
+      real*8 :: solp_t, solno3_t, solorgn_t, solorgp_t
 
       do j = 1,nhru
         solp_t = 0.
@@ -46,7 +46,7 @@
 	     if (cswat == 1) then
 			solorgn_t = solorgn_t + sol_n(l,j)
 		   end if		   
-		   if (cswat ==2) then
+		   if (cswat == 2) then
 		    solorgn_t = solorgn_t + sol_HSN(l,j) + sol_HPN(l,j)
 		   end if
 		   !!By Zhang

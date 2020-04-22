@@ -65,7 +65,7 @@
       use parm
 
       integer :: k, kk, j, l
-      real :: pfp, pfg
+      real*8 :: pfp, pfg
 
       do k = 1, npmx
         kk = 0

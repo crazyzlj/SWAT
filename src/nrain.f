@@ -41,7 +41,7 @@
       use parm
 
       integer :: j
-      real :: nh3pcp
+      real*8 :: nh3pcp
 
       j = 0
       j = ihru

@@ -152,7 +152,7 @@
         write (29,1000)prog, values(2), values(3), values(1), values(5),
      &                values(6), values(7)
         write (29,1010) title
-        write (29,1020) (hedwtr(j), j = 1, 40)
+        write (29,1020) (hedwtr(j), j = 1, 40) 
       end if
 
 !! write headings to pesticide output file (output.pst)

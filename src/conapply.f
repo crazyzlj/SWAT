@@ -63,7 +63,7 @@
       use parm
 
       integer :: j, kk, k, jj
-      real :: xx, gc
+      real*8 :: xx, gc
 
       j = 0
       j = ihru

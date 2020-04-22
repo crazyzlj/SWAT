@@ -43,7 +43,7 @@
 
 
 !!    ~ ~ ~ SUBROUTINES/FUNCTIONS CALLED ~ ~ ~
-!!    Intrinsic: Abs
+!!    Intrinsic: abs
 
 !!    ~ ~ ~ ~ ~ ~ END SPECIFICATIONS ~ ~ ~ ~ ~ ~
 
@@ -51,7 +51,7 @@
 
       integer, intent (in) :: j
  
-      real :: tmxg, tmng, tamp, txxm
+      real*8 :: tmxg, tmng, tamp, txxm
 
 
       tamp = 0.
@@ -66,7 +66,7 @@
       tmxg = txxm + tmpstdmx(i_mo,hru_sub(j)) * wgncur(1,j)
       tmng = tmpmn(i_mo,hru_sub(j)) + tmpstdmn(i_mo,hru_sub(j)) *       
      &                                                       wgncur(2,j)
-      if (tmng > tmxg) tmng = tmxg - .2 * Abs(tmxg)
+      if (tmng > tmxg) tmng = tmxg - .2 * abs(tmxg)
 
       tmx(j) = tmxg
       tmn(j) = tmng

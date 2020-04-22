@@ -55,7 +55,7 @@
 
       use parm
 
-      real :: xx, rn
+      real*8 :: xx, rn
       integer :: ii, j, k, rndseed10
       
 !!    initialize random number array locator

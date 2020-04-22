@@ -126,10 +126,10 @@
       use parm
 
       integer, intent (in) :: jj
-      real, intent (in) :: bmix
+      real*8, intent (in) :: bmix
       integer :: l, k, nl
-      real :: emix, dtil, rrns 
-      real :: thtill(mlyr), smix(11+npmx)
+      real*8 :: emix, dtil, rrns 
+      real*8 :: thtill(mlyr), smix(11+npmx)
 
       emix = 0.
       dtil = 0.

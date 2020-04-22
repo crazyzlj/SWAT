@@ -127,9 +127,9 @@
       use parm
 
       integer, intent (in) :: k
-      real :: vol, sed, pndsa, xx, targ, tpco, phosk, nitrok, chlaco
+      real*8 :: vol, sed, pndsa, xx, targ, tpco, phosk, nitrok, chlaco
       integer :: iseas
-	real :: san, sil, cla, sag, lag, inised, finsed,setsed,remsetsed
+	real*8 :: san, sil, cla, sag, lag, inised, finsed,setsed,remsetsed
 
 
         !! store initial values
@@ -241,7 +241,7 @@
              if (trappnd > 1.) trappnd = 1.
              susp = 1. - trappnd
           else
-             susp = 0.
+             susp = 1.
           endif
                
           pnd_sed(k) = (sed * vol + susp * pndsedin) / pnd_vol(k)

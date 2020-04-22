@@ -1,4 +1,4 @@
-      function dstn1(rn1,rn2)
+      real*8 function dstn1(rn1,rn2) result (r_dstn1)
 
 !!    ~ ~ ~ PURPOSE ~ ~ ~
 !!    this function computes the distance from the mean of a normal 
@@ -23,11 +23,10 @@
 
 !!    ~ ~ ~ ~ ~ ~ END SPECIFICATIONS ~ ~ ~ ~ ~ ~
 
-      real, intent (in) :: rn1, rn2
-      real :: dstn1
+      real*8, intent (in) :: rn1, rn2
 
-      dstn1 = 0.
-      dstn1 = Sqrt(-2. * Log(rn1)) * Cos(6.283185 * rn2)
+      r_dstn1 = 0.
+      r_dstn1 = Sqrt(-2. * Log(rn1)) * Cos(6.283185 * rn2)
 
       return
       end

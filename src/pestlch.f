@@ -75,7 +75,7 @@
       use parm
 
       integer :: j, ly, k, kk
-      real :: dg, yy, qsurf, vf, zdb1, xx, co, csurf, cocalc
+      real*8 :: dg, yy, qsurf, vf, zdb1, xx, co, csurf, cocalc
  
       j = 0
       j = ihru

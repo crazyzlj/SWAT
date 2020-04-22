@@ -76,7 +76,7 @@
       use parm
 
       integer :: jres, iseas
-      real :: nitrok, phosk, tpco, chlaco, conc_p, conc_n
+      real*8 :: nitrok, phosk, tpco, chlaco, conc_p, conc_n
 
       jres = 0
       jres = inum1

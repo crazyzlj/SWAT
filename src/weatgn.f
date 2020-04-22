@@ -56,9 +56,9 @@
       integer, intent (in) :: j
       integer, dimension (2) :: zshape
       integer :: n, l
-      real, dimension (3,3) :: a, b
-      real, dimension (3) :: xx, e
-      real :: v2
+      real*8, dimension (3,3) :: a, b
+      real*8, dimension (3) :: xx, e
+      real*8 :: v2
  
       zshape = (/3, 3/)
       a = Reshape((/.567, .253, -.006, .086, .504, -.039, -.002, -.050, 

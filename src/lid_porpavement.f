@@ -75,7 +75,7 @@
      & dt,lid_re_sw,lid_adj_ksat,lid_sw,lid_f,lid_cuminf,lid_soldpt,
      & lid_f1,lid_str,lid_vinf,lid_str_depth,
      & lid_qbypass,lid_bypass,lid_cumqperc,lid_vol,lid_vdrain
-      real :: lid_prec,lid_cumr,lid_drcoef,lid_hydeff
+      real*8 :: lid_prec,lid_cumr,lid_drcoef,lid_hydeff
       
       jj = urblu(j)
       
@@ -89,7 +89,7 @@
      & (lid_farea(j,4) * fcimp(urblu(j)) * hru_ha(j) * 10000.)
       lid_hydeff = pv_hydeff(sb,jj)
      
-      dt = real(idt) / 60.
+      dt = dfloat(idt) / 60.
       
 !!    Initialize parameters and coefficients for green roof modeling
       lid_sw = lid_sw_last(j,4)
@@ -131,7 +131,7 @@
           lid_f1 = lid_cuminf_last(j,4) + lid_adj_ksat * dt
      &    + whd * cvwc * Log((tst + whd * cvwc) /
      &    (lid_cuminf_last(j,4) + whd * cvwc))
-          if (Abs(lid_f1 - tst) < 0.001) then
+          if (abs(lid_f1 - tst) < 0.001) then
             lid_f = lid_adj_ksat * (1 + (whd * cvwc)/lid_f1)
             lid_qinf = lid_f * dt ! (mm)
             if (lid_qinf > lid_str_depth) then

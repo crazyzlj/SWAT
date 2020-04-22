@@ -42,7 +42,7 @@
       use parm
 
       integer :: j
-      real :: tgx, rto
+      real*8 :: tgx, rto
 
       j = 0
       j = ihru

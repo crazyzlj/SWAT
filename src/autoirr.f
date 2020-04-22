@@ -78,7 +78,7 @@
       use parm
 
       integer :: j, k
-      real :: vmma, vmm, cnv, vol, vmms, vmmd
+      real*8 :: vmma, vmm, cnv, vol, vmms, vmmd
 
       j = 0
       j = ihru
@@ -152,7 +152,7 @@
                     vmma = vol * (shallst(k) * cnv / vmms)
                   end if
                   vmma = vmma / cnv
-                  vmma = vmma / irr_eff(k)
+                  vmma = vmma / irr_eff(j)
                   shallst(k) = shallst(k) - vmma
                   if (shallst(k) < 0.) then
                     vmma = vmma + shallst(k)

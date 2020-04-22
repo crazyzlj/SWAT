@@ -156,8 +156,8 @@
       use parm
 
       integer :: j, sb, ii, days, iflag
-      real :: dmt, yldt
-      real, dimension (mhruo) :: pdvas, pdvs
+      real*8 :: dmt, yldt
+      real*8, dimension (mhruo) :: pdvas, pdvs
       character (len=4) :: cropname
 
       days = 0
@@ -196,7 +196,7 @@
         pdvas(4) = hrumono(22,j)
         pdvas(5) = hrumono(25,j)
         pdvas(6) = hrumono(12,j)
-        pdvas(7) = hrumono(21,j) / Real(days)
+        pdvas(7) = hrumono(21,j) / dfloat(days)
         pdvas(8) = sol_sw(j)
         pdvas(9) = hrumono(11,j)
         pdvas(10) = hrumono(9,j)
@@ -212,12 +212,12 @@
         pdvas(20) = hrumono(5,j)
         pdvas(21) = hrumono(6,j)
         pdvas(22) = hrumono(10,j)
-        pdvas(23) = hrumono(20,j) / Real(days)
-        pdvas(24) = hrumono(57,j) / Real(days)
-        pdvas(25) = hrumono(55,j) / Real(days)
-        pdvas(26) = hrumono(56,j) / Real(days)
-        pdvas(27) = hrumono(30,j) / Real(days)
-        pdvas(28) = hrumono(58,j) / Real(days)
+        pdvas(23) = hrumono(20,j) / dfloat(days)
+        pdvas(24) = hrumono(57,j) / dfloat(days)
+        pdvas(25) = hrumono(55,j) / dfloat(days)
+        pdvas(26) = hrumono(56,j) / dfloat(days)
+        pdvas(27) = hrumono(30,j) / dfloat(days)
+        pdvas(28) = hrumono(58,j) / dfloat(days)
         pdvas(29) = hrumono(14,j)
         pdvas(30) = hrumono(61,j)
         pdvas(31) = hrumono(45,j)

@@ -1,4 +1,4 @@
-      subroutine ri_pond(kk,riflw,rised)
+      subroutine bmp_ri_pond(kk,riflw,rised)
 
 !!    ~ ~ ~ PURPOSE ~ ~ ~
 !!    this subroutine routes water through a retention irrigation pond in the subbasin
@@ -36,12 +36,12 @@
       implicit none
      
       integer :: sb, kk, ii
-      real :: tsa,mxvol,pdia,ksat,dp,sub_ha,mxh,hweir,phead,pipeflow
-      real :: qin,qout,qpnd,sweir,hpnd,qet
-      real :: qweir, qseep,qpipe,qpndi,decayexp,splw,qpump
-      real :: sedconc,sedpndi, sedpnde,ksed,td,sedpump
-      real, dimension(4,0:nstep), intent(in out) :: riflw,rised
-      real, dimension(0:nstep) :: inflw,insed,outflw,outsed
+      real*8 :: tsa,mxvol,pdia,ksat,dp,sub_ha,mxh,hweir,phead,pipeflow
+      real*8 :: qin,qout,qpnd,sweir,hpnd,qet
+      real*8 :: qweir, qseep,qpipe,qpndi,decayexp,splw,qpump
+      real*8 :: sedconc,sedpndi, sedpnde,ksed,td,sedpump
+      real*8, dimension(4,0:nstep), intent(in out) :: riflw,rised
+      real*8, dimension(0:nstep) :: inflw,insed,outflw,outsed
       
       sb = inum1
       sub_ha = da_ha * sub_fr(sb)
@@ -135,4 +135,4 @@
       ri_sedi(sb,kk) = sedpnde
 
       return
-      end subroutine
+      end subroutine bmp_ri_pond

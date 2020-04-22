@@ -4,8 +4,8 @@
       implicit none
       
       integer :: jj, sb, j, k
-!      real :: lid_farea,lid_prec,lid_cumr
-      real :: lid_prec, fr
+!      real*8 :: lid_farea,lid_prec,lid_cumr
+      real*8 :: lid_prec, fr
       
       jj = urblu(j)
       

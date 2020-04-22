@@ -138,16 +138,15 @@
       use parm
 
       integer :: j, iseas
-      real :: vol, cnv, sed, wetsa, xx, phosk, nitrok, tpco
-      real :: wetsani, wetsili, wetclai, wetsagi, wetlagi
-	real :: san, sil, cla, sag, lag, inised, finsed,setsed,remsetsed
-      real :: wetsano, wetsilo, wetclao, wetsago, wetlago
-      real :: qdayi, latqi
+      real*8 :: vol, cnv, sed, wetsa, xx, phosk, nitrok, tpco
+      real*8 :: wetsani, wetsili, wetclai, wetsagi, wetlagi
+	real*8 :: san, sil, cla, sag, lag, inised, finsed,setsed,remsetsed
+      real*8 :: wetsano, wetsilo, wetclao, wetsago, wetlago
+      real*8 :: qdayi, latqi
       
 
       j = 0
       j = ihru
-      
 
       if (wet_fr(j) > 0.) then
         cnv = 0.
@@ -453,7 +452,6 @@
           wet_solpg(j) = wet_solpg(j) * (1. - yy)
           wet_chla(j) = wet_chla(j) * (1. - yy)
 
-
         end if
 
         !! add impoundment seepage to shallow aquifer 
@@ -461,7 +459,7 @@
 !        shallst(j) = shallst(j) + wetsep / cnv
 
         !! compute seepage depth for HRU water balance
-        twlwet = wetsep / cnv
+        twlwet(j) = wetsep / cnv
 
       end if
 

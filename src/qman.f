@@ -1,4 +1,4 @@
-      function qman(x1,x2,x3,x4)
+      real*8 function qman(x1,x2,x3,x4) result (r_qman)
       
 !!    ~ ~ ~ PURPOSE ~ ~ ~
 !!    this subroutine calculates flow rate or flow velocity using Manning's
@@ -25,11 +25,10 @@
 
 !!    ~ ~ ~ ~ ~ ~ END SPECIFICATIONS ~ ~ ~ ~ ~ ~
 
-      real, intent (in) :: x1, x2, x3, x4
-      real :: qman
+      real*8, intent (in) :: x1, x2, x3, x4
 
-      qman = 0.
-      qman = x1 * x2 ** .6666 * Sqrt(x4) / x3
+      r_qman = 0.
+      r_qman = x1 * x2 ** .6666 * Sqrt(x4) / x3
 
       return
       end

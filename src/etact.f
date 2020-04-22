@@ -109,10 +109,10 @@
       use parm
 
       integer :: j, ib, ly
-!!    real, parameter :: esd = 500., etco = 0.80, effnup = 0.1
-      real :: esd, etco, effnup
-      real :: no3up, es_max, eos1, xx, cej, eaj, pet, esleft
-      real :: sumsnoeb, evzp, eosl, dep, evz, sev
+!!    real*8, parameter :: esd = 500., etco = 0.80, effnup = 0.1
+      real*8 :: esd, etco, effnup
+      real*8 :: no3up, es_max, eos1, xx, cej, eaj, pet, esleft
+      real*8 :: sumsnoeb, evzp, eosl, dep, evz, sev
 
       j = 0
       j = ihru

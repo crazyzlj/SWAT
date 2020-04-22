@@ -164,6 +164,7 @@
       subtot = 0
       surlag_bsn = 0.
       cmn_bsn = 0.
+      cdn = 0.
       cdn_bsn = 0.
       nperco_bsn = 0.
       pperco_bsn = 0.

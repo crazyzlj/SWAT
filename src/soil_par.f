@@ -66,7 +66,7 @@
 !!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
 
 !!    ~ ~ ~ SUBROUTINES/FUNCTIONS CALLED ~ ~ ~
-!!    Exp, Abs
+!!    Exp, abs
 
 !!    ~ ~ ~ ~ ~ ~ END SPECIFICATIONS ~ ~ ~ ~ ~ ~
 
@@ -74,7 +74,7 @@
 
       character (len=80) :: titldum
       integer :: j, nly, n, jj, flag
-      real ::  xx, plt_zmx, yy
+      real*8 ::  xx, plt_zmx, yy
 
       nly=sol_nly(i)
 !!    add 10mm layer at surface of soil
@@ -115,8 +115,8 @@
         do j = 1, nly - 1
           xx = 0.
           yy = 0.
-          xx = Abs(sol_zmx(i)-sol_z(j,i))
-          yy = Abs(sol_zmx(i)-sol_z(j+1,i))
+          xx = abs(sol_zmx(i)-sol_z(j,i))
+          yy = abs(sol_zmx(i)-sol_z(j+1,i))
           !! if values are within 51 mm of one another, reset boundary
           if (xx < 51. .and. yy > 51.) then
             sol_z(j,i) = sol_zmx(i)

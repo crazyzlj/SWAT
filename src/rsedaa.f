@@ -24,8 +24,9 @@
 
 !!    ~ ~ ~ ~ ~ ~ END SPECIFICATIONS ~ ~ ~ ~ ~ ~
 
-      use parm
+      use parm, except_this_one => rsedaa
 
+      real*8, intent (in) :: years
       integer :: j
 
       do j = 1, subtot

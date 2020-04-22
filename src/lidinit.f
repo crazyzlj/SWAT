@@ -36,7 +36,7 @@
       implicit none
 
       integer :: kk
-!      real :: 
+!      real*8 :: 
     
 !!    Common Variables
 !!    van Genuchten equation's coefficients

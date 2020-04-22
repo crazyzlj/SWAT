@@ -13,9 +13,9 @@
 
 	implicit none
 
-	integer::i,eof
-	real::esti_ksat,perc_clay,xc,exksat
-	exksat=5.0
+	integer :: i,eof
+	real*8 :: esti_ksat,perc_clay,xc,exksat
+	exksat = 5.0
 
 !	print *,"Enter the % clay in the soil layer"
 !	read *,perc_clay

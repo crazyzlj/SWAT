@@ -133,8 +133,8 @@
             call print_hyd
           case (2) 
             call route
-            if (dtp_onoff(inum1)==1) call det_pond  !route detention pond J.Jeong feb 2010
-            if (wtp_onoff(inum1)==1) call wet_pond  !route wetention pond J.Jeong june 2010
+            if (dtp_onoff(inum1)==1) call bmp_det_pond  !route detention pond J.Jeong feb 2010
+            if (wtp_onoff(inum1)==1) call bmp_wet_pond  !route wetention pond J.Jeong june 2010
             call sumhyd
             call print_hyd
           case (3) 

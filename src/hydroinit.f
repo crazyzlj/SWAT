@@ -81,7 +81,7 @@
       use parm
 
       integer :: j, l
-      real :: t_ch, scmx, xx
+      real*8 :: t_ch, scmx, xx, a, b, c, rto
 
       do j = 1, nhru
 
@@ -107,7 +107,7 @@
 
 !!    compute delivery ratio
       rto = tconc(j) / sub_tc(hru_sub(j))
-      dr_sub(j) = amin1(.95,rto ** .5)
+      dr_sub(j) = dmin1(.95,rto ** .5)
 
 
 !!    compute fraction of surface runoff that is reaching the main channel
@@ -162,12 +162,12 @@
 
         tb = .5 + .6 * sub_tc(isb) + tb_adj  !baseflow time, hr
 
-        if (tb > 48.) tb = 48.			   !maximum 48hrs
+        if (tb > 96.) tb = 96.			   !maximum 48hrs
         tp = .375 * tb						! time to peak flow
 	  
 	  !! convert to time step (from hr), J.Jeong March 2009
-	  tb = ceiling(tb * 60./ real(idt))
-	  tp = int(tp * 60./ real(idt))         
+	  tb = ceiling(tb * 60./ dfloat(idt))
+	  tp = int(tp * 60./ dfloat(idt))         
 	  
 	  if(tp==0) tp = 1
 	  if(tb==tp) tb = tb + 1
@@ -209,8 +209,22 @@
 		  do i = 1, itb(isb)
             uh(isb,i) = uh(isb,i) / sumq
           end do
-	  endif 
-
+        endif 
+        
+        !compute the number of hydrograph points for flood routing Jaehak 2017
+        do j = 1, nhru
+            a = sub_tc(hru_sub(j)) / dthy !# of timesteps
+            b = itb(isb)
+            c = phi(13,isb) / dthy
+            NHY(isb) = max(4*nstep,ceiling(a),ceiling(b),ceiling(c), 
+     &                     NHY(isb)) 
+        end do
+        RCSS(isb) = .5 * (ch_w(2,isb) - phi(6,isb)) / ch_d(isb)
+        RCHX(isb) = SQRT(ch_s(2,isb)) / ch_n(2,isb)
+        CHXA(isb) = phi(7,isb) * (phi(6,isb) + phi(7,isb) * RCSS(isb))
+        CHXP(isb) = phi(6,isb) + 2. * phi(7,isb) * 
+     &    SQRT(RCSS(isb) * RCSS(isb) + 1.)
+        QCAP(isb) = CHXA(isb)**1.66667 * RCHX(isb) / CHXP(isb)**.66667 !bankfull flow, m3/s
       end do
       end if
 

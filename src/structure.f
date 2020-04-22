@@ -60,7 +60,7 @@
 
       use parm
 
-      real :: reak, wtmp, ww, xx, yy, zz, disoxin
+      real*8 :: reak, wtmp, ww, xx, yy, zz, disoxin
       integer :: ii, jj
 
 !! initialize variables

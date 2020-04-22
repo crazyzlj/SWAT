@@ -96,9 +96,9 @@
       use parm
 
       integer :: jres
-      real :: vol, sed, vvr, targ, xx, flw
-	real :: san,sil,cla,sag,lag,gra,ndespill
-	real :: inised, finsed, setsed, remsetsed
+      real*8 :: vol, sed, vvr, targ, xx, flw
+	real*8 :: san,sil,cla,sag,lag,gra,ndespill
+	real*8 :: inised, finsed, setsed, remsetsed
  
       jres = 0
       jres = inum1
@@ -110,6 +110,7 @@
 	finsed = 0.
 	setsed = 0.
 	remsetsed = 0.
+      trapres = 0.
 
       vol = res_vol(jres)
       sed = res_sed(jres)
@@ -299,7 +300,7 @@
 	    if (trapres > 1.) trapres = 1.  !! set to nres
 	    susp = 1. - trapres
 	  else
-	    susp = 0.
+	    susp = 1.
 	  end if
 
 	if (res_vol(jres) > 0.) then                         !!MJW added 040811

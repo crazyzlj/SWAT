@@ -74,7 +74,7 @@
       use parm
 
       integer :: jrch, ii
-      real :: subwtr
+      real*8 :: subwtr
 
       jrch = 0
       jrch = inum1
@@ -99,7 +99,7 @@
         if (irte == 0) call rtday
         if (irte == 1) call rtmusk
       else
-        if (irte == 0) call rtdt
+        if (irte == 0) call rthvsc
         if (irte == 1) call rthmusk
       endif
 
@@ -135,7 +135,7 @@
       rtwtr = rtwtr + qdbank
       if (ievent > 0) then
         do ii = 1, nstep
-          hrtwtr(ii) = hrtwtr(ii) + qdbank / real(nstep)
+          hrtwtr(ii) = hrtwtr(ii) + qdbank / dfloat(nstep)
         end do
       end if
 

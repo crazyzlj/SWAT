@@ -36,7 +36,7 @@
       use parm
 
       integer :: j
-      real :: cej, eaj
+      real*8 :: cej, eaj
 
       j = 0
       j = ihru

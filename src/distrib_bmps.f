@@ -35,11 +35,11 @@
       implicit none
       
       integer :: kk,sb,ii
-      real :: sub_ha,bmpfr
-      real, dimension(4,0:nstep) :: sf_totalflw,sf_totaltss,ri_totalflw
-      real, dimension(4,0:nstep) :: ri_totaltss
-      real, dimension(4,0:nstep) :: sfflw,sfsed,riflw,rised !dimensions: 1=inflow/outflow, 2=pond id, 3=time step
-      real, dimension(4,0:nstep) :: spqm3,spsed,ftqm3,ftsed,riqm3
+      real*8 :: sub_ha,bmpfr
+      real*8, dimension(4,0:nstep) :: sf_totalflw,sf_totaltss,ri_totalflw
+      real*8, dimension(4,0:nstep) :: ri_totaltss
+      real*8, dimension(4,0:nstep) :: sfflw,sfsed,riflw,rised !dimensions: 1=inflow/outflow, 2=pond id, 3=time step
+      real*8, dimension(4,0:nstep) :: spqm3,spsed,ftqm3,ftsed,riqm3
       sb = inum1
       sub_ha = da_ha * sub_fr(sb)
       sf_totalflw = 0.; sf_totaltss = 0.
@@ -65,7 +65,7 @@
             if (iyr>sf_iy(sb,kk) .or. 
      &      (iyr==sf_iy(sb,kk).and.i_mo>=sf_im(sb,kk))) then
                if(sf_typ(sb,kk)==2) then !partial scale 
-                  call sand_filter(kk,sfflw,sfsed) 
+                  call bmp_sand_filter(kk,sfflw,sfsed) 
                   spqm3(:,:) = 0.
                   spsed(:,:)=0.
                   ftqm3(:,:) = sfflw(:,:) * ((sub_ha - ft_sa(sb,kk)  !m3
@@ -79,7 +79,7 @@
      &                               + ftsed(3,:) !tons
                elseif(sf_typ(sb,kk)==1) then !full scale
                   !first route through sedimentation pond
-                  call sed_pond(kk,sfflw,sfsed)      
+                  call bmp_sed_pond(kk,sfflw,sfsed)      
                   
                   spqm3(:,:) = sfflw(:,:) * ((sub_ha - sp_sa(sb,kk) 
      &                          / 10000.) *10.)
@@ -94,7 +94,7 @@
                   sfsed(1,:) = sfsed(2,:) 
 
                   ! then the outflow from sed pond goes to sand filter
-                  call sand_filter(kk,sfflw,sfsed)
+                  call bmp_sand_filter(kk,sfflw,sfsed)
                
                   ftqm3(:,:) = sfflw(:,:) *  ((sub_ha - ft_sa(sb,kk) 
      &                          / 10000.) *10.) !m3
@@ -107,7 +107,7 @@
      &                               + sfsed(2,:) !tons
 
                else !sedimentation pond only
-                  call sed_pond(kk,sfflw,sfsed)      
+                  call bmp_sed_pond(kk,sfflw,sfsed)      
 
                   ftqm3(:,:) = 0.
                   ftsed(:,:)=0.
@@ -163,7 +163,7 @@
             if (iyr>ri_iy(sb,kk) .or.
      &      (iyr==ri_iy(sb,kk).and.i_mo>=ri_im(sb,kk))) then
               
-               call ri_pond(kk,riflw,rised) 
+               call bmp_ri_pond(kk,riflw,rised) 
               
                riqm3(:,:) = riflw(:,:)* ((sub_ha - sp_sa(sb,kk) 
      &                          / 10000.) *10.)

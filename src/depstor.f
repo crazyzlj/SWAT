@@ -54,7 +54,7 @@
       use parm
 
       integer ::j
-	real:: df, hru_slpp, sol_orgm, sol_orr, sol_rrr, ei 
+	real*8 :: df, hru_slpp, sol_orgm, sol_orr, sol_rrr, ei 
       j = 0
       j = ihru
 

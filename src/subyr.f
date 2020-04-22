@@ -50,7 +50,7 @@
       use parm
 
       integer :: sb, ii
-      real, dimension (msubo) :: pdvab, pdvb
+      real*8, dimension (msubo) :: pdvab, pdvb
 
       do sb = 1, subtot
 
@@ -82,8 +82,8 @@
         pdvab(19) = 0.0
         pdvab(20) = 0.0
         pdvab(21) = 0.0
-        pdvab(23) = subyro(18,sb)    !!qtile jane f.
         pdvab(22) = subyro(19,sb)    !!tile_no3
+        pdvab(23) = subyro(18,sb)    !!qtile jane f.
         pdvab(24) = subyro(20,sb)    !!phos due to crack flow jane f.
 
         if (ipdvab(1) > 0) then
@@ -100,5 +100,5 @@
 
       return
 !1000 format ('BIGSUB',i4,1x,i8,1x,i4,e10.5,21f10.3)
- 1000 format ('BIGSUB',i4,1x,i8,1x,i4,e10.5,18f10.3,1x,e10.5,5e10.3)
+ 1000 format ('BIGSUB',i5,1x,i8,1x,i4,e10.5,18f10.3,1x,e10.5,5e10.3)
       end 

@@ -59,8 +59,8 @@
       use parm
 
       integer :: k, kk1, kk2, iyp, idap, l, inum3sprev
-      real :: tmxbsb, tmnbsb
-      real, dimension (mrg) :: txmeas, tnmeas
+      real*8 :: tmxbsb, tmnbsb
+      real*8, dimension (mrg) :: txmeas, tnmeas
 
       !! initialize variables for the day
       txmeas = 0.

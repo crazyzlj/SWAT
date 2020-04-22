@@ -146,13 +146,13 @@
 
       use parm
 
-      real, parameter :: rtof=0.5
+      real*8, parameter :: rtof=0.5
       integer :: j, l, ifrt
-      real :: xx, gc, gc1, swf, frt_t
+      real*8 :: xx, gc, gc1, swf, frt_t
 
       !!added by zhang
       !!======================
-      real :: X1, X8, X10, XXX, YY, ZZ, XZ, YZ, RLN, orgc_f
+      real*8 :: X1, X8, X10, XXX, YY, ZZ, XZ, YZ, RLN, orgc_f
       X1 = 0.
       X8 = 0.
       X10 = 0.

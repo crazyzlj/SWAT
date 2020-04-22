@@ -61,7 +61,7 @@
       use parm
 
       integer :: j
-      real :: qinit, vo, dur, k, b, zz, bxw, pr1, a, xx, axw, pxw
+      real*8 :: qinit, vo, dur, k, b, zz, bxw, pr1, a, xx, axw, pxw
 
       !! initialize variables
       j = 0
@@ -128,7 +128,7 @@
                 qday = qday / (1000. * hru_km(j))  !!surface runoff: mm
                 if (qday < 0.) qday = 0.
                 if (qday > 0.) then
-                  peakr = (1. / (dur * 3600.)) * (axw - (1. - bxw) * vo)   &
+                  peakr = (1. / (dur * 3600.)) * (axw - (1. - bxw) * vo)
      &                  + bxw * pr1              !!peak rate: m^3/s
                   if (peakr < 0.) peakr = 0.
                 end if

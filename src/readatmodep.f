@@ -43,7 +43,7 @@
       if (atmofile /= '             ') then
         open (127,file=atmofile)
           do iii = 1, 5
-            read (127,5101) titldum
+            read (127,*) titldum
           end do
       else
       !!    no filename present in file.cio - set defaults
@@ -54,20 +54,20 @@
       select case (iatmodep)
       case (0)
         do isub = 1, subtot
-          read (127,1000,iostat=eof) rammo_sub(isub), rcn_sub(isub),  
+          read (127,*,iostat=eof) rammo_sub(isub), rcn_sub(isub),  
      &      drydep_nh4(isub), drydep_no3(isub)
           if (eof < 0) exit
         end do 
         close (127)
       case (1)
-        read (127,1001,iostat=eof) mo_atmo1, iyr_atmo1
+        read (127,*,iostat=eof) mo_atmo1, iyr_atmo1, mo_max
           iii = 0
           momax = 12 * nbyr
           do iii = 1, msub
-            read (127,1002) (rammo_mo(imo,iii),imo = 1,momax)  
-            read (127,1002) (rcn_mo(imo,iii), imo = 1,momax)
-            read (127,1002) (drydep_nh4_mo(imo,iii), imo = 1, momax)
-            read (127,1002) (drydep_no3_mo(imo,iii), imo = 1,momax)
+            read (127,*) (rammo_mo(imo,iii),imo = 1,mo_max)  
+            read (127,*) (rcn_mo(imo,iii), imo = 1,mo_max)
+            read (127,*) (drydep_nh4_mo(imo,iii), imo = 1, mo_max)
+            read (127,*) (drydep_no3_mo(imo,iii), imo = 1,mo_max)
           end do
           close (127)
       case (2)
@@ -86,9 +86,9 @@
         
       end select
 
-1001  format (2i6)
-1002  format (1200f10.3)   !!!nbs
-1000  format (8x,4f10.3)
-5101  format (a80)
+!1001  format (3i6)
+!1002  format (1200f10.3)  
+!1000  format (8x,4f10.3)
+!5101  format (a80)
       return
       end

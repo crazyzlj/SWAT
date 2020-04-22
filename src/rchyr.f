@@ -103,15 +103,15 @@
 !!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
 
 !!    ~ ~ ~ SUBROUTINES/FUNCTIONS CALLED ~ ~ ~
-!!    Intrinsic: Real, Log10
+!!    Intrinsic: real*8, Log10
 
 !!    ~ ~ ~ ~ ~ ~ END SPECIFICATIONS ~ ~ ~ ~ ~ ~
 
       use parm
 
       integer :: j
-      real, dimension (mrcho) :: pdvar, pdvr
-      real, dimension (2) :: srch_av
+      real*8, dimension (mrcho) :: pdvar, pdvr
+      real*8, dimension (2) :: srch_av
 
       idlast = 0
       idlast = i - (id1 - 1)
@@ -120,11 +120,11 @@
       do j = 1, subtot
 
         !! calculate annual averages where applicable
-        rchyro(1,j) = rchyro(1,j) / Real(idlast)
-        rchyro(2,j) = rchyro(2,j) / Real(idlast)
-        rchyro(5,j) = rchyro(5,j) / Real(idlast)
-        rchyro(10,j) = rchyro(10,j) / Real(idlast)
-        rchyro(11,j) = rchyro(11,j) / Real(idlast)
+        rchyro(1,j) = rchyro(1,j) / dfloat(idlast)
+        rchyro(2,j) = rchyro(2,j) / dfloat(idlast)
+        rchyro(5,j) = rchyro(5,j) / dfloat(idlast)
+        rchyro(10,j) = rchyro(10,j) / dfloat(idlast)
+        rchyro(11,j) = rchyro(11,j) / dfloat(idlast)
 
         !! take log10 of annual inflow/outflow for graphing
         srch_av = 0.
@@ -227,6 +227,6 @@
       end do
 
       return
- 5000 format ('REACH ',i4,1x,i8,1x,i5,47e12.4)
- 6000 format ('REACH ',i4,1x,i8,1x,i5,47e12.4,1x,i4)
+ 5000 format ('REACH ',i5,1x,i8,1x,i5,47e12.4)
+ 6000 format ('REACH ',i5,1x,i8,1x,i5,47e12.4,1x,i4)
       end

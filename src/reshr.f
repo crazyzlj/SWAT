@@ -97,7 +97,7 @@
       use parm
 
       integer :: jres, inhyd
-      real :: vol, sed, vvr, targ, xx, flw
+      real*8 :: vol, sed, vvr, targ, xx, flw
  
       jres = 0
       jres = inum1

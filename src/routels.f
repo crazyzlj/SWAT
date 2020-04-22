@@ -28,10 +28,10 @@
 !!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ 
 !!
       use parm
-      real :: latqout, gwqout, latqrunon, surfqrunon, latqlyr
+      real*8 :: latqout, gwqout, latqrunon, surfqrunon, latqlyr
 
 !!    compute infiltration from surface runon to next landscape unit
-      real :: ls_overq, ls_latq, ls_tileq, ls_gwq
+      real*8 :: ls_overq, ls_latq, ls_tileq, ls_gwq
 
 !!    water
 !      if (rnum1 > 1.e-4) return

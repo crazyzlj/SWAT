@@ -66,7 +66,7 @@
       use parm
       implicit none
       integer :: j, k, eof,kk
-      real :: hwq,wqv,sub_ha,bmpfr_sf,bmpfr_ri, qstg, hstg
+      real*8 :: hwq,wqv,sub_ha,bmpfr_sf,bmpfr_ri, qstg, hstg
 
       eof = 0; bmpfr_sf=0.; bmpfr_ri=0.; hstg = 0.; qstg=0.
       sub_ha = sub_km(i) * 100. 

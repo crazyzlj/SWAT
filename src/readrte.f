@@ -86,7 +86,7 @@
 
       character (len=80) :: titldum
       integer :: eof
-	  real :: bnksize, bedsize
+	  real*8 :: bnksize, bedsize
   
       eof = 0
       do
@@ -111,26 +111,26 @@
       read (103,*,iostat=eof) ch_opco(irch)
       if (eof < 0) exit
       read (103,*,iostat=eof) chside(irch)
-	  if (eof < 0) exit
+      if (eof < 0) exit
       read (103,*,iostat=eof) ch_bnk_bd(irch)
-        if (eof < 0) exit
+      if (eof < 0) exit
       read (103,*,iostat=eof) ch_bed_bd(irch)
-	  if (eof < 0) exit
+      if (eof < 0) exit
       read (103,*,iostat=eof) ch_bnk_kd(irch)
-	  if (eof < 0) exit
+      if (eof < 0) exit
       read (103,*,iostat=eof) ch_bed_kd(irch)
-	  if (eof < 0) exit
+      if (eof < 0) exit
       read (103,*,iostat=eof) ch_bnk_d50(irch)
-	  if (eof < 0) exit
+      if (eof < 0) exit
       read (103,*,iostat=eof) ch_bed_d50(irch)
-	  if (eof < 0) exit
-	  read (103,5000,iostat=eof) tc_bnk(irch)
-	  if (eof < 0) exit
-	  read (103,5000,iostat=eof) tc_bed(irch)
-	  if (eof < 0) exit
+      if (eof < 0) exit
+      read (103,5000,iostat=eof) tc_bnk(irch)
+      if (eof < 0) exit
+      read (103,5000,iostat=eof) tc_bed(irch)
+      if (eof < 0) exit
       read (103,5100,iostat=eof) (ch_erodmo(irch,mo), mo = 1,12)
-	  if (eof < 0) exit
-	  read (103,*,iostat=eof) ch_eqn(irch)
+      if (eof < 0) exit
+      read (103,*,iostat=eof) ch_eqn(irch)
       if (eof < 0) exit
       read (103,*,iostat=eof) prf(irch)
       if (eof < 0) exit

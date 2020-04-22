@@ -5,8 +5,8 @@
 		
 	use parm
 
-	real :: sol_thick(sol_nly(ihru))
-	real :: cum_rd, cum_d, cum_rf, x1, x2
+	real*8 :: sol_thick(sol_nly(ihru))
+	real*8 :: cum_rd, cum_d, cum_rf, x1, x2
 	integer :: k, l, jj
 	
 	jj = ihru

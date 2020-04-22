@@ -91,7 +91,7 @@
       use parm
 
       integer :: j, j1, nn, k, sb,isp, ii
-      real :: lid_cuminf_total
+      real*8 :: lid_cuminf_total
       
       lid_cuminf_total = 0.
 
@@ -154,7 +154,8 @@
  	  !! septic tank inflow to biozone layer  J.Jeong
 	  ! STE added to the biozone layer if soil temp is above zero. 
 	  if(j1==i_sep(j).and.sol_tmp(j1,j) > 0. .and. isep_opt(j) /= 0) then
-		  sol_st(j1,j) = sol_st(j1,j) + qstemm(j)  ! in mm
+            hru_mm = qstemm(j) * bz_area(j) / hru_ha(j) / 10000. !in mm
+		  sol_st(j1,j) = sol_st(j1,j) + hru_mm  ! in mm
 	    qvol = qstemm(j) * hru_ha(j) * 10.
 		  xx = qvol / hru_ha(j) / 1000.
           sol_no3(j1,j) = sol_no3(j1,j) + xx *(sptno3concs(isp) 
@@ -303,7 +304,7 @@
         end do
         if (sumqtile > 0.) then
           qtile = qtile - sumqtile
-          qtile = amax1(0., qtile)
+          qtile = dmax1(0., qtile)
         end if
       end if
 

@@ -91,7 +91,7 @@
       use parm
 
       integer :: j, icrop, l, ir
-      real :: up2, uapd, upmx, uapl, gx
+      real*8 :: up2, uapd, upmx, uapl, gx
 
       j = 0
       j = ihru

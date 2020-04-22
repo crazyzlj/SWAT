@@ -152,7 +152,7 @@
       use parm
 
       integer :: j, sb, ii, iflag
-      real, dimension (mhruo) :: pdvas, pdvs
+      real*8, dimension (mhruo) :: pdvas, pdvs
       character (len=4) :: cropname
 
       do j = 1, nhru
@@ -174,7 +174,7 @@
         pdvas(4) = hruyro(22,j)
         pdvas(5) = hruyro(25,j)
         pdvas(6) = hruyro(12,j)
-        pdvas(7) = hruyro(21,j) / Real(366 - leapyr)
+        pdvas(7) = hruyro(21,j) / dfloat(366 - leapyr)
         pdvas(8) = sol_sw(j)
         pdvas(9) = hruyro(11,j)
         pdvas(10) = hruyro(9,j)
@@ -190,12 +190,12 @@
         pdvas(20) = hruyro(5,j)
         pdvas(21) = hruyro(6,j)
         pdvas(22) = hruyro(10,j)
-        pdvas(23) = hruyro(20,j) / Real(366 - leapyr)
-        pdvas(24) = hruyro(57,j) / Real(366 - leapyr)
-        pdvas(25) = hruyro(55,j) / Real(366 - leapyr)
-        pdvas(26) = hruyro(56,j) / Real(366 - leapyr)
-        pdvas(27) = hruyro(30,j) / Real(366 - leapyr)
-        pdvas(28) = hruyro(58,j) / Real(366 - leapyr)
+        pdvas(23) = hruyro(20,j) / dfloat(366 - leapyr)
+        pdvas(24) = hruyro(57,j) / dfloat(366 - leapyr)
+        pdvas(25) = hruyro(55,j) / dfloat(366 - leapyr)
+        pdvas(26) = hruyro(56,j) / dfloat(366 - leapyr)
+        pdvas(27) = hruyro(30,j) / dfloat(366 - leapyr)
+        pdvas(28) = hruyro(58,j) / dfloat(366 - leapyr)
         pdvas(29) = hruyro(14,j)
         pdvas(30) = hruyro(61,j)
         pdvas(31) = hruyro(45,j)

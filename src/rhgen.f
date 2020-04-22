@@ -55,8 +55,8 @@
 
       integer, intent (in) :: j
  
-      real :: vv, rhm, yy, uplm, blm
-      real :: rhmo, tmpmean
+      real*8 :: vv, rhm, yy, uplm, blm
+      real*8 :: rhmo, tmpmean
 
       !! Climate Paramenters required for Penman-Monteith !!
 

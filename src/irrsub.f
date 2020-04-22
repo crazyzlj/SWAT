@@ -85,7 +85,7 @@
       use parm
 
       integer :: j, k, flag
-      real :: vmma, vmm, cnv, vmxi, vol, vmms, vmmd
+      real*8 :: vmma, vmm, cnv, vmxi, vol, vmms, vmmd
 
       j = 0
       j = ihru
@@ -147,17 +147,17 @@
         vol = 0.
         vol = vmm * cnv
 
-        if (pot_fr(j) > 1.e-6) then
-          pot_vol(j) = pot_vol(j) + vol / (10. * potsa(j))
-          aird(j) = vmm                 !!added rice irrigation 11/10/11
-        else
-!! get correct SQ_RTO is this manual or auto
+        !if (pot_fr(j) > 1.e-6) then
+        !  pot_vol(j) = pot_vol(j) + vol / (10. * potsa(j))
+        !  aird(j) = vmm                 !!added rice irrigation 11/10/11
+        !else
+        !! get correct SQ_RTO is this manual or auto
           sq_rto = irrsq(j) 
             if (auto_wstr(j) > 0.)  then
 				sq_rto = irr_asq(j)
 		  end if
         call irrigate(j,vmm)
-        end if
+        !end if
 
         !! subtract irrigation from shallow or deep aquifer
         if (pot_fr(j) > 1.e-6) then

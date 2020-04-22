@@ -37,6 +37,7 @@
 !!                             |array location is pesticide ID number
 !!                             |0: pesticide not used
 !!                             |1: pesticide used
+!!    dthy         |hr        |time interval for subdaily routing
 !!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
 
 !!    ~ ~ ~ LOCAL VARIABLES ~ ~ ~
@@ -139,7 +140,8 @@
       read (23,6000) titldum
       read (23,6000) titldum
       read (23,6000) titldum
-      read (23,*) nstep
+      read (23,*) dthy !Jaehak 2017 flood routing
+      !read (23,*) nstep
       read (23,6000) titldum
       read (23,6000) titldum
       read (23,*) nrgage
@@ -198,10 +200,11 @@
       close (23)
 !! calculate max number of years simulated, daily time increment
       myr = myr + 2
-      if (nstep <= 0) then
+      dthy = dthy / 60. ! time interval, hr, Jaehak 2017 flood routing
+      if (dthy <= 0) then
         nstep = 1
       else
-        nstep = 1440 / nstep
+        nstep = 24 / dthy
       end if
       nstep = nstep + 1
       

@@ -126,20 +126,20 @@
       use parm
 
       integer, intent (in) :: jj
-      real, intent (in) :: bmix
+      real*8, intent (in) :: bmix
 !$$$$$$       integer :: l, k, nl, a
       integer :: l, k              !CB 12/2/09 nl and a are not used.
-      real :: emix, dtil, XX, WW1, WW2, WW3, WW4, maxmix
-!$$$$$$       real :: thtill(sol_nly(jj)), smix(20+npmx)  
+      real*8 :: emix, dtil, XX, WW1, WW2, WW3, WW4, maxmix
+!$$$$$$       real*8 :: thtill(sol_nly(jj)), smix(20+npmx)  
       !!by zhang
       !!=============   
-      real :: smix(22+npmx+12)        !CB 12/2/09 thtill is not used. mjw rev 490
+      real*8 :: smix(22+npmx+12)        !CB 12/2/09 thtill is not used. mjw rev 490
       !!changed the dimension from 22 + npmx to 22 + npmx + 12
       !!by zhang
       !!=============
-      real :: sol_mass(sol_nly(jj))
-      real :: sol_thick(sol_nly(jj)), sol_msm(sol_nly(jj))
-      real :: sol_msn(sol_nly(jj))
+      real*8 :: sol_mass(sol_nly(jj))
+      real*8 :: sol_thick(sol_nly(jj)), sol_msm(sol_nly(jj))
+      real*8 :: sol_msn(sol_nly(jj))
 
 
       XX = 0.
