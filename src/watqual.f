@@ -222,16 +222,16 @@
       use parm
 
       integer :: jrch
-      real :: wtrin, chlin, algin, orgnin, ammoin, nitratin, nitritin
-      real :: orgpin, dispin, cbodin, disoxin, tday, wtmp, fll, gra
-      real :: lambda, fnn, fpp, algi, fl_1, xx, yy, zz, ww, cinn
-      real :: uu, vv, cordo, f1, algcon, orgncon, nh3con, no2con, no3con
-      real :: orgpcon, solpcon, cbodcon, o2con, wtrtot, bc1mod, bc2mod
-      real :: thgra = 1.047, thrho = 1.047, thrs1 = 1.024
-      real :: thrs2 = 1.074, thrs3 = 1.074, thrs4 = 1.024, thrs5 = 1.024
-      real :: thbc1 = 1.083, thbc2 = 1.047, thbc3 = 1.047, thbc4 = 1.047
-      real :: thrk1 = 1.047, thrk2 = 1.024, thrk3 = 1.024, thrk4 = 1.060
-!      real :: thrk5 = 1.047, thrk6 = 1.0, thrs6 = 1.024, thrs7 = 1.0
+      real*8 :: wtrin, chlin, algin, orgnin, ammoin, nitratin, nitritin
+      real*8 :: orgpin, dispin, cbodin, disoxin, tday, wtmp, fll, gra
+      real*8 :: lambda, fnn, fpp, algi, fl_1, xx, yy, zz, ww, cinn
+      real*8 :: uu, vv, cordo, f1, algcon, orgncon, nh3con, no2con, no3con
+      real*8 :: orgpcon, solpcon, cbodcon, o2con, wtrtot, bc1mod, bc2mod
+      real*8 :: thgra = 1.047, thrho = 1.047, thrs1 = 1.024
+      real*8 :: thrs2 = 1.074, thrs3 = 1.074, thrs4 = 1.024, thrs5 = 1.024
+      real*8 :: thbc1 = 1.083, thbc2 = 1.047, thbc3 = 1.047, thbc4 = 1.047
+      real*8 :: thrk1 = 1.047, thrk2 = 1.024, thrk3 = 1.024, thrk4 = 1.060
+!      real*8 :: thrk5 = 1.047, thrk6 = 1.0, thrs6 = 1.024, thrs7 = 1.0
 
       jrch = 0
       jrch = inum1
@@ -279,7 +279,7 @@
          solpcon = 0.
          cbodcon = 0.
          o2con = 0.
-         rch_cbod(jrch) = amax1(1.e-6,rch_cbod(jrch))
+         rch_cbod(jrch) = dmax1(1.e-6,rch_cbod(jrch))
          wtrtot = wtrin + rchwtr
          algcon = (algin * wtrin + algae(jrch) * rchwtr) / wtrtot
          orgncon = (orgnin * wtrin + organicn(jrch) * rchwtr) / wtrtot
@@ -460,7 +460,7 @@
          yy = ai5 * Theta(bc1mod,thbc1,wtmp) * nh3con
          zz = ai6 * Theta(bc2mod,thbc2,wtmp) * no2con
          rch_dox(jrch) = o2con + (uu + vv - ww - xx - yy - zz) * tday
-         rch_dox(jrch) = amin1(0.1, rch_dox(jrch))
+         rch_dox(jrch) = dmin1(0.1, rch_dox(jrch))
          
          !algea O2 production minus respiration
          !if (vv > 0.) then

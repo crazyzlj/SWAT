@@ -130,7 +130,7 @@
       use parm
 
       integer, intent (in) :: j, k
-      real :: vol, sed, pndsa, xx, targ, tpco, phosk, nitrok, chlaco
+      real*8 :: vol, sed, pndsa, xx, targ, tpco, phosk, nitrok, chlaco
       integer :: iseas
 
 

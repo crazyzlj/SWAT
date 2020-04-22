@@ -80,10 +80,10 @@
       character (len=1) :: a
       integer :: k, kk1, kk2, iyp, idap, l, inum3sprev, ii
       integer :: ihour, imin, flag
-      real :: rbsb
-      real, dimension (mrg) :: rmeas
-      real, dimension (:,:), allocatable :: rainsb
-!     real, dimension (:), allocatable :: rhrbsb, rstpbsb
+      real*8 :: rbsb
+      real*8, dimension (mrg) :: rmeas
+      real*8, dimension (:,:), allocatable :: rainsb
+!     real*8, dimension (:), allocatable :: rhrbsb, rstpbsb
       if (nstep > 0) then
         allocate (rainsb(mrg,nstep))
 !       allocate (rstpbsb(nstep))

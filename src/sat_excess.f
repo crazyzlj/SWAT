@@ -59,7 +59,7 @@
       use parm
 
       integer :: j, j1, ii, isp
-      real:: ul_excess,qlyr,pormm,rtof
+      real*8 :: ul_excess,qlyr,pormm,rtof
 
       j = 0
       j = ihru

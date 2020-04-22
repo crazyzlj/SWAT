@@ -36,7 +36,7 @@
 
       integer, intent (in) :: j
  
-      real :: v6
+      real*8 :: v6
 
       !! Generate wind speed !!
       v6 = 0.

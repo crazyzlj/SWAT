@@ -374,8 +374,8 @@
       character (len=130) :: tlu
       character (len=13) :: wwqfile
       integer :: eof, numlu
-      real :: escobsn, epcobsn
-!!      real :: r2adj_bsn  !D. Moriasi 4/8/2014    
+      real*8 :: escobsn, epcobsn
+!!      real*8 :: r2adj_bsn  !D. Moriasi 4/8/2014    
 
 !!    initialize variables
       eof = 0
@@ -530,16 +530,23 @@
       read (103,*,iostat=eof) uhalpha 
       if (eof < 0) exit
       read (103,*,iostat=eof) titldum
-      read (103,'(a130)') tlu
-       do ii=3,len_trim(tlu)
-          if ((tlu(ii:ii).eq.','.and.tlu(ii-1:ii-1).ne.',').or.   
-     &       (tlu(ii:ii).eq.' '.and.tlu(ii-1:ii-1).ne.' ')) then
-             numlu = numlu + 1
-          end if	   
-       end do 
-       if (len_trim(tlu).le.3) numlu = 0
-       backspace(103)
-       read (103,*) (lu_nodrain(kk), kk=1,numlu)
+      read (103,'(a)') tlu
+      pos = index(tlu, ",")
+      if(pos>0.and.len_trim(tlu)>0) then
+          numlu = 1
+          do ii=pos+1,len_trim(tlu)
+              if (tlu(ii:ii).eq.',') then
+                 numlu = numlu + 1
+              end if	   
+          end do
+          if (tlu(ii-1:ii-1).ne.',') then
+                 numlu = numlu + 1
+          end if    
+      end if
+          
+      if (len_trim(tlu).le.3) numlu = 0
+      backspace(103)
+      read (103,*) (lu_nodrain(kk), kk=1,numlu)
        
 
  !!   subdaily erosion modeling by Jaehak Jeong
@@ -589,6 +596,17 @@
       read (103,*,iostat=eof) ismax
       if (eof < 0) exit   
       read (103,*,iostat=eof) iroutunit
+!!    Srin co2 (EPA)
+      if (eof < 0) exit
+      read (103,*,iostat=eof) co2_x2
+      if (eof < 0) exit
+      read (103,*,iostat=eof) co2_x
+      if (eof < 0) exit
+!!    Srin co2 (EPA)
+      if (eof < 0) exit   
+      read (103,*,iostat=eof) sfsedmean
+      if (eof < 0) exit   
+      read (103,*,iostat=eof) sfsedstdev
       exit
 !!    Drainmod input variables - 01/2006
       end do
@@ -696,7 +714,7 @@
 
 !!    determine the shape parameters for the equation which describes area of
 !!    snow cover as a function of amount of snow
-      call ascrv(.5,.95,sno50cov,.95,snocov1,snocov2)
+      call ascrv(5.0D-01,9.5D-01,sno50cov,9.5D-01,snocov1,snocov2)
 
 !!    calculate additional bacteria parameters
       wp20p_plt = wdpf - wgpf
@@ -711,7 +729,6 @@
       nactfr = 0.02
       abstinit = iabstr
 
-      
       close (103)
       
       if (cswat == 1) then

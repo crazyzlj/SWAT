@@ -70,8 +70,8 @@
 
       integer :: ist, isnum, eof
 
-      real :: sptq,sptbodin,spttssconc,spttnconc,sptnh4conc,sptno3conc
-      real :: sptno2conc,sptorgnconc,spttpconc,sptminp,sptorgp,sptfcoli
+      real*8 :: sptq,sptbodin,spttssconc,spttnconc,sptnh4conc,sptno3conc
+      real*8 :: sptno2conc,sptorgnconc,spttpconc,sptminp,sptorgp,sptfcoli
 
       isnum = 0
       eof = 0

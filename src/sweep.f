@@ -42,7 +42,7 @@
       use parm
 
       integer :: j
-      real :: dirt
+      real*8 :: dirt
 
       j = 0
       j = ihru

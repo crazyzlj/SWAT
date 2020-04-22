@@ -103,8 +103,8 @@
       use parm
 
       integer :: j
-      real, dimension (mrcho) :: pdvar, pdvr
-      real, dimension (2) :: srch_av
+      real*8, dimension (mrcho) :: pdvar, pdvr
+      real*8, dimension (2) :: srch_av
 
       do j = 1, subtot
 
@@ -261,9 +261,9 @@
       end do
       return
 
- 5000 format ('REACH ',i4,1x,i8,1x,i5,47e12.4)
- 5001 format ('REACH ',i4,1x,i8,1x,i5,1x,i5,47e12.4)
- 5002 format ('REACH ',i4,1x,i8,2x,i2,1x,i2,1x,i4,1x,47e12.4)
- 6000 format ('REACH ',i4,1x,i8,1x,i5,47e12.4,1x,i4)
- 6002 format ('REACH ',i4,1x,i8,1x,i2,1x,i2,1x,i4,1x,47e12.4,1x,i4)
+ 5000 format ('REACH ',i5,1x,i8,1x,i5,47e12.4)
+ 5001 format ('REACH ',i5,1x,i8,1x,i5,1x,i5,47e12.4)
+ 5002 format ('REACH ',i5,1x,i8,2x,i2,1x,i2,1x,i4,1x,47e12.4)
+ 6000 format ('REACH ',i5,1x,i8,1x,i5,47e12.4,1x,i4)
+ 6002 format ('REACH ',i5,1x,i8,1x,i2,1x,i2,1x,i4,1x,47e12.4,1x,i4)
       end

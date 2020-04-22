@@ -137,9 +137,9 @@
       use parm
 
       integer :: k, inum3sprev, npcpbsb, ii, iyp, idap, ib
-      real :: tmxbsb, tmnbsb, rbsb, rhdbsb, rabsb, u10bsb, rmxbsb
-      real :: daylbsb,  fradbsb(nstep),tdif, pdif, ratio
-!     real, dimension (:), allocatable :: rhrbsb, rstpbsb
+      real*8 :: tmxbsb, tmnbsb, rbsb, rhdbsb, rabsb, u10bsb, rmxbsb
+      real*8 :: daylbsb,  fradbsb(nstep),tdif, pdif, ratio
+!     real*8, dimension (:), allocatable :: rhrbsb, rstpbsb
 !     if (nstep > 0) then
 !       allocate (rstpbsb(nstep))
 !       allocate (rhrbsb(24))
@@ -288,14 +288,14 @@
           pdif = 0.
           if (tmpsim == 1) then
             tdif = (elevb(ib,hru_sub(k)) -                              
-     &      Real(elevt(itgage(hru_sub(k))))) * tlaps(hru_sub(k)) / 1000.
+     &      dfloat(elevt(itgage(hru_sub(k))))) * tlaps(hru_sub(k)) / 1000.
           else
             tdif = (elevb(ib,hru_sub(k)) - welev(hru_sub(k)))           
      &                                       * tlaps(hru_sub(k)) / 1000.
           end if
           if (pcpsim == 1) then
             pdif = (elevb(ib,hru_sub(k)) -                              
-     &      Real(elevp(irgage(hru_sub(k))))) * plaps(hru_sub(k)) / 1000.
+     &      dfloat(elevp(irgage(hru_sub(k))))) * plaps(hru_sub(k)) / 1000.
           else
             pdif = (elevb(ib,hru_sub(k)) - welev(hru_sub(k)))           
      &                                       * plaps(hru_sub(k)) / 1000.

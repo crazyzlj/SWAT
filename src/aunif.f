@@ -1,4 +1,4 @@
-      real function aunif (x1) result (unif)
+      real*8 function aunif (x1) result (unif)
 
 !!    ~ ~ ~ PURPOSE ~ ~ ~
 !!    This function generates random numbers ranging from 0.0 to 1.0.

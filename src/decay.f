@@ -54,7 +54,7 @@
       use parm
 
       integer :: j, k, kk, l
-      real :: x1, xx
+      real*8 :: x1, xx
    
       j = 0
       j = ihru

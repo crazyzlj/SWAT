@@ -61,6 +61,8 @@
       use parm
 
       integer :: j, j1
+      
+      real*8 :: w2
 
       j = 0
       j = ihru
@@ -83,7 +85,7 @@
       else
         w2 = 0.
       end if
-      w1 = amin1 (0.1,abs(w2))
+      w1 = dmin1 (0.1,abs(w2))
       if (w2 > 0.) then
         wtl = wtab_mn(j)
       else
@@ -92,8 +94,5 @@
       if (wtab(j) < 1.e-6) wtab(j) = 0.0
       wtab(j) = wtab(j) - w1 * (wtab(j) - wtl)
       
-!      write (444,1000) curyr,iida,j,wtab(j)
-!1000   format (3i4,f8.2)
-
       return
       end

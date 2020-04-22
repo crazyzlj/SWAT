@@ -441,7 +441,7 @@
       use parm
 
       integer :: j, k
-      real :: cnv
+      real*8 :: cnv
 
       j = 0
       j = ihru

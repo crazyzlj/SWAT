@@ -67,10 +67,10 @@
       use parm
 
 	integer :: k, j
-	real :: percent_clay, percent_silt, percent_sand, erod_k
-	real :: ke_direct, ke_leaf, ke_total,pheff, c
-	real :: rdepth_direct, rdepth_leaf, rdepth_tot, canopy_cover
-	real :: bed_shear, sedov, sedspl, rain_d50, rintnsty
+	real*8 :: percent_clay, percent_silt, percent_sand, erod_k
+	real*8 :: ke_direct, ke_leaf, ke_total,pheff, c
+	real*8 :: rdepth_direct, rdepth_leaf, rdepth_tot, canopy_cover
+	real*8 :: bed_shear, sedov, sedspl, rain_d50, rintnsty
 
 	j = ihru
 	
@@ -120,7 +120,7 @@
 	  end if
 
       do k=1,nstep
-	  rintnsty = 60. * rainsub(j,k) / Real(idt) 
+	  rintnsty = 60. * rainsub(j,k) / dfloat(idt) 
 	  rain_d50 = 0.188 * rintnsty ** 0.182
 
 	  if(rintnsty>0) then

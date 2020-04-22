@@ -52,10 +52,10 @@
 
       use parm
 
-      real, intent (in) :: evx, spx, pp, qin, ox, yi, yo, ysx
-      real, intent (in) :: vf, vyf, aha
-      real, intent (in out) :: vx1, vy
-      real :: dfw, dfy
+      real*8, intent (in) :: evx, spx, pp, qin, ox, yi, yo, ysx
+      real*8, intent (in) :: vf, vyf, aha
+      real*8, intent (in out) :: vx1, vy
+      real*8 :: dfw, dfy
 
       !! ysx undefined for reservoirs
 

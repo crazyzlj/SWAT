@@ -97,9 +97,9 @@
       use parm
 
       integer :: j
-      real :: tk, pb, gma, xl, ea, ed, dlt, ramm, ralb1, ralb, xx
-      real :: rbo, rto, rn, uzz, zz, zom, zov, rv, rn_pet, fvpd
-      real :: rc, rho, rout, d, chz, gsi_adj, pet_alpha
+      real*8 :: tk, pb, gma, xl, ea, ed, dlt, ramm, ralb1, ralb, xx
+      real*8 :: rbo, rto, rn, uzz, zz, zom, zov, rv, rn_pet, fvpd
+      real*8 :: rc, rho, rout, d, chz, gsi_adj, pet_alpha
 
       !! initialize local variables
       j = 0

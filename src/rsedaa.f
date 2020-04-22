@@ -26,6 +26,7 @@
 
       use parm
 
+      real*8, intent (in) :: years
       integer :: j
 
       do j = 1, subtot

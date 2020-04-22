@@ -38,7 +38,7 @@
       use parm
  
       integer :: j, ii
-      real :: voli
+      real*8 :: voli
 
       j = 0
       j = ihru

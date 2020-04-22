@@ -158,18 +158,18 @@
 !!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
 
 !!    ~ ~ ~ SUBROUTINES/FUNCTIONS CALLED ~ ~ ~
-!!    Intrinsic: Abs, Min, Max
+!!    Intrinsic: abs, Min, Max
 
 !!    ~ ~ ~ ~ ~ ~ END SPECIFICATIONS ~ ~ ~ ~ ~ ~
 
       use parm
 
-      real, parameter :: pi = 3.1416
+      real*8, parameter :: pi = 3.1416
       integer :: j, ly
-      real :: potsep, sumo, potev, cnv, potpcp, no3in, qdayi
-      real :: sedloss, no3loss, yy, dg, excess, stmax, sedsetl
-	real :: sanloss, silloss, claloss, sagloss, lagloss
-      real :: potmm,minpsloss,minpaloss, solploss, orgnloss, orgploss
+      real*8 :: potsep, sumo, potev, cnv, potpcp, no3in, qdayi
+      real*8 :: sedloss, no3loss, yy, dg, excess, stmax, sedsetl
+	real*8 :: sanloss, silloss, claloss, sagloss, lagloss
+      real*8 :: potmm,minpsloss,minpaloss, solploss, orgnloss, orgploss, rto
 
       j = 0
       j = ihru

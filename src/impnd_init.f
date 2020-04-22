@@ -126,8 +126,8 @@
       use parm
 
       integer :: j
-      real :: cl, si, mnpsz, targ, lnvol
-      real :: pe_sa, pp_sa, pe_vo, pp_vo, wetdif
+      real*8 :: cl, si, mnpsz, targ, lnvol
+      real*8 :: pe_sa, pp_sa, pe_vo, pp_vo, wetdif
 
 
       do j = 1, nhru

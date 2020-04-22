@@ -67,8 +67,8 @@
       use parm
 
       integer :: j, k
-      real :: f, dp, ww, b, wc, dd, xx, st0
-      real :: tlag, df, zd, bcv, tbare, tcov, tmp_srf
+      real*8 :: f, dp, ww, b, wc, dd, xx, st0
+      real*8 :: tlag, df, zd, bcv, tbare, tcov, tmp_srf
 
       j = 0
       j = ihru

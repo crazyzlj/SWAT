@@ -1173,6 +1173,9 @@
       allocate (pnd_cla(mhru))
       allocate (pnd_sag(mhru))
       allocate (pnd_lag(mhru))
+      
+      allocate (twlpnd(mhru))     !!srini pond/wet infiltration to shallow gw storage
+      allocate (twlwet(mhru))     !!srini pond/wet infiltration to shallow gw storage
 
       allocate (pnd_solp(mhru))
       allocate (pnd_solpg(mhru))
@@ -1740,8 +1743,8 @@
 !!    LID simulations
 !!    Common variable
 !!    van Genuchten equation's coefficients
-      allocate(lid_vgcl,lid_vgcm,lid_qsurf_total,
-     & lid_farea_sum)
+!      allocate(lid_vgcl,lid_vgcm,lid_qsurf_total,
+!     & lid_farea_sum)
       allocate(lid_cuminf_last(mhru,4),lid_sw_last(mhru,4),
      & interval_last(mhru,4),lid_f_last(mhru,4),lid_cumr_last(mhru,4),
      & lid_str_last(mhru,4),lid_farea(mhru,4),lid_qsurf(mhru,4),
@@ -1881,6 +1884,10 @@
        tillage_factor = 0.
       !! By Zhang for C/N cycling
       !! ============================
+       
+       !FLOOD ROUTING
+       allocate(QHY(nstep+1,mhyd,4), NHY(4*msub))
+       allocate(RCHX(msub),RCSS(msub),QCAP(msub),CHXA(msub),CHXP(msub))
       	  
       call zero0
       call zero1

@@ -95,7 +95,7 @@
       use parm
 
       integer :: j, icrop, l, ir
-      real :: un2, unmx, uno3l, gx
+      real*8 :: un2, unmx, uno3l, gx
 
       j = 0
       j = ihru
@@ -163,8 +163,8 @@
           else
             xx = 1.
           end if
-          strsn(j) = amax1(strsn(j), xx)
-          strsn(j) = amin1(strsn(j), 1.)
+          strsn(j) = dmax1(strsn(j), xx)
+          strsn(j) = dmin1(strsn(j), 1.)
       end select
 
       return

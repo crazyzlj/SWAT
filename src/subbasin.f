@@ -133,7 +133,7 @@
       use parm
 
       integer :: j,sb,kk
-      real :: tmpk, d, gma, ho, pet_alpha, aphu, phuop
+      real*8 :: tmpk, d, gma, ho, pet_alpha, aphu, phuop
 
       ihru = 0
       ihru = hru1(inum1) 
@@ -235,7 +235,7 @@
         else if (icn == 2) then 
         sci(j) = sci(j) + pet_day*exp(-cncoef_sub(hru_sub(j))*sci(j)/   
      &    smx(j)) - precipday + qday + latq(j) + sepbtm(j) + qtile
-        sci(j) = amin1(sci(j),smxco * smx(j))
+        sci(j) = dmin1(sci(j),smxco * smx(j))
         end if 
         
         !! apply fertilizer/manure in continuous fert operation
@@ -417,9 +417,6 @@
           qdfr = 0.
         end if
 
-        !! compute chl-a, CBOD and dissolved oxygen loadings
-        call subwq
-
         !! compute wetland processes
         call wetlan
 
@@ -444,6 +441,9 @@
         !! perform water balance
         call watbal
         
+        !! compute chl-a, CBOD and dissolved oxygen loadings
+        call subwq
+
         !! qdayout is surface runoff leaving the hru - after wetlands, ponds, and potholes
         qdayout(j) = qday
 

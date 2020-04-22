@@ -125,7 +125,7 @@
       use parm
 	implicit none
 	      
-!	real ntr_rt
+!	real*8 ntr_rt
       integer bz_lyr, isp, ii,j,nly
 	real*8 bz_vol, rtrate,bodconc, qin, qout,qmm,qvol,pormm,rplqm
 	real*8 ntr_rt,dentr_rt, bod_rt, fcoli_rt,rtof,xx,bodi,bode

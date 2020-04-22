@@ -49,7 +49,7 @@
       integer :: jj,sb,j,k,temp_count
       real*8 :: lid_str,lid_vbypass,lid_bypass,lid_irr,lid_vol,
      & lid_cumirr
-      real :: lid_prec
+      real*8 :: lid_prec
       
       jj = urblu(j)
       

@@ -3,7 +3,7 @@
       use parm
       integer nly,n,j
 	integer :: flag
-	real, intent(in):: dep_new
+	real*8, intent(in):: dep_new
 	nly = sol_nly(ihru)
 
 !!    create a septic layer
@@ -12,7 +12,7 @@
       
       do j = 2, nly 
         xx = 0.
-        xx = Abs(dep_new - sol_z(j,ihru))
+        xx = abs(dep_new - sol_z(j,ihru))
         !! if values are within 10 mm of one another, reset boundary
         if (xx < 10.) then
           sol_z(j,ihru) = dep_new

@@ -70,7 +70,7 @@
 
       integer, intent (in) :: iwave
       integer :: j, k, kk, jj
-      real :: ab, ajp, preceff, rainsum
+      real*8 :: ab, ajp, preceff, rainsum
 
       j = 0
       j = ihru

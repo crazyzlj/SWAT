@@ -73,7 +73,7 @@
       use parm
 
       integer :: j
-      real :: rchrg1, rchrg_karst
+      real*8 :: rchrg1, rchrg_karst
 
       j = 0
       j = ihru
@@ -83,7 +83,10 @@
       rchrg1 = rchrg(j) + rchrg_src(j)
 
 !! add seepage from secondary channels, ponds, and wetlands;
-      rchrg_karst = tloss + twlpnd + twlwet
+      rchrg_karst = tloss + twlpnd(j) + twlwet(j)
+      twlpnd(j) = 0.
+      twlwet(j) = 0.
+      
 !! compute shallow aquifer level for current day, assumes karst losses 
 !! infiltrate at the same speed as what goes through the soil profile.
       rchrg(j) = 0.

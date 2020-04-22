@@ -157,9 +157,9 @@
 
       use parm
 
-      real, intent (in) :: years
+      real*8, intent (in) :: years
       integer :: j, sb, ii, iflag
-      real, dimension (mhruo) :: pdvas, pdvs
+      real*8, dimension (mhruo) :: pdvas, pdvs
       character (len=4) :: cropname
 
       do j = 1, nhru

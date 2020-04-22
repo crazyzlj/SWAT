@@ -100,7 +100,7 @@
       use parm
 
       integer :: j, k
-      real :: pstsum
+      real*8 :: pstsum
 
 
 !!    write statement to new output file (output.swr)

@@ -54,7 +54,7 @@
       use parm
 
       integer :: j, l
-      real :: uno3l, fxw, sumn, fxn, fxg, fxr
+      real*8 :: uno3l, fxw, sumn, fxn, fxg, fxr
 
       j = 0
       j = ihru

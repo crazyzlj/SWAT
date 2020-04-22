@@ -74,14 +74,14 @@
 !!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
 
 !!    ~ ~ ~ SUBROUTINES/FUNCTIONS CALLED ~ ~ ~
-!!    Intrinsic: Abs
+!!    Intrinsic: abs
 
 !!    ~ ~ ~ ~ ~ ~ END SPECIFICATIONS ~ ~ ~ ~ ~ ~
 
       use parm
 
       integer :: jres
-      real :: tpest1, tpest2, fd1, fp1, fd2, dlake, fp2
+      real*8 :: tpest1, tpest2, fd1, fp1, fd2, dlake, fp2
 
       jres = 0
       jres = inum1
@@ -153,17 +153,17 @@
             difus = tpest2
             tpest2 = 0.
           else
-            tpest2 = tpest2 - Abs(difus)
+            tpest2 = tpest2 - abs(difus)
           end if
-          tpest1 = tpest1 + Abs(difus)
+          tpest1 = tpest1 + abs(difus)
         else
-          if (Abs(difus) > tpest1) then
+          if (abs(difus) > tpest1) then
             difus = -tpest1
             tpest1 = 0.
           else
-            tpest1 = tpest1 - Abs(difus)
+            tpest1 = tpest1 - abs(difus)
           end if
-          tpest2 = tpest2 + Abs(difus)
+          tpest2 = tpest2 + abs(difus)
         end if
 
         !! determine pesticide lost from sediment by reactions

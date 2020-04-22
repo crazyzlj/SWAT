@@ -47,7 +47,7 @@
 
       integer :: ip, ipnum, eof
       character (len=17) :: pstnm
-      real :: skocp, wofp, hlff, hlfs, apefp, pwsol
+      real*8 :: skocp, wofp, hlff, hlfs, apefp, pwsol
       eof = 0
 
 

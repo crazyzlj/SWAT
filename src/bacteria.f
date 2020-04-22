@@ -150,7 +150,7 @@
       use parm
 
       integer :: j
-      real :: bpq, blpq, bps, blps, wt1, cbact, xx
+      real*8 :: bpq, blpq, bps, blps, wt1, cbact, xx
 
       j = 0
       j = ihru

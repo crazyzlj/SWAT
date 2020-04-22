@@ -58,8 +58,8 @@
       use parm
 
       integer :: sb, ii
-      real :: sub_ha
-      real, dimension (msubo) :: pdvab, pdvb
+      real*8 :: sub_ha
+      real*8, dimension (msubo) :: pdvab, pdvb
 
       sb = 0
       sb = hru_sub(ihru)
@@ -91,9 +91,10 @@
       pdvab(19) = sub_chl(sb) / sub_ha
       pdvab(20) = sub_cbod(sb) / sub_ha
       pdvab(21) = sub_dox(sb) / sub_ha
-      pdvab(23) = sub_tileq(sb)      !! tile flow  jane f.
       pdvab(22) = sub_tileno3(sb)    !! tileno3
+      pdvab(23) = sub_tileq(sb)      !! tile flow  jane f.
       pdvab(24) = sub_vaptile(sb)    !! phos due to crack flow
+
 
       if (ipdvab(1) > 0) then
         do ii = 1, itotb
@@ -127,7 +128,7 @@
 !     changed for jennifer b.
 !1000 format ('BIGSUB',i4,1x,i8,1x,i4,e10.5,18f10.3)
 !1000 format ('BIGSUB',i4,1x,i8,1x,i4,e10.5,21f10.3)
- 1000 format ('BIGSUB',i4,1x,i8,1x,i4,e10.5,18e10.3,1x,e10.5,5e10.3)
- 1001 format('BIGSUB',i4,1x,i8,1x,i2,1x,i2,1x,i4,1x,e10.5,18e10.3,1x,   
+ 1000 format ('BIGSUB',i5,1x,i8,1x,i4,e10.5,18e10.3,1x,e10.5,5e10.3)
+ 1001 format('BIGSUB',i5,1x,i8,1x,i2,1x,i2,1x,i4,1x,e10.5,18e10.3,1x,   
      &  e10.5, 5e10.3)
       end 

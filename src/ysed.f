@@ -59,7 +59,7 @@
 
       integer, intent (in) :: iwave
       integer :: j
-      real :: c
+      real*8 :: c
 
       j = 0
       j = ihru

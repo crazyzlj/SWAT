@@ -295,7 +295,7 @@
 
       use parm
  
-      real :: xirr
+      real*8 :: xirr
       integer :: j, nnro, nicr, k, sumpady, ncrp
       character*4 cropname
 

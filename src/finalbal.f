@@ -98,8 +98,8 @@
       use parm
 
       integer :: j
-      real :: tir, wshd_snoe, volout, sedout, res3, res4, res17
-      real :: res18, res19, res20, res21
+      real*8 :: tir, wshd_snoe, volout, sedout, res3, res4, res17
+      real*8 :: res18, res19, res20, res21
 
 !! compute amount of irrigation water applied in watershed
       tir = 0.
@@ -153,8 +153,8 @@
           volout = volout + res_vol(j)
           sedout = sedout + res_vol(j) * res_sed(j)
         end do
-        call vbl(res17,res18,res19,res20,res21,wshd_resv,wshd_ressed,   
-     &           res3,res4,0.,volout,sedout,wshd_resha)
+        call vbl(res17,res18,res19,res20,res21,wshd_resv,wshd_ressed, 
+     &        res3,res4,0.0D+00,volout,sedout,wshd_resha)
       end if
 
       return

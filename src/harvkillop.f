@@ -127,16 +127,16 @@
       integer :: j, k
       
 !!   change per JGA 8/31/2011 gsm PUT YIELD IN modparm.f
-!!      real :: wur, hiad1, yield, yieldn, yieldp, yldpst
-      real :: wur, hiad1, yldpst
-	real :: resnew, rtresnew 
+!!      real*8 :: wur, hiad1, yield, yieldn, yieldp, yldpst
+      real*8 :: wur, hiad1, yldpst
+	real*8 :: resnew, rtresnew 
 
 
 	!!By Zhang
 	!!=============
-      real :: BLG1, BLG2, BLG3,  CLG, sf
-      real :: sol_min_n, resnew_n, resnew_ne
-      real :: LMF, LSF, LSLF, LSNF,LMNF 
+      real*8 :: BLG1, BLG2, BLG3,  CLG, sf
+      real*8 :: sol_min_n, resnew_n, resnew_ne
+      real*8 :: LMF, LSF, LSLF, LSNF,LMNF 
       orgc_f = 0.
       BLG1 = 0.
       BLG2 = 0.

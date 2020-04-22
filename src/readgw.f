@@ -63,7 +63,7 @@
 
       character (len=80) :: titldum
       integer :: eof
-      real :: hlife_ngw
+      real*8 :: hlife_ngw
 
       eof = 0
       hlife_ngw = 0.0

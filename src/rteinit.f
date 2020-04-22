@@ -107,7 +107,7 @@
       use parm
 
       integer :: icd, inm1, inm2, inm3, inm4, iht
-      real :: rnm1
+      real*8 :: rnm1
 
 !!    calculate watershed area in hectares
       da_ha = da_km * 100.

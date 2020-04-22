@@ -261,8 +261,8 @@
       use parm
 
       integer :: j, sb, kk, ii
-      real :: cnv, sub_ha, wtmp, baseflw, bf_fr,hr
-      real :: sub_hwyld(nstep), hqd(4*nstep), hsd(4*nstep),hqdtst(nstep)   ! hqd, hsd locally defined. J.Jeong 4/26/2009
+      real*8 :: cnv, sub_ha, wtmp, baseflw, bf_fr,hr
+      real*8 :: sub_hwyld(nstep), hqd(4*nstep), hsd(4*nstep),hqdtst(nstep)   ! hqd, hsd locally defined. J.Jeong 4/26/2009
 
       j = ihru
       sb = inum1
@@ -324,15 +324,15 @@
         sub_dsag(sb) = sub_dsag(sb) + sagyld(j)
         sub_dlag(sb) = sub_dlag(sb) + lagyld(j)
 
-        surqno3(j) = amax1(1.e-12,surqno3(j))
-        latno3(j) = amax1(1.e-12,latno3(j))
-        no3gw(j) = amax1(1.e-12,no3gw(j))
-        surqsolp(j) = amax1(1.e-12,surqsolp(j))
-        minpgw(j) = amax1(1.e-12,minpgw(j))
-        sedorgn(j) = amax1(1.e-12,sedorgn(j))
-        sedorgp(j) = amax1(1.e-12,sedorgp(j))
-        sedminpa(j) = amax1(1.e-12,sedminpa(j))
-        sedminps(j) = amax1(1.e-12,sedminps(j))
+        surqno3(j) = dmax1(1.e-12,surqno3(j))
+        latno3(j) = dmax1(1.e-12,latno3(j))
+        no3gw(j) = dmax1(1.e-12,no3gw(j))
+        surqsolp(j) = dmax1(1.e-12,surqsolp(j))
+        minpgw(j) = dmax1(1.e-12,minpgw(j))
+        sedorgn(j) = dmax1(1.e-12,sedorgn(j))
+        sedorgp(j) = dmax1(1.e-12,sedorgp(j))
+        sedminpa(j) = dmax1(1.e-12,sedminpa(j))
+        sedminps(j) = dmax1(1.e-12,sedminps(j))
         
 
       !! subbasin averages: nutrients
@@ -633,6 +633,7 @@
               hhvaroute(21,ihout,ii) = 0.                          !!cmetal#2
               hhvaroute(22,ihout,ii) = 0.                          !!cmetal#3
             end if
+            QHY(ii,ihout,IHX(1))=hhvaroute(2,ihout,ii)/(dthy * 3600.) !m3 -> m3/s Jaehak flood routing 2017
 		  end do
         end if
 

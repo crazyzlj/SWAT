@@ -40,8 +40,8 @@
       use parm
 
       integer :: j,sb,kk
-      real :: precip_fr
-      real :: irfr,hruvirr
+      real*8 :: precip_fr
+      real*8 :: irfr,hruvirr
 
       j = 0
       j = ihru

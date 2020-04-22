@@ -75,9 +75,9 @@
 
       use parm
 
-      real, parameter :: bk = .0006
+      real*8, parameter :: bk = .0006
       integer :: j, l
-      real :: rto, rmn1, roc
+      real*8 :: rto, rmn1, roc
 
       j = 0
       j = ihru

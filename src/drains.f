@@ -78,9 +78,9 @@
       use parm
 
       integer :: j1, j, m
-      real:: cone, depth, dg, ad, ap 
-      real:: hdrain, gee, e, gee1, gee2, gee3, pi	
-      real:: k2, k3, k4, k5, k6 
+      real*8 :: cone, depth, dg, ad, ap 
+      real*8 :: hdrain, gee, e, gee1, gee2, gee3, pi	
+      real*8 :: k2, k3, k4, k5, k6 
 
       !! initialize variables
    

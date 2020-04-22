@@ -71,7 +71,7 @@
       use parm
 
       integer :: j
-      real :: rchrgn1, revapn, gwseepn
+      real*8 :: rchrgn1, revapn, gwseepn
 
       j = 0
       j = ihru
@@ -107,16 +107,16 @@
       revapn = xx * revapday
       gwseepn = xx * gwseep
 
-      revapn = amax1(1.e-6,revapn)
-      gwseepn = amax1(1.e-6,gwseepn)
+      revapn = dmax1(1.e-6,revapn)
+      gwseepn = dmax1(1.e-6,gwseepn)
 
 !! subtract nitrate losses from the shallow aquifer
       shallst_n(j) = shallst_n(j) - no3gw(j) - revapn - gwseepn
-      shallst_n(j) = amax1 (0., shallst_n(j))
+      shallst_n(j) = dmax1 (0., shallst_n(j))
 
 !! compute nitrate losses in the groundwater
       shallst_n(j) = shallst_n(j) * gw_nloss(j)
-      shallst_n(j) = amax1(0., shallst_n(j))
+      shallst_n(j) = dmax1(0., shallst_n(j))
   
       return
       end

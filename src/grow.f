@@ -156,8 +156,8 @@
       use parm
 
       integer :: j
-      real :: delg, par, ruedecl, beadj, reg, f, ff, deltalai
-      real :: laimax, rto
+      real*8 :: delg, par, ruedecl, beadj, reg, f, ff, deltalai
+      real*8 :: laimax, rto
 
       j = 0
       j = ihru
@@ -329,14 +329,14 @@
             wshd_pstrs = wshd_pstrs + (1.-strsp(j)) * hru_dafr(j)
             wshd_astrs = wshd_astrs + (1.-strsa(j)) * hru_dafr(j)
           end if
-	  else                                                                             !! Modified by Cibin to include DLAI>1
+	  else                                                                      !! Modified by Cibin to include DLAI>1
 		if (dlai(idp) > 1.) then
 		 if (phuacc(j) > dlai(idp)) then
-            laiday(j) = olai(j) * (1. - (phuacc(j) - dlai(idp)) /             &        !! Modified by Cibin to include DLAI>1
-     &                               (1.2 - dlai(idp)))								   !! Modified by Cibin to include DLAI>1
+            laiday(j) = olai(j) * (1. - (phuacc(j) - dlai(idp)) /                 !! Modified by Cibin to include DLAI>1
+     &                               (1.2 - dlai(idp)))                           !! Modified by Cibin to include DLAI>1
 	     endif
 	    endif
-	    if (laiday(j) < 0.) laiday(j) = 0.											   !! Modified by Cibin to include DLAI>1
+	    if (laiday(j) < 0.) laiday(j) = 0.                                      !! Modified by Cibin to include DLAI>1
 	endif
 
       return

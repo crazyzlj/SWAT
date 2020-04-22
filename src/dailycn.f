@@ -58,7 +58,7 @@
 
       integer :: j   
 
-      real :: xx, r2
+      real*8 :: xx, r2
 
       j = 0
       j = ihru
@@ -77,11 +77,11 @@
         end if
       else                        
         !! alternative CN method (function of plant ET) 
-        r2 = amax1(3., sci(j))           
+        r2 = dmax1(3., sci(j))           
       end if
 
       if (sol_tmp(2,j) <= 0.) r2 = smx(j) * (1. - Exp(- cn_froz * r2))
-      r2 = amax1(3.,r2)
+      r2 = dmax1(3.,r2)
 
       cnday(j) = 25400. / (r2 + 254.)
       sol_cnsw(j) = sol_sw(j)

@@ -215,7 +215,7 @@
       use parm
 
       integer :: jrch, ii
-      real :: sedcon, bedvol, sedpest
+      real*8 :: sedcon, bedvol, sedpest
 
       jrch = 0
       jrch = inum1

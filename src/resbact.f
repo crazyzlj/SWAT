@@ -53,11 +53,9 @@
       use parm
       implicit none
 
-      real, external :: Theta
-
       integer :: jres
-      real :: totbactp, totbactlp, netwtr
-      real :: wtmp
+      real*8 :: totbactp, totbactlp, netwtr
+      real*8 :: wtmp
 
       jres = 0
       jres = inum1

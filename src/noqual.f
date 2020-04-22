@@ -87,10 +87,10 @@
       use parm
 
       integer :: jrch
-      real :: wtrin, chlin, algin, orgnin, ammoin, nitratin, nitritin
-      real :: orgpin, dispin, cbodin, disoxin
-      real :: algcon, orgncon, nh3con, no2con, no3con
-      real :: orgpcon, solpcon, cbodcon, o2con, wtrtot
+      real*8 :: wtrin, chlin, algin, orgnin, ammoin, nitratin, nitritin
+      real*8 :: orgpin, dispin, cbodin, disoxin
+      real*8 :: algcon, orgncon, nh3con, no2con, no3con
+      real*8 :: orgpcon, solpcon, cbodcon, o2con, wtrtot
 
       jrch = 0
       jrch = inum1

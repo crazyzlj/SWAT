@@ -111,10 +111,10 @@
       use parm
 
       integer :: jrch,nn,ii
-      real :: xkm, det, yy, c1, c2, c3, c4, wtrin, p, vol, c, rh
-      real :: topw,msk1,msk2,detmax,detmin,qinday,qoutday
-	real :: volrt, maxrt, adddep, addp, addarea
-	real :: rttlc1, rttlc2, rtevp1, rtevp2
+      real*8 :: xkm, det, yy, c1, c2, c3, c4, wtrin, p, vol, c, rh
+      real*8 :: topw,msk1,msk2,detmax,detmin,qinday,qoutday
+	real*8 :: volrt, maxrt, adddep, addp, addarea
+	real*8 :: rttlc1, rttlc2, rtevp1, rtevp2
 
       jrch = 0
       jrch = inum1

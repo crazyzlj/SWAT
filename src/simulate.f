@@ -87,7 +87,7 @@
 !!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
 
 !!    ~ ~ ~ SUBROUTINES/FUNCTIONS CALLED ~ ~ ~
-!!    Intrinsic: Mod, Real
+!!    Intrinsic: Mod, real*8
 !!    SWAT: sim_inityr, std3, xmon, sim_initday, clicon, command
 !!    SWAT: writed, writem, tillmix
 
@@ -96,7 +96,7 @@
       use parm
 
       integer :: idlst, j, iix, iiz, ic, mon, ii
-      real :: xx
+      real*8 :: xx
       integer :: eof
       
       eof = 0
@@ -162,8 +162,8 @@
        
         do i = id1, idlst                            !! begin daily loop
 
-          !screen print days of the year for subdaily runs (dt<60min)
-          if (ievent>0.and.idt<60) then
+          !screen print days of the year for subdaily runs 
+          if (ievent>0) then
             write(*,'(3x,I5,a6,i4)') iyr,'  day:', iida
           endif
          
@@ -279,12 +279,27 @@
             iida = i + 1
             call xmon
           endif
+          
+           IF(ievent>0)THEN
+              QHY(:,:,IHX(1))=0. 
+              II=IHX(1)
+              DO K=2,4
+                  IHX(K-1)=IHX(K)
+              END DO
+              IHX(4)=II
+          END IF
+         
 
         end do                                        !! end daily loop
 
         !! perform end-of-year processes
+        do isb = 1, msub
+          !! Srin co2 (EPA)
+          !! increment co2 concentrations 
+          co2(isb) = co2_x2 * curyr **2 + co2_x * curyr + co2(isb)
+        end do
+        
         do j = 1, nhru
-
           !! compute biological mixing at the end of every year
 
 !          if (biomix(j) > .001) call tillmix (j,biomix(j))
@@ -304,7 +319,7 @@
           !! year just simulated
           do ic = 1, mcr
             xx = 0.
-            xx = Real(curyr)
+            xx = dfloat(curyr)
             tnylda(j) = (tnylda(j) * xx + tnyld(j)) / (xx + 1.)
           end do
 

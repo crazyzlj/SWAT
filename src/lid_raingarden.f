@@ -111,8 +111,8 @@
      & lid_vorifice,lid_qbypass,lid_bypass,lid_pet,lid_cumqperc,
      & lid_vpet,lid_odepth,lid_vol,lid_oheight,lid_odia,lid_qorifice,
      & lid_dorifice,lid_ostr
- !     real :: lid_prec,lid_cumr,Cumulative amount of rainfall a LID receives in a time interval,lid_et,lid_etcoef,lid_barea,
-       real :: lid_prec,lid_cumr,lid_et,lid_etcoef,lid_barea,
+ !     real*8 :: lid_prec,lid_cumr,Cumulative amount of rainfall a LID receives in a time interval,lid_et,lid_etcoef,lid_barea,
+       real*8 :: lid_prec,lid_cumr,lid_et,lid_etcoef,lid_barea,
      & lid_sarea,plen,mann,mloss,coeff_C,pipe_slp,parea,rh,kf,
      & hdep_ratio,n_partial,mann_n,prad_ft,hdep_ft,cangle,carea_ft2,
      & wperi_ft,hyd_rad_ft,lid_hydeff
@@ -136,7 +136,7 @@
       lid_ostr = rg_oheight(sb,jj) * lid_barea
       lid_hydeff = rg_hydeff(sb,jj)
       
-      dt = real(idt) / 60.
+      dt = dfloat(idt) / 60.
       
 !!    Initialize parameters and coefficients for rain garden modeling
       lid_sw = lid_sw_last(j,2)
@@ -177,7 +177,7 @@
           lid_f1 = lid_cuminf_last(j,2) + lid_adj_ksat * dt
      &    + whd * cvwc * Log((tst + whd * cvwc) /
      &    (lid_cuminf_last(j,2) + whd * cvwc))
-          if (Abs(lid_f1 - tst) < 0.001) then
+          if (abs(lid_f1 - tst) < 0.001) then
             lid_f = lid_adj_ksat * (1 + (whd * cvwc)/lid_f1)
             lid_qinf = lid_f * dt
             if (lid_qinf > lid_str_depth) then
@@ -274,7 +274,7 @@
             lid_qorifice = lid_qorifice / 35.31 ! m3/s
           end if
         end if
-        lid_vorifice = lid_qorifice * real(idt) * 60 ! m3
+        lid_vorifice = lid_qorifice * dfloat(idt) * 60 ! m3
       else
         lid_vorifice = 0.
       end if
@@ -297,9 +297,9 @@
       
 !!    Amount of soil water evapotranspirated into the air (mm)
       call etpot
-      lid_et = lid_etcoef * pet_day / 1440. * real(idt)
+      lid_et = lid_etcoef * pet_day / 1440. * dfloat(idt)
       lid_vet = lid_et / 1000.0 * lid_sarea ! m3
-      lid_pet = pet_day / 1440. * real(idt)
+      lid_pet = pet_day / 1440. * dfloat(idt)
       lid_vpet = lid_pet / 1000.0 * lid_sarea ! m3
 
 !!    Update soil water content of the amended soil layer (mm)

@@ -1,4 +1,4 @@
-      real function expo (xx)
+      real function expo (xx) result(r_expo)
       
 !!    ~ ~ ~ PURPOSE ~ ~ ~
 !!    This function checks the argument against upper and lower 
@@ -21,15 +21,15 @@
  
 !!    ~ ~ ~ ~ ~ ~ END SPECIFICATIONS ~ ~ ~ ~ ~ ~
  
-      real :: xx, yy
+      real*8 :: xx, yy
 
       yy = xx
 
       if (yy < -20.) yy = -20.
       if (yy > 20.) yy = 20.
 
-      expo = 0.
-      expo = Exp(yy)       
+      r_expo = 0.
+      r_expo = Exp(yy)       
 
       return
       end

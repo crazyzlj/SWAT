@@ -29,20 +29,20 @@
 !!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
 
 !!    ~ ~ ~ SUBROUTINES/FUNCTIONS CALLED ~ ~ ~
-!!    Intrinsic: Abs
+!!    Intrinsic: abs
 
 !!    ~ ~ ~ ~ ~ ~ END SPECIFICATIONS ~ ~ ~ ~ ~ ~
 
-      real, parameter :: c1 = .19684, c2 = .115194 
-      real, parameter :: c3 = .00034, c4 = .019527
-      real, intent (in) :: xx
-      real :: x, erf, erfc
+      real*8, parameter :: c1 = .19684, c2 = .115194 
+      real*8, parameter :: c3 = .00034, c4 = .019527
+      real*8, intent (in) :: xx
+      real*8 :: x, erf, erfc
 
       x = 0.
       erf = 0.
       erfc = 0.
 
-      x = Abs(1.4142 * xx)
+      x = abs(1.4142 * xx)
       erf = 1. - (1. + c1 * x + c2 * x * x + c3 * x**3 + c4 * x**4) **  
      &                                                              (-4)
       if (xx < 0.) erf = -erf

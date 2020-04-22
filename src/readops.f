@@ -81,7 +81,7 @@
       character (len=80) :: titldum
 	integer :: eof
 	integer :: mon, day, mgt_op, mgt2i, mgt1i
-	real :: mgt3,mgt4,mgt5,mgt6,mgt7,mgt8,mgt9,mgt10,mgt11,mgt12,
+	real*8 :: mgt3,mgt4,mgt5,mgt6,mgt7,mgt8,mgt9,mgt10,mgt11,mgt12,
      & mgt13,mgt14,mgt15,mgt16,mgt17,mgt18,mgt19,mgt20,mgt21,mgt22,mgt23
       
 	

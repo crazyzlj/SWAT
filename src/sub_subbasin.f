@@ -132,7 +132,7 @@
 !!    ~ ~ ~ ~ ~ ~ END SPECIFICATIONS ~ ~ ~ ~ ~ ~
       use parm
       
-      real :: hvol(10)
+      real*8 :: hvol(10)
       integer :: sb
  
       sb = hru_sub(ihru)
@@ -146,11 +146,11 @@
         if(rainsub(ihru,ii)/idt > 0.017) then 
            !! effective pcp is > 0.017 mm/min (or 4/100 inches/hr)
            hrnopcp(sb,ii) = 0
-           !! the potential for initial abstraction from paved surface is less than the user input initial abstraction
+           !! the potential for initial dabstraction from paved surface is less than the user input initial dabstraction
            abstinit = max(0.,abstinit - rainsub(ihru,ii))
         else
            hrnopcp(sb,ii) = hrnopcp(sb,ii-1) + idt / 60.
-           !! the potential for initial abstraction from paved surface increases based on evaporation
+           !! the potential for initial dabstraction from paved surface increases based on evaporation
            abstinit = min(iabstr,abstinit + pet_day / nstep)
         end if
       end do

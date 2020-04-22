@@ -1,4 +1,4 @@
-      function atri(at1,at2,at3,at4i)
+      function atri(at1,at2,at3,at4i) result (r_atri)
       
 !!    ~ ~ ~ PURPOSE ~ ~ ~
 !!    this function generates a random number from a triangular distribution
@@ -39,10 +39,12 @@
 
 !!    ~ ~ ~ ~ ~ ~ END SPECIFICATIONS ~ ~ ~ ~ ~ ~
 
-      real, intent (in) :: at1, at2, at3
+      use parm
+
+      real*8, intent (in) :: at1, at2, at3
       integer, intent (in out) :: at4i
-      real :: u3, rn, y, b1, b2, x1, xx, yy, amn
-      real :: atri
+      real*8 :: u3, rn, y, b1, b2, x1, xx, yy, amn
+      real*8 :: r_atri
 
       u3 = 0.
       rn = 0.
@@ -68,7 +70,7 @@
         else
           yy = Sqrt(xx)
         end if
-        atri = yy + at1
+        r_atri = yy + at1
       else
         xx = b2 * b2 - 2.0 * b2 * (b1 - 0.5 * u3)
         if (xx <= 0.) then
@@ -76,14 +78,14 @@
         else
           yy = Sqrt(xx)
         end if
-        atri = at3 - yy
+        r_atri = at3 - yy
       end if
 
       amn = (at3 + at2 + at1) / 3.0
-      atri = atri * at2 / amn
+      r_atri = r_atri * at2 / amn
 
-      if (atri >= 1.0) atri = 0.99
-      if (atri <= 0.0) atri = 0.001
+      if (r_atri >= 1.0) r_atri = 0.99
+      if (r_atri <= 0.0) r_atri = 0.001
 
       return
       end

@@ -41,7 +41,7 @@
       use parm
 
       integer :: j
-      real :: cnv
+      real*8 :: cnv
 
       j = 0
       j = ihru

@@ -92,7 +92,7 @@
 
       use parm
       integer :: j, l
-      real :: rto, rmn1, roc, wetness, base vara,varb,varc,as_p_coeff
+      real*8 :: rto, rmn1, roc, wetness, base vara,varb,varc,as_p_coeff
 	real*8  solp(mlyr),actp(mlyr),stap(mlyr) !! locals for concentation based data
 
       j = 0

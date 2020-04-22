@@ -48,7 +48,7 @@
       use parm
 
       integer :: j, ly
-      real :: crklch = 0.5, xx
+      real*8 :: crklch = 0.5, xx
 
       j = 0
       j = ihru

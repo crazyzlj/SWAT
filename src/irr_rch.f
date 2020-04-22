@@ -105,7 +105,7 @@
 !!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
 
 !!    ~ ~ ~ SUBROUTINES/FUNCTIONS CALLED ~ ~ ~
-!!    Intrinsic: Abs, Min
+!!    Intrinsic: abs, Min
 !!    SWAT: irrigate
 
 !!    ~ ~ ~ ~ ~ ~ END SPECIFICATIONS ~ ~ ~ ~ ~ ~
@@ -113,7 +113,7 @@
       use parm
 
       integer :: jrch, k, flag, ii
-      real :: cnv, vmm, vminmm, vol, wtrin
+      real*8 :: cnv, vmm, vminmm, vol, wtrin
 
       jrch = 0
       jrch = inum1
@@ -156,7 +156,7 @@
               !! compute maximum amount of water allowed in HRU
               if (divmax(k) < 0.) then
                 !!divmax units are 10^4 m^3
-                vmm = Abs(divmax(k)) * 10000. / cnv
+                vmm = abs(divmax(k)) * 10000. / cnv
               else
                 !! divmax units are mm H2O
                 vmm = divmax(k)
@@ -185,11 +185,11 @@
                 vol = vmm * cnv
 
        !!         if (ipot(k) == k) then
-                if (pot_fr(k) > 1.e-6) then
-                  pot_vol(k) = pot_vol(k) + vol / (10. * potsa(k))
-                else
+                !if (pot_fr(k) > 1.e-6) then
+                !  pot_vol(k) = pot_vol(k) + vol / (10. * potsa(k))
+                !else
                   call irrigate(k,vmm)
-                end if
+                !end if
 
                 !! subtract irrigation from reach outflow
            !!     if (ipot(k) /= k) then
@@ -206,7 +206,7 @@
 !!                xx = vol     							                           !! BN: replaced "wtrin" with "vol"
                 vol = vol / irr_eff(k)   !! BN: inserted to account for irr. efficiency                                             
                 xx = (wtr_avail - flowmin(k) * 86400.) * flowfr(k)                 !! BN: inserted: xx = available/allowed amount in m3/s
-                xx = Min(xx, vol)                                                  !! BN: inserted abstracted water cannot be more than allowed/available amount
+                xx = Min(xx, vol)                                                  !! BN: inserted dabstracted water cannot be more than allowed/available amount
                 if (xx > rchstor(jrch)) then
                   xx = vol - rchstor(jrch)                                         !! BN: replaced "wtrin" with "vol"
                   rchstor(jrch) = 0.
@@ -216,7 +216,7 @@
                 end if
                 if (xx > 0.) then
                   rtwtr = rtwtr - xx
-                  rtwtr = amax1(0., rtwtr)
+                  rtwtr = dmax1(0., rtwtr)
                 end if
 
                 !! advance irrigation operation number
@@ -228,7 +228,7 @@
             
             if (imgt == 1) then
              write (143, 1000) subnum(k), hruno(k), iyr, i_mo, iida, 
-     *       hru_km(j), "         ",  " AUTOIRR", phubase(k), phuacc(k),
+     *       hru_km(k), "         ",  " AUTOIRR", phubase(k), phuacc(k),
      *      sol_sw(k), bio_ms(k), sol_rsd(1,k),sol_sumno3(k),
      *      sol_sumsolp(k), aird(k), irrsc(k), irrno(k)
 1000        format (a5,1x,a4,3i6,1x,e10.5,1x,2a15,7f10.2,10x,f10.2,70x,

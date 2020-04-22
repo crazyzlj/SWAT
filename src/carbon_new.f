@@ -27,35 +27,74 @@
       !! manc_hum = humified carbon manure
 
       use parm
+      
+      INTERFACE
+      
+	real*8 Function fwf(fc,wc,pwp)
+      real*8, intent (in) :: fc, wc, pwp
+      end function
+      
+      real*8 Function fof(void,por)
+        real*8, intent (in) :: void, por
+      end function
+
+      real*8 Function ftilf(tillage, wc, sat)
+        real*8, intent (in out) :: tillage
+        real*8, intent (in) :: wc, sat
+      End function
+
+      real*8 Function fcx(pclay)
+        real*8, intent (in) :: pclay
+      End function
+
+	real*8 Function fsol_cdec(pcarbon, cx, cfdec, tilf, csf, sol_cmass)
+        real*8, intent (in) :: pcarbon, cx, cfdec, tilf, csf, sol_cmass
+	End function
+
+      real*8 Function fCNnew(yy1,yy2,CNpool,yy5)
+        real*8, intent(in) :: yy1, yy2, CNpool
+        real*8, intent(in) :: yy5
+      End function
+
+	real*8 Function fhc(pclay, pcarbon, cx) 		
+        real*8, intent(in) :: pclay, pcarbon, cx
+	End function
+
+	real*8 Function fnetmin(poold, R1, R2, hc, dummy, poolm, xinorg, cc1)
+        real*8, intent(in) :: R1, R2, hc, poolm, xinorg, cc1
+        real*8, intent(in out) :: poold, dummy
+      End function      
+      
+      END INTERFACE
+    
     
     !! private variables
-      real :: cx, decf, rhc, mhc, sol_cdec, tilf
-      real :: resc_hum, manc_hum
-      real :: xx, xx1, xx2, xx3, xx4, csf
-      real :: rdc, mdc, wdn, cdg, sut
-      real :: CNsoil, CPsoil, NPsoil
-      real :: CNres, CPres, CNman, CPman, rCNnew, mCNnew
-      real :: sol_thick, sol_mass, sol_cmass, sol_nmass
-      real :: net_N, net_P, rnet_N, rnet_P, mnet_N, mnet_P
-      real :: wc, fc, wf, of, void
+      real*8 :: cx, decf, rhc, mhc, sol_cdec, tilf
+      real*8 :: resc_hum, manc_hum
+      real*8 :: xx, xx1, xx2, xx3, xx4, csf
+      real*8 :: rdc, mdc, wdn, cdg, sut
+      real*8 :: CNsoil, CPsoil, NPsoil
+      real*8 :: CNres, CPres, CNman, CPman, rCNnew, mCNnew
+      real*8 :: sol_thick, sol_mass, sol_cmass, sol_nmass
+      real*8 :: net_N, net_P, rnet_N, rnet_P, mnet_N, mnet_P
+      real*8 :: wc, fc, wf, of, void
+      real*8 :: sat, ffres1, ffres2, ffman1, ffman2
 
     !! mass balance variables
-      real :: sum_c_i, sum_n_i, sum_p_i
-      real :: sum_c_f, sum_n_f, sum_p_f
-      real :: bal_c, bal_n, bal_p
+      real*8 :: sum_c_i, sum_n_i, sum_p_i
+      real*8 :: sum_c_f, sum_n_f, sum_p_f
+      real*8 :: bal_c, bal_n, bal_p
 
     !! output variables for soil profile
-      real :: cmass_pro, nmass_pro, sol_orgp_pro
-      real :: sol_rsd_pro, sol_fon_pro, sol_fop_pro
-      real :: sol_mc_pro, sol_mn_pro, sol_mp_pro
-      real :: sol_no3_pro, sol_solp_pro, sol_nh3_pro
-      real :: sol_cdec_pro, wdn_pro, net_N_pro, solN_net_min
-      real :: solN_net_min_pro 
+      real*8 :: cmass_pro, nmass_pro, sol_orgp_pro
+      real*8 :: sol_rsd_pro, sol_fon_pro, sol_fop_pro
+      real*8 :: sol_mc_pro, sol_mn_pro, sol_mp_pro
+      real*8 :: sol_no3_pro, sol_solp_pro, sol_nh3_pro
+      real*8 :: sol_cdec_pro, wdn_pro, net_N_pro, solN_net_min
+      real*8 :: solN_net_min_pro 
 
       integer :: j, k, kk
 
-    !! functions
-      real ::fwf, fof, fcdg, ftilf,fcx, fCNnew, fhc, fnetmin
 
 
       j = 0; wdn = 0
@@ -79,6 +118,7 @@
       net_N_pro = 0.
       solN_net_min = 0.
       solN_net_min_pro=0.
+      
 !!    zero new carbon variables for output.hru
       cmup_kgh(j) = 0.
       cmtot_kgh(j) = 0.
@@ -198,7 +238,7 @@
         else
           NPsoil = (sol_mass * sol_n(k,j) / 100.)/ sol_orgp(k,j)
         end if
-        sol_orgp(k,j) = amin1(sol_orgp(k,j), 25.)
+        sol_orgp(k,j) = dmin1(sol_orgp(k,j), 25.)
         CPsoil = CNsoil * NPsoil
     
         if (sol_rsd(k,j) > 0.00001) then
@@ -221,26 +261,26 @@
             else
               CNres = 0.43 * sol_rsd(k,j) / sol_fon(k,j)
             end if
-            CNres = amax1(CNres, 15.)
+            CNres = dmax1(CNres, 15.)
             
             if (sol_fop(k,j) < .01) then
               CPres = 400.
             else
               CPres = 0.43 * sol_rsd(k,j) / sol_fop(k,j)
             end if
-            CPres = amax1(CPres, 400.)
+            CPres = dmax1(CPres, 400.)
             
             !! CN of new organic matter (humified residue)
-            rCNnew = fCNnew(sol_no3(k,j),sol_mass,CNres, 110.)
+            rCNnew = fCNnew(sol_no3(k,j),sol_mass,CNres, 1.1D+02)   ! 110.)
 
 			!! N mineralization / immobilization			
 			xx1 = sol_rsd(k,j)
 			xx2 = sol_no3(k,j) + sol_nh3(k,j)
-			rnet_N = fnetmin(rdc,CNres,rCNnew,rhc,ffres1,xx1,xx2,0.43)
+			rnet_N = fnetmin(rdc,CNres,rCNnew,rhc,ffres1,xx1,xx2, 4.3D-01)
 
             !! P mineralization / immobilization
             xx2 = sol_solp(k,j)
-            rnet_P = fnetmin(rdc,CPres,CPsoil,rhc,ffres2,xx1,xx2,0.43)
+            rnet_P = fnetmin(rdc,CPres,CPsoil,rhc,ffres2,xx1,xx2, 4.3D-01)
   
             !! check if P limits N mineralization and re-adjust
             if (ffres2 < ffres1) then
@@ -265,16 +305,16 @@
 			CPman = sol_mc(k,j) / sol_mp(k,j)
 			
 			!! CN of new organic matter (humified manure)
-			mCNnew = fCNnew(sol_no3(k,j),sol_mass,CNman, 55.)
+			mCNnew = fCNnew(sol_no3(k,j),sol_mass,CNman, 5.5D+01)
 
 			!! N mineralization / immobilization			
 			xx1 = sol_mc(k,j)
 			xx2 = sol_no3(k,j) + sol_nh3(k,j)
-			mnet_N = fnetmin(mdc,CNman,mCNnew,mhc,ffman1,xx1,xx2,1.0)
+			mnet_N = fnetmin(mdc,CNman,mCNnew,mhc,ffman1,xx1,xx2,1.0D+00)
 
             !! P mineralization / immobilization
             xx2 = sol_solp(k,j)
-            mnet_P = fnetmin(mdc,CPman,CPsoil,mhc,ffman2,xx1,xx2,1.0)
+            mnet_P = fnetmin(mdc,CPman,CPsoil,mhc,ffman2,xx1,xx2,1.0D+00)
   
             !! check if P or N limit mineralization and re-adjust
             if (ffman2 < ffman1) then
@@ -460,7 +500,8 @@
 
 	
 	!! LOCAL FUNCTIONS
-	Function fwf(fc,wc,pwp)
+	real*8 Function fwf(fc,wc,pwp)
+          real*8, intent (in) :: fc, wc, pwp
 		xx2 = 0.
 		if (wc <= pwp) then
 			xx2 = 0.4 * wc / pwp
@@ -474,7 +515,8 @@
         fwf = (1. + (1. - xx2) / 0.25) * (xx2) ** 4.
       End function
 
-      Function fof(void,por)
+      real*8 Function fof(void,por)
+        real*8, intent (in) :: void, por
         xx3 = 0.
         if (void >= 0.1) then
             xx3 = 0.2 + 0.8 * (void - 0.1) / (por - 0.1)
@@ -485,7 +527,8 @@
       End function
 
 	
-	Function fcgd(xx)
+	real*8 Function fcgd(xx)
+        real*8, intent (in) :: xx
 		tn = -5.
 	  top = 35.
 		tx = 50.
@@ -494,7 +537,9 @@
 		if (fcgd < 0.) fcgd = 0.
 	End function
 
-      Function ftilf(tillage, wc, sat)
+      real*8 Function ftilf(tillage, wc, sat)
+        real*8, intent (in out) :: tillage
+        real*8, intent (in) :: wc, sat
         !! tillage factor effect on decomposition
         !! tillage factor returns to baseline (=1) based on WC 
         tillage = tillage * (1. - 0.02 * wc/sat) 
@@ -503,13 +548,15 @@
       End function
     
 
-      Function fcx(pclay)
+      real*8 Function fcx(pclay)
+        real*8, intent (in) :: pclay
         !! saturated soil carbon concentration (%) from Hassink and Whitmore 1997
         fcx = 2.11 + 0.0375 * pclay
       End function
 
 
-	Function fsol_cdec(pcarbon, cx, cfdec, tilf, csf, sol_cmass)
+	real*8 Function fsol_cdec(pcarbon, cx, cfdec, tilf, csf, sol_cmass)
+        real*8, intent (in) :: pcarbon, cx, cfdec, tilf, csf, sol_cmass
 		!! decomposition adjustment by current SOC 
 		decf = (pcarbon / cx) ** 0.5	
 		! if (decf > 1.) decf = 1. 
@@ -518,7 +565,9 @@
 	End function
 
 
-      Function fCNnew(yy1,yy2,CNpool,yy5)
+      real*8 Function fCNnew(yy1,yy2,CNpool,yy5)
+        real*8, intent(in) :: yy1,yy2,CNpool
+        real*8, intent(in) :: yy5
       !! CN ratio of newly formed organic matter
       !! based on CN or decomposing residue and nitrate in soil
       !! the same approach used for crop residues and manure
@@ -535,7 +584,8 @@
       End function
 
 
-	Function fhc(pclay, pcarbon, cx) 		 
+	real*8 Function fhc(pclay, pcarbon, cx) 		
+        real*8, intent(in) :: pclay, pcarbon, cx
 	!! maximum and actual humification factor 
 	!! hx = maximum humification factor
 	!! hf = humification adjustment factor 
@@ -543,7 +593,7 @@
 	!! pcarbon = %carbon
 	!! cx = saturated soil carbon, %
 	
-	real :: hx, hf, pclay, pcarbon
+	real*8 :: hx, hf
 			 
 		hx = 0.09 + 0.09 * (1. - Exp(-5.5 * pclay / 100.))
 		!! humification adjustment by current SOC
@@ -555,7 +605,7 @@
 		fhc = hx * hf		  
 	End function
 
-	Function fnetmin(poold, R1, R2, hc, dummy, poolm, xinorg, cc1)
+	real*8 Function fnetmin(poold, R1, R2, hc, dummy, poolm, xinorg, cc1)
 	!! This function computes net mineralization
 	!! R1 = CN or CP ratio of decomposing pool
 	!! R2 = CN or CP ratio of receiving pool
@@ -566,6 +616,8 @@
 	!! xinorg = mass of NO3 or P in solution
 	!! xx = net mineralization of N or P
 	!! cc1 = pool's carbon fraction
+        real*8, intent(in) :: R1, R2, hc, poolm, xinorg, cc1
+        real*8, intent(in out) :: poold, dummy
 
 		xx = 0.
 		xx = poold * cc1 * (1. / R1 - hc / R2) 

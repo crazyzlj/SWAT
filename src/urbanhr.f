@@ -103,7 +103,7 @@
 
       use parm
 
-      real :: cod, sus_sol, tn, tp, urbk, dirto, qdt
+      real*8 :: cod, sus_sol, tn, tp, urbk, dirto, qdt
 	real*8 :: dirt
       integer :: j, k 
 
@@ -119,7 +119,7 @@
 
           !! rainy day: no build-up, street cleaning allowed
 		  
-		   qdt = ubnrunoff(k) * 60./ real(idt) !urban runoff in mm/hr
+		   qdt = ubnrunoff(k) * 60./ dfloat(idt) !urban runoff in mm/hr
 	      if (qdt > 0.025 .and. surfq(j) > 0.1) then   ! SWMM : 0.001 in/hr (=0.0254mm/hr)
        
           !! calculate amount of dirt on streets prior to wash-off
@@ -132,7 +132,7 @@
               urbk = 0.				! peakr -> hhqday for subdaily time steps 6/19/09 JJ
               urbk = urbcoef(urblu(j)) * qdt  
                                      
-              dirt = dirto * Exp (- urbk * real(idt) / 60.)
+              dirt = dirto * Exp (- urbk * dfloat(idt) / 60.)
               if (dirt < 1.e-6) dirt = 0.0
 
           !! set time to correspond to lower amount of dirt
@@ -176,7 +176,7 @@
         end select
 	  sus_sol=0
 	  
-	  ! Compute evaporation of water (initial abstraction) from impervious cover
+	  ! Compute evaporation of water (initial dabstraction) from impervious cover
 	  init_abstrc(j) = init_abstrc(j) - etday / nstep
 	  init_abstrc(j) = max(0.,init_abstrc(j))
 	end do

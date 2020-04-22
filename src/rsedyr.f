@@ -29,7 +29,7 @@
       integer :: j
 
       do j = 1, subtot
-          rchyro(58,j) = rchyro(58,j)/Real(idlast)
+          rchyro(58,j) = rchyro(58,j)/dfloat(idlast)
           write (84,5000) j, subgis(j), iyr, rch_dakm(j),               
      &       rchyro(3,j), rchyro(4,j),(rchyro(ii,j),ii=42,58)
       end do

@@ -71,11 +71,9 @@
       use parm
       implicit none
 
-      real, external :: Theta
-
       integer :: ii, jrch
-      real :: totbactp, totbactlp, netwtr, initlp, initp
-      real :: tday, wtmp
+      real*8 :: totbactp, totbactlp, netwtr, initlp, initp
+      real*8 :: tday, wtmp
 
       jrch = 0
       jrch = inum1

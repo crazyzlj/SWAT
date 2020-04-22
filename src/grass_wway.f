@@ -71,8 +71,8 @@
 
 !!    ~ ~ ~ ~ ~ ~ END SPECIFICATIONS ~ ~ ~ ~ ~ ~
       use parm
-      real :: chflow_m3, sf_area, surq_remove, sf_sed ,sed_remove,vc,
-     & chflow_day
+      real*8 :: chflow_m3, sf_area, surq_remove, sf_sed ,sed_remove,vc,
+     & chflow_day, rh
 !!	set variables
       j = ihru
 

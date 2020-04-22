@@ -39,7 +39,7 @@
 
       character (len=80) :: titldum
       integer :: eof, mon, j
-      real :: swupnd(12), swush(12), swudp(12)
+      real*8 :: swupnd(12), swush(12), swudp(12)
 
       eof = 0
       swupnd = 0.

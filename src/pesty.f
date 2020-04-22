@@ -54,7 +54,7 @@
 
       integer, intent (in) :: iwave
       integer :: j, k, kk
-      real :: xx, conc, er
+      real*8 :: xx, conc, er
 
       j = 0
       j = ihru

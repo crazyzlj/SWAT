@@ -160,18 +160,18 @@
 !!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
 
 !!    ~ ~ ~ SUBROUTINES/FUNCTIONS CALLED ~ ~ ~
-!!    Intrinsic: Abs, Min, Max
+!!    Intrinsic: abs, Min, Max
 
 !!    ~ ~ ~ ~ ~ ~ END SPECIFICATIONS ~ ~ ~ ~ ~ ~
 
 	  use parm
 
-      real, parameter :: pi = 3.1416
+      real*8, parameter :: pi = 3.1416
       integer :: j, ly,kk,ll,k
-      real :: potsep, sumo, potev, cnv, potpcp, spillo,no3in
-      real :: sedloss, no3loss, yy, dg, excess, stmax, sedsetl
-	  real :: sanloss, silloss, claloss, sagloss, lagloss, xx
-      real :: potmm,minpsloss,minpaloss, solploss, orgnloss, orgploss
+      real*8 :: potsep, sumo, potev, cnv, potpcp, spillo,no3in
+      real*8 :: sedloss, no3loss, yy, dg, excess, stmax, sedsetl
+	  real*8 :: sanloss, silloss, claloss, sagloss, lagloss, xx
+      real*8 :: potmm,minpsloss,minpaloss, solploss, orgnloss, orgploss, rto
       j = 0
       j = ihru
 
@@ -243,9 +243,9 @@
 
         !! update sediment in pothole  
           pot_sed(j) = pot_sed(j) + hhsedy(j,k) * 
-     &      Abs(pot_fr(j)) 
+     &      abs(pot_fr(j)) 
           potsedi(j) = potsedi(j) + hhsedy(j,k) *  ! incoming sediment cumulative for the day, tons
-     &      Abs(pot_fr(j))
+     &      abs(pot_fr(j))
 
         pot_san(j) = pot_san(j) + sanyld(j) / nstep * pot_fr(j) 
         potsani(j) = pot_san(j) 

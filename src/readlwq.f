@@ -84,8 +84,8 @@
 
       integer :: eof
       character (len=80) :: titldum
-      real :: orgpi, solpi, orgni, no3i, nh3i, no2i
-      real :: lkarea
+      real*8 :: orgpi, solpi, orgni, no3i, nh3i, no2i
+      real*8 :: lkarea
 
       eof = 0
       titldum = ""

@@ -133,9 +133,9 @@
       use parm
 
       integer :: j, sb, ii, iflag
-      real :: orgn_ppm, orgp_ppm, ano3_ppm, minp_ppm, chla_ppm
-      real :: orgn_ppw, orgp_ppw, ano3_ppw, solp_ppw, chla_ppw, cnv
-      real, dimension (40) :: pdvas
+      real*8 :: orgn_ppm, orgp_ppm, ano3_ppm, minp_ppm, chla_ppm
+      real*8 :: orgn_ppw, orgp_ppw, ano3_ppw, solp_ppw, chla_ppw, cnv 
+      real*8, dimension (40) :: pdvas
       character*4 cropname
 
       j = 0
@@ -234,7 +234,7 @@
 
         if (iwtr == 1) then
           write (29,1000) cropname, j, subnum(j), hruno(j), sb,         
-     &               nmgt(j), iida, hru_km(j), (pdvas(ii), ii = 1, 40)
+     &     nmgt(j), iida, hru_km(j), (pdvas(ii), ii = 1, 40)
         end if
       end if
 

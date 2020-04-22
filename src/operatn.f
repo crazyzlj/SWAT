@@ -57,7 +57,7 @@
       use parm
    
       integer :: j
-      real :: aphu, tillphu
+      real*8 :: aphu, tillphu
 
       j = 0
       j = ihru

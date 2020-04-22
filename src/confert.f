@@ -155,7 +155,7 @@
       use parm
 
       integer :: j, l, it
-      real :: gc, gc1, swf, frt_t, xx
+      real*8 :: gc, gc1, swf, frt_t, xx
 
       j = 0
       j = ihru

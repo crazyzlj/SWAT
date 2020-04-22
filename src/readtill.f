@@ -41,7 +41,7 @@
 
       integer :: it, eof, itnum, j
 !! drainmod tile equations  - addition random roughness 06/2006
-      real :: emix, dtil,   rrns
+      real*8 :: emix, dtil,   rrns
 !! drainmod tile equations  - addition random roughness 06/2006
       character (len=8) :: tlnm
 

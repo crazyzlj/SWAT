@@ -201,7 +201,7 @@
       use parm
 
       integer ::  j, k
-      real :: sum
+      real*8 :: sum
 
 !! if last day of month or last day in last year
  
@@ -225,8 +225,8 @@
 
         !! calculate average temperature for month in watershed
         if (idlast > 0.) then
-          wshdmono(8) = wshdmono(8) / Real(idlast)
-          wshdmono(9) = wshdmono(9) / Real(idlast)
+          wshdmono(8) = wshdmono(8) / dfloat(idlast)
+          wshdmono(9) = wshdmono(9) / dfloat(idlast)
         else
           wshdmono(8) = 0.
           wshdmono(9) = 0.
@@ -273,73 +273,73 @@
      &                  (mo_chk >= mores(j) .and. iyr == iyres(j))) then
                 if (iscen == 1 .and. isproj == 0) then
                 write (8,5800) j, mo_chk, res_vol(j),                   
-     &                      resoutm(1,j) / Real(idlast),                
-     &                      resoutm(2,j) / Real(idlast),                
+     &                      resoutm(1,j) / dfloat(idlast),                
+     &                      resoutm(2,j) / dfloat(idlast),                
      &                      resoutm(19,j), resoutm(17,j), resoutm(18,j),
      &                      resoutm(3,j), resoutm(4,j),                 
-     &                      resoutm(5,j) / Real(idlast),                
+     &                      resoutm(5,j) / dfloat(idlast),                
      &                      (resoutm(k,j), k = 22, 23),                 
-     &                      resoutm(38,j) / Real(idlast),               
+     &                      resoutm(38,j) / dfloat(idlast),               
      &                      (resoutm(k,j), k = 24, 25),                 
-     &                      resoutm(36,j) / Real(idlast),               
+     &                      resoutm(36,j) / dfloat(idlast),               
      &                      (resoutm(k,j), k = 26, 27),                 
-     &                      resoutm(39,j) / Real(idlast),               
+     &                      resoutm(39,j) / dfloat(idlast),               
      &                      (resoutm(k,j), k = 28, 29),                 
-     &                      resoutm(40,j) / Real(idlast),               
+     &                      resoutm(40,j) / dfloat(idlast),               
      &                      (resoutm(k,j), k = 30, 31),                 
-     &                      resoutm(41,j) / Real(idlast),               
+     &                      resoutm(41,j) / dfloat(idlast),               
      &                      (resoutm(k,j), k = 32, 33),                 
-     &                      resoutm(37,j) / Real(idlast),               
+     &                      resoutm(37,j) / dfloat(idlast),               
      &                      (resoutm(k,j), k = 34, 35), res_seci(j),    
      &                      (resoutm(k,j), k = 6, 14),                  
-     &                      resoutm(15,j) / Real(idlast),               
-     &                      resoutm(16,j) / Real(idlast)
+     &                      resoutm(15,j) / dfloat(idlast),               
+     &                      resoutm(16,j) / dfloat(idlast)
                 else if (isproj == 1) then
                 write (22,5800) j, mo_chk, res_vol(j),                  
-     &                      resoutm(1,j) / Real(idlast),                
-     &                      resoutm(2,j) / Real(idlast),                
+     &                      resoutm(1,j) / dfloat(idlast),                
+     &                      resoutm(2,j) / dfloat(idlast),                
      &                      resoutm(19,j), resoutm(17,j), resoutm(18,j),
      &                      resoutm(3,j), resoutm(4,j),                 
-     &                      resoutm(5,j) / Real(idlast),                
+     &                      resoutm(5,j) / dfloat(idlast),                
      &                      (resoutm(k,j), k = 22, 23),                 
-     &                      resoutm(38,j) / Real(idlast),               
+     &                      resoutm(38,j) / dfloat(idlast),               
      &                      (resoutm(k,j), k = 24, 25),                 
-     &                      resoutm(36,j) / Real(idlast),               
+     &                      resoutm(36,j) / dfloat(idlast),               
      &                      (resoutm(k,j), k = 26, 27),                 
-     &                      resoutm(39,j) / Real(idlast),               
+     &                      resoutm(39,j) / dfloat(idlast),               
      &                      (resoutm(k,j), k = 28, 29),                 
-     &                      resoutm(40,j) / Real(idlast),               
+     &                      resoutm(40,j) / dfloat(idlast),               
      &                      (resoutm(k,j), k = 30, 31),                 
-     &                      resoutm(41,j) / Real(idlast),               
+     &                      resoutm(41,j) / dfloat(idlast),               
      &                      (resoutm(k,j), k = 32, 33),                 
-     &                      resoutm(37,j) / Real(idlast),               
+     &                      resoutm(37,j) / dfloat(idlast),               
      &                      (resoutm(k,j), k = 34, 35), res_seci(j),    
      &                      (resoutm(k,j), k = 6, 14),                  
-     &                      resoutm(15,j) / Real(idlast),               
-     &                      resoutm(16,j) / Real(idlast)
+     &                      resoutm(15,j) / dfloat(idlast),               
+     &                      resoutm(16,j) / dfloat(idlast)
             else if (iscen == 1 .and. isproj == 2) then
                 write (8,6800) j, mo_chk, res_vol(j),                   
-     &                      resoutm(1,j) / Real(idlast),                
-     &                      resoutm(2,j) / Real(idlast),                
+     &                      resoutm(1,j) / dfloat(idlast),                
+     &                      resoutm(2,j) / dfloat(idlast),                
      &                      resoutm(19,j), resoutm(17,j), resoutm(18,j),
      &                      resoutm(3,j), resoutm(4,j),                 
-     &                      resoutm(5,j) / Real(idlast),                
+     &                      resoutm(5,j) / dfloat(idlast),                
      &                      (resoutm(k,j), k = 22, 23),                 
-     &                      resoutm(38,j) / Real(idlast),               
+     &                      resoutm(38,j) / dfloat(idlast),               
      &                      (resoutm(k,j), k = 24, 25),                 
-     &                      resoutm(36,j) / Real(idlast),               
+     &                      resoutm(36,j) / dfloat(idlast),               
      &                      (resoutm(k,j), k = 26, 27),                 
-     &                      resoutm(39,j) / Real(idlast),               
+     &                      resoutm(39,j) / dfloat(idlast),               
      &                      (resoutm(k,j), k = 28, 29),                 
-     &                      resoutm(40,j) / Real(idlast),               
+     &                      resoutm(40,j) / dfloat(idlast),               
      &                      (resoutm(k,j), k = 30, 31),                 
-     &                      resoutm(41,j) / Real(idlast),               
+     &                      resoutm(41,j) / dfloat(idlast),               
      &                      (resoutm(k,j), k = 32, 33),                 
-     &                      resoutm(37,j) / Real(idlast),               
+     &                      resoutm(37,j) / dfloat(idlast),               
      &                      (resoutm(k,j), k = 34, 35), res_seci(j),    
      &                      (resoutm(k,j), k = 6, 14),                  
-     &                      resoutm(15,j) / Real(idlast),               
-     &                      resoutm(16,j) / Real(idlast), iyr
+     &                      resoutm(15,j) / dfloat(idlast),               
+     &                      resoutm(16,j) / dfloat(idlast), iyr
                 endif
               end if
      

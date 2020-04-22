@@ -98,9 +98,9 @@
 
       use parm
 
-      real :: flohr, sedhr, orgnhr, orgphr, no3hr, minphr, solpsthr
-      real :: nh3hr, no2hr, cmtl1hr, cmtl2hr, cmtl3hr, srbpsthr
-      real :: bactphr, bactlphr, chlahr, disoxhr, cbodhr
+      real*8 :: flohr, sedhr, orgnhr, orgphr, no3hr, minphr, solpsthr
+      real*8 :: nh3hr, no2hr, cmtl1hr, cmtl2hr, cmtl3hr, srbpsthr
+      real*8 :: bactphr, bactlphr, chlahr, disoxhr, cbodhr
       integer :: idap, iyp, ii, j, ihr
 
 !! initialize variables

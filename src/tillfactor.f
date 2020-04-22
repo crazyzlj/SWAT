@@ -16,10 +16,10 @@
       use parm
 	
 	integer, intent (in) :: jj
-      real, intent (in) :: bmix
+      real*8, intent (in) :: bmix
       integer :: l, m1, m2
-      real :: emix, dtil
-	real :: sol_thick(sol_nly(jj))
+      real*8 :: emix, dtil
+	real*8 :: sol_thick(sol_nly(jj))
 	
 	emix = emix - bmix ! this is to avoid affecting tillage factor with biological mixing
 	

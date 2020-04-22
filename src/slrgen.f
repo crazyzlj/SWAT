@@ -35,7 +35,7 @@
 
       integer, intent (in) :: j
  
-      real :: rx, rav
+      real*8 :: rx, rav
 
 
       rav = 0.

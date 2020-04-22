@@ -97,7 +97,7 @@
       use parm
 
       integer :: nly, j
-      real :: xx, sumpor, dg, pormm
+      real*8 :: xx, sumpor, dg, pormm
 
       nly = 0
     

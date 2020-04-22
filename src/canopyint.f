@@ -50,7 +50,7 @@
       use parm
 
       integer :: j, ii
-      real :: xx, canmxl, canstori
+      real*8 :: xx, canmxl, canstori
 
       j = 0
       j = ihru

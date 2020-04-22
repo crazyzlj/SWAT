@@ -168,12 +168,12 @@
       character (len=80) :: titldum
       character (len=200) :: lus
       integer :: eof, j, sifld1, sifld2, sndt, spnd1, spnd2
-      real :: spndfr, spndpsa, spndpv, spndesa, spndev, spndv, spnds
-      real :: spndns, spndk, swetfr, swetnsa, swetnv, swetmsa, sp1
-      real :: swetmv, swetv, swets, swetns, swetk, sp2, sw1, sw2
-      real :: sn1, sn2, snw1, snw2, schla, schlaw, sseci, sseciw
-      real :: spno3, spsolp, sporgn, sporgp, swno3, swsolp, sworgn
-      real :: sworgp, sub_ha, velsetlpnd
+      real*8 :: spndfr, spndpsa, spndpv, spndesa, spndev, spndv, spnds
+      real*8 :: spndns, spndk, swetfr, swetnsa, swetnv, swetmsa, sp1
+      real*8 :: swetmv, swetv, swets, swetns, swetk, sp2, sw1, sw2
+      real*8 :: sn1, sn2, snw1, snw2, schla, schlaw, sseci, sseciw
+      real*8 :: spno3, spsolp, sporgn, sporgp, swno3, swsolp, sworgn
+      real*8 :: sworgp, sub_ha, velsetlpnd
 
       eof = 0
       spndfr = 0.

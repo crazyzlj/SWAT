@@ -1,4 +1,4 @@
-      subroutine det_pond
+      subroutine bmp_det_pond
       
 !!    ~ ~ ~ PURPOSE ~ ~ ~
 !!    the purpose of this program is to read in data from the detention pond
@@ -51,7 +51,7 @@
 
       character (len=80) :: titldum
       integer :: ii, k, sb
-      real :: qin,qout,qpnd,qpnd_last,sedin,sedout,sedpnd,spndconc,
+      real*8 :: qin,qout,qpnd,qpnd_last,sedin,sedout,sedpnd,spndconc,
      &        qdepth,sedpnd_last,
      &        watdepact,qstage,backup_length,seep_sa,evap_sa,pcp_vol,
      &        evap_vol,seep_vol,warea,pi,qovmax,qaddon,depaddon
@@ -224,4 +224,4 @@
       dtp_ivol(sb) = qpnd !m^3
       dtp_ised(sb) = sedpnd !tons
 
-      end subroutine 
+      end subroutine bmp_det_pond

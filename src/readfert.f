@@ -47,8 +47,8 @@
       use parm
    
       integer :: it, ifnum, eof
-      real :: ffminn, ffminp, fforgn, fforgp, ffnh3n, bctpdb, bctlpdb
-      real :: bctkddb
+      real*8 :: ffminn, ffminp, fforgn, fforgp, ffnh3n, bctpdb, bctlpdb
+      real*8 :: bctkddb
       character (len=8) :: fnm
 
       ifnum = 0

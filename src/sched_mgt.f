@@ -150,7 +150,7 @@
             idtill = mgt1iop(nop(j),j)
             cnop = mgt4op(nop(j),j)
             
-            call newtillmix(j,0.)
+            call newtillmix(j,0.0D+00)
             
             if (imgt ==1) then
               write (143, 1003) subnum(j), hruno(j),iyr, i_mo, iida, 

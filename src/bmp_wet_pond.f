@@ -1,4 +1,4 @@
-      subroutine wet_pond
+      subroutine bmp_wet_pond
       
 !!    ~ ~ ~ PURPOSE ~ ~ ~
 !!    run wet pond processes
@@ -42,10 +42,10 @@
 
       character (len=80) :: titldum
       integer :: ii, k, sb
-      real :: qin,qout,qpnd,sedin,sedout,sedpnd,spndconc
-      real :: rf,imc,pndwdth,seep,evap,rain,seepa,surfa
-      real :: a1,b1,qdepth,hdep_ext,usettle,tmpw,mu,qhyd,dp
-      real :: alpha,beta,vol,hp,tvol,ht,decayexp,qweir,sedweir,coeff_R
+      real*8 :: qin,qout,qpnd,sedin,sedout,sedpnd,spndconc
+      real*8 :: rf,imc,pndwdth,seep,evap,rain,seepa,surfa
+      real*8 :: a1,b1,qdepth,hdep_ext,usettle,tmpw,mu,qhyd,dp
+      real*8 :: alpha,beta,vol,hp,tvol,ht,decayexp,qweir,sedweir,coeff_R
       
       sb = inum1
       qout=0.; sedout=0.; qdepth=0.
@@ -230,22 +230,22 @@
       endif
 	   if (wtp_sedi(sb)<wtp_sede(sb))  wtp_sedi(sb) = wtp_sede(sb)
          
-      end subroutine 
+      end subroutine bmp_wet_pond 
 
    !-------------------------------------------------------------------
       subroutine ext_dpth(hmax)
       use parm
       implicit none
       
-      real,dimension(40) :: cumrain=(/0.,0.006,0.012,0.019,0.026,0.034,
+      real*8,dimension(40) :: cumrain=(/0.,0.006,0.012,0.019,0.026,0.034,
      & 0.043,0.053,0.064,0.077,0.092,0.11,0.134,0.166,0.212,0.287,0.384,
      & 0.542,0.802,1.262,1.462,1.587,1.688,1.746,1.784,1.811,1.832,
      & 1.849,1.863,1.875,1.885,1.894,1.902,1.91,1.917,1.924,1.93,1.93,
      & 1.93,1.93/)
-      real :: ia, ss, plen,inflow,outflow,pndvol,wdth,pndarea,vtmp,hdep
-      real :: aa,bb,pdia,hvol,alpha
-      real, dimension(40):: fa
-      real, intent(out) :: hmax
+      real*8 :: ia, ss, plen,inflow,outflow,pndvol,wdth,pndarea,vtmp,hdep
+      real*8 :: aa,bb,pdia,hvol,alpha
+      real*8, dimension(40):: fa
+      real*8, intent(out) :: hmax
       integer :: ii,sb
       
       sb = inum1
@@ -300,9 +300,9 @@
       subroutine wpnd_depth(hvol,width,slp,lenwdth,hdep)
       !calculate ponding depth using Newton's method
       implicit none
-      real, intent(in):: hvol,width,slp,lenwdth
-      real, intent(out):: hdep
-      real:: dfn,fn,alp,ll
+      real*8, intent(in):: hvol,width,slp,lenwdth
+      real*8, intent(out):: hdep
+      real*8 :: dfn,fn,alp,ll
      
       alp = lenwdth
       ll = width
@@ -321,9 +321,9 @@
       subroutine pipe_discharge(pdia,plen,hdep,mann,mloss,outflow)
       ! calculate discharge from extended detention through pvc pipe,m3/s      
       implicit none
-      real, intent(in):: pdia,plen,hdep,mann,mloss
-      real, intent(out):: outflow
-      real:: parea,kf,rh
+      real*8, intent(in):: pdia,plen,hdep,mann,mloss
+      real*8, intent(out):: outflow
+      real*8 :: parea,kf,rh
       
       parea = 3.14159 * (3.2808 * pdia) ** 2 / 4. !ft^2
       rh = 3.2808 * pdia / 4. !ft
