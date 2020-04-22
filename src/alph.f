@@ -12,10 +12,11 @@
 !!                             |used for a given process
 !!    idt         |minutes     |length of time step used to report
 !!                             |precipitation data for sub-daily modeling
-!!    ievent      |none        |rainfall/runoff code
-!!                             |0 daily rainfall/curve number technique
-!!                             |1 sub-daily rainfall/Green&Ampt/hourly
-!!                             |  routing
+!!    ievent      |none          |rainfall/runoff code
+!!                               |0 daily rainfall/curve number technique
+!!                               |1 sub-daily rainfall/Green&Ampt/hourly
+!!                               |  routing
+!!                               |3 sub-daily rainfall/Green&Ampt/hourly routing
 !!    ihru        |none        |HRU number
 !!    iwave       |none        |flag to differentiate calculation of HRU and
 !!                             |subbasin sediment calculation

@@ -28,35 +28,29 @@
 !!    zone        |NA            |time difference with respect to Coordinated
 !!                               |Universal Time (ie Greenwich Mean Time)
 !!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ 
-
 !!    ~ ~ ~ OUTGOING VARIABLES ~ ~ ~
 !!    name        |units         |definition
 !!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ 
 !!    prog        |NA            |program name and version
 !!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ 
-
 !!    ~ ~ ~ LOCAL DEFINITIONS ~ ~ ~
 !!    name        |units         |definition
 !!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ 
 !!    i           |none          |counter
 !!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ 
-
-
 !!    ~ ~ ~ SUBROUTINES/FUNCTIONS CALLED ~ ~ ~
 !!    Intrinsic: date_and_time
 !!    SWAT: getallo, allocate_parms, readfile, readfig
 !!    SWAT: readbsn, std1, readwwq, readinpt, std2, storeinitial
 !!    SWAT: openwth, headout, simulate, finalbal, writeaa, pestw 
-
-
 !!    ~ ~ ~ ~ ~ ~ END SPECIFICATIONS ~ ~ ~ ~ ~ ~
 
       use parm
       implicit none
-      prog = "SWAT May 6 2015    VER 2015/Rev 637"
+      prog = "SWAT Dec 23 2016    VER 2016/Rev 664"
       write (*,1000)
- 1000 format(1x,"               SWAT2012               ",/,             
-     &          "               Rev. 637              ",/,             
+ 1000 format(1x,"               SWAT2016               ",/,             
+     &          "               Rev. 664               ",/,             
      &          "      Soil & Water Assessment Tool    ",/,             
      &          "               PC Version             ",/,             
      &          " Program reading from file.cio . . . executing",/)
@@ -74,7 +68,7 @@
       call readpest              !! read in the pesticide database
       call readfert              !! read in the fertilizer/nutrient database
       call readurban             !! read in the urban land types database
-      call readseptwq            !! read in the septic types database     
+      call readseptwq            !! read in the septic types database
       call readlup
       call readfig
       call readatmodep

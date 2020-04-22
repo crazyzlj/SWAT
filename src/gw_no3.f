@@ -101,6 +101,8 @@
       end if
       if (xx < 1.e-6) xx = 0.0
       no3gw(j) = xx * gw_q(j)
+      !! bmp adjustment
+      no3gw(j) = no3gw(j) * bmp_sns(j)
 
       revapn = xx * revapday
       gwseepn = xx * gwseep

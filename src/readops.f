@@ -81,7 +81,8 @@
       character (len=80) :: titldum
 	integer :: eof
 	integer :: mon, day, mgt_op, mgt2i, mgt1i
-	real :: mgt3,mgt4,mgt5,mgt6,mgt7,mgt8,mgt9
+	real :: mgt3,mgt4,mgt5,mgt6,mgt7,mgt8,mgt9,mgt10,mgt11,mgt12,
+     & mgt13,mgt14,mgt15,mgt16,mgt17,mgt18,mgt19,mgt20,mgt21,mgt22,mgt23
       
 	
 	
@@ -108,7 +109,9 @@
 		
 
           read (111,5200,iostat=eof) mon, day, iyear, mgt_op, mgt1i,    
-     & mgt2i, mgt3, mgt4, mgt5, mgt6, mgt7, mgt8, mgt9
+     & mgt2i, mgt3, mgt4, mgt5, mgt6, mgt7, mgt8, mgt9, mgt10, mgt11,
+     & mgt12, mgt13, mgt14, mgt15, mgt16, mgt17, mgt18, mgt19, mgt20,
+     & mgt21, mgt22, mgt23 
 	    if (eof < 0) exit
           iops = iops + 1
           iopday(iops,ihru) = Jdt (ndays,day,mon)
@@ -186,21 +189,40 @@
 
 		case (10) !! Generic Conservation Practice  mjw
 	!! Get user defined removal eff and use these		mjw
-		ro_bmp_flag(iops,ihru) = mgt1i !! Flag to turn on or off user BMP
-		ro_bmp_sed(iops,ihru) = mgt3 !! Sediment
-		ro_bmp_pp(iops,ihru) = mgt4 !! Particulate P
-		ro_bmp_sp(iops,ihru) = mgt5 !! Soluble P
-		ro_bmp_pn(iops,ihru) = mgt7 !! Particulate N1123
-		ro_bmp_sn(iops,ihru) = mgt8 !! Soluble N
-		ro_bmp_bac(iops,ihru) = mgt9 !! Bacteria
+		ro_bmp_flag(iops,ihru) = mgt1i  !! Flag to turn on or off user BMP
+ 
+      !! surface runoff removal efficiency
+          ro_bmp_flo(iops,ihru) = mgt3    !! Flow
+		ro_bmp_sed(iops,ihru) = mgt4    !! Sediment
+		ro_bmp_pp(iops,ihru) = mgt5     !! Particulate P
+		ro_bmp_sp(iops,ihru) = mgt6     !! Soluble P
+		ro_bmp_pn(iops,ihru) = mgt7     !! Particulate N
+		ro_bmp_sn(iops,ihru) = mgt8     !! Soluble N
+		ro_bmp_bac(iops,ihru) = mgt9    !! Bacteria
+      !! subsurface - lateral soil and groundwater         
+          ro_bmp_flos(iops,ihru) = mgt10  !! Flow
+		ro_bmp_seds(iops,ihru) = mgt11  !! Sediment
+		ro_bmp_pps(iops,ihru) = mgt12   !! Particulate P
+		ro_bmp_sps(iops,ihru) = mg13    !! Soluble P
+		ro_bmp_pns(iops,ihru) = mgt14   !! Particulate N
+		ro_bmp_sns(iops,ihru) = mgt15   !! Soluble N
+		ro_bmp_bacs(iops,ihru) = mgt16  !! Bacteria
+      !! tile flow removal efficiency   
+          ro_bmp_flot(iops,ihru) = mgt17  !! Flow
+		ro_bmp_sedt(iops,ihru) = mgt18  !! Sediment
+		ro_bmp_ppt(iops,ihru) = mgt19   !! Particulate P
+		ro_bmp_spt(iops,ihru) = mgt20   !! Soluble P
+		ro_bmp_pnt(iops,ihru) = mgt21   !! Particulate N
+		ro_bmp_snt(iops,ihru) = mgt22   !! Soluble N
+		ro_bmp_bact(iops,ihru) = mgt23  !! Bacteria
+          
           end select
           end do
-
 
       close (111)
      
   999 return
  5000 format (a)
  5200 format (1x,i2,1x,i2,5x,i4,1x,i2,1x,i4,1x,i3,1x,f6.2,1x,f12.5,1x,
-     &        f6.2,1x,f11.5,1x,f8.2,1x,f6.2,1x,2f5.2)
+     &        f6.2,1x,f11.5,1x,f8.2,1x,f6.2,1x,16f5.2)
       end

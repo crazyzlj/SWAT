@@ -252,7 +252,7 @@
         end if
 
         ! manure decomposition and N and P mineralization
-        if (sol_mc(k,j) > 0.00001) then
+        if (sol_mc(k,j) > 0.00001 .and. sol_mp(k,j) > 0.00001) then     
 
             !! residue decomposition
             !! decomposition rate about 1/2 of residue

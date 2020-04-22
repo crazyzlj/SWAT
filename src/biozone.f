@@ -132,9 +132,9 @@
 	real*8 rnit, rdenit, rbio, rmort, rrsp, rslg, rbod, rfcoli
 	real*8 nh3_begin, nh3_end, nh3_inflw_ste, no3_begin, no3_end 
 	real*8 no3_inflow_ste, bio_steintobz,bio_outbz,bza,qi,nperc
-	real*8 nh3_init, no3_init, hvol, solpconc, solpsorb, qlyr,qsrf
-	real*8 n1,n2,n3,n4,n5,n6,n7,n8,p1,p2,p3,p4
-	real*8 solp_init,solp_begin,solp_end,svolp,totalp,ctmp,plch
+	real*8 hvol, solpconc, solpsorb, qlyr,qsrf
+	real*8 n2,n3,n5,n6,n7,n8,p2,p3,p4
+	real*8 solp_begin,solp_end,svolp,totalp,ctmp,plch
 
 	j = ihru
 	nly = sol_nly(j)
@@ -159,10 +159,6 @@
 	rtof = 0.5
       
 	xx = qin / hru_ha(j) / 1000.
-
-	nh3_init = sol_nh3(bz_lyr,j)
-	no3_init = sol_no3(bz_lyr,j)
-	solp_init = sol_solp(bz_lyr,j)
 
 	!! Failing system: STE saturates upper soil layers
 	if (isep_opt(j)==2) then
@@ -323,22 +319,19 @@
 	       
 	!! print out time seriese results. header is in "readfile.f"
       if(curyr>nyskip) then
-         n1=nh3_init 
          n2=nh3_begin
          n3=nh3_end
-         n4=no3_init
          n5=no3_begin
          n6=no3_end !*bza/hvol*1000
          n7=rnit
          n8=rdenit
-         p1=solp_init
          p2=solp_begin
          p3=solp_end
          p4 = solpconc
 
-	write(173,1000) ihru,iyr,iida,precipday,qout,sol_ul(bz_lyr,j),
-     &  sol_st(bz_lyr,j),sol_fc(bz_lyr,j),n1,n2,n3,n4,n5,n6,   
-     &  n7,n8,p1,p2,p3,p4
+	write(173,1000) ihru,iyr,iida,precipday,bz_perc(j),sol_ul(bz_lyr,j),
+     &  sol_st(bz_lyr,j),sol_fc(bz_lyr,j),n2,n3,n5,n6,   
+     &  n7,n8,p2,p3,p4
 	endif 	
 
 !! output.std variables added 03/01/2011 jga

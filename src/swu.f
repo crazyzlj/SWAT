@@ -191,7 +191,6 @@
           else
             reduc = 1.
           endif
-          reduc = 1.
           wuse(k) = wuse(k) * reduc
 
           if (sol_st(k,j) < wuse(k)) then

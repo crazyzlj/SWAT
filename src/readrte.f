@@ -41,7 +41,7 @@
 !!                               |1 no vegetative cover on channel
 !!    ch_d(:)       |m           |average depth of main channel
 !!    ch_di(:)      |m           |initial depth of main channel
-!!    ch_eqn        |            |sediment routine methods: 
+!!    ch_eqn        |            |sediment routine methods (DAILY): 
 !!                               | 0 = original SWAT method
 !!                               | 1 = Bagnold's
 !!                               | 2 = Kodatie
@@ -110,11 +110,11 @@
       if (eof < 0) exit
       read (103,*,iostat=eof) ch_opco(irch)
       if (eof < 0) exit
-	  read (103,*,iostat=eof) chside(irch)
+      read (103,*,iostat=eof) chside(irch)
 	  if (eof < 0) exit
       read (103,*,iostat=eof) ch_bnk_bd(irch)
-	  if (eof < 0) exit
-	  read (103,*,iostat=eof) ch_bed_bd(irch)
+        if (eof < 0) exit
+      read (103,*,iostat=eof) ch_bed_bd(irch)
 	  if (eof < 0) exit
       read (103,*,iostat=eof) ch_bnk_kd(irch)
 	  if (eof < 0) exit

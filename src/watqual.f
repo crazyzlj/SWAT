@@ -492,7 +492,7 @@
          
          if (rch_dox(jrch) < 1.e-6) rch_dox(jrch) = 0.
          if (rch_dox(jrch) > soxy) rch_dox(jrch) = soxy
-         if (rch_dox(jrch) > dcoef * o2con) rch_dox(jrch)= dcoef * o2con
+         !if (rch_dox(jrch) > dcoef * o2con) rch_dox(jrch)= dcoef * o2con
 !! end oxygen calculations
 
 !! nitrogen calculations

@@ -59,7 +59,7 @@
       use parm
 
       integer :: j
-      real :: xx, vap, vap_tile
+      real :: xx, vap
 
       j = 0
       j = ihru
@@ -79,6 +79,8 @@
       surqsolp(j) = Max(surqsolp(j), 0.)
       sol_solp(1,j) = sol_solp(1,j) - surqsolp(j)
 
+      !! bmp adjustment
+      surqsolp(j) = surqsolp(j) * bmp_sp(j)
 
 !! compute soluble P leaching
       vap = 0.
@@ -91,6 +93,8 @@
       if (ldrain(j) > 0) then
         xx = Min(1., sol_crk(j) / 3.0)
         vap_tile = xx * vap
+        !! bmp adjustment
+        vap_tile = vap_tile * bmp_spt(j)
         vap = vap - vap_tile
       end if
 

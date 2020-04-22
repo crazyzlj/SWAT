@@ -23,6 +23,7 @@
 !!                               |0 daily rainfall/curve number technique
 !!                               |1 sub-daily rainfall/Green&Ampt/hourly
 !!                               |  routing
+!!                               |3 sub-daily rainfall/Green&Ampt/hourly routing
 !!    ihout       |none          |hydrograph storage location number
 !!    inum1       |none          |file number
 !!    mvaro       |none          |max number of variables routed through the

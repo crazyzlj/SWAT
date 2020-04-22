@@ -40,7 +40,7 @@
       real :: qin,qout,qpnd,sweir,hpnd,qet
       real :: qweir, qseep,qpipe,qpndi,decayexp,splw,qpump
       real :: sedconc,sedpndi, sedpnde,ksed,td,sedpump
-      real, dimension(3,0:nstep), intent(in out) :: riflw,rised
+      real, dimension(4,0:nstep), intent(in out) :: riflw,rised
       real, dimension(0:nstep) :: inflw,insed,outflw,outsed
       
       sb = inum1
@@ -122,6 +122,7 @@
          riflw(1,ii) = qin / (sub_ha *10000. - tsa) * 1000.  !mm
          riflw(2,ii) = outflw(ii) / (sub_ha *10000. - tsa) * 1000. 
          riflw(3,ii) = qpump / (sub_ha *10000. - tsa) * 1000. 
+         riflw(4,ii) = qseep / (sub_ha *10000. - tsa) * 1000. 
          rised(3,:) = sedpump 
          rised(2,:) = outsed(:)
       End do

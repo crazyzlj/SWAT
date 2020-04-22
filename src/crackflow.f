@@ -11,6 +11,7 @@
 !!                               |0 daily rainfall/curve number technique
 !!                               |1 sub-daily rainfall/Green&Ampt/hourly
 !!                               |  routing
+!!                               |3 sub-daily rainfall/Green&Ampt/hourly routing
 !!    ihru        |none          |HRU number
 !!    surfq(:)    |mm H2O        |surface runoff in the HRU for the day
 !!    voltot      |mm            |total volume of cracks expressed as depth

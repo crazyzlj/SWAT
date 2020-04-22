@@ -26,6 +26,7 @@
 !!                               |1 sub-daily rainfall/Green&Ampt/hourly
 !!                               |  routing
 !!                               |3 sub-daily rainfall/Green&Ampt/hourly routing
+!!                               |3 sub-daily rainfall/Green&Ampt/hourly routing
 !!    igropt      |none          |Qual2E option for calculating the local
 !!                               |specific growth rate of algae
 !!                               |1: multiplicative: 

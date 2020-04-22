@@ -84,30 +84,30 @@
 
 !! Subtract reductions from sediment, nutrients, bacteria, NOT SURFACE RUNOFF to protect water balance
 !! Sediment
-	sedyld(j) = sedyld(j) * (1 - bmp_sed(j)/100)
+	sedyld(j) = sedyld(j) * (1. - bmp_sed(j)/100)
 
 !! Phosphorus
       !! Particulate
-	sedminpa(j) = sedminpa(j) * (1 - bmp_pp(j)/100)
-	sedminps(j) = sedminps(j) * (1 - bmp_pp(j)/100)
-	sedorgp(j) = sedorgp(j) * (1 - bmp_pp(j)/100)
+	sedminpa(j) = sedminpa(j) * (1. - bmp_pp(j)/100.)
+	sedminps(j) = sedminps(j) * (1. - bmp_pp(j)/100.)
+	sedorgp(j) = sedorgp(j) * (1. - bmp_pp(j)/100.)
       !! Soluble
-	surqsolp(j) = surqsolp(j) * (1 - bmp_sp(j)/100)
-	minpgw(j)= minpgw(j) * (1 - bmp_sp(j)/100)
+	surqsolp(j) = surqsolp(j) * (1. - bmp_sp(j)/100.)
+	minpgw(j)= minpgw(j) * (1. - bmp_sp(j)/100.)
 
 !! Nitrogen
 	!! Particulate
-	sedorgn(j) = sedorgn(j) * (1 - bmp_pn(j)/100)
+	sedorgn(j) = sedorgn(j) * (1. - bmp_pn(j)/100.)
       !! Soluble
-      surqno3(j) = surqno3(j) * (1 - bmp_sn(j)/100)
-	latno3(j) = latno3(j) * (1 - bmp_sn(j)/100)
-	no3gw(j) = no3gw(j) * (1 - bmp_sn(j)/100)
+      surqno3(j) = surqno3(j) * (1. - bmp_sn(j)/100.)
+	latno3(j) = latno3(j) * (1. - bmp_sn(j)/100.)
+	no3gw(j) = no3gw(j) * (1. - bmp_sn(j)/100.)
 
 !! Bacteria 
-      bactrop = bactrop * (1 - bmp_bac(j)/100)
-      bactrolp = bactrolp * (1 - bmp_bac(j)/100)
-      bactsedp = bactsedp * (1 - bmp_bac(j)/100)
-      bactsedlp = bactsedlp * (1 - bmp_bac(j)/100)
+      bactrop = bactrop * (1. - bmp_bac(j)/100.)
+      bactrolp = bactrolp * (1. - bmp_bac(j)/100.)
+      bactsedp = bactsedp * (1. - bmp_bac(j)/100.)
+      bactsedlp = bactsedlp * (1. - bmp_bac(j)/100.)
 
       return
       end

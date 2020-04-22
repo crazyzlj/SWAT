@@ -97,7 +97,9 @@
 
       integer :: idlst, j, iix, iiz, ic, mon, ii
       real :: xx
-
+      integer :: eof
+      
+      eof = 0
 
       do curyr = 1, nbyr
         write (*,1234) curyr
@@ -228,8 +230,9 @@
 
           if (pcpsim < 3) call clicon      !! read in/generate weather
           if (iatmodep == 2) then
-            read (127,*) iyp, idap, (rammo_d(l), rcn_d(l),
+            read (127,*,iostat=eof) iyp, idap, (rammo_d(l), rcn_d(l),
      &       drydep_nh4_d(l), drydep_no3_d(l),l=1, matmo)
+             if (eof < 0) exit
           end if
 
            !! call resetlu

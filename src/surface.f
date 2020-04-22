@@ -58,11 +58,16 @@
       call snom
 
       !! output by elevation band to output.snw
-      if (isnow == 1) then 	 
-         write(115,1010) i, iyr, subnum(j), hruno(j),                   
+      if (isnow == 1) then    
+        write(115,1010) i, iyr, subnum(j), hruno(j),                   
      &                (snoeb(ib,j), ib = 1,10)
       end if
-
+      
+      if (isnow ==1) then
+        write (116,1010) i, iyr, subnum(j), hruno(j),
+     &    (tavband(ib,j), ib = 1, 10)
+      end if
+      
       !! compute crack volume
       if (icrk == 1) call crackvol
 
@@ -102,10 +107,11 @@
 
         !! compute runoff - surfq in mm H2O
       if (precipday > 0.1) then
-         call volq 
-
+        call volq 
+        !! bmp adjustment
+        surfq(j) = surfq(j) * bmp_flo(j)
         !! adjust runoff for loss into crack volume
-         if (surfq(j) > 0. .and. icrk == 1) call crackflow
+        if (surfq(j) > 0. .and. icrk == 1) call crackflow
       end if
 
       surfq(j) = surfq(j) + qird(j)
@@ -137,6 +143,6 @@
 
       if (qday < 0.) qday = 0.
 
-1010  format (2(i4,1x),a5,a4,1x,10f8.3)
+1010  format (2(i4,1x),a5,a4,1x,10f8.1)
       return
       end

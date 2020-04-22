@@ -98,6 +98,9 @@
         sedorgn(j) = .001 * conc * sedyld(j) / (da_ha * sub_fr(iwave))
       end if
 
+      !! bmp adjustment
+      sedorgn(j) = sedorgn(j) * bmp_pn(j)
+      
 	!! update soil nitrogen pools only for HRU calculations
       if (iwave <= 0 .and. xx > 1.e-6) then
        sol_aorgn(1,j) = sol_aorgn(1,j) - sedorgn(j) *                   

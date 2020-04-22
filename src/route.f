@@ -25,6 +25,7 @@
 !!                               |0 daily rainfall/curve number technique
 !!                               |1 sub-daily rainfall/Green&Ampt/hourly
 !!                               |  routing
+!!                               |3 sub-daily rainfall/Green&Ampt/hourly routing
 !!    inum1       |none          |reach number
 !!    inum2       |none          |inflow hydrograph storage location number
 !!    irte        |none          |water routing method:
@@ -196,6 +197,13 @@
             if (ch_eqn(jrch) == 4) call rtsed_yangsand
           else
             call rthsed
+            do ii = 1, nstep
+               if (hrtwtr(ii) > 0. .and. hdepth(ii) > 0.) then
+                 sedrch = sedrch + hsedyld(ii)
+                 rch_sil = rch_sil + hsedyld(ii)  !!All are assumed to be silt type particles
+               end if
+             end do
+
             end if      
         end if
 

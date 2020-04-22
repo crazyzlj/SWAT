@@ -197,6 +197,10 @@
       !!              stop
                   end if
                   do l = kk1, kk2
+                    if (rainsb(l,ii)<-97) then
+                        call pgen(k)
+                        rainsb(l,ii) = subp(k) / nstep
+                    endif
                     rmeas(l) = rmeas(l) + rainsb(l,ii)
                   end do
                 end do

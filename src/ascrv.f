@@ -57,6 +57,5 @@
       x6 = (xx - Log(x4/x2 - x4)) / (x4 - x3)
       x5 = xx + (x3 * x6)
 
-
       return
       end

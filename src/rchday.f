@@ -197,14 +197,14 @@
            end do
            if (iscen == 1 .and. isproj == 0) then
              write (7,5001) j, subgis(j), iida, kk, rch_dakm(j),        
-     &                                    (pdvr(ii), ii = 1, itotr),j
+     &                                    (pdvr(ii), ii = 1, itotr)
            end if
           end do
 	  else
 	    if (iscen == 1 .and. isproj == 0) then
            do kk=1,nstep
              write (7,5001) j, subgis(j), iida, kk, rch_dakm(j),        
-     &                                    (rchhr(ii,j,kk), ii = 1, 7), j
+     &                                    (rchhr(ii,j,kk), ii = 1, 7)
 	     end do
 	     endif
 	  endif
@@ -262,7 +262,7 @@
       return
 
  5000 format ('REACH ',i4,1x,i8,1x,i5,47e12.4)
- 5001 format ('REACH ',i4,1x,i8,1x,i5,1x,i5,47e12.4,i6)
+ 5001 format ('REACH ',i4,1x,i8,1x,i5,1x,i5,47e12.4)
  5002 format ('REACH ',i4,1x,i8,2x,i2,1x,i2,1x,i4,1x,47e12.4)
  6000 format ('REACH ',i4,1x,i8,1x,i5,47e12.4,1x,i4)
  6002 format ('REACH ',i4,1x,i8,1x,i2,1x,i2,1x,i4,1x,47e12.4,1x,i4)

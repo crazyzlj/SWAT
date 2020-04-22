@@ -82,7 +82,9 @@
         pdvab(19) = 0.0
         pdvab(20) = 0.0
         pdvab(21) = 0.0
-        pdvab(22) = submono(18,sb)  !! tile_no3
+        pdvab(23) = submono(18,sb)  !! qtile   jane f.
+        pdvab(22) = submono(19,sb)  !! tile_no3
+        pdvab(24) = submono(20,sb)  !! phos due to crack flow)
 
         if (ipdvab(1) > 0) then
           do ii = 1, itotb
@@ -92,11 +94,11 @@
      &                                    (pdvb(ii), ii = 1, itotb)
         else
           write (31,1000) sb, subgis(sb), mo_chk, sub_km(sb),           
-     &                                    (pdvab(ii), ii = 1, msubo), sb
+     &                                    (pdvab(ii), ii = 1, msubo)
         end if
       end do
 
       return
 !1000 format ('BIGSUB',i4,1x,i8,1x,i4,e10.5,21f10.3)
- 1000 format ('BIGSUB',i4,1x,i8,1x,i4,e10.5,18f10.3,1x,e10.5,3e10.3,i6)
+ 1000 format ('BIGSUB',i4,1x,i8,1x,i4,e10.5,18f10.3,1x,e10.5,5e10.3)
       end 

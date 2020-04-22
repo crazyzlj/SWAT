@@ -31,10 +31,11 @@
 !!    curyr         |none         |year of simulation
 !!    disoxmon(:,:,:)|kg/day      |average amount of dissolved oxygen loaded to
 !!                                |stream on a given day in the month
-!!    ievent        |none         |rainfall/runoff code
-!!                                |0 daily rainfall/curve number technique
-!!                                |1 sub-daily rainfall/Green&Ampt/hourly
-!!                                |  routing
+!!    ievent      |none          |rainfall/runoff code
+!!                               |0 daily rainfall/curve number technique
+!!                               |1 sub-daily rainfall/Green&Ampt/hourly
+!!                               |  routing
+!!                               |3 sub-daily rainfall/Green&Ampt/hourly routing
 !!    ihout         |none         |hydrograph storage location number
 !!    inum1         |none         |file number
 !!    flomon(:,:,:) |m^3/day      |average amount of water loaded to stream

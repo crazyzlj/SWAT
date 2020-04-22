@@ -11,6 +11,8 @@
 !!    adj_pkr     |none          |peak rate adjustment factor in the subbasin.
 !!                               |Used in the MUSLE equation to account for
 !!                               |impact of peak flow on erosion.
+!!    anion_excl(:) |none          |fraction of porosity from which anions
+!!                                 |are excluded
 !!    bact_swf    |none          |fraction of manure containing active colony
 !!                               |forming units (cfu)
 !!    bactkdq     |none          |Bacteria soil partitioning coefficient.
@@ -30,20 +32,36 @@
 !!    bactmx      |none          |bacteria percolation coefficient 
 !!                               |Ratio of solution bacteria in surface layer
 !!                               |to solution bacteria in percolate
-!!    cdn         |none          |denitrification exponential rate coefficient
-!!    cmn         |none          |rate factor for humus mineralization on
-!!                               |active organic N
-!!    cncoef      |none          |plant ET curve number coefficient 
-!!    cnfroz      |              |Drainge coefficient (mm day -1) 
-!!    cswat                      | = 0 Static soil carbon (old mineralization routines)
+!!    bc1(:)           |1/hr          |rate constant for biological oxidation of
+!!                                    |NH3 to NO2 in reach at 20 deg C
+!!    bc2(:)           |1/hr          |rate constant for biological oxidation of
+!!                                    |NO2 to NO3 in reach at 20 deg C
+!!    bc3(:)           |1/hr          |rate constant for hydrolysis of organic N
+!!                                    |to ammonia in reach at 20 deg C
+!!    bc4(:)           |1/hr          |rate constant for the decay of organic P
+!!                                    |to dissolved P in reach at 20 deg C
+!!    bf_flag          |
+!!    cdn              |none          |denitrification exponential rate coefficient
+!!    cfactor          |              |scaling parameter for cover and mgt factor in ANSWERS erosion model
+!!    ch_d50           |mm            |median particle diameter of channel bed
+!!    ch_onco(:)       |ppm           |channel organic n concentration
+!!    ch_opco(:)       |ppm           |channel organic p concentration
+!!    cmn              |none          |rate factor for humus mineralization on
+!!                                    |active organic N
+!!    cncoef           |none          |plant ET curve number coefficient 
+!!    cnfroz           |              |Drainge coefficient (mm day -1) 
+!!    cswat                           | = 0 Static soil carbon (old mineralization routines)
 !!                                 = 1 C-FARM one carbon pool model 
 !!                                 = 2 Century model
+!!    decr_min    |              |Minimum daily residue decay
 !!    depimp_bsn  |mm            |depth to impervious layer. Used to model
 !!                               |perched water tables in all HRUs in watershed
 !!    drain_co_bsn |mm-day-1     |Drainage coeffcient (range 10.0 - 51.0)
 !!    ddrain_bsn  |mm            |depth to the sub-surface drain
 !!    dorm_hr     |hours         |time threshold used to define dormant
 !!    epco(:)     |none          |plant water uptake compensation factor (0-1)
+!!    eros_expo   |              |an expoenet in the overland flow erosion equ ranges 1.5-3.0
+!!    eros_spl    |none          |coefficient of splash erosion varing 0.9-3.1
 !!    esco(:)     |none          |soil evaporation compensation factor (0-1)
 !!    evlai       |none          |leaf area index at which no evaporation
 !!                               |occurs.  This variable is used in ponded HRUs
@@ -60,6 +78,7 @@
 !!                               |fraction of field capacity
 !!    fixco       |none          |nitrogen fixation coefficient
 !!    gdrain      |hours         |drain tile lag time
+!!    hlife_ngw   |days          |?Half-life of nitrogen in groundwater
 !!    icfac       |              | icfac = 0 for C-factor calculation using
 !!                                  Cmin (as described in manual)
 !!                                       = 1 for new C-factor calculation
@@ -79,6 +98,7 @@
 !!                               |0 daily rainfall/curve number technique
 !!                               |1 sub-daily rainfall/Green&Ampt/hourly
 !!                               |  routing
+!!                               |3 sub-daily rainfall/Green&Ampt/hourly routing
 !!    ipet        |none          |code for potential ET method
 !!                               |0 Priestley-Taylor method
 !!                               |1 Penman/Monteith method
@@ -109,6 +129,7 @@
 !!                               |  1 = dynamic storage based on tillage and cumulative rainfall 
 !!    iroutunit   |none          | not being implemented in this version
 !!                                    drainmod tile equations   01/2006
+!!    iuh         |              |unit hydrograph method: 1=triangular UH; 2=gamma funtion UH;
 !!    iwq         |none          |stream water quality code
 !!                               |0 do not model stream water quality
 !!                               |1 model stream water quality
@@ -183,7 +204,8 @@
 !!                               |of fertilizer P remaining in labile pool
 !!                               |after initial rapid phase of P sorption.
 !!    rcn_sub_bsn |mg/kg         |Concentration of nitrogen in the rainfall
-!!    re_bsn      |mm            |Effective radius of drains (range 3.0 - 40.0)  
+!!    re_bsn      |mm            |Effective radius of drains (range 3.0 - 40.0) 
+!!    rill_mult   |              |Multiplier to USLE_K for soil susceptible to rill erosion, range 0.5-2.0
 !!    res_stlr_co |none          |reservoir sediment settling coefficient
 !!    rsd_covco   |              |residue cover factor for computing frac of cover
 !!    rsdco       |none          |residue decomposition coefficient
@@ -192,7 +214,9 @@
 !!                               |temperature, C:N ratio, and C:P ratio
 !!    sdnco       |none          |denitrification threshold:  fraction of field
 !!                               | capacity triggering denitrification
+!!    sed_ch      |              |channel routing for HOURLY; 0=Bagnold;2=Brownlie;3=Yang;
 !!    sftmp       |deg C         |Snowfall temperature
+!!    sig_g       |none          |geometric standard deviation of particle sizes for the main channel
 !!                               |Mean air temperature at which precipitation
 !!                               |is equally likely to be rain as snow/freezing
 !!                               |rain.
@@ -261,6 +285,8 @@
 !!                               |removed from the surface layer relative to the
 !!                               |amount removed from the entire profile 
 !!                               |increases
+!!    uhalpha     |              |alpha coefficient for estimating unit hydrograph
+!!                               |using a gamma function (*.bsn)
 !!    uobn        |none          |nitrogen uptake normalization parameter
 !!                               |This variable normalizes the nitrogen uptake
 !!                               |so that the model can easily verify that
@@ -275,6 +301,7 @@
 !!                               |This variable normalizes the water uptake so 
 !!                               |that the model can easily verify that uptake 
 !!                               |from the different soil layers sums to 1.0
+!!    vcrit       |              |Critical velocity
 !!    wdlpf       |1/day         |Die-off factor for less persistent bacteria on
 !!                               |foliage.
 !!    wdlpq       |1/day         |Die-off factor for less persistent bacteria in
@@ -496,9 +523,6 @@
       if (eof < 0) exit
       read (103,*,iostat=eof) res_stlr_co
       if (eof < 0) exit
-!     following reads moved to end of .bsn file
-!     read (103,*,iostat=eof) sol_p_model  !! if = 0 use new soil P model
-!     if (eof < 0) exit
       read (103,*,iostat=eof) bf_flg
       if (eof < 0) exit
       read (103,*,iostat=eof) iuh 
@@ -551,7 +575,7 @@
       if (eof < 0) exit
       read (103,*,iostat=eof) iwtdn
       if (eof < 0) exit
-      read (103,*,iostat=eof) sol_p_model  !! if = 0  use new soil P model
+      read (103,*,iostat=eof) sol_p_model  !! if = 1  use new soil P model
       if (eof < 0) exit
       read (103,*,iostat=eof) iabstr
       if (eof < 0) exit
@@ -575,7 +599,7 @@
       
 !!    set default values for undefined parameters
 !     if (ievent == 1) nstep = 24
-      if (r2adj_bsn < 1.e-6) r2adj_bsn = 1.
+      if (r2adj_bsn < 1.e-6) r2adj_bsn = 0.
       if (drain_co_bsn < 1.e-6) drain_co_bsn = 10. 
  !!Parameter variables added D. Moriasi 4/8/2014  
       if (sstmaxd_bsn < 1.e-6) sstmaxd_bsn = 20. 

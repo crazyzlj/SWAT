@@ -118,8 +118,8 @@
 
       !! settling rate/mean depth
       !! part of equation 29.1.3 in SWAT manual
-!! ires_nut = 0 new equations 1 = old equations (Ikenberry)
-      if (ires_nut == 0) then
+!! ires_nut = 1 new equations 0 = old equations (Ikenberry)
+      if (ires_nut == 1) then
         phosk = ressa * 10000. * (conc_p - con_pirr(jres)) * 
      &    theta(psetlr(iseas,jres), theta_p(jres), tmpav(res_sub(jres)))
         nitrok = ressa * 10000. * (conc_n - con_nirr(jres)) * 

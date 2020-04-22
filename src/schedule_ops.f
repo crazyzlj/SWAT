@@ -155,20 +155,57 @@
 	case (10) !! User defined Upland CP removal MJW
 		if (ro_bmp_flag (iops,ihru) == 1) then
 		  bmp_flag(ihru) = 1
-		  bmp_sed(ihru) = ro_bmp_sed(iops,ihru)  !! Sediment
-		  bmp_pp(ihru) = ro_bmp_pp(iops,ihru) !! Particulate P
-		  bmp_sp(ihru) = ro_bmp_sp(iops,ihru)  !! Soluble P
-		  bmp_pn(ihru) =  ro_bmp_pn(iops,ihru)  !! Particulate N
-		  bmp_sn(ihru) = ro_bmp_sn(iops,ihru)  !! Soluble N
-		  bmp_bac(ihru) = ro_bmp_bac(iops,ihru)  !! Bacteria
+            !! surface
+            bmp_flo(ihru) = (1. - ro_bmp_flo(iops,ihru) / 100.)    !! Surface Flow
+		  bmp_sed(ihru) = (1. - ro_bmp_sed(iops,ihru) / 100.)    !! Sediment
+		  bmp_pp(ihru) = (1. - ro_bmp_pp(iops,ihru) / 100.)      !! Particulate P
+		  bmp_sp(ihru) = (1. - ro_bmp_sp(iops,ihru) / 100.)      !! Soluble P
+		  bmp_pn(ihru) =  (1. - ro_bmp_pn(iops,ihru) / 100.)     !! Particulate N
+		  bmp_sn(ihru) = (1. - ro_bmp_sn(iops,ihru) / 100.)      !! Soluble N
+		  bmp_bac(ihru) = (1. - ro_bmp_bac(iops,ihru) / 100.)    !! Bacteria
+            !! subsurface
+            bmp_flos(ihru) = (1. - ro_bmp_flos(iops,ihru) / 100.)    !! Subsurface Flow
+		  bmp_seds(ihru) = (1. - ro_bmp_seds(iops,ihru) / 100.)    !! Sediment
+		  bmp_pps(ihru) = (1. - ro_bmp_pps(iops,ihru) / 100.)      !! Particulate P
+		  bmp_sps(ihru) = (1. - ro_bmp_sps(iops,ihru) / 100.)      !! Soluble P
+		  bmp_pns(ihru) =  (1. - ro_bmp_pns(iops,ihru) / 100.)     !! Particulate N
+		  bmp_sns(ihru) = (1. - ro_bmp_sns(iops,ihru) / 100.)      !! Soluble N
+		  bmp_bacs(ihru) = (1. - ro_bmp_bacs(iops,ihru) / 100.)    !! Bacteria
+            !! tile
+            bmp_flot(ihru) = (1. - ro_bmp_flot(iops,ihru) / 100.)    !! Tile Flow
+		  bmp_sedt(ihru) = (1. - ro_bmp_sedt(iops,ihru) / 100.)    !! Sediment
+		  bmp_ppt(ihru) = (1. - ro_bmp_ppt(iops,ihru) / 100.)      !! Particulate P
+		  bmp_spt(ihru) = (1. - ro_bmp_spt(iops,ihru) / 100.)      !! Soluble P
+		  bmp_pnt(ihru) =  (1. - ro_bmp_pnt(iops,ihru) / 100.)     !! Particulate N
+		  bmp_snt(ihru) = (1. - ro_bmp_snt(iops,ihru) / 100.)      !! Soluble N
+		  bmp_bact(ihru) = (1. - ro_bmp_bact(iops,ihru) / 100.)    !! Bacteria
 		else
-		  bmp_flag(ihru) = 0
-		  bmp_sed(ihru) = 0.  !! Sediment
-		  bmp_pp(ihru) = 0. !! Particulate P
-		  bmp_sp(ihru) = 0.  !! Soluble P
-		  bmp_pn(ihru) =  0.  !! Particulate N
-		  bmp_sn(ihru) = 0.  !! Soluble N
-		  bmp_bac(ihru) = 0.  !! Bacteria
+            bmp_flag(ihru) = 0
+            !! surface
+            bmp_flo(ihru) = 1.      !! Surface Flow
+		  bmp_sed(ihru) = 1.      !! Sediment
+		  bmp_pp(ihru) = 1.       !! Particulate P
+		  bmp_sp(ihru) = 1.       !! Soluble P
+		  bmp_pn(ihru) =  1.      !! Particulate N
+		  bmp_sn(ihru) = 1.       !! Soluble N
+		  bmp_bac(ihru) = 1.      !! Bacteria
+            !! subsurface
+            bmp_flos(ihru) = 1.      !! Subsurface Flow
+		  bmp_seds(ihru) = 1.      !! Sediment
+		  bmp_pps(ihru) = 1.       !! Particulate P
+		  bmp_sps(ihru) = 1.       !! Soluble P
+		  bmp_pns(ihru) =  1.      !! Particulate N
+		  bmp_sns(ihru) = 1.       !! Soluble N
+		  bmp_bacs(ihru) = 1.      !! Bacteria
+            !! tile
+            bmp_flot(ihru) = 1.      !! Tile Flow
+		  bmp_sedt(ihru) = 1.      !! Sediment
+		  bmp_ppt(ihru) = 1.       !! Particulate P
+		  bmp_spt(ihru) = 1.       !! Soluble P
+		  bmp_pnt(ihru) =  1.      !! Particulate N
+		  bmp_snt(ihru) = 1.       !! Soluble N
+		  bmp_bact(ihru) = 1.      !! Bacteria
+
 	    end if
 
 	   end select

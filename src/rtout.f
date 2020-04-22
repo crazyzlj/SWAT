@@ -39,10 +39,11 @@
 !!    hsorpst(:)    |mg pst/m^3 |sorbed pesticide concentration in outflow
 !!                              |on day
 !!    hrtwtr(:)     |m^3 H2O    |water leaving reach during hour
-!!    ievent        |none       |rainfall/runoff code
-!!                              |0 daily rainfall/curve number technique
-!!                              |1 sub-daily rainfall/Green&Ampt/hourly
-!!                              |  routing
+!!    ievent      |none          |rainfall/runoff code
+!!                               |0 daily rainfall/curve number technique
+!!                               |1 sub-daily rainfall/Green&Ampt/hourly
+!!                               |  routing
+!!                               |3 sub-daily rainfall/Green&Ampt/hourly routing
 !!    ihout         |none       |outflow hydrograph location
 !!    inum1         |none       |reach number
 !!    inum2         |none       |inflow hydrograph location

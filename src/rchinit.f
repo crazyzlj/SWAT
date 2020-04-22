@@ -12,6 +12,7 @@
 !!                               |0 daily rainfall/curve number technique
 !!                               |1 sub-daily rainfall/Green&Ampt/hourly
 !!                               |  routing
+!!                               |3 sub-daily rainfall/Green&Ampt/hourly routing
 !!    ihout       |none          |outflow hydrograph storage location number
 !!    inum1       |none          |reach number
 !!    inum2       |none          |inflow hydrograph storage location number

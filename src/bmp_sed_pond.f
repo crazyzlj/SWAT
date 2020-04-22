@@ -35,7 +35,7 @@
       real*8 :: tsa,mxvol,pdia,ksat,dp,sub_ha,mxh,hweir,phead,pipeflow
       real*8 :: qin,qout,qpnd,qpndi,sweir,spndconc,sedpnde,sedpndi,hpnd
       real*8 :: qweir, qtrns,qpipe,splw,sedconcweir,td,ksed,qevap
-      real, dimension(3,0:nstep), intent(inout) :: flw, sed
+      real, dimension(4,0:nstep), intent(inout) :: flw, sed
       
       sb = inum1
       sub_ha = da_ha * sub_fr(sb)
@@ -122,6 +122,7 @@
             flw(1,ii) = qin / ((sub_ha - tsa / 10000.) *10.)
             flw(2,ii) = qout / ((sub_ha - tsa / 10000.) *10.) !mm
             flw(3,ii) = qweir / ((sub_ha - tsa / 10000.) *10.) !mm
+            flw(4,ii) = qtrns / (sub_ha *10000. - tsa) * 1000.  !mm
          Endif
         
          !---------------------------------------------------------

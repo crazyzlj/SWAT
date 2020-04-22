@@ -78,14 +78,16 @@
           read (127,*,iostat=eof) iyp, idap
           if (eof < 0) exit
           if (iyp + idap <= 0) exit
-          if (iyp == iyr .and. idap == id1) exit
-          backspace (127)
+          if (iyp == iyr .and. idap == id1) then
+            backspace (127)
+            exit
+          end if
         end do
         
       end select
 
 1001  format (2i6)
-1002  format (600f10.3)
+1002  format (1200f10.3)   !!!nbs
 1000  format (8x,4f10.3)
 5101  format (a80)
       return

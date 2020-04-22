@@ -194,45 +194,44 @@
           end if
           
           ratio1 = 1. - ratio
-          rchmono(2,inum1) = rchmono(2,inum1) - rchdy(2,inum1) * ratio1
-          rchmono(6,inum1) = rchmono(6,inum1) - rchdy(6,inum1) * ratio1
-          rchmono(9,inum1) = rchmono(9,inum1) - rchdy(9,inum1) * ratio1
-          rchmono(11,inum1)=rchmono(11,inum1) - rchdy(11,inum1) * ratio1
-          rchmono(13,inum1)=rchmono(13,inum1) - rchdy(13,inum1) * ratio1
-          rchmono(15,inum1)=rchmono(15,inum1) - rchdy(15,inum1) * ratio1
-          rchmono(17,inum1)=rchmono(17,inum1) - rchdy(17,inum1) * ratio1
-          rchmono(19,inum1)=rchmono(19,inum1) - rchdy(19,inum1) * ratio1
-          rchmono(21,inum1)=rchmono(21,inum1) - rchdy(21,inum1) * ratio1
-          rchmono(23,inum1)=rchmono(23,inum1) - rchdy(23,inum1) * ratio1
-          rchmono(25,inum1)=rchmono(25,inum1) - rchdy(25,inum1) * ratio1
-          rchmono(27,inum1)=rchmono(27,inum1) - rchdy(27,inum1) * ratio1
-          rchmono(29,inum1)=rchmono(29,inum1) - rchdy(29,inum1) * ratio1
-          rchmono(38,inum1)=rchmono(38,inum1) - rchdy(38,inum1) * ratio1
-          rchmono(39,inum1)=rchmono(39,inum1) - rchdy(39,inum1) * ratio1
-          rchmono(40,inum1)=rchmono(40,inum1) - rchdy(40,inum1) * ratio1
-          rchmono(41,inum1)=rchmono(41,inum1) - rchdy(41,inum1) * ratio1
+          rchmono(2,inum1) = rchmono(2,inum1) - rchdy(2,inum1) * ratio1  !!flow out
+          rchmono(6,inum1) = rchmono(6,inum1) - rchdy(8,inum1) * ratio1  !!org N out
+          rchmono(9,inum1) = rchmono(9,inum1) - rchdy(11,inum1) * ratio1 !!org P out
+          rchmono(11,inum1)=rchmono(11,inum1) - rchdy(4,inum1) * ratio1  !!transmission losses from reach
+          rchmono(13,inum1)=rchmono(13,inum1) - rchdy(41,inum1) * ratio1 !!conservative metal #2 out
+          rchmono(15,inum1)=rchmono(15,inum1) - rchdy(12,inum1) * ratio1 !!nitrate transported into reach
+          rchmono(17,inum1)=rchmono(17,inum1) - rchdy(18,inum1) * ratio1 !!soluble P transported into reach
+          rchmono(19,inum1)=rchmono(19,inum1) - rchdy(26,inum1) * ratio1 !!soluble pesticide transported into reach
+          rchmono(21,inum1)=rchmono(21,inum1) - rchdy(28,inum1) * ratio1 !!sorbed pesticide transported into reach
+          rchmono(23,inum1)=rchmono(23,inum1) - rchdy(30,inum1) * ratio1 !!amount of pesticide lost through reactions
+          rchmono(25,inum1)=rchmono(25,inum1) - rchdy(32,inum1) * ratio1 !!amount of pesticide settling out of reach
+          rchmono(27,inum1)=rchmono(27,inum1) - rchdy(34,inum1) * ratio1 !!amount of pesticide diffusing from reach
+          rchmono(29,inum1)=rchmono(29,inum1) - rchdy(36,inum1) * ratio1 !!amount of pesticide in sediment layer
+          rchmono(38,inum1)=rchmono(38,inum1) - rchdy(24,inum1) * ratio1 !!dissolved oxygen transported into reach
+          rchmono(39,inum1)=rchmono(39,inum1) - rchdy(25,inum1) * ratio1 !!dissolved osygen transported out of reach
+          rchmono(40,inum1)=rchmono(40,inum1) - rchdy(38,inum1) * ratio1 !!persistent bacteria transported out of reach
+          rchmono(41,inum1)=rchmono(41,inum1) - rchdy(39,inum1) * ratio1 !!less persistent bacteria transported out of reach
           
           rchdy(2,inum1) = rchdy(2,inum1) * ratio
-          rchdy(6,inum1) = rchdy(6,inum1) * ratio
-          rchdy(9,inum1) = rchdy(9,inum1) * ratio
+          rchdy(8,inum1) = rchdy(8,inum1) * ratio
           rchdy(11,inum1) = rchdy(11,inum1) * ratio
-          rchdy(13,inum1) = rchdy(13,inum1) * ratio
-          rchdy(15,inum1) = rchdy(15,inum1) * ratio
-          rchdy(17,inum1) = rchdy(17,inum1) * ratio
-          rchdy(19,inum1) = rchdy(19,inum1) * ratio
-          rchdy(21,inum1) = rchdy(21,inum1) * ratio
-          rchdy(23,inum1) = rchdy(23,inum1) * ratio
+          rchdy(4,inum1) = rchdy(4,inum1) * ratio
+          rchdy(41,inum1) = rchdy(41,inum1) * ratio
+          rchdy(12,inum1) = rchdy(12,inum1) * ratio
+          rchdy(18,inum1) = rchdy(18,inum1) * ratio
+          rchdy(26,inum1) = rchdy(26,inum1) * ratio
+          rchdy(28,inum1) = rchdy(28,inum1) * ratio
+          rchdy(30,inum1) = rchdy(30,inum1) * ratio
+          rchdy(32,inum1) = rchdy(32,inum1) * ratio
+          rchdy(34,inum1) = rchdy(34,inum1) * ratio
+          rchdy(36,inum1) = rchdy(36,inum1) * ratio
+          rchdy(24,inum1) = rchdy(24,inum1) * ratio
           rchdy(25,inum1) = rchdy(25,inum1) * ratio
-          rchdy(27,inum1) = rchdy(27,inum1) * ratio
-          rchdy(29,inum1) = rchdy(29,inum1) * ratio
           rchdy(38,inum1) = rchdy(38,inum1) * ratio
           rchdy(39,inum1) = rchdy(39,inum1) * ratio
-          rchdy(40,inum1) = rchdy(40,inum1) * ratio
-          rchdy(41,inum1) = rchdy(41,inum1) * ratio
-          rchdy(42,inum1) = rchdy(42,inum1) * ratio
         end if
         
-        !!subratct from source
+        !!subtract from source
         do ii = 3, mvaro
           varoute(ii,nhyd_tr) = varoute(ii,nhyd_tr) * ratio
         end do

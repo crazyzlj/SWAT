@@ -370,6 +370,8 @@
       wac22 = 0.
       wavp = 0.
       wet_fr = 0.
+      iwetgw = 0
+      iwetile = 0
       wet_k = 0.
       wet_mxsa = 0.
       wet_mxvol = 0.

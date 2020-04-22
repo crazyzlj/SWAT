@@ -44,8 +44,8 @@
      &'SURQ',t106,'LATQ',t114,'PERC',t122,'CROP',t128,'ORGANIC',t136,   
      &'SOLUBLE',t144,'ORGANIC',t152,'TILENO3'/,t10,'(mm)',t18,'(mm)',   
      &t26,'(mm)',t34,'(mm)',t42,'(mm)',t50,'(mm)',t58,'(mm)',t66,'(mm)',
-     &t74,'(mm)',t82,'(mm)',t90,'(mm)',t97'------------------(kg nutrien
-     &t/ha)--------------------',t152,'(kg/ha)')
+     &t74,'(mm)',t82,'(mm)',t89,'(t/ha)',t97'------------------(kg nutri
+     &ent/ha)--------------------',t152,'(kg/ha)')
 ! 1300 format (' UNIT',t36,'PERCO',t44,'TILE',t71,'WATER',t80,'SED',t87, &
 !     &    'NO3',t94,'NO3',t101,'NO3',t108,'NO3',t119,'N',t127,'P',t135, &
 !    &    'NO3',t94,'NO3',t99,'NO3',t104,'NO3',t115,'N',t123,           &

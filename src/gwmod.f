@@ -108,6 +108,9 @@
       else
         gw_q(j) = 0.
       end if
+      
+      !! bmp adjustment
+      gw_q(j) = gw_q(j) * bmp_flos(j)
 
 !! compute revap to soil profile/plant roots
       revapday = gw_revap(j) * pet_day

@@ -20,6 +20,7 @@
 !!                               |0 daily rainfall/curve number technique
 !!                               |1 sub-daily rainfall/Green&Ampt/hourly
 !!                               |  routing
+!!                               |3 sub-daily rainfall/Green&Ampt/hourly routing
 !!    inum1       |none          |reach number
 !!    nitraten(:) |mg N/L        |nitrate concentration in reach
 !!    nitriten(:) |mg N/L        |nitrite concentration in reach

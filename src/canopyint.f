@@ -16,6 +16,7 @@
 !!                               |0 daily rainfall/curve number technique
 !!                               |1 sub-daily rainfall/Green&Ampt/hourly
 !!                               |  routing
+!!                               |3 sub-daily rainfall/Green&Ampt/hourly routing
 !!    ihru        |none          |HRU number
 !!    laiday(:)   |m**2/m**2     |leaf area index
 !!    nro(:)      |none          |sequence number of year in rotation

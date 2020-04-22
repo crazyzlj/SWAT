@@ -41,5 +41,8 @@
 !     no3gw(j) = gwno3(j) * gw_q(j) / 100.
       minpgw(j) = gwminp(j) * gw_q(j) / 100.
 
+      !! bmp adjustment
+      minpgw(j) = minpgw(j) * bmp_sns(j)
+      
       return
       end
