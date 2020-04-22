@@ -50,7 +50,7 @@
 
 !!    ~ ~ ~ ~ ~ ~ END SPECIFICATIONS ~ ~ ~ ~ ~ ~
 
-      use parm
+      use parm, except_this_one => vbl
 
       real*8, intent (in) :: evx, spx, pp, qin, ox, yi, yo, ysx
       real*8, intent (in) :: vf, vyf, aha

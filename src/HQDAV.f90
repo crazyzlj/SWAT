@@ -2,8 +2,8 @@
 !     adopted from APEX1501 by Jaehak Jeong 2017
 !     THIS SUBPROGRAM COMPUTES FLOW AREA AND DEPTH GIVEN RATE in a reach
     
-      USE PARM
-      
+      USE PARM, except_this_one => HQDAV
+
       real*8, intent (in out) :: A, ZX, CHW, FPW
       real*8, intent (in) :: CBW, QQ, SSS, ZCH
       integer, intent (in) :: jrch

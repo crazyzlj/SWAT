@@ -37,7 +37,7 @@
 !!    Hydrology-Vrije Universiteit Brussel, Belgium
 !!    subroutine modified by SLN
 
-      use parm
+      use parm, except_this_one => tair
        
       integer, intent (in) ::  jj
       real*8, intent(in) :: hr

@@ -18,20 +18,20 @@ foreach(F77FILE ${F77SRCS})
             if(${_FOUND_LEN72} GREATER -1)
                 set_source_files_properties(${F77FILE} PROPERTIES COMPILE_FLAGS /4L72)
             else()
-                set_source_files_properties(${F77FILE} PROPERTIES COMPILE_FLAGS /4L79)
+                set_source_files_properties(${F77FILE} PROPERTIES COMPILE_FLAGS /4L80)
             endif()
         else()
             if(${_FOUND_LEN72} GREATER -1)
                 set_source_files_properties(${F77FILE} PROPERTIES COMPILE_FLAGS -72)
             else()
-                set_source_files_properties(${F77FILE} PROPERTIES COMPILE_FLAGS -79)
+                set_source_files_properties(${F77FILE} PROPERTIES COMPILE_FLAGS -80)
             endif()
         endif()
     else() # gfortran tested only
         if(${_FOUND_LEN72} GREATER -1)
             set_source_files_properties(${F77FILE} PROPERTIES COMPILE_FLAGS -ffixed-line-length-72)
         else()
-            set_source_files_properties(${F77FILE} PROPERTIES COMPILE_FLAGS -ffixed-line-length-79)
+            set_source_files_properties(${F77FILE} PROPERTIES COMPILE_FLAGS -ffixed-line-length-80)
         endif()
     endif()
 endforeach()
@@ -59,7 +59,7 @@ if((NOT MSVC) AND (${First_Line_Of_Main_File} MATCHES "      include 'modparm.f'
     endif ()
     # Build main.f first which includes modparm.f (i.e., parm.mod)
     add_custom_command(OUTPUT main.o
-                       COMMAND ${CMAKE_Fortran_COMPILER} ${Compile_Flags_List} -ffixed-line-length-79 -c
+                       COMMAND ${CMAKE_Fortran_COMPILER} ${Compile_Flags_List} -ffixed-line-length-80 -c
                                ${CMAKE_CURRENT_SOURCE_DIR}/modparm.f ${CMAKE_CURRENT_SOURCE_DIR}/main.f)
     # Build other source files that depend on main.o
     foreach(SRCFILE ${F77SRCS} ${F90SRCS})
@@ -71,7 +71,7 @@ if((NOT MSVC) AND (${First_Line_Of_Main_File} MATCHES "      include 'modparm.f'
         endif()
         # Set compile flag according to Fortran line format. These should be consistent with settings above.
         if(${ext} STREQUAL ".f")
-            set(Format_Flag "-ffixed-line-length-79")
+            set(Format_Flag "-ffixed-line-length-80")
         else()
             set(Format_Flag "-ffree-line-length-none")
         endif()

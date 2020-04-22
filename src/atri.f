@@ -39,7 +39,7 @@
 
 !!    ~ ~ ~ ~ ~ ~ END SPECIFICATIONS ~ ~ ~ ~ ~ ~
 
-      use parm
+      use parm, except_this_one => atri
 
       real*8, intent (in) :: at1, at2, at3
       integer, intent (in out) :: at4i

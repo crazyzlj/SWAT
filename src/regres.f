@@ -50,7 +50,7 @@
 
 !!    ~ ~ ~ ~ ~ ~ END SPECIFICATIONS ~ ~ ~ ~ ~ ~
 
-      use parm
+      use parm, except_this_one => regres
 
       integer, intent (in) :: k
       real*8, dimension (5,3) :: beta

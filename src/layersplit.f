@@ -1,6 +1,6 @@
       subroutine layersplit(dep_new)
 
-      use parm
+      use parm, except_this_one => layersplit
       integer nly,n,j
 	integer :: flag
 	real*8, intent(in):: dep_new
