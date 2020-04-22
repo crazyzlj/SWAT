@@ -79,7 +79,7 @@
         ucoef = 0.
         unam = ""
 
-        read (108,5000,iostat=eof) iu, unam, fimpu, fcimpu, crbdn,      &
+        read (108,5000,iostat=eof) iu, unam, fimpu, fcimpu, crbdn,      
      &     ucoef, dtmx, thlf, tncnc, tpcnc, tno3cnc, urbcn
         if (eof < 0) exit
 

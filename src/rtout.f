@@ -437,6 +437,7 @@
       rchdy(40,jrch) = varoute(20,ihout)                 !!cmetal #1
       rchdy(41,jrch) = varoute(21,ihout)                 !!cmetal #2
       rchdy(42,jrch) = varoute(22,ihout)                 !!cmetal #3
+      rchdy(60,jrch) = varoute(1,ihout)                  !!water temp deg c
 !!    sediment routing 
 !!    Assumed all silt for default sediment routine
 !!    For other sediment routing models particle size are tracked
@@ -529,6 +530,5 @@
        rchmono(57,jrch) = rchmono(57,jrch) + rchdy(58,jrch)
 	   rchmono(58,jrch) = rchmono(58,jrch) + rchdy(59,jrch)
       
-
       return
       end

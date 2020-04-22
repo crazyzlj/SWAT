@@ -188,7 +188,7 @@
         chpstmass = chpstmass - reactw
 
         !! calculate amount of pesticide that volatilizes from reach
-        volatpst = chpst_vol(jrch) * frsol * chpstmass * thour          &
+        volatpst = chpst_vol(jrch) * frsol * chpstmass * thour          
      &                                                   / (depth * 24.)
         if (volatpst > chpstmass) then
           volatpst = chpstmass
@@ -199,7 +199,7 @@
 
         !! calculate amount of pesticide removed from reach by
         !! settling
-        setlpst = chpst_stl(jrch) * frsrb * chpstmass * thour           &
+        setlpst = chpst_stl(jrch) * frsrb * chpstmass * thour           
      &                                                   / (depth * 24.)
         if (setlpst > chpstmass) then
           setlpst = chpstmass
@@ -220,7 +220,7 @@
         chpstmass = chpstmass + resuspst
 
         !! calculate diffusion of pesticide between reach and sediment
-        difus = chpst_mix(jrch) * (fd2 * sedpstmass - frsol *           &
+        difus = chpst_mix(jrch) * (fd2 * sedpstmass - frsol *           
      &                                chpstmass) * thour / (depth * 24.)
         if (difus > 0.) then
           if (difus > sedpstmass) then

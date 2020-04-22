@@ -112,8 +112,8 @@
       end if
       if (vc > 5.) vc = 5.
 
-      tbase = 0.
       tbase = ch_l2(jrch) * 1000. / (3600. * 24. * vc)
+      tbase = prf
 
       if (tbase > 1.) tbase = 1.
 
@@ -150,7 +150,7 @@
 	  endif
         dep = 0.
       else
-        dep = -depnet * tbase
+        dep = -depnet ! * tbase
         deg = 0.
 	  deg1 = 0.
 	  deg2 = 0.
@@ -246,4 +246,3 @@
 
       return
       end
-

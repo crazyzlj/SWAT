@@ -345,14 +345,14 @@
       do j = 1, nhru
         if (iscen == 1) then
           if (mcrhru(j) > 0) then
-          write (26,1600) j, hru_sub(j), (cpnm(idplrot(nicr,j)),        &
+          write (26,1600) j, hru_sub(j), (cpnm(idplrot(nicr,j)),        
      &        yldn(nicr,j), bio_aahv(nicr,j),nicr = 1, mcrhru(j))
           else
           write (26,1601) j, ' BARE'
           end if
           else if (isproj == 1) then
           if (mcrhru(j) > 0) then
-          write (19,1602) j, (cpnm(idplrot(nicr,j)),                    &
+          write (19,1602) j, (cpnm(idplrot(nicr,j)),                    
      &        yldn(nicr,j), bio_aahv(nicr,j),nicr = 1, mcrhru(j))
           else
           write (26,1601) j, ' BARE'
@@ -371,11 +371,11 @@
       else
         cropname = 'BARE'
       end if
-        write (26,1900) j, hru_sub(j),                                  &
-     &     snam(j), hru_km(j), cn2(j), sol_sumfc(j), usle_ls(j),        &
-     &     hruaao(22,j), hruaao(28,j), hruaao(29,j), sumix(j),          &
-     &     hruaao(1,j), hruaao(19,j), hruaao(5,j) + hruaao(6,j),        &
-     &     hruaao(12,j), hruaao(14,j), hruaao(37,j) + hruaao(38,j),     &
+        write (26,1900) j, hru_sub(j),                                  
+     &     snam(j), hru_km(j), cn2(j), sol_sumfc(j), usle_ls(j),        
+     &     hruaao(22,j), hruaao(28,j), hruaao(29,j), sumix(j),          
+     &     hruaao(1,j), hruaao(19,j), hruaao(5,j) + hruaao(6,j),        
+     &     hruaao(12,j), hruaao(14,j), hruaao(37,j) + hruaao(38,j),     
      &     hruaao(35,j), bio_aams(j), yldaa(j), hruaao(4,j)
       end do
       else if (isproj == 1) then
@@ -388,10 +388,10 @@
         cropname = 'BARE'
       end if
         write (19,1900) j, hru_sub(j), cropname,
-     &     snam(j), hru_km(j), cn2(j), sol_sumfc(j), usle_ls(j),        &
-     &     hruaao(22,j), hruaao(28,j), hruaao(29,j), sumix(j),          &
-     &     hruaao(1,j), hruaao(19,j), hruaao(5,j) + hruaao(6,j),        &
-     &     hruaao(12,j), hruaao(14,j), hruaao(37,j) + hruaao(38,j),     &
+     &     snam(j), hru_km(j), cn2(j), sol_sumfc(j), usle_ls(j),        
+     &     hruaao(22,j), hruaao(28,j), hruaao(29,j), sumix(j),          
+     &     hruaao(1,j), hruaao(19,j), hruaao(5,j) + hruaao(6,j),        
+     &     hruaao(12,j), hruaao(14,j), hruaao(37,j) + hruaao(38,j),     
      &     hruaao(35,j), bio_aams(j), yldaa(j), hruaao(4,j)
       end do
       endif
@@ -411,10 +411,10 @@
 	
 !! write average annual stress values
       if (iscen == 1) then
-      write (26,2200) wshd_wstrs, wshd_tstrs, wshd_nstrs, wshd_pstrs,   &
+      write (26,2200) wshd_wstrs, wshd_tstrs, wshd_nstrs, wshd_pstrs,   
      &      wshd_astrs 
       else if (isproj == 1) then
-      write (19,2200) wshd_wstrs, wshd_tstrs, wshd_nstrs, wshd_pstrs,   &
+      write (19,2200) wshd_wstrs, wshd_tstrs, wshd_nstrs, wshd_pstrs,   
      &      wshd_astrs 
       endif
 
@@ -422,10 +422,10 @@
       if (iscen == 1) then
       write (26,1000) prog
       write (26,1100) title
-      write (26,2300) wshdaao(1), wshdaao(39), wshdaao(36), wshdaao(37),&
-     &    wshdaao(3), wshdaao(4),wshdaao(109),wshdaao(104),wshdaao(113),&
-     &    wshdaao(105), wshdaao(106), wshdaao(107), wshdaao(6),         &
-     &    wshdaao(5), wshdaao(7), wshdaao(108), wshdaao(38),            &
+      write (26,2300) wshdaao(1), wshdaao(39), wshdaao(36), wshdaao(37),
+     &    wshdaao(3), wshdaao(4),wshdaao(109),wshdaao(104),wshdaao(113),
+     &    wshdaao(105), wshdaao(106), wshdaao(107), wshdaao(6),         
+     &    wshdaao(5), wshdaao(7), wshdaao(108), wshdaao(38),            
      &    wshd_sepmm,  wshdaao(12)
  !    &    wshd_sepmm,  wshdaao(12), (wshdaao(k),k = 19,22), wshdaao(13),&
  !    &    wshdaao(23), wshdaao(14), (resdata(k),k = 1,7)
@@ -434,10 +434,10 @@
       else if (isproj == 1) then
       write (19,1000) prog
       write (19,1100) title
-      write (19,2300) wshdaao(1), wshdaao(39), wshdaao(36), wshdaao(37),&
-     &    wshdaao(3), wshdaao(4),wshdaao(109),wshdaao(104),wshdaao(113),&
-     &    wshdaao(105), wshdaao(106), wshdaao(107), wshdaao(6),         &
-     &    wshdaao(5), wshdaao(7), wshdaao(108), wshdaao(38),            &
+      write (19,2300) wshdaao(1), wshdaao(39), wshdaao(36), wshdaao(37),
+     &    wshdaao(3), wshdaao(4),wshdaao(109),wshdaao(104),wshdaao(113),
+     &    wshdaao(105), wshdaao(106), wshdaao(107), wshdaao(6),         
+     &    wshdaao(5), wshdaao(7), wshdaao(108), wshdaao(38),            
      &    wshdaao(12)
  !    &    wshdaao(12), (wshdaao(k),k = 19,22), wshdaao(13),             &
  !    &    wshdaao(23), wshdaao(14), (resdata(k),k = 1,7)
@@ -454,45 +454,46 @@
         write (19,2500) spadyo, spadyev, spadysp, spadyosp
         endif
 !     end if
-
+      
 !! watershed summary nutrient table
       if (iscen == 1) then
       write (26,1000) prog
       write (26,1100) title
       write (26,2600)
-      write (26,2700)wshdaao(40), wshdaao(41), wshdaao(42), wshdaao(45),&
-     &    wshdaao(111),
-     &    wshdaao(43), wshdaao(46), wshd_plch, wshdaao(44), wshd_pup,   &
+      write (26,2700)wshdaao(40), wshdaao(41), wshdaao(42), wshdaao(45),
+     &    wshdaao(111), wshd_ptile, wshd_pinlet,
+     &    wshdaao(43), wshdaao(46), wshd_plch, wshdaao(44), wshd_pup,   
      &    wshdaao(110)
-      write (26,2800) wshd_pal, wshd_pas, wshd_ftotn, wshd_ftotp,       &
+      write (26,2800) wshd_pal, wshd_pas, wshd_ftotn, wshd_ftotp,       
      &    wshd_fixn, wshd_dnit
       write (26,2900) wshd_hmn, wshd_rwn, wshd_hmp, wshd_rmn, wshd_rmp
-      write (26,3000) wshd_raino3, basno3i, basno3f, basorgni, basorgnf,&
-     &    basminpi, basminpf, basorgpi, basorgpf, wshd_fno3,            &
-     &    wshd_fnh3, wshd_forgn, wshd_fminp, wshd_forgp, wshd_yldn,     &
+      write (26,3000) wshd_raino3, basno3i, basno3f, basorgni, basorgnf,
+     &    basminpi, basminpf, basorgpi, basorgpf, wshd_fno3,            
+     &    wshd_fnh3, wshd_forgn, wshd_fminp, wshd_forgp, wshd_yldn,     
      &    wshd_yldp, wshd_voln, wshd_nitn, sno3up
       else if (isproj == 1) then
       write (19,1000) prog
       write (19,1100) title
       write (19,2600)
-      write (19,2700) wshdaao(40), wshdaao(41), wshdaao(42),            &
-     &    wshdaao(45), wshdaao(43), wshdaao(46), wshd_plch, wshdaao(44),&
+      write (19,2700) wshdaao(40), wshdaao(41), wshdaao(42),            
+     &    wshdaao(45), wshdaao(43), solpyldjga, tile_solpo(j),
+     &    wshdaao(46), wshd_plch, wshdaao(44),
      &    wshd_pup, wshdaao(110)
-      write (19,2800) wshd_pal, wshd_pas, wshd_ftotn, wshd_ftotp,       &
+      write (19,2800) wshd_pal, wshd_pas, wshd_ftotn, wshd_ftotp,       
      &    wshd_fixn, wshd_dnit
       write (19,2900) wshd_hmn, wshd_rwn, wshd_hmp, wshd_rmn, wshd_rmp
-      write (19,3000) wshd_raino3, basno3i, basno3f, basorgni, basorgnf,&
-     &    basminpi, basminpf, basorgpi, basorgpf, wshd_fno3,            &
-     &    wshd_fnh3, wshd_forgn, wshd_fminp, wshd_forgp, wshd_yldn,     &
+      write (19,3000) wshd_raino3, basno3i, basno3f, basorgni, basorgnf,
+     &    basminpi, basminpf, basorgpi, basorgpf, wshd_fno3,            
+     &    wshd_fnh3, wshd_forgn, wshd_fminp, wshd_forgp, wshd_yldn,     
      &    wshd_yldp, wshd_voln, wshd_nitn, sno3up
       endif
 
 !! watershed bacteria summary table
       if (iscen == 1) then
-      write (26,3100) sdiegropq,sdiegrolpq,sdiegrops,sdiegrolps,        &
+      write (26,3100) sdiegropq,sdiegrolpq,sdiegrops,sdiegrolps,        
      &     sbactrop,sbactrolp,sbactsedp,sbactsedlp,sbactlchp,sbactlchlp
       else if (isproj == 1) then
-      write (19,3100) sdiegropq,sdiegrolpq,sdiegrops,sdiegrolps,        &
+      write (19,3100) sdiegropq,sdiegrolpq,sdiegrops,sdiegrolps,        
      &     sbactrop,sbactrolp,sbactsedp,sbactsedlp,sbactlchp,sbactlchlp
       endif
 
@@ -515,8 +516,8 @@
  1000 format ('1',/t5,a80,t105,2(a2,'/'),a2,5x,2(i2,':'),i2)
  1100 format (/(t5,20a4))
  1200 format (t5,'FINAL VALUES'/)
- 1300 format (//t21,'IRRIGATION - AVE. ANNUAL',/,t14,'HRU',t27,         &
-     &    'NO.OF ',t44,'VOLUME',/,t14,'NO.',t24,'APPLICATIONS',t42,     &
+ 1300 format (//t21,'IRRIGATION - AVE. ANNUAL',/,t14,'HRU',t27,         
+     &    'NO.OF ',t44,'VOLUME',/,t14,'NO.',t24,'APPLICATIONS',t42,     
      &    'APPLIED(MM)',/)
  1400 format (11x,i6,9x,i4,13x,f8.3)
  1500 format (44x,'Average Plant Values (kg/ha)',/)
@@ -526,47 +527,47 @@
  1601 format (1x,' HRU ',i7,a)
  1602 format (1x,'HRU ',i6,1x,6(a4,2f8.1,2x))
  1700 format (/t5,'HRU STATISTICS'//t17,'AVE ANNUAL VALUES'/)
- 1800 format (3x,'HRU',t8,' SUB',t14,'SOIL',t25,'AREAkm2',              &
-     & t36,'CN',                                                        &
-     & t43,'AWCmm',t51,'USLE_LS',t60,'IRRmm',t67,'AUTONkh ',t75,        &
-     & 'AUTOPkh ',t84,'MIXEF',t90,'PRECmm',t97,'SURQGENmm',t109,        &
-     & 'GWQmm',t118,'ETmm',t125,'SEDth ',t132,'NO3kgh ',t140,           &
+ 1800 format (3x,'HRU',t8,' SUB',t14,'SOIL',t25,'AREAkm2',              
+     & t36,'CN',                                                        
+     & t43,'AWCmm',t51,'USLE_LS',t60,'IRRmm',t67,'AUTONkh ',t75,        
+     & 'AUTOPkh ',t84,'MIXEF',t90,'PRECmm',t97,'SURQGENmm',t109,        
+     & 'GWQmm',t118,'ETmm',t125,'SEDth ',t132,'NO3kgh ',t140,           
      & 'ORGNkgh ',t148,'BIOMth',t157,'YLDth',t164,'SURQmm')
  1900 format (i7,i4,3x,a8,3x,e8.3,17f8.2) 
- 2000 format (///,t17,'AVE MONTHLY BASIN VALUES',/t20,'SNOW',t46,       &
-     &   'WATER',t66,'SED',/t3,'MON',t11,'RAIN',t20,'FALL',t27,'SURF Q',&
-     &    t37,'LAT Q',t46,'YIELD',t58,'ET',t64,'YIELD',t75,'PET',/t11,  &
-     &    '(MM)',t20,'(MM)',t29,'(MM)',t38,'(MM)',t47,'(MM)',t56,'(MM)',&
+ 2000 format (///,t17,'AVE MONTHLY BASIN VALUES',/t20,'SNOW',t46,       
+     &   'WATER',t66,'SED',/t3,'MON',t11,'RAIN',t20,'FALL',t27,'SURF Q',
+     &    t37,'LAT Q',t46,'YIELD',t58,'ET',t64,'YIELD',t75,'PET',/t11,  
+     &    '(MM)',t20,'(MM)',t29,'(MM)',t38,'(MM)',t47,'(MM)',t56,'(MM)',
      &    t63,'(T/HA)',t74,'(MM)')
  2100 format (i5,14f9.2)
- 2200 format (/,t5,' AVE ANNUAL BASIN STRESS DAYS',/,t15,               &
-     &    ' WATER STRESS DAYS = ',f8.2,/,t15,                           &
-     &    ' TEMPERATURE STRESS DAYS = ',f8.2,/,t15,                     &
-     &    ' NITROGEN STRESS DAYS = ',f8.2,/,t15,                        &
-     &    ' PHOSPHORUS STRESS DAYS = ',f8.2,/,t15,                      &
+ 2200 format (/,t5,' AVE ANNUAL BASIN STRESS DAYS',/,t15,               
+     &    ' WATER STRESS DAYS = ',f8.2,/,t15,                           
+     &    ' TEMPERATURE STRESS DAYS = ',f8.2,/,t15,                     
+     &    ' NITROGEN STRESS DAYS = ',f8.2,/,t15,                        
+     &    ' PHOSPHORUS STRESS DAYS = ',f8.2,/,t15,                      
      &    ' AERATION STRESS DAYS = ',f8.2)
- 2300 format (t10,'AVE ANNUAL BASIN VALUES'//                           &
-     &        t15,'PRECIP = ',f8.1,' MM'/                               &
-     &        t15,'SNOW FALL =',f8.2,' MM'/                             &
-     &        t15,'SNOW MELT = ',f8.2,' MM'/                            &
-     &        t15,'SUBLIMATION = ',f8.2,' MM'/                          &
-     &        t15,'SURFACE RUNOFF Q = ',f8.2,' MM'/                     &
-     &        t15,'LATERAL SOIL Q =',f8.2,' MM'/                        &
-     &        t15,'TILE Q = ',f8.2,' MM'/                               &
-     &        t15,'GROUNDWATER (SHAL AQ) Q = ',f8.2,' MM'/              &
-     &        t15,'GROUNDWATER (DEEP AQ) Q = ',f8.2,' MM'/              &  
-     &        t15,'REVAP (SHAL AQ => SOIL/PLANTS) =',f8.2,' MM'/        &
-     &        t15,'DEEP AQ RECHARGE = ',f8.2,' MM'/                     &
-     &        t15,'TOTAL AQ RECHARGE =',f8.2,' MM'/                     &
-     &        t15,'TOTAL WATER YLD = ',f8.2,' MM'/                      &
-     &        t15,'PERCOLATION OUT OF SOIL =',f8.2,' MM'/               &
-     &        t15,'ET = ',f8.1,' MM'/                                   &
-     &        t15,'PET = ',f8.1,'MM'/                                   &
-     &        t15,'TRANSMISSION LOSSES = ',f8.2,' MM'/                  &
-     &        t15,'SEPTIC INFLOW = ',f10.2,' MM'/                       &
+ 2300 format (t10,'AVE ANNUAL BASIN VALUES'//                           
+     &        t15,'PRECIP = ',f8.1,' MM'/                               
+     &        t15,'SNOW FALL =',f8.2,' MM'/                             
+     &        t15,'SNOW MELT = ',f8.2,' MM'/                            
+     &        t15,'SUBLIMATION = ',f8.2,' MM'/                          
+     &        t15,'SURFACE RUNOFF Q = ',f8.2,' MM'/                     
+     &        t15,'LATERAL SOIL Q =',f8.2,' MM'/                        
+     &        t15,'TILE Q = ',f8.2,' MM'/                               
+     &        t15,'GROUNDWATER (SHAL AQ) Q = ',f8.2,' MM'/              
+     &        t15,'GROUNDWATER (DEEP AQ) Q = ',f8.2,' MM'/              
+     &        t15,'REVAP (SHAL AQ => SOIL/PLANTS) =',f8.2,' MM'/        
+     &        t15,'DEEP AQ RECHARGE = ',f8.2,' MM'/                     
+     &        t15,'TOTAL AQ RECHARGE =',f8.2,' MM'/                     
+     &        t15,'TOTAL WATER YLD = ',f8.2,' MM'/                      
+     &        t15,'PERCOLATION OUT OF SOIL =',f8.2,' MM'/               
+     &        t15,'ET = ',f8.1,' MM'/                                   
+     &        t15,'PET = ',f8.1,'MM'/                                   
+     &        t15,'TRANSMISSION LOSSES = ',f8.2,' MM'/                
+     &        t15,'SEPTIC INFLOW = ',f10.2,' MM'/                       
      &        t15,'TOTAL SEDIMENT LOADING =  ',f8.3,' T/HA')
- !    &        t15,'POND BUDGET'/                                        &
- !    &        t20,'EVAPORATION = ',f8.3,' MM'/                          &
+ !    &        t15,'POND BUDGET'/                                        
+ !    &        t20,'EVAPORATION = ',f8.3,' MM'/                          
  !    &        t20,'SEEPAGE = ',f8.3,' MM'/                              &
  !    &        t20,'RAINFALL ON POOL =',f8.3,' MM'/                      &
  !    &        t20,'INFLOW'/t25,'WATER = ',f8.3,' MM'/                   &
@@ -585,59 +586,62 @@
 ! 2400 format (t15,'YIELD LOSS FROM PONDS'/t20,'WATER = ',f7.3,' MM'/t20,&
 !     &    'SEDIMENT = ',f7.3,' T/HA'/t15,'YIELD LOSS FROM RESERVOIRS'/  &
 !     &    t20,'WATER = ',f8.3,' MM'/t20,'SEDIMENT = ',f7.3,' T/HA')
- 2500 format (t15,'TILE FROM IMPOUNDED WATER =  ',f8.3,' (MM)',/,t15,   &
-     &    'EVAPORATION FROM IMPOUNDED WATER =  ',f8.3,' (MM)',/,t15,    &
-     &    'SEEPAGE INTO SOIL FROM IMPOUNDED WATER = ',f8.3,' (MM)',/,t15&
+ 2500 format (t15,'TILE FROM IMPOUNDED WATER =  ',f8.3,' (MM)',/,t15,   
+     &    'EVAPORATION FROM IMPOUNDED WATER =  ',f8.3,' (MM)',/,t15,    
+     &    'SEEPAGE INTO SOIL FROM IMPOUNDED WATER = ',f8.3,' (MM)',/,t15
      &    ,'OVERFLOW FROM IMPOUNDED WATER = ',f8.3,' (MM)')
  2600 format (t15,'AVE ANNUAL BASIN VALUES')
- 2700 format (//,t15,'NUTRIENTS',/,t20,'ORGANIC N =  ',f8.3,' (KG/HA)', &
-     &    /,t20,'ORGANIC P =  ',f8.3,' (KG/HA)',/,t20,                  &
-     &    'NO3 YIELD (SQ) =  ',f8.3,' (KG/HA)',/,t20,                   &
-     &    'NO3 YIELD (LAT) = ',f8.3,' (KG/HA)',                         &
-     &    /t20,'NO3 YIELD (TILE) = ', f8.3,' (KG/HA)',                  &
-     &    /,t20,'SOL P YIELD = ',f8.3,' (KG/HA)',                       &
-     &    /,t20,'NO3 LEACHED =  ',f8.3,' (KG/HA)',/,t20,                &
-     &    'P LEACHED =  ',f8.3,' (KG/HA)',/,t20,                        &
-     &    'N UPTAKE =  ',f8.3,' (KG/HA)',/,t20,'P UPTAKE = ',f8.3,      &
+ 2700 format (//,t15,'NUTRIENTS',/,t20,'ORGANIC N =  ',f8.3,' (KG/HA)', 
+     &    /,t20,'ORGANIC P =  ',f8.3,' (KG/HA)',/,t20,                  
+     &    'NO3 YIELD (SQ) =  ',f8.3,' (KG/HA)',/,t20,                   
+     &    'NO3 YIELD (LAT) = ',f8.3,' (KG/HA)',                         
+     &    /,t20,'NO3 YIELD (TILE) = ', f8.3,' (KG/HA)', 
+     &    /,t20,'SOLP YIELD (TILE) = ', f8.3, '(KG/HA)',
+     &    /,t20,'SOLP YIELD (SURF INLET RISER) = ', f8.3,
+     &    ' (KG/HA)',     
+     &    /,t20,'SOL P YIELD = ',f8.3,' (KG/HA)',                       
+     &    /,t20,'NO3 LEACHED =  ',f8.3,' (KG/HA)',/,t20,                
+     &    'P LEACHED =  ',f8.3,' (KG/HA)',/,t20,                        
+     &    'N UPTAKE =  ',f8.3,' (KG/HA)',/,t20,'P UPTAKE = ',f8.3,      
      &    ' (KG/HA)',/,t20,'NO3 YIELD (GWQ) =  ',f8.3,' (KG/HA)')
- 2800 format (t20,'ACTIVE TO SOLUTION P FLOW =  ',f12.3,' (KG/HA)',/,t20,&
-     &    'ACTIVE TO STABLE P FLOW =  ',f12.3,' (KG/HA)',/,t20,         &
-     &    'N FERTILIZER APPLIED = ',f9.3,' (KG/HA)',/,t20,              &
-     &    'P FERTILIZER APPLIED = ',f9.3,' (KG/HA)',/,t20,              &
-     &    'N FIXATION = ',f9.3,' (KG/HA)',/,t20,'DENITRIFICATION = ',f9 &
+ 2800 format (t20,'ACTIVE TO SOLUTION P FLOW =  ',f12.3,' (KG/HA)',/,t20
+     &    ,'ACTIVE TO STABLE P FLOW =  ',f12.3,' (KG/HA)',/,t20,      
+     &    'N FERTILIZER APPLIED = ',f9.3,' (KG/HA)',/,t20,              
+     &    'P FERTILIZER APPLIED = ',f9.3,' (KG/HA)',/,t20,              
+     &    'N FIXATION = ',f9.3,' (KG/HA)',/,t20,'DENITRIFICATION = ',f9 
      &    .3,' (KG/HA)')
- 2900 format (t20,'HUMUS MIN ON ACTIVE ORG N =  ',f8.3,' (KG/HA)',/,t20,&
-     &    'ACTIVE TO STABLE ORG N =  ',f8.3,' (KG/HA)',/,t20,           &
-     &    'HUMUS MIN ON ACTIVE ORG P = ',f8.3,' (KG/HA)',/,t20,         &
-     &    'MIN FROM FRESH ORG N = ',f8.3,' (KG/HA)',/,t20,              &
+ 2900 format (t20,'HUMUS MIN ON ACTIVE ORG N =  ',f8.3,' (KG/HA)',/,t20,
+     &    'ACTIVE TO STABLE ORG N =  ',f8.3,' (KG/HA)',/,t20,           
+     &    'HUMUS MIN ON ACTIVE ORG P = ',f8.3,' (KG/HA)',/,t20,         
+     &    'MIN FROM FRESH ORG N = ',f8.3,' (KG/HA)',/,t20,              
      &    'MIN FROM FRESH ORG P = ',f8.3,' (KG/HA)')
- 3000 format (t20,'NO3 IN RAINFALL =  ',f8.3,' (KG/HA)',/,t20,          &
-     &    'INITIAL NO3 IN SOIL =  ',f10.3,' (KG/HA)',/,t20,             &
-     &    'FINAL NO3 IN SOIL =  ',f12.3,' (KG/HA)',/,t20,               &
-     &    'INITIAL ORG N IN SOIL =  ',f10.3,' (KG/HA)',/,t20,           &
-     &    'FINAL ORG N IN SOIL =  ',f12.3,' (KG/HA)',/,t20,             &
-     &    'INITIAL MIN P IN SOIL =  ',f10.3,' (KG/HA)',/,t20,           &
-     &    'FINAL MIN P IN SOIL =  ',f12.3,' (KG/HA)',/,t20,             &
-     &    'INITIAL ORG P IN SOIL =  ',f10.3,' (KG/HA)',/,t20,           &
-     &    'FINAL ORG P IN SOIL =  ',f10.3,' (KG/HA)',/,t20,             &
-     &    'NO3 IN FERT =  ',f8.3,' (KG/HA)',/,t20,                      &
-     &    'AMMONIA IN FERT =  ',f8.3,' (KG/HA)',/,t20,                  &
-     &    'ORG N IN FERT =  ',f8.3,' (KG/HA)',/,t20,                    &
-     &    'MINERAL P IN FERT =  ',f8.3,' (KG/HA)',/,t20,                &
-     &    'ORG P IN FERT =  ',f8.3,' (KG/HA)',/,t20,                    &
-     &    'N REMOVED IN YIELD =  ',f8.3,' (KG/HA)',/,t20,               &
-     &    'P REMOVED IN YIELD =  ',f8.3,' (KG/HA)',/,t20,               &
-     &    'AMMONIA VOLATILIZATION =  ',f8.3,' (KG/HA)',/,t20,           &
-     &    'AMMONIA NITRIFICATION = ',f10.3,' (KG/HA)',/,t20,            &
+ 3000 format (t20,'NO3 IN RAINFALL =  ',f8.3,' (KG/HA)',/,t20,          
+     &    'INITIAL NO3 IN SOIL =  ',f10.3,' (KG/HA)',/,t20,             
+     &    'FINAL NO3 IN SOIL =  ',f12.3,' (KG/HA)',/,t20,               
+     &    'INITIAL ORG N IN SOIL =  ',f10.3,' (KG/HA)',/,t20,           
+     &    'FINAL ORG N IN SOIL =  ',f12.3,' (KG/HA)',/,t20,             
+     &    'INITIAL MIN P IN SOIL =  ',f10.3,' (KG/HA)',/,t20,           
+     &    'FINAL MIN P IN SOIL =  ',f12.3,' (KG/HA)',/,t20,             
+     &    'INITIAL ORG P IN SOIL =  ',f10.3,' (KG/HA)',/,t20,           
+     &    'FINAL ORG P IN SOIL =  ',f10.3,' (KG/HA)',/,t20,             
+     &    'NO3 IN FERT =  ',f8.3,' (KG/HA)',/,t20,                      
+     &    'AMMONIA IN FERT =  ',f8.3,' (KG/HA)',/,t20,                  
+     &    'ORG N IN FERT =  ',f8.3,' (KG/HA)',/,t20,                    
+     &    'MINERAL P IN FERT =  ',f8.3,' (KG/HA)',/,t20,                
+     &    'ORG P IN FERT =  ',f8.3,' (KG/HA)',/,t20,                    
+     &    'N REMOVED IN YIELD =  ',f8.3,' (KG/HA)',/,t20,               
+     &    'P REMOVED IN YIELD =  ',f8.3,' (KG/HA)',/,t20,               
+     &    'AMMONIA VOLATILIZATION =  ',f8.3,' (KG/HA)',/,t20,           
+     &    'AMMONIA NITRIFICATION = ',f10.3,' (KG/HA)',/,t20,            
      &    'NO3 EVAP-LAYER 2 TO 1 = ',f8.3)
- 3100 format (/,t20,'DIE-GRO P Q =  ',f8.1,' (No/HA)',/,t20,            &
-     &    'DIE-GRO LP Q =  ',f8.1,' (No/HA)',/,t20,                     &
-     &    'DIE-GRO P SED = ',f8.1,' (No/HA)',/,t20,                     &
-     &    'DIE-GRO LP SED = ',f8.1,' (No/HA)',/,t20,                    &
-     &    'BACT P RUNOFF = ',f8.1,' (No/HA)',/,t20,                     &
-     &    'BACT LP RUNOFF = ',f8.1,' (No/HA)',/,t20,                    &
-     &    'BACT P SEDIMENT = ',f8.1,' (No/HA)',/,t20,                   &
-     &    'BACT LP SEDIMENT = ',f8.1,' (No/HA)',/,t20,                  &
-     &    'BACT P INCORP = ',f8.1,' (No/HA)',/,t20,                     &
+ 3100 format (/,t20,'DIE-GRO P Q =  ',f8.1,' (No/HA)',/,t20,            
+     &    'DIE-GRO LP Q =  ',f8.1,' (No/HA)',/,t20,                     
+     &    'DIE-GRO P SED = ',f8.1,' (No/HA)',/,t20,                     
+     &    'DIE-GRO LP SED = ',f8.1,' (No/HA)',/,t20,                    
+     &    'BACT P RUNOFF = ',f8.1,' (No/HA)',/,t20,                     
+     &    'BACT LP RUNOFF = ',f8.1,' (No/HA)',/,t20,                    
+     &    'BACT P SEDIMENT = ',f8.1,' (No/HA)',/,t20,                   
+     &    'BACT LP SEDIMENT = ',f8.1,' (No/HA)',/,t20,                  
+     &    'BACT P INCORP = ',f8.1,' (No/HA)',/,t20,                     
      &    'BACT LP INCORP = ',f8.1,' (No/HA)',/)
       end

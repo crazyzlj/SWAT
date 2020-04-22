@@ -817,4 +817,3 @@
     !write (*,*) iyr,i, wdntl
     return
     end
-

@@ -107,9 +107,9 @@
 !!    writes out the amount of water stored in the soil layer
       if (isto > 0) then 
         do j = 1, nhru
-!         write (129,5000) iida, j, (sol_st(j1,j), j1 = 1, sol_nly(j))
-          write (129,5000) iida, subnum(j), hruno(j),                   &
-     &             (sol_no3(j1,j), j1 = 1, sol_nly(j))
+          write (129,5000) iida, j, (sol_st(j1,j), j1 = 1, sol_nly(j))
+!          write (129,5000) iida, subnum(j), hruno(j),                   
+!     &             (sol_no3(j1,j), j1 = 1, sol_nly(j))
         enddo
       end if
 
@@ -122,19 +122,19 @@
 
         !! daily write to output.std
         if (iscen == 1) then
-        write (26,6200) iida, wshddayo(1), wshddayo(3), wshddayo(4),    &
-     &                 wshddayo(104), wshddayo(5), wshddayo(109),       &
-     &                 wshddayo(35), wshddayo(7), wshddayo(108),        &
-     &                 wshddayo(6), wshddayo(12) / da_ha, wshddayo(42), &
-     &                 wshddayo(45), wshddayo(46), wshddayo(44),        &
-     &                 wshddayo(40), wshddayo(43), wshddayo(41),        &
+        write (26,6200) iida, wshddayo(1), wshddayo(3), wshddayo(4),    
+     &                 wshddayo(104), wshddayo(5), wshddayo(109),       
+     &                 wshddayo(35), wshddayo(7), wshddayo(108),        
+     &                 wshddayo(6), wshddayo(12) / da_ha, wshddayo(42), 
+     &                 wshddayo(45), wshddayo(46), wshddayo(44),        
+     &                 wshddayo(40), wshddayo(43), wshddayo(41),        
      &                 wshddayo(111)
         else if (isproj == 1) then
-        write (19,6200) iida, wshddayo(1), wshddayo(3), wshddayo(4),    &
-     &                 wshddayo(104), wshddayo(5), wshddayo(109),       &
-     &                 wshddayo(35), wshddayo(7), wshddayo(108),        &
-     &                 wshddayo(6), wshddayo(12) / da_ha, wshddayo(42), &
-     &                 wshddayo(45), wshddayo(46), wshddayo(44),        &
+        write (19,6200) iida, wshddayo(1), wshddayo(3), wshddayo(4),    
+     &                 wshddayo(104), wshddayo(5), wshddayo(109),       
+     &                 wshddayo(35), wshddayo(7), wshddayo(108),        
+     &                 wshddayo(6), wshddayo(12) / da_ha, wshddayo(42), 
+     &                 wshddayo(45), wshddayo(46), wshddayo(44),        
      &                 wshddayo(40), wshddayo(43), wshddayo(41)
         endif
 
@@ -146,7 +146,7 @@
             pstsum = pstsum + hrupstd(k,1,j) + hrupstd(k,2,j)
           end do
           if (pstsum > 0. .and. iprp == 1) then
-                write (30,5100) subnum(j), hruno(j), iyr, iida,         &
+                write (30,5100) subnum(j), hruno(j), iyr, iida,         
      &                     (hrupstd(k,1,j), hrupstd(k,2,j), k = 1, npmx)
           end if
           end if
@@ -175,7 +175,8 @@
 
 
       return
-5000  format(i5,1x,a5,a4,1x,500e12.4)
+!5000  format(i5,1x,a5,a4,1x,500e12.4)
+5000  format (i5,1x,i5,1x,500e12.4)
 5001  format(2i5,500f12.4)
 5100  format(1x,a5,a4,1x,i4,1x,i3,1x,250(e16.4,1x))
 5200  format(i7,i9,i6,i5,1x,e9.4,f12.3,f7.1,f14.3)

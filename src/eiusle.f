@@ -68,7 +68,7 @@
         xb = -2. * Log(1. - xa)
         pkrf30 = 2. * preceff * xa
         pkrf = xb * preceff
-        usle_ei = preceff * (12.1 + 8.9 * (Log10(pkrf) - .4343)) *      &
+        usle_ei = preceff * (12.1 + 8.9 * (Log10(pkrf) - .4343)) *      
      &    pkrf30 / 1000.
 !    *    peakr / 10.
         if (usle_ei < 1.e-4) usle_ei = 0.

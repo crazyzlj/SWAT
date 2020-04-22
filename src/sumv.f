@@ -629,9 +629,9 @@
             hrupstd(k,3,j) = (pst_surq(k,j) + pst_sed(k,j)) * 1.e6
             hrupstd(k,4,j) = lat_pst(k) * 1.e6 * hru_ha(j)
             !! watershed summary
-            wpstdayo(k,1) = wpstdayo(k,1) + pst_surq(k,j) * hru_dafr(j) &
+            wpstdayo(k,1) = wpstdayo(k,1) + pst_surq(k,j) * hru_dafr(j) 
      &                                                            * 1.e6
-            wpstdayo(k,2) = wpstdayo(k,2) + pst_sed(k,j) * hru_dafr(j) *&
+            wpstdayo(k,2) = wpstdayo(k,2) + pst_sed(k,j) * hru_dafr(j) *
      &                                                              1.e6
             wpstdayo(k,3) = wpstdayo(k,3) + pstsol(k) * hru_dafr(j)
             wpstdayo(k,4) = wpstdayo(k,4) + lat_pst(k) * hru_dafr(j)

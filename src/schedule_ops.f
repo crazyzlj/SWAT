@@ -47,9 +47,9 @@
         case (1)
          xm = 0.6 * (1. - Exp(-35.835 * hru_slp(ihru)))    
          sin_sl = Sin(Atan(hru_slp(ihru)))
-         usle_ls(ihru) = (terr_sl(iops,ihru)/22.128) ** xm * (65.41 *   & 
+         usle_ls(ihru) = (terr_sl(iops,ihru)/22.128) ** xm * (65.41 *   
      &      sin_sl * sin_sl + 4.56 * sin_sl + .065)
-         usle_mult(ihru) = sol_rock(1,ihru) * usle_k(ihru) *            &
+         usle_mult(ihru) = sol_rock(1,ihru) * usle_k(ihru) *            
      &   terr_p(iops,ihru) * usle_ls(ihru) * 11.8
         if (terr_cn(iops,ihru) > 1.e-6) then
            call curno(terr_cn(iops,ihru),ihru)
@@ -78,7 +78,7 @@
        end if
 
          case (3)
-         usle_mult(ihru) = usle_mult(ihru) * cont_p(iops,ihru) /        &
+         usle_mult(ihru) = usle_mult(ihru) * cont_p(iops,ihru) /        
      &      usle_p(ihru)
          call curno(cont_cn(iops,ihru),ihru)
 
@@ -104,9 +104,9 @@
 
          case (5)
          call curno(strip_cn(iops,ihru),ihru)
-         usle_mult(ihru) = usle_mult(ihru) * strip_p(iops,ihru) /       &
+         usle_mult(ihru) = usle_mult(ihru) * strip_p(iops,ihru) /       
      &      usle_p(ihru)
-         tover = .0556 * (slsubbsn(j) * strip_n(iops,ihru)) ** .6 /     &
+         tover = .0556 * (slsubbsn(j) * strip_n(iops,ihru)) ** .6 /     
      &      hru_slp(j) ** .3  
 
          tconc(ihru) = tconc(ihru) + tover - t_ov(ihru)

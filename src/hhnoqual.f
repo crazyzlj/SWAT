@@ -125,7 +125,7 @@
          algin = 1000. * chlin / ai0        !! QUAL2E equation III-1
          orgnin = 1000. * hhvaroute(4,inum2,ii) * (1. - rnum1) / wtrin
          ammoin = 1000. * hhvaroute(14,inum2,ii) * (1. - rnum1) / wtrin
-         nitritin = 1000. * hhvaroute(15,inum2,ii) * (1. - rnum1) /     &
+         nitritin = 1000. * hhvaroute(15,inum2,ii) * (1. - rnum1) /     
      &                                                             wtrin
          nitratin = 1000. * hhvaroute(6,inum2,ii) * (1. - rnum1) / wtrin
          orgpin = 1000. * hhvaroute(5,inum2,ii) * (1. - rnum1) / wtrin
@@ -159,21 +159,21 @@
          wtrtot = wtrin + hrchwtr(ii)
          if (ii == 1) then
          algcon = (algin * wtrin + algae(jrch) * hrchwtr(ii)) / wtrtot
-         orgncon = (orgnin * wtrin + organicn(jrch) * hrchwtr(ii))      &
+         orgncon = (orgnin * wtrin + organicn(jrch) * hrchwtr(ii))      
      &                                                          / wtrtot
-         nh3con = (ammoin * wtrin + ammonian(jrch) * hrchwtr(ii))       &
+         nh3con = (ammoin * wtrin + ammonian(jrch) * hrchwtr(ii))       
      &                                                          / wtrtot
-         no2con = (nitritin * wtrin + nitriten(jrch) * hrchwtr(ii))     &
+         no2con = (nitritin * wtrin + nitriten(jrch) * hrchwtr(ii))     
      &                                                          / wtrtot
-         no3con = (nitratin * wtrin + nitraten(jrch) * hrchwtr(ii))     &
+         no3con = (nitratin * wtrin + nitraten(jrch) * hrchwtr(ii))     
      &                                                          / wtrtot
-         orgpcon = (orgpin * wtrin + organicp(jrch) * hrchwtr(ii))      &
+         orgpcon = (orgpin * wtrin + organicp(jrch) * hrchwtr(ii))      
      &                                                          / wtrtot
-         solpcon = (dispin * wtrin + disolvp(jrch) * hrchwtr(ii))       &
+         solpcon = (dispin * wtrin + disolvp(jrch) * hrchwtr(ii))       
      &                                                          / wtrtot
-         cbodcon = (cbodin * wtrin + rch_cbod(jrch) * hrchwtr(ii))      &
+         cbodcon = (cbodin * wtrin + rch_cbod(jrch) * hrchwtr(ii))      
      &                                                          / wtrtot
-         o2con = (disoxin * wtrin + rch_dox(jrch) * hrchwtr(ii))        &
+         o2con = (disoxin * wtrin + rch_dox(jrch) * hrchwtr(ii))        
      &                                                          / wtrtot
          else
          algcon = (algin * wtrin + halgae(ii-1) * hrchwtr(ii)) / wtrtot

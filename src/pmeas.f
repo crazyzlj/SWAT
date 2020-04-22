@@ -185,13 +185,13 @@
             if (ifirstpcp(k) == 0) then
               read (100+k,5300) a
               backspace (100+k)
-              if (a /= " ") then                   !subdaily precip on day
+              if (a /= " ") then               !subdaily precip on day
                 do ii = 1, nstep
                   flag = 0
                   ihour = 0
                   imin = 0
                   a = ""
-                  read (100+k,5200) iyp, idap, ihour, imin,             &
+                  read (100+k,5200) iyp, idap, ihour, imin,             
      &                                      (rainsb(l,ii), l = kk1, kk2)
 				   if (iyp /= iyr .or. idap /= i) flag = 1
                   if (flag == 1) then
@@ -222,20 +222,28 @@
               do
                 iyp = 0
                 idap = 0
-                read (100+k,5202) iyp, idap, ihour, a, imin,            &
+                read (100+k,5202) iyp, idap, ihour, a, imin,            
      &                                       (rainsb(l,1), l = kk1, kk2)
                 if (iyp == iyr .and. idap == i) flag = 1
                 if (flag == 1) then
                   if (a /= " ") then
                     do l = kk1, kk2
+                      if (rainsb(l,1)<-97) then
+                         call pgen(k)
+                         rainsb(l,1) = subp(k) / nstep
+                      endif
                       rmeas(l) = rmeas(l) + rainsb(l,1)
                     end do
                     do ii = 2, nstep
                       ihour = 0
                       imin = 0
-                      read (100+k,5200) iyp, idap, ihour, imin,         &
+                      read (100+k,5200) iyp, idap, ihour, imin,         
      &                                      (rainsb(l,ii), l = kk1, kk2)
                       do l = kk1, kk2
+                        if (rainsb(l,1)<-97) then
+                           call pgen(k)
+                           rainsb(l,1) = subp(k) / nstep
+                        endif
                         rmeas(l) = rmeas(l) + rainsb(l,ii)
                       end do
                     end do
@@ -300,6 +308,6 @@
  5201 format (i4,i3,5x,300f5.1)
  5202 format (i4,i3,i2,a1,i2,300f6.2)
  5300 format (9x,a1)
- 5400 format (10x,"ERROR: Precipitation data dates do not match for",   &
+ 5400 format (10x,"ERROR: Precipitation data dates do not match for",   
      &       " simulation year: ",i4," and julian date: ",i3)
       end

@@ -351,7 +351,7 @@
          !! calculate light extinction coefficient 
          !! (algal self shading) QUAL2E equation III-12
          if (ai0 * algcon > 1.e-6) then
-           lambda = lambda0 + (lambda1 * ai0 * algcon) + lambda2 *      &
+           lambda = lambda0 + (lambda1 * ai0 * algcon) + lambda2 *    
      &                                        (ai0 * algcon) ** (.66667)
          else
            lambda = lambda0
@@ -380,7 +380,7 @@
          !! daylight average light intensity QUAL2E equation III-7b
          fl_1 = 0.
          fll = 0.
-         fl_1 = (1. / (lambda * rchdep)) *                              &
+         fl_1 = (1. / (lambda * rchdep)) *                            
      &        Log((k_l + algi) / (k_l + algi * (Exp(-lambda * rchdep))))
          fll = 0.92 * (dayl(hru1(jrch)) / 24.) * fl_1
 
@@ -406,8 +406,8 @@
          !! (phytoplanktonic algae)
          !! QUAL2E equation III-2
          algae(jrch) = 0.
-         algae(jrch) = algcon + (Theta(gra,thgra,wtmp) * algcon -       &
-     &    Theta(rhoq,thrho,wtmp) * algcon - Theta(rs1(jrch),thrs1,wtmp) &
+         algae(jrch) = algcon + (Theta(gra,thgra,wtmp) * algcon -       
+     &    Theta(rhoq,thrho,wtmp) * algcon - Theta(rs1(jrch),thrs1,wtmp) 
      &                                         / rchdep * algcon) * tday
          if (algae(jrch) < 1.e-6) algae(jrch) = 0.
 	!! JGA added to set algae limit *****
@@ -453,22 +453,22 @@
          rhoq = 1.0
          rk2(jrch) = 1.0
          uu = Theta(rk2(jrch),thrk2,wtmp) * (soxy - o2con)
-         vv = (ai3 * Theta(gra,thgra,wtmp) - ai4 *                      &
+         vv = (ai3 * Theta(gra,thgra,wtmp) - ai4 *                      
      &                                  Theta(rhoq,thrho,wtmp)) * algcon
          ww = Theta(rk1(jrch),thrk1,wtmp) * cbodcon
          xx = Theta(rk4(jrch),thrk4,wtmp) / (rchdep * 1000.)
          yy = ai5 * Theta(bc1mod,thbc1,wtmp) * nh3con
          zz = ai6 * Theta(bc2mod,thbc2,wtmp) * no2con
-         rch_dox(jrch) = 0.
          rch_dox(jrch) = o2con + (uu + vv - ww - xx - yy - zz) * tday
+         rch_dox(jrch) = amin1(0.1, rch_dox(jrch))
          
          !algea O2 production minus respiration
-         if (vv > 0.) then
+         !if (vv > 0.) then
            doxrch = soxy
-         else
-           coef = exp(-0.03 * vv)
-           doxrch = coef * soxy
-         end if
+         !else
+         !  coef = exp(-0.03 * vv)
+         !  doxrch = coef * soxy
+         !end if
          
          !cbod deoxygenation
          coef = exp(-0.1 * ww)
@@ -516,7 +516,7 @@
         !! calculate fraction of algal nitrogen uptake from ammonia
         !! pool QUAL2E equation III-18
         f1 = 0.
-        f1 = p_n * nh3con / (p_n * nh3con + (1. - p_n) * no3con +       &
+        f1 = p_n * nh3con / (p_n * nh3con + (1. - p_n) * no3con +       
      &                                                            1.e-6)
 
         !! calculate ammonia nitrogen concentration at end of day

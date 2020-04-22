@@ -88,8 +88,8 @@
       irrno(j) = irr_noa(j)
 !!!! Srin's irrigation source by each application changes
 
-      if ((wstrs_id(j) == 1 .and. strsw(j) < auto_wstr(j) .or.          &
-     & (wstrs_id(j)==2.and.sol_sumfc(j)-sol_sw(j)>auto_wstr(j)))) then  &
+      if ((wstrs_id(j) == 1 .and. strsw(j) < auto_wstr(j) .or.          
+     & (wstrs_id(j)==2.and.sol_sumfc(j)-sol_sw(j)>auto_wstr(j)))) then  
         !! determine available amount of water in source
         !! ie upper limit on water removal on day
         vmma = 0.

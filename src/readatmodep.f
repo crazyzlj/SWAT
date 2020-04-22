@@ -41,7 +41,7 @@
           end do
        if (iatmodep == 0) then
           do isub = 1, subtot
-            read (127,1000,iostat=eof) rammo_sub(isub), rcn_sub(isub),  &
+            read (127,1000,iostat=eof) rammo_sub(isub), rcn_sub(isub),  
      &        drydep_nh4(isub), drydep_no3(isub)
             if (eof < 0) exit
           end do

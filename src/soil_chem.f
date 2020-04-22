@@ -218,11 +218,11 @@
           sol_orgn(j,i) = sol_orgn(j,i) * wt1      !! mg/kg => kg/ha
         else
           !! assume C:N ratio of 10:1
-          sol_orgn(j,i) = 10000. * (sol_cbn(j,i) / 11.) * wt1  !! CN ratio was 14 before 01-22-09 Armen
+          sol_orgn(j,i) = 10000. * (sol_cbn(j,i) / 14.) * wt1  !! CN ratio changed back to 14 cibin 03022012
         end if
         sol_aorgn(j,i) = sol_orgn(j,i) * nactfr
         sol_orgn(j,i) = sol_orgn(j,i) * (1. - nactfr)
-        sumorgn = sumorgn + sol_aorgn(j,i) + sol_orgn(j,i) +            &
+        sumorgn = sumorgn + sol_aorgn(j,i) + sol_orgn(j,i) +            
      &            sol_fon(j,i)
 
         if (sol_orgp(j,i) > 0.0001) then
@@ -280,7 +280,7 @@
 
         sol_hum(j,i) = sol_cbn(j,i) * wt1 * 17200.
         xx = sol_z(j,i)
-        summinp = summinp + sol_solp(j,i) + sol_actp(j,i) +             &
+        summinp = summinp + sol_solp(j,i) + sol_actp(j,i) +             
      &        sol_stap(j,i)
         sumorgp = sumorgp + sol_orgp(j,i) + sol_fop(j,i)
       end do

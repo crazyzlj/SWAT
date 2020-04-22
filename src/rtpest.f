@@ -183,7 +183,7 @@
         !! biological degradation on day in reach
         !! MFW, 3/12/12: modify decay to be 1st order
         !! reactw = chpst_rea(jrch) * chpstmass * tday
-        reactw = chpstmass - (chpstmass * EXP(-1. * chpst_rea(jrch)     &
+        reactw = chpstmass - (chpstmass * EXP(-1. * chpst_rea(jrch)     
      &           * tday))
         chpstmass = chpstmass - reactw
 
@@ -218,7 +218,7 @@
         chpstmass = chpstmass + resuspst
 
         !! calculate diffusion of pesticide between reach and sediment
-        difus = chpst_mix(jrch) * (fd2 * sedpstmass - frsol *           &
+        difus = chpst_mix(jrch) * (fd2 * sedpstmass - frsol *           
      &                                         chpstmass) * tday / depth
         if (difus > 0.) then
           if (difus > sedpstmass) then

@@ -133,16 +133,16 @@
         solpsthr = 0.
         srbpsthr = 0.
         if (ifirsthr(inum1) == 0) then
-          read (200+inum1,*) idap, iyp, ihr, flohr, sedhr, orgnhr,      &
-     &        orgphr, no3hr, nh3hr, no2hr, minphr, cbodhr, disoxhr,     &
-     &        chlahr, solpsthr, srbpsthr, bactphr, bactlphr, cmtl1hr,   &
+          read (200+inum1,*) idap, iyp, ihr, flohr, sedhr, orgnhr,      
+     &        orgphr, no3hr, nh3hr, no2hr, minphr, cbodhr, disoxhr,     
+     &        chlahr, solpsthr, srbpsthr, bactphr, bactlphr, cmtl1hr,   
      &        cmtl2hr, cmtl3hr
         else
           ifirsthr(inum1) = 0
           do
-            read (200+inum1,*) idap, iyp, ihr, flohr, sedhr, orgnhr,    &
-     &        orgphr, no3hr, nh3hr, no2hr, minphr, cbodhr, disoxhr,     &
-     &        chlahr, solpsthr, srbpsthr, bactphr, bactlphr, cmtl1hr,   &
+            read (200+inum1,*) idap, iyp, ihr, flohr, sedhr, orgnhr,    
+     &        orgphr, no3hr, nh3hr, no2hr, minphr, cbodhr, disoxhr,     
+     &        chlahr, solpsthr, srbpsthr, bactphr, bactlphr, cmtl1hr,
      &        cmtl2hr, cmtl3hr
             if (iyp + idap <= 0) exit
             if (iyp == iyr .and. idap == id1) exit

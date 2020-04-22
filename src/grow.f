@@ -186,14 +186,14 @@
 
           !! calculate photosynthetically active radiation
           par = 0.
-          par = .5 * hru_ra(j) * (1. - Exp(-ext_coef(idp) *             &
+          par = .5 * hru_ra(j) * (1. - Exp(-ext_coef(idp) *             
      &          (laiday(j) + .05)))
 
           !! adjust radiation-use efficiency for CO2
           beadj = 0.
           if (co2(hru_sub(j)) > 330.) then
-            beadj = 100. * co2(hru_sub(j)) / (co2(hru_sub(j)) +         &
-     &              Exp(wac21(idp) - co2(hru_sub(j)) * wac22(idp)))     &
+            beadj = 100. * co2(hru_sub(j)) / (co2(hru_sub(j)) +         
+     &              Exp(wac21(idp) - co2(hru_sub(j)) * wac22(idp)))     
           else
             beadj = bio_e(idp)
           end if
@@ -212,9 +212,19 @@
           bioday = beadj * par
           if (bioday < 0.) bioday = 0.
 
-          !! calculate plant uptake of nitrogen and phosphorus
-          call nup
-          call npup
+          !! calculate plant uptake of nitrogen and phosphorus changed by cibin 02/15/12
+	    !! to make sure no plant N and P uptake under, temperature, water and aeration stress.
+          reg = 0.
+          reg = Min(strsw(j), strstmp(j), strsa(j))
+          if (reg < 0.) reg = 0.
+
+	    if (reg > 0.) then
+            call nup
+            call npup
+	    else
+	      strsn(j) = 1.
+	      strsp(j) = 1.
+	    end if
 
           !! auto fertilization-nitrogen demand (non-legumes only)
           select case (idc(idp))
@@ -256,11 +266,11 @@
           !!============          
           
           !! calculate fraction of total biomass that is in the roots
-          rwt(j) = .4 - .2 * phuacc(j)
+          rwt(j) = rsr1(idp) -(rsr1(idp) - rsr2(idp)) * phuacc(j)
 
           f = 0.
           ff = 0.
-          f = phuacc(j) / (phuacc(j) + Exp(leaf1(idp)                   &
+          f = phuacc(j) / (phuacc(j) + Exp(leaf1(idp)                   
      &                     - leaf2(idp) * phuacc(j)))
           ff = f - laimxfr(j)
           laimxfr(j) = f
@@ -283,14 +293,14 @@
             end if
 
             if (laiday(j) > laimax) laiday(j) = laimax
-            deltalai = ff * laimax * (1.0 - Exp(5.0 * (laiday(j) -      &
+            deltalai = ff * laimax * (1.0 - Exp(5.0 * (laiday(j) -      
      &                                             laimax))) * Sqrt(reg)
             laiday(j) = laiday(j) + deltalai
             if (laiday(j) > laimax) laiday(j) = laimax
             olai(j) = laiday(j)
             if (laiday(j) > lai_yrmx(j)) lai_yrmx(j) = laiday(j)
           else
-            laiday(j) = olai(j) * (1. - phuacc(j)) /                    &
+            laiday(j) = olai(j) * (1. - phuacc(j)) /                    
      &                               (1. - dlai(idp))
           end if
           if (laiday(j) < alai_min(idplt(j))) then   !Sue White dormancy
@@ -303,7 +313,7 @@
             plt_pet(j) = plt_pet(j) + pet_day
           end if
 
-          hvstiadj(j) = hvsti(idp) * 100. * phuacc(j)                   &
+          hvstiadj(j) = hvsti(idp) * 100. * phuacc(j)                   
      &                / (100. * phuacc(j) + Exp(11.1 - 10. * phuacc(j)))
 
 !!  added per JGA for Srini by gsm 9/8/2011
@@ -321,6 +331,15 @@
             wshd_pstrs = wshd_pstrs + (1.-strsp(j)) * hru_dafr(j)
             wshd_astrs = wshd_astrs + (1.-strsa(j)) * hru_dafr(j)
           end if
-        end if
+	  else                                                                             !! Modified by Cibin to include DLAI>1
+		if (dlai(idp) > 1.) then
+		 if (phuacc(j) > dlai(idp)) then
+            laiday(j) = olai(j) * (1. - (phuacc(j) - dlai(idp)) /             &          !! Modified by Cibin to include DLAI>1
+     &                               (1.2 - dlai(idp)))								   !! Modified by Cibin to include DLAI>1
+	     endif
+	    endif
+	    if (laiday(j) < 0.) laiday(j) = 0.											   !! Modified by Cibin to include DLAI>1
+	endif
+
       return
       end

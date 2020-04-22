@@ -139,7 +139,7 @@
       do
         if (pt >= Int(rtp)) exit
         rx = 0.
-        rx = pkrain - pkrr * xkp1 *                                     &
+        rx = pkrain - pkrr * xkp1 *                                     
      &                       (1. - Exp((Real(pt) - rtp) / (60. * xkp1)))
         rainsub(jj,itime) = rx - sumrain
         pt = pt + idt
@@ -153,7 +153,7 @@
       do
         if (pt >= Int(dur * 60.)) exit
         rx = 0.
-        rx = pkrain + pkrr * xkp2 *                                     &
+        rx = pkrain + pkrr * xkp2 *                                     
      &                       (1. - Exp((rtp - Real(pt)) / (60. * xkp2)))
         rainsub(jj,itime) = rx - sumrain
         pt = pt + idt
@@ -170,4 +170,3 @@
 
       return
       end
-

@@ -190,11 +190,11 @@
         do k = 1, npmx
           !MFW, 3/15/12: Modified to account for decay during lag
           !pst_lag(k,1,j) = pst_lag(k,1,j) + pst_surq(k,j)
-          pst_lag(k,1,j) = (pst_lag(k,1,j) * EXP(-1. *                  &
+          pst_lag(k,1,j) = (pst_lag(k,1,j) * EXP(-1. *                  
      &                      chpst_rea(inum1))) + pst_surq(k,j)
           if (pst_lag(k,1,j) < 1.e-10) pst_lag(k,1,j) = 0.0
           !pst_lag(k,2,j) = pst_lag(k,2,j) + pst_sed(k,j)
-          pst_lag(k,2,j) = (pst_lag(k,2,j) * EXP(-1. *                  &
+          pst_lag(k,2,j) = (pst_lag(k,2,j) * EXP(-1. *                  
      &                      sedpst_rea(inum1))) + pst_sed(k,j)
           if (pst_lag(k,2,j) < 1.e-10) pst_lag(k,2,j) = 0.0
         end do

@@ -87,7 +87,7 @@
 	dtp_evrsv = 0.
 	dtp_inflvol = 0.
 	dtp_totwrwid = 0.
-	dtp_parm = 0.
+	dtp_lwratio = 0.
 	dtp_wdep = 0.
 	dtp_totdep = 0.
 	dtp_watdepact = 0.
@@ -107,6 +107,9 @@
 	dtp_coef1 = 0.
 	dtp_coef2 = 0.
 	dtp_coef3 = 0.
+	dtp_dummy1 = 0.
+	dtp_dummy2 = 0.
+	dtp_dummy3 = 0.
 	dtp_wdratio = 0.
 	dtp_depweir = 0.
 	dtp_diaweir = 0.
@@ -179,6 +182,7 @@
 	  wtp_sede = 0.	 
 	  wtp_qi = 0.
       ovrlnd_dt = 0.
+      bmp_recharge = 0.
 	  
       return
       end

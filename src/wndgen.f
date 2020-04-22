@@ -43,6 +43,5 @@
       v6 = Aunif(rndseed(idg(5),j))
       u10(j) = wndav(i_mo,hru_sub(j)) * (-Log(v6)) ** 0.3
       
-
       return
       end

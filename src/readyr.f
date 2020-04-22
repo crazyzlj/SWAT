@@ -70,46 +70,46 @@
 !!    Read until the year is the beginning year of simulation
       iya = 1
         do
-        read (108,*,iostat=eof) ia1, floyr(i,iya),                      &
-     &                       sedyr(i,iya),                              &
-     &                       orgnyr(i,iya),                             &
-     &                       orgpyr(i,iya),                             &
-     &                       no3yr(i,iya),                              &
-     &                       nh3yr(i,iya),                              &
-     &                       no2yr(i,iya),                              &
-     &                       minpyr(i,iya),                             &
-     &                       cbodyr(i,iya),                             &
-     &                       disoxyr(i,iya),                            &
-     &                       chlayr(i,iya),                             &
-     &                       solpstyr(i,iya),                           &
-     &                       srbpstyr(i,iya),                           &
-     &                       bactpyr(i,iya),                            &
-     &                       bactlpyr(i,iya),                           &
-     &                       cmtl1yr(i,iya),                            &
-     &                       cmtl2yr(i,iya),                            &
+        read (108,*,iostat=eof) ia1, floyr(i,iya),                      
+     &                       sedyr(i,iya),                              
+     &                       orgnyr(i,iya),                             
+     &                       orgpyr(i,iya),                             
+     &                       no3yr(i,iya),                              
+     &                       nh3yr(i,iya),                              
+     &                       no2yr(i,iya),                              
+     &                       minpyr(i,iya),                             
+     &                       cbodyr(i,iya),                             
+     &                       disoxyr(i,iya),                            
+     &                       chlayr(i,iya),                             
+     &                       solpstyr(i,iya),                           
+     &                       srbpstyr(i,iya),                           
+     &                       bactpyr(i,iya),                            
+     &                       bactlpyr(i,iya),                           
+     &                       cmtl1yr(i,iya),                            
+     &                       cmtl2yr(i,iya),                            
      &                       cmtl3yr(i,iya)
             if (ia1 == iyr) exit
 	      if (eof < 0) exit
         end do
 
       do iya = 2, nbyr+2  !2 extra for forecast scenarios
-        read (108,*,iostat=eof) ia1, floyr(i,iya),                      &
-     &                       sedyr(i,iya),                              &
-     &                       orgnyr(i,iya),                             &
-     &                       orgpyr(i,iya),                             &
-     &                       no3yr(i,iya),                              &
-     &                       nh3yr(i,iya),                              &
-     &                       no2yr(i,iya),                              &
-     &                       minpyr(i,iya),                             &
-     &                       cbodyr(i,iya),                             &
-     &                       disoxyr(i,iya),                            &
-     &                       chlayr(i,iya),                             &
-     &                       solpstyr(i,iya),                           &
-     &                       srbpstyr(i,iya),                           &
-     &                       bactpyr(i,iya),                            &
-     &                       bactlpyr(i,iya),                           &
-     &                       cmtl1yr(i,iya),                            &
-     &                       cmtl2yr(i,iya),                            &
+        read (108,*,iostat=eof) ia1, floyr(i,iya),                      
+     &                       sedyr(i,iya),                              
+     &                       orgnyr(i,iya),                             
+     &                       orgpyr(i,iya),                             
+     &                       no3yr(i,iya),                              
+     &                       nh3yr(i,iya),                              
+     &                       no2yr(i,iya),                              
+     &                       minpyr(i,iya),                             
+     &                       cbodyr(i,iya),                             
+     &                       disoxyr(i,iya),                            
+     &                       chlayr(i,iya),                             
+     &                       solpstyr(i,iya),                           
+     &                       srbpstyr(i,iya),                           
+     &                       bactpyr(i,iya),                            
+     &                       bactlpyr(i,iya),                           
+     &                       cmtl1yr(i,iya),                            
+     &                       cmtl2yr(i,iya),                            
      &                       cmtl3yr(i,iya)
         if (eof < 0) exit
       end do

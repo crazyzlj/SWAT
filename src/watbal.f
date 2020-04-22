@@ -99,12 +99,12 @@
       h2oloss = 0.
 
       if (ievent<3) then
-          dstor = sno_hru(j) - snoprev + sol_sw(j) - swprev +               &
-     &        shallst(j) - shallstp + deepst(j) - deepstp +             &
+          dstor = sno_hru(j) - snoprev + sol_sw(j) - swprev +     
+     &        shallst(j) - shallstp + deepst(j) - deepstp +             
      &        surf_bs(1,j) - bsprev + bss(1,j) - bssprev
       else
-         dstor = sno_hru(j) - snoprev + sol_sw(j) - swprev +               &
-     &        shallst(j) - shallstp + deepst(j) - deepstp +             &
+         dstor = sno_hru(j) - snoprev + sol_sw(j) - swprev +          
+     &        shallst(j) - shallstp + deepst(j) - deepstp +           
      &        hhsurf_bs(1,j,nstep) - bsprev + bss(1,j) - bssprev
       endif
 
@@ -115,7 +115,7 @@
 !$$$$$$       h2oloss = subp(j) - qday - latq(j) - etday - gw_q(j) -            &
 !$$$$$$      &          revapday + twlpnd + twlwet + aird(j) + rchrg(j) - qtile &
 !$$$$$$      &          - sepbtm(j)
-      h2oloss = subp(j) - qday - latq(j) - qtile - etday - gw_q(j)      &
+      h2oloss = subp(j) - qday - latq(j) - qtile - etday - gw_q(j)    
      &          + aird(j) - revapday + rchrg(j) - sepbtm(j) - tloss  
           
 
@@ -134,4 +134,3 @@
      *  f10.5,' mm')
       return
       end
-

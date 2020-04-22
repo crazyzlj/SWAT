@@ -94,7 +94,6 @@
           end if
         end do
 
-
       return
 ! 5200 format (7x,300f8.3)
 ! 5300 format (i4,i3,300f8.3)

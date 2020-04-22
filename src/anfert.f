@@ -222,11 +222,11 @@
  
         !! add bacteria to surface layer
         bactpq(j) = bactpq(j) + bactkddb(ifrt) * bactpdb(ifrt) * dwfert
-        bactlpq(j) = bactlpq(j) + bactkddb(ifrt) * bactlpdb(ifrt) *     &
+        bactlpq(j) = bactlpq(j) + bactkddb(ifrt) * bactlpdb(ifrt) *     
      &                                                            dwfert
-        bactps(j) = bactps(j) + (1. - bactkddb(ifrt)) * bactpdb(ifrt)*  &
+        bactps(j) = bactps(j) + (1. - bactkddb(ifrt)) * bactpdb(ifrt)*  
      &                                                           dwfert
-        bactlps(j) = bactlps(j) + (1. - bactkddb(ifrt)) *bactlpdb(ifrt) &
+        bactlps(j) = bactlps(j) + (1. - bactkddb(ifrt)) *bactlpdb(ifrt) 
      &                                                        * dwfert
 
         do ly = 1, 2
@@ -237,19 +237,19 @@
             xx = 1. - afrt_surface(j)
           endif
   
-          sol_no3(ly,j) = sol_no3(ly,j) + xx * dwfert * fminn(ifrt) *   &
+          sol_no3(ly,j) = sol_no3(ly,j) + xx * dwfert * fminn(ifrt) *   
      &                    (1. - fnh3n(ifrt))
-          sol_nh3(ly,j) = sol_nh3(ly,j) + xx * dwfert * fminn(ifrt) *   &
+          sol_nh3(ly,j) = sol_nh3(ly,j) + xx * dwfert * fminn(ifrt) *   
      &                    fnh3n(ifrt)
 
           if (cswat == 0) then
 		sol_fon(ly,j) = sol_fon(ly,j) + rtoaf * xx * dwfert
      &                    * forgn(ifrt)
-            sol_aorgn(ly,j) = sol_aorgn(ly,j) + (1. - rtoaf) * xx       &
+            sol_aorgn(ly,j) = sol_aorgn(ly,j) + (1. - rtoaf) * xx       
      &                    * dwfert * forgn(ifrt)
-            sol_fop(ly,j) = sol_fop(ly,j) + rtoaf * xx * dwfert         &
+            sol_fop(ly,j) = sol_fop(ly,j) + rtoaf * xx * dwfert         
      &                    * forgp(ifrt)
-            sol_orgp(ly,j) = sol_orgp(ly,j) + (1. - rtoaf) * xx *       &
+            sol_orgp(ly,j) = sol_orgp(ly,j) + (1. - rtoaf) * xx *       
      &                    dwfert* forgp(ifrt)
 	    end if
 	    if (cswat == 1) then
@@ -261,12 +261,12 @@
 	    !! add by zhang
 	    !!=================
 	    if (cswat == 2) then
-            sol_fop(ly,j) = sol_fop(ly,j) + rtoaf * xx * dwfert         &
+            sol_fop(ly,j) = sol_fop(ly,j) + rtoaf * xx * dwfert         
      &                    * forgp(ifrt)
-            sol_orgp(ly,j) = sol_orgp(ly,j) + (1. - rtoaf) * xx *       &
+            sol_orgp(ly,j) = sol_orgp(ly,j) + (1. - rtoaf) * xx *       
      &                    dwfert* forgp(ifrt)	    
             !!Allocate organic fertilizer to Slow (SWAT_active) N pool;
-            sol_HSN(ly,j) = sol_HSN(ly,j) + (1. - rtoaf) * xx           &
+            sol_HSN(ly,j) = sol_HSN(ly,j) + (1. - rtoaf) * xx           
      &                    * dwfert * forgn(ifrt)
             sol_aorgn(ly,j) = sol_HSN(ly,j)
 
@@ -328,12 +328,12 @@
           tauton(j) = tauton(j) + auton
           tautop(j) = tautop(j) + autop
         if (curyr > nyskip) then
-         wshd_ftotn = wshd_ftotn + dwfert * (fminn(ifrt) +              &
+         wshd_ftotn = wshd_ftotn + dwfert * (fminn(ifrt) +              
      &               forgn(ifrt))* hru_dafr(j)
          wshd_forgn = wshd_forgn + dwfert * forgn(ifrt) * hru_dafr(j)   
-         wshd_fno3 = wshd_fno3 + dwfert * fminn(ifrt) *                 &
+         wshd_fno3 = wshd_fno3 + dwfert * fminn(ifrt) *                 
      &               (1. - fnh3n(ifrt)) * hru_dafr(j)
-         wshd_fnh3 = wshd_fnh3 + dwfert * fminn(ifrt) * fnh3n(ifrt) *   &
+         wshd_fnh3 = wshd_fnh3 + dwfert * fminn(ifrt) * fnh3n(ifrt) *   
      &               hru_dafr(j)
          wshd_fminp = wshd_fminp + dwfert * tfp * hru_dafr(j)
          wshd_forgp = wshd_forgp + dwfert * forgp(ifrt) * hru_dafr(j)

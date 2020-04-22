@@ -1,7 +1,13 @@
       module parm
       integer icalen
+      
+      real, dimension (:), allocatable :: alph_e
+      real, dimension (:), allocatable :: co_p
+      
 !!   change per JGA 8/31/2011 gsm for output.mgt 
       real :: yield, burn_frlb, pst_kg
+      real :: yieldgrn, yieldbms, yieldtbr, yieldn, yieldp
+      real :: hi_bms, hi_rsd, yieldrsd
 !!    arrays for Landscape Transport Capacity 5/28/2009 nadia
       real, dimension (:), allocatable :: l_k1, l_k2, l_lambda, l_beta
       real, dimension (:), allocatable :: l_gama, l_harea, l_vleng
@@ -39,6 +45,7 @@
       real :: wshd_hmn, wshd_rwn, wshd_hmp, wshd_rmn, wshd_dnit, ffcb
       real :: wshd_rmp, wshd_voln, wshd_nitn, wshd_pas, wshd_pal, wdpq
       real :: wshd_plch, wshd_raino3, ressedc, basno3f, basorgnf, wof_p
+      real :: wshd_pinlet, wshd_ptile
       real :: basminpf, basorgpf, sftmp, smtmp, smfmx, smfmn, wgpq
       real :: wshd_resv, wshd_ressed, basno3i, basorgni, basminpi, wdlpq
       real :: basorgpi, peakr, pndsedin, sw_excess, albday, wglpq, wdps
@@ -106,7 +113,7 @@
       integer :: nrgage, ntgage, nrgfil, ntgfil, nrtot, nttot, mrech
       integer :: lao, igropt, npmx, irtpest, curyr, tmpsim, icrk, iihru
 !    Drainmod tile equations  01/2006
-	integer :: ismax, itdrn, iwtdn
+	integer :: ismax, itdrn, iwtdn, iroutunit
 !    Drainmod tile equations  01/2006
       integer :: mtil, mvaro, mrecd, idist, mudb, mrecm, mrecc, iclb
       integer :: mrecy, ipet, nyskip, ideg, ievent, slrsim, iopera
@@ -118,7 +125,7 @@
       integer :: msub, mhruo, mres, mapp, mpst, mlyr, igen, iprint, iida
       integer :: fcstcnt, icn, ised_det, mtran, idtill, motot
       integer, dimension(100) :: ida_lup, iyr_lup
-      integer :: no_lup, no_up
+      integer :: no_lup, no_up, nostep
 !  routing 5/3/2010 gsm per jga    
 ! date
       character(len=8) :: date
@@ -131,6 +138,7 @@
       character(len=13) :: dpd_file, wpd_file, rib_file, sfb_file
       integer, dimension (:), allocatable :: ifirstr, idg, ifirsthr
       integer, dimension (:), allocatable :: values, ndays
+      integer, dimension (:), allocatable :: ndays_noleap, ndays_leap
 !     apex/command output files
       integer :: mapex
       real, dimension (:), allocatable :: flodaya, seddaya, orgndaya
@@ -370,6 +378,8 @@
       real, dimension (:), allocatable :: res_esa,seccir,res_no2,res_nh3
       real, dimension (:), allocatable :: res_bactp, res_bactlp
       real, dimension (:), allocatable :: oflowmn_fps, starg_fps
+      real, dimension (:), allocatable :: weirc, weirk, weirw
+      real, dimension (:), allocatable :: acoef, bcoef, ccoef
       real, dimension (:), allocatable :: orig_resvol,orig_ressed
       real, dimension (:), allocatable :: orig_lkpstconc,orig_lkspstconc
       real, dimension (:), allocatable :: orig_ressolp,orig_resorgp
@@ -455,6 +465,7 @@
       real, dimension (:), allocatable :: evpot, dis_stream, pot_solpl
       real, dimension (:), allocatable :: sed_con, orgn_con, orgp_con
       real, dimension (:), allocatable :: soln_con, solp_con, pot_k
+      real, dimension (:), allocatable :: n_reduc, n_lag, n_ln, n_lnco 
       integer, dimension (:), allocatable :: ioper
       integer, dimension (:), allocatable :: ngrwat
       real, dimension (:), allocatable :: filterw,sumix,usle_ls,phuacc
@@ -632,7 +643,7 @@
       character(len=17), dimension (300) :: pname
 !!    adding qtile to output.hru write 3/2/2010 gsm  increased heds(70) to heds(71)
 !!    increased hedr(42) to hedr(45) for output.rch gsm 10/17/2011
-      character(len=13) :: heds(78),hedb(22),hedr(45),hedrsv(41)
+      character(len=13) :: heds(78),hedb(22),hedr(46),hedrsv(41)
 !!      character(len=13) :: heds(73),hedb(21),hedr(42),hedrsv(41)
       character(len=13) :: hedwtr(40)
 !     character(len=4) :: title(60), cpnm(250)
@@ -712,11 +723,15 @@
 	real, dimension(:), allocatable:: rhy,init_abstrc
 	real, dimension(:), allocatable:: dratio, hrtevp, hrttlc
 	real, dimension(:,:,:), allocatable:: rchhr
+!! subdaily reservoir modeling by Jaehak Jeong
+	real, dimension(:), allocatable:: hhresflwi, hhresflwo,
+     & hhressedi, hhressedo 
 	
 !! bmp modeling by jaehak jeong
       character(len=4), dimension(:), allocatable:: lu_nodrain
       integer, dimension(:), allocatable:: bmpdrain
-      real, dimension(:), allocatable :: sub_cn2, sub_ha_urb
+      real, dimension(:), allocatable :: sub_cn2, sub_ha_urb,
+     & bmp_recharge 
       !sed-fil
       real, dimension(:), allocatable:: sub_ha_imp,subdr_km,subdr_ickm
       real, dimension(:,:), allocatable:: sf_im,sf_iy,sp_sa,
@@ -742,11 +757,12 @@
 	integer, dimension(:,:), allocatable :: dtp_weirtype,dtp_weirdim
 	
 	real, dimension(:), allocatable ::dtp_evrsv,
-     &  dtp_inflvol,dtp_totwrwid,dtp_parm,dtp_wdep,dtp_totdep,
+     &  dtp_inflvol,dtp_totwrwid,dtp_lwratio,dtp_wdep,dtp_totdep,
      &  dtp_watdepact,dtp_outflow,dtp_totrel,dtp_backoff,dtp_seep_sa,
      &  dtp_evap_sa,dtp_pet_day,dtp_pcpvol,dtp_seepvol,dtp_evapvol,
      &  dtp_flowin,dtp_backup_length,dtp_intcept,dtp_expont,dtp_coef1,
-     &  dtp_coef2,dtp_coef3,dtp_ivol,dtp_ised
+     &  dtp_coef2,dtp_coef3,dtp_dummy1,dtp_dummy2,
+     &  dtp_dummy3,dtp_ivol,dtp_ised
 
       integer, dimension (:,:),allocatable :: so_res_flag, ro_bmp_flag
       real, dimension (:,:),allocatable :: sol_watp, sol_solp_pre   

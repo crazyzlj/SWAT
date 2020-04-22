@@ -261,7 +261,7 @@
         if (subp(k) < 0.) subp(k) = 0.
         if (nstep > 0) then
           do ii = 1, nstep
-            rainsub(k,ii) = rainsub(k,ii) *                             &
+            rainsub(k,ii) = rainsub(k,ii) *                             
      &                              (1. + rfinc(hru_sub(k),i_mo) / 100.)
             if (rainsub(k,ii) < 0.) rainsub(k,ii) = 0.
           end do
@@ -278,7 +278,7 @@
 
 !! Elevation Adjustments !!
       do k = 1, nhru
-        if (elevb(1,hru_sub(k)) > 0. .and.                              &
+        if (elevb(1,hru_sub(k)) > 0. .and.                              
      &                                elevb_fr(1,hru_sub(k)) > 0.) then
         !! determine temperature and precipitation for individual bands
         ratio = 0.
@@ -287,17 +287,17 @@
           tdif = 0.
           pdif = 0.
           if (tmpsim == 1) then
-            tdif = (elevb(ib,hru_sub(k)) -                              &
+            tdif = (elevb(ib,hru_sub(k)) -                              
      &      Real(elevt(itgage(hru_sub(k))))) * tlaps(hru_sub(k)) / 1000.
           else
-            tdif = (elevb(ib,hru_sub(k)) - welev(hru_sub(k)))           &
+            tdif = (elevb(ib,hru_sub(k)) - welev(hru_sub(k)))           
      &                                       * tlaps(hru_sub(k)) / 1000.
           end if
           if (pcpsim == 1) then
-            pdif = (elevb(ib,hru_sub(k)) -                              &
+            pdif = (elevb(ib,hru_sub(k)) -                              
      &      Real(elevp(irgage(hru_sub(k))))) * plaps(hru_sub(k)) / 1000.
           else
-            pdif = (elevb(ib,hru_sub(k)) - welev(hru_sub(k)))           &
+            pdif = (elevb(ib,hru_sub(k)) - welev(hru_sub(k)))           
      &                                       * plaps(hru_sub(k)) / 1000.
           end if
           tavband(ib,k) = tmpav(k) + tdif

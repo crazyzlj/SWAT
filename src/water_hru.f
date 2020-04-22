@@ -1,11 +1,7 @@
       subroutine water_hru
-      
-      
-      
+            
 !!    ~ ~ ~ PURPOSE ~ ~ ~
 !!    
-
-
 !!    ~ ~ ~ INCOMING VARIABLES ~ ~ ~
 !!    name        |units       |definition
 !!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ 

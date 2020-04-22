@@ -34,7 +34,7 @@
       if (i_mo.le.2) then
            icl = id - ndays(i_mo)
       else 
-           icl = id - ndays(i_mo) + leapyr
+           icl = id - ndays(i_mo)
       end if
       return
       end

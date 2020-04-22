@@ -92,7 +92,7 @@
         mdays = ndays(mon+1) - ndays(mon)
 
         !! calculate values for fpr_w if missing or bad
-        if (fpr_w(2,mon,i) <= fpr_w(1,mon,i).or.fpr_w(1,mon,i) <= 0.)   &
+        if (fpr_w(2,mon,i) <= fpr_w(1,mon,i).or.fpr_w(1,mon,i) <= 0.)   
      &                                                              then
           if (pcpd(mon) < .1) pcpd(mon) = 0.1
           fpr_w(1,mon,i) = .75 * pcpd(mon) / mdays
@@ -100,7 +100,7 @@
         else
         !! if fpr_w values good, use calculated pcpd based on these values
         !! using first order Markov chain
-        pcpd(mon) = mdays * fpr_w(1,mon,i) /                            &
+        pcpd(mon) = mdays * fpr_w(1,mon,i) /                            
      &                            (1. - fpr_w(2,mon,i) + fpr_w(1,mon,i))
     
         end if

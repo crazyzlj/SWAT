@@ -118,14 +118,11 @@
 !!    SWAT: gcycl, caps, Aunif
 !!    ~ ~ ~ ~ ~ ~ END SPECIFICATIONS ~ ~ ~ ~ ~ ~
 
-
       use parm
 
-      character (len=13) :: figfile, bsnfile, plantdb, tilldb, urbandb, &
+      character (len=13) :: figfile, bsnfile, plantdb, tilldb, urbandb, 
      &    pestdb, fertdb, fcstfile
 	
-
-
       character (len=80) :: titldum
       real :: sumv, xx
       integer :: rn, j, ii, eof
@@ -495,10 +492,10 @@
       if (isol == 1) then
          open (121,file='output.snu')
          write (121,12222) 
-12222   format (t25,'SURFACE',t39,'-------  SOIL PROFILE  -------',/,   & 
-     &  t8,'DAY',t15,'GISnum',t25,'SOL_RSD',t37,'SOL_P',t48,            &
-     &  'NO3',t57,'ORG_N',t67,'ORG_P',t80,'CN'/,t26,                    &
-     &  '(t/ha)',t35,'(kg/ha)',t45,                                     &
+12222   format (t25,'SURFACE',t39,'-------  SOIL PROFILE  -------',/, 
+     &  t8,'DAY',t15,'GISnum',t25,'SOL_RSD',t37,'SOL_P',t48,            
+     &  'NO3',t57,'ORG_N',t67,'ORG_P',t80,'CN'/,t26,                    
+     &  '(t/ha)',t35,'(kg/ha)',t45,                                     
      &  '(kg/ha)',t55,'(kg/ha)',t66,'(kg/ha)')
       end if  
 !! headwater code (0=do not route; 1=route)
@@ -557,10 +554,10 @@
 
       if (ipdvar(1) <= 0) then
  !! change 42 to 45 for output.rch file gsm 10/30/2011     
-        do ii = 1, 45
+        do ii = 1, 46
           ipdvar(ii) = ii
         end do
-        itotr = 45
+        itotr = 46
       end if
 
 
@@ -624,12 +621,12 @@
       open (84,file="output.sed",recl=800)
 !! write headings to sediment outputfile (output.sed)
       write (84,1080)
-1080  format (t8,'RCH',t17,'GIS',t23,'MON',t31,'AREAkm2',               &
-     &t40,'SED_INtons',t51,'SED_OUTtons',t63,'SAND_INtons',t74,         &
-     &'SAND_OUTtons',t87,'SILT_INtons',t98,'SILT_OUTtons',t111,         &
-     &'CLAY_INtons',t122,'CLAY_OUTtons',t135,'SMAG_INtons',t146,        &
-     &'SMAG_OUTtons',t160,'LAG_INtons',t171,'LAG_OUTtons',t184,         &
-     &'GRA_INtons',t195,'GRA_OUTtons',t208,'CH_BNKtons',t220,           &
+1080  format (t8,'RCH',t17,'GIS',t23,'MON',t31,'AREAkm2',               
+     &t40,'SED_INtons',t51,'SED_OUTtons',t63,'SAND_INtons',t74,         
+     &'SAND_OUTtons',t87,'SILT_INtons',t98,'SILT_OUTtons',t111,         
+     &'CLAY_INtons',t122,'CLAY_OUTtons',t135,'SMAG_INtons',t146,        
+     &'SMAG_OUTtons',t160,'LAG_INtons',t171,'LAG_OUTtons',t184,         
+     &'GRA_INtons',t195,'GRA_OUTtons',t208,'CH_BNKtons',t220,           
      &'CH_BEDtons',t232,'CH_DEPtons',t244,'FP_DEPtons',t259,'TSSmg/L')
      
       ! Jaehak, sedimentation-filtration output
@@ -638,7 +635,7 @@
       write(77778,'(a46)') ''   ! 
        !retention-irrigation output
       open (77779,file = "bmp-ri.out") !jaehak temp urban print out
-      write(77779,'(a46)') 'Retention-Irrigation Basins Configuration'   
+      write(77779,'(a46)') 'Retention-Irrigation Basins Configuration'
       write(77779,'(a46)') ''   ! 
 
 
@@ -699,18 +696,21 @@
 	if (imgt==1) then
          open (143, file="output.mgt", recl=600)
          write(143,999)
-999   format(2x,'Sub',4x,'Hru',3x,'Year',3x,'Mon',3x,'Day',3x,
+999   format(2x,'Sub',2x,'Hru',2x,'Year',3x,'Mon',3x,'Day',3x,
      *'crop/fert/pest', 4x,
      *'Operation',4x,'phubase',3x,'phuacc',4x,'sol_sw',4x,'bio_ms',3x,
      *'sol_rsd',7x,'sol',7x,'sol',5x,'yield',3x,'irr amt',
      *5x,'amt',5x,'mix eff',
      *5x,'strsn',
      *5x,'strsp',3x,'strstmp',5x,'strsw',5x,'strsa',2x,'irrsc',
-     *2x,'irrno',/,114x,
+     *2x,'irrno',5x,'grain',3x,'biomass',5x,'tuber',3x,'residue',7x,
+     *'nit',6x,'phos',/,111x,
      *' sumno3',2x,' sumsolp',23x,'frt-kg',17x,' sum',6x,' sum',6x,
-     *' sum',6x,' sum',6x,' sum',/,88x,'mm', 6x,'kg/ha',5x,'kg/ha', 5x,
+     *' sum',6x,' sum',6x,' sum',20x,'yld',6x,'yld',8x,'yld',6x,'yld',
+     *9x,'yld',6x,'yld'/,85x,'mm', 6x,'kg/ha',5x,'kg/ha',5x,
      *'kg/ha', 5x,'kg/ha',5x, 'kg/ha',5x, 'mm',4x,'or dwfert',3x,
-     *'frac',6x,'fertno3',7x,'nh3',6x,'orgn',6x,'solp',6x,'orgp',
+     *'frac',6x,'fertno3',7x,'nh3',6x,'orgn',6x,'solp',6x,'orgp',19x,
+     *'kg/ha',4x,'kg/ha',6x,'kg/ha',4x,'kg/ha',7x,'kg/ha',5x,'kg/ha',
      */,'_______________________________________________________________
      *__________________________________________________________________
      *__________________________________________________________________
@@ -727,10 +727,10 @@
           write (125, 1000) 
         end if
         
- 1000  format (1x,'HRU',t6,'SUB',t12,'DAY',t17,'YEAR',t26,'VOL-I',t37,  &
+ 1000  format (1x,'SUB',t6,'HRU',t12,'DAY',t17,'YEAR',t26,'VOL-I',t37,  
      &'SA-I',t46,'SPILLO', 
-     &t56,'POTSEP',t66,'POTEV',t75,'SOL_SW',t85,'TILE-O',t96,'VOL-F',   &
-     &t106,'SA-F',/,t27,'(mm)',t37,'(ha)',t47,'(mm)',t57,'(mm)',t67,    &
+     &t56,'POTSEP',t66,'POTEV',t75,'SOL_SW',t85,'TILE-O',t96,'VOL-F',   
+     &t106,'SA-F',/,t27,'(mm)',t37,'(ha)',t47,'(mm)',t57,'(mm)',t67,    
      &'(mm)',t77,'(mm)',t87,'(mm)',t97,'(mm)',t107,'(ha)')  
        
 !     code for writing out calendar day or julian day to output.rch, .sub, .hru files
@@ -739,11 +739,6 @@
 !!!!! if icalen == 1 (print month/day/year) - force iprint to be daily  <--nubz asked srin 06/11/2012
       if (icalen == 1) iprint = 1
       
-!! Atmospheric deposition input file (kannan/santhi)
-!     open (127,file='testatmo.dat')
-!     do iii = 1, 5
-!       read (127,5101) titldum
-!     end do 
       if (isproj == 1) then
         open (19,file="output2.std")
         open (20,file="output2.rch",recl=600)
@@ -751,28 +746,11 @@
         open (22,file="output2.rsv",recl=800)
       end if
 
-	!! sj june 07 / nancy Jan 09 output carbon routines 
-!	open (98,file="cswat_daily.txt",recl=280)
-
-!      write (98,*) 'year',';','day',';','lay',';','hru',';',
-!     &'sol_cmass',';','sol_cbn',';','sol_nmass',';','sol_n',';',
-!    &'sol_orgp',';','sol_rsd',';','sol_fon',';','sol_fop',';',
-!     &'sol_solp',';','mancmass',';','mannmass',';','manpmass',';',
-!     &'sol_no3',';','soil_C:N',';','soil_N:P'
-	
-!	open (99,file="cswat_balance.txt")
-!	write (99,*) 'bal_c',';','sum_c_i',';','sum_c_f',';','bal_n',';',
- !    &'sum_n_i',';','sum_n_f',';','bal_p',';','sum_p_i',';','sum_p_f'	
-
-
-!! sj september 2010 CSWAT final output
       if (cswat == 1) then
 	open (100,file="cswat_profile.txt",recl=280)
 	write (100,*) 'year',';','day',';','hru',';','cmass',';','sol_rsd',
      &';','mancmass'
       end if
-
-      
 
 !! septic result  J.Jeong Feb2009
       open (173,file='septic.out')  
@@ -785,26 +763,11 @@
      & '(kg/ha)','(kg/ha)','(kg/ha)','(kg/ha)','(kg/ha)',
      & '(kg/ha)','(kg/ha)','(mg/l)'
 
-
-!!   virgina/mari-vaughn project heading	
-!     write (1112,1112) 
-!1112  format (t6,'NO3',t22,'FON',t36,'AORGN',t54,'NH3',t68,'SOLP',
-!    *t85,'FOP',t100,'ORGP')
-!!    output file #1 writes water table depth (from wattable.f)
-!     open (444,file='wtable.out')
-!     write (444,1113) 
-!1113  format (14x,'WTABLE',/,2x,'YR',1x,'DAY',1x,'HRU',2x,'DEP(m)')
-!!    output #2 file writes water table depth (from percmain.f)
-!     open (333,file='wtable2.out')
-!     write (333,1114)
-!1114  format (12x,'WTABLE DEP',1x,'WTABLE DEP',/,13x,'ABOVE IMP',
-!    *3x,'BELOW GRD',/,13x,'LAYER (MM)',2x,'SURF (M)')
-
       close (101)
       return
 
- 1010 format (32x,'SNOW(mm) at ELEVATION BAND (1-10)',/,                &
-     &1x,'DAY','   YR',t14,'GISnum',t28,'1',t36,'2',t44,'3',t52,'4',    &
+ 1010 format (32x,'SNOW(mm) at ELEVATION BAND (1-10)',/,                
+     &1x,'DAY','   YR',t14,'GISnum',t28,'1',t36,'2',t44,'3',t52,'4',    
      &t60,'5',t68,'6',t76,'7',t84,'8',t92,'9',t99,'10')
  5000 format (6a)
  5100 format (20a4)

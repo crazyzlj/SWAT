@@ -94,7 +94,7 @@
 
       use parm
 
-      character (len=13) :: urbandb, plantdb, tilldb, pestdb, figfile,  &
+      character (len=13) :: urbandb, plantdb, tilldb, pestdb, figfile,  
      &                      fertdb, subfile, fcstfile, bsnfile
       character (len=1) ::  a
       character (len=80) ::  titldum
@@ -445,6 +445,9 @@
       if (ils_nofig == 1) then
         mru = Max(mru,2*msub)
       end if
+      
+!      mhyd = mhyd + mrecc + mrecd + mrech + mrecm + mrecy + nsave
+!     &                                                       + mtran + 1
       if (mhru <= 0) mhru = 1
       if (msub <= 0) msub = 1
       if (mch <= 0) mch = 1
@@ -456,6 +459,7 @@
       if (mres <= 0) mres = 1
 
       mhyd = mhyd + nsave + mtran + 1
+      
       if (ils_nofig == 1) then
         mhyd = mhyd + 6 * msub
       end if
@@ -512,4 +516,3 @@
  6300 format (i4)
  6400 format (i6)
       end
-

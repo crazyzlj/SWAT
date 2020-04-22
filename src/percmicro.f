@@ -97,7 +97,7 @@
         else
           ho = 2. * sw_excess / ((sol_ul(ly1,j) - sol_fc(ly1,j)) /  dg)
         end if
-        latlyr = adjf * ho * sol_k(ly1,j) * hru_slp(j) / slsoil(j)      &
+        latlyr = adjf * ho * sol_k(ly1,j) * hru_slp(j) / slsoil(j)      
      &                                                            * .024
 
       if (latlyr < 0.) latlyr = 0. 

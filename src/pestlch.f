@@ -118,7 +118,7 @@
                 cocalc = 0.
                 co = 0.
                 if (ly == 1) then
-                  cocalc = xx /                                         &
+                  cocalc = xx /                                         
      &           (sol_prk(ly,j) + percop * (qsurf + flat(ly,j)) + 1.e-6)
                 else
                   cocalc = xx / (sol_prk(ly,j) + flat(ly,j) + 1.e-6)

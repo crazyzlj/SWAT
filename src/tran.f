@@ -84,18 +84,32 @@
       dur = vo / (peakr * 3600.)      !!duration: hr
       if (dur > 24.) dur = 24.
 
-!! zero surface runoff/peak rate
-      qday = 0.
-      peakr = 0.
+!! flagged by pdw, should be after xx condition
+!!!! zero surface runoff/peak rate
+!!      qday = 0.
+!!      peakr = 0.
 
       xx = 0.
       xx = 2.6466 * ch_k(1,hru_sub(j)) * dur / vo
       if (xx < 1.) then
+        
+        !moved by pdw
+        !! zero surface runoff/peak rate
+        qday = 0.
+        peakr = 0.
+        ! end move pdw
+        
         k = 0.
         k = -2.22 * Log(1. - xx)
         b = 0.
         b = Exp(-0.4905 * k)
-        if ((1. - b) > 1.e-20) then
+        
+        ! bug fix by pdw
+        ! old code: if ((1. - b) > 1.e-20) then
+				! new code:
+        if ((1. - b) .GE. 0.) then 
+        ! end fix pdw
+        
           zz = 0.
           zz = - k * ch_w(1,hru_sub(j)) * ch_l1(j)
           if (zz >= -30.) then
@@ -110,21 +124,20 @@
             end if
             pxw = -axw / bxw
             if (vo > pxw) then
-              qday = axw + bxw * vo              !!surface runoff: m^3
-              qday = qday / (1000. * hru_km(j))  !!surface runoff: mm
-              if (qday < 0.) qday = 0.
-              if (qday > 0.) then
-                peakr = (1. / (dur * 3600.)) * (axw - (1. - bxw) * vo)   &
+                qday = axw + bxw * vo              !!surface runoff: m^3
+                qday = qday / (1000. * hru_km(j))  !!surface runoff: mm
+                if (qday < 0.) qday = 0.
+                if (qday > 0.) then
+                  peakr = (1. / (dur * 3600.)) * (axw - (1. - bxw) * vo)   &
      &                  + bxw * pr1              !!peak rate: m^3/s
-                if (peakr < 0.) peakr = 0.
-              end if
-            end if
+                  if (peakr < 0.) peakr = 0.
+                end if
+             end if
           end if
         end if
       end if
 
       tloss = qinit - qday
-
       if (tloss < 0.) then
         qday = qinit
         tloss = 0.

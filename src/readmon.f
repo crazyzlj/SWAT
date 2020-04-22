@@ -81,24 +81,24 @@
         iya = 1
         mon = 1
         do
-          read (107,*,iostat=eof) ia1, ia2,                             &
-     &                            flomon(i,iya,mon),                    &
-     &                            sedmon(i,iya,mon),                    &
-     &                            orgnmon(i,iya,mon),                   &
-     &                            orgpmon(i,iya,mon),                   &
-     &                            no3mon(i,iya,mon),                    &
-     &                            nh3mon(i,iya,mon),                    &
-     &                            no2mon(i,iya,mon),                    &
-     &                            minpmon(i,iya,mon),                   &
-     &                            cbodmon(i,iya,mon),                   &
-     &                            disoxmon(i,iya,mon),                  &
-     &                            chlamon(i,iya,mon),                   &
-     &                            solpstmon(i,iya,mon),                 &
-     &                            srbpstmon(i,iya,mon),                 &
-     &                            bactpmon(i,iya,mon),                  &
-     &                            bactlpmon(i,iya,mon),                 &
-     &                            cmtl1mon(i,iya,mon),                  &
-     &                            cmtl2mon(i,iya,mon),                  &
+          read (107,*,iostat=eof) ia1, ia2,                             
+     &                            flomon(i,iya,mon),                    
+     &                            sedmon(i,iya,mon),                    
+     &                            orgnmon(i,iya,mon),                   
+     &                            orgpmon(i,iya,mon),                   
+     &                            no3mon(i,iya,mon),                    
+     &                            nh3mon(i,iya,mon),                    
+     &                            no2mon(i,iya,mon),                    
+     &                            minpmon(i,iya,mon),                   
+     &                            cbodmon(i,iya,mon),                   
+     &                            disoxmon(i,iya,mon),                  
+     &                            chlamon(i,iya,mon),                   
+     &                            solpstmon(i,iya,mon),                 
+     &                            srbpstmon(i,iya,mon),                 
+     &                            bactpmon(i,iya,mon),                  
+     &                            bactlpmon(i,iya,mon),                 
+     &                            cmtl1mon(i,iya,mon),                  
+     &                            cmtl2mon(i,iya,mon),                  
      &                            cmtl3mon(i,iya,mon)
 	   
 
@@ -115,24 +115,24 @@
             begmon = 1
           end if
         do mon = begmon, 12
-          read (107,*,iostat=eof) ia1, ia2,                             &
-     &                            flomon(i,iya,mon),                    &
-     &                            sedmon(i,iya,mon),                    &
-     &                            orgnmon(i,iya,mon),                   &
-     &                            orgpmon(i,iya,mon),                   &
-     &                            no3mon(i,iya,mon),                    &
-     &                            nh3mon(i,iya,mon),                    &
-     &                            no2mon(i,iya,mon),                    &
-     &                            minpmon(i,iya,mon),                   &
-     &                            cbodmon(i,iya,mon),                   &
-     &                            disoxmon(i,iya,mon),                  &
-     &                            chlamon(i,iya,mon),                   &
-     &                            solpstmon(i,iya,mon),                 &
-     &                            srbpstmon(i,iya,mon),                 &
-     &                            bactpmon(i,iya,mon),                  &
-     &                            bactlpmon(i,iya,mon),                 &
-     &                            cmtl1mon(i,iya,mon),                  &
-     &                            cmtl2mon(i,iya,mon),                  &
+          read (107,*,iostat=eof) ia1, ia2,                             
+     &                            flomon(i,iya,mon),                    
+     &                            sedmon(i,iya,mon),                    
+     &                            orgnmon(i,iya,mon),                   
+     &                            orgpmon(i,iya,mon),                   
+     &                            no3mon(i,iya,mon),                    
+     &                            nh3mon(i,iya,mon),                    
+     &                            no2mon(i,iya,mon),                    
+     &                            minpmon(i,iya,mon),                   
+     &                            cbodmon(i,iya,mon),                   
+     &                            disoxmon(i,iya,mon),                  
+     &                            chlamon(i,iya,mon),                   
+     &                            solpstmon(i,iya,mon),                 
+     &                            srbpstmon(i,iya,mon),                 
+     &                            bactpmon(i,iya,mon),                  
+     &                            bactlpmon(i,iya,mon),                 
+     &                            cmtl1mon(i,iya,mon),                  
+     &                            cmtl2mon(i,iya,mon),                  
      &                            cmtl3mon(i,iya,mon)
           if (eof < 0) exit
         end do

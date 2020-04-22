@@ -5,8 +5,10 @@
 
       use parm
       
-       ifirstatmo = 1
-       mo_atmo = 0
+      co_p = .1
+      
+      ifirstatmo = 1
+      mo_atmo = 0
       
 !!    apex command initialize
       idapa = 0
@@ -293,7 +295,7 @@
       icrmx = 0
       iday_fert = 0
       idc = 0
-	  idop = 0
+      idop = 0
       idorm = 0
       idplt = 0
       idplrot = 1
@@ -341,6 +343,7 @@
       ireg = 1
       irgage = 0
       irip = 0
+      iroutunit = 0
       irn = 0
       irramt = 0.
       irreff = 1.
@@ -379,7 +382,7 @@
       mcr = 1
       mcrhru = 0
       mgtop = 0
-	mgt1iop = 0
+      mgt1iop = 0
       mgt2iop = 0
       mgt3iop = 0
       mgt4op = 0.0
@@ -396,10 +399,8 @@
       ndcfrt = 0
       fert_days = 0
       grz_days = 0
-  !! change per JGA irrigation 4/2/2009
       nair = 1
       irr_mx = 0.
-  !! change per JGA irrigation 4/2/2009
       latno3 = 0.
       nicr = 0
       ndmo = 0
@@ -428,7 +429,7 @@
       pc = 0.
       pc_bsn = 0.
 !    Drainmod tile equations  01/2006
-	  phubase = 0.
+      phubase = 0.
       pltnfr = 0.
       pltpfr = 0.
       pot_seep = 0.
@@ -462,8 +463,8 @@
 !    Drainmod tile equations  01/2006
       rsr1 = 0.
       rsr2 = 0.
-	  rsr1 = 0.
-	  rsr2 = 0.
+      rsr1 = 0.
+      rsr2 = 0.
       sed_con = 0.
       sepcrk = 0.
       sq_rto = 0.
@@ -471,8 +472,7 @@
 !    Drainmod tile equations  01/2006 
       stmaxd = 0.
       stmaxd_bsn = 0.
-!    Drainmod tile equations  01/2006 
-     
+!    Drainmod tile equations  01/2006      
       sol_ec = 0.
       sol_sand = 0.
       sol_silt = 0.
@@ -511,7 +511,7 @@
       uh = 0.
       vfsratio = 0.
       vfscon = 0.
-	  vfsi = 0.
+      vfsi = 0.
       vfsch = 0.
       wt_shall = 0.
       wshd_aamon = 0.

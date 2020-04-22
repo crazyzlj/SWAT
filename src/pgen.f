@@ -82,12 +82,12 @@
           xlv = (Dstn1(rnd3(j),v8) - r6) * r6 + 1.
           xlv = (xlv**3 - 1.) * 2. / pcp_stat(i_mo,3,hru_sub(j))
           rnd3(j) = v8
-          pcpgen = xlv * pcp_stat(i_mo,2,hru_sub(j)) +                  &
+          pcpgen = xlv * pcp_stat(i_mo,2,hru_sub(j)) +                  
      &                                       pcp_stat(i_mo,1,hru_sub(j))
           pcpgen = pcpgen * pcf(i_mo,hru_sub(j))
         else
           !! mixed exponential rainfall distribution
-          pcpgen = ((-Log(v8))**rexp) * pcp_stat(i_mo,1,hru_sub(j)) *   &
+          pcpgen = ((-Log(v8))**rexp) * pcp_stat(i_mo,1,hru_sub(j)) *   
      &                                                              rcor
         end if
         if (pcpgen < .1) pcpgen = .1
@@ -95,7 +95,9 @@
 
       subp(j) = pcpgen
 
-!     if (ievent > 0 .and. subp(j) >= 0.01) call pgenhr(j)
+      if (ievent > 0 .and. subp(j) >= 0.01 .and. pcpsim == 2) then
+        call pgenhr(j)
+      endif
 
       return
       end

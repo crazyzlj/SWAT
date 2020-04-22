@@ -127,14 +127,14 @@
           flag = irr_flag(k)
           if (auto_wstr(k) > 0.) then
             if (wstrs_id(k) == 1 .and. strsw(k) < auto_wstr(k)) flag = 2
-            if (wstrs_id(k) == 2 .and. sol_sumfc(k) - sol_sw(k) >       &
+            if (wstrs_id(k) == 2 .and. sol_sumfc(k) - sol_sw(k) >       
      &             auto_wstr(k)) flag = 2
           end if
 
             !! Set parameters based on manual or auto irrigation
 			if (flag == 1) then
 			  sq_rto = irrsq(k)
-			  irrsc(k) = irr_sc(k)                                  !!NUBZ
+			  irrsc(k) = irr_sc(k)                              
 			  irrno(k) = irr_no(k)
 			else
 			  sq_rto = irr_asq(k)
@@ -143,7 +143,7 @@
 			endif
 
         if (irrsc(k) == 1 .and. irrno(k) == jrch) then
-          aird(k) = 0.                                            !!NUBZ
+          aird(k) = 0.                                          
 
           if (flag > 0) then
             !!irrigate only if flow is greater than minimum flow

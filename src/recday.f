@@ -138,16 +138,16 @@
       end do
 
       if (ifirstr(inum1) == 0) then
-          read (555+inum1,*) idap, iyp, floday, sedday, orgnday,        &
-     &        orgpday, no3day, nh3day, no2day, minpday, cbodday,        &
-     &        disoxday, chladay, solpstday, srbpstday, bactpday,        &
+          read (555+inum1,*) idap, iyp, floday, sedday, orgnday,        
+     &        orgpday, no3day, nh3day, no2day, minpday, cbodday,        
+     &        disoxday, chladay, solpstday, srbpstday, bactpday,        
      &        bactlpday, cmtl1day, cmtl2day, cmtl3day
       else
         ifirstr(inum1) = 0
         do
-          read (555+inum1,*) idap, iyp, floday, sedday, orgnday,        &
-     &        orgpday, no3day, nh3day, no2day, minpday, cbodday,        &
-     &        disoxday, chladay, solpstday, srbpstday, bactpday,        &
+          read (555+inum1,*) idap, iyp, floday, sedday, orgnday,        
+     &        orgpday, no3day, nh3day, no2day, minpday, cbodday,        
+     &        disoxday, chladay, solpstday, srbpstday, bactpday,        
      &        bactlpday, cmtl1day, cmtl2day, cmtl3day
           if (iyp + idap <= 0) exit
           if (iyp == iyr .and. idap == id1) exit
@@ -205,4 +205,4 @@
       end if
 
       return
-      enD
+      end

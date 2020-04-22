@@ -61,8 +61,9 @@
          qday = surf_bs(1,j) * brt(j)
          surf_bs(1,j) = surf_bs(1,j) - qday
 	
-	else
-		bsprev = hhsurf_bs(1,j,nstep)		! lag from previous day J.Jeong 4/06/2009
+      else
+		!subdaily runoff lag (applies only to runoff from pervious surface)
+         bsprev = hhsurf_bs(1,j,nstep)		! lag from previous day J.Jeong 4/06/2009
 
 	   do k=1,nstep
 
@@ -78,7 +79,7 @@
 	   end do
 
 	   !! daily total yield from the HRU
-	   qday = sum(hhqday)  
+	   qday = sum(hhqday) + sum(ubnrunoff)  
 	end if
      
       return

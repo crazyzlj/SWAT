@@ -47,8 +47,8 @@
       sfflw = 0.; sfsed = 0.; riflw = 0.; rised = 0.;bmpfr=0.
       spqm3 = 0.; spsed=0.;ftqm3=0.;ftsed=0.;riqm3=0.
       
-!      flowin(1,1:nstep) = sub_ubnrunoff(sb,1:nstep)
-      
+       !initialize daily recharge from distributed BMPs
+       bmp_recharge(sb) = 0.
 	   
  	!--------------------------------- 	   
  	! sedimentation-filtration basin

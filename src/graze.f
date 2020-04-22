@@ -353,25 +353,25 @@
           
           if (cswat == 0) then
 
-          sol_no3(l,j) = sol_no3(l,j) + manure_kg(j)               *    &
+          sol_no3(l,j) = sol_no3(l,j) + manure_kg(j)               *    
      &                 (1. - fnh3n(it)) * fminn(it)
-          sol_fon(l,j) = sol_fon(l,j) + manure_kg(j)               *    &
+          sol_fon(l,j) = sol_fon(l,j) + manure_kg(j)               *    
      &                 forgn(it)
-          sol_nh3(l,j) = sol_nh3(l,j) + manure_kg(j)               *    &
+          sol_nh3(l,j) = sol_nh3(l,j) + manure_kg(j)               *    
      &                 fnh3n(it) * fminn(it)
-          sol_solp(l,j) = sol_solp(l,j) + manure_kg(j)             *    &
+          sol_solp(l,j) = sol_solp(l,j) + manure_kg(j)             *    
      &                 fminp(it)
-          sol_fop(l,j) = sol_fop(l,j) + manure_kg(j)               *    &
+          sol_fop(l,j) = sol_fop(l,j) + manure_kg(j)               *    
      &                 forgp(it)
           end if
           if (cswat == 1) then
-          sol_no3(l,j) = sol_no3(l,j) + manure_kg(j)               *    &
+          sol_no3(l,j) = sol_no3(l,j) + manure_kg(j)               *    
      &                 (1. - fnh3n(it)) * fminn(it)
           sol_mn(l,j) = sol_mn(l,j) + manure_kg(j)                 *
      &                 forgn(it)
-          sol_nh3(l,j) = sol_nh3(l,j) + manure_kg(j)               *    &
+          sol_nh3(l,j) = sol_nh3(l,j) + manure_kg(j)               *    
      &                 fnh3n(it) * fminn(it)
-          sol_solp(l,j) = sol_solp(l,j) + manure_kg(j)             *    &
+          sol_solp(l,j) = sol_solp(l,j) + manure_kg(j)             *    
      &                 fminp(it)
           sol_mp(l,j) = sol_mp(l,j) + manure_kg(j)               *
      &                 forgp(it)          
@@ -452,7 +452,7 @@
           bactps(j) = gc1 * bactpdb(it) * frt_t * 100. + bactps(j)
           bactps(j) = (1. - bactkddb(it)) * bactps(j)
 
-          bactlpq(j) = gc1 * bactlpdb(it) * frt_t * 100. + bactlpq(j)     
+          bactlpq(j) = gc1 * bactlpdb(it) * frt_t * 100. + bactlpq(j)
           bactlpq(j) = bactkddb(it) * bactlpq(j)
 
           bactlps(j) = gc1 * bactlpdb(it) * frt_t * 100. + bactlps(j)
@@ -472,27 +472,27 @@
 
         !! summary calculations
         !! I do not understand these summary calculations Armen March 2009
-        grazn = grazn + manure_kg(j)               *                    &
+        grazn = grazn + manure_kg(j)               *                    
      &               (fminn(it) + forgn(it))
-        grazp = grazp + manure_kg(j)               *                    &
+        grazp = grazp + manure_kg(j)               *                    
      &               (fminp(it) + forgp(it))
         tgrazn(j) = tgrazn(j) + grazn
         tgrazp(j) = tgrazp(j) + grazp
 
         if (curyr > nyskip) then
-          wshd_ftotn = wshd_ftotn + manure_kg(j)               *        &
+          wshd_ftotn = wshd_ftotn + manure_kg(j)               *        
      &               hru_dafr(j) * (fminn(it) + forgn(it))
-          wshd_forgn = wshd_forgn + manure_kg(j)               *        &
+          wshd_forgn = wshd_forgn + manure_kg(j)               *        
      &               hru_dafr(j) * forgn(it)
-          wshd_fno3 = wshd_fno3 + manure_kg(j)               *          &
+          wshd_fno3 = wshd_fno3 + manure_kg(j)               *          
      &               hru_dafr(j) * fminn(it) * (1. - fnh3n(it))
-          wshd_fnh3 = wshd_fnh3 + manure_kg(j)               *          &
+          wshd_fnh3 = wshd_fnh3 + manure_kg(j)               *          
      &               hru_dafr(j) * fminn(it) * fnh3n(it)
-          wshd_ftotp = wshd_ftotp + manure_kg(j)               *        &
+          wshd_ftotp = wshd_ftotp + manure_kg(j)               *        
      &               hru_dafr(j) * (fminp(it) + forgp(it))
-          wshd_fminp = wshd_fminp + manure_kg(j)               *        &
+          wshd_fminp = wshd_fminp + manure_kg(j)               *        
      &               hru_dafr(j) * fminp(it)
-          wshd_forgp = wshd_forgp + manure_kg(j)               *        &
+          wshd_forgp = wshd_forgp + manure_kg(j)               *        
      &               hru_dafr(j) * forgp(it)
   !       yldkg(nro(j),1,j) = yldkg(nro(j),1,j) + (dmi - bio_ms(j))
       yldkg(icr(j),j)=yldkg(icr(j),j) + (dmi - bio_ms(j))

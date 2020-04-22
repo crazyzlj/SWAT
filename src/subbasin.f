@@ -215,7 +215,7 @@
         !! perform management operations
         if (yr_skip(j) == 0) call operatn
           
-        if (auto_wstr(j) > 1.e-6 .and. irrsc(j) > 2) call autoirr       !!NUBZ
+        if (auto_wstr(j) > 1.e-6 .and. irrsc(j) > 2) call autoirr       
         
         !! perform soil water routing
         call percmain
@@ -230,10 +230,10 @@
 
         !! new CN method
         if (icn == 1) then 
-        sci(j) = sci(j) + pet_day*exp(-cncoef_sub(hru_sub(j))*sci(j)/   &
+        sci(j) = sci(j) + pet_day*exp(-cncoef_sub(hru_sub(j))*sci(j)/   
      &    smx(j)) - precipday + qday + qtile + latq(j) + sepbtm(j)
         else if (icn == 2) then 
-        sci(j) = sci(j) + pet_day*exp(-cncoef_sub(hru_sub(j))*sci(j)/   &
+        sci(j) = sci(j) + pet_day*exp(-cncoef_sub(hru_sub(j))*sci(j)/   
      &    smx(j)) - precipday + qday + latq(j) + sepbtm(j) + qtile
         sci(j) = amin1(sci(j),smxco * smx(j))
         end if 

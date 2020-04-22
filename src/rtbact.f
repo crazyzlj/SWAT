@@ -101,9 +101,9 @@
           !! total bacteria mass in reach
           totbactp = 0.
           totbactlp = 0.
-          totbactp = hhvaroute(18,inum2,ii) * hhvaroute(2,inum2,ii) *   &
+          totbactp = hhvaroute(18,inum2,ii) * hhvaroute(2,inum2,ii) *   
      &                                (1. - rnum1) + initp * hrchwtr(ii)
-          totbactlp = hhvaroute(19,inum2,ii) * hhvaroute(2,inum2,ii) *  &
+          totbactlp = hhvaroute(19,inum2,ii) * hhvaroute(2,inum2,ii) *  
      &                               (1. - rnum1) + initlp * hrchwtr(ii)
 
           !! compute bacteria die-off
@@ -131,9 +131,9 @@
 
       totbactp = 0.
       totbactlp = 0.
-      totbactp = varoute(18,inum2) * varoute(2,inum2) * (1. - rnum1)    &
+      totbactp = varoute(18,inum2) * varoute(2,inum2) * (1. - rnum1)    
      &                                        + rch_bactp(jrch) * rchwtr
-      totbactlp = varoute(19,inum2) * varoute(2,inum2) *                &
+      totbactlp = varoute(19,inum2) * varoute(2,inum2) *                
      &                          (1. - rnum1) + rch_bactlp(jrch) * rchwtr
 
       !! compute bacteria die-off

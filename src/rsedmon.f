@@ -30,11 +30,10 @@
 
       do j = 1, subtot
           rchmono(58,j) = rchmono(58,j)/Real(mdays)                     
-          write (84,5000) j, subgis(j), mo_chk, rch_dakm(j),            &
+          write (84,5000) j, subgis(j), mo_chk, rch_dakm(j),            
      &       rchmono(3,j), rchmono(4,j),(rchmono(ii,j),ii=42,58)
       end do
 
       return
  5000 format ('REACH ',i4,1x,i8,1x,i5,20e12.4)
       end
-

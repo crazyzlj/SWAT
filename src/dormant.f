@@ -119,7 +119,7 @@
 
 !! check for beginning of dormant season
       if (idc(idplt(j)) == 1 .or. idc(idplt(j)) == 4) return
-      if (idorm(j) == 0 .and. dayl(j)-dormhr(j) < daylmn(hru_sub(j)))   &
+      if (idorm(j) == 0 .and. dayl(j)-dormhr(j) < daylmn(hru_sub(j)))   
      &                                                              then
 
         select case (idc(idplt(j)))
@@ -381,24 +381,24 @@
 
             sol_rsd(1,j) = sol_rsd(1,j) + resnew
             sol_rsd(1,j) = Max(sol_rsd(1,j),0.)
-            sol_fon(1,j) = sol_fon(1,j) +                               &
+            sol_fon(1,j) = sol_fon(1,j) +                               
      &         bm_dieoff(idplt(j)) * plantn(j)
-            sol_fop(1,j) = sol_fop(1,j) +                               &
+            sol_fop(1,j) = sol_fop(1,j) +                               
      &         bm_dieoff(idplt(j)) * plantp(j)
-            bio_hv(icr(j),j) = bio_ms(j) *                              & 
-     &        bm_dieoff(idplt(j)) +                                     &
+            bio_hv(icr(j),j) = bio_ms(j) *                              
+     &        bm_dieoff(idplt(j)) +                                     
      &	    bio_hv(icr(j),j)
-            bio_yrms(j) = bio_yrms(j) + bio_ms(j) *                     &
+            bio_yrms(j) = bio_yrms(j) + bio_ms(j) *                     
      &         bm_dieoff(idplt(j)) / 1000.
-            bio_ms(j) = (1. - bm_dieoff(idplt(j))) *                    &
+            bio_ms(j) = (1. - bm_dieoff(idplt(j))) *                    
      &         bio_ms(j)
-            plantn(j) = (1. - bm_dieoff(idplt(j))) *                    &
+            plantn(j) = (1. - bm_dieoff(idplt(j))) *                    
      &         plantn(j)
-            plantp(j) = (1. - bm_dieoff(idplt(j))) *                    &
+            plantp(j) = (1. - bm_dieoff(idplt(j))) *                    
      &         plantp(j)
             strsw(j) = 1.
-!            laiday(j) = alai_min(idplt(j))
-!            phuacc(j) = 0.
+             laiday(j) = alai_min(idplt(j))
+             phuacc(j) = 0.
 !            ncrops(icr(j),j) = ncrops(icr(j),j) + 1
 
           !! beginning of cool season annual dormant period
@@ -418,7 +418,7 @@
           end if
 
 !! check if end of dormant period
-        if (idorm(j) == 1 .and. dayl(j)-dormhr(j) >= daylmn(hru_sub(j)))&
+        if (idorm(j) == 1 .and. dayl(j)-dormhr(j) >= daylmn(hru_sub(j)))
      &                                                              then
 
           select case (idc(idplt(j)))

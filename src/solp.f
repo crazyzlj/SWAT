@@ -81,35 +81,46 @@
 
 !! compute soluble P leaching
       vap = 0.
-      vap = sol_solp(1,j) * sol_prk(1,j) / ((conv_wt(1,j) / 1000.)      &
+      vap = sol_solp(1,j) * sol_prk(1,j) / ((conv_wt(1,j) / 1000.)      
      &                                                         * pperco)
       vap = Min(vap, .5 * sol_solp(1,j))
       sol_solp(1,j) = sol_solp(1,j) - vap
+      
+      !! estimate soluble p in tiles due to crack flow
+      if (ldrain(j) > 0) then
+        xx = Min(1., sol_crk(j) / 3.0)
+        vap_tile = xx * vap
+        vap = vap - vap_tile
+      end if
+
       if (sol_nly(j) >= 2) then
         sol_solp(2,j) = sol_solp(2,j) + vap
       end if
    
-      do ii=2,sol_nly(j)-1
+      do ii = 2, sol_nly(j)
         vap = 0.
-	 if (ii/=i_sep(j)) then
+	 if (ii /= i_sep(j)) then
          vap = sol_solp(ii,j) * sol_prk(ii,j) / ((conv_wt(ii,j) 
      &	   / 1000.) * pperco_sub(ii,j))
 	   vap = Min(vap, .2 * sol_solp(ii,j))
 	   sol_solp(ii,j) = sol_solp(ii,j) - vap
-	   sol_solp(ii+1,j) = sol_solp(ii+1,j) + vap
-           if (ii == ldrain(j)) then
-             vap = sol_solp(ii,j) * qtile / (conv_wt(ii,j) / 1000.
-     *           * pperco_sub(ii,j))
-             sol_solp(ii,j) = sol_solp(ii,j) - vap
-             tilep = vap
-           endif
+	   if (ii == sol_nly(j)) then
+           sol_solp(ii+1,j) = sol_solp(ii+1,j) + vap
+         end if
+!         if (ii == ldrain(j)) then
+!           vap = sol_solp(ii,j) * qtile / (conv_wt(ii,j) / 1000.
+!     *                                         * pperco_sub(ii,j))
+!           sol_solp(ii,j) = sol_solp(ii,j) - vap
+!           tilep = vap
+!         endif
 	 endif
 	end do
 	percp(j) = vap
 	
-     !! summary calculation
+      !! summary calculation
       if (curyr > nyskip) then
         wshd_plch = wshd_plch + vap * hru_dafr(j)
+        wshd_ptile = wshd_ptile + vap_tile * hru_dafr(j)
       end if
 
       return

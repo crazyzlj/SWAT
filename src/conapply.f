@@ -118,7 +118,7 @@
 
 !! summary calculations
       if (curyr > nyskip) then
-        wshd_pstap(k) = wshd_pstap(k) + pst_kg                     *     &
+        wshd_pstap(k) = wshd_pstap(k) + pst_kg                     *  
      &                                         ap_ef(kk) * hru_dafr(j)
       end if
 

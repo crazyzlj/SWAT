@@ -128,7 +128,7 @@
       
 !!   change per JGA 8/31/2011 gsm PUT YIELD IN modparm.f
 !!      real :: wur, hiad1, yield, yieldn, yieldp, yldpst
-      real :: wur, hiad1, yieldn, yieldp, yldpst
+      real :: wur, hiad1, yldpst
 	real :: resnew, rtresnew 
 
 
@@ -179,9 +179,8 @@
           wur = 0.
           wur = 100. * plt_et(j) / plt_pet(j)
         endif
-
-        hiad1 = (hvstiadj(j) - wsyf(idplt(j))) *                        &
-     &      (wur / (wur + Exp(6.13 - .0883 * wur))) +                   &
+        hiad1 = (hvstiadj(j) - wsyf(idplt(j))) *                        
+     &      (wur / (wur + Exp(6.13 - .0883 * wur))) +                   
      &      wsyf(idplt(j))
 
         if (hiad1 > hvsti(idplt(j))) then 

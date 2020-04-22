@@ -186,6 +186,7 @@
       sub_tran = 0.
       sub_wtmp = 0.
       sub_wyld = 0.
+      sub_gwq_d = 0.
       sub_yorgn = 0.
       sub_yorgp = 0.
       subp = 0.
@@ -247,8 +248,6 @@
 	sub_rspc_d =0.
       !!add by zhang
       !!==========================
-	
-	
 	
       return
       end

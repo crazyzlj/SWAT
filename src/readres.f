@@ -29,6 +29,7 @@
 !!                                |1 measured monthly outflow
 !!                                |2 simulated controlled outflow-target release
 !!                                |3 measured daily outflow
+!!                                |4 stage/volume/outflow relationship                                  
 !!    iyres(:)     |none          |year of the simulation that the reservoir 
 !!                                |becomes operational
 !!    mores(:)     |none          |month the reservoir becomes operational
@@ -205,6 +206,20 @@
         if (eof < 0) exit
         read (105,*,iostat=eof) starg_fps(i)
         if (eof < 0) exit
+        read (105,*,iostat=eof) nostep
+        if (eof < 0) exit
+        read (105,*,iostat=eof) weirc(i)
+        if (eof < 0) exit
+        read (105,*,iostat=eof) weirk(i)
+        if (eof < 0) exit
+        read (105,*,iostat=eof) weirw(i)
+        if (eof < 0) exit
+        read (105,*,iostat=eof) acoef(i)
+        if (eof < 0) exit
+        read (105,*,iostat=eof) bcoef(i)
+        if (eof < 0) exit
+        read (105,*,iostat=eof) ccoef(i)
+        if (eof < 0) exit
         exit
       end do
 
@@ -283,13 +298,13 @@
       end if
         if (br2(i) > 0.9) then
           br2(i) = 0.9
-          br1(i) = (res_psa(i)/res_pvol(i)) ** 0.9
+          br1(i) = res_psa(i)/(res_pvol(i) ** 0.9)
         else
-          br1(i) = (res_esa(i)/res_evol(i)) ** br2(i)
+          br1(i) = res_esa(i)/(res_evol(i) ** br2(i))
         end if  
       else
         br2(i) = 0.9
-        br1(i) = (res_psa(i)/res_pvol(i)) ** 0.9
+        br1(i) = res_psa(i)/(res_pvol(i) ** 0.9)
       end if
 
 !! calculate sediment settling rate

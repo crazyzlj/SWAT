@@ -75,9 +75,9 @@
       !! total bacteria mass in reservoir
       totbactp = 0.
       totbactlp = 0.
-      totbactp = varoute(18,inum2) * varoute(2,inum2)                   &
+      totbactp = varoute(18,inum2) * varoute(2,inum2)                   
      &                                        + res_bactp(jres) * reswtr
-      totbactlp = varoute(19,inum2) * varoute(2,inum2)                  &
+      totbactlp = varoute(19,inum2) * varoute(2,inum2)                  
      &                                       + res_bactlp(jres) * reswtr
 
       !! compute bacteria die-off

@@ -37,6 +37,5 @@
         !  call surq_hourly
       end select
 
-
       return
       end

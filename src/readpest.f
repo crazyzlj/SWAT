@@ -61,7 +61,7 @@
         skocp = 0.0
         wofp = 0.0
 
-        read (106,5000,iostat=eof) ip, pstnm, skocp, wofp, hlff, hlfs,  &
+        read (106,5000,iostat=eof) ip, pstnm, skocp, wofp, hlff, hlfs,  
      &       apefp, pwsol
         if (eof < 0) exit
         

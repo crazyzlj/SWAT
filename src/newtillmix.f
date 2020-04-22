@@ -223,7 +223,7 @@
             sol_msm(l) = emix * sol_mass(l)	
             sol_msn(l) = sol_mass(l) - sol_msm(l)	
           else if (sol_z(l,jj) > dtil.AND.sol_z(l-1,jj) < dtil) then 
-            sol_msm(l) = emix * sol_mass(l) *                           &
+            sol_msm(l) = emix * sol_mass(l) *                           
      &      (dtil - sol_z(l-1,jj)) / sol_thick(l)
             sol_msn(l) =  sol_mass(l) -  sol_msm(l)
           else
@@ -309,15 +309,15 @@
             sol_mn(l,jj) = sol_mn(l,jj) * WW3 + smix(13) * WW4
             sol_mp(l,jj) = sol_mp(l,jj) * WW3 + smix(14) * WW4
 
-            sol_cbn(l,jj) = (sol_cbn(l,jj) * sol_msn(l) + smix(15)      &
+            sol_cbn(l,jj) = (sol_cbn(l,jj) * sol_msn(l) + smix(15)      
      &           * sol_msm(l)) / sol_mass(l)
-            sol_n(l,jj) = (sol_n(l,jj) * sol_msn(l) + smix(16)          &
+            sol_n(l,jj) = (sol_n(l,jj) * sol_msn(l) + smix(16)          
      &           * sol_msm(l)) / sol_mass(l)
-            sol_clay(l,jj) = (sol_clay(l,jj) * sol_msn(l) + smix(17)    &
+            sol_clay(l,jj) = (sol_clay(l,jj) * sol_msn(l) + smix(17)    
      &           * sol_msm(l)) / sol_mass(l)
-            sol_silt(l,jj) = (sol_silt(l,jj) * sol_msn(l) + smix(18)    &
+            sol_silt(l,jj) = (sol_silt(l,jj) * sol_msn(l) + smix(18)    
      &           * sol_msm(l)) / sol_mass(l)
-            sol_sand(l,jj) = (sol_sand(l,jj) * sol_msn(l) + smix(19)    &
+            sol_sand(l,jj) = (sol_sand(l,jj) * sol_msn(l) + smix(19)    
      &           * sol_msm(l)) / sol_mass(l)
 !		sol_rock(l,jj) = (sol_rock(l,jj) * sol_msn(l) + smix(20) * sol_msm(l)) / sol_mass(l)
 !            sol_ph(l,jj) = (sol_ph(l,jj) * sol_msn(l) + smix(21)        &

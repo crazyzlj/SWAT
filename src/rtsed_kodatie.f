@@ -210,13 +210,13 @@
 !!    Assumed on an average Only one bank eroding due to meandering of channel
       bnkrte = ch_bnk_kd(jrch) * (Tbank - tc_bnk(jrch)) * 1e-06
 	if (bnkrte < 0.) bnkrte = 0.
-      bnkrte = bnkrte * ch_l2(jrch) * 1000.* (watdep * Sqrt(1. + c * c))&
+      bnkrte = bnkrte * ch_l2(jrch) * 1000.* (watdep * Sqrt(1. + c * c))
      &                                        * ch_bnk_bd(jrch) * 86400.
 
 !!    Potential Bed degradation rate in metric tons per day
       degrte = ch_bed_kd(jrch) * (Tbed - tc_bed(jrch)) * 1e-06
       if (degrte < 0.) degrte = 0.
-      degrte = degrte * ch_l2(jrch) * 1000.* phi(6,jrch)                &
+      degrte = degrte * ch_l2(jrch) * 1000.* phi(6,jrch)                
      &                                        * ch_bed_bd(jrch) * 86400.
 
 !!    Relative potential for bank/bed erosion

@@ -39,7 +39,7 @@
 
 
       rav = 0.
-      rav = solarav(i_mo,hru_sub(j)) /                                  &
+      rav = solarav(i_mo,hru_sub(j)) /                                  
      &                              (1. - 0.5 * pr_w(3,i_mo,hru_sub(j)))
       if (subp(j) > 0.0) rav = 0.5 * rav
       rx = 0.

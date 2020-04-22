@@ -126,8 +126,8 @@
           volout = volout + pnd_vol(j)
           sedout = sedout + pnd_vol(j) * pnd_sed(j)
         end do
-        call vbl(wshdaao(19),wshdaao(20),wshdaao(21),wshdaao(22),       &
-     &           wshdaao(23),wshd_pndv,wshd_pndsed,wshdaao(13),         &
+        call vbl(wshdaao(19),wshdaao(20),wshdaao(21),wshdaao(22),       
+     &           wshdaao(23),wshd_pndv,wshd_pndsed,wshdaao(13),         
      &           wshdaao(14),wshdaao(15),volout,sedout,wshd_pndha)
       end if
 
@@ -153,7 +153,7 @@
           volout = volout + res_vol(j)
           sedout = sedout + res_vol(j) * res_sed(j)
         end do
-        call vbl(res17,res18,res19,res20,res21,wshd_resv,wshd_ressed,   &
+        call vbl(res17,res18,res19,res20,res21,wshd_resv,wshd_ressed,   
      &           res3,res4,0.,volout,sedout,wshd_resha)
       end if
 

@@ -87,7 +87,7 @@
             do
               iyp = 0
               idap = 0
-              read (118+k,5100) iyp, idap, (txmeas(l), tnmeas(l),       &
+              read (118+k,5100) iyp, idap, (txmeas(l), tnmeas(l),       
      &                       l = kk1, kk2)
               if (iyp + idap <= 0) exit
               if (iyp == iyr .and. idap == id1) exit
@@ -102,7 +102,7 @@
           tmx(k) = txmeas(itgage(hru_sub(k)))
           tmn(k) = tnmeas(itgage(hru_sub(k)))
           !! generate values to replace missing data
-          if (tmx(k) <  -97. .or. tmn(k) < -97. .or.                    &
+          if (tmx(k) <  -97. .or. tmn(k) < -97. .or.                    
      &      tmx(k) + tmn(k) == 0.) then
             !! use same generated data for all HRUs in a subbasin
             if (hru_sub(k) == inum3sprev .and. hru_sub(k) /= 0) then
@@ -129,4 +129,3 @@
 5000  format (7x,3600f5.1)
 5100  format (i4,i3,3600f5.1)
       end
-

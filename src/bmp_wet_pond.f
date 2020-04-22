@@ -270,7 +270,7 @@
             ia = cumrain(ii)
             fa(ii) = 0
          else 
-            fa(ii) = ss * (cumrain(ii) - ia) / (cumrain(ii) - ia + ss)   
+            fa(ii) = ss * (cumrain(ii) - ia) / (cumrain(ii) - ia + ss)
          endif
          if (ii>=2) inflow = fa(ii) - fa(ii-1) !inches
          

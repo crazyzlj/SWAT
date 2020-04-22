@@ -166,7 +166,7 @@
 	if (isep_opt(j)==2) then
 	  
 	  ! increment the number of failing days
-	  if(sep_tsincefail(j)>0) sep_tsincefail(j)=sep_tsincefail(j)+1
+	  if(sep_tsincefail(j)>0) sep_tsincefail(j) = sep_tsincefail(j) + 1
 
       ! convert the failing system into an active system if duration of failing ends
 	  if (sep_tsincefail(j) >= isep_tfail(j)) then
@@ -199,7 +199,7 @@
 
 	! Add STE nutrients to appropriate soil pools in mass unit
 	xx = qin / bza / 1000. ! used for unit conversion: mg/l -> kg/ha
-      sol_no3(bz_lyr,j) = sol_no3(bz_lyr,j) + xx * (sptno3concs(isp) +  &
+      sol_no3(bz_lyr,j) = sol_no3(bz_lyr,j) + xx * (sptno3concs(isp) +  
      &    sptno2concs(isp))  
 	sol_nh3(bz_lyr,j) = sol_nh3(bz_lyr,j) + xx * sptnh4concs(isp) 
 	sol_orgn(bz_lyr,j) = sol_orgn(bz_lyr,j)+xx*sptorgnconcs(isp)*rtof
@@ -212,13 +212,13 @@
       bodi = bio_bod(j) * bza / qi * 1000.  !mg/l
 
 	!! Field capacity in the biozone Eq. 4-6  ! 
-      sol_fc(bz_lyr,j) = sol_fc(bz_lyr,j) + coeff_fc1(j) *              &
-     &   (sol_ul(bz_lyr,j) - sol_fc(bz_lyr,j)) ** coeff_fc2(j)          &
+      sol_fc(bz_lyr,j) = sol_fc(bz_lyr,j) + coeff_fc1(j) *              
+     &   (sol_ul(bz_lyr,j) - sol_fc(bz_lyr,j)) ** coeff_fc2(j)          
      &      * rbiom(j) / (bio_bd(j) * 10)
 
 	!! Saturated water content in the biozone - Eq. 4-7    
 	! mm = mm - kg/ha / (kg/m^3 * 10)
-      sol_ul(bz_lyr,j)=sol_por(bz_lyr,j)*bz_thk(j)-plqm(j)              &
+      sol_ul(bz_lyr,j)=sol_por(bz_lyr,j)*bz_thk(j)-plqm(j)              
      &/(bio_bd(j)*10.)
 
 	if(sol_ul(bz_lyr,j).le.sol_fc(bz_lyr,j)) then
@@ -240,7 +240,7 @@
 	
 	!! Build up of plqm(kg/ha) Eq.4-5
 	! kg/ha (perday) = kg/ha + dimensionless * m^3/d * mg/l / (1000*ha)
-      rplqm = (rmort - rslg) + coeff_plq(j) * qin *                     &
+      rplqm = (rmort - rslg) + coeff_plq(j) * qin *                     
      &                 spttssconcs(isp) / (1000. * bza)  
 	rplqm = max(0.,rplqm)
 
@@ -256,7 +256,7 @@
 	solp_begin = sol_solp(bz_lyr,j)
 
 	!! Add STE f.coli concentration by volumetric averaging
-      xx = 10.* sol_st(bz_lyr,j) * bza / (qin                           &
+      xx = 10.* sol_st(bz_lyr,j) * bza / (qin                           
      &     + 10.* sol_st(bz_lyr,j) * bza)
 	fcoli(j) = fcoli(j) * xx + sptfcolis(isp) * (1.- xx)  ! J.Jeong 3/09/09
 	
@@ -356,16 +356,16 @@
 	endif 	
 
 !! output.std variables added 03/01/2011 jga
-        wshd_sepno3 = wshd_sepno3 + xx * (sptno3concs(isp) +            &
+        wshd_sepno3 = wshd_sepno3 + xx * (sptno3concs(isp) +            
      &        sptno2concs(isp)) * hru_dafr(j)
         wshd_sepnh3 = wshd_sepnh3 + xx * sptnh4concs(isp) * hru_dafr(j)
-        wshd_seporgn = wshd_seporgn + xx * sptorgnconcs(isp) *          &
+        wshd_seporgn = wshd_seporgn + xx * sptorgnconcs(isp) *          
      &     rtof * hru_dafr(j)
-        wshd_sepfon = wshd_sepfon + xx * sptorgnconcs(isp)*             &
+        wshd_sepfon = wshd_sepfon + xx * sptorgnconcs(isp)*             
      &    (1.-rtof) * hru_dafr(j)
-        wshd_seporgp = wshd_seporgp + xx * sptorgps(isp) *              &
+        wshd_seporgp = wshd_seporgp + xx * sptorgps(isp) *              
      &    rtof * hru_dafr(j)
-        wshd_sepfop = wshd_sepfop + xx * sptorgps(isp) *                &
+        wshd_sepfop = wshd_sepfop + xx * sptorgps(isp) *                
      &    (1.-rtof) * hru_dafr(j)
         wshd_sepsolp = wshd_sepsolp + xx * sptminps(isp) * hru_dafr(j)
         wshd_sepbod = wshd_sepbod + xx * sptbodconcs(isp) * hru_dafr(j)

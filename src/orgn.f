@@ -100,7 +100,7 @@
 
 	!! update soil nitrogen pools only for HRU calculations
       if (iwave <= 0 .and. xx > 1.e-6) then
-       sol_aorgn(1,j) = sol_aorgn(1,j) - sedorgn(j) *                   &
+       sol_aorgn(1,j) = sol_aorgn(1,j) - sedorgn(j) *                   
      &                                             (sol_aorgn(1,j) / xx)
        sol_orgn(1,j) = sol_orgn(1,j) - sedorgn(j) * (sol_orgn(1,j) / xx)
        sol_fon(1,j) = sol_fon(1,j) - sedorgn(j) * (sol_fon(1,j) / xx)

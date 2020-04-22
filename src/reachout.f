@@ -343,7 +343,8 @@
       rchdy(40,jrch) = varoute(20,ihout)                  !!cmetal #1
       rchdy(41,jrch) = varoute(21,ihout)                  !!cmetal #2
       rchdy(42,jrch) = varoute(22,ihout)                  !!cmetal #3
-
+      rchdy(60,jrch) = varoute(1,ihout)                   !!water temperature deg c
+      
 !! summarize monthly reach output
       rchmono(1,jrch) = rchmono(1,jrch) + rchdy(1,jrch)
       rchmono(2,jrch) = rchmono(2,jrch) + rchdy(2,jrch)

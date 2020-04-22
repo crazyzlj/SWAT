@@ -104,12 +104,12 @@
 !! calculate lagging factor for soil cover impact on soil surface temp
 !! SWAT manual equation 2.3.11
       bcv = 0.
-      bcv = sol_cov(j) /                                                &
+      bcv = sol_cov(j) /                                                
      &                 (sol_cov(j) + Exp(7.563 - 1.297e-4 * sol_cov(j)))
       if (sno_hru(j) /= 0.) then
         if (sno_hru(j) <= 120.) then
           xx = 0.
-          xx = sno_hru(j) /                                             &
+          xx = sno_hru(j) /                                             
      &                    (sno_hru(j) + Exp(6.055 - .3002 * sno_hru(j)))
         else
           xx = 1.
@@ -147,7 +147,7 @@
         !! SWAT manual equation 2.3.4
         df = zd / (zd + Exp(-.8669 - 2.0775 * zd))
         !! SWAT manual equation 2.3.3
-        sol_tmp(k,j) = tlag * sol_tmp(k,j) + (1. - tlag) *              &
+        sol_tmp(k,j) = tlag * sol_tmp(k,j) + (1. - tlag) *              
      &                   (df * (tmp_an(hru_sub(j)) - tmp_srf) + tmp_srf)
         xx = sol_z(k,j)
 

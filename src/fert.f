@@ -180,17 +180,17 @@
           xx = 1. - frt_surface                     
         endif
 
-        sol_no3(l,j) = sol_no3(l,j) + xx * frt_kg                    *  &
+        sol_no3(l,j) = sol_no3(l,j) + xx * frt_kg                    *  
      &      (1. - fnh3n(ifrt)) * fminn(ifrt)
 
         if (cswat == 0) then
-        sol_fon(l,j) = sol_fon(l,j) + rtof * xx *                       &
+        sol_fon(l,j) = sol_fon(l,j) + rtof * xx *                       
      &     frt_kg                    * forgn(ifrt)
 	  sol_aorgn(l,j) = sol_aorgn(l,j) + (1. - rtof) * xx *            
      &     frt_kg                    * forgn(ifrt)
-        sol_fop(l,j) = sol_fop(l,j) + rtof * xx *                       &
+        sol_fop(l,j) = sol_fop(l,j) + rtof * xx *                       
      &      frt_kg                    * forgp(ifrt)
-        sol_orgp(l,j) = sol_orgp(l,j) + (1. - rtof) * xx *              &
+        sol_orgp(l,j) = sol_orgp(l,j) + (1. - rtof) * xx *              
      &      frt_kg                    * forgp(ifrt)
         end if
 	  if (cswat == 1) then
@@ -285,10 +285,10 @@
         !!By Zhang for C/N cycling 
         !!=========================== 
 
-        sol_nh3(l,j) = sol_nh3(l,j) + xx * frt_kg                    *  &
+        sol_nh3(l,j) = sol_nh3(l,j) + xx * frt_kg                    *  
      &      fnh3n(ifrt) * fminn(ifrt)
 
-        sol_solp(l,j) = sol_solp(l,j) + xx * frt_kg                    *&
+        sol_solp(l,j) = sol_solp(l,j) + xx * frt_kg                    *
      &      fminp(ifrt)
 
       end do 
@@ -335,35 +335,35 @@
       fertorgn = frt_kg * forgn(ifrt)
       fertsolp = frt_kg * fminp(ifrt)
       fertorgp = frt_kg * forgp(ifrt)  
-      fertn = fertn + (frt_kg                    + cfertn) *             &           
+      fertn = fertn + (frt_kg                    + cfertn) *          
      &   (fminn(ifrt) + forgn(ifrt))
 
-      fertp = fertp + (frt_kg                    + cfertp) *             &
+      fertp = fertp + (frt_kg                    + cfertp) *          
      &   (fminp(ifrt) + forgp(ifrt))
 
       tfertn(j) = tfertn(j) + fertn
       tfertp(j) = tfertp(j) + fertp
 
       if (curyr > nyskip) then
-      wshd_ftotn = wshd_ftotn + frt_kg                    * hru_dafr(j) &
+      wshd_ftotn = wshd_ftotn + frt_kg                    * hru_dafr(j) 
      &   * (fminn(ifrt) + forgn(ifrt))
 
-      wshd_forgn = wshd_forgn + frt_kg                    * hru_dafr(j) &
+      wshd_forgn = wshd_forgn + frt_kg                    * hru_dafr(j) 
      &   * forgn(ifrt)
 
-      wshd_fno3 = wshd_fno3 + frt_kg                    * hru_dafr(j) * &
+      wshd_fno3 = wshd_fno3 + frt_kg                    * hru_dafr(j) * 
      &   fminn(ifrt) * (1. - fnh3n(ifrt))
 
-      wshd_fnh3 = wshd_fnh3 + frt_kg                    * hru_dafr(j) * &
+      wshd_fnh3 = wshd_fnh3 + frt_kg                    * hru_dafr(j) * 
      &   fminn(ifrt) * fnh3n(ifrt)
 
-      wshd_ftotp = wshd_ftotp + frt_kg                    * hru_dafr(j) &
+      wshd_ftotp = wshd_ftotp + frt_kg                    * hru_dafr(j) 
      &   * (fminp(ifrt) + forgp(ifrt))
 
-      wshd_fminp = wshd_fminp + frt_kg                    * hru_dafr(j) &
+      wshd_fminp = wshd_fminp + frt_kg                    * hru_dafr(j) 
      &   * fminp(ifrt)
 
-      wshd_forgp = wshd_forgp + frt_kg                    * hru_dafr(j) &
+      wshd_forgp = wshd_forgp + frt_kg                    * hru_dafr(j) 
      &   * forgp(ifrt)
 
       end if

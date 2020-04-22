@@ -98,8 +98,8 @@
 
       icrop = 0
       icrop = idplt(j)
-      pltfr_p(j) = (pltpfr(1,icrop) - pltpfr(3,icrop)) * (1. - phuacc(j)&
-     &   / (phuacc(j) + Exp(bio_p1(icrop) - bio_p2(icrop) * phuacc(j))))&
+      pltfr_p(j) = (pltpfr(1,icrop) - pltpfr(3,icrop)) * (1. - phuacc(j)
+     &   / (phuacc(j) + Exp(bio_p1(icrop) - bio_p2(icrop) * phuacc(j))))
      &   + pltpfr(3,icrop)
 
       up2 = 0.
@@ -107,11 +107,11 @@
       up2 = pltfr_p(j) * bio_ms(j)
       if (up2 < plantp(j)) up2 = plantp(j)
       uapd = up2 - plantp(j)
-      uapd = Min(4. * pltpfr(3,icrop) * bioday, uapd)
+      !uapd = Min(4. * pltpfr(3,icrop) * bioday, uapd)
       uapd = 1.5 * uapd                         !! luxury p uptake
 
       strsp(j) = 1.
-      ir = 0
+      ir = 0.
       if (uapd < 1.e-6) return
 
       do l = 1, sol_nly(j)

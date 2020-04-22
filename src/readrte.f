@@ -247,13 +247,13 @@
 	SC = 0.
 	if  (tc_bnk(irch) <= 1.e-6) then
 	  SC = (ch_bnk_sil(irch) + ch_bnk_cla(irch)) * 100.
-        tc_bnk(irch) = (0.1 + (0.1779*SC) + (0.0028*(SC)**2)               &
+        tc_bnk(irch) = (0.1 + (0.1779*SC) + (0.0028*(SC)**2)          
      &                           - ((2.34E-05)*(SC)**3)) * ch_cov1(irch)
       end if
 
 	if  (tc_bed(irch) <= 1.e-6) then
 	  SC = (ch_bed_sil(irch) + ch_bed_cla(irch)) * 100.
-        tc_bed(irch) = (0.1 + (0.1779*SC) + (0.0028*(SC)**2)               &
+        tc_bed(irch) = (0.1 + (0.1779*SC) + (0.0028*(SC)**2)          
      &                           - ((2.34E-05)*(SC)**3)) * ch_cov2(irch)
       end if
 

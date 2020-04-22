@@ -183,6 +183,14 @@
         case (1)   !! SUBBASIN command
           hyd_dakm(iht) = da_km * sub_fr(inm1)
           rch_dakm(inm1) = hyd_dakm(iht)
+          if (iroutunit == 1) then
+            j1 = hru1(inm1) - 1
+          do j = 1, hrutot(inm1)
+            jseq = j1 + j
+            hru_fr(jseq) = 0.
+            hru_dafr(jseq) = 0.
+          end do
+          end if
 
         case (2)   !! ROUTE command
           hyd_dakm(iht) = hyd_dakm(inm2)
@@ -193,6 +201,21 @@
 
         case (5)   !! ADD command
           hyd_dakm(iht) = hyd_dakm(inm1) + hyd_dakm(inm2)
+          
+       case (17)   !! ROUTEUNIT command
+          hyd_dakm(iht) = rnm1
+          j1 = hru1(inm2) - 1
+          do j = 1, hrutot(inm2)
+            jseq = j1 + j
+            hru_fr(jseq) = hru_fr(jseq) + hru_rufr(inm1,j) * 
+     &                                daru_km(inm2,inm1) / sub_km(inm2)
+            hru_dafr(jseq) = hru_dafr(jseq) + hru_rufr(inm1,j) * 
+     &                                      daru_km(inm2,inm1) / da_km
+          end do 
+
+        case (18)   !! ROUTEOVER command
+          hyd_dakm(iht) = hyd_dakm(inm2)
+          
         end select
       end do
 

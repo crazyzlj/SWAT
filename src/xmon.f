@@ -42,7 +42,7 @@
           m1 = 0
           nda = 0
           m1 = i_mo + 1
-          nda = ndays(m1) - leapyr
+          nda = ndays(m1)
           if (iida <= nda) return
         end do
       end if

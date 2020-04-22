@@ -43,7 +43,7 @@
       erfc = 0.
 
       x = Abs(1.4142 * xx)
-      erf = 1. - (1. + c1 * x + c2 * x * x + c3 * x**3 + c4 * x**4) **  &
+      erf = 1. - (1. + c1 * x + c2 * x * x + c3 * x**3 + c4 * x**4) **  
      &                                                              (-4)
       if (xx < 0.) erf = -erf
 

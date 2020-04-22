@@ -13,7 +13,7 @@
 !!    dtp_evrsv      |none          |detention pond evaporation coefficient
 !!    dtp_numweir(:) |none          |Total number of weirs in the BMP
 !!    dtp_numstage(:)|none          |Total number of stages in the weir
-!!    dtp_parm(:)    |none          |BMP outflow hydrograph shape parameter
+!!    dtp_lwratio(:)   |none          |Ratio of length to width of water back up
 !!    dtp_totwrwid(:)|m             |Total constructed width of the detention wall across
 !!                                  |the creek
 !!    dtp_stagdis(:) |none          |0=use weir/orifice discharge equation to calculate 
@@ -25,6 +25,9 @@
 !!    dtp_coef1(:)   |none          |Coefficient of 3rd degree in the polynomial equation
 !!    dtp_coef2(:)   |none          |Coefficient of 2nd degree in the polynomial equation
 !!    dtp_coef3(:)   |none          |Coefficient of 1st degree in the polynomial equation
+!!    dtp_dummy1(:)   |none         |Dummy variable, backs up space (Rename for use)
+!!    dtp_dummy2(:)   |none         |Dummy variable, backs up space (Rename for use)
+!!    dtp_dummy3(:)   |none         |Dummy variable, backs up space (Rename for use)
 !!    dtp_weirtype(:,:)|none        |Type of weir: 1=rectangular and 2=circular
 !!    dtp_weirdim(:,:)|none         |Weir dimensions, 1=read user input, 0=use model calculation
 !!    dtp_wdratio(:,:)|none         |Width depth ratio of rectangular weirs
@@ -62,10 +65,10 @@
 
       use parm
       implicit none
-      integer :: k, eof,kk
-      real :: hwq,wqv,sub_ha,bmpfr_sf,bmpfr_ri
+      integer :: j, k, eof,kk
+      real :: hwq,wqv,sub_ha,bmpfr_sf,bmpfr_ri, qstg, hstg
 
-      eof = 0; bmpfr_sf=0.; bmpfr_ri=0.
+      eof = 0; bmpfr_sf=0.; bmpfr_ri=0.; hstg = 0.; qstg=0.
       sub_ha = sub_km(i) * 100. 
 
       !! Detention pond
@@ -74,6 +77,7 @@
          if (dtp_imo(i)<=0)      dtp_imo(i) = 1
          if (dtp_iyr(i)<=1000)   dtp_iyr(i) = iyr
    	   if (dtp_evrsv(i)<=0)    dtp_evrsv(i) = 0.1
+   	   if (dtp_lwratio(i)>1)   dtp_lwratio(i) = 1
 	   if (dtp_numweir(i)<=0)  dtp_numweir(i) = 1
 	   if (dtp_numstage(i)<=0) dtp_numstage(i) = 1
 	   if (dtp_numstage(i)>1) then
@@ -106,11 +110,25 @@
          do k=1,dtp_numstage(i)
             if (dtp_weirdim(i,k)==0) then  !! Estimating weir dimensions
                if (dtp_weirtype(i,k)==2) then	!! choosing weir type
-                  call est_orfdim(dtp_flowrate(i,k),dtp_diaweir(i,k)
-     &                  ,dtp_cdis(i,k))
-               else
-                  call est_weirdim(dtp_wdratio(i,k),dtp_flowrate(i,k)
-     &                  ,dtp_wrwid(i,k),dtp_depweir(i,k),dtp_cdis(i,k))
+                dtp_diaweir(i,k)=(0.479081 * dtp_flowrate(i,k)
+     &                              / dtp_cdis(i,k))**0.4
+               else !rectangular weir
+			      if (k==1) then				
+				     hstg = dtp_depweir(i,k)
+				     dtp_wrwid(i,k) = dtp_flowrate(i,k)
+     &                   / (1.84*dtp_cdis(i,k)*hstg**1.5)
+                  else
+				     qstg = 0.
+				     do j=1,k-1
+					    hstg = sum(dtp_depweir(i,j:k))
+					    qstg = dtp_cdis(i,k) * 1.84
+     &                   * dtp_wrwid(i,j) * hstg ** 1.5 !m3/s
+					    dtp_flowrate(i,k) = max(0.,dtp_flowrate(i,k)-qstg)
+					    
+					 end do
+                     dtp_wrwid(i,k) = dtp_flowrate(i,k)
+     &                  / (1.84*dtp_cdis(i,k)*dtp_depweir(i,k)**1.5)
+                  endif				
                end if 
             else  !! read user-entered data
                if (dtp_weirtype(i,k)==1) then  
@@ -118,14 +136,13 @@
                end if  
             end if
          end do
-        
-         !! divide rectangular weirs into multiple single stage weirs
+          !! divide rectangular weirs into multiple single stage weirs
          do k = 2, dtp_numstage(i)
             dtp_addon(i,k) = dtp_addon(i,k-1) + dtp_depweir(i,k-1) 
          end do
          
-         do k = dtp_numstage(i), 2, -1
-            dtp_wrwid(i,k) = dtp_wrwid(i,k) - dtp_wrwid(i,k-1)
+         ! weir depth from the top to the bottom of each stage
+		 do k = dtp_numstage(i), 2, -1
             dtp_depweir(i,k-1) = dtp_depweir(i,k) + dtp_depweir(i,k-1)
          end do
       end if
@@ -304,7 +321,7 @@
          
          if (ft_dep(i,k)<100) ft_dep(i,k) = 100.
          if (sf_ptp(i,k)>1) sf_ptp(i,k) = 1
-         if (sf_typ(i,k)==1) sf_ptp(i,k) = 0 !no filter outflow control for partial systems
+   !      if (sf_typ(i,k)==1) sf_ptp(i,k) = 0 removed by Jaehak 2014
          if (sp_pd(i,k)>254) sp_pd(i,k) = 254. ! max 10inches dia
          if (sp_pd(i,k)<10) sp_pd(i,k) = 10. ! min 10mm dia
          if (ft_pd(i,k)>254) ft_pd(i,k) = 254. ! max 10inches
@@ -349,37 +366,3 @@
      
       return
       end
-   !-------------------------------------------------------------------
-
-	   subroutine est_orfdim(desdis,dia,cd)
-
-   !!	This program estimates orifice dimensions based on 
-   !!	design discharge at different stages
-
-	   real, intent(in) :: cd,desdis
-	   real, intent(out) :: dia
-	   real :: tempvar,pi
-
-	   pi = 3.14159
-	   tempvar = 0.6 * cd * pi * sqrt(9.81)
-	   dia = (4.0 * desdis / tempvar) ** 0.4
-
-	   return
-	   end subroutine est_orfdim
-   !-------------------------------------------------------------------
-
-	   subroutine est_weirdim(depwid,desdis,wwidth,wdepth,cd)
-
-   !!	This program estimates rectangular weir dimensions based on 
-   !!	width-depth ratio of wier at different stages
-
-	   real, intent(in) :: depwid,cd,desdis
-	   real, intent(out) :: wdepth,wwidth
-      real :: tempvar
-      
-	   tempvar=depwid**1.5
-	   wwidth=(desdis*tempvar/(1.84*cd))**0.4
-	   wdepth=wwidth/depwid
-
-	   return
-	   end subroutine est_weirdim

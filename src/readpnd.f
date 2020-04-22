@@ -81,7 +81,7 @@
 !!    dtp_evrsv      |none          |detention pond evaporation coefficient
 !!    dtp_numweir(:) |none          |Total number of weirs in the BMP
 !!    dtp_numstage(:)|none          |Total number of stages in the weir
-!!    dtp_parm(:)    |none          |BMP outflow hydrograph shape parameter
+!!    dtp_lwratio(:)   |none          |Ratio of length to width of water back up
 !!    dtp_totwrwid(:)|m             |Total constructed width of the detention wall across
 !!                                  |the creek
 !!    dtp_stagdis(:) |none          |0=use weir/orifice discharge equation to calculate 
@@ -93,6 +93,9 @@
 !!    dtp_coef1(:)   |none          |Coefficient of 3rd degree in the polynomial equation
 !!    dtp_coef2(:)   |none          |Coefficient of 2nd degree in the polynomial equation
 !!    dtp_coef3(:)   |none          |Coefficient of 1st degree in the polynomial equation
+!!    dtp_dummy1(:)   |none         |Dummy variable, backs up space
+!!    dtp_dummy2(:)   |none         |Dummy variable, backs up space
+!!    dtp_dummy3(:)   |none         |Dummy variable, backs up space
 !!    dtp_weirtype(:,:)|none        |Type of weir: 1=rectangular and 2=circular
 !!    dtp_weirdim(:,:)|none         |Weir dimensions, 1=read user input, 0=use model calculation
 !!    dtp_wdratio(:,:)|none         |Width depth ratio of rectangular weirs
@@ -362,7 +365,7 @@
       if (eof < 0) exit
       read (104,*,iostat=eof) dtp_numstage(i)
       if (eof < 0) exit
-      read (104,*,iostat=eof) dtp_parm(i)
+      read (104,*,iostat=eof) dtp_lwratio(i)
       if (eof < 0) exit
       read (104,*,iostat=eof) dtp_totwrwid(i)
       if (eof < 0) exit
@@ -379,6 +382,12 @@
       read (104,*,iostat=eof) dtp_coef2(i)
       if (eof < 0) exit
       read (104,*,iostat=eof) dtp_coef3(i)
+      if (eof < 0) exit
+      read (104,*,iostat=eof) dtp_dummy1(i)
+      if (eof < 0) exit
+      read (104,*,iostat=eof) dtp_dummy2(i)
+      if (eof < 0) exit
+      read (104,*,iostat=eof) dtp_dummy3(i)
       if (eof < 0) exit
       read (104,*,iostat=eof) (dtp_weirtype(i,k),k=1,dtp_numstage(i))
       if (eof < 0) exit 
@@ -398,7 +407,7 @@
       if (eof < 0) exit
       read (104,*,iostat=eof) (dtp_retperd(i,k),k=1,dtp_numstage(i))
       if (eof < 0) exit
-      read (104,*,iostat=eof) (dtp_pcpret(i,k),k=1,dtp_numstage(i))      
+      read (104,*,iostat=eof) (dtp_pcpret(i,k),k=1,dtp_numstage(i))   
       if (eof < 0) exit
       close (104)
       else

@@ -49,7 +49,7 @@
 
 !! SWAT manual equation 2.3.1
       tair = 0.
-      tair = 0.5 * (tmp_hi(jj) + tmp_lo(jj) + (tmp_hi(jj) - tmp_lo(jj)  & 
+      tair = 0.5 * (tmp_hi(jj) + tmp_lo(jj) + (tmp_hi(jj) - tmp_lo(jj)  
      &                                   * Cos(0.2618 * Real(hr - 15))))
 
       return
