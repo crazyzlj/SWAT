@@ -119,7 +119,7 @@
               rainsum = 0.
               do jj = 0, k
                 if (precipdt(kk+jj) > (snomlt+ovrlnd(j))/nstep) then
-                  rainsum = rainsum + precipdt(kk+jj) -                 &
+                  rainsum = rainsum + precipdt(kk+jj) -                 
      &                                      (snomlt + ovrlnd(j)) / nstep
                 end if
               end do
@@ -157,7 +157,7 @@
             ajp = 0.
             ajp = 1. - Expo(-125. / (preceff + 5.))
             if (ised_det == 0) then
-              al5 = Atri(ab, amp_r(i_mo,hru_sub(j)), ajp,               &
+              al5 = Atri(ab, amp_r(i_mo,hru_sub(j)), ajp,               
      &                                                rndseed(idg(6),j))
             else
               al5 = amp_r(i_mo,hru_sub(j))

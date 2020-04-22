@@ -231,7 +231,7 @@
       else
 
 
-      if (iyr > iyres(jres) .or.                                        &
+      if (iyr > iyres(jres) .or.                                        
      &              (i_mo >= mores(jres) .and. iyr == iyres(jres))) then
 
         !! Adjust Reservoir Storage for Irrigation Diversions
@@ -289,8 +289,8 @@
         if (ievent > 2) then
           do ii = 1, nstep
             hhvaroute(1,ihout,ii) = 0.           !!undefined
-            hhvaroute(2,ihout,ii) = resflwo / real(nstep)
-            hhvaroute(3,ihout,ii) = ressedo / real(nstep)
+            hhvaroute(2,ihout,ii) = hhresflwo(ii)
+            hhvaroute(3,ihout,ii) = hhressedo(ii)
             hhvaroute(4,ihout,ii) = resorgno / real(nstep)
             hhvaroute(5,ihout,ii) = resorgpo / real(nstep)
             hhvaroute(6,ihout,ii) = resno3o / real(nstep)
@@ -387,37 +387,37 @@
 
       if (iprint == 1 .and. curyr > nyskip) then
         if (iscen == 1.and. isproj == 0) then
-        write (8,5000) jres, iida, res_vol(jres), resflwi / 86400.,     &
-     &    (resflwo / 86400.), respcp, resev, ressep, ressedi, ressedo,  &
-     &    sedcon, varoute(4,inum2), resorgno, resorgnc,                 &
-     &    varoute(5,inum2), resorgpo, resorgpc, varoute(6,inum2),       &
-     &    resno3o, resno3c, varoute(15,inum2), resno2o, resno2c,        &
-     &    varoute(14,inum2), resnh3o, resnh3c, varoute(7,inum2),        &
-     &    ressolpo, ressolpc, varoute(13,inum2), reschlao,              &
-     &    res_seci(jres), respesti, reactw, volatpst, setlpst, resuspst,&
-     &    difus, reactb, bury, solpesto + sorpesto, lkpst_conc(jres),   &
+        write (8,5000) jres, iida, res_vol(jres), resflwi / 86400.,     
+     &    (resflwo / 86400.), respcp, resev, ressep, ressedi, ressedo,  
+     &    sedcon, varoute(4,inum2), resorgno, resorgnc,                 
+     &    varoute(5,inum2), resorgpo, resorgpc, varoute(6,inum2),       
+     &    resno3o, resno3c, varoute(15,inum2), resno2o, resno2c,        
+     &    varoute(14,inum2), resnh3o, resnh3c, varoute(7,inum2),        
+     &    ressolpo, ressolpc, varoute(13,inum2), reschlao,              
+     &    res_seci(jres), respesti, reactw, volatpst, setlpst, resuspst,
+     &    difus, reactb, bury, solpesto + sorpesto, lkpst_conc(jres),   
      &    lkspst_conc(jres),iyr
         else if (isproj == 1) then
-        write (22,5000) jres, iida, res_vol(jres), resflwi / 86400.,    &
-     &    (resflwo / 86400.), respcp, resev, ressep, ressedi, ressedo,  &
-     &    sedcon, varoute(4,inum2), resorgno, resorgnc,                 &
-     &    varoute(5,inum2), resorgpo, resorgpc, varoute(6,inum2),       &
-     &    resno3o, resno3c, varoute(15,inum2), resno2o, resno2c,        &
-     &    varoute(14,inum2), resnh3o, resnh3c, varoute(7,inum2),        &
-     &    ressolpo, ressolpc, varoute(13,inum2), reschlao,              &
-     &    res_seci(jres), respesti, reactw, volatpst, setlpst, resuspst,&
-     &    difus, reactb, bury, solpesto + sorpesto, lkpst_conc(jres),   &
+        write (22,5000) jres, iida, res_vol(jres), resflwi / 86400.,    
+     &    (resflwo / 86400.), respcp, resev, ressep, ressedi, ressedo,  
+     &    sedcon, varoute(4,inum2), resorgno, resorgnc,                 
+     &    varoute(5,inum2), resorgpo, resorgpc, varoute(6,inum2),       
+     &    resno3o, resno3c, varoute(15,inum2), resno2o, resno2c,        
+     &    varoute(14,inum2), resnh3o, resnh3c, varoute(7,inum2),        
+     &    ressolpo, ressolpc, varoute(13,inum2), reschlao,              
+     &    res_seci(jres), respesti, reactw, volatpst, setlpst, resuspst,
+     &    difus, reactb, bury, solpesto + sorpesto, lkpst_conc(jres),   
      &    lkspst_conc(jres),iyr
         else if (iscen == 1 .and. isproj == 2) then
-        write (8,6000) jres, iida, res_vol(jres), resflwi / 86400.,     &
-     &    (resflwo / 86400.), respcp, resev, ressep, ressedi, ressedo,  &
-     &    sedcon, varoute(4,inum2), resorgno, resorgnc,                 &
-     &    varoute(5,inum2), resorgpo, resorgpc, varoute(6,inum2),       &
-     &    resno3o, resno3c, varoute(15,inum2), resno2o, resno2c,        &
-     &    varoute(14,inum2), resnh3o, resnh3c, varoute(7,inum2),        &
-     &    ressolpo, ressolpc, varoute(13,inum2), reschlao,              &
-     &    res_seci(jres), respesti, reactw, volatpst, setlpst, resuspst,&
-     &    difus, reactb, bury, solpesto + sorpesto, lkpst_conc(jres),   &
+        write (8,6000) jres, iida, res_vol(jres), resflwi / 86400.,     
+     &    (resflwo / 86400.), respcp, resev, ressep, ressedi, ressedo,  
+     &    sedcon, varoute(4,inum2), resorgno, resorgnc,                 
+     &    varoute(5,inum2), resorgpo, resorgpc, varoute(6,inum2),       
+     &    resno3o, resno3c, varoute(15,inum2), resno2o, resno2c,        
+     &    varoute(14,inum2), resnh3o, resnh3c, varoute(7,inum2),        
+     &    ressolpo, ressolpc, varoute(13,inum2), reschlao,              
+     &    res_seci(jres), respesti, reactw, volatpst, setlpst, resuspst,
+     &    difus, reactb, bury, solpesto + sorpesto, lkpst_conc(jres),   
      &    lkspst_conc(jres), iyr
         endif
       endif

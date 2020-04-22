@@ -89,8 +89,8 @@
 !!    compute time of concentration (sum of overland and channel times)
         t_ch = 0
         t_ov(j) = .0556 * (slsubbsn(j)*ov_n(j)) ** .6 / hru_slp(j) ** .3
-        t_ch = .62 * ch_l1(j) * ch_n(1,hru_sub(j)) ** .75 /             &
-     &      ((da_km * sub_fr(hru_sub(j)))**.125 *                       &
+        t_ch = .62 * ch_l1(j) * ch_n(1,hru_sub(j)) ** .75 /             
+     &      ((da_km * sub_fr(hru_sub(j)))**.125 *                       
      &                                         ch_s(1,hru_sub(j))**.375)
         sub_tc(hru_sub(j)) = t_ov(j) + t_ch
 !! end subbasin !!
@@ -101,7 +101,7 @@
         t_ch = 0
         ch_l1(j) = ch_l1(j) * hru_dafr(j) / sub_fr(hru_sub(j))
         t_ov(j) = .0556 * (slsubbsn(j)*ov_n(j)) ** .6 / hru_slp(j) ** .3
-        t_ch = .62 * ch_l1(j) * ch_n(1,hru_sub(j)) ** .75 /             &
+        t_ch = .62 * ch_l1(j) * ch_n(1,hru_sub(j)) ** .75 /             
      &              ((da_km*hru_dafr(j))**.125*ch_s(1,hru_sub(j))**.375)
         tconc(j) = t_ov(j) + t_ch
 

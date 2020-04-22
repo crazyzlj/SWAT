@@ -59,7 +59,7 @@
 
       !! output by elevation band to output.snw
       if (isnow == 1) then 	 
-         write(115,1010) i, iyr, subnum(j), hruno(j),                   &
+         write(115,1010) i, iyr, subnum(j), hruno(j),                   
      &                (snoeb(ib,j), ib = 1,10)
       end if
 

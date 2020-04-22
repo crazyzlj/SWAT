@@ -171,7 +171,7 @@
           if (l /= 1) then
             if (sol_z(l,jj) > dtil) then
               if (sol_z(l-1,jj) < dtil) then
-                thtill(l) = (dtil - sol_z(l-1,jj)) /                    &
+                thtill(l) = (dtil - sol_z(l-1,jj)) /                    
      &                                     (sol_z(l,jj) - sol_z(l-1,jj))
                 nl = l
               endif
@@ -212,55 +212,55 @@
 
           !! calculate new amount of each substance in each layer
           !! undergoing mixing
-          sol_no3(l,jj) = sol_no3(l,jj) * (1. - thtill(l)) +            &
-     &                    sol_no3(l,jj) * thtill(l) * (1. - emix) +     &
+          sol_no3(l,jj) = sol_no3(l,jj) * (1. - thtill(l)) +            
+     &                    sol_no3(l,jj) * thtill(l) * (1. - emix) +     
      &                    smix(1) * thtill(l) * dg / dtil
 
-          sol_orgn(l,jj) = sol_orgn(l,jj) * (1. - thtill(l)) +          &
-     &                    sol_orgn(l,jj) * thtill(l) * (1. - emix) +    &
+          sol_orgn(l,jj) = sol_orgn(l,jj) * (1. - thtill(l)) +          
+     &                    sol_orgn(l,jj) * thtill(l) * (1. - emix) +    
      &                    smix(2) * thtill(l) * dg / dtil
 
-          sol_nh3(l,jj) = sol_nh3(l,jj) * (1. - thtill(l)) +            &
-     &                    sol_nh3(l,jj) * thtill(l) * (1. - emix) +     &
+          sol_nh3(l,jj) = sol_nh3(l,jj) * (1. - thtill(l)) +            
+     &                    sol_nh3(l,jj) * thtill(l) * (1. - emix) +     
      &                    smix(3) * thtill(l) * dg / dtil
 
-          sol_solp(l,jj) = sol_solp(l,jj) * (1. - thtill(l)) +          &
-     &                    sol_solp(l,jj) * thtill(l) * (1. - emix) +    &
+          sol_solp(l,jj) = sol_solp(l,jj) * (1. - thtill(l)) +          
+     &                    sol_solp(l,jj) * thtill(l) * (1. - emix) +    
      &                    smix(4) * thtill(l) * dg / dtil
 
-          sol_orgp(l,jj) = sol_orgp(l,jj) * (1. - thtill(l)) +          &
-     &                    sol_orgp(l,jj) * thtill(l) * (1. - emix) +    &
+          sol_orgp(l,jj) = sol_orgp(l,jj) * (1. - thtill(l)) +          
+     &                    sol_orgp(l,jj) * thtill(l) * (1. - emix) +    
      &                    smix(5) * thtill(l) * dg / dtil
 
-          sol_aorgn(l,jj) = sol_aorgn(l,jj) * (1. - thtill(l)) +        &
-     &                    sol_aorgn(l,jj) * thtill(l) * (1. - emix) +   &
+          sol_aorgn(l,jj) = sol_aorgn(l,jj) * (1. - thtill(l)) +        
+     &                    sol_aorgn(l,jj) * thtill(l) * (1. - emix) +   
      &                    smix(6) * thtill(l) * dg / dtil
 
-          sol_actp(l,jj) = sol_actp(l,jj) * (1. - thtill(l)) +          &
-     &                    sol_actp(l,jj) * thtill(l) * (1. - emix) +    &
+          sol_actp(l,jj) = sol_actp(l,jj) * (1. - thtill(l)) +          
+     &                    sol_actp(l,jj) * thtill(l) * (1. - emix) +    
      &                    smix(7) * thtill(l) * dg / dtil
 
-          sol_fon(l,jj) = sol_fon(l,jj) * (1. - thtill(l)) +            &
-     &                    sol_fon(l,jj) * thtill(l) * (1. - emix) +     &
+          sol_fon(l,jj) = sol_fon(l,jj) * (1. - thtill(l)) +            
+     &                    sol_fon(l,jj) * thtill(l) * (1. - emix) +     
      &                    smix(8) * thtill(l) * dg / dtil
 
-          sol_fop(l,jj) = sol_fop(l,jj) * (1. - thtill(l)) +            &
-     &                    sol_fop(l,jj) * thtill(l) * (1. - emix) +     &
+          sol_fop(l,jj) = sol_fop(l,jj) * (1. - thtill(l)) +            
+     &                    sol_fop(l,jj) * thtill(l) * (1. - emix) +     
      &                    smix(9) * thtill(l) * dg / dtil
 
-          sol_stap(l,jj) = sol_stap(l,jj) * (1. - thtill(l)) +          &
-     &                    sol_stap(l,jj) * thtill(l) * (1. - emix) +    &
+          sol_stap(l,jj) = sol_stap(l,jj) * (1. - thtill(l)) +          
+     &                    sol_stap(l,jj) * thtill(l) * (1. - emix) +    
      &                    smix(10) * thtill(l) * dg / dtil
 
-          sol_rsd(l,jj) = sol_rsd(l,jj) * (1. - thtill(l)) +            &
-     &                    sol_rsd(l,jj) * thtill(l) * (1. - emix) +     &
+          sol_rsd(l,jj) = sol_rsd(l,jj) * (1. - thtill(l)) +            
+     &                    sol_rsd(l,jj) * thtill(l) * (1. - emix) +     
      &                    smix(11) * thtill(l) * dg / dtil
           sol_rsd(l,jj) = Max(sol_rsd(l,jj),0.)
 
           if (hrupest(jj) > 0) then
           do k = 1, npmx
-            sol_pst(k,jj,l) = sol_pst(k,jj,l) * (1. - thtill(l)) +      &
-     &                    sol_pst(k,jj,l) * thtill(l) * (1. - emix) +   &
+            sol_pst(k,jj,l) = sol_pst(k,jj,l) * (1. - thtill(l)) +      
+     &                    sol_pst(k,jj,l) * thtill(l) * (1. - emix) +   
      &                    smix(11+k) * thtill(l) * dg / dtil
           end do
           end if

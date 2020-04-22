@@ -66,7 +66,7 @@
         fforgp = 0.
         fnm = ""
 
-        read (107,5000,iostat=eof) it, fnm, ffminn, ffminp, fforgn,     &
+        read (107,5000,iostat=eof) it, fnm, ffminn, ffminp, fforgn,     
      &     fforgp, ffnh3n, bctpdb, bctlpdb, bctkddb 
 
         if (eof < 0) exit

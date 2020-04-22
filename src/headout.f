@@ -58,7 +58,7 @@
       call header
 
 !! write headings to HRU output file (output.hru)
-      write (28,1000) prog, values(2), values(3), values(1), values(5), &
+      write (28,1000) prog, values(2), values(3), values(1), values(5), 
      &               values(6), values(7)
       write (28,1010) title
 	
@@ -73,7 +73,7 @@
 
 !! write headings to HRU output file (output2.hru)
       if (isproj == 1) then
-        write (21,1000)prog, values(2), values(3), values(1), values(5), &
+        write (21,1000)prog, values(2), values(3), values(1), values(5),
      &               values(6), values(7)
         write (21,1010) title
       if (ipdvas(1) > 0) then
@@ -84,7 +84,7 @@
       endif
 
 !! write headings to subbasin output file (output.sub)
-      write (31,1000) prog, values(2), values(3), values(1), values(5), &
+      write (31,1000) prog, values(2), values(3), values(1), values(5), 
      &    values(6), values(7)
       write (31,1010) title
 
@@ -99,7 +99,7 @@
       endif
 
 !! write headings to reach output file (output.rch)
-      write (7,1000) prog, values(2), values(3), values(1), values(5),  &
+      write (7,1000) prog, values(2), values(3), values(1), values(5),  
      &               values(6), values(7)
       write (7,1010) title
 
@@ -124,7 +124,7 @@
 
 !! write headings to reach output file (output2.rch)
       if (isproj == 1) then
-        write (20,1000)prog, values(2), values(3), values(1), values(5), &
+        write (20,1000)prog, values(2), values(3), values(1), values(5), 
      &               values(6), values(7)
         write (20,1010) title
       if (ipdvar(1) > 0) then
@@ -135,13 +135,13 @@
       endif 
 
 !! write headings to reservoir output file (output.rsv)
-      write (8,1000) prog, values(2), values(3), values(1), values(5),  &
+      write (8,1000) prog, values(2), values(3), values(1), values(5),  
      &               values(6), values(7)
       write (8,1010) title
       write (8,1050) (hedrsv(j), j = 1, 41)
 !! write headings to reservoir output file (output2.rsv)
       if (isproj == 1) then
-      write (22,1000) prog, values(2), values(3), values(1), values(5), &
+      write (22,1000) prog, values(2), values(3), values(1), values(5), 
      &               values(6), values(7)
       write (22,1010) title
       write (22,1050) (hedrsv(j), j = 1, 41)
@@ -149,7 +149,7 @@
  
 !! write headings to HRU impoundment output file (output.wtr)
       if (iwtr == 1) then
-        write (29,1000)prog, values(2), values(3), values(1), values(5), &
+        write (29,1000)prog, values(2), values(3), values(1), values(5),
      &                values(6), values(7)
         write (29,1010) title
         write (29,1020) (hedwtr(j), j = 1, 40)
@@ -157,7 +157,7 @@
 
 !! write headings to pesticide output file (output.pst)
       if (iprp /= 0) then
-        write (30,1000)prog, values(2), values(3), values(1), values(5),&
+        write (30,1000)prog, values(2), values(3), values(1), values(5),
      &                values(6), values(7)
         write (30,1010) title
         write (30,3000)
@@ -186,10 +186,10 @@
       return
  1000 format ('1',/t5,a80,t105,2(i2,'/'),i4,5x,2(i2,':'),i2)
  1010 format (/(t5,20a4))
- 1020 format (//'LULC  HRU       GIS  SUB  MGT  MON','   AREAkm2',      &
+ 1020 format (//'LULC  HRU       GIS  SUB  MGT  MON','   AREAkm2',      
      & 78(a10))
  !    * 76(a10),"    GISnum")
- 1021  format (//'LULC  HRU       GIS  SUB  MGT MO DA   YR',            &
+ 1021  format (//'LULC  HRU       GIS  SUB  MGT MO DA   YR',            
      &'   AREAkm2', 78(a10))	   
  1030 format (//6x,' SUB      GIS  MON   AREAkm2',22(a10))
  1040 format (//7x,'RCH      GIS   MON     AREAkm2',56a12)

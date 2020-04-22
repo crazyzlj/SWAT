@@ -115,10 +115,10 @@
       !! part of equation 29.1.3 in SWAT manual
       phosk = 0.
       nitrok = 0.
-      phosk = psetlr(iseas,jres) * ressa * 10000. /                     &
+      phosk = psetlr(iseas,jres) * ressa * 10000. /                     
      &                                         (res_vol(jres) + resflwo)
       phosk = Min(phosk, 1.)
-      nitrok = nsetlr(iseas,jres) * ressa * 10000. /                    &
+      nitrok = nsetlr(iseas,jres) * ressa * 10000. /                    
      &                                         (res_vol(jres) + resflwo)
       nitrok = Min(nitrok, 1.)
 
@@ -136,7 +136,7 @@
       chlaco = 0.
       res_chla(jres) = 0.
       res_seci(jres) = 0.
-      tpco = 1.e+6 * (res_solp(jres) + res_orgp(jres)) /                &
+      tpco = 1.e+6 * (res_solp(jres) + res_orgp(jres)) /                
      &                                         (res_vol(jres) + resflwo)
       if (tpco > 1.e-4) then
         !! equation 29.1.6 in SWAT manual

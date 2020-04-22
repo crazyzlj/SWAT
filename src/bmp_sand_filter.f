@@ -53,6 +53,7 @@
 
       !! Initialize parameters, coefficients, etc
       tsa = ft_sa(sb,kk)     !total surface area of filter (m^2)
+      if (tsa>sub_ha*10000.*0.5) tsa = sub_ha*10000.*0.5 !sandfilter should be smaller than 0.5 times the subbasin area
       ffsa = ft_fsa(sb,kk)     !fraction of infiltration bed in the filtration basin (m2/m2)
       mxvol = ft_h(sb,kk) / 1000. * tsa    !max. capacity of the basin (m^3)
       pdia = ft_pd(sb,kk)       !outflow orifice pipe diameter (mm)
@@ -89,7 +90,8 @@
            
            if (qsw(ii-1)<0.001) then
              !No flow
-             flw(2,ii) = 0.
+             qout(ii) = 0.
+             qloss = 0.
            else
              qout(ii) = ksat * dt * qsw(ii-1) / vfiltr / 1000.* tsa 
      &          * ffsa !m^3
@@ -108,7 +110,6 @@
              end if
   
              qsw(ii) = max(0.,qsw(ii - 1) - qout(ii)) ! m^3
-             flw(2,ii) = qout(ii)  / (sub_ha *10000. - tsa) * 1000.  !mm
            endif
         
          Else
@@ -235,15 +236,24 @@
                   qloss = max(0.,qpnd(ii) - mxvol)
                   qpnd(ii) = max(0.,qpnd(ii) - qloss)
                endif
+
             end if
             qpnde = qpnd(ii) + qsw(ii)
-            
-            !effluent from the filter unit (through-flow+overflow), normalized to subbasin area
-            flw(1,ii) = qin(ii) / (sub_ha *10000. - tsa) * 1000.  !mm
-            flw(2,ii) = qout(ii) / (sub_ha*10000.- tsa) *1000.  !mm
-            flw(3,ii) = qloss / (sub_ha *10000. - tsa) * 1000.  !mm
-     
+                
          Endif
+         
+        ! no outlet control: all the infiltration water is added to shallow aquifer recharge for next day\
+        if (sf_ptp(sb,kk)==0) then
+           bmp_recharge(sb) = bmp_recharge(sb) 
+     &                         + qout(ii) / (sub_ha*10000.- tsa) *1000.
+           qout(ii) = 0.         !effluent from the filter unit (through-flow+overflow), normalized to subbasin area
+        end if 
+        
+        ! store the flow output
+        flw(1,ii) = qin(ii) / (sub_ha *10000. - tsa) * 1000.  !mm
+        flw(2,ii) = qout(ii) / (sub_ha*10000.- tsa) *1000.  !mm
+        flw(3,ii) = qloss / (sub_ha *10000. - tsa) * 1000.  !mm
+         
 !         write(*,'(2i3,20f7.3)') iida, ii, qin(ii),qout(ii),qpnd(ii), 
 !     &      qsw(ii),qloss
          !--------------------------------------------------------------------------------------
@@ -341,4 +351,3 @@
 
       return
       end subroutine
-   

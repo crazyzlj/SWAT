@@ -182,9 +182,21 @@
         read (108,*,iostat=eof) pot_solpl(ihru)
         if (eof < 0) exit
         read (108,*,iostat=eof) pot_k(ihru)
+        if (eof < 0) exit
+        read (108,*,iostat=eof) n_reduc(ihru)
+        if (eof < 0) exit
+        read (108,*,iostat=eof) n_lag(ihru)
+        if (eof < 0) exit
+        read (108,*,iostat=eof) n_ln(ihru)
+        if (eof < 0) exit
+        read (108,*,iostat=eof) n_lnco(ihru)
 	exit
       end do
 
+      if (n_reduc(ihru) <= 0.) n_reduc(ihru) = 300.
+      if (n_lag(ihru) <= 0.) n_lag(ihru) = 0.25
+      if (n_ln(ihru) <= 0.) n_ln(ihru) = 2.0
+      if (n_lnco(ihru) <= 0.) n_lnco(ihru) = 2.0
 
 !!    compare .hru input values to .bsn input values
       if (escohru > 1.e-4) esco(ihru) = escohru
@@ -220,18 +232,18 @@
       sin_sl = 0.
       xm = .6 * (1. - Exp(-35.835 * hru_slp(ihru)))
       sin_sl = Sin(Atan(hru_slp(ihru)))
-      usle_ls(ihru) = (slsubbsn(ihru)/22.128)**xm * (65.41 * sin_sl *   &
+      usle_ls(ihru) = (slsubbsn(ihru)/22.128)**xm * (65.41 * sin_sl *   
      &                sin_sl + 4.56 * sin_sl + .065)
 
 !!    other calculations
       hru_km(ihru) = sub_km(i) * hru_fr(ihru)
       hru_ha(ihru) = hru_km(ihru) * 100.
       lat_sed(ihru) = lat_sed(ihru) * 1.e-3     !!mg/L => g/L
-      pot_vol(ihru) = 10. * pot_volmm(ihru) * hru_ha(ihru)    !! mm => m^3  Srini pothole   NUBZ
-      pot_volx(ihru) = 10. * pot_volxmm(ihru) * hru_ha(ihru)  !! mm => m^3
-      pot_tile(ihru) = 10. * pot_tilemm(ihru) * hru_ha(ihru)  !! mm => m^3
+      pot_vol(ihru) = pot_volmm(ihru)
+      pot_volx(ihru) = pot_volxmm(ihru)
+      pot_tile(ihru) = pot_tilemm(ihru)
 
-      xx = pot_vol(ihru) / 1000000.  !! mg/L * m3 * 1000L/m3 * t/1,000,000,000   Srini pothole
+      xx = 10. * pot_volmm(ihru) * hru_ha(ihru) / 1000000.  !! mg/L * m3 * 1000L/m3 * t/1,000,000,000   Srini pothole
 	pot_sed(ihru) = pot_nsed(ihru) * xx
 	pot_san(ihru) = 0. 
 	pot_sil(ihru) = 0. 

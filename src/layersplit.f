@@ -55,6 +55,4 @@
       end do
 	
 	iseptic = j 
-      end        
-       
-       
+      end             

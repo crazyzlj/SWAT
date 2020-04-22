@@ -493,7 +493,7 @@
       read (103,*,iostat=eof) res_stlr_co
       if (eof < 0) exit
 !     following reads moved to end of .bsn file
-!     read (103,*,iostat=eof) sol_p_model  !! if = 1 use new soil P model
+!     read (103,*,iostat=eof) sol_p_model  !! if = 0 use new soil P model
 !     if (eof < 0) exit
 	read (103,*,iostat=eof) bf_flg
  	if (eof < 0) exit
@@ -504,7 +504,7 @@
       read (103,*,iostat=eof) titldum
  	read (103,'(a130)') tlu
        do ii=3,len_trim(tlu)
-          if ((tlu(ii:ii).eq.','.and.tlu(ii-1:ii-1).ne.',').or.          
+          if ((tlu(ii:ii).eq.','.and.tlu(ii-1:ii-1).ne.',').or.   
      &       (tlu(ii:ii).eq.' '.and.tlu(ii-1:ii-1).ne.' ')) then
              numlu = numlu + 1
           end if	   
@@ -547,7 +547,7 @@
       if (eof < 0) exit
 	read (103,*,iostat=eof) iwtdn
       if (eof < 0) exit
-      read (103,*,iostat=eof) sol_p_model  !! if = 1 use new soil P model
+      read (103,*,iostat=eof) sol_p_model  !! if = 0  use new soil P model
       if (eof < 0) exit
  	read (103,*,iostat=eof) iabstr
  	if (eof < 0) exit
@@ -559,6 +559,8 @@
       read (103,*,iostat=eof) sstmaxd_bsn
       if (eof < 0) exit
       read (103,*,iostat=eof) ismax
+      if (eof < 0) exit
+      read (103,*,iostat=eof) iroutunit
       if (eof < 0) exit
 	exit
 !!    Drainmod input variables - 01/2006

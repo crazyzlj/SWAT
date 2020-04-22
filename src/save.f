@@ -47,91 +47,91 @@
         !! Write subdaily values
         do ii = 1, nstep
           if (inum3 == 0) then
-            write (40+inum1,5000) iida, iyr, ii-1,                      &
-     &                      hhvaroute(2,ihout,ii),                      &
-     &                      hhvaroute(3,ihout,ii),                      &
-     &                      hhvaroute(4,ihout,ii),                      &
-     &                      hhvaroute(5,ihout,ii),                      &
-     &                      hhvaroute(6,ihout,ii),                      &
-     &                      hhvaroute(14,ihout,ii),                     &
-     &                      hhvaroute(15,ihout,ii),                     &
-     &                      hhvaroute(7,ihout,ii),                      &
-     &                      hhvaroute(16,ihout,ii),                     &
-     &                      hhvaroute(17,ihout,ii),                     &
-     &                      hhvaroute(13,ihout,ii),                     &
-     &                      hhvaroute(11,ihout,ii),                     &
-     &                      hhvaroute(12,ihout,ii),                     &
-     &                      hhvaroute(18,ihout,ii),                     &
-     &                      hhvaroute(19,ihout,ii),                     &
-     &                      hhvaroute(20,ihout,ii),                     &
-     &                      hhvaroute(21,ihout,ii),                     &
-     &                      hhvaroute(22,ihout,ii),                     &
+            write (40+inum1,5000) iida, iyr, ii-1,                      
+     &                      hhvaroute(2,ihout,ii),                      
+     &                      hhvaroute(3,ihout,ii),                      
+     &                      hhvaroute(4,ihout,ii),                      
+     &                      hhvaroute(5,ihout,ii),                      
+     &                      hhvaroute(6,ihout,ii),                      
+     &                      hhvaroute(14,ihout,ii),                     
+     &                      hhvaroute(15,ihout,ii),                     
+     &                      hhvaroute(7,ihout,ii),                      
+     &                      hhvaroute(16,ihout,ii),                     
+     &                      hhvaroute(17,ihout,ii),                     
+     &                      hhvaroute(13,ihout,ii),                     
+     &                      hhvaroute(11,ihout,ii),                     
+     &                      hhvaroute(12,ihout,ii),                     
+     &                      hhvaroute(18,ihout,ii),                     
+     &                      hhvaroute(19,ihout,ii),                     
+     &                      hhvaroute(20,ihout,ii),                     
+     &                      hhvaroute(21,ihout,ii),                     
+     &                      hhvaroute(22,ihout,ii),                     
      &                      hhvaroute(1,ihout,ii)
          else
-          write (40+inum1,5000)                                         &
-     &                      hhvaroute(2,ihout,ii),                      &
-     &                      hhvaroute(3,ihout,ii),                      &
-     &                      hhvaroute(4,ihout,ii),                      &
-     &                      hhvaroute(5,ihout,ii),                      &
-     &                      hhvaroute(6,ihout,ii),                      &
-     &                      hhvaroute(14,ihout,ii),                     &
-     &                      hhvaroute(15,ihout,ii),                     &
-     &                      hhvaroute(7,ihout,ii),                      &
-     &                      hhvaroute(16,ihout,ii),                     &
-     &                      hhvaroute(17,ihout,ii),                     &
-     &                      hhvaroute(13,ihout,ii),                     &
-     &                      hhvaroute(11,ihout,ii),                     &
-     &                      hhvaroute(12,ihout,ii),                     &
-     &                      hhvaroute(18,ihout,ii),                     &
-     &                      hhvaroute(19,ihout,ii),                     &
-     &                      hhvaroute(20,ihout,ii),                     &
-     &                      hhvaroute(21,ihout,ii),                     &
-     &                      hhvaroute(22,ihout,ii),                     &
+          write (40+inum1,5000)                                         
+     &                      hhvaroute(2,ihout,ii),                      
+     &                      hhvaroute(3,ihout,ii),                      
+     &                      hhvaroute(4,ihout,ii),                      
+     &                      hhvaroute(5,ihout,ii),                      
+     &                      hhvaroute(6,ihout,ii),                      
+     &                      hhvaroute(14,ihout,ii),                     
+     &                      hhvaroute(15,ihout,ii),                     
+     &                      hhvaroute(7,ihout,ii),                      
+     &                      hhvaroute(16,ihout,ii),                     
+     &                      hhvaroute(17,ihout,ii),                     
+     &                      hhvaroute(13,ihout,ii),                     
+     &                      hhvaroute(11,ihout,ii),                     
+     &                      hhvaroute(12,ihout,ii),                     
+     &                      hhvaroute(18,ihout,ii),                     
+     &                      hhvaroute(19,ihout,ii),                     
+     &                      hhvaroute(20,ihout,ii),                     
+     &                      hhvaroute(21,ihout,ii),                     
+     &                      hhvaroute(22,ihout,ii),                     
      &                      hhvaroute(1,ihout,ii)
          end if
         end do
       else
         if (inum3 == 0) then
-          write (40+inum1,5002) iida, iyr,                              &
-     &                      varoute(2,ihout),                           &
-     &                      varoute(3,ihout),                           &
-     &                      varoute(4,ihout),                           &
-     &                      varoute(5,ihout),                           &
-     &                      varoute(6,ihout),                           &
-     &                      varoute(14,ihout),                          &
-     &                      varoute(15,ihout),                          &
-     &                      varoute(7,ihout),                           &
-     &                      varoute(16,ihout),                          &
-     &                      varoute(17,ihout),                          &
-     &                      varoute(13,ihout),                          &
-     &                      varoute(11,ihout),                          &
-     &                      varoute(12,ihout),                          &
-     &                      varoute(18,ihout),                          &
-     &                      varoute(19,ihout),                          &
-     &                      varoute(20,ihout),                          &
-     &                      varoute(21,ihout),                          &
-     &                      varoute(22,ihout),                          &
+          write (40+inum1,5002) iida, iyr,                              
+     &                      varoute(2,ihout),                           
+     &                      varoute(3,ihout),                           
+     &                      varoute(4,ihout),                           
+     &                      varoute(5,ihout),                           
+     &                      varoute(6,ihout),                           
+     &                      varoute(14,ihout),                          
+     &                      varoute(15,ihout),                          
+     &                      varoute(7,ihout),                           
+     &                      varoute(16,ihout),                          
+     &                      varoute(17,ihout),                          
+     &                      varoute(13,ihout),                          
+     &                      varoute(11,ihout),                          
+     &                      varoute(12,ihout),                          
+     &                      varoute(18,ihout),                          
+     &                      varoute(19,ihout),                          
+     &                      varoute(20,ihout),                          
+     &                      varoute(21,ihout),                          
+     &                      varoute(22,ihout),                          
      &                      varoute(1,ihout)
         else
-          write (40+inum1,5003)                                         &
-     &                      varoute(2,ihout),                           &
-     &                      varoute(3,ihout),                           &
-     &                      varoute(4,ihout),                           &
-     &                      varoute(5,ihout),                           &
-     &                      varoute(6,ihout),                           &
-     &                      varoute(14,ihout),                          &
-     &                      varoute(15,ihout),                          &
-     &                      varoute(7,ihout),                           &
-     &                      varoute(16,ihout),                          &
-     &                      varoute(17,ihout),                          &
-     &                      varoute(13,ihout),                          &
-     &                      varoute(11,ihout),                          &
-     &                      varoute(12,ihout),                          &
-     &                      varoute(18,ihout),                          &
-     &                      varoute(19,ihout),                          &
-     &                      varoute(20,ihout),                          &
-     &                      varoute(21,ihout),                          &
-     &                      varoute(22,ihout),                          &
+          write (40+inum1,5003)                                         
+     &                      varoute(2,ihout),                           
+     &                      varoute(3,ihout),                           
+     &                      varoute(4,ihout),                           
+     &                      varoute(5,ihout),                           
+     &                      varoute(6,ihout),                           
+     &                      varoute(14,ihout),                          
+     &                      varoute(15,ihout),                          
+     &                      varoute(7,ihout),                           
+     &                      varoute(16,ihout),                          
+     &                      varoute(17,ihout),                          
+     &                      varoute(13,ihout),                          
+     &                      varoute(11,ihout),                          
+     &                      varoute(12,ihout),                          
+     &                      varoute(18,ihout),                          
+     &                      varoute(19,ihout),                          
+     &                      varoute(20,ihout),                          
+     &                      varoute(21,ihout),                          
+     &                      varoute(22,ihout),                          
      &                      varoute(1,ihout)
         end if
       end if

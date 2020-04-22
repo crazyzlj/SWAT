@@ -65,6 +65,8 @@
       wshd_pal = 0.
       wshd_pas = 0.
       wshd_plch = 0.
+      wshd_pinlet = 0.
+      wshd_ptile = 0.
       wshd_pstrs = 0.
       wshd_astrs = 0.
       wshd_pup = 0.

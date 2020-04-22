@@ -87,7 +87,7 @@
 !! compute shallow aquifer level for current day, assumes karst losses 
 !! infiltrate at the same speed as what goes through the soil profile.
       rchrg(j) = 0.
-      rchrg(j) = (1.-gw_delaye(j)) * (sepbtm(j) + gwq_ru(j) +           &
+      rchrg(j) = (1.-gw_delaye(j)) * (sepbtm(j) + gwq_ru(j) +           
      &                             rchrg_karst) + gw_delaye(j) * rchrg1
       if (rchrg(j) < 1.e-6) rchrg(j) = 0.
       gwq_ru(j) = 0.
@@ -97,13 +97,13 @@
       deepst(j) = deepst(j) + gwseep
 
       shallst(j) = shallst(j) + (rchrg(j) - gwseep)
-      gwht(j) = gwht(j) * alpha_bfe(j) + rchrg(j) * (1. - alpha_bfe(j)) &
+      gwht(j) = gwht(j) * alpha_bfe(j) + rchrg(j) * (1. - alpha_bfe(j)) 
      &    / (800. * gw_spyld(j) * alpha_bf(j) + 1.e-6)
       gwht(j) = Max(1.e-6, gwht(j))
 
 !! compute groundwater contribution to streamflow for day
       if (shallst(j) > gwqmn(j)) then
-        gw_q(j) = gw_q(j) * alpha_bfe(j) + (rchrg(j) - gwseep ) *       &
+        gw_q(j) = gw_q(j) * alpha_bfe(j) + (rchrg(j) - gwseep ) *       
      &                                               (1. - alpha_bfe(j))
       else
         gw_q(j) = 0.

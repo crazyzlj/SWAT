@@ -79,11 +79,11 @@
       !! compute sediment yield with musle
       if (iwave > 0) then
         !! subbasin sediment calculations
-        sedyld(j) = (sub_qd(iwave) * peakr * 1000. * sub_km(iwave))     &
+        sedyld(j) = (sub_qd(iwave) * peakr * 1000. * sub_km(iwave))     
      &                                                 ** .56 * cklsp(j)
       else
         !! HRU sediment calculations
-        sedyld(j) = (surfq(j) * peakr * 1000. * hru_km(j)) ** .56       &
+        sedyld(j) = (surfq(j) * peakr * 1000. * hru_km(j)) ** .56       
      &                                                        * cklsp(j)
       end if
 

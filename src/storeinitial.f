@@ -92,6 +92,5 @@
       orig_resnh3 = res_nh3
       orig_resorgn = res_orgn
 
-
       return
       end

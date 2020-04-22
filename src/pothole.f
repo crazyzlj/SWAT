@@ -175,6 +175,7 @@
       j = ihru
 
 !! initialize variables
+      tileo = 0.
       potev = 0.
       spillo = 0.  
       potpcp = 0.
@@ -199,6 +200,13 @@
       potmpao = 0.
       potvol_ini = 0.
       potsa_ini = 0.
+      sedloss = 0.
+      no3loss = 0.
+      solploss = 0.
+      orgnloss = 0.
+      orgploss = 0.
+      minpsloss = 0.
+      minpaloss = 0.
 
       qin = qday * pot_fr(j)   !inflow = surface flow
       qdayi = qday
@@ -287,7 +295,7 @@
         if (pot_vol(j) > pot_volxmm(j)) then
           qdr(j) = qdr(j) + (pot_vol(j)- pot_volxmm(j))
 !          qday = qday + (pot_vol(j)- pot_volxmm(j))
-          spillo = pot_vol(j)- pot_volxmm(j)
+          spillo = pot_vol(j) - pot_volxmm(j)
           pot_vol(j) = pot_volxmm(j)
           xx = spillo / (spillo + pot_volxmm(j))
           potsedo = potsedo + pot_sed(j) * xx
@@ -356,8 +364,8 @@
          pot_lag(j) = 0.
          
 !        compute total delivery ratio for pot_sed
-         drtot = (pot_cla(j) + pot_sil(j) + pot_san(j) + pot_sag(j) +   &
-     &      pot_lag(j)) / (potclai(j) + potsili(j) + potsani(j) +       &
+         drtot = (pot_cla(j) + pot_sil(j) + pot_san(j) + pot_sag(j) +   
+     &      pot_lag(j)) / (potclai(j) + potsili(j) + potsani(j) +       
      &      potsagi(j) + potlagi(j))
          pot_sed(j) = drtot * pot_sed(j)
          
@@ -376,6 +384,7 @@
           
 !       compute flow from surface inlet tile
         tileo = Min(pot_tilemm(j), pot_vol(j))
+        potvol_tile = pot_vol(j)
         pot_vol(j) = pot_vol(j) - tileo
         qdr(j) = qdr(j) + tileo
         tileq(j) = tileq(j) + tileo
@@ -392,6 +401,7 @@
 !        calculate seepage into soil
          potsep = yy * potsa(j) * 240. / cnv                       !!mm/h*ha/240=m3/cnv=mm
          potsep = Min(potsep, pot_vol(j))
+         potvol_sep = pot_vol(j)
          pot_vol(j) = pot_vol(j) - potsep
          pot_seep(j) = potsep
          
@@ -441,65 +451,66 @@
             pot_evap(j)= pot_evap(j) + potev
           endif
 
-        if (pot_vol(j) > 1.e-6) then
+        if (potvol_tile > 1.e-6) then
 
-          sedloss = pot_sed(j) * tileo / pot_vol(j)
+          sedloss = pot_sed(j) * tileo / potvol_tile
           sedloss = Min(sedloss, pot_sed(j))            
 			  
           pot_sed(j) = pot_sed(j) - sedloss
           potsedo = potsedo + sedloss
           sedyld(j) = sedyld(j) + sedloss
-          no3loss = pot_no3(j) *  tileo / pot_vol(j)
+          no3loss = pot_no3(j) *  tileo / potvol_tile
           no3loss = Min(no3loss, pot_no3(j))
           pot_no3(j) = pot_no3(j) - no3loss
           surqno3(j) = surqno3(j) + no3loss / hru_ha(j)
 			  
-          solploss = pot_solp(j) *  tileo / pot_vol(j)
+          solploss = pot_solp(j) *  tileo / potvol_tile
           solploss = Min(solploss, pot_solp(j))
+          solp_tileo = solploss
           pot_solp(j) = pot_solp(j) - solploss
           surqsolp(j) = surqsolp(j) + solploss / hru_ha(j)
 
-          orgnloss = pot_orgn(j) *  tileo / pot_vol(j)
+          orgnloss = pot_orgn(j) *  tileo / potvol_tile
           orgnloss = Min(orgnloss, pot_orgn(j))
           pot_orgn(j) = pot_orgn(j) - orgnloss
           sedorgn(j) = sedorgn(j) + orgnloss / hru_ha(j)
 
-          orgploss = pot_orgp(j) *  tileo / pot_vol(j)
+          orgploss = pot_orgp(j) *  tileo / potvol_tile
           orgploss = Min(orgploss, pot_orgp(j))
           pot_orgp(j) = pot_orgp(j) - orgploss
           sedorgp(j) = sedorgp(j) + orgploss / hru_ha(j)
 
-          minpsloss = pot_mps(j) *  tileo / pot_vol(j)
+          minpsloss = pot_mps(j) *  tileo / potvol_tile
           minpsloss = Min(minpsloss, pot_mps(j))
           pot_mps(j) = pot_mps(j) - minpsloss
           sedminps(j) = sedminps(j) + minpsloss / hru_ha(j)
 
-          minpaloss = pot_mpa(j) *  tileo / pot_vol(j)
+          minpaloss = pot_mpa(j) *  tileo / potvol_tile
           minpaloss = Min(minpaloss, pot_mpa(j))
           pot_mpa(j) = pot_mpa(j) - minpaloss
           sedminpa(j) = sedminpa(j) + minpaloss / hru_ha(j)
 
-          sanloss = pot_san(j) *  tileo / pot_vol(j)
+          sanloss = pot_san(j) *  tileo / potvol_tile
           pot_san(j) = pot_san(j) - sanloss
           potsano = potsano + sanloss
           sanyld(j) = sanyld(j) + sanloss
 
-          silloss = pot_sil(j) *  tileo / pot_vol(j)
+          silloss = pot_sil(j) *  tileo / potvol_tile
           pot_sil(j) = pot_sil(j) - silloss
           potsilo = potsilo + silloss
           silyld(j) = silyld(j) + silloss
 
-          claloss = pot_cla(j) *  tileo / pot_vol(j)
+          claloss = pot_cla(j) *  tileo / potvol_tile
           pot_cla(j) = pot_cla(j) - claloss
           potclao = potclao + claloss
           clayld(j) = clayld(j) + claloss
 
-          sagloss = pot_sag(j) *  tileo / pot_vol(j)
+          sagloss = pot_sag(j) *  tileo / potvol_tile
           pot_sag(j) = pot_sag(j) - sagloss
           potsago = potsago + sagloss
           sagyld(j) = sagyld(j) + sagloss
 
-          lagloss = pot_lag(j) *  tileo / pot_vol(j)
+          lagloss = pot_lag(j) *  tileo / potvol_tile
           pot_lag(j) = pot_lag(j) - lagloss
           potlago = potlago + lagloss
           lagyld(j) = lagyld(j) + lagloss
@@ -513,6 +524,55 @@
           tile_orgpo(j)= tile_orgpo(j)+ orgploss
           tile_minpso(j)= tile_minpso(j)+ minpsloss
           tile_minpao(j)= tile_minpao(j)+ minpaloss
+        end if
+
+        if (potvol_sep > 1.e-6) then
+
+          sedloss = pot_sed(j) * potsep / potvol_sep
+          sedloss = Min(sedloss, pot_sed(j))            
+          pot_sed(j) = pot_sed(j) - sedloss
+
+          no3loss = pot_no3(j) *  potsep / potvol_sep
+          no3loss = Min(no3loss, pot_no3(j))
+          pot_no3(j) = pot_no3(j) - no3loss
+			  
+          solploss = pot_solp(j) *  potsep / potvol_sep
+          solploss = Min(solploss, pot_solp(j))
+          pot_solp(j) = pot_solp(j) - solploss
+
+          orgnloss = pot_orgn(j) *  potsep / potvol_sep
+          orgnloss = Min(orgnloss, pot_orgn(j))
+          pot_orgn(j) = pot_orgn(j) - orgnloss
+
+          orgploss = pot_orgp(j) *  potsep / potvol_sep
+          orgploss = Min(orgploss, pot_orgp(j))
+          pot_orgp(j) = pot_orgp(j) - orgploss
+
+          minpsloss = pot_mps(j) *  potsep / potvol_sep
+          minpsloss = Min(minpsloss, pot_mps(j))
+          pot_mps(j) = pot_mps(j) - minpsloss
+
+          minpaloss = pot_mpa(j) *  potsep / potvol_sep
+          minpaloss = Min(minpaloss, pot_mpa(j))
+          pot_mpa(j) = pot_mpa(j) - minpaloss
+
+          sanloss = pot_san(j) *  potsep / potvol_sep
+          pot_san(j) = pot_san(j) - sanloss
+
+          silloss = pot_sil(j) *  potsep / potvol_sep
+          pot_sil(j) = pot_sil(j) - silloss
+
+          claloss = pot_cla(j) *  potsep / potvol_sep
+          pot_cla(j) = pot_cla(j) - claloss
+
+          sagloss = pot_sag(j) *  potsep / potvol_sep
+          pot_sag(j) = pot_sag(j) - sagloss
+
+          lagloss = pot_lag(j) *  potsep / potvol_sep
+          pot_lag(j) = pot_lag(j) - lagloss
+    
+!         track loadings removed via seepage
+
         end if
 
         endif
@@ -530,6 +590,7 @@
         if (pot_vol(j) > 0. .and. potsa(j) > 0.0) then
           potmm = pot_vol(j) / potsa(j) / 10.
         endif
+        wshd_pinlet = wshd_pinlet + solp_tileo / hru_ha(j) * hru_dafr(j)
         spadyo = spadyo + sumo * hru_dafr(j)
         spadyosp = spadyosp + spillo * hru_dafr(j)
         spadyev = spadyev + potev * hru_dafr(j)
@@ -548,13 +609,12 @@
       endif
 !     !!! output.pot and output.wtr turned on by same code named IWTR in file.cio
       if (iwtr == 1) then
-        write (125,2000) hruno(j), subnum(j), i, iyr, potvol_ini,       &
-     &       potsa_ini, spillo, potsep, potev, sol_sw(j), tileo,        &
+        write (125,2000) subnum(j), hruno(j), i, iyr, potvol_ini,       
+     &       potsa_ini, spillo, potsep, potev, sol_sw(j), tileo,        
      &       pot_vol(j), potsa(j)
       endif
- 2000 format (a5,1x,a4,2i5,9f10.2)
- 
+  
       return
 1000  format (1x,i4,2x,9(f8.2,2x))
-      end
-      
+2000  format (a5,a4,1x,2i5,9f10.2)
+      end    

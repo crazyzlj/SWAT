@@ -260,7 +260,7 @@
          algin = 1000. * chlin / ai0        !! QUAL2E equation III-1
          orgnin = 1000. * hhvaroute(4,inum2,ii) * (1. - rnum1) / wtrin
          ammoin = 1000. * hhvaroute(14,inum2,ii) * (1. - rnum1) / wtrin
-         nitritin = 1000. * hhvaroute(15,inum2,ii) * (1. - rnum1) /     &
+         nitritin = 1000. * hhvaroute(15,inum2,ii) * (1. - rnum1) /     
      &                                                             wtrin
          nitratin = 1000. * hhvaroute(6,inum2,ii) * (1. - rnum1) / wtrin
          orgpin = 1000. * hhvaroute(5,inum2,ii) * (1. - rnum1) / wtrin
@@ -294,21 +294,21 @@
          wtrtot = wtrin + hrchwtr(ii)
          if (ii == 1) then
          algcon = (algin * wtrin + algae(jrch) * hrchwtr(ii)) / wtrtot
-         orgncon = (orgnin * wtrin + organicn(jrch) * hrchwtr(ii))      &
+         orgncon = (orgnin * wtrin + organicn(jrch) * hrchwtr(ii))      
      &                                                          / wtrtot
-         nh3con = (ammoin * wtrin + ammonian(jrch) * hrchwtr(ii))       &
+         nh3con = (ammoin * wtrin + ammonian(jrch) * hrchwtr(ii))       
      &                                                          / wtrtot
-         no2con = (nitritin * wtrin + nitriten(jrch) * hrchwtr(ii))     &
+         no2con = (nitritin * wtrin + nitriten(jrch) * hrchwtr(ii))     
      &                                                          / wtrtot
-         no3con = (nitratin * wtrin + nitraten(jrch) * hrchwtr(ii))     &
+         no3con = (nitratin * wtrin + nitraten(jrch) * hrchwtr(ii))     
      &                                                          / wtrtot
-         orgpcon = (orgpin * wtrin + organicp(jrch) * hrchwtr(ii))      &
+         orgpcon = (orgpin * wtrin + organicp(jrch) * hrchwtr(ii))      
      &                                                          / wtrtot
-         solpcon = (dispin * wtrin + disolvp(jrch) * hrchwtr(ii))       &
+         solpcon = (dispin * wtrin + disolvp(jrch) * hrchwtr(ii))       
      &                                                          / wtrtot
-         cbodcon = (cbodin * wtrin + rch_cbod(jrch) * hrchwtr(ii))      &
+         cbodcon = (cbodin * wtrin + rch_cbod(jrch) * hrchwtr(ii))      
      &                                                          / wtrtot
-         o2con = (disoxin * wtrin + rch_dox(jrch) * hrchwtr(ii))        &
+         o2con = (disoxin * wtrin + rch_dox(jrch) * hrchwtr(ii))        
      &                                                          / wtrtot
          else
          algcon = (algin * wtrin + halgae(ii-1) * hrchwtr(ii)) / wtrtot
@@ -380,7 +380,7 @@
          !! calculate light extinction coefficient 
          !! (algal self shading) QUAL2E equation III-12
          if (ai0 * algcon > 1.e-6) then
-           lambda = lambda0 + (lambda1 * ai0 * algcon) + lambda2 *      &
+           lambda = lambda0 + (lambda1 * ai0 * algcon) + lambda2 *      
      &                                        (ai0 * algcon) ** (.66667)
          else
            lambda = lambda0
@@ -402,7 +402,7 @@
          !! calculate growth attenuation factor for light, based on
          !! hourly light intensity QUAL2E equation III-6a
          fll = 0.
-         fll = (1. / (lambda * hdepth(ii))) *                           &
+         fll = (1. / (lambda * hdepth(ii))) *                           
      &    Log((k_l + algi) / (k_l + algi * (Exp(-lambda * hdepth(ii)))))
 
          !! calculcate local algal growth rate
@@ -427,8 +427,8 @@
          !! (phytoplanktonic algae)
          !! QUAL2E equation III-2
          halgae(ii) = 0.
-         halgae(ii) = algcon + (Theta(gra,thgra,wtmp) * algcon -        &
-     &    Theta(rhoq,thrho,wtmp) * algcon - Theta(rs1(jrch),thrs1,wtmp) &
+         halgae(ii) = algcon + (Theta(gra,thgra,wtmp) * algcon -        
+     &    Theta(rhoq,thrho,wtmp) * algcon - Theta(rs1(jrch),thrs1,wtmp) 
      &                                    / hdepth(ii) * algcon) * thour
          if (halgae(ii) < 0.) halgae(ii) = 0.
 
@@ -458,7 +458,7 @@
          yy = 0.
          zz = 0.
          uu = Theta(rk2(jrch),thrk2,wtmp) * (soxy - o2con)
-         vv = (ai3 * Theta(gra,thgra,wtmp) - ai4 *                      &
+         vv = (ai3 * Theta(gra,thgra,wtmp) - ai4 *                      
      &                                  Theta(rhoq,thrho,wtmp)) * algcon
          ww = Theta(rk1(jrch),thrk1,wtmp) * cbodcon
          xx = Theta(rk4(jrch),thrk4,wtmp) / (hdepth(ii) * 1000.)
@@ -485,7 +485,7 @@
         !! calculate fraction of algal nitrogen uptake from ammonia
         !! pool QUAL2E equation III-18
         f1 = 0.
-        f1 = p_n * nh3con / (p_n * nh3con + (1. - p_n) * no3con +       &
+        f1 = p_n * nh3con / (p_n * nh3con + (1. - p_n) * no3con +       
      &                                                            1.e-6)
 
         !! calculate ammonia nitrogen concentration at end of day

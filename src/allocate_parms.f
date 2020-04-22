@@ -48,7 +48,11 @@
 
 
       use parm
-
+            
+      allocate (alph_e(mhru))
+      allocate (co_p(mhru))
+      
+      
 !! initialize variables    
       mvaro = 33
       mhruo = 78
@@ -331,7 +335,7 @@
       allocate (icolr(mrcho))
 !     allocate (ipdvar(mrcho))
 !!  increased ipdvar(42) to 45 to add Total N/Total P/NO3conc(mg/l)
-      allocate (ipdvar(45))    
+      allocate (ipdvar(46))    
       allocate (rchaao(mrcho,mxsubch))  
       allocate (rchdy(mrcho,mxsubch))  
       allocate (rchmono(mrcho,mxsubch))  
@@ -635,6 +639,12 @@
       allocate (seccir(mres))
       allocate (sed_stlr(mres))
       allocate (starg_fps(mres))
+      allocate (weirc(mres))
+      allocate (weirk(mres))
+      allocate (weirw(mres))
+      allocate (acoef(mres))
+      allocate (bcoef(mres))
+      allocate (ccoef(mres))
       allocate (wurtnf(mres))
       allocate (lkpst_mass(mres))
       allocate (lkspst_mass(mres))
@@ -1162,6 +1172,10 @@
       allocate (pot_cla(mhru))
       allocate (pot_sag(mhru))
       allocate (pot_lag(mhru))
+      allocate (n_reduc(mhru))
+      allocate (n_lag(mhru))
+      allocate (n_ln(mhru))
+      allocate (n_lnco(mhru))
 
       allocate (pot_tile(mhru))
       allocate (pot_vol(mhru))
@@ -1454,6 +1468,8 @@
 
 !!    arrays
       allocate (ndays(13))
+      allocate (ndays_leap(13))
+      allocate (ndays_noleap(13))
       allocate (idg(9))
       allocate (ndmo(12))
    !   allocate (halgae(24))
@@ -1557,8 +1573,10 @@
       allocate (snam(mhru),hydgrp(mhru),kirr(mhru))
 	allocate (dratio(msub),init_abstrc(mhru))
 	allocate (sub_subp_dt(msub,nstep),sub_hhsedy(msub,nstep))
-	allocate (sub_atmp(msub,nstep))
+	allocate (sub_atmp(msub,nstep),bmp_recharge(msub))
 	allocate (rchhr(mrcho,mch,nstep),hrtevp(nstep),hrttlc(nstep))
+	allocate (hhresflwi(nstep), hhresflwo(nstep),hhressedi(nstep),
+     &	 hhressedo(nstep))
 !! Arrays for bmp simulation by jaehak jeong
 	allocate (lu_nodrain(30),bmpdrain(mhru))
 	allocate (subdr_km(mhyd),subdr_ickm(mhyd),sub_cn2(msub))
@@ -1593,15 +1611,16 @@
      &  dtp_stagdis(mhyd),dtp_reltype(mhyd),dtp_onoff(mhyd))
 	
 	allocate(dtp_evrsv(msub),
-     &  dtp_inflvol(msub),dtp_totwrwid(msub),dtp_parm(msub),
+     &  dtp_inflvol(msub),dtp_totwrwid(msub),dtp_lwratio(msub),
      &  dtp_wdep(msub),dtp_totdep(msub),dtp_watdepact(msub),
      &  dtp_outflow(msub),dtp_totrel(msub),dtp_backoff(msub),
      &  dtp_seep_sa(msub),dtp_evap_sa(msub),dtp_pet_day(msub),
      &  dtp_pcpvol(msub),dtp_seepvol(msub),dtp_evapvol(msub),
      &  dtp_flowin(msub),dtp_backup_length(msub),dtp_intcept(msub),
      &  dtp_expont(msub),dtp_coef1(msub),dtp_coef2(msub),
-     &  dtp_coef3(msub),dtp_ivol(msub),dtp_ised(msub))
- 
+     &  dtp_coef3(msub),dtp_dummy1(msub),dtp_dummy2(msub),
+     &  dtp_dummy3(msub),dtp_ivol(msub),dtp_ised(msub))
+      
   	allocate(dtp_wdratio(msub,10),dtp_depweir(msub,10),
      &  dtp_diaweir(msub,10),dtp_retperd(msub,10),dtp_pcpret(msub,10),
      &  dtp_cdis(msub,10),dtp_flowrate(msub,10),

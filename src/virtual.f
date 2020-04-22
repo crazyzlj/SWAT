@@ -534,7 +534,7 @@
          varoute(5,ihout) = (sub_yorgp(sb) + sub_sedps(sb) +
      &                  sub_sedpa(sb)) * sub_ha          !!sedorgp & sedminps
                                                   !!sedorgp & sedminps
-         varoute(6,ihout) = (sub_no3(sb) + sub_latno3(sb) +             &
+         varoute(6,ihout) = (sub_no3(sb) + sub_latno3(sb) +             
      &      sub_tileno3(sb) + sub_gwno3(sb)) * sub_ha          !!surqno3 & latno3 & no3gw
          varoute(7,ihout) = (sub_solp(sb) + sub_gwsolp(sb)) * sub_ha   !!surqsolp & minpgw & sedminpa
          varoute(8,ihout) = 0.
@@ -607,7 +607,7 @@
           !! storage locations set to zero are not currently used
           do ii = 1, nstep
             ratio = 0.
-            if (sub_wyld(sb) > 1.e-3)                                   &
+            if (sub_wyld(sb) > 1.e-3)                                   
      &                              ratio = sub_hwyld(ii) / sub_wyld(sb)
             if (sub_hwyld(ii) > 0.) then
               hhvaroute(1,ihout,ii) = sub_hhwtmp(sb,ii)            !!wtmp
@@ -690,6 +690,5 @@
       tmpavp(j) = 0.
       tmpavp(j) = tmpav(j)
       
-
       return   
       end

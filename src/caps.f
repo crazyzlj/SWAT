@@ -25,7 +25,7 @@
 
       character (len=*) ::  file_name
       character (len=Len(file_name)) ::  temp_name
-      character (len=26) :: low_case = "abcdefghijklmnopqrstuvwxyz",     &
+      character (len=26) :: low_case = "abcdefghijklmnopqrstuvwxyz",  
      &                       up_case = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
       integer :: ii, j
 

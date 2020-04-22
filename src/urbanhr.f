@@ -125,7 +125,7 @@
           !! calculate amount of dirt on streets prior to wash-off
               dirt = 0.
               dirto = 0.
-              dirto = dirtmx(urblu(j)) * twash(j) /                          
+              dirto = dirtmx(urblu(j)) * twash(j) /               
      &                                 (thalf(urblu(j)) + twash(j))
 
           !! calculate wash-off of solids
@@ -150,13 +150,13 @@
               tno3 = tno3conc(urblu(j)) * sus_sol / 1.e6
 
               ubntss(k) = (.001 * sus_sol * hru_ha(j)) * fimp(urblu(j)) 
-              surqno3(j) = tno3 * fimp(urblu(j)) + surqno3(j) *             &
+              surqno3(j) = tno3 * fimp(urblu(j)) + surqno3(j) *       
      &                                             (1. - fimp(urblu(j)))
-              sedorgn(j) = (tn - tno3) * fimp(urblu(j)) + sedorgn(j) *      &
+              sedorgn(j) = (tn - tno3) * fimp(urblu(j)) + sedorgn(j) *
      &                                            (1. - fimp(urblu(j)))
-              sedorgp(j) = .75 * tp * fimp(urblu(j)) + sedorgp(j) *         &
+              sedorgp(j) = .75 * tp * fimp(urblu(j)) + sedorgp(j) *   
      &                                            (1. - fimp(urblu(j)))
-              surqsolp(j) = .25 * tp * fimp(urblu(j)) + surqsolp(j) *       &
+              surqsolp(j) = .25 * tp * fimp(urblu(j)) + surqsolp(j) * 
      &                                            (1. - fimp(urblu(j)))
 	      else
           !! no surface runoff
@@ -200,5 +200,3 @@
 
       return
       end
-
-

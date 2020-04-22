@@ -110,39 +110,39 @@
           varii = 0.
           if (hhvaroute(2,ihout,ii) > 0.001) then
             varii(1) = hhvaroute(2,ihout,ii) / (idt * 60.)  !! urban modeling by J.Jeong 4/17/2008
-            varii(2) = hhvaroute(3,ihout,ii) * 1.e6                     &
+            varii(2) = hhvaroute(3,ihout,ii) * 1.e6                     
      &                                           / hhvaroute(2,ihout,ii)
-            varii(3) = hhvaroute(4,ihout,ii) * 1000.                    &
+            varii(3) = hhvaroute(4,ihout,ii) * 1000.                    
      &                                           / hhvaroute(2,ihout,ii)
-            varii(4) = hhvaroute(5,ihout,ii) * 1000.                    &
+            varii(4) = hhvaroute(5,ihout,ii) * 1000.                    
      &                                           / hhvaroute(2,ihout,ii)
-            varii(5) = hhvaroute(6,ihout,ii) * 1000.                    &
+            varii(5) = hhvaroute(6,ihout,ii) * 1000.                    
      &                                           / hhvaroute(2,ihout,ii)
-            varii(6) = hhvaroute(14,ihout,ii) * 1000.                   &
+            varii(6) = hhvaroute(14,ihout,ii) * 1000.                   
      &                                           / hhvaroute(2,ihout,ii)
-            varii(7) = hhvaroute(15,ihout,ii) * 1000.                   &
+            varii(7) = hhvaroute(15,ihout,ii) * 1000.                   
      &                                           / hhvaroute(2,ihout,ii)
-            varii(8) = hhvaroute(7,ihout,ii) * 1000.                    &
+            varii(8) = hhvaroute(7,ihout,ii) * 1000.                    
      &                                           / hhvaroute(2,ihout,ii)
-            varii(9) = hhvaroute(16,ihout,ii) * 1000.                   &
+            varii(9) = hhvaroute(16,ihout,ii) * 1000.                   
      &                                           / hhvaroute(2,ihout,ii)
-            varii(10) = hhvaroute(17,ihout,ii) * 1000.                  &
+            varii(10) = hhvaroute(17,ihout,ii) * 1000.                  
      &                                           / hhvaroute(2,ihout,ii)
-            varii(11) = hhvaroute(13,ihout,ii) * 1.e6                   &
+            varii(11) = hhvaroute(13,ihout,ii) * 1.e6                   
      &                                           / hhvaroute(2,ihout,ii)
-            varii(12) = hhvaroute(11,ihout,ii)                          &
+            varii(12) = hhvaroute(11,ihout,ii)                          
      &                                 / (1000. * hhvaroute(2,ihout,ii))
-            varii(13) = hhvaroute(12,ihout,ii)                          &
+            varii(13) = hhvaroute(12,ihout,ii)                          
      &                                 / (1000. * hhvaroute(2,ihout,ii))
-            varii(14) = hhvaroute(18,ihout,ii)                          &
+            varii(14) = hhvaroute(18,ihout,ii)                          
      &                                 / (1000. * hhvaroute(2,ihout,ii))
-            varii(15) = hhvaroute(19,ihout,ii)                          &
+            varii(15) = hhvaroute(19,ihout,ii)                          
      &                                 / (1000. * hhvaroute(2,ihout,ii))
-            varii(16) = hhvaroute(20,ihout,ii) * 1000.                  &
+            varii(16) = hhvaroute(20,ihout,ii) * 1000.                  
      &                                           / hhvaroute(2,ihout,ii)
-            varii(17) = hhvaroute(21,ihout,ii) * 1000.                  &
+            varii(17) = hhvaroute(21,ihout,ii) * 1000.                  
      &                                           / hhvaroute(2,ihout,ii)
-            varii(18) = hhvaroute(22,ihout,ii) * 1000.                  &
+            varii(18) = hhvaroute(22,ihout,ii) * 1000.                  
      &                                           / hhvaroute(2,ihout,ii)
             varii(19) = hhvaroute(1,ihout,ii)
           end if
@@ -164,10 +164,10 @@
           if (varoute(2,ihout) > 0.1) then
             do ii = 1, nstep
               do j = 3, mvaro
-                varoute(j,ihout) = varoute(j,ihout) +                   &
+                varoute(j,ihout) = varoute(j,ihout) +                   
      &                                             hhvaroute(j,ihout,ii)
               end do
-              varoute(1,ihout) = varoute(1,ihout) +                     &
+              varoute(1,ihout) = varoute(1,ihout) +                     
      &                     hhvaroute(2,ihout,ii) * hhvaroute(1,ihout,ii)
             end do
             varoute(1,ihout) = varoute(1,ihout) / varoute(2,ihout)

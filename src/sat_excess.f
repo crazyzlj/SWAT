@@ -63,7 +63,7 @@
 
       j = 0
       j = ihru
-     	isp = isep_typ(j) 	   !! J.Jeong 3/09/09
+      isp = isep_typ(j) 	   !! J.Jeong 3/09/09
       rtof = 0.5
 
 
@@ -75,66 +75,64 @@
 	  ! distribute excess STE to upper soil layers 
 	  do while (qlyr>0.and.ii>1)
 	    
-		 ! distribute STE to soil layers above biozone layer
-		 if (sol_st(ii,j) > sol_ul(ii,j)) then
-	      qlyr = sol_st(ii,j) - sol_ul(ii,j) 	! excess water moving to upper layer
-	      sol_st(ii,j) = sol_ul(ii,j)  ! layer saturated
-	      sol_st(ii-1,j) = sol_st(ii-1,j) + qlyr ! add excess water to upper layer
+	   ! distribute STE to soil layers above biozone layer
+	   if (sol_st(ii,j) > sol_ul(ii,j)) then
+	      
+	     qlyr = max(sol_st(ii,j) - sol_ul(ii,j),0.) 	! excess water moving to upper layer
+	     sol_st(ii,j) = sol_st(ii,j) - qlyr  
+         
+         qvol = qlyr * hru_ha(j) * 10.         ! volume water m^3
+	     xx = qvol / hru_ha(j) / 1000.
+	     sol_no3(ii,j) = sol_no3(ii,j) - xx * (sptno3concs(isp) 
+     &                   + sptno2concs(isp))  
+	     sol_nh3(ii,j) = sol_nh3(ii,j) - xx * sptnh4concs(isp) 
+	     sol_orgn(ii,j) = sol_orgn(ii,j) - xx * sptorgnconcs(isp)*0.5
+         sol_fon(ii,j) = sol_fon(ii,j) - xx * sptorgnconcs(isp) * 0.5
+         sol_orgp(ii,j) = sol_orgp(ii,j) - xx * sptorgps(isp) * 0.5
+	     sol_fop(ii,j) = sol_fop(ii,j) - xx * sptorgps(isp) * 0.5
+         sol_solp(ii,j) = sol_solp(ii,j) - xx * sptminps(isp)  
+
+	     ! add soil moisture and nutrient to upper layer
+	     sol_st(ii-1,j) = sol_st(ii-1,j) + qlyr ! add excess water to upper layer
+	     sol_no3(ii-1,j) = sol_no3(ii-1,j) + xx * (sptno3concs(isp) 
+     &                   + sptno2concs(isp))  
+	     sol_nh3(ii-1,j) = sol_nh3(ii-1,j) + xx * sptnh4concs(isp) 
+	     sol_orgn(ii-1,j) = sol_orgn(ii-1,j) + xx*sptorgnconcs(isp)*0.5
+         sol_fon(ii-1,j) = sol_fon(ii-1,j) + xx * sptorgnconcs(isp)*0.5
+         sol_orgp(ii-1,j) = sol_orgp(ii-1,j) + xx * sptorgps(isp) * 0.5
+	     sol_fop(ii-1,j) = sol_fop(ii-1,j) + xx * sptorgps(isp) * 0.5
+         sol_solp(ii-1,j) = sol_solp(ii-1,j) + xx * sptminps(isp)  
 	   else 
-	      qlyr = 0.
+	     qlyr = 0.
 	   endif
 	  
-	    ! Add surface ponding to the 10mm top layer when the top soil layer is saturated
-		 !  and surface ponding occurs.
-		 if (ii==2) then
+	   ! Add surface ponding to the 10mm top layer when the top soil layer is saturated
+	   !  and surface ponding occurs.
+	   if (ii==2) then
 	     qlyr = sol_st(1,j) - sol_ul(1,j)
 	     ! excess water makes surface runoff
 	     if (qlyr>0) then
 	         sol_st(1,j) = sol_ul(1,j)
 	         surfq(j) = surfq(j) + qlyr 
-		       qvol = qlyr * hru_ha(j) * 10.
+		     qvol = qlyr * hru_ha(j) * 10.
 		       ! nutrients in surface runoff
-		       xx = qvol / hru_ha(j) / 1000.
+		     xx = qvol / hru_ha(j) / 1000.
 	         surqno3(j) = surqno3(j) + xx 
      &                      * (sptno3concs(isp) + sptno2concs(isp)) 
-               surqsolp(j) =  surqsolp(j) +  xx * sptminps(isp) 
+             surqsolp(j) =  surqsolp(j) +  xx * sptminps(isp) 
                
+	         !compute runoff lag for the ponded STE and add to already estimated qday
+	         surf_bs(1,j) = Max(1.e-6, surf_bs(1,j) + qlyr)
+             qday = qday + qlyr * brt(j) !runoff that drains into the main channel for the day
+             surf_bs(1,j) = surf_bs(1,j) - qday
+
 	         ! Initiate counting the number of days the system fails and makes surface ponding of STE
 	         if(sep_tsincefail(j)==0) sep_tsincefail(j) = 1
-	     endif
-	     qlyr = 0.
-           !nutrients in the first 10mm layer
-		   qvol = sol_st(1,j) * hru_ha(j) * 10.
-		   xx = qvol / hru_ha(j) / 1000.
-           sol_no3(1,j) = sol_no3(1,j) + xx *(sptno3concs(isp) 
-     &                    + sptno2concs(isp))  
-           sol_nh3(1,j) = sol_nh3(1,j) + xx * sptnh4concs(isp) 
-           sol_orgn(1,j) = sol_orgn(1,j) + xx * sptorgnconcs(isp)
-     &                    * rtof
-           sol_fon(1,j) = sol_fon(1,j) + xx * sptorgnconcs(isp) 
-     &                      * (1.-rtof)
-           sol_orgp(1,j) = sol_orgp(1,j) + xx * sptorgps(isp) * rtof
-           sol_fop(1,j) = sol_fop(1,j) + xx * sptorgps(isp) * (1.-rtof)
-           sol_solp(1,j) = sol_solp(1,j) + xx * sptminps(isp)  
-     
-		 endif
+             qlyr = 0.
+	     endif     
+	   endif
 
-         ! volume water in the current layer: m^3
-         qvol = sol_st(ii,j) * hru_ha(j) * 10. 
-         
-		 ! add nutrient to soil layer
-		 xx = qvol / hru_ha(j) / 1000.
-		 sol_no3(ii,j) = sol_no3(ii,j) + xx *  sptno3concs(isp) 
-     &                   + sptno2concs(isp)  
-	   sol_nh3(ii,j) = sol_nh3(ii,j) + xx * sptnh4concs(isp) 
-	   sol_orgn(ii,j) = sol_orgn(ii,j) + xx * sptorgnconcs(isp) * rtof
-         sol_fon(ii,j) = sol_fon(ii,j) + xx * sptorgnconcs(isp) 
-     &                  * (1.-rtof)
-         sol_orgp(ii,j) = sol_orgp(ii,j) + xx * sptorgps(isp) * rtof
-	   sol_fop(ii,j) = sol_fop(ii,j) + xx * sptorgps(isp) * (1.-rtof)
-         sol_solp(ii,j) = sol_solp(ii,j) + xx * sptminps(isp)  
-
-	    ii = ii - 1
+       ii = ii - 1
 	  end do
 	endif
 	       

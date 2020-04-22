@@ -90,7 +90,9 @@
          
          !Transmission loss through infiltration 
          qseep = ksat * tsa / 1000./ 60. * idt !m^3
-                        
+         bmp_recharge(sb) = bmp_recharge(sb) 
+     &                         + qseep / (sub_ha*10000.- tsa) *1000.
+                       
          !Evapotranspiration loss
          qet = ri_evrsv(sb,kk) * tsa * pet_day / 1000. / 1440. * idt !m^3
          
@@ -133,5 +135,3 @@
 
       return
       end subroutine
-   
-

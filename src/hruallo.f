@@ -158,4 +158,3 @@
  6200 format (1x,i3)
  6300 format (16x,i2,1x,i4)
       end
-

@@ -150,7 +150,7 @@
  
       !! Compute water leaving reach at the end of time step
         if (curyr == 1 .and. i == id1 .and. ii == 1) then
-         hrtwtr(ii) = c1 * wtrin + c2 * rchstor(jrch) +                 &
+         hrtwtr(ii) = c1 * wtrin + c2 * rchstor(jrch) +                 
      &                                      c3 * rchstor(jrch) + c4
         else
          hrtwtr(ii) = c1 * wtrin + c2 * flwin(jrch) + c3 * flwout(jrch)
@@ -181,11 +181,11 @@
         c = 0.
         c = chside(jrch)
         if (hharea(ii) <= phi(1,jrch)) then
-          hdepth(ii) = Sqrt(hharea(ii) / c + phi(6,jrch) * phi(6,jrch)  &
+          hdepth(ii) = Sqrt(hharea(ii) / c + phi(6,jrch) * phi(6,jrch)  
      &                          / (4. * c * c)) - phi(6,jrch) / (2. * c)
           if (hdepth(ii) < 0.) hdepth(ii) = 0.
         else
-          hdepth(ii) = Sqrt((hharea(ii) - phi(1,jrch)) / 4. + 25. *     &
+          hdepth(ii) = Sqrt((hharea(ii) - phi(1,jrch)) / 4. + 25. *     
      &      ch_w(2,jrch) * ch_w(2,jrch) / 64.) - 5. * ch_w(2,jrch) / 8.
           if (hdepth(ii) < 0.) hdepth(ii) = 0.
           hdepth(ii) = hdepth(ii) + ch_d(jrch)
@@ -196,7 +196,7 @@
         if (hdepth(ii) <= ch_d(jrch)) then
           p = phi(6,jrch) + 2. * hdepth(ii) * Sqrt(1. + c * c)
         else
-          p = phi(6,jrch) + 2. * ch_d(jrch) * Sqrt(1. + c * c) +        &
+          p = phi(6,jrch) + 2. * ch_d(jrch) * Sqrt(1. + c * c) +        
      &    4. * ch_w(2,jrch) + 2. * (hdepth(ii) - ch_d(jrch)) * Sqrt(17.)
         end if
 
@@ -249,7 +249,7 @@
 
           !! calculate evaporation
           if (hhtime(ii) < 1.) then
-            hrtevp(ii) = evrch * pet_day/nstep * ch_l2(jrch) * topw *          &
+            hrtevp(ii) = evrch * pet_day/nstep * ch_l2(jrch) * topw * 
      &                                                        hhtime(ii)
           else
             hrtevp(ii) = evrch * pet_day/nstep * ch_l2(jrch) * topw
@@ -262,10 +262,10 @@
 
         !! set volume of water in channel at end of hour
         if (ii == 1) then
-          hhstor(ii) = rchstor(jrch) + wtrin - hrtwtr(ii) - hrtevp(ii) -    &
+          hhstor(ii) = rchstor(jrch) + wtrin - hrtwtr(ii) - hrtevp(ii) -
      &                                                    hrttlc(ii)
         else
-          hhstor(ii) = hhstor(ii-1) + wtrin - hrtwtr(ii) - hrtevp(ii) -     &
+          hhstor(ii) = hhstor(ii-1) + wtrin - hrtwtr(ii) - hrtevp(ii) -
      &                                                    hrttlc(ii)
         end if
         if (hhstor(ii) < 0.) then

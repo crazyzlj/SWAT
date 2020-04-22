@@ -107,7 +107,7 @@
 		mgt9 = 0.
 		
 
-          read (111,5200,iostat=eof) mon, day, iyear, mgt_op, mgt1i,    &
+          read (111,5200,iostat=eof) mon, day, iyear, mgt_op, mgt1i,    
      & mgt2i, mgt3, mgt4, mgt5, mgt6, mgt7, mgt8, mgt9
 	    if (eof < 0) exit
           iops = iops + 1
@@ -190,7 +190,7 @@
 		ro_bmp_sed(iops,ihru) = mgt3 !! Sediment
 		ro_bmp_pp(iops,ihru) = mgt4 !! Particulate P
 		ro_bmp_sp(iops,ihru) = mgt5 !! Soluble P
-		ro_bmp_pn(iops,ihru) = mgt7 !! Particulate N
+		ro_bmp_pn(iops,ihru) = mgt7 !! Particulate N1123
 		ro_bmp_sn(iops,ihru) = mgt8 !! Soluble N
 		ro_bmp_bac(iops,ihru) = mgt9 !! Bacteria
           end select
@@ -201,6 +201,6 @@
      
   999 return
  5000 format (a)
- 5200 format (1x,i2,1x,i2,5x,i4,1x,i2,1x,i4,1x,i3,1x,f6.2,1x,f12.5,1x,    &
+ 5200 format (1x,i2,1x,i2,5x,i4,1x,i2,1x,i4,1x,i3,1x,f6.2,1x,f12.5,1x,
      &        f6.2,1x,f11.5,1x,f8.2,1x,f6.2,1x,2f5.2)
       end

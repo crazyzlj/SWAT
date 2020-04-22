@@ -204,16 +204,16 @@
 
         read (104,*,iostat=eof) ic, cname, idtype
         if (eof < 0) exit
-        read (104,*,iostat=eof) bioe, hvstc, blaic, frgrw1, laimx1,     &
+        read (104,*,iostat=eof) bioe, hvstc, blaic, frgrw1, laimx1,     
      &     frgrw2, laimx2, dlaic, chtmxc, rdmxc
         if (eof < 0) exit
-        read (104,*,iostat=eof) topt, tbase, cnyldc, cpyldc, bn1, bn2,  &
+        read (104,*,iostat=eof) topt, tbase, cnyldc, cpyldc, bn1, bn2,  
      &     bn3, bp1c, bp2c, bp3c
         if (eof < 0) exit
-        read (104,*,iostat=eof) wsyfc, usle_c, gsic, vpdfr, frgmax,     &
+        read (104,*,iostat=eof) wsyfc, usle_c, gsic, vpdfr, frgmax,     
      &     wavpc, co2hi, bioehi, rsdcopl, alaimin
         if (eof < 0) exit
-        read (104,777,iostat=eof) bioleaf, yrsmat, biomxtrees, extcoef, &
+        read (104,777,iostat=eof) bioleaf, yrsmat, biomxtrees, extcoef, 
      &     bmdieoff, rsr1c, rsr2c
 !! 777    format (7f8.3)
  777    format (f8.3,i5,5f8.3)
@@ -261,7 +261,7 @@
         if (usle_c <= 0.0) usle_c = 0.0
         if (usle_c >= 1.0) usle_c = 1.0
         if (blai(ic) <= 0.0) blai(ic) = 0.0
-        if (blai(ic) >= 10.0) blai(ic) = 10.0
+        if (blai(ic) >= 13.0) blai(ic) = 13.0 !! modified by Cibin from 10 to 13
 	  if (rsr1(ic) <= 0.0) rsr1(ic) = 0.4
 	  if (rsr2(ic) <= 0.0) rsr2(ic) = 0.2
 
@@ -270,7 +270,6 @@
 
 !!        determine shape parameters for the leaf area development equation
           call ascrv(laimx1,laimx2,frgrw1,frgrw2,leaf1(ic),leaf2(ic))
-
 
 !!        The other point used to determine shape parameters for radiation
 !!        use efficiency is the ambient CO2 level (330 ul/l) and the
@@ -292,9 +291,9 @@
 
 !!        nitrogen uptake parameters
 !!        fix bad input for pltnfr(3,ic)
-          if (pltnfr(1,ic) - pltnfr(2,ic) < .0001)                      &
+          if (pltnfr(1,ic) - pltnfr(2,ic) < .0001)                      
      &                               pltnfr(2,ic) = pltnfr(1,ic) - .0001
-          if (pltnfr(2,ic) - pltnfr(3,ic) < .0001)                      &
+          if (pltnfr(2,ic) - pltnfr(3,ic) < .0001)                      
      &                                 pltnfr(3,ic) = .75 * pltnfr(3,ic)
           b1 = 0.0
           b2 = 0.0
@@ -308,9 +307,9 @@
 
 !!        phosphorus uptake parameters
 !!        fix bad input for pltpfr(3,ic)
-          if (pltpfr(1,ic) - pltpfr(2,ic) < .0001)                      &
+          if (pltpfr(1,ic) - pltpfr(2,ic) < .0001)                      
      &                               pltpfr(2,ic) = pltpfr(1,ic) - .0001
-          if (pltpfr(2,ic) - pltpfr(3,ic) < .0001)                      &
+          if (pltpfr(2,ic) - pltpfr(3,ic) < .0001)                      
      &                                 pltpfr(3,ic) = .75 * pltpfr(3,ic)
           b1 = 0.0
           b2 = 0.0

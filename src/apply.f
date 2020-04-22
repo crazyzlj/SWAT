@@ -100,7 +100,7 @@
            exit
          endif
        else
-          if (pst_dep > sol_z((nly-1),j) .and.                          &
+          if (pst_dep > sol_z((nly-1),j) .and.    
      &                 pst_dep < sol_z(nly,j)) then
              sol_pst(k,j,nly) = sol_pst(k,j,nly) + xx
            exit
@@ -123,7 +123,7 @@
 
 !! summary calculations
       if (curyr > nyskip) then
-        wshd_pstap(k) = wshd_pstap(k) + pst_kg                    *     &
+        wshd_pstap(k) = wshd_pstap(k) + pst_kg                    *     
      &                                           ap_ef(kk) * hru_dafr(j)
       end if
 

@@ -303,7 +303,7 @@
 	    if (sed_stl(j) < 1.e-6) sed_stl(j) = 0.0
           inised = wet_sed(j)
           if (wet_sed(j) > wet_nsed(j)) then
-            wet_sed(j) = (wet_sed(j) - wet_nsed(j)) * sed_stl(j) +      &
+            wet_sed(j) = (wet_sed(j) - wet_nsed(j)) * sed_stl(j) +      
      &                                                       wet_nsed(j)
           end if
           finsed = wet_sed(j)
@@ -364,7 +364,7 @@
           lagyld(j) = lagyld(j) + wetlago
 
           !! net change in amount of sediment in wetland for day
-          wetsedc = vol * sed + wetsedi - wetsedo - wet_sed(j) *        &
+          wetsedc = vol * sed + wetsedi - wetsedo - wet_sed(j) *        
      &                                                        wet_vol(j)
           !! determine settling rate for nutrients
           !! part of equation 29.1.3 in SWAT manual
@@ -402,7 +402,7 @@
           if (wet_solpg(j) < 1.e-6) wet_solpg(j) = 0.0
 
           tpco = 0.
-          tpco = 1.e+6 * (wet_solp(j) + wet_orgp(j) + wet_psed(j) +     &
+          tpco = 1.e+6 * (wet_solp(j) + wet_orgp(j) + wet_psed(j) +     
      &                            wet_solpg(j)) / (wet_vol(j) + wetflwo)
           chlaco = 0.
           wet_chla(j) = 0.

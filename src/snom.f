@@ -114,7 +114,7 @@
         !! compute snow fall and melt for each elevation band
         do ib = 1, 10
           if (elevb_fr(ib,isub) < 0.) exit
-          snotmpeb(ib,j) = snotmpeb(ib,j) * (1.-sub_timp(ib,isub)) +     &       
+          snotmpeb(ib,j) = snotmpeb(ib,j) * (1.-sub_timp(ib,isub)) +
      &                                tavband(ib,j) * sub_timp(ib,isub)
 
           if (tavband(ib,j) < sub_sftmp(ib,isub)) then
@@ -129,10 +129,10 @@
             if (tmxband(ib,j) > sub_smtmp(ib,isub)) then
               smfac = 0.
               smleb = 0.
-              smfac = (sub_smfmx(ib,isub) + sub_smfmn(ib,isub)) / 2. +  &
-     &          Sin((iida - 81) / 58.09) *                              &
+              smfac = (sub_smfmx(ib,isub) + sub_smfmn(ib,isub)) / 2. +  
+     &          Sin((iida - 81) / 58.09) *                              
      &          (sub_smfmx(ib,isub) - sub_smfmn(ib,isub)) / 2.    !! 365/2pi = 58.09
-              smleb = smfac * (((snotmpeb(ib,j) + tmxband(ib,j)) / 2.)  &
+              smleb = smfac * (((snotmpeb(ib,j) + tmxband(ib,j)) / 2.)  
      &                                             - sub_smtmp(ib,isub))
 
               !! adjust for areal extent of snow cover
@@ -176,7 +176,7 @@
 	ib = 1
 
         !! estimate snow pack temperature
-        snotmp(j)=snotmp(j) * (1. - sub_timp(ib,isub)) + tmpav(j) *     &
+        snotmp(j)=snotmp(j) * (1. - sub_timp(ib,isub)) + tmpav(j) *     
      &            sub_timp(ib,isub)
 
         if (tmpav(j) <= sub_sftmp(ib,isub)) then
@@ -191,8 +191,8 @@
           !! adjust melt factor for time of year
           smfac = 0.
           snomlt = 0.
-          smfac = (sub_smfmx(ib,isub) + sub_smfmn(ib,isub)) / 2. +      &
-     &       Sin((iida - 81) / 58.09) *                                 &
+          smfac = (sub_smfmx(ib,isub) + sub_smfmn(ib,isub)) / 2. +      
+     &       Sin((iida - 81) / 58.09) *                                 
      &       (sub_smfmx(ib,isub) - sub_smfmn(ib,isub)) / 2.    !! 365/2pi = 58.09
           snomlt = smfac * (((snotmp(j)+tmx(j))/2.)-sub_smtmp(ib,isub))
 
@@ -221,5 +221,3 @@
       end if
       return
       end
-
-

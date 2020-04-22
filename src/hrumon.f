@@ -298,16 +298,16 @@
             cropname = "NOCR"
           endif
 
-          if (iscen == 1) then                                          &
+          if (iscen == 1) then                                          
             select case (isproj)
             case (0)
-            write (28,1000) cropname, j, subnum(j), hruno(j), sb,       &
+            write (28,1000) cropname, j, subnum(j), hruno(j), sb,       
      &         nmgt(j), mo_chk, hru_km(j), (pdvs(ii), ii = 1, ix)
             case (1)
-            write (21,1000) cropname, j, subnum(j), hruno(j),           &
+            write (21,1000) cropname, j, subnum(j), hruno(j),           
      &         sb, nmgt(j), mo_chk, hru_km(j), (pdvs(ii), ii = 1, ix)
             case (2)
-            write (28,2000) cropname, j, subnum(j), hruno(j), sb,       &
+            write (28,2000) cropname, j, subnum(j), hruno(j), sb,       
      &         nmgt(j), mo_chk, hru_km(j),(pdvs(ii), ii = 1, ix), iyr
             end select
           end if
@@ -333,10 +333,7 @@
  1000 format (a4,i5,1x,a5,a4,i5,1x,i4,1x,i4,e10.5,66f10.3,1x,
      *e10.5,1x,e10.5,8e10.3,2f10.3)
  2000 format (a4,i5,1x,a5,a4,i5,1x,i4,1x,i4,e10.5,66f10.3,1x,
-     *e10.5,1x,e10.5,5e10.3,2f10.3,1x,i4)
+     *e10.5,1x,e10.5,5e10.3,5f10.3,1x,i4)
  1001 format (a4,i7,1x,a5,a4,i5,1x,i4,1x,i4,e10.5,66f10.3,1x,
      *e10.5,1x,e10.5,3e10.3,2f10.3,1x,i4)
-!1000 format (a4,i4,1x,i8,1x,i4,1x,i4,1x,i4,e10.5,66f10.3,1x,
-!    *e10.5,1x,e10.5,2e10.3,1x,i4)
-!2000 format (a4,i5,1x,i8,1x,i4,1x,i4,1x,i4,e10.5,70f10.3,1x,i4)
       end

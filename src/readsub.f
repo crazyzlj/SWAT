@@ -316,8 +316,8 @@
               if (kk>30) exit
             end do
             if(bmpdrain(ihru)==1) then
-              sub_ha_imp(i) = sub_ha_imp(i) + hru_ha(ihru)              & 
-     &            * fimp(urblu(ihru))               !!!!   nubz
+              sub_ha_imp(i) = sub_ha_imp(i) + hru_ha(ihru)            
+     &            * fimp(urblu(ihru))               
               sub_ha_urb(i) = sub_ha_urb(i) + hru_ha(ihru) 
            end if
           end if
@@ -425,7 +425,7 @@
 
 !!    This equation given to us by EPA, in the process of getting reference
       sdrift = 0.
-      sdrift = .01 * (10.**(-.00738 * (7.62 * ch_w(1,i)) - 2.5889) +    &
+      sdrift = .01 * (10.**(-.00738 * (7.62 * ch_w(1,i)) - 2.5889) +    
      &                                                       .2267) / 2.
 
 !! assign subbasin values to HRUs where needed
@@ -461,7 +461,7 @@
 
       close (101)
       return
- 1000 format ('ERROR: Elevation Band Fractions in Subbasin ',i4,        &
+ 1000 format ('ERROR: Elevation Band Fractions in Subbasin ',i4,        
      &        ' do not add up to 100% of subbasin area!')
  5100 format (a)
  5101 format (f8.4,f4.2,5f8.3)

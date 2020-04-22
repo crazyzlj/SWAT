@@ -32,10 +32,10 @@
       use parm
 	character(len=80) :: titldum
 
-      open (123,file=fname(no_lup))
-      read (123, 5101) titldum
+      open (9123,file=fname(no_lup))
+      read (9123, 5101) titldum
       do j = 1, mhru
-	   read (123,*,end=99) hru, hru_fr(j)
+	   read (9123,*,end=99) hru, hru_fr(j)
 	end do
 
 !!    reset all hru_fr variables

@@ -213,7 +213,7 @@
                 targ = pnd_evol(k)
               else
                 xx = Min(sol_sw(k) / sol_sumfc(k),1.)
-                targ = pnd_pvol(k) + .5 * (1. - xx) * (pnd_evol(k) -    &
+                targ = pnd_pvol(k) + .5 * (1. - xx) * (pnd_evol(k) -    
      &                                                      pnd_pvol(k))
               end if
             else
@@ -221,7 +221,7 @@
                 targ = pnd_evol(k)
               else
                 xx = Min(sol_sw(k) / sol_sumfc(k),1.)
-                targ = pnd_pvol(k) + .5 * (1. - xx) * (pnd_evol(k) -    &
+                targ = pnd_pvol(k) + .5 * (1. - xx) * (pnd_evol(k) -    
      &                                                      pnd_pvol(k))
               end if
             end if
@@ -262,7 +262,7 @@
 	    if (sed_stl(k) < 1.e-6) sed_stl(k) = 0.0
           if (pnd_sed(k) > pnd_nsed(k)) then
 	      inised = pnd_sed(k)
-            pnd_sed(k) = (pnd_sed(k) - pnd_nsed(k)) * sed_stl(k) +      &
+            pnd_sed(k) = (pnd_sed(k) - pnd_nsed(k)) * sed_stl(k) +      
      &                                                       pnd_nsed(k)
 	      finsed = pnd_sed(k)
 	      setsed = inised - finsed
@@ -313,7 +313,7 @@
           pndlago = pnd_lag(k) * pndflwo
  
           !! net change in amount of sediment in pond for day
-          pndsedc = vol * sed + pndsedin - pndsedo - pnd_sed(k) *       &
+          pndsedc = vol * sed + pndsedin - pndsedo - pnd_sed(k) *       
      &                                                        pnd_vol(k)
 
           !! determine settling rate
@@ -343,7 +343,7 @@
 
           tpco = 0.
           if (pnd_vol(k) + pndflwo > 0.1) then
-          tpco = 1.e+6 * (pnd_solp(k) + pnd_orgp(k) + pnd_psed(k) +     &
+          tpco = 1.e+6 * (pnd_solp(k) + pnd_orgp(k) + pnd_psed(k) +     
      &                            pnd_solpg(k)) / (pnd_vol(k) + pndflwo)
           else
             tpco = 0.

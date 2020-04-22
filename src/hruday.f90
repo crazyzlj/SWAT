@@ -402,8 +402,8 @@
       pdvas(77) = gw_qdeep(j)
       pdvas(78) = latq(j) - lpndloss - lwetloss
 
-      ii = icl(iida)
-      
+      call xmon 
+          
       if (ipdvas(1) > 0) then
         do ii = 1, itots
           pdvs(ii) = pdvas(ipdvas(ii))
@@ -421,7 +421,7 @@
      &      hruno(j), sb, nmgt(j), iida, hru_km(j),                     &
      &       (pdvs(ii), ii = 1, itots)
         if (icalen == 1) write (28,1002) cropname, j, subnum(j),        &
-     &      hruno(j), sb, nmgt(j), i_mo, icl(iida), iyr, hru_km(j),     &
+     &      hruno(j), sb, nmgt(j), i_mo, icl(iida), iyr, hru_km(j),     &  !! nubz 11/26/13
      &       (pdvs(ii), ii = 1, itots)
 1002  format (a4,i5,1x,a5,a4,i5,1x,i4,1x,i2,1x,i2,1x,i4,1x,e10.5,       &
      & 66f10.3,1x,e10.5,1x,e10.5,8e10.3,2f10.3)
@@ -433,7 +433,7 @@
 	      endif
         else if (isproj == 1) then
         write (21,1000) cropname, j, subnum(j), hruno(j), sb,           &
-     &               nmgt(j), iida, hru_km(j), (pdvs(ii), ii = 1, itots)
+     &          nmgt(j), iida, hru_km(j), (pdvs(ii), ii = 1, itots)
         else if (iscen == 1 .and. isproj == 2) then
         if(icalen == 0)write (28,1000) cropname, j, subnum(j), hruno(j),&
      &      sb, nmgt(j), iida, hru_km(j), (pdvs(ii), ii = 1, itots), iyr

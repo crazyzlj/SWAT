@@ -124,11 +124,11 @@
             zz = 8.621949e11 / ((wtmp + 273.15)**4)
             soxy = Exp(ww - xx + yy - zz)
             if (soxy < 0.) soxy = 0.
-            disoxin = hhvaroute(17,inum1,ii) * 1000. /                  &
+            disoxin = hhvaroute(17,inum1,ii) * 1000. /                  
      &                                             hhvaroute(2,inum1,ii)
             disoxin = soxy - ((soxy - disoxin) / reak)
             if (disoxin < 0.) disoxin = 0.
-            hhvaroute(17,ihout,ii) = disoxin * hhvaroute(2,inum1,ii) /  &
+            hhvaroute(17,ihout,ii) = disoxin * hhvaroute(2,inum1,ii) /  
      &                                                             1000.
           end if
         end do

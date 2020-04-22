@@ -236,18 +236,18 @@
 
           !! monthly write--output.std
           if (iscen == 1) then
-          write (26,6200) mo_chk, wshdmono(1), wshdmono(3), wshdmono(4),&
-     &            wshdmono(104), wshdmono(5), wshdmono(109),            &
-     &            wshddayo(35), wshdmono(7), wshdmono(108), wshdmono(6),&
-     &            wshdmono(12), wshdmono(42), wshdmono(45),             &
-     &            wshdmono(46), wshdmono(44), wshdmono(40),             &
+          write (26,6200) mo_chk, wshdmono(1), wshdmono(3), wshdmono(4),
+     &            wshdmono(104), wshdmono(5), wshdmono(109),            
+     &            wshddayo(35), wshdmono(7), wshdmono(108), wshdmono(6),
+     &            wshdmono(12), wshdmono(42), wshdmono(45),             
+     &            wshdmono(46), wshdmono(44), wshdmono(40),             
      &            wshdmono(43), wshdmono(41), wshdmono(111)
           else if (isproj == 1) then
-          write (19,6200) mo_chk, wshdmono(1), wshdmono(3), wshdmono(4),&
-     &            wshdmono(104), wshdmono(5), wshdmono(109),            &
-     &            wshddayo(35), wshdmono(7), wshdmono(108), wshdmono(6),&
-     &            wshdmono(12), wshdmono(42), wshdmono(45),             &
-     &            wshdmono(46), wshdmono(44), wshdmono(40),             &
+          write (19,6200) mo_chk, wshdmono(1), wshdmono(3), wshdmono(4),
+     &            wshdmono(104), wshdmono(5), wshdmono(109),            
+     &            wshddayo(35), wshdmono(7), wshdmono(108), wshdmono(6),
+     &            wshdmono(12), wshdmono(42), wshdmono(45),             
+     &            wshdmono(46), wshdmono(44), wshdmono(40),             
      &            wshdmono(43), wshdmono(41), wshdmono(111)
           endif
 
@@ -260,8 +260,8 @@
                 sum = sum + hrupstm(k,1,j) + hrupstm(k,2,j)
               end do
               if (sum > 0. .and. iprp == 1) then
-                write (30,5100) subnum(j), hruno(j), iyr, mo_chk,       &
-     &                     (hrupstm(k,1,j), hrupstm(k,2,j), k = 1, npmx) 
+                write (30,5100) subnum(j), hruno(j), iyr, mo_chk,       
+     &                     (hrupstm(k,1,j), hrupstm(k,2,j), k = 1, npmx)
               end if
               end if
             end do
@@ -269,76 +269,76 @@
             !! monthly write--reservoir output (.rsv)
             do j = 1, nres
               !! monthly write-reservoir file
-              if (iyr > iyres(j) .or.                                   &
+              if (iyr > iyres(j) .or.                                   
      &                  (mo_chk >= mores(j) .and. iyr == iyres(j))) then
                 if (iscen == 1 .and. isproj == 0) then
-                write (8,5800) j, mo_chk, res_vol(j),                   &
-     &                      resoutm(1,j) / Real(idlast),                &
-     &                      resoutm(2,j) / Real(idlast),                &
-     &                      resoutm(19,j), resoutm(17,j), resoutm(18,j),&
-     &                      resoutm(3,j), resoutm(4,j),                 &
-     &                      resoutm(5,j) / Real(idlast),                &
-     &                      (resoutm(k,j), k = 22, 23),                 &
-     &                      resoutm(38,j) / Real(idlast),               &
-     &                      (resoutm(k,j), k = 24, 25),                 &
-     &                      resoutm(36,j) / Real(idlast),               &
-     &                      (resoutm(k,j), k = 26, 27),                 &
-     &                      resoutm(39,j) / Real(idlast),               &
-     &                      (resoutm(k,j), k = 28, 29),                 &
-     &                      resoutm(40,j) / Real(idlast),               &
-     &                      (resoutm(k,j), k = 30, 31),                 &
-     &                      resoutm(41,j) / Real(idlast),               &
-     &                      (resoutm(k,j), k = 32, 33),                 &
-     &                      resoutm(37,j) / Real(idlast),               &
-     &                      (resoutm(k,j), k = 34, 35), res_seci(j),    &
-     &                      (resoutm(k,j), k = 6, 14),                  &
-     &                      resoutm(15,j) / Real(idlast),               &
+                write (8,5800) j, mo_chk, res_vol(j),                   
+     &                      resoutm(1,j) / Real(idlast),                
+     &                      resoutm(2,j) / Real(idlast),                
+     &                      resoutm(19,j), resoutm(17,j), resoutm(18,j),
+     &                      resoutm(3,j), resoutm(4,j),                 
+     &                      resoutm(5,j) / Real(idlast),                
+     &                      (resoutm(k,j), k = 22, 23),                 
+     &                      resoutm(38,j) / Real(idlast),               
+     &                      (resoutm(k,j), k = 24, 25),                 
+     &                      resoutm(36,j) / Real(idlast),               
+     &                      (resoutm(k,j), k = 26, 27),                 
+     &                      resoutm(39,j) / Real(idlast),               
+     &                      (resoutm(k,j), k = 28, 29),                 
+     &                      resoutm(40,j) / Real(idlast),               
+     &                      (resoutm(k,j), k = 30, 31),                 
+     &                      resoutm(41,j) / Real(idlast),               
+     &                      (resoutm(k,j), k = 32, 33),                 
+     &                      resoutm(37,j) / Real(idlast),               
+     &                      (resoutm(k,j), k = 34, 35), res_seci(j),    
+     &                      (resoutm(k,j), k = 6, 14),                  
+     &                      resoutm(15,j) / Real(idlast),               
      &                      resoutm(16,j) / Real(idlast)
                 else if (isproj == 1) then
-                write (22,5800) j, mo_chk, res_vol(j),                  &
-     &                      resoutm(1,j) / Real(idlast),                &
-     &                      resoutm(2,j) / Real(idlast),                &
-     &                      resoutm(19,j), resoutm(17,j), resoutm(18,j),&
-     &                      resoutm(3,j), resoutm(4,j),                 &
-     &                      resoutm(5,j) / Real(idlast),                &
-     &                      (resoutm(k,j), k = 22, 23),                 &
-     &                      resoutm(38,j) / Real(idlast),               &
-     &                      (resoutm(k,j), k = 24, 25),                 &
-     &                      resoutm(36,j) / Real(idlast),               &
-     &                      (resoutm(k,j), k = 26, 27),                 &
-     &                      resoutm(39,j) / Real(idlast),               &
-     &                      (resoutm(k,j), k = 28, 29),                 &
-     &                      resoutm(40,j) / Real(idlast),               &
-     &                      (resoutm(k,j), k = 30, 31),                 &
-     &                      resoutm(41,j) / Real(idlast),               &
-     &                      (resoutm(k,j), k = 32, 33),                 &
-     &                      resoutm(37,j) / Real(idlast),               &
-     &                      (resoutm(k,j), k = 34, 35), res_seci(j),    &
-     &                      (resoutm(k,j), k = 6, 14),                  &
-     &                      resoutm(15,j) / Real(idlast),               &
+                write (22,5800) j, mo_chk, res_vol(j),                  
+     &                      resoutm(1,j) / Real(idlast),                
+     &                      resoutm(2,j) / Real(idlast),                
+     &                      resoutm(19,j), resoutm(17,j), resoutm(18,j),
+     &                      resoutm(3,j), resoutm(4,j),                 
+     &                      resoutm(5,j) / Real(idlast),                
+     &                      (resoutm(k,j), k = 22, 23),                 
+     &                      resoutm(38,j) / Real(idlast),               
+     &                      (resoutm(k,j), k = 24, 25),                 
+     &                      resoutm(36,j) / Real(idlast),               
+     &                      (resoutm(k,j), k = 26, 27),                 
+     &                      resoutm(39,j) / Real(idlast),               
+     &                      (resoutm(k,j), k = 28, 29),                 
+     &                      resoutm(40,j) / Real(idlast),               
+     &                      (resoutm(k,j), k = 30, 31),                 
+     &                      resoutm(41,j) / Real(idlast),               
+     &                      (resoutm(k,j), k = 32, 33),                 
+     &                      resoutm(37,j) / Real(idlast),               
+     &                      (resoutm(k,j), k = 34, 35), res_seci(j),    
+     &                      (resoutm(k,j), k = 6, 14),                  
+     &                      resoutm(15,j) / Real(idlast),               
      &                      resoutm(16,j) / Real(idlast)
             else if (iscen == 1 .and. isproj == 2) then
-                write (8,6800) j, mo_chk, res_vol(j),                   &
-     &                      resoutm(1,j) / Real(idlast),                &
-     &                      resoutm(2,j) / Real(idlast),                &
-     &                      resoutm(19,j), resoutm(17,j), resoutm(18,j),&
-     &                      resoutm(3,j), resoutm(4,j),                 &
-     &                      resoutm(5,j) / Real(idlast),                &
-     &                      (resoutm(k,j), k = 22, 23),                 &
-     &                      resoutm(38,j) / Real(idlast),               &
-     &                      (resoutm(k,j), k = 24, 25),                 &
-     &                      resoutm(36,j) / Real(idlast),               &
-     &                      (resoutm(k,j), k = 26, 27),                 &
-     &                      resoutm(39,j) / Real(idlast),               &
-     &                      (resoutm(k,j), k = 28, 29),                 &
-     &                      resoutm(40,j) / Real(idlast),               &
-     &                      (resoutm(k,j), k = 30, 31),                 &
-     &                      resoutm(41,j) / Real(idlast),               &
-     &                      (resoutm(k,j), k = 32, 33),                 &
-     &                      resoutm(37,j) / Real(idlast),               &
-     &                      (resoutm(k,j), k = 34, 35), res_seci(j),    &
-     &                      (resoutm(k,j), k = 6, 14),                  &
-     &                      resoutm(15,j) / Real(idlast),               &
+                write (8,6800) j, mo_chk, res_vol(j),                   
+     &                      resoutm(1,j) / Real(idlast),                
+     &                      resoutm(2,j) / Real(idlast),                
+     &                      resoutm(19,j), resoutm(17,j), resoutm(18,j),
+     &                      resoutm(3,j), resoutm(4,j),                 
+     &                      resoutm(5,j) / Real(idlast),                
+     &                      (resoutm(k,j), k = 22, 23),                 
+     &                      resoutm(38,j) / Real(idlast),               
+     &                      (resoutm(k,j), k = 24, 25),                 
+     &                      resoutm(36,j) / Real(idlast),               
+     &                      (resoutm(k,j), k = 26, 27),                 
+     &                      resoutm(39,j) / Real(idlast),               
+     &                      (resoutm(k,j), k = 28, 29),                 
+     &                      resoutm(40,j) / Real(idlast),               
+     &                      (resoutm(k,j), k = 30, 31),                 
+     &                      resoutm(41,j) / Real(idlast),               
+     &                      (resoutm(k,j), k = 32, 33),                 
+     &                      resoutm(37,j) / Real(idlast),               
+     &                      (resoutm(k,j), k = 34, 35), res_seci(j),    
+     &                      (resoutm(k,j), k = 6, 14),                  
+     &                      resoutm(15,j) / Real(idlast),               
      &                      resoutm(16,j) / Real(idlast), iyr
                 endif
               end if
@@ -405,4 +405,3 @@
  6800 format ('RES   ',i8,1x,i4,41e12.4,1x,i4)
  6200 format (i5,15f8.2,1x,4f8.2)
       end
-

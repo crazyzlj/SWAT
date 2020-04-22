@@ -425,6 +425,8 @@
       !! calculate watershed nutrient averages
       wshd_pup = wshd_pup / yrs
       wshd_plch = wshd_plch / yrs
+      wshd_pinlet = wshd_pinlet / yrs
+      wshd_ptile = wshd_ptile / yrs
       wshd_pal = wshd_pal / yrs
       wshd_pas = wshd_pas / yrs
       wshd_ftotn = wshd_ftotn / yrs
@@ -522,7 +524,7 @@
         write (30,5500)
         do j = 1, nhru
           if (hrupest(j) == 1) then
-                write (30,5600) subnum(j), hruno(j), yrs,               &
+                write (30,5600) subnum(j), hruno(j), yrs,               
      &                     (hrupsta(k,1,j), hrupsta(k,2,j), k = 1, npmx)
           end if
         end do
@@ -532,8 +534,8 @@
       do idmm = 1, mhyd
         ic = ihouts(idmm)
         if (ic > 0) then
-        write(11123,9400) icodes(idmm), ic, inum1s(idmm), inum2s(idmm), &
-     &               inum3s(idmm),subed(ic),recmonps(ic),reccnstps(ic), &
+        write(11123,9400) icodes(idmm), ic, inum1s(idmm), inum2s(idmm), 
+     &               inum3s(idmm),subed(ic),recmonps(ic),reccnstps(ic), 
      &               (shyd(ii,ic), ii = 1, 8)
         end if
       end do

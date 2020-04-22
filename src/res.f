@@ -24,6 +24,7 @@
 !!                                |1 measured monthly outflow
 !!                                |2 simulated controlled outflow-target release
 !!                                |3 measured daily outflow
+!!                                |4 stage/volume/outflow relationship 
 !!    i_mo         |none          |current month of simulation
 !!    ndtargr(:)   |days          |number of days to reach target storage from
 !!                                |current reservoir storage
@@ -130,7 +131,18 @@
       respcp = sub_subp(res_sub(jres)) * ressa * 10.
 
 !! new water volume for day
-      res_vol(jres) = res_vol(jres) + respcp + resflwi - resev - ressep
+      if (iresco(jres) /= 5) then 
+       res_vol(jres) = res_vol(jres) + respcp + resflwi - resev - ressep
+      endif
+      
+!! subtract consumptive water use from reservoir storage
+        xx = 0.
+        xx = wuresn(i_mo,jres)
+        res_vol(jres) = res_vol(jres) - xx
+        if (res_vol(jres) < 0.) then
+          xx = xx + res_vol(jres)
+          res_vol(jres) = 0.
+        end if
 
 !! if reservoir volume is greater than zero
 
@@ -140,10 +152,6 @@
             vvr = 0.
             if (res_vol(jres) > res_pvol(jres)) then
               vvr = res_vol(jres) - res_pvol(jres)
-              if (res_vol(jres) > res_evol(jres)) then
-                resflwo = res_vol(jres) - res_evol(jres)
-                vvr = res_evol(jres) - res_pvol(jres)
-              endif
               if (res_rr(jres) > vvr) then
                 resflwo = resflwo + vvr
               else
@@ -163,22 +171,22 @@
             else
               !! target storage based on flood season and soil water
               if (iflod2r(jres) > iflod1r(jres)) then
-                if (i_mo > iflod1r(jres) .and. i_mo < iflod2r(jres))    &
+                if (i_mo > iflod1r(jres) .and. i_mo < iflod2r(jres))    
      &                                                              then
                   targ = res_evol(jres)
                 else
-                xx = Min(sub_sw(res_sub(jres))/sub_sumfc(res_sub(jres)),&
+                xx = Min(sub_sw(res_sub(jres))/sub_sumfc(res_sub(jres)),
      &                                                               1.)
-                targ = res_pvol(jres) + .5 * (1. - xx) *                &
+                targ = res_pvol(jres) + .5 * (1. - xx) *                
      &                                 (res_evol(jres) - res_pvol(jres))
                 end if
               else
                 if (i_mo > iflod1r(jres) .or. i_mo < iflod2r(jres)) then
                   targ = res_evol(jres)
                 else
-                xx = Min(sub_sw(res_sub(jres))/sub_sumfc(res_sub(jres)),&
+                xx = Min(sub_sw(res_sub(jres))/sub_sumfc(res_sub(jres)),
      &                                                               1.)
-                targ = res_pvol(jres) + .5 * (1. - xx) *                &
+                targ = res_pvol(jres) + .5 * (1. - xx) *                
      &                                 (res_evol(jres) - res_pvol(jres))
                 end if
               end if
@@ -201,7 +209,26 @@
               resflwo = 0.
             end if
             if (resflwo < oflowmn_fps(jres)) resflwo = oflowmn_fps(jres)
-
+          case (5)
+            resflwo = 0.
+            do jj = 1, nostep
+              x1 = (-res_pvol(jres) * bcoef(jres))
+              x2 = ((res_pvol(jres) * bcoef(jres)) ** 2.) - (4. * 
+     &          (res_pvol(jres) * ccoef(jres)) * (res_pvol(jres) - 
+     &           res_vol(jres)))
+              if(x2 <= 0.) x2 = 0.
+              x3 = sqrt(x2)
+              x4 = 2. * (res_pvol(jres) * ccoef(jres))
+              res_h = (x1 + x3) / x4
+              if(res_h <= 0.) res_h = 0.
+              res_qi = weirc(jres) * weirk(jres) * weirw(jres) * 
+     &          (res_h ** 1.5)
+              resflwo = resflwo + res_qi
+              res_vol(jres) = res_vol(jres) + (respcp + resflwi - resev 
+     &          - ressep) / nostep
+            enddo
+            
+!!      endif
         end select
           
             ndespill = ndtargr(nres)
@@ -230,26 +257,20 @@
 
         !! check calculated outflow against specified max and min values
         if (resflwo < oflowmn(i_mo,jres)) resflwo = oflowmn(i_mo,jres)
-        if (resflwo > oflowmx(i_mo,jres) .and. oflowmx(i_mo,jres) > 0.) &
+        if (resflwo > oflowmx(i_mo,jres) .and. oflowmx(i_mo,jres) > 0.) 
      &                                                              then
           resflwo = oflowmx(i_mo,jres)
         endif
            
         !! subtract outflow from reservoir storage
-        res_vol(jres) = res_vol(jres) - resflwo
-        if (res_vol(jres) < 0.) then
-          resflwo = resflwo + res_vol(jres)
-          res_vol(jres) = 0.
-        end if
+        if(iresco(jres) /= 5) then
+          res_vol(jres) = res_vol(jres) - resflwo
+          if (res_vol(jres) < 0.) then
+             resflwo = resflwo + res_vol(jres)
+             res_vol(jres) = 0.
+          end if
+        end if  
 
-        !! subtract consumptive water use from reservoir storage
-        xx = 0.
-        xx = wuresn(i_mo,jres)
-        res_vol(jres) = res_vol(jres) - xx
-        if (res_vol(jres) < 0.) then
-          xx = xx + res_vol(jres)
-          res_vol(jres) = 0.
-        end if
         !! add spillage from consumptive water use to reservoir outflow
         resflwo = resflwo + xx * wurtnf(jres)
 
@@ -296,7 +317,7 @@
         if (res_sed(jres) < 1.e-6) res_sed(jres) = 0.0    !!nbs 02/05/07
         if (res_sed(jres) > res_nsed(jres)) then
 	    inised = res_sed(jres)
-          res_sed(jres) = (res_sed(jres) - res_nsed(jres)) *            &
+          res_sed(jres) = (res_sed(jres) - res_nsed(jres)) *            
      &                                   sed_stlr(jres) + res_nsed(jres)
 	    finsed = res_sed(jres)
 	    setsed = inised - finsed
@@ -356,9 +377,9 @@
 	    resgrao = res_gra(jres) * resflwo
 
         !! net change in amount of sediment in reservoir for day
-        ressedc = vol * sed + ressedi - ressedo - res_sed(jres) *       &
+        ressedc = vol * sed + ressedi - ressedo - res_sed(jres) *       
      &                                                     res_vol(jres)
-!      write (130,5999) i, jres, res_sed(jres), sed_stlr(jres),          &
+!      write (130,5999) i, jres, res_sed(jres), sed_stlr(jres),          
 !     & res_nsed(jres), ressedi, ressedo, resflwi, resflwo
 !5999  format (2i4,7e12.4)
       

@@ -38,7 +38,7 @@
 	    if (xx > 1.e-9) then
 	    jj= hru1(inum2) + kk - 1
           sumc = sumc + usle_cfac(jj) * hru_rufr(inum1,kk)
-          sumeiq = sumeiq + usle_eifac(jj) * qdayout(jj) *                &
+          sumeiq = sumeiq + usle_eifac(jj) * qdayout(jj) *            
      &                                              hru_rufr(inum1,kk)
           varoute(1,ihout) = 5.0 + 0.75 * tmpav(jj)
           varoute(2,ihout) = varoute(2,ihout) + qdr(jj) * xx * 10.     !! mm*ha*10 = m3

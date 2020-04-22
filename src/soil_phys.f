@@ -108,7 +108,7 @@
 
 !!    calculate composite usle value
       sol_rock(1,i) = Exp(-.053 * sol_rock(1,i))
-      usle_mult(i) = sol_rock(1,i) * usle_k(i) * usle_p(i)              &
+      usle_mult(i) = sol_rock(1,i) * usle_k(i) * usle_p(i)              
      &     * usle_ls(i) * 11.8
 
 
@@ -128,7 +128,7 @@
         end if
         !! compute drainable porosity and variable water table factor - Daniel
         drpor = sol_por(j,i) - sol_up(j,i)
-        vwt(j,i) = (437.13 * drpor**2) - (95.08 * drpor) + 8.257             
+        vwt(j,i) = (437.13 * drpor**2) - (95.08 * drpor) + 8.257  
        end do
 
       sa = sol_sand(1,i) / 100.
@@ -190,7 +190,7 @@
       !! initialize water table depth and soil water for Daniel
       sol_swpwt(i) = sol_sw(i)
       if (ffc(i) > 1.) then
-        wat_tbl(i) = (sol_sumul(i) - ffc(i) * sol_sumfc(i)) /           &
+        wat_tbl(i) = (sol_sumul(i) - ffc(i) * sol_sumfc(i)) /           
      &                                                      sol_z(nly,i)
       else
         wat_tbl(i) = 0.
@@ -213,14 +213,14 @@
       if (ievent > 0) then
         sol_sand = 0.
         sol_sand(1,i) = 100. - sol_clay(1,i) - sol_silt(1,i)
-        wfsh(i) = 10. * Exp(6.5309 - 7.32561 * sol_por(1,i) +           &
-     &    3.809479 * sol_por(1,i) ** 2 + 0.001583 * sol_clay(1,i) ** 2 +&
-     &    0.000344 * sol_sand(1,i) * sol_clay(1,i) - 0.049837 *         &
-     &    sol_por(1,i) * sol_sand(1,i)                                  &
-     &    + 0.001608 * sol_por(1,i) ** 2 * sol_sand(1,i) ** 2 +         &
-     &    0.001602 * sol_por(1,i) ** 2 * sol_clay(1,i) ** 2 -           &
-     &    0.0000136 * sol_sand(1,i) ** 2 * sol_clay(1,i) -              &
-     &    0.003479 * sol_clay(1,i) ** 2 * sol_por(1,i) -                &
+        wfsh(i) = 10. * Exp(6.5309 - 7.32561 * sol_por(1,i) +           
+     &    3.809479 * sol_por(1,i) ** 2 + 0.001583 * sol_clay(1,i) ** 2 +
+     &    0.000344 * sol_sand(1,i) * sol_clay(1,i) - 0.049837 *         
+     &    sol_por(1,i) * sol_sand(1,i)                                  
+     &    + 0.001608 * sol_por(1,i) ** 2 * sol_sand(1,i) ** 2 +         
+     &    0.001602 * sol_por(1,i) ** 2 * sol_clay(1,i) ** 2 -           
+     &    0.0000136 * sol_sand(1,i) ** 2 * sol_clay(1,i) -              
+     &    0.003479 * sol_clay(1,i) ** 2 * sol_por(1,i) -                
      &    0.000799 * sol_sand(1,i) ** 2 * sol_por(1,i))
       end if
 

@@ -29,11 +29,10 @@
       integer :: j
 
       do j = 1, subtot
-          write (84,5000) j, subgis(j), years, rch_dakm(j),             &
+          write (84,5000) j, subgis(j), years, rch_dakm(j),             
      &       rchaao(3,j), rchaao(4,j),(rchaao(ii,j),ii=42,58)
       end do
 
       return
  5000 format ('REACH ',i4,1x,i8,1x,f5.1,20e12.4)
       end
-

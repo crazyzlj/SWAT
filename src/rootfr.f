@@ -66,5 +66,3 @@
 	end do
    
 	end subroutine
-
-

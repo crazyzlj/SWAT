@@ -54,12 +54,12 @@
         strstmp(j) = 0.
       else
         if (tmpav(j) > t_opt(idplt(j))) then
-         tgx = 2. * t_opt(idplt(j)) -                                   &
+         tgx = 2. * t_opt(idplt(j)) -                                   
      &                         t_base(idplt(j)) - tmpav(j)
         end if
 
         rto = 0.
-        rto = ((t_opt(idplt(j)) - tmpav(j)) /                           &
+        rto = ((t_opt(idplt(j)) - tmpav(j)) /                           
      &                                               (tgx + 1.e-6)) ** 2
 
         if (rto <= 200. .and. tgx > 0.) then

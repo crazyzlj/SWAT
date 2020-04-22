@@ -70,7 +70,7 @@
 !! Calculate the decay factor df based on %clay and %organic matter or %organic carbon
 !	sol_orgm = (sol_rsd(1,j)*0.01)/(sol_z(1,j)*sol_bd(1,j))
 	sol_orgm = sol_cbn(1,j)/0.58
-	xx = (0.943 - 0.07 * sol_clay(1,j) + 0.0011 * sol_clay(1,j)**2         &    
+	xx = (0.943 - 0.07 * sol_clay(1,j) + 0.0011 * sol_clay(1,j)**2      
      &    - 0.67 * sol_orgm + 0.12 * sol_orgm**2)
       if (xx > 1.) then
         df = 1.
@@ -82,7 +82,7 @@
 !! Determine the current random and oriented roughness using cumei and cumrt and initial
 !! random and oriented roughness values
       
-	sol_rrr = 0.1*ranrns_hru(j)                                              &
+	sol_rrr = 0.1*ranrns_hru(j)                                         
      &	* exp(df*(-0.0009*cumei(j)-0.0007 * cumrt(j)))
 	
 !	sol_orr = 0.1*sol_ori(j)*                                                &
@@ -99,4 +99,3 @@
    
    	return
 	end
-

@@ -112,8 +112,10 @@
         !!determine beginning and ending dates of simulation in current year
         if (Mod(iyr,4) == 0) then 
           leapyr = 0   !!leap year
+          ndays = ndays_leap
         else 
           leapyr = 1   !!regular year
+          ndays = ndays_noleap
         end if
 
         !! set beginning day of simulation for year

@@ -6,31 +6,32 @@ file(GLOB F77SRCS *.f)
 file(GLOB F90SRCS *.f90)
 
 ### Set Fortran line format for source file
-## Special sources that have fixed length of 79
-set(LEN79_SRCS "bmp_det_pond" "bmpinit" "ovr_sed" "percmain" "readbsn" "rthsed" "modparm" "main")
+
+## Special sources that have fixed length of 72
+set(LEN72_SRCS "grow" "tran")
 foreach(F77FILE ${F77SRCS})
     get_filename_component(CORENAME ${F77FILE} NAME_WE)
-    list(FIND LEN79_SRCS ${CORENAME} _FOUND_LEN79)
+    list(FIND LEN72_SRCS ${CORENAME} _FOUND_LEN72)
     if(${CMAKE_Fortran_COMPILER} MATCHES "ifort.*")
         # ifort, reference https://software.intel.com/en-us/node/678225
         if(MSVC) # ifort integrated in Microsoft Visual Studio            
-            if(${_FOUND_LEN79} GREATER -1)
-                set_source_files_properties(${F77FILE} PROPERTIES COMPILE_FLAGS /4L79)
-            else()
+            if(${_FOUND_LEN72} GREATER -1)
                 set_source_files_properties(${F77FILE} PROPERTIES COMPILE_FLAGS /4L72)
+            else()
+                set_source_files_properties(${F77FILE} PROPERTIES COMPILE_FLAGS /4L79)
             endif()
         else()
-            if(${_FOUND_LEN79} GREATER -1)
-                set_source_files_properties(${F77FILE} PROPERTIES COMPILE_FLAGS -79)
-            else()
+            if(${_FOUND_LEN72} GREATER -1)
                 set_source_files_properties(${F77FILE} PROPERTIES COMPILE_FLAGS -72)
+            else()
+                set_source_files_properties(${F77FILE} PROPERTIES COMPILE_FLAGS -79)
             endif()
         endif()
     else() # gfortran tested only
-        if(${_FOUND_LEN79} GREATER -1)
-            set_source_files_properties(${F77FILE} PROPERTIES COMPILE_FLAGS -ffixed-line-length-79)
-        else()
+        if(${_FOUND_LEN72} GREATER -1)
             set_source_files_properties(${F77FILE} PROPERTIES COMPILE_FLAGS -ffixed-line-length-72)
+        else()
+            set_source_files_properties(${F77FILE} PROPERTIES COMPILE_FLAGS -ffixed-line-length-79)
         endif()
     endif()
 endforeach()
@@ -70,13 +71,13 @@ if((NOT MSVC) AND (${First_Line_Of_Main_File} MATCHES "      include 'modparm.f'
         endif()
         # Set compile flag according to Fortran line format. These should be consistent with settings above.
         if(${ext} STREQUAL ".f")
-            set(Format_Flag "-ffixed-line-length-72")
+            set(Format_Flag "-ffixed-line-length-79")
         else()
             set(Format_Flag "-ffree-line-length-none")
         endif()
-        list(FIND LEN79_SRCS ${CORENAME} _FOUND_LEN79)
-        if(${_FOUND_LEN79} GREATER -1)
-            set(Format_Flag "-ffixed-line-length-79")
+        list(FIND LEN72_SRCS ${CORENAME} _FOUND_LEN72)
+        if(${_FOUND_LEN72} GREATER -1)
+            set(Format_Flag "-ffixed-line-length-72")
         endif()
         add_custom_command(OUTPUT ${CORENAME}.o
                            COMMAND ${CMAKE_Fortran_COMPILER} ${Compile_Flags_List} ${Format_Flag} -c

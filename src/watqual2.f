@@ -327,7 +327,7 @@ C	tday is the calculation time step = 1 day
          !! calculate light extinction coefficient 
          !! (algal self shading) QUAL2E equation III-12
          if (ai0 * algcon > 1.e-6) then
-           lambda = lambda0 + (lambda1 * ai0 * algcon) + lambda2 *      &
+           lambda = lambda0 + (lambda1 * ai0 * algcon) + lambda2 *      
      &                                        (ai0 * algcon) ** (.66667)
          else
            lambda = lambda0
@@ -354,7 +354,7 @@ C	tday is the calculation time step = 1 day
          !! daylight average light intensity QUAL2E equation III-7b
          fl_1 = 0.
          fll = 0.
-         fl_1 = (1. / (lambda * rchdep)) *                              &
+         fl_1 = (1. / (lambda * rchdep)) *                              
      &        Log((k_l + algi) / (k_l + algi * (Exp(-lambda * rchdep))))
          fll = 0.92 * (dayl(hru1(jrch)) / 24.) * fl_1
 
@@ -381,7 +381,7 @@ C	tday is the calculation time step = 1 day
          !! QUAL2E equation III-2
          dalgae = 0.
 	 setl=min(1.,Theta(rs1(jrch),thrs1,wtmp)/ rchdep)
-         dalgae = algcon + (Theta(gra,thgra,wtmp) * algcon -            &
+         dalgae = algcon + (Theta(gra,thgra,wtmp) * algcon -            
      &    Theta(rhoq,thrho,wtmp) * algcon - setl * algcon) * tday
          if (dalgae < 0.00001) algae(jrch) = 0.00001
 
@@ -423,7 +423,7 @@ C	tday is the calculation time step = 1 day
 	   end if
          ww = Theta(rk1(jrch),thrk1,wtmp) * cbodcon
 
-         if(rchdep.gt.0.001) xx = Theta(rk4(jrch),thrk4,wtmp)           &
+         if(rchdep.gt.0.001) xx = Theta(rk4(jrch),thrk4,wtmp)           
      &	   / (rchdep * 1000.)
          if (nh3con.gt.0.001) then
 	   yy = ai5 * Theta(bc1mod,thbc1,wtmp) * nh3con
@@ -456,7 +456,7 @@ C	tday is the calculation time step = 1 day
         !! calculate fraction of algal nitrogen uptake from ammonia
         !! pool QUAL2E equation III-18
         f1 = 0.
-        f1 = p_n * nh3con / (p_n * nh3con + (1. - p_n) * no3con +       &
+        f1 = p_n * nh3con / (p_n * nh3con + (1. - p_n) * no3con +       
      &                                                            1.e-6)
         
         !! calculate ammonia nitrogen concentration at end of day
@@ -599,9 +599,6 @@ C	tday is the calculation time step = 1 day
         ddisox = 0.0   
         soxy = 0.0
       endif
-
-
-
 
       return
       end

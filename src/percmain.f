@@ -25,7 +25,7 @@
 !!    ismax       |none          |maximum depressional storage selection flag/code
 !!                               |1 dynamic stmaxd computed as a function of random roughness and rain intensity 
 !!                               |by depstor.f
-!!                               |0 static stmaxd read from .bsn for the global value or .sdr for specific hrus                        
+!!                               |0 static stmaxd read from .bsn for the global value or .sdr for specific hrus                 
 !!    drainmod tile equations   01/2006
 !!    sol_fc(:,:) |mm H2O        |amount of water available to plants in soil
 !!                               |layer at field capacity (fc - wp)
@@ -90,10 +90,11 @@
 
       use parm
 
-      integer :: j, j1, nn, k
+      integer :: j, j1, nn, k, sb
 
       j = 0
       j = ihru
+      sb = inum1
 
       !! initialize water entering first soil layer
 
@@ -127,8 +128,18 @@
         
  	  !! septic tank inflow to biozone layer  J.Jeong
 	  ! STE added to the biozone layer if soil temp is above zero. 
-	  if(j1==i_sep(j).and.sol_tmp(j1,j)>0. .and. isep_opt(j)/=0) then
-		sol_st(j1,j) = sol_st(j1,j) + qstemm(j)  ! in mm
+	  if(j1==i_sep(j).and.sol_tmp(j1,j) > 0. .and. isep_opt(j) /= 0) then
+		  sol_st(j1,j) = sol_st(j1,j) + qstemm(j)  ! in mm
+	    qvol = qstemm(j) * hru_ha(j) * 10.
+		  xx = qvol / hru_ha(j) / 1000.
+          sol_no3(j1,j) = sol_no3(j1,j) + xx *(sptno3concs(isp) 
+     &                    + sptno2concs(isp))  
+          sol_nh3(j1,j) = sol_nh3(j1,j) + xx * sptnh4concs(isp) 
+          sol_orgn(j1,j) = sol_orgn(j1,j) + xx * sptorgnconcs(isp)*0.5
+          sol_fon(j1,j) = sol_fon(j1,j) + xx * sptorgnconcs(isp) * 0.5
+          sol_orgp(j1,j) = sol_orgp(j1,j) + xx * sptorgps(isp) * 0.5
+          sol_fop(j1,j) = sol_fop(j1,j) + xx * sptorgps(isp) * 0.5
+          sol_solp(j1,j) = sol_solp(j1,j) + xx * sptminps(isp)  
         end if
 
        !! determine gravity drained water in layer
@@ -168,6 +179,11 @@
         if (flat(j1,j) < 1.e-6) flat(j1,j) = 0.
       end do
       
+        !! seepage contribution by urban distributed bmps
+        if (ievent >= 2) then
+          sepbtm(j) = sepbtm(j) + bmp_recharge(sb) 
+        endif
+
       !! update soil profile water
       sol_sw(j) = 0.
       do j1 = 1, sol_nly(j)

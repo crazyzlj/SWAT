@@ -54,7 +54,7 @@
 		   
            solorgp_t = solorgp_t + sol_orgp(l,j)
          end do
-         write (121,1000) i, subnum(j), hruno(j), sol_rsd(1,j), solp_t, & 
+         write (121,1000) i, subnum(j), hruno(j), sol_rsd(1,j), solp_t, 
      &    solno3_t, solorgn_t, solorgp_t, cnday(j)
       end do
       

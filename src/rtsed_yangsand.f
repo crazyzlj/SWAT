@@ -210,13 +210,13 @@
 !!    Assumed on an average Only one bank eroding due to meandering of channel
       bnkrte = ch_bnk_kd(jrch) * (Tbank - tc_bnk(jrch)) * 1e-06
 	if (bnkrte < 0.) bnkrte = 0.
-      bnkrte = bnkrte * ch_l2(jrch) * 1000.* (watdep * Sqrt(1. + c * c))&
+      bnkrte = bnkrte * ch_l2(jrch) * 1000.* (watdep * Sqrt(1. + c * c))
      &                                        * ch_bnk_bd(jrch) * 86400.
 
 !!    Potential Bed degradation rate in metric tons per day
       degrte = ch_bed_kd(jrch) * (Tbed - tc_bed(jrch)) * 1e-06
       if (degrte < 0.) degrte = 0.
-      degrte = degrte * ch_l2(jrch) * 1000.* phi(6,jrch)                &
+      degrte = degrte * ch_l2(jrch) * 1000.* phi(6,jrch)                
      &                                        * ch_bed_bd(jrch) * 86400.
 
 !!    Relative potential for bank/bed erosion
@@ -265,15 +265,15 @@
       bedsize = ch_bed_d50(jrch)/1000.
       if (bedsize <= 2.) then  
       !!  Yangs sand equation for particles less than 2 mm (2000 mircometer)
-        alog10cychppm = 5.435 - 0.286*log10(var3) - 0.457*log10(var4)   &
-     &              +(1.799 - 0.409*log10(var3) - 0.314*log10(var4))    &
+        alog10cychppm = 5.435 - 0.286*log10(var3) - 0.457*log10(var4)   
+     &              +(1.799 - 0.409*log10(var3) - 0.314*log10(var4))    
      &               *log10(var56)
 	end if
 
 	if (bedsize > 2.) then
       !!  Yangs gravel equation for particles between 2mm and 10mm
-        alog10cychppm = 6.681 - 0.633*log10(var3) - 4.816*log10(var4)   &
-     &              +(2.784 - 0.305*log10(var3) - 0.282*log10(var4))    &
+        alog10cychppm = 6.681 - 0.633*log10(var3) - 4.816*log10(var4)   
+     &              +(2.784 - 0.305*log10(var3) - 0.282*log10(var4))    
      &               *log10(var56)
 	end if
 

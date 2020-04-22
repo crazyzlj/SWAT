@@ -150,7 +150,7 @@
       read (114,5200) (tmpmn(mon,i),mon = 1,12)
       read (114,5200) (tmpstdmx(mon,i),mon = 1,12)
       read (114,5200) (tmpstdmn(mon,i),mon = 1,12)
-      read (114,5200) (pcpmm(mon),mon = 1,12)
+      read (114,5201) (pcpmm(mon),mon = 1,12)
       read (114,5200) (pcp_stat(mon,2,i),mon = 1,12)  !pcpstd
       read (114,5200) (pcp_stat(mon,3,i),mon = 1,12)  !pcpskw
       read (114,5200) (pr_w(1,mon,i),mon = 1,12)
@@ -212,7 +212,7 @@
       rain_hhsm = 0.
       rain_hhsm(1) = (rainhhmx(12) + rainhhmx(1) + rainhhmx(2)) / 3.
       do mon = 2, 11
-        rain_hhsm(mon) = (rainhhmx(mon-1) + rainhhmx(mon) +             &
+        rain_hhsm(mon) = (rainhhmx(mon-1) + rainhhmx(mon) +             
      &                     rainhhmx(mon+1)) / 3.
       end do
       rain_hhsm(12) = (rainhhmx(11) + rainhhmx(12) + rainhhmx(1)) / 3.
@@ -246,7 +246,7 @@
         else
         !! if pr_w values good, use calculated pcpd based on these values
         !! using first order Markov chain
-        pcpd(mon) = mdays * pr_w(1,mon,i) /                             &
+        pcpd(mon) = mdays * pr_w(1,mon,i) /                             
      &                              (1. - pr_w(2,mon,i) + pr_w(1,mon,i))
     
         end if
@@ -353,4 +353,5 @@
  5000 format (a)
  5100 format (12x,f7.2)
  5200 format (12f6.2)
+ 5201 format (12f6.1)  
       end

@@ -54,7 +54,7 @@
       real :: qin,qout,qpnd,sedin,sedout,sedpnd,spndconc,qdepth,
      &        watdepact,qstage,backup_length,seep_sa,evap_sa,pcp_vol,
      &        evap_vol,seep_vol,warea,pi,qovmax,qaddon,depaddon
-      
+
       pi = 3.14159
       sb = inum1
       qout = 0.; sedout = 0.; depaddon = 0.
@@ -68,9 +68,8 @@
       qpnd = dtp_ivol(sb) !m^3
       sedpnd = dtp_ised(sb) !tons
 
-      ! Storage capacity under addon
-      qaddon = (dtp_addon(sb,1) / dtp_parm(sb)) ** 3.  
-     &           / (3.*ch_s(2,sb)) * pi !m3
+      !! Storage capacity under addon
+      qaddon = dtp_addon(sb,1)**3./(3.*dtp_lwratio(sb)*ch_s(2,sb)**2.) !m3 Note: V = d^3 / (3*R*S^2) |Modify by J. Osorio (3/19/2013)
 
       !!	iterate for subdaily flow/sediment routing
       do ii=1,nstep
@@ -85,10 +84,10 @@
          end if
 
 	   !! Estimate water depth
-	   	 qdepth = dtp_parm(sb) * (3.*qin*ch_s(2,sb)/pi)**0.33333
+         qdepth = (3.*qin*dtp_lwratio(sb)*ch_s(2,sb)**2)**0.33333 !! Note: h = (3*V*R*S^2)^3 |Modify by J. Osorio (3/19/2013)
 
 	   !! skip to next time step if no ponding occurs 
-	     if (qdepth<=0.0001) cycle   
+	   if (qdepth<=0.0001) cycle   
          
          if (dtp_stagdis(sb)==0) then 
           !! Calculate weir outflow 
@@ -105,13 +104,13 @@
                !! Fully submerged 
                   qdepth = qdepth - dtp_depweir(sb,k) 
                   watdepact = qdepth + dtp_diaweir(sb,k) / 2
-  	              warea = 3.14159 * dtp_diaweir(sb,k) ** 2 / 4.
+  	            warea = 3.14159 * dtp_diaweir(sb,k) ** 2 / 4.
 		        
 		          !! orifice equation
-   	              qstage = dtp_cdis(sb,k) * 0.6 * warea * 
+   	            qstage = dtp_cdis(sb,k) * 0.6 * warea * 
      & 	               sqrt(19.6 * watdepact) !m3/s/unit
-                  qstage = qstage * dtp_numweir(sb) * 60. * idt !m^3	         
-               else
+                  qstage = qstage * dtp_numweir(sb) * 60. * idt !m^3
+                 else
                !! Partially submerged
                   watdepact = max(qdepth - dtp_addon(sb,k),0.)
                   dtp_wrwid(sb,k) = dtp_diaweir(sb,k) * 0.667
@@ -120,7 +119,7 @@
 		          qstage = dtp_cdis(sb,k) * 1.84 * dtp_wrwid(sb,k) * 
      &		            watdepact ** 1.5 !m3/s
 		          qstage = qstage * dtp_numweir(sb) * 60. * idt !m^3
-               end if               
+                 end if               
 	         
 	        else
 	        !! Rectangular weir
@@ -128,7 +127,7 @@
 
                !! Estimate weir/orifice discharge
 		       qstage = dtp_cdis(sb,k) * 1.84 * dtp_wrwid(sb,k) * 
-     &		       watdepact ** 1.5 !m3/s
+     &		       watdepact ** 1.5 !m3/s     The Bureau of Reclamation, in their Water Measurement Manual, SI units
 		       qstage = qstage * dtp_numweir(sb) * 60. * idt !m^3
 	            
 	        end if
@@ -177,8 +176,9 @@
          else !detention occurs
             !!	Estimating surface area of water
             backup_length = qdepth / ch_s(2,sb)
-            call surf_seep(qdepth,backup_length,seep_sa)
-            call surf_evap(qdepth,backup_length,evap_sa)
+            seep_sa = backup_length/dtp_lwratio(sb)  
+     &                + (4. * dtp_lwratio(sb) * qdepth**2) / 3.      !! Note: SSA = w + (4*l*d^2)/(3*w) |Modify by J. Osorio (3/20/2013)
+            evap_sa = 2. * backup_length**2 / 3. * dtp_lwratio(sb) !! Note: ESA = 2 * w * l / 3 |Modify by J. Osorio (3/20/2013)
 
             !! converting surface area to hectares (ha)
             seep_sa = seep_sa / 10000.0  
@@ -210,44 +210,3 @@
       dtp_ised(sb) = sedpnd !tons
 
       end subroutine 
-   !-------------------------------------------------------------------
-   	
-	subroutine surf_seep(a,b,sa)
-
-   !!	This subroutine computes seepage surface area of 
-   !!	water backed up behind the detention pond weir
-   !!	references: mathworld.wolfram.com  and 
-   !!	en.wikipedia.org/wiki/Prolate_spheroid
-
-	   implicit none
-	   real::pi,a,b,sa,asq,bsq,ecc,intercal
-
-
-	   pi=3.141593
-
-	   asq=a*a
-	   bsq=b*b
-	   ecc=sqrt(1-(asq/bsq))
-	   intercal=a*b*asin(ecc)/ecc
-
-	   sa=pi*(asq+intercal)/2.0
-   	
-   	
-	end subroutine surf_seep
-   !-------------------------------------------------------------------
-
-	subroutine surf_evap(a,b,saevap)
-
-   !!	This subroutine computes surface area of 
-   !!	water backed up available for evaporation
-
-	   implicit none
-	   real::pi,a,saevap,b
-
-	   pi=3.141593
-	   saevap=pi*a*b/2.0
-   	
-	   return
-	end subroutine surf_evap
-   !-------------------------------------------------------------------
-

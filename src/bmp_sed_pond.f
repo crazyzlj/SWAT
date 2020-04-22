@@ -88,6 +88,9 @@
             !Transmission loss through infiltration 
             qtrns = ksat * tsa / 1000./ 60. * idt
             qpnd = qpnd - qtrns
+            bmp_recharge(sb) = bmp_recharge(sb) 
+     &                         + qtrns / (sub_ha*10000.- tsa) *1000.
+                       
             If (qpnd<0) then
               qpnd = 0.
               qtrns = 0.

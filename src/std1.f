@@ -42,7 +42,7 @@
       use parm
 
 !!    input summary file
-      write (24,1000) prog,values(2),values(3),values(1),values(5),      &
+      write (24,1000) prog,values(2),values(3),values(1),values(5),   
      &values(6),values(7)
       write (24,1010) title
       write (24,1020) nbyr, da_km
@@ -131,12 +131,12 @@
       if (icrk == 1) write (24,1110)
 
 !!    standard output file
-      write (26,1000) prog,values(2),values(3),values(1),values(5),     &
+      write (26,1000) prog,values(2),values(3),values(1),values(5),     
      &values(6),values(7)
       write (26,1010) title
       write (26,1020) nbyr, da_km
       if (isproj == 1) then
-        write (19,1000) prog,values(2),values(3),values(1),values(5),   &
+        write (19,1000) prog,values(2),values(3),values(1),values(5),   
      &  values(6),values(7)
         write (19,1010) title
         write (19,1020) nbyr, da_km
@@ -151,32 +151,32 @@
       return
  1000 format ('1',/t5,a80,t105,2(i2,'/'),i4,5x,2(i2,':'),i2)
  1010 format (/(t5,20a4))
- 1020 format (t10,'Number of years in run: ',i4/t10,                    &
+ 1020 format (t10,'Number of years in run: ',i4/t10,                    
      &       'Area of watershed: ',f12.3,' km2')
- 1030 format (t10,'Random number generator cycles: 0, use default number&
+ 1030 format (t10,'Random number generator cycles: 0, use default number
      &s')
  1040 format (t10,'Random number generator cycles: ',i4)
- 1050 format (/t10,'Initial random number seed: wet/dry day prob  ',1x, &
+ 1050 format (/t10,'Initial random number seed: wet/dry day prob  ',1x, 
      &i14)
- 1051 format (t10,'Initial random number seed: radiation         ',1x,  &
+ 1051 format (t10,'Initial random number seed: radiation         ',1x,  
      &i14)
- 1052 format (t10,'Initial random number seed: precipitation     ',1x,  &
+ 1052 format (t10,'Initial random number seed: precipitation     ',1x,  
      &i14)
- 1053 format (t10,'Initial random number seed: 0.5 hr rainfall   ',1x,  &
+ 1053 format (t10,'Initial random number seed: 0.5 hr rainfall   ',1x,  
      &i14)
- 1054 format (t10,'Initial random number seed: wind speed        ',1x,  &
+ 1054 format (t10,'Initial random number seed: wind speed        ',1x,  
      &i14)
- 1055 format (t10,'Initial random number seed: irrigation        ',1x,  &
+ 1055 format (t10,'Initial random number seed: irrigation        ',1x,  
      &i14)
- 1056 format (t10,'Initial random number seed: relative humidity ',1x,  &
+ 1056 format (t10,'Initial random number seed: relative humidity ',1x,  
      &i14)
- 1057 format (t10,'Initial random number seed: max temperature   ',1x,  &
+ 1057 format (t10,'Initial random number seed: max temperature   ',1x,  
      &i14)
- 1058 format (t10,'Initial random number seed: min temperature   ',1x,  &
+ 1058 format (t10,'Initial random number seed: min temperature   ',1x,  
      &i14)
  1060 format (/t10,'Precipitation data used in run:')
  1061 format (t11,'Multiple gages read for watershed')
- 1062 format (t14,'Subdaily rainfall data used, summarized every ',i2,  &
+ 1062 format (t14,'Subdaily rainfall data used, summarized every ',i2,  
      &       'min')
  1063 format (t14,'Daily rainfall data used')
  1064 format (t11,'Multiple gages simulated for watershed')
@@ -188,29 +188,29 @@
  1082 format (/t10,'PET method used: Hargreaves')
  1083 format (/t10,'PET method used: read in values')
  1090 format (/t10,'Rainfall/Runoff/Routing Option:')
- 1091 format (t11,'Daily rainfall data',/t11,'Runoff estimated with ',  &
+ 1091 format (t11,'Daily rainfall data',/t11,'Runoff estimated with ',  
      &        'curve number method',/t11,'Daily stream routing')
- 1092 format (t11,'Daily rainfall data',/t11,'Runoff estimated with ',  &
+ 1092 format (t11,'Daily rainfall data',/t11,'Runoff estimated with ',  
      &        'Green & Ampt method',/t11,'Daily stream routing')
- 1093 format (t11,'Subdaily rainfall data',/t11,'Runoff estimated with',&
+ 1093 format (t11,'Subdaily rainfall data',/t11,'Runoff estimated with',
      &        ' Green & Ampt method',/t11,'Daily stream routing')
- 1094 format (t11,'Subdaily rainfall data',/t11,'Runoff estimated with',&
+ 1094 format (t11,'Subdaily rainfall data',/t11,'Runoff estimated with',
      &        ' Green & Ampt method',/t11,'Hourly stream routing')
  1095 format (t12,'Variable Storage routing method')
  1096 format (t12,'Muskingum routing method')
  1097 format (t12,'Channel dimensions remain constant')
- 1098 format (t12,'Channel dimensions change due to deposition/degrad', &
+ 1098 format (t12,'Channel dimensions change due to deposition/degrad', 
      &        'ation')
  1099 format (t12,'In-stream nutrient transformations not modeled')
- 1100 format (t12,'In-stream nutrient transformations modeled using',   &
+ 1100 format (t12,'In-stream nutrient transformations modeled using',   
      &        ' QUAL2E equations')
  1101 format (t12,'Subbasin algae/CBOD loadings not modeled')
  1102 format (t12,'Subbasin algae/CBOD loadings modeled')
  1110 format (/t10,'Crack flow modeled')
- 5000 format ('  icode',t11,'ic',t14,'inum1',t20,'inum2',t26,'inum3',   &
-     & t34,'subed',t41,'recmonps',t50,'reccnstps',t61,'flow(m^3)',      &
-     & t73,'sed(t)',t85,'orgn(kg)',t97,'orgp(kg)',t109,'nitrate(kg)',   &
+ 5000 format ('  icode',t11,'ic',t14,'inum1',t20,'inum2',t26,'inum3',   
+     & t34,'subed',t41,'recmonps',t50,'reccnstps',t61,'flow(m^3)',      
+     & t73,'sed(t)',t85,'orgn(kg)',t97,'orgp(kg)',t109,'nitrate(kg)',   
      & t121,'sol.p(kg)',t133,'sol.pst(mg)',t145,'sor.pst(mg)')
- 7000 format (/,' Initial Dimen',' Channel Dimensions ',/,' Reach',     &
+ 7000 format (/,' Initial Dimen',' Channel Dimensions ',/,' Reach',     
      &  '    Depth (m)','  Width (m)','  Slope (m/m)')
       end

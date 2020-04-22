@@ -198,16 +198,16 @@
 
           !! annual write-output.std
           if (iscen == 1) then
-          write (26,6300) iyr, wshdyro(1), wshdyro(3), wshdyro(4),      &
-     &            wshdyro(104), wshdyro(5), wshdyro(109), wshddayo(35), &
-     &            wshdyro(7), wshdyro(108), wshdyro(6), wshdyro(12),    &
-     &            wshdyro(42), wshdyro(45), wshdyro(46), wshdyro(44),   &
+          write (26,6300) iyr, wshdyro(1), wshdyro(3), wshdyro(4),      
+     &            wshdyro(104), wshdyro(5), wshdyro(109), wshddayo(35), 
+     &            wshdyro(7), wshdyro(108), wshdyro(6), wshdyro(12),    
+     &            wshdyro(42), wshdyro(45), wshdyro(46), wshdyro(44),   
      &            wshdyro(40), wshdyro(43), wshdyro(41), wshdyro(111)
           else if (isproj == 1) then
-          write (19,6300) iyr, wshdyro(1), wshdyro(3), wshdyro(4),      &
-     &            wshdyro(104), wshdyro(5), wshdyro(109), wshddayo(35), &
-     &            wshdyro(7), wshdyro(108), wshdyro(6), wshdyro(12),    &
-     &            wshdyro(42), wshdyro(45), wshdyro(46), wshdyro(44),   &
+          write (19,6300) iyr, wshdyro(1), wshdyro(3), wshdyro(4),      
+     &            wshdyro(104), wshdyro(5), wshdyro(109), wshddayo(35), 
+     &            wshdyro(7), wshdyro(108), wshdyro(6), wshdyro(12),    
+     &            wshdyro(42), wshdyro(45), wshdyro(46), wshdyro(44),   
      &            wshdyro(40), wshdyro(43), wshdyro(41), wshdyro(111)
           endif
 
@@ -228,7 +228,7 @@
               sum = sum + hrupsty(k,1,j) + hrupsty(k,2,j)
             end do
             if (sum > 0. .and. iprp == 1) then
-                write (30,5100) subnum(j), hruno(j), iyr,               &
+                write (30,5100) subnum(j), hruno(j), iyr,               
      &                     (hrupsty(k,1,j), hrupsty(k,2,j), k = 1, npmx)
             end if
             end if
@@ -263,43 +263,43 @@
             resouty(41,j) = resouty(41,j) / Real(idlast)
             if (iyr >= iyres(j)) then
               if (iscen == 1 .and. isproj == 0) then
-              write (8,5800) j, iyr, res_vol(j), resouty(1,j),          &
-     &                       resouty(2,j), resouty(19,j), resouty(17,j),&
-     &                       resouty(18,j), resouty(3,j), resouty(4,j), &
-     &                       resouty(5,j),                              &
-     &                       (resouty(k,j), k = 22, 23), resouty(38,j), &
-     &                       (resouty(k,j), k = 24, 25), resouty(36,j), &
-     &                       (resouty(k,j), k = 26, 27), resouty(39,j), &
-     &                       (resouty(k,j), k = 28, 29), resouty(40,j), &
-     &                       (resouty(k,j), k = 30, 31), resouty(41,j), &
-     &                       (resouty(k,j), k = 32, 33), resouty(37,j), &
-     &                       (resouty(k,j), k = 34, 35), res_seci(j),   &
+              write (8,5800) j, iyr, res_vol(j), resouty(1,j),          
+     &                       resouty(2,j), resouty(19,j), resouty(17,j),
+     &                       resouty(18,j), resouty(3,j), resouty(4,j), 
+     &                       resouty(5,j),                              
+     &                       (resouty(k,j), k = 22, 23), resouty(38,j), 
+     &                       (resouty(k,j), k = 24, 25), resouty(36,j), 
+     &                       (resouty(k,j), k = 26, 27), resouty(39,j), 
+     &                       (resouty(k,j), k = 28, 29), resouty(40,j), 
+     &                       (resouty(k,j), k = 30, 31), resouty(41,j), 
+     &                       (resouty(k,j), k = 32, 33), resouty(37,j), 
+     &                       (resouty(k,j), k = 34, 35), res_seci(j),   
      &                       (resouty(k,j), k = 6, 16)
               else if (isproj == 1) then
-              write (22,5800) j, iyr, res_vol(j), resouty(1,j),         &
-     &                       resouty(2,j), resouty(19,j), resouty(17,j),&
-     &                       resouty(18,j), resouty(3,j), resouty(4,j), &
-     &                       resouty(5,j),                              &
-     &                       (resouty(k,j), k = 22, 23), resouty(38,j), &
-     &                       (resouty(k,j), k = 24, 25), resouty(36,j), &
-     &                       (resouty(k,j), k = 26, 27), resouty(39,j), &
-     &                       (resouty(k,j), k = 28, 29), resouty(40,j), &
-     &                       (resouty(k,j), k = 30, 31), resouty(41,j), &
-     &                       (resouty(k,j), k = 32, 33), resouty(37,j), &
-     &                       (resouty(k,j), k = 34, 35), res_seci(j),   &
+              write (22,5800) j, iyr, res_vol(j), resouty(1,j),         
+     &                       resouty(2,j), resouty(19,j), resouty(17,j),
+     &                       resouty(18,j), resouty(3,j), resouty(4,j), 
+     &                       resouty(5,j),                              
+     &                       (resouty(k,j), k = 22, 23), resouty(38,j), 
+     &                       (resouty(k,j), k = 24, 25), resouty(36,j), 
+     &                       (resouty(k,j), k = 26, 27), resouty(39,j), 
+     &                       (resouty(k,j), k = 28, 29), resouty(40,j), 
+     &                       (resouty(k,j), k = 30, 31), resouty(41,j), 
+     &                       (resouty(k,j), k = 32, 33), resouty(37,j), 
+     &                       (resouty(k,j), k = 34, 35), res_seci(j),   
      &                       (resouty(k,j), k = 6, 16)
               else if (iscen == 1 .and. isproj == 2) then
-              write (8,6800) j, iyr, res_vol(j), resouty(1,j),          &
-     &                       resouty(2,j), resouty(19,j), resouty(17,j),&
-     &                       resouty(18,j), resouty(3,j), resouty(4,j), &
-     &                       resouty(5,j),                              &
-     &                       (resouty(k,j), k = 22, 23), resouty(38,j), &
-     &                       (resouty(k,j), k = 24, 25), resouty(36,j), &
-     &                       (resouty(k,j), k = 26, 27), resouty(39,j), &
-     &                       (resouty(k,j), k = 28, 29), resouty(40,j), &
-     &                       (resouty(k,j), k = 30, 31), resouty(41,j), &
-     &                       (resouty(k,j), k = 32, 33), resouty(37,j), &
-     &                       (resouty(k,j), k = 34, 35), res_seci(j),   &
+              write (8,6800) j, iyr, res_vol(j), resouty(1,j),          
+     &                       resouty(2,j), resouty(19,j), resouty(17,j),
+     &                       resouty(18,j), resouty(3,j), resouty(4,j), 
+     &                       resouty(5,j),                              
+     &                       (resouty(k,j), k = 22, 23), resouty(38,j), 
+     &                       (resouty(k,j), k = 24, 25), resouty(36,j), 
+     &                       (resouty(k,j), k = 26, 27), resouty(39,j), 
+     &                       (resouty(k,j), k = 28, 29), resouty(40,j), 
+     &                       (resouty(k,j), k = 30, 31), resouty(41,j), 
+     &                       (resouty(k,j), k = 32, 33), resouty(37,j), 
+     &                       (resouty(k,j), k = 34, 35), res_seci(j),   
      &                       (resouty(k,j), k = 6, 16), iyr
 
               endif
@@ -339,7 +339,7 @@
       return
  777  format (i4,500e12.4)
  779  format (i4,3f12.4)
- 780  format (/,' Year End',i5,' Channel Dimensions ',/,' Reach',       &
+ 780  format (/,' Year End',i5,' Channel Dimensions ',/,' Reach',       
      &         '    Depth (m)','  Width (m)','  Slope (m/m)')
  5100 format (1x,a5,a4,1x,i4,4x,1x,250(e16.4,1x))
  5200 format (/,1x,i4,a4,1x,10f12.2)
@@ -348,4 +348,3 @@
  6800 format ('RES   ',i8,1x,i4,41e12.4,1x,i4)
  6300 format (/i5,15f8.2,1x,5f8.2//)
       end
-

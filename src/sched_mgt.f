@@ -55,8 +55,8 @@
             call plantop 
 
             if (imgt == 1) then
-              write (143, 1000) subnum(j), hruno(j), iyr, i_mo, iida,   &
-     &        cpnm(idplt(j))," PLANT", phubase(j), phuacc(j), sol_sw(j),&
+              write (143, 1000) subnum(j), hruno(j), iyr, i_mo, iida,   
+     &        cpnm(idplt(j))," PLANT", phubase(j), phuacc(j), sol_sw(j),
      &        bio_ms(j), sol_rsd(1,j),sol_sumno3(j),sol_sumsolp(j)
             end if
 
@@ -85,6 +85,7 @@
      *        sol_rsd(1,j), sol_sumno3(j),sol_sumsolp(j),irramt(j),
      *        irr_sc(j), irr_no(j)
 1002  format (a5,1x,a4,3i6,2a15,7f10.2,10x,f10.2,70x,2i7)
+
       
             end if
             
@@ -137,7 +138,8 @@
      *        sol_rsd(1,j), sol_sumno3(j),sol_sumsolp(j),yield,
      *        strsn_sum(j), strsp_sum(j), strstmp_sum(j), strsw_sum(j),
      *        strsa_sum(j)
-1001  format (a5,1x,a4,3i6,2a15,8f10.2,30x,5f10.2) 
+!!1001  format (a5,1x,a4,3i6,2a15,8f10.2,30x,11f10.2)
+1001  format (a5,1x,a4,3i6,2a15,8f10.2,30x,5f10.2,14x,6f10.2)
             end if 
             
             phubase(j) = 0.
@@ -158,23 +160,20 @@
             end if
             
           case (7)  !! harvest only operation
-            ihv_gbm = mgt2iop(nop(j),j)
-            hi_ovr = mgt5op(nop(j),j)
+            hi_bms = mgt5op(nop(j),j)
+            hi_rsd = mgt6op(nop(j),j)
             harveff = mgt4op(nop(j),j)
-            if (harveff <= 0.) then harveff = 1.0 
-                
-            if (ihv_gbm == 0) then    
-              call harvestop
-            else
-              call harvgrainop
-            end if
-            
+            if (harveff <= 0.) harveff = 1.0 
+            call harvestop
+
             if (imgt == 1) then
               write (143, 1001) subnum(j), hruno(j), iyr, i_mo, iida, 
      *        cpnm(idplt(j)),
      *        "HARVEST ONLY", phubase(j), phuacc(j),sol_sw(j),bio_ms(j),
-     *        sol_rsd(1,j), yield, strsn_sum(j), strsp_sum(j),
-     *        strstmp_sum(j), strsw_sum(j), strsa_sum(j)
+     *        sol_rsd(1,j), sol_sumno3(j), sol_sumsolp(j), yield, 
+     *        strsn_sum(j), strsp_sum(j), strstmp_sum(j), strsw_sum(j), 
+     *        strsa_sum(j), yieldgrn, yieldbms, yieldtbr, yieldrsd, 
+     *        yieldn, yieldp
             end if
           
           case (8)   !! kill operation
@@ -266,7 +265,7 @@
             if (imgt == 1) then
               write (143, 1000) subnum(j), hruno(j), iyr, i_mo, iida, 
      *        "         ",
-     *        "STREET SWEEP",phubase(j), phuacc(j), sol_sw(j),bio_ms(j), 
+     *        "STREET SWEEP",phubase(j), phuacc(j), sol_sw(j),bio_ms(j),
      *        sol_rsd(1,j),sol_sumno3(j),sol_sumsolp(j)
             end if
           
@@ -321,7 +320,7 @@
         nop(j) = 1
       end if
       
-1000  format (a5,1x,a4,3i6,2a15,7f10.2)    
+1000  format (a5,1x,a4,3i6,2a15,19f10.2)    
       return
 
       end

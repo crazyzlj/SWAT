@@ -270,24 +270,24 @@
         endif
 
           if (iscen == 1 .and. isproj == 0) then
-          write (28,1000) cropname, j, subnum(j), hruno(j), sb,         &
+          write (28,1000) cropname, j, subnum(j), hruno(j), sb,         
      &             nmgt(j), iyr, hru_km(j), (pdvs(ii), ii = 1, itots)
           else if (isproj == 1) then
-          write (21,1000) cropname, j, subnum(j), hruno(j),             &
+          write (21,1000) cropname, j, subnum(j), hruno(j),             
      &            sb, nmgt(j), iyr, hru_km(j), (pdvs(ii), ii = 1, itots)
           else if (iscen == 1 .and. isproj == 2) then
-          write (28,2000) cropname, j, subnum(j), hruno(j), sb,         &
+          write (28,2000) cropname, j, subnum(j), hruno(j), sb,         
      &    nmgt(j), iyr, hru_km(j), (pdvs(ii), ii = 1, itots), iyr
           endif
         else
           if (iscen == 1 .and. isproj == 0) then
-          write (28,1001) cropname, j, subnum(j), hruno(j), sb,         &
+          write (28,1001) cropname, j, subnum(j), hruno(j), sb,         
      &            nmgt(j), iyr, hru_km(j), (pdvas(ii), ii = 1, mhruo)
           else if (isproj == 1) then
-          write (21,1001) cropname, j, subnum(j), hruno(j),             &
+          write (21,1001) cropname, j, subnum(j), hruno(j),             
      &           sb, nmgt(j), iyr, hru_km(j), (pdvas(ii), ii = 1, mhruo)
           else if (iscen == 1 .and. isproj == 2) then
-          write (28,1001) cropname, j, subnum(j), hruno(j), sb,         &
+          write (28,1001) cropname, j, subnum(j), hruno(j), sb,         
      &    nmgt(j), iyr, hru_km(j), (pdvas(ii), ii = 1, mhruo), iyr
           endif
         end if
@@ -296,23 +296,17 @@
 
       return
 
+! 1000 format (a4,i5,1x,a5,a4,i5,1x,i4,1x,i4,e10.5,66f10.3,1x,
+!     *e10.5,1x,e10.5,8e10.3,2f10.3)
+! 2000 format (a4,i5,1x,a5,a4,i5,1x,i4,1x,i4,e10.5,66f10.3,1x,
+!     *e10.5,1x,e10.5,5e10.3,2f10.3,1x,i4)
+! 1001 format (a4,i7,1x,a5,a4,i5,1x,i4,1x,i4,e10.5,66f10.3,1x,
+!     *e10.5,1x,e10.5,3e10.3,2f10.3,1x,i4)
+
  1000 format (a4,i5,1x,a5,a4,i5,1x,i4,1x,i4,e10.5,66f10.3,1x,
-     *e10.5,1x,e10.5,8e10.3,2f10.3)
+     *e10.5,1x,e10.5,8e10.3,5f10.3)
  2000 format (a4,i5,1x,a5,a4,i5,1x,i4,1x,i4,e10.5,66f10.3,1x,
-     *e10.5,1x,e10.5,5e10.3,2f10.3,1x,i4)
+     *e10.5,1x,e10.5,5e10.3,5f10.3,1x,i4)
  1001 format (a4,i7,1x,a5,a4,i5,1x,i4,1x,i4,e10.5,66f10.3,1x,
-     *e10.5,1x,e10.5,3e10.3,2f10.3,1x,i4)
-
-
- !!1000 format (a4,i4,a5,a4,i5,1x,i4,1x,i4,e10.5,66f10.3,1x,
- !!   *e10.5,1x,e10.5,5e10.3)
- !!2000 format (a4,i4,a5,a4,i5,1x,i4,1x,i4,e10.5,66f10.3,1x,
- !!    *e10.5,1x,e10.5,4e10.3,1x,i4)
- !!1001 format (a4,i7,a5,a4,i5,1x,i4,1x,i4,e10.5,66f10.3,1x,
- !!    *e10.5,1x,e10.5,3e10.3,1x,i4)
- !!1000 format (a4,i4,a5,a4,i5,1x,i4,1x,i4,e10.5,66f10.3,1x,
- !!     *e10.5,1x,e10.5,5e10.3,1x,i4)
- !!2000 format (a4,i4,a5,a4,i5,1x,i4,1x,i4,e10.5,66f10.3,1x,
- !!   *e10.5,1x,e10.5,4e10.3,1x,i4)
- !!2000 format (a4,i5,1x,i8,1x,i4,1x,i4,1x,i4,e10.5,73f10.3,1x,i4)
+     *e10.5,1x,e10.5,3e10.3,5f10.3,1x,i4)      
       end

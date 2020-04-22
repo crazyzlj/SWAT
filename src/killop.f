@@ -346,7 +346,7 @@
       end if
 
       bio_hv(icr(j),j) = bio_ms(j) + bio_hv(icr(j),j)
-      bio_yrms(j) = bio_yrms(j) + bio_ms(j) / 1000.
+      !bio_yrms(j) = bio_yrms(j) + bio_ms(j) / 1000.
 
 	!! reset variables
       igro(j) = 0

@@ -77,7 +77,7 @@
         if (pb > 0.) then
           surfqimp = pb * pb / (precipday + .8 * r2)
         end if
-        surfq(j) = surfq(j) * (1. - fcimp(urblu(j))) +                  &
+        surfq(j) = surfq(j) * (1. - fcimp(urblu(j))) +                  
      &                                        surfqimp * fcimp(urblu(j))
       end if    
 

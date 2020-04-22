@@ -61,7 +61,7 @@
           crk = 0.
           xx = 0.
           if (ly == sol_nly(j)) then
-            crk = crklch * (volcr(ly,j) / (sol_z(ly,j) - sol_z(ly-1,j)) &
+            crk = crklch * (volcr(ly,j) / (sol_z(ly,j) - sol_z(ly-1,j)) 
      &                                              * voltot - volcrmin)
             if (crk < sepcrk) then
               sepcrk = sepcrk - crk
