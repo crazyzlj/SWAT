@@ -46,7 +46,7 @@
      &         "       LAI","   YLDt/ha","  BACTPct ","  BACTLPct",     
      &         " WTAB CLIm"," WTAB SOLm","     SNOmm"," CMUPkg/ha",     
      &         "CMTOTkg/ha","   QTILEmm"," TNO3kg/ha"," LNO3kg/ha",     
-     &         "  GW_Q_Dmm"," LATQCNTmm"/)
+     &         "  GW_Q_Dmm"," LATQCNTmm"," TVAPkg/ha"/)
 
 
 !!    numbers printed to VB interface HRU output file 
@@ -56,7 +56,7 @@
      &423,433,443,453,463,473,483,493,503,513,523,533,543,              
      &553,563,573,583,593,603,613,623,633,643,653,663,673,              
      &683,693,703,713,723,733,743,753,763,773,783,793,803,              
-     &813/)
+     &813,823/)
 
 !!    column headers for subbasin output file
       hedb = (/"  PRECIPmm"," SNOMELTmm","     PETmm","      ETmm",     
@@ -64,16 +64,18 @@
      &         "    WYLDmm","  SYLDt/ha"," ORGNkg/ha"," ORGPkg/ha",     
      &         "NSURQkg/ha"," SOLPkg/ha"," SEDPkg/ha"," LAT Q(mm)",     
      &         "LATNO3kg/h","GWNO3kg/ha","CHOLAmic/L","CBODU mg/L",     
-     &         " DOXQ mg/L"," TNO3kg/ha"/)
+!    &        " DOXQ mg/L","   QTILEmm"," TNO3kg/ha"," TVAPkg/ha"/)
+     &         " DOXQ mg/L"," TNO3kg/ha","   QTILEmm"," TVAPkg/ha"/)  
 
 !!    numbers printed to VB interface subbasin output file 
       icolb = (/35,45,55,65,75,85,95,105,115,125,135,145,               
-     &155,165,175,185,195,205,215,225,235,245/)
+     &155,165,175,185,195,205,215,225,235,245,255,265/)
+      
 !!  added headers TOTAL N/TOTALP/NO3 Concentration TO HEADING FOR OUTPUT.RCH GSM 10/26/2011
 !!    column headers for reach output file
       hedr = (/"  FLOW_INcms"," FLOW_OUTcms","     EVAPcms",            
      &         "    TLOSScms","  SED_INtons"," SED_OUTtons",            
-     &         "SEDCONCmg/kg","   ORGN_INkg","  ORGN_OUTkg",            
+     &         " SEDCONCmg/L","   ORGN_INkg","  ORGN_OUTkg",            
      &         "   ORGP_INkg","  ORGP_OUTkg","    NO3_INkg",            
      &         "   NO3_OUTkg","    NH4_INkg","   NH4_OUTkg",            
      &         "    NO2_INkg","   NO2_OUTkg","   MINP_INkg",            

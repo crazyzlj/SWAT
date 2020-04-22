@@ -85,8 +85,10 @@
       rtos = 0.
       rto3 = 1. - s3 / smx(h)
       rtos = 1. - 2.54 / smx(h)
+      
+      sumfc_ul = sol_sumfc(h) !+ r2adj(h) * (sol_sumul(h) - sol_sumfc(h))
 !! calculate shape parameters
-      call ascrv(rto3,rtos,sol_sumfc(h),sol_sumul(h),wrt(1,h),wrt(2,h))
+      call ascrv(rto3,rtos,sumfc_ul,sol_sumul(h),wrt(1,h),wrt(2,h))
 
       if (curyr == 0) then
 	  sci(h) = 0.9 * smx(h)

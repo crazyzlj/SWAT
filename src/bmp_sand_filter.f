@@ -38,16 +38,16 @@
      & wetfsh,whd,sub_ha,dt,qcms,effct,effl,effg,effbr,vpipe,phead,hpnd,
      & tmpw,qloss,fsat,qpipe,mu,pipeflow,splw,hweir,tst,kb,qintns,qq, 
      & qfiltr,sloss,spndconc,sedpnd,qpndi,qpnde,sedrmeff,sed_removed,
-     & sedconc,qevap,hrd
+     & sedconc,qevap,hrd,qrchg
       real*8, dimension(:) :: qpnd(0:nstep),qsw(0:nstep),qin(0:nstep),
      & qout(0:nstep),fc(0:nstep),f(0:nstep)
-      real, dimension(3,0:nstep), intent(inout) :: flw, sed
+      real, dimension(4,0:nstep), intent(inout) :: flw, sed
       
       sb = inum1
       sub_ha = da_ha * sub_fr(sb)
       dt = real(idt) / 60. !time interval in hours 
       qin = 0.; qout = 0.;qevap=0
-      flw(2,:) = 0.; sed(2,:) = 0.;f=0
+      flw(2,:) = 0.; sed(2,:) = 0.;f=0; qrchg = 0
       qpnd = 0.; qsw = 0.; qpndi = 0.; qpnde = 0.; fc = 0.;qfiltr = 0.
       kb = 1.38e-16 !Boltzmann constant, g-cm^2/s^2-K
 
@@ -85,6 +85,10 @@
          qin(ii) = flw(1,ii) * 10. * (sub_ha - tsa / 10000.) + 
      &             precipdt(ii) * tsa / 1000.  !m^3
          qout(ii) = qout(ii-1)
+         if(qin(ii)>0.5) then
+          qin(ii)=qin(ii)
+         endif
+      
         
          If (qin(ii)<0.001.and.qpnd(ii-1)<0.001)then
            
@@ -246,6 +250,7 @@
         if (sf_ptp(sb,kk)==0) then
            bmp_recharge(sb) = bmp_recharge(sb) 
      &                         + qout(ii) / (sub_ha*10000.- tsa) *1000.
+           qrchg = qout(ii)
            qout(ii) = 0.         !effluent from the filter unit (through-flow+overflow), normalized to subbasin area
         end if 
         
@@ -253,6 +258,7 @@
         flw(1,ii) = qin(ii) / (sub_ha *10000. - tsa) * 1000.  !mm
         flw(2,ii) = qout(ii) / (sub_ha*10000.- tsa) *1000.  !mm
         flw(3,ii) = qloss / (sub_ha *10000. - tsa) * 1000.  !mm
+        flw(4,ii) = qrchg / (sub_ha *10000. - tsa) * 1000.  !mm
          
 !         write(*,'(2i3,20f7.3)') iida, ii, qin(ii),qout(ii),qpnd(ii), 
 !     &      qsw(ii),qloss

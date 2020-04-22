@@ -20,6 +20,7 @@
 !!                               |0 daily rainfall/curve number technique
 !!                               |1 sub-daily rainfall/Green&Ampt/hourly
 !!                               |  routing
+!!                               |3 sub-daily rainfall/Green&Ampt/hourly routing
 !!    igen        |none          |random number generator seed code
 !!    isproj      |none          |special project code:
 !!                               |1 test rewind (run simulation twice)
@@ -169,7 +170,7 @@
      &i14)
  1060 format (/t10,'Precipitation data used in run:')
  1061 format (t11,'Multiple gages read for watershed')
- 1062 format (t14,'Subdaily rainfall data used, summarized every ',i2,  
+ 1062 format (t14,'Subdaily rainfall data used, summarized every ',i3,  
      &       'min')
  1063 format (t14,'Daily rainfall data used')
  1064 format (t11,'Multiple gages simulated for watershed')

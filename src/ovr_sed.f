@@ -162,8 +162,16 @@
 
 	!! Overland flow erosion 
     !! cover and management factor used in usle equation (ysed.f)
-	  c = Exp((-.2231 - cvm(idplt(j))) *                                
-     &	  Exp(-.00115 * sol_cov(j)) + cvm(idplt(j)))
+        if (idplt(j) > 0) then     
+          c = Exp((-.2231 - cvm(idplt(j))) *                            
+     &	      Exp(-.00115 * sol_cov(j)) + cvm(idplt(j)))              
+        else
+          if (sol_cov(j) > 1.e-4) then
+            c = Exp(-.2231 * Exp(-.00115 * sol_cov(j)))               
+          else
+            c = .8
+          end if
+	  end if
 	!! specific weight of water at 5 centigrate =9807N/m3
 	  bed_shear = 9807 * (hhqday(k) / 1000.) * hru_slp(j) ! N/m2
 	  sedov = 11.02 * rill_mult * usle_k(j) * c_factor * c * 

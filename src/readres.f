@@ -220,7 +220,7 @@
         if (eof < 0) exit
         read (105,*,iostat=eof) ccoef(i)
         if (eof < 0) exit
-!! code added for C. Ikenberry to swith from new (0) to old (1) equations in resnut.f
+!! code added for C. Ikenberry to swicth from new (1) to old (0) equations in resnut.f
         read (105,*,iostat=eof) ires_nut
         if (eof < 0) exit
         exit

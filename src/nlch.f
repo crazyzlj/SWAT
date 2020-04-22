@@ -106,9 +106,11 @@
         if (jj == 1) then
           surqno3(j) = surfq(j) * cosurf
           surqno3(j) = Min(surqno3(j), sol_no3(jj,j))
+          !! bmp adjustment
+          surqno3(j) = surqno3(j) * bmp_sn(j)
           sol_no3(jj,j) = sol_no3(jj,j) - surqno3(j)
         endif
- !Daniel 1/2012    
+        !! Daniel 1/2012    
         !! calculate nitrate in tile flow 
         if (ldrain(j) == jj) then
           alph_e(j) = Exp(-1./(n_lag(j) + 1.e-6))
@@ -123,9 +125,11 @@
           co_p(j) = co_p(j) * (1. - alph_e(j)) + vno3_c * alph_e(j)
           tileno3(j) = co * qtile     !Daniel 1/2012
           tileno3(j) = Min(tileno3(j), sol_no3(jj,j))
+          !! bmp adjustment
+          tileno3(j) = tileno3(j) * bmp_snt(j)
           sol_no3(jj,j) = sol_no3(jj,j) - tileno3(j)          
         end if
- !Daniel 1/2012                  
+        !Daniel 1/2012                  
 
         !! calculate nitrate in lateral flow
         ssfnlyr = 0.
@@ -136,6 +140,8 @@
         end if
         ssfnlyr = Min(ssfnlyr, sol_no3(jj,j))
         latno3(j) = latno3(j) + ssfnlyr
+        !! bmp adjustment
+        latno3(j) = latno3(j) * bmp_sns(j)
         sol_no3(jj,j) = sol_no3(jj,j) - ssfnlyr
 
         !! calculate nitrate in percolate

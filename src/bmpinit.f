@@ -322,9 +322,9 @@
          if (ft_dep(i,k)<100) ft_dep(i,k) = 100.
          if (sf_ptp(i,k)>1) sf_ptp(i,k) = 1
    !      if (sf_typ(i,k)==1) sf_ptp(i,k) = 0 removed by Jaehak 2014
-         if (sp_pd(i,k)>254) sp_pd(i,k) = 254. ! max 10inches dia
+   !      if (sp_pd(i,k)>254) sp_pd(i,k) = 254. ! max 10inches dia
          if (sp_pd(i,k)<10) sp_pd(i,k) = 10. ! min 10mm dia
-         if (ft_pd(i,k)>254) ft_pd(i,k) = 254. ! max 10inches
+   !     if (ft_pd(i,k)>254) ft_pd(i,k) = 254. ! max 10inches
          if (ft_k(i,k)<1) ft_k(i,k) = 1.
          if (ft_dp(i,k)<0.0001) ft_dp(i,k) = 0.02
          if (ft_dc(i,k)<0.01) ft_dc(i,k) = 0.762

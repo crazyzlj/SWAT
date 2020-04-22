@@ -55,11 +55,9 @@
       
 !! initialize variables    
       mvaro = 33
-      mhruo = 78
+      mhruo = 79
       mrcho = 62
-!     msubo = 18
-!     changed for jennifer b
-      msubo = 22
+      msubo = 24
       mstdo = 113
       motot = 600             !! (50 years limit)
       
@@ -414,6 +412,7 @@
       allocate (sub_lat(msub))
       allocate (sub_latq(msub))
       allocate (sub_tileq(msub))
+      allocate (sub_vaptile(msub))
       allocate (sub_latno3(msub))
       allocate (sub_minp(msub))
       allocate (sub_minpa(msub))
@@ -1335,6 +1334,8 @@
       allocate (wtab_mx(mhru))
       allocate (wet_chla(mhru))
       allocate (wet_fr(mhru))
+      allocate (iwetgw(mhru))
+      allocate (iwetile(mhru))
       allocate (wet_k(mhru))
       allocate (wet_mxsa(mhru))
       allocate (wet_mxvol(mhru))
@@ -1415,9 +1416,9 @@
       allocate (hrupsty(mpst,4,mhru))
       allocate (icols(mhruo))
       allocate (ipdvas(mhruo))
-      allocate (hrumono(73,mhru))
-      allocate (hruyro(73,mhru))
-      allocate (hruaao(73,mhru))
+      allocate (hrumono(74,mhru))
+      allocate (hruyro(74,mhru))
+      allocate (hruaao(74,mhru))
       allocate (wtrmon(40,mhru))
       allocate (wtryr(40,mhru))
       allocate (wtraa(40,mhru))
@@ -1658,26 +1659,63 @@
 	allocate (psp_store(mlyr,mhru))
 	allocate (ssp_store(mlyr,mhru))
 	allocate (sol_cal(mlyr,mhru))
-      allocate (sol_ph(mlyr,mhru))
+        allocate (sol_ph(mlyr,mhru))
 	allocate (harv_min(mhru))
 	allocate (fstap(mfdb)) 
 	allocate (min_res(mhru))
 	allocate (so_res(20,mhru))
 	allocate (so_res_flag(20,mhru))
-	allocate (ro_bmp_flag (20,mhru))
-      allocate (ro_bmp_sed(20,mhru))
-      allocate (ro_bmp_pp(20,mhru))
+	allocate (ro_bmp_flag(20,mhru))
+        allocate (ro_bmp_flo(20,mhru))
+        allocate (ro_bmp_sed(20,mhru))
+        allocate (ro_bmp_pp(20,mhru))
 	allocate (ro_bmp_sp(20,mhru))
 	allocate (ro_bmp_pn(20,mhru))
 	allocate (ro_bmp_sn(20,mhru))
 	allocate (ro_bmp_bac(20,mhru))
+
+        allocate (ro_bmp_flos(20,mhru))
+        allocate (ro_bmp_seds(20,mhru))
+        allocate (ro_bmp_pps(20,mhru))
+	allocate (ro_bmp_sps(20,mhru))
+	allocate (ro_bmp_pns(20,mhru))
+	allocate (ro_bmp_sns(20,mhru))
+	allocate (ro_bmp_bacs(20,mhru))
+
+        allocate (ro_bmp_flot(20,mhru))
+        allocate (ro_bmp_sedt(20,mhru))
+        allocate (ro_bmp_ppt(20,mhru))
+	allocate (ro_bmp_spt(20,mhru))
+	allocate (ro_bmp_pnt(20,mhru))
+	allocate (ro_bmp_snt(20,mhru))
+	allocate (ro_bmp_bact(20,mhru))
+
 	allocate (bmp_flag(mhru))
+      
+      allocate (bmp_flo(mhru))
 	allocate (bmp_sed(mhru))
 	allocate (bmp_pp(mhru)) 	
 	allocate (bmp_sp(mhru))	
 	allocate (bmp_pn(mhru)) 	
 	allocate (bmp_sn(mhru))	
 	allocate (bmp_bac(mhru))
+      
+      allocate (bmp_flos(mhru))
+	allocate (bmp_seds(mhru))
+	allocate (bmp_pps(mhru)) 	
+	allocate (bmp_sps(mhru))	
+	allocate (bmp_pns(mhru)) 	
+	allocate (bmp_sns(mhru))	
+	allocate (bmp_bacs(mhru))
+      
+      allocate (bmp_flot(mhru))
+	allocate (bmp_sedt(mhru))
+	allocate (bmp_ppt(mhru)) 	
+	allocate (bmp_spt(mhru))	
+	allocate (bmp_pnt(mhru)) 	
+	allocate (bmp_snt(mhru))	
+	allocate (bmp_bact(mhru))
+      
       !retention irrigation
       allocate(ri_sed(msub,10),ri_fr(msub,10),ri_dim(msub,10),
      &   ri_im(msub,10),ri_iy(msub,10),ri_sa(msub,10),ri_vol(msub,10), 
@@ -1698,8 +1736,55 @@
      &  wtp_sdc2(mhyd),wtp_sdc3(mhyd),wtp_pdia(mhyd),wtp_plen(mhyd),
      &  wtp_pmann(mhyd),wtp_ploss(mhyd),wtp_k(mhyd),
      &  wtp_dp(mhyd),wtp_sedi(mhyd),wtp_sede(mhyd),wtp_qi(mhyd))
-                 
 
+!!    LID simulations
+!!    Common variable
+!!    van Genuchten equation's coefficients
+      allocate(lid_vgcl,lid_vgcm,lid_qsurf_total,
+     & lid_farea_sum)
+      allocate(lid_cuminf_last(mhru,4),lid_sw_last(mhru,4),
+     & interval_last(mhru,4),lid_f_last(mhru,4),lid_cumr_last(mhru,4),
+     & lid_str_last(mhru,4),lid_farea(mhru,4),lid_qsurf(mhru,4),
+     & lid_sw_add(mhru,4),lid_cumqperc_last(mhru,4),
+     & lid_cumirr_last(mhru,4),lid_excum_last(mhru,4))    !!  nbs
+
+!!    Green Roof
+      allocate(gr_onoff(msub,mudb),gr_imo(msub,mudb),gr_iyr(msub,mudb),
+     & gr_farea(msub,mudb),gr_solop(msub,mudb),gr_etcoef(msub,mudb),
+     & gr_fc(msub,mudb),gr_wp(msub,mudb),gr_ksat(msub,mudb),
+     & gr_por(msub,mudb),gr_hydeff(msub,mudb),gr_soldpt(msub,mudb),
+     & gr_dummy1(msub,mudb),gr_dummy2(msub,mudb),gr_dummy3(msub,mudb),
+     & gr_dummy4(msub,mudb),gr_dummy5(msub,mudb))
+
+!!    Rain Garden
+      allocate(rg_onoff(msub,mudb),rg_imo(msub,mudb),rg_iyr(msub,mudb),
+     & rg_farea(msub,mudb),rg_solop(msub,mudb),rg_etcoef(msub,mudb),
+     & rg_fc(msub,mudb),rg_wp(msub,mudb),rg_ksat(msub,mudb),
+     & rg_por(msub,mudb),rg_hydeff(msub,mudb),rg_soldpt(msub,mudb),
+     & rg_dimop(msub,mudb),rg_sarea(msub,mudb),rg_vol(msub,mudb),
+     & rg_sth(msub,mudb),rg_sdia(msub,mudb),rg_bdia(msub,mudb),
+     & rg_sts(msub,mudb),rg_orifice(msub,mudb),rg_oheight(msub,mudb),
+     & rg_odia(msub,mudb),rg_dummy1(msub,mudb),rg_dummy2(msub,mudb),
+     & rg_dummy3(msub,mudb),rg_dummy4(msub,mudb),rg_dummy5(msub,mudb))
+      
+!!    CiStern
+      allocate(cs_onoff(msub,mudb),cs_imo(msub,mudb),cs_iyr(msub,mudb),
+     & cs_grcon(msub,mudb),cs_farea(msub,mudb),cs_vol(msub,mudb),
+     & cs_rdepth(msub,mudb),cs_dummy1(msub,mudb),cs_dummy2(msub,mudb),
+     & cs_dummy3(msub,mudb),cs_dummy4(msub,mudb),cs_dummy5(msub,mudb))
+
+!!    Poropus paVement
+      allocate(pv_onoff(msub,mudb),pv_imo(msub,mudb),pv_iyr(msub,mudb),
+     & pv_grvdep(msub,mudb),pv_grvpor(msub,mudb),pv_farea(msub,mudb),
+     & pv_solop(msub,mudb),pv_drcoef(msub,mudb),pv_fc(msub,mudb),
+     & pv_wp(msub,mudb),pv_ksat(msub,mudb),pv_por(msub,mudb),
+     & pv_hydeff(msub,mudb),pv_soldpt(msub,mudb),pv_dummy1(msub,mudb),
+     & pv_dummy2(msub,mudb),pv_dummy3(msub,mudb),pv_dummy4(msub,mudb),
+     & pv_dummy5(msub,mudb))
+      
+!!    LID general
+      allocate(lid_onoff(msub,mudb))
+      
       !! By Zhang for C/N cycling
       !! ============================
 	!allocate(sol_PH(mlyr,mhru))

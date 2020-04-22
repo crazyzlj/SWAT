@@ -60,9 +60,9 @@
             nh3pcp = .01 * rammo_mo(mo_atmo,hru_sub(j)) * precipday
             no3pcp = .01 * rcn_mo(mo_atmo,hru_sub(j)) * precipday
             sol_nh3(1,j) = sol_nh3(1,j) + nh3pcp + 
-     &             drydep_nh4_mo(mo_atmo,hru_sub(j)) / ndays(i_mo)   !!!!!nbs/mjw 051515
+     &             drydep_nh4_mo(mo_atmo,hru_sub(j)) / ndays(i_mo+1)   !!!!!nbs/mjw 051515
             sol_no3(1,j) = sol_no3(1,j) + no3pcp + 
-     &             drydep_no3_mo(mo_atmo,hru_sub(j)) / ndays(i_mo)   !!!!!nbs/mjw 050515
+     &             drydep_no3_mo(mo_atmo,hru_sub(j)) / ndays(i_mo+1)   !!!!!nbs/mjw 050515
    
         case (2)  !! daily
            nh3pcp = .01 * rammo_d(hru_sub(j)) * precipday

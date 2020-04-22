@@ -13,6 +13,7 @@
 !!                               |0 daily rainfall/curve number technique
 !!                               |1 sub-daily rainfall/Green&Ampt/hourly
 !!                               |  routing
+!!                               |3 sub-daily rainfall/Green&Ampt/hourly routing
 !!    inum1       |none          |reach number
 !!    ifirstr(:)  |none          |measured data search code
 !!                               |0 first day of measured data located in file

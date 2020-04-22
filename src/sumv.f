@@ -521,6 +521,7 @@
         hrumono(69,j) = hrumono(69,j) + latno3(j)
         hrumono(70,j) = hrumono(70,j) + gw_qdeep(j)
         hrumono(71,j) = hrumono(71,j) + latq(j) - lpndloss - lwetloss
+        hrumono(72,j) = hrumono(72,j) + vap_tile
 
         wtrmon(1,j) = wtrmon(1,j) + pndev / cnv
         wtrmon(2,j) = wtrmon(2,j) + pndsep / cnv

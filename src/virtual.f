@@ -32,10 +32,11 @@
 !!    hru_fr(:)     |none          |fraction of watershed area in HRU
 !!    hru_fr(:)     |none          |fraction of subbasin area in HRU
 !!    hru_ha(:)     |ha            |area of HRU in hectares
-!!    ievent        |none          |rainfall/runoff code
-!!                                 |0 daily rainfall/curve number technique
-!!                                 |1 sub-daily rainfall/Green&Ampt/hourly
-!!                                 |  routing
+!!    ievent      |none          |rainfall/runoff code
+!!                               |0 daily rainfall/curve number technique
+!!                               |1 sub-daily rainfall/Green&Ampt/hourly
+!!                               |  routing
+!!                               |3 sub-daily rainfall/Green&Ampt/hourly routing
 !!    ihout         |none          |hydrograph storage location number for 
 !!                                 |subbasin
 !!    ihru          |none          |HRU number
@@ -339,7 +340,10 @@
         sub_no3(sb) = sub_no3(sb) + surqno3(j) * hru_fr(j)
         sub_latno3(sb) = sub_latno3(sb) + latno3(j) * hru_fr(j)
         sub_tileno3(sb) = sub_tileno3(sb) + tileno3(j) * hru_fr(j)
-        sub_gwno3(sb) = sub_gwno3(sb) + no3gw(j) * hru_fr(j)
+ !       sub_tileq(sb) = sub_tileq(sb) + tileq(j) * hru_fr(j)      !! jane f
+        sub_tileq(sb) = sub_tileq(sb) + qtile * hru_fr(j)          !! jane f
+        sub_vaptile(sb) = sub_vaptile(sb) + vap_tile * hru_fr(j)   !! jane f
+        sub_gwno3(sb) = sub_gwno3(sb) + no3gw(j) * hru_fr(j) 
         sub_solp(sb) = sub_solp(sb) + surqsolp(j) * hru_fr(j)
         sub_gwsolp(sb) = sub_gwsolp(sb) + minpgw(j) * hru_fr(j)
         sub_yorgn(sb) = sub_yorgn(sb) + sedorgn(j) * hru_fr(j)
@@ -544,7 +548,7 @@
          varoute(16,ihout) = sub_cbod(sb)                !!cbodu
          varoute(17,ihout) = sub_dox(sb)                 !!doxq & soxy
          if (varoute(2,ihout) > .1) then
-          varoute(18,ihout) = sub_bactp(sb) * sub_ha / varoute(2,ihout)
+          varoute(18,ihout) = sub_bactp(sb) * sub_ha / varoute(2,ihout) !cfu/100ml
           varoute(19,ihout) = sub_bactlp(sb) * sub_ha / varoute(2,ihout)
          end if
          varoute(20,ihout) = 0.                            !! cmetal #1
@@ -623,8 +627,8 @@
               hhvaroute(15,ihout,ii) = 0.                          !! NO2
               hhvaroute(16,ihout,ii) = varoute(16,ihout) * ratio   !!cbodu
               hhvaroute(17,ihout,ii) = varoute(17,ihout) * ratio   !!doxq & soxy
-              hhvaroute(18,ihout,ii) = varoute(18,ihout) * ratio   !!bactp
-              hhvaroute(19,ihout,ii) = varoute(19,ihout) * ratio   !!bactlp
+              hhvaroute(18,ihout,ii) = varoute(18,ihout)    !!bactp
+              hhvaroute(19,ihout,ii) = varoute(19,ihout)    !!bactlp
               hhvaroute(20,ihout,ii) = 0.                          !!cmetal#1
               hhvaroute(21,ihout,ii) = 0.                          !!cmetal#2
               hhvaroute(22,ihout,ii) = 0.                          !!cmetal#3
@@ -650,9 +654,10 @@
          submono(14,sb) = submono(14,sb) + sub_sedpa(sb) + sub_sedps(sb)
          submono(15,sb) = submono(15,sb) + sub_latq(sb)
          submono(16,sb) = submono(16,sb) + sub_latno3(sb)
-!! added by nbs -- clear with JGA
-         submono(17,sb) = submono(17,sb) + sub_gwno3(sb)
-         submono(18,sb) = submono(18,sb) + sub_tileno3(sb)
+         submono(17,sb) = submono(17,sb) + sub_gwno3(sb) 
+         submono(18,sb) = submono(18,sb) + sub_tileq(sb)    !! jane f. 
+         submono(19,sb) = submono(19,sb) + sub_tileno3(sb)
+         submono(20,sb) = submono(20,sb) + sub_vaptile(sb)  !! jane f.
 
           if (iprint == 1) call subday
         end if

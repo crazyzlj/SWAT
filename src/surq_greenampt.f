@@ -72,8 +72,9 @@
 
       use parm
 
-      integer :: j, k, kk,sb
+      integer :: j, k, kk, sb, ii
       real :: adj_hc, dthet, soilw, psidt, tst, f1
+      real :: lid_prec, lid_cumr, urban_prec
       real, dimension (nstep+1) :: cumr, cuminf, excum, exinc, rateinf
       real, dimension (nstep+1) :: rintns
         !! array location #1 is for last time step of prev day
@@ -162,17 +163,50 @@
 
 	   !! Urban Impervious cover 
 	   if (iurban(j)>0) then
-	      !runoff from pervious area
-	      hhqday(k-1) = hhqday(k-1) * (1.- fcimp(urblu(j))) 
-           
-           !runoff from impervious area with initial abstraction
-            ubnrunoff(k-1) = (precipdt(k) - abstinit) * 
-     &                       fcimp(urblu(j))
-            if ( ubnrunoff(k-1)<0)  ubnrunoff(k-1) = 0.
+	     !runoff from pervious area
+	     hhqday(k-1) = hhqday(k-1) * (1.- fcimp(urblu(j))) 
+
+
+           ! runoff from a LID and its upstream drainage areas (green roof, rain garden, cistern, and porous pavement)
+           if (lid_onoff(sb,urblu(j))==1) then
+             lid_prec = real(precipdt(k) - abstinit)
+             if (lid_prec < 0.) lid_prec = 0.
+             call lids(sb,j,k,lid_prec)
+             lid_qsurf_total = 0.
+             lid_farea_sum = 0.
+             do ii = 1, 4
+               if (lid_farea(j,ii) > 0) then
+                 lid_qsurf_total = lid_qsurf_total + fcimp(urblu(j)) * 
+     &           lid_farea(j,ii) * lid_qsurf(j,ii)
+                 if (ii==1) then
+                   if (cs_grcon(sb,urblu(j))==0) then
+                     lid_farea_sum = lid_farea_sum + lid_farea(j,ii)
+                   end if
+                 else
+                   lid_farea_sum = lid_farea_sum + lid_farea(j,ii)
+                 end if
+               end if
+             end do
+!             if (lid_farea_sum > 1.0) ! error massage
+!             ubnrunoff(k-1) = (precipdt(k) - abstinit) * fcimp(urblu(j))
+
+
+             ubnrunoff(k-1) = lid_prec * fcimp(urblu(j))
+     &       * (1 - lid_farea_sum) + lid_qsurf_total
+           else
+             urban_prec = precipdt(k) - abstinit
+             if (urban_prec < 0.) urban_prec = 0.
+!             ubnrunoff(k-1) = (precipdt(k) - abstinit) * fcimp(urblu(j))
+             ubnrunoff(k-1) = urban_prec * fcimp(urblu(j))
+           end if
+         else
+           ubnrunoff(k-1) = 0.
          end if
 
+         if (ubnrunoff(k-1)<0)  ubnrunoff(k-1) = 0.
+         
 	   !! daily total runoff
-	   surfq(j) = surfq(j) + hhqday(k-1) + ubnrunoff(k-1) 
+	   surfq(j) = surfq(j) + hhqday(k-1) + ubnrunoff(k-1)
 
          !! calculate new rate of infiltration
          rateinf(k) = adj_hc * (psidt / (cuminf(k) + 1.e-6) + 1.)

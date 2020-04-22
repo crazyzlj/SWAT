@@ -317,19 +317,60 @@
 	  
 	!! MJW
 	sol_P_model = 0
-	ro_bmp_flag = 0
-      ro_bmp_sed = 0.
-      ro_bmp_pp = 0.
-	ro_bmp_sp = 0.
-	ro_bmp_pn = 0.
-	ro_bmp_sn = 0.
-	ro_bmp_bac = 0.
-      bmp_sed = 0.	
-	bmp_pp = 0.	
-	bmp_sp = 0.
-	bmp_pn = 0.	
-	bmp_sn = 0.
-	bmp_bac = 0.
+      
+      bmp_flag = 0
+      !! surface
+      bmp_flo = 1.      !! Surface Flow
+      bmp_sed = 1.      !! Sediment
+      bmp_pp = 1.       !! Particulate P
+      bmp_sp = 1.       !! Soluble P
+      bmp_pn =  1.      !! Particulate N
+      bmp_sn = 1.       !! Soluble N
+      bmp_bac = 1.      !! Bacteria
+      !! subsurface
+      bmp_flos = 1.      !! Subsurface Flow
+      bmp_seds = 1.      !! Sediment
+      bmp_pps = 1.       !! Particulate P
+      bmp_sps = 1.       !! Soluble P
+      bmp_pns =  1.      !! Particulate N
+      bmp_sns = 1.       !! Soluble N
+      bmp_bacs = 1.      !! Bacteria
+      !! tile
+      bmp_flot = 1.      !! Tile Flow
+      bmp_sedt = 1.      !! Sediment
+      bmp_ppt = 1.       !! Particulate P
+      bmp_spt = 1.       !! Soluble P
+      bmp_pnt =  1.      !! Particulate N
+      bmp_snt = 1.       !! Soluble N
+      bmp_bact = 1.      !! Bacteria
+
+      ro_bmp_flag = 0    !! Flag to turn on or off user BMP
+ 
+      !! surface runoff removal efficiency
+      ro_bmp_flo = 0.    !! Flow
+      ro_bmp_sed = 0.    !! Sediment
+      ro_bmp_pp = 0.     !! Particulate P
+      ro_bmp_sp = 0.     !! Soluble P
+      ro_bmp_pn = 0.     !! Particulate N
+      ro_bmp_sn = 0.     !! Soluble N
+      ro_bmp_bac = 0.    !! Bacteria
+      !! subsurface - lateral soil and groundwater         
+      ro_bmp_flos = 0.   !! Flow
+      ro_bmp_seds = 0.   !! Sediment
+      ro_bmp_pps = 0.    !! Particulate P
+      ro_bmp_sps = 0.    !! Soluble P
+      ro_bmp_pns = 0.    !! Particulate N
+      ro_bmp_sns = 0.    !! Soluble N
+      ro_bmp_bacs = 0.   !! Bacteria
+      !! tile flow removal efficiency   
+      ro_bmp_flot = 0.   !! Flow
+      ro_bmp_sedt = 0.   !! Sediment
+      ro_bmp_ppt = 0.    !! Particulate P
+      ro_bmp_spt = 0.    !! Soluble P
+      ro_bmp_pnt = 0.    !! Particulate N
+      ro_bmp_snt = 0.    !! Soluble N
+      ro_bmp_bact = 0.   !! Bacteria
+
 	ssp_store = 0.
 	psp_store = 0.
 	a_days = 0

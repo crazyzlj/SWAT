@@ -4,6 +4,7 @@
 !!    this subroutine zeros values for single array variables
 
       use parm
+      lid_file = ""
       dpd_file = ""
       wpd_file = ""
       rib_file = ""

@@ -36,10 +36,10 @@
       
       integer :: kk,sb,ii
       real :: sub_ha,bmpfr
-      real, dimension(3,0:nstep) :: sf_totalflw,sf_totaltss,ri_totalflw
-      real, dimension(3,0:nstep) :: ri_totaltss
-      real, dimension(3,0:nstep) :: sfflw,sfsed,riflw,rised !dimensions: 1=inflow/outflow, 2=pond id, 3=time step
-      real, dimension(3,0:nstep) :: spqm3,spsed,ftqm3,ftsed,riqm3
+      real, dimension(4,0:nstep) :: sf_totalflw,sf_totaltss,ri_totalflw
+      real, dimension(4,0:nstep) :: ri_totaltss
+      real, dimension(4,0:nstep) :: sfflw,sfsed,riflw,rised !dimensions: 1=inflow/outflow, 2=pond id, 3=time step
+      real, dimension(4,0:nstep) :: spqm3,spsed,ftqm3,ftsed,riqm3
       sb = inum1
       sub_ha = da_ha * sub_fr(sb)
       sf_totalflw = 0.; sf_totaltss = 0.
@@ -130,12 +130,11 @@
            endif
 
            !print out bmp result in bmp-sedfil.out 
-           do ii=1,nstep
-      write(77778,'(5i6,30f12.3)') iyr,iida,ii,sb,kk,spqm3(1,ii),
-     & spqm3(2,ii),spqm3(3,ii),spsed(1,ii)*1000.,spsed(2,ii)*1000.,
-     & spsed(3,ii)*1000.,ftqm3(1,ii),ftqm3(2,ii),ftqm3(3,ii),
-     & ftsed(1,ii)*1000.,ftsed(2,ii)*1000.,ftsed(3,ii)*1000.
-           end do
+      write(77778,'(5i6,30f12.3)') iyr,iida,ii,sb,kk,sum(spqm3(1,:)),
+     & sum(spqm3(2,:)),sum(spqm3(3,:)),sum(spqm3(4,:)),
+     & sum(spsed(1,:))*1000.,sum(spsed(2,:))*1000.,sum(spsed(3,:))*1000.
+     & ,sum(ftqm3(1,:)),sum(ftqm3(2,:)),sum(ftqm3(3,:)),sum(ftqm3(4,:)),
+     & sum(ftsed(1,:))*1000.,sum(ftsed(2,:))*1000.,sum(ftsed(3,:))*1000. 
             
          end do
       endif
@@ -178,11 +177,9 @@
                ri_totalflw(2,ii) = ri_totalflw(2,ii) + riflw(2,ii)
                ri_totaltss(2,ii) = ri_totaltss(2,ii) + rised(2,ii)
             end do
-            do ii=1,nstep
-      write(77779,'(5i6,30f12.3)') iyr,iida,ii,sb,kk,riqm3(1,ii),
-     & riqm3(2,ii),riqm3(3,ii),rised(1,ii)*1000.,rised(2,ii)*1000.,
-     & rised(3,ii)*1000.
-            end do
+      write(77779,'(5i6,30f12.3)') iyr,iida,ii,sb,kk,sum(riqm3(1,:)),
+     & sum(riqm3(2,:)),sum(riqm3(3,:)),sum(riqm3(4,:)),
+     & sum(rised(1,:))*1000.,sum(rised(2,:))*1000.,sum(rised(3,:))*1000.
 
          end do
          

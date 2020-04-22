@@ -14,10 +14,11 @@
 !!    hru_dafr(:)   |km2/km2       |fraction of total watershed area contained
 !!                                 |in HRU
 !!    i             |none          |HRU number
-!!    ievent        |none          |rainfall/runoff code
-!!                                 |0 daily rainfall/curve number technique
-!!                                 |1 sub-daily rainfall/Green&Ampt/hourly
-!!                                 |  routing
+!!    ievent      |none          |rainfall/runoff code
+!!                               |0 daily rainfall/curve number technique
+!!                               |1 sub-daily rainfall/Green&Ampt/hourly
+!!                               |  routing
+!!                               |3 sub-daily rainfall/Green&Ampt/hourly routing
 !!    rock(:)       |%             |percent of rock fragments in soil layer
 !!    sol_silt(:,:) |%             |percent silt content in soil material
 !!    sol_awc(:,:)  |mm H20/mm soil|available water capacity of soil layer

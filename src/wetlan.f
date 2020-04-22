@@ -147,6 +147,7 @@
 
       j = 0
       j = ihru
+      
 
       if (wet_fr(j) > 0.) then
         cnv = 0.
@@ -182,7 +183,19 @@
         wetpcp = subp(j) * wetsa * 10.
 
         !! calculate water flowing into wetland from HRU
+        fr_cur = wet_fr(j) * ((hru_ha(j) - wetsa) / hru_ha(j))
+        fr_cur = Max(0.,fr_cur)
         wetflwi = qday + latq(j)
+        
+        if (iwetile(j) == 1) then
+          wetflwi = wetflwi + qtile
+          qtile = qtile * (1. - fr_cur)
+        end if
+        if (iwetgw(j) == 1) then
+          wetflwi = wetflwi + gw_q(j)
+          gw_q(j) = gw_q(j) * (1. - fr_cur)
+        end if
+        
         wetflwi = wetflwi * 10. * (hru_ha(j) * wet_fr(j) - wetsa)
         qdayi = qday
         latqi = latq(j)

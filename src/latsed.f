@@ -38,7 +38,6 @@
       !! update sediment yield for sediment in lateral flow
       sedyld(j) = sedyld(j) +                                           
      &                      (latq(j) + gw_q(j)) * hru_km(j) * lat_sed(j)
-
       sanyld(j) = sanyld(j) +                                           
      &         (latq(j) + gw_q(j)) * hru_km(j) * lat_sed(j) * det_san(j)
       silyld(j) = silyld(j) +                                           
@@ -56,6 +55,11 @@
      &                      (latq(j) + gw_q(j)) * lat_orgn(j) / 100.
       sedorgp(j) = sedorgp(j) +                                       
      &                      (latq(j) + gw_q(j)) * lat_orgp(j) / 100.
+      
+      !! bmp adjustments
+      sedyld(j) = sedyld(j) * bmp_seds(j)
+      sedorgp(j) = sedorgp(j) * bmp_pps(j)
+      sedorgn(j) = sedorgn(j) * bmp_pns(j)
 
       if (sedyld(j) < 0.) sedyld(j) = 0.
       if (sanyld(j) < 0.) sanyld(j) = 0.0

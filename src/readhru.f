@@ -99,7 +99,6 @@
 !!    eof         |none          |end of file flag (=-1 if eof, else =0)
 !!    epcohru     |none          |plant water uptake compensation factor (0-1)
 !!    escohru     |none          |soil evaporation compensation factor (0-1)
-!!    r2adjhru    |none          |retention parameter adjustment factor (=>1) !D.Moriasi 4/8/2014
 !!    sin_sl      |none          |Sin(slope angle)
 !!    titldum     |NA            |title line of .sub file (not used)
 !!    xm          |none          |exponential in equation to calculate
@@ -117,12 +116,12 @@
       character (len=80) :: titldum
       integer :: eof
       real :: xm, sin_sl, epcohru, escohru
-      real :: r2adjhru !D. Moriasi 4/4/2014    
+
+      
 
       eof = 0
       escohru = 0.
       epcohru = 0.
-      r2adjhru = 0.    !D. Moriasi 4/4/2014 
       
       do
       read (108,5100) titldum
@@ -233,8 +232,15 @@
         read (108,*,iostat=eof) psp(ihru)
         if (eof < 0) exit 
         read (108,*,iostat=eof) sdnco(ihru)
+        if (eof < 0) exit
+        read (108,*,iostat=eof) iwetile(ihru)
+        if (eof < 0) exit
+        read (108,*,iostat=eof) iwetgw(ihru)
 	exit
       end do
+      
+      if (iwetile(ihru) <= 0) iwetile(ihru) = 0
+      if (iwetgw(ihru) <= 0) iwetgw(ihru) = 0
 
       if (n_reduc(ihru) <= 0.) n_reduc(ihru) = 300.
       if (n_lag(ihru) <= 0.) n_lag(ihru) = 0.25
@@ -256,6 +262,7 @@
       if (sdnco(ihru) <= 0.) sdnco(ihru) = sdnco_bsn
 !New and modified parameters D. Moriasi 4/8/2014
       if (r2adj(ihru) <= 0.) r2adj(ihru) = r2adj_bsn
+      if (r2adj(ihru) > 0.95) r2adj(ihru) = 0.95
 !! comment the following line for the hru_fraction data !!
       if (hru_fr(ihru) <= 0.) hru_fr(ihru) = .0000001
       if (slsubbsn(ihru) <= 0.) slsubbsn(ihru) = 50.0

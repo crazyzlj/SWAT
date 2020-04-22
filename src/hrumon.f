@@ -279,6 +279,8 @@
         pdvas(77) = hrumono(70,j)
 !!    lat q continuous
         pdvas(78) = hrumono(71,j)
+!!      phos due to crack flow (tvap)
+        pdvas(79) = hrumono(72,j)
 
       if (itots > 0) then 
 	   ix = itots
@@ -332,9 +334,9 @@
 
       return
  1000 format (a4,i5,1x,a5,a4,i5,1x,i4,1x,i4,e10.5,66f10.3,1x,
-     *e10.5,1x,e10.5,8e10.3,2f10.3)
+     *e10.5,1x,e10.5,8e10.3,3f10.3)
  2000 format (a4,i5,1x,a5,a4,i5,1x,i4,1x,i4,e10.5,66f10.3,1x,
-     *e10.5,1x,e10.5,5e10.3,5f10.3,1x,i4)
+     *e10.5,1x,e10.5,5e10.3,6f10.3,1x,i4)
  1001 format (a4,i7,1x,a5,a4,i5,1x,i4,1x,i4,e10.5,66f10.3,1x,
-     *e10.5,1x,e10.5,3e10.3,2f10.3,1x,i4)
+     *e10.5,1x,e10.5,3e10.3,3f10.3,1x,i4)
       end

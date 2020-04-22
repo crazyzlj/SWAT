@@ -95,7 +95,7 @@
       else
         if (icalen == 0) write (31,1030) (hedb(j), j = 1, msubo)         !!default printout
         if (icalen == 1) write (31,1031) (hedb(j), j = 1, msubo)         !!month/day/yr print
-1031  format (//6x,' SUB      GIS  MO DA  YR   AREAkm2',22(a10))
+1031  format (//6x,' SUB      GIS  MO DA  YR   AREAkm2',24(a10))
       endif
 
 !! write headings to reach output file (output.rch)
@@ -168,32 +168,31 @@
 !! Jaehak subdaily bmp output header
 !bmp-sedfil.out
       write(77778,'(a21)') 'SED-FIL Basins output'                      
-      write(77778,'(a170)') '------------------------------   ----------
-     &------------ Sedimentation Pond --------------------------   -----
-     &----------------------- Sand Filter ------------------------------
-     &' 
-      write(77778,'(5a6,30a12)') 'year', 'day','time','sub','SFnum',
-     & 'inflw(m3)','outflw(m3)','bypass(m3)','sedin(kg)','sedout(kg)',
-     & 'sbypass(kg)','inflw(m3)','outflw(m3)','bypass(m3)','sedin(kg)',
-     & 'sedout(kg)','sbypass(kg)'
+      write(77778,'(a200)') '------------------------------   ----------
+     &---------------- Sedimentation Pond ------------------------------
+     &-----   ----------------------------------- Sand Filter ----------
+     &-----------------------' 
+      write(77778,'(5a6,30a12)') 'year', 'day','sub','SFnum',
+     & 'inflw(m3)','outflw(m3)','bypass(m3)','recharg(m3)','sedin(kg)',
+     & 'sedout(kg)','sbypass(kg)','inflw(m3)','outflw(m3)','bypass(m3)',
+     & 'recharg(m3)','sedin(kg)','sedout(kg)','sbypass(kg)'
 
 !bmp-ri.out
       write(77779,'(a21)') 'Retention-Irrigation output'                
-      write(77779,'(5a6,30a12)') 'year', 'day','time','sub','RInum',
-     & 'inflw(m3)','qbypass(m3)','pmpflw(m3)','sedin(kg)','sbypass(kg)',
-     & 'pmpsed(kg)'
+      write(77779,'(5a6,30a12)') 'year', 'day','sub','RInum',
+     & 'inflw(m3)','qbypass(m3)','pmpflw(m3)','pmpflw(m3)','sedin(kg)',
+     & 'sbypass(kg)','pmpsed(kg)'
 
       return
  1000 format ('1',/t5,a80,t105,2(i2,'/'),i4,5x,2(i2,':'),i2)
  1010 format (/(t5,20a4))
  1020 format (//'LULC  HRU       GIS  SUB  MGT  MON','   AREAkm2',      
-     & 78(a10))
- !    * 76(a10),"    GISnum")
+     & 79(a10))
  1021  format (//'LULC  HRU       GIS  SUB  MGT MO DA   YR',            
-     &'   AREAkm2', 78(a10))	   
- 1030 format (//6x,' SUB      GIS  MON   AREAkm2',22(a10))
+     &'   AREAkm2', 79(a10))	   
+ 1030 format (//6x,' SUB      GIS  MON   AREAkm2',24(a10))
  1040 format (//7x,'RCH      GIS   MON     AREAkm2',56a12)
- 1041 format (//7x,'RCH      GIS   DAY   DET     AREAkm2',45a12)    
+ 1041 format (//7x,'RCH      GIS   DAY   DET     AREAkm2',56a12)    
  1050 format (//6x,'     RES  MON',41a12)
  1060 format (//6x,'RCH GIS  MON',26a12)
  2000 format (a12,12x,i4,4x,i4)

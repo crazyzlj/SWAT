@@ -217,7 +217,11 @@
         if (fminn(ifrt) > 0.0001) then
           dwfert = targn / fminn(ifrt)
         else
-          dwfert = 0.
+!! Naresh (npai@stone-env.com) commented this line on 4/12/2016 
+!! for cases where fmin(ifrt) = 0 (e.g. for elemental P fertilizer)
+!! setting this to targn, further edits made around line 317
+!!          dwfert = 0.
+          dwfert = targn
         endif
  
         !! add bacteria to surface layer
@@ -313,10 +317,23 @@
 
           !! check for P stress
           tfp = 0.
-          if (strsp(j) <= 0.75) then
-            tfp = fminn(ifrt) / 7.
+!!       Naresh (npai@stone-env.com) edited on 4/12/2016 
+!!       to handle fertilizers which have fminn(ifrt) = 0 (e.g. elemental P)
+!!        if (strsp(j) <= 0.75) then
+!!           tfp = fminn(ifrt) / 7.
+!!        else
+!!           tfp = fminp(ifrt)
+!!        end if
+
+          if (strsp(j) <= 0.75 .and. fminn(ifrt) > 0.0001) then
+            tfp = fminn(ifrt) / 7. !! all other fertilizers
+            autop = autop + dwfert *(tfp + forgp(ifrt))
+          else if (strsp(j) <= 0.75 .and. fminn(ifrt) == 0) then
+            tfp = 1/7. !! elemental P cases
+            autop = autop + dwfert *(tfp + forgp(ifrt))
           else
-            tfp = fminp(ifrt)
+            tfp = 0 !! no P stress, plant doesn't need any P
+            autop=0
           end if
           sol_solp(ly,j) = sol_solp(ly,j) + xx * dwfert * tfp
         end do
@@ -324,7 +341,9 @@
 
 !! summary calculations
           auton = auton + dwfert * (fminn(ifrt) + forgn(ifrt))
-          autop = autop + dwfert * (tfp + forgp(ifrt))
+!! Naresh (npai@stone-env.com) commented this code on 4/12/2016 
+!! and moved it above to handle elemental P auto-fertilization
+!!        autop = autop + dwfert *(tfp + forgp(ifrt))
           tauton(j) = tauton(j) + auton
           tautop(j) = tautop(j) + autop
         if (curyr > nyskip) then

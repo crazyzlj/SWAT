@@ -274,6 +274,14 @@
 	      call caps(sdrfile)
 	      open (112,file=sdrfile)
 	      call readsdr
+          else
+            if (re(ihru) <= 0.) re(ihru) = re_bsn
+            if (sdrain(ihru) <= 0.) sdrain(ihru) = sdrain_bsn
+            if (drain_co(ihru) <= 0.) drain_co(ihru) = drain_co_bsn
+            if (pc(ihru) <= 0.) pc(ihru) = pc_bsn
+            if (latksatf(ihru) <= 0.) latksatf(ihru) = latksatf_bsn	
+            if (sstmaxd(ihru) <= 0.) sstmaxd(ihru) = sstmaxd_bsn
+ !           sdrain(ihru) = 0.      !!!! nbs 11/25/15
 	    end if
           
           open (106,file=chmfile)
@@ -368,24 +376,19 @@
           hru_rufr(ils,ihru) = hru_fr(ihru) * sub_km(i) / daru_km(i,ils)
           end do
         end if
-      
-!!  routing changes gsm per jga 5/3/2010
-!!      irunits = 0
-!!      read (101,*,iostat=eof) titldum
-!!      read (101,*,iostat=eof) irunits
-!!     if (irunits = = 1) then
-!!        call readfig_sub
-!!      endif
-      
+
+!! commented the following statements and moved above in the 'else'
+!! where it reads the sdrfile.  Jeff should check. 
 !!    set default values
-      do ihru = jj, hrutot(i)
-        if (re(ihru) <= 0.) re(ihru) = re_bsn
-	  if (sdrain(ihru) <= 0.) sdrain(ihru) = sdrain_bsn
-	  if (drain_co(ihru) <= 0.) drain_co(ihru) = drain_co_bsn
-	  if (pc(ihru) <= 0.) pc(ihru) = pc_bsn
-        if (latksatf(ihru) <= 0.) latksatf(ihru) = latksatf_bsn	
-	  if (sstmaxd(ihru) <= 0.) sstmaxd(ihru) = sstmaxd_bsn
-      end do
+!      do ihru = jj, hrutot(i)
+!        if (re(ihru) <= 0.) re(ihru) = re_bsn
+!	  if (sdrain(ihru) <= 0.) sdrain(ihru) = sdrain_bsn
+!	  if (drain_co(ihru) <= 0.) drain_co(ihru) = drain_co_bsn
+!	  if (pc(ihru) <= 0.) pc(ihru) = pc_bsn
+!        if (latksatf(ihru) <= 0.) latksatf(ihru) = latksatf_bsn	
+!	  if (sstmaxd(ihru) <= 0.) sstmaxd(ihru) = sstmaxd_bsn
+!     end do
+
       !     estimate drainage area for urban on-line bmps in square km
       !subdr_km(i) = subdr_km(i) + sub_km(i)
 

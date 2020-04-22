@@ -347,9 +347,6 @@
         !! compute phosphorus movement
         call solp
 
-        !! compute chl-a, CBOD and dissolved oxygen loadings
-        call subwq
-
         !! compute bacteria transport
         call bacteria
 
@@ -406,9 +403,9 @@
         end if
 
 	 !! compute reduction in pollutants due to in fixed BMP eff
-	   if (bmp_flag(j) == 1) then
-          call bmpfixed
-        end if
+	 !  if (bmp_flag(j) == 1) then
+       !   call bmpfixed
+       ! end if
 
 
         !! compute water yield for HRU
@@ -419,6 +416,9 @@
         else
           qdfr = 0.
         end if
+
+        !! compute chl-a, CBOD and dissolved oxygen loadings
+        call subwq
 
         !! compute wetland processes
         call wetlan

@@ -122,10 +122,7 @@
         end do
 
       return
- !!  5000 format (7x,600f5.1)
- !!  5100 format (i4,i3,600f5.1)
-!5000  format (7x,900f5.1)
-!5100  format (i4,i3,900f5.1)
+
 5000  format (7x,3600f5.1)
 5100  format (i4,i3,3600f5.1)
       end

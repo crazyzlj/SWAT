@@ -5,6 +5,9 @@
 
       use parm
       
+      lid_sw_add = 0.
+      lid_farea = 0.
+      rg_sarea = 0.
       co_p = .1
       
       ifirstatmo = 1
@@ -439,7 +442,7 @@
       spcon_bsn = 0.
       spexp_bsn = 0.
       r2adj = 0.
-      r2adj_bsn = 1.
+      r2adj_bsn = 0.
 !----------------------- !Moriasi 4/8/2014       
 !! drainmod tile equations   06/2006
       ranrns = 0.
@@ -471,6 +474,10 @@
       sdrain_bsn = 0.
       sstmaxd = 0.
       sstmaxd_bsn = 0.
+      re = 0.
+      re_bsn = 0.
+      drain_co = 0.
+      
  !New water table depth parameters D. Moriasi 4/8/2014
       sol_swpwt = 0.
       sol_stpwt = 0.
@@ -511,6 +518,7 @@
       sub_lat = 0.
       sub_latq = 0.
       sub_tileq = 0.
+      sub_vaptile = 0.
       sub_latno3 = 0.
       sub_smtmp = 0.
       sub_tileno3 = 0.
