@@ -433,7 +433,12 @@
       pltnfr = 0.
       pltpfr = 0.
       pot_seep = 0.
+!----------------------- !Moriasi 4/8/2014  
+      prf = 0.
+      prf_bsn = 0. 
       r2adj = 1.
+      r2adj_bsn = 1.
+!----------------------- !Moriasi 4/8/2014       
 !! drainmod tile equations   06/2006
       ranrns = 0.
 !! drainmod tile equations   06/2006
@@ -460,6 +465,11 @@
       sdrain_bsn = 0.
       sstmaxd = 0.
       sstmaxd_bsn = 0.
+ !New water table depth parameters D. Moriasi 4/8/2014
+      sol_swpwt = 0.
+      sol_stpwt = 0.
+      vwt = 0.
+      wat_tbl = 0.         
 !    Drainmod tile equations  01/2006
       rsr1 = 0.
       rsr2 = 0.

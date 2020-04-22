@@ -383,7 +383,8 @@
       pdvas(67) = bactrop + bactsedp
       pdvas(68) = bactrolp + bactsedlp
       pdvas(69) = wtab(j)   !! based on 30 day antecedent climate (mm) (prec,et)
-      pdvas(70) = wtabelo   !! based on depth from soil surface (mm)
+!      pdvas(70) = wtabelo   !! based on depth from soil surface (mm)
+      pdvas(70) = wat_tbl(j)   !! based on depth from soil surface (mm): Dmoriasi 4/08/2014
 !!    added current snow content in the hru (not summed)
       pdvas(71) = sno_hru(j)
 
@@ -421,7 +422,7 @@
      &      hruno(j), sb, nmgt(j), iida, hru_km(j),                     &
      &       (pdvs(ii), ii = 1, itots)
         if (icalen == 1) write (28,1002) cropname, j, subnum(j),        &
-     &      hruno(j), sb, nmgt(j), i_mo, icl(iida), iyr, hru_km(j),     &  !! nubz 11/26/13
+     &      hruno(j), sb, nmgt(j), i_mo, icl(iida), iyr, hru_km(j),     &
      &       (pdvs(ii), ii = 1, itots)
 1002  format (a4,i5,1x,a5,a4,i5,1x,i4,1x,i2,1x,i2,1x,i4,1x,e10.5,       &
      & 66f10.3,1x,e10.5,1x,e10.5,8e10.3,2f10.3)

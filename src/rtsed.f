@@ -29,7 +29,7 @@
 !!    inum1       |none          |reach number
 !!    inum2       |none          |inflow hydrograph storage location number
 !!    phi(5,:)    |m^3/s         |flow rate when reach is at bankfull depth
-!!    prf         |none          |Peak rate adjustment factor for sediment
+!!    prf(:)      |none          |Reach peak rate adjustment factor for sediment
 !!                               |routing in the channel. Allows impact of
 !!                               |peak flow rate on sediment routing and
 !!                               |channel reshaping to be taken into account
@@ -101,7 +101,7 @@
       sedin = varoute(3,inum2) * (1. - rnum1) + sedst(jrch)
       sedinorg = sedin
 !! initialize reach peak runoff rate
-      peakr = prf * sdti
+      peakr = prf(jrch) * sdti
 
 !! calculate flow velocity
       vc = 0.
@@ -113,7 +113,7 @@
       if (vc > 5.) vc = 5.
 
       tbase = ch_l2(jrch) * 1000. / (3600. * 24. * vc)
-      tbase = prf
+      tbase = prf(jrch)
 
       if (tbase > 1.) tbase = 1.
 

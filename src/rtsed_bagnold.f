@@ -30,7 +30,7 @@
 !!    inum1       |none          |reach number
 !!    inum2       |none          |inflow hydrograph storage location number
 !!    phi(5,:)    |m^3/s         |flow rate when reach is at bankfull depth
-!!    prf         |none          |Peak rate adjustment factor for sediment
+!!    prf(:)      |none          |Reach peak rate adjustment factor for sediment
 !!                               |routing in the channel. Allows impact of
 !!                               |peak flow rate on sediment routing and
 !!                               |channel reshaping to be taken into account
@@ -122,7 +122,7 @@
       if (qdin > 0.01) then
 
 !! initialize reach peak runoff rate
-      peakr = prf * sdti
+      peakr = prf(jrch) * sdti
 
 !! calculate peak flow velocity
       vc = 0.

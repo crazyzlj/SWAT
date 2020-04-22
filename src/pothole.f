@@ -88,9 +88,9 @@
 !!    name           |units         |definition
 !!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
 !!    pot_no3(:)     |kg N          |amount of nitrate in pothole water body
-!!    pot_solp(:)     |kg N          |amount of soluble p in pothole water body
-!!    pot_orgn(:)     |kg N          |amount of organic N in pothole water body
-!!    pot_orgp(:)     |kg N          |amount of organic P in pothole water body
+!!    pot_solp(:)     |kg N         |conductivity of soil surface layer for pothole infiltration
+!!    pot_orgn(:)     |kg N         |amount of organic N in pothole water body
+!!    pot_orgp(:)     |             |amount of organic P in pothole water body
 !!    pot_mpa(:)     |kg N          |amount of active mineral pool P in pothole water body
 !!    pot_mps(:)     |kg N          |amount of stable mineral pool P in pothole water body
 !!    pot_sed(:)     |metric tons   |amount of sediment in pothole water body

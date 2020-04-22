@@ -112,9 +112,9 @@
 
 !!    compute fraction of surface runoff that is reaching the main channel
         if (ievent>1) then
-           brt(j) = 1. - Exp(-surlag / (tconc(j) / (idt / 60.)))	!! urban modeling by J.Jeong
+           brt(j) = 1. - Exp(-surlag(j) / (tconc(j) / (idt / 60.)))	!! urban modeling by J.Jeong
         else
-           brt(j) = 1. - Exp(-surlag / tconc(j))
+           brt(j) = 1. - Exp(-surlag(j) / tconc(j))
         endif
         if (isproj == 2) brt(j) = 1.
         

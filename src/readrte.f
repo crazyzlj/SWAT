@@ -61,6 +61,10 @@
 !!    ch_si(:)      |m/m         |initial slope of main channel
 !!    ch_w(2,:)     |m           |average width of main channel
 !!    ch_wdr(:)     |m/m         |channel width to depth ratio
+!!    prf(:)      |none          |Reach peak rate adjustment factor for sediment 
+!!                               |routing in the channel. Allows impact of 
+!!                               |peak flow rate on sediment routing and 
+!!                               |channel reshaping to be taken into account.
 !!    tc_bed        |N/m2        |critical shear stress of channel bed 
 !!    tc_bnk        |N/m2        |critical shear stress of channel bank
 !!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
@@ -127,6 +131,8 @@
       read (103,5100,iostat=eof) (ch_erodmo(irch,mo), mo = 1,12)
 	  if (eof < 0) exit
 	  read (103,*,iostat=eof) ch_eqn(irch)
+        if (eof < 0) exit
+	  read (103,*,iostat=eof) prf(irch)
       exit
       end do
 
@@ -141,6 +147,7 @@
       if (chside(irch) <= 1.e-6) chside(irch) = 2.0
       if (tc_bnk(irch) <= 0.) tc_bnk(irch)=0. !! Critical shear stress (N.m^2)
       if (tc_bed(irch) <= 0.) tc_bed(irch)=0. !! Critical shear stress (N.m^2)
+      if (prf(irch) <= 0.) prf(irch) = prf_bsn
 
       if (ch_eqn(irch) <= 0) then
         ch_eqn(irch)=0 !! SWAT Default sediment routing routine

@@ -101,9 +101,10 @@
  
       jres = 0
       jres = inum1
-	  inhyd = inum2
+	inhyd = inum2
 
 !! store initial values
+      flw = 0.
       vol = 0.
       sed = 0.
       vol = res_vol(jres)
@@ -160,18 +161,18 @@
               if (res_vol(jres) > res_pvol(jres)) then
                 vvr = res_vol(jres) - res_pvol(jres)
                 if (res_vol(jres) > res_evol(jres)) then
-                  hhresflwo(k) = res_vol(jres) - res_evol(jres)
+                  hhresflwo(k) = (res_vol(jres) - res_evol(jres)) 
                   vvr = res_evol(jres) - res_pvol(jres)
                 endif
                 if (res_rr(jres) > vvr) then
-                  hhresflwo(k) = hhresflwo(k) + vvr
+                  hhresflwo(k) = (hhresflwo(k) + vvr) / nstep !m3
                 else
-                  hhresflwo(k) = hhresflwo(k) + res_rr(jres)
+                  hhresflwo(k) = (hhresflwo(k) + res_rr(jres)) / nstep !m3
                 endif
               endif
 
             case (1)                   !! use measured monthly outflow
-              hhresflwo(k) = res_out(jres,i_mo,curyr)/nstep
+              hhresflwo(k) = res_out(jres,i_mo,curyr) * 86400. / nstep !m3/s -> m3
 
             case (2)                   !! controlled outflow-target release
               targ = 0.
@@ -202,24 +203,24 @@
                 end if
               endif
               if (res_vol(jres) > targ) then
-                hhresflwo(k) = (res_vol(jres) - targ) / ndtargr(jres)
+                hhresflwo(k) = (res_vol(jres) - targ) / ndtargr(jres) /
+     &                         nstep
               else
                 hhresflwo(k) = 0.
               end if
 
             case (3)                   !! use measured daily outflow
-              flw = 0.
-              read (350+jres,5000) flw
-  		      hhresflwo(k) = 86400. * flw / nstep		!! urban modeling by J.Jeong
+              if (k==1) read (350+jres,5000) flw
+  		      hhresflwo(k) = 86400. * flw / nstep		!! m3, urban modeling by J.Jeong
           end select
 
         !! check calculated outflow against specified max and min values
-          if (hhresflwo(k)<oflowmn(i_mo,jres)) then
-            resflwo = oflowmn(i_mo,jres)
+          if (hhresflwo(k)<oflowmn(i_mo,jres)*86400./nstep) then
+            resflwo = oflowmn(i_mo,jres) * 86400. / nstep
           end if
-          if (hhresflwo(k)>oflowmx(i_mo,jres).and.oflowmx(i_mo,jres)>0.)
-     &      then
-             hhresflwo(k) = oflowmx(i_mo,jres)
+          if (hhresflwo(k)>oflowmx(i_mo,jres)*86400./nstep.and. 
+     &         oflowmx(i_mo,jres)>0.) then
+             hhresflwo(k) = oflowmx(i_mo,jres) * 86400. / nstep
           endif
            
         !! subtract outflow from reservoir storage

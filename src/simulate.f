@@ -160,6 +160,11 @@
        
         do i = id1, idlst                            !! begin daily loop
 
+          !screen print days of the year for subdaily runs (dt<60min)
+          if (ievent>1.and.idt<60) then
+            write(*,'(3x,I5,a6,i4)') iyr,'  day:', iida
+          endif
+         
           !!if last day of month 
           if (i_mo /= mo_chk) then
             immo = immo + 1

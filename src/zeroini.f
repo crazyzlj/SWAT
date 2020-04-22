@@ -161,6 +161,7 @@
       spcon = 0.
       spexp = 0.
       subtot = 0
+      surlag_bsn = 0.
       surlag = 0.
       tfact = 0.
       thbact = 0.

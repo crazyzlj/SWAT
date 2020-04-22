@@ -158,6 +158,25 @@
         emix = effmix(idtill)
         dtil = deptil(idtill)
       end if
+      ! -------------------------------- Original D. Moriasi code replaced by code below        
+!	Drainmod  07/2006
+!      if(itill(jj) == 1) then
+!	  cumei(jj) = 0.
+!	  cumeira(jj) = 0.
+!	  cumrt(jj) = 0.
+!        cumrai(jj) = 0.
+!	  ranrns_hru(jj) = ranrns(idtill)   
+!      end if
+!!    Drainmod 7/2006
+! --------------------------------------------------------------------
+        if (idtill.GE. 1) then ! Updated dynamic depressional storage D.Moriasi 4/8/2014
+          cumei(jj)   = 0.
+	    cumeira(jj) = 0.
+	    cumrt(jj)   = 0.
+          cumrai(jj)  = 0.
+	    ranrns_hru(jj) = ranrns(idtill)
+        end if
+! --------------------------------------------------------------------
 
       !!by zhang DSSAT tillage
       !!=======================

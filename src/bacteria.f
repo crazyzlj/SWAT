@@ -14,7 +14,7 @@
 !!    bactlpq(:)  |# cfu/m^2     |less persistent bacteria in soil solution
 !!    bactlps(:)  |# cfu/m^2     |less persistent bacteria attached to soil
 !!                               |particles
-!!    bactminlp   |# cfu/m^2     |Threshold detection level for lestt persistent
+!!    bactminlp   |# cfu/m^2     |Threshold detection level for less persistent
 !!                               |bacteria
 !!                               |when bacteria levels drop to this amount the 
 !!                               |model considers bacteria in the soil to be

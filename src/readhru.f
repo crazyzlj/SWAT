@@ -49,6 +49,7 @@
 !!    lat_ttime(:)|days          |lateral flow travel time
 !!    ov_n(:)     |none          |Manning's "n" value for overland flow
 !!    pot_fr(:)   |km2/km2       |fraction of HRU area that drains into pothole
+!!    pot_k       |              |conductivity of soil surface layer for pothole infiltration
 !!    pot_no3l(:) |1/day         |nitrate decay rate in impounded area
 !!    pot_nsed(:) |mg/L          |normal sediment concentration in impounded
 !!                               |water (needed only if current HRU is IPOT)
@@ -69,6 +70,10 @@
 !!    slsoil(:)   |m             |slope length for lateral subsurface flow
 !!    slsubbsn(:) |m             |average slope length for subbasin
 !!    usle_ls(:)  |none          |USLE equation length slope (LS) factor
+!!Modified parameter variable! D. Moriasi 4/8/2014
+!!    r2adj       |none          |retention parameter adjustment factor (greater than 1)
+
+!----------------------------------------------------------------------------------------------
 !!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
 
 !!    ~ ~ ~ LOCAL DEFINITIONS ~ ~ ~
@@ -77,6 +82,7 @@
 !!    eof         |none          |end of file flag (=-1 if eof, else =0)
 !!    epcohru     |none          |plant water uptake compensation factor (0-1)
 !!    escohru     |none          |soil evaporation compensation factor (0-1)
+!!    r2adjhru    |none          |retention parameter adjustment factor (=>1) !D.Moriasi 4/8/2014
 !!    sin_sl      |none          |Sin(slope angle)
 !!    titldum     |NA            |title line of .sub file (not used)
 !!    xm          |none          |exponential in equation to calculate
@@ -94,10 +100,12 @@
       character (len=80) :: titldum
       integer :: eof
       real :: xm, sin_sl, epcohru, escohru
+      real :: r2adjhru !D. Moriasi 4/4/2014    
 
       eof = 0
       escohru = 0.
       epcohru = 0.
+      r2adjhru = 0.    !D. Moriasi 4/4/2014 
       
       do
       read (108,5100) titldum
@@ -190,6 +198,11 @@
         read (108,*,iostat=eof) n_ln(ihru)
         if (eof < 0) exit
         read (108,*,iostat=eof) n_lnco(ihru)
+!-------------------------------------------------------Moriasi 4/8/2014        
+        if (eof < 0) exit
+        read (108,*,iostat=eof) surlag(ihru)   
+!-------------------------------------------------------Moriasi 4/8/2014 
+        read (108,*,iostat=eof) r2adj(ihru) !Soil retention parameter D. Moriasi 4/8/2014 
 	exit
       end do
 
@@ -204,9 +217,12 @@
 
 !!    set default values
       if (dep_imp(ihru) <=0.) dep_imp(ihru) = depimp_bsn
+      if (surlag(ihru) <=0.) surlag(ihru) = surlag_bsn      
 !     if (ddrain(ihru) <= 0.) ddrain(ihru) = 1000.
 !     if (tdrain(ihru) <= 0.) tdrain(ihru) = 24.
 !     if (gdrain(ihru) <= 0.) gdrain(ihru) = 96.
+!New and modified parameters D. Moriasi 4/8/2014
+      if (r2adj(ihru) <= 0.) r2adj(ihru) = r2adj_bsn
 !! comment the following line for the hru_fraction data !!
       if (hru_fr(ihru) <= 0.) hru_fr(ihru) = .0000001
       if (slsubbsn(ihru) <= 0.) slsubbsn(ihru) = 50.0
