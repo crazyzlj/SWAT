@@ -231,7 +231,7 @@
 !!      endif
         end select
           
-            ndespill = ndtargr(nres)
+            ndespill = ndtargr(jres)
             if (ndespill <= 0.) ndespill = 10.
             if (res_vol(jres) > res_evol(jres)) then
               resflwo = resflwo+(res_vol(jres)-res_evol(jres))/ndespill

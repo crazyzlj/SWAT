@@ -85,8 +85,7 @@
      *        sol_rsd(1,j), sol_sumno3(j),sol_sumsolp(j),irramt(j),
      *        irr_sc(j), irr_no(j)
 1002  format (a5,1x,a4,3i6,2a15,7f10.2,10x,f10.2,70x,2i7)
-
-      
+             
             end if
             
           
@@ -221,12 +220,20 @@
             irr_noa(j) = mgt10iop(nop(j),j)
             if (irr_noa(j) <= 0) irr_noa(j) = irrno(j)
             if (irr_noa(j) <= 0) irr_noa(j) = hru_sub(j)
-            if (wstrs_id(j) <= 0.) wstrs_id(j) = 1.     
+            if (wstrs_id(j) <= 0) wstrs_id(j) = 1     
             if (irr_eff(j) > 1.) irr_eff(j) = 0.
             if (irr_eff(j) == 0.) irr_eff(j) = 1.
             if (irr_mx(j) < 1.e-6) irr_mx(j) = 25.4
             if (irr_sca(j) <= 0) irr_sca(j) = irrsc(j)
             irra_flag(ihru) = 1
+          if (imgt ==1) then
+            write (143, 1010) subnum(j), hruno(j), iyr, i_mo, 
+     *      iida, "        ",
+     *      "SCHED AUTORR", phubase(j), phuacc(j), sol_sw(j), bio_ms(j),
+     *      sol_rsd(1,j), sol_sumno3(j),sol_sumsolp(j)
+1010  format (a5,1x,a4,3i6,2a15,7f10.2)
+          end if
+          
             
           case (11)   !! auto fertilizer operation
             iafrttyp(j) = mgt1iop(nop(j),j)

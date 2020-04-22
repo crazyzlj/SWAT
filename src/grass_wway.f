@@ -109,7 +109,7 @@
 
 !!        Sediment yield (kg) from fraction of area drained by waterway
 
-		  sedin = sedyld(ihru) * hru_km(ihru) 
+		  sedin = sedyld(ihru)
 !! Calculate sediment losses in sheetflow at waterway sides
 
 !! calculate area of sheeflow in m^2 assumne *:1 side slope 8.06 = (8^2+1^2)^.5

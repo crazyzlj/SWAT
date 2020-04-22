@@ -176,7 +176,7 @@
 !!    pperco      |none          |phosphorus percolation coefficient
 !!                               |ratio of soluble phosphorus in surface
 !!                               |to soluble phosphorus in percolate
-!!    prf         |none          |Peak rate adjustment factor for sediment 
+!!    prf_bsn     |none          |Basinwide peak rate adjustment factor for sediment 
 !!                               |routing in the channel. Allows impact of 
 !!                               |peak flow rate on sediment routing and 
 !!                               |channel reshaping to be taken into account.
@@ -199,6 +199,9 @@
 !!                               |rain.
 !!    sdrain_bsn  |mm            |Distance bewtween two drain or tile tubes (range 7600.0 - 30000.0)
 !!    sstmaxd(:)  |mm            |static maximum depressional storage; read from .sdr 
+!----------------------------retention parameter adjustment factor D. Moriasi 4/8/2014
+!!    r2adj_bsn   |none          |basinwide retention parameter adjustment factor (greater than 1)! D. Moriasi 4/8/2014
+!!    smfmn       |mm/deg C/day  |Minimum melt rate for snow during year (Dec.
 !!    smfmn       |mm/deg C/day  |Minimum melt rate for snow during year (Dec.
 !!                               |21) where deg C refers to the air temperature.
 !!    smfmx       |mm/deg C/day  |Maximum melt rate for snow during year (June
@@ -329,8 +332,9 @@
 !!    eof         |none          |end of file flag (=-1 if eof, else =0)
 !!    epcobsn     |none          |plant water uptake compensation factor (0-1)
 !!    escobsn     |none          |soil evaporation compensation factor (0-1)
+!!    r2adjbsn    |none          |retention parameter adjustment factor (=>1) !D.Moriasi 4/8/2014
 !!    titldum     |NA            |title line for .bsn file, not used
-!!    wwqfile     |NA            |name of watershed water quality file (.wwq)
+!!!    wwqfile     |NA            |name of watershed water quality file (.wwq)
 !!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
 
 !!    ~ ~ ~ SUBROUTINES/FUNCTIONS CALLED ~ ~ ~
@@ -346,11 +350,13 @@
       character (len=13) :: wwqfile
       integer :: eof, numlu
       real :: escobsn, epcobsn
+      real :: r2adjbsn  !D. Moriasi 4/8/2014    
 
 !!    initialize variables
       eof = 0
       escobsn = 0.
       epcobsn = 0.
+      r2adjbsn = 0.  !D. Moriasi 4/8/2014
       wwqfile = ""
       numlu=1
 
@@ -375,9 +381,9 @@
       read (103,1000) titldum
       read (103,*) ievent
       read (103,*) icrk
-      read (103,*) surlag
+      read (103,*) surlag_bsn
       read (103,*) adj_pkr
-      read (103,*) prf
+      read (103,*) prf_bsn
       read (103,*) spcon
       read (103,*) spexp
       read (103,1000) titldum
@@ -554,7 +560,7 @@
 !     iatmodep = 0 - average annual = 1 - monthly
       read (103,*,iostat=eof) iatmodep
       if (eof < 0) exit
-      read (103,*,iostat=eof) r2adj
+      read (103,*,iostat=eof) r2adj_bsn ! Modified by D. Moriasi 4/8/2014
       if (eof < 0) exit
       read (103,*,iostat=eof) sstmaxd_bsn
       if (eof < 0) exit
@@ -572,15 +578,18 @@
       
 !!    set default values for undefined parameters
 !     if (ievent == 1) nstep = 24
-      if (r2adj < 1.e-6) r2adj = 1.
+      if (r2adj_bsn < 1.e-6) r2adj_bsn = 1.
       if (drain_co_bsn < 1.e-6) drain_co_bsn = 10. 
+ !!Parameter variables added D. Moriasi 4/8/2014  
+      if (sstmaxd_bsn < 1.e-6) sstmaxd_bsn = 20. 
+  !!----------------------------------------------------------------        
       if (res_stlr_co < 1.e-6) res_stlr_co = .184
       if (depimp_bsn < 1.e-6) depimp_bsn = 6000.
       if (bact_swf < 1.e-6) bact_swf = 0.15
       if (adj_pkr <= 0.) adj_pkr = 1.
       if (spcon <= 0.) spcon = .0001
       if (spexp <= 0.) spexp = 1.0
-      if (prf <= 0.) prf = 1.0
+      if (prf_bsn <= 0.) prf_bsn = 1.0
       if (percop <= 0.) percop = .5
       if (n_updis <= 0.) n_updis = 20.
       if (p_updis <= 0.) p_updis = 20.
@@ -595,7 +604,7 @@
       if (timp <= 0.) timp = 1.0
       if (snocovmx <= 0.) snocovmx = 1.0
       if (sno50cov <= 0.) sno50cov = .5
-      if (surlag <= 0.) surlag = 4.
+      if (surlag_bsn <= 0.) surlag_bsn = 4.
       if (evrch <= 0.) evrch = 0.6
       if (bactkdq <= 0.) bactkdq = 75.
       if (thbact <= 0.) thbact = 1.07

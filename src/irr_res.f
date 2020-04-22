@@ -105,7 +105,6 @@
         if (irrsc(k) == 2 .and. irrno(k) == jres) then
 
           !! check for timing of irrigation operation
-          flag = 0
           flag = irr_flag(k)
           if (auto_wstr(k) > 0.) then
             if (wstrs_id(k) == 1 .and. strsw(k) < auto_wstr(k)) flag = 2
@@ -155,7 +154,15 @@
               else
                 call irrigate(k,vmm)
               end if
-
+              
+              irramt(k) = vmm
+            if (imgt == 1) then
+             write (143, 1000) subnum(k), hruno(k), iyr, i_mo, iida, 
+     *       "         ",  " AUTOIRR", phubase(k), phuacc(k),
+     *      sol_sw(k), bio_ms(k), sol_rsd(1,k),sol_sumno3(k),
+     *      sol_sumsolp(k), aird(k), irrsc(k), irrno(k)
+1000  format (a5,1x,a4,3i6,2a15,7f10.2,10x,f10.2,70x,i10,10x,i10) 
+            end if
               !! subtract irrigation from reservoir volume
          !!     if (ipot(k) /= k) then
               if (pot_fr(k) > 1.e-6) then

@@ -234,12 +234,12 @@
      &        2f9.2,f12.4,1x,f5.3)
  1013 format (t10,'     |--------------Tributary--------------------|', 
      &          '---------------------Main---------------------------', 
-     &          '-------|',                                             
+     &          '----------|',                                    
      &       /t10,' Sub  Length(km) Slope Width(m) Cond(mm/hr)     N',  
      &       1x,'Length(km) Slope Width(m) Depth(m) Cond(mm/hr)     N', 
-     &       '  MSK_K')
+     &       '      MSK_K')
  1014 format (t10,i6,2x,f10.2,f6.3,f9.2,f12.4,1x,f5.3,1x,f10.2,f6.3,    
-     &        2f9.2,f12.4,1x,f5.3,1x,f6.3)
+     &        2f9.2,f12.4,1x,f5.3,1x,f8.2)
  1020 format (/t10,'HRU Input Summary Table 1:',/t10,                   
      &       ' Sub   HRU   Area(ha) Slope SlpLgth(m) Ovrlnd_N CondII_CN'
      &       ,' TimeConc(hr) ESCO EPCO')

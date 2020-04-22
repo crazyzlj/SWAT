@@ -59,10 +59,11 @@
       use parm
 
       integer :: j
-      real :: xx, vap
+      real :: xx, vap, vap_tile
 
       j = 0
       j = ihru
+      vap_tile = 0
 
 !! compute soluble P lost in surface runoff
       xx = 0.

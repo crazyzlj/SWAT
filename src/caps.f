@@ -25,8 +25,8 @@
 
       character (len=*) ::  file_name
       character (len=Len(file_name)) ::  temp_name
-      character (len=26) :: low_case = "abcdefghijklmnopqrstuvwxyz",  
-     &                       up_case = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+      character (len=26) :: low_case = "abcdefghijklmnopqrstuvwxyz",
+     &                      up_case = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
       integer :: ii, j
 
       temp_name = ""
@@ -40,7 +40,7 @@
       end do
 
       temp_name = AdjustL (temp_name)     !moves leading blanks to right end
-      
+
       file_name = temp_name
 
       return

@@ -1,19 +1,19 @@
-      include 'modparm.f'
+      !include 'modparm.f'
       program main
 !!    this is the main program that reads input, calls the main simulation
 !!    model, and writes output.
 !!    ~ ~ ~ INCOMING VARIABLES ~ ~ ~
 !!    name        |units         |definition
-!!         ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ 
+!!         ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
 !!    date        |NA            |date simulation is performed where leftmost
 !!                               |eight characters are set to a value of
-!!                               |yyyymmdd, where yyyy is the year, mm is the 
+!!                               |yyyymmdd, where yyyy is the year, mm is the
 !!                               |month and dd is the day
 !!    isproj      |none          |special project code:
 !!                               |1 test rewind (run simulation twice)
 !!    time        |NA            |time simulation is performed where leftmost
 !!                               |ten characters are set to a value of
-!!                               |hhmmss.sss, where hh is the hour, mm is the 
+!!                               |hhmmss.sss, where hh is the hour, mm is the
 !!                               |minutes and ss.sss is the seconds and
 !!                               |milliseconds
 !!    values(1)   |year          |year simulation is performed
@@ -27,42 +27,42 @@
 !!    values(8)   |milliseconds  |millisecond simulation is performed
 !!    zone        |NA            |time difference with respect to Coordinated
 !!                               |Universal Time (ie Greenwich Mean Time)
-!!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ 
+!!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
 
 !!    ~ ~ ~ OUTGOING VARIABLES ~ ~ ~
 !!    name        |units         |definition
-!!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ 
+!!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
 !!    prog        |NA            |program name and version
-!!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ 
+!!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
 
 !!    ~ ~ ~ LOCAL DEFINITIONS ~ ~ ~
 !!    name        |units         |definition
-!!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ 
+!!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
 !!    i           |none          |counter
-!!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ 
+!!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
 
 
 !!    ~ ~ ~ SUBROUTINES/FUNCTIONS CALLED ~ ~ ~
 !!    Intrinsic: date_and_time
 !!    SWAT: getallo, allocate_parms, readfile, readfig
 !!    SWAT: readbsn, std1, readwwq, readinpt, std2, storeinitial
-!!    SWAT: openwth, headout, simulate, finalbal, writeaa, pestw 
+!!    SWAT: openwth, headout, simulate, finalbal, writeaa, pestw
 
 
 !!    ~ ~ ~ ~ ~ ~ END SPECIFICATIONS ~ ~ ~ ~ ~ ~
 
       use parm
       implicit none
-      prog = "SWAT Mar 4 2014    VER 2012/Rev 622"
+      prog = "SWAT Jun 11 2014    VER 2012/Rev 627"
       write (*,1000)
- 1000 format(1x,"               SWAT2012               ",/,             
-     &          "               Rev. 622              ",/,             
-     &          "      Soil & Water Assessment Tool    ",/,             
-     &          "               PC Version             ",/,             
+ 1000 format(1x,"               SWAT2012               ",/,
+     &          "               Rev. 627              ",/,
+     &          "      Soil & Water Assessment Tool    ",/,
+     &          "               PC Version             ",/,
      &          " Program reading from file.cio . . . executing",/)
 
 !! process input
-		
+
       call getallo
       call allocate_parms
       call readfile
@@ -74,7 +74,7 @@
       call readpest              !! read in the pesticide database
       call readfert              !! read in the fertilizer/nutrient database
       call readurban             !! read in the urban land types database
-      call readseptwq            !! read in the septic types database     
+      call readseptwq            !! read in the septic types database
       call readlup
       call readfig
       call readatmodep
@@ -89,10 +89,10 @@
       hruno = ""
       do i = 1, mhru
         write (subnum(i),fmt=' (i5.5)') hru_sub(i)
-        write (hruno(i),fmt=' (i4.4)') hru_seq(i)  
+        write (hruno(i),fmt=' (i4.4)') hru_seq(i)
       end do
 
-      if (isproj == 2) then 
+      if (isproj == 2) then
         hi_targ = 0.0
       end if
 
@@ -109,7 +109,7 @@
         if (iclb /= 4) then
       do iscen = 1, scenario
 
-     
+
         !! simulate watershed processes
         call simulate
 
@@ -128,12 +128,12 @@
       close(124)
       write (*,1001)
  1001 format (/," Execution successfully completed ")
-	
+
         iscen=1
 !! file for Mike White to review to ensure simulation executed normally
       open (9999,file='fin.fin')
       write (9999,*) 'Execution successful'
       close (9999)
-      
+
 	stop
       end

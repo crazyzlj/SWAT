@@ -73,7 +73,7 @@
       if (icn <= 0) then
         !! traditional CN method (function of soil water)
         if ((sol_sw(j) + Exp(xx)) > 0.001) then
-          r2 = r2adj * smx(j) * (1. - sol_sw(j) / (sol_sw(j) + Exp(xx)))
+          r2 = r2adj(j) * smx(j) * (1. - sol_sw(j)/(sol_sw(j)+Exp(xx)))
         end if
       else                        
         !! alternative CN method (function of plant ET) 

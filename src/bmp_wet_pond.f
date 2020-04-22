@@ -171,7 +171,7 @@
          b1 = wtp_sdslope(sb) ** 2 + 1.
          seepa = a1 * pndwdth ** 2 + 2. * (a1 + 1) * pndwdth * qdepth * 
      &      b1 ** 0.5 + 5.64 * qdepth ** 2 * b1 * wtp_sdslope(sb) !m2
-         b1 = 2.* beta * ht 
+         b1 = 2.* beta * qdepth                !jeong 05/22/14
          surfa = (a1 * pndwdth + b1) * (pndwdth + b1) !m2
          
          seep = wtp_k(sb) / 1000. / 60. * idt *  seepa !m3

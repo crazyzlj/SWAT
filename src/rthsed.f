@@ -33,7 +33,7 @@
 !!    inum1       |none          |reach number
 !!    inum2       |none          |inflow hydrograph storage location number
 !!    phi(5,:)    |m^3/s         |flow rate when reach is at bankfull depth
-!!    prf         |none          |Peak rate adjustment factor for sediment routing in the channel. Allows impact of
+!!    prf(:)      |none          |Reach peak rate adjustment factor for sediment routing in the channel. Allows impact of
 !!                               |peak flow rate on sediment routing and channel reshaping to be taken into account
 !!    rhy(:)      |m H2O         |main channel hydraulic radius
 !!    rnum1       |none          |fraction of overland flow
@@ -123,7 +123,7 @@
 
        if (sedin < 1.e-6) sedin = 0.
        !! initialize reach peak runoff rate
-       peakr = prf * hsdti(ii)
+       peakr = prf(ii) * hsdti(ii)
 
        !! calculate flow velocity
        vc = 0.
