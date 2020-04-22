@@ -43,7 +43,7 @@
       integer :: ii
 
       if (inum1 <= 10 .and. inum1 > 0) then
-      if (ievent == 3 .and. inum2 == 1) then
+      if (ievent == 1 .and. inum2 == 1) then
         !! Write subdaily values
         do ii = 1, nstep
           if (inum3 == 0) then

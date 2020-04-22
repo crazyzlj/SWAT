@@ -9,11 +9,8 @@
 !!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
 !!    ievent      |none          |rainfall/runoff code
 !!                               |0 daily rainfall/curve number technique
-!!                               |1 daily rainfall/Green&Ampt technique/daily
+!!                               |1 sub-daily rainfall/Green&Ampt/hourly
 !!                               |  routing
-!!                               |2 sub-daily rainfall/Green&Ampt technique/
-!!                               |  daily routing
-!!                               |3 sub-daily rainfall/Green&Ampt/hourly routing
 !!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
 
 !!    ~ ~ ~ SUBROUTINES/FUNCTIONS CALLED ~ ~ ~
@@ -30,7 +27,7 @@
       select case (ievent)
         case (0)
           call surq_daycn
-        case default
+        case (1)
           call surq_greenampt
         !  call dir_rnff
         !case (3)

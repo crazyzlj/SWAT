@@ -188,7 +188,7 @@
           end if
           if (pcpsim == 2) then
             subp(k) = rbsb
-            if (ievent > 1) then
+            if (ievent > 0) then
               do l = 1, nstep
                 rainsub(k,l) = rstpbsb(l)
               end do
@@ -235,7 +235,7 @@
           tmxbsb = tmx(k)
           tmnbsb = tmn(k)
           rbsb = subp(k)
-          if (ievent > 1) then
+          if (ievent > 0) then
             rstpbsb = 0.
             do l = 1, nstep
               rstpbsb(l) = rainsub(k,l)

@@ -162,6 +162,11 @@
       LSLF = 0.
       LSNF = 0.
       LMNF = 0.
+      clipbms = 0.
+      clipnbms = 0.
+      clippbms = 0.
+      yieldnbms = 0.
+      yieldpbms = 0.
       
       RLN = 0.
       RLR = 0.
@@ -509,7 +514,8 @@
         wshd_yldn = wshd_yldn + yieldn * hru_dafr(j)
         wshd_yldp = wshd_yldp + yieldp * hru_dafr(j)
         yldkg(icr(j),j) = yldkg(icr(j),j) + yield
-        yldanu(j) = yldanu(j) + yield  / 1000.    
+        yldanu(j) = yldanu(j) + yield  / 1000.
+        ncrops(icr(j),j) = ncrops(icr(j),j) + 1           !!!!!!!!!!!!!!!!nubz 
 
        ! select case (idc(idplt(j)))
        !   case (3, 6, 7)

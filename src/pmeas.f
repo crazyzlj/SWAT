@@ -12,10 +12,8 @@
 !!    id1         |julian date   |first day of simulation in current year
 !!    ievent      |none          |rainfall/runoff code
 !!                               |0 daily rainfall/curve number technique
-!!                               |1 daily rainfall/Green&Ampt technique/daily
+!!                               |1 sub-daily rainfall/Green&Ampt/hourly
 !!                               |  routing
-!!                               |2 sub-daily rainfall/Green&Ampt technique/
-!!                               |  daily routing
 !!                               |3 sub-daily rainfall/Green&Ampt/hourly routing
 !!    ifirstpcp(:)|none          |precipitation data search code
 !!                               |0 first day of precipitation data located in 
@@ -104,7 +102,7 @@
       
 
       select case (ievent)
-         case (0, 1)                       !!daily rainfall
+         case (0)                       !!daily rainfall
     
           !! read precipitation data from files
           do k = 1, nrgage
@@ -167,7 +165,7 @@
             end if
           end do
 
-        case default                   !! subdaily precipitation
+        case (1)                   !! subdaily precipitation
 
           !! read precipitation data from files
           do k = 1, nrgage

@@ -238,7 +238,7 @@
               call lwqdef
  
             case (4)  !! icode = 4  TRANSFER command: read in beg/end month
-              read (102,5004) mo_transb(inum5s(idum)),                     
+              read (102,5004) mo_transb(inum5s(idum)),    
      &		    mo_transe(inum5s(idum)), ih_tran(inum5s(idum))
 
 

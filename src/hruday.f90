@@ -471,7 +471,7 @@
 
 
       !!add by zhang
-      !!output carbon realted variables
+      !!output carbon related variables
       !!=================================
       if (cswat == 2) then
           if (j == 1) then
@@ -523,7 +523,7 @@
            tot_no3_nh3 = tot_no3_nh3  + sol_no3(k,j) + sol_nh3(k,j)
           end do      
 
-          write (100,9001) iyr, i, j, rsdc_d(j), sedc_d(j), percc_d(j),             &
+          write (1001,9001) iyr, i, j, rsdc_d(j), sedc_d(j), percc_d(j),             &
               latc_d(j),emitc_d(j), grainc_d(j), surfqc_d(j), stoverc_d(j),         &
               NPPC_d(j), foc_d(j),rspc_d(j),tot_mass,tot_cmass,tot_nmass,           &
               tot_LSC,tot_LMC,tot_HSC,tot_HPC,tot_BMC,                              &
@@ -532,7 +532,7 @@
           end if  
       end if
       !!add by zhang
-      !!output carbon realted variables
+      !!output carbon related variables
       !!=================================
 
       return

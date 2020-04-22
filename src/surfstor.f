@@ -143,7 +143,7 @@
       j = 0
       j = ihru
 
-      if (ievent<3) then
+      if (ievent == 0) then
          surf_bs(2,j) = Max(1.e-9, surf_bs(2,j) + sedyld(j))
          sedyld(j) = surf_bs(2,j) * brt(j)
          surf_bs(2,j) = surf_bs(2,j) - sedyld(j)

@@ -51,13 +51,14 @@
 
       character (len=80) :: titldum
       integer :: ii, k, sb
-      real :: qin,qout,qpnd,sedin,sedout,sedpnd,spndconc,qdepth,
+      real :: qin,qout,qpnd,qpnd_last,sedin,sedout,sedpnd,spndconc,
+     &        qdepth,sedpnd_last,
      &        watdepact,qstage,backup_length,seep_sa,evap_sa,pcp_vol,
      &        evap_vol,seep_vol,warea,pi,qovmax,qaddon,depaddon
 
       pi = 3.14159
       sb = inum1
-      qout = 0.; sedout = 0.; depaddon = 0.
+      qout=0.;qpnd_last=0.;sedout=0.;depaddon=0.;sedpnd_last=0.
 
       if (iyr<dtp_iyr(sb) .or. 
      &(iyr==dtp_iyr(sb) .and. i_mo<dtp_imo(sb))) then
@@ -73,21 +74,18 @@
 
       !!	iterate for subdaily flow/sediment routing
       do ii=1,nstep
-      
+
+         if (ii==1) qpnd_last=dtp_ivol(sb) 
+         
          qout = 0.; qovmax = 0; depaddon = 0.
-         qin = hhvaroute(2,ihout,ii) + qpnd !m^3
-         sedin = hhvaroute(3,ihout,ii) + sedpnd  !tons
-         if (qin>1e-6) then
-            spndconc = sedin / qin !initial sed conc, tons/m3
-         else
-            cycle
-         end if
+         qin = hhvaroute(2,ihout,ii) !m^3
+         sedin = hhvaroute(3,ihout,ii)  !tons
 
 	   !! Estimate water depth
-         qdepth = (3.*qin*dtp_lwratio(sb)*ch_s(2,sb)**2)**0.33333 !! Note: h = (3*V*R*S^2)^3 |Modify by J. Osorio (3/19/2013)
+         qdepth = (3.*qpnd*dtp_lwratio(sb)*ch_s(2,sb)**2)**0.33333
 
 	   !! skip to next time step if no ponding occurs 
-	   if (qdepth<=0.0001) cycle   
+!	   if (qdepth<=0.0001) cycle   
          
          if (dtp_stagdis(sb)==0) then 
           !! Calculate weir outflow 
@@ -136,7 +134,7 @@
 	      end do
 
 	      !Limit total outflow amount less than available water above addon
-	      if(qout>qin-qaddon) qout = max(qin - qaddon,0.)
+	      if(qout>qpnd-qaddon) qout = max(qpnd - qaddon,0.)
          
           !! Flow over the emergency weir
           watdepact = qdepth - (dtp_depweir(sb,1) + dtp_addon(sb,1))
@@ -170,15 +168,15 @@
 	     end if  
                      
          !! Check mass balance for flow
-         if (qout>qin) then !no detention occurs
-            qout = qin
+         if (qout>qpnd) then !no detention occurs
+            qout = qpnd
             qpnd = 0.
          else !detention occurs
             !!	Estimating surface area of water
             backup_length = qdepth / ch_s(2,sb)
             seep_sa = backup_length/dtp_lwratio(sb)  
      &                + (4. * dtp_lwratio(sb) * qdepth**2) / 3.      !! Note: SSA = w + (4*l*d^2)/(3*w) |Modify by J. Osorio (3/20/2013)
-            evap_sa = 2. * backup_length**2 / 3. * dtp_lwratio(sb) !! Note: ESA = 2 * w * l / 3 |Modify by J. Osorio (3/20/2013)
+            evap_sa = (2. * backup_length**2) / (3. * dtp_lwratio(sb)) !! Note: ESA = 2 * w * l / 3 |Modify by J. Osorio (3/20/2013)
 
             !! converting surface area to hectares (ha)
             seep_sa = seep_sa / 10000.0  
@@ -190,19 +188,36 @@
             seep_vol = 10.0 * ch_k(2,sb) * seep_sa * idt / 60. !m^3
 
             !!	Check mass balance for water in the pond
-            qpnd = qin + pcp_vol - qout - evap_vol - seep_vol
+            qpnd = qpnd_last + qin + pcp_vol - qout - evap_vol 
+     &                - seep_vol
             if (qpnd<0) qpnd = 0.
-	   end if
+         end if
+      
+         if (qpnd>1e-6) then
+            spndconc = sedpnd / qpnd !initial sed conc, tons/m3
+         else
+            spndconc = 0
+         end if
+         
+         qpnd_last=qpnd
          
          !! Mass balance for sediment
          sedout = spndconc * qout !tons
-         sedpnd = max(0.,sedin - sedout) !tons
-	      
+         sedpnd = sedpnd_last + sedin - sedout
+         if (sedout > sedpnd) then
+             sedout = sedpnd
+             sedpnd = 0
+         end if
+
+         sedpnd_last=sedpnd
+         
    	   !! Store flow/sediment out of the pond at the subbasin outlet
    	   hhvaroute(2,ihout,ii) = max(0.,qout)
    	   hhvaroute(3,ihout,ii) = max(0.,sedout)
 
-	   
+         write (33333,'(8f10.2,4f10.6)') qin,
+     & qpnd,qout,qstage,pcp_vol,evap_vol,seep_vol,sedin,sedpnd,sedout
+
       end do  !! Outermost do loop ends here
 
       ! Store end-of-day values for next day

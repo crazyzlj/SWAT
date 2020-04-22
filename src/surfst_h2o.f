@@ -54,7 +54,7 @@
       j = 0
       j = ihru
 
-      if (ievent < 2) then	
+      if (ievent == 0) then	
  
          bsprev = surf_bs(1,j)
 	   surf_bs(1,j) = Max(1.e-6, surf_bs(1,j) + surfq(j))

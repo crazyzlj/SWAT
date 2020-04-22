@@ -221,14 +221,14 @@
             else
               CNres = 0.43 * sol_rsd(k,j) / sol_fon(k,j)
             end if
-            CNres = amin1(CNres, 15.)
+            CNres = amax1(CNres, 15.)
             
             if (sol_fop(k,j) < .01) then
               CPres = 400.
             else
               CPres = 0.43 * sol_rsd(k,j) / sol_fop(k,j)
             end if
-            CPres = amin1(CNres, 400.)
+            CPres = amax1(CPres, 400.)
             
             !! CN of new organic matter (humified residue)
             rCNnew = fCNnew(sol_no3(k,j),sol_mass,CNres, 110.)
@@ -383,7 +383,7 @@
 		sol_solp(k,j) = sol_solp(k,j) + net_P + 
      &		sol_cdec * (1. / CPsoil)
 
-		wshd_rmn = wshd_rmn + net_N * hru_dafr(j)
+          wshd_rmn = wshd_rmn + net_N * hru_dafr(j)
 		wshd_rmp = wshd_rmp + net_P * hru_dafr(j)
 	 
 		If (sol_rsd(k,j) < 1e-10) sol_rsd(k,j) = 1e-10
@@ -447,11 +447,9 @@
       end do
 	
 	!! writing daily profile output
-      !!if (i==365) then
+
         write (100,9002) iyr, i, j, cmass_pro, sol_rsd_pro, sol_mc_pro  
 
-
-      !!end if
 
 !9000  format(i4,';',i3,';',i1,';',i4,20(';',f10.3))
 !9001  format(i4,';',i3,';',i1,';',i4,10(';',f10.3))

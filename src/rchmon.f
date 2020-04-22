@@ -201,10 +201,10 @@
 
           if (iscen == 1 .and. isproj == 0) then
           write (7,5000) j, subgis(j), mo_chk, rch_dakm(j),           
-     &                                    (pdvr(ii), ii = 1, itotr), j
+     &                                    (pdvr(ii), ii = 1, itotr)
           else if (isproj == 1) then
           write (20,5000) j, subgis(j), mo_chk, rch_dakm(j),            
-     &                                    (pdvr(ii), ii = 1, itotr), j
+     &                                    (pdvr(ii), ii = 1, itotr)
           else if (iscen == 1 .and. isproj == 2) then 
           write (7,6000) j, subgis(j), mo_chk, rch_dakm(j),             
      &                              (pdvr(ii), ii = 1, itotr),iyr  
@@ -213,10 +213,10 @@
  !  increase to 44 in loops below from 42 gsm 10/17/2011      
           if (iscen == 1 .and. isproj == 0) then
           write (7,5000) j, subgis(j), mo_chk, rch_dakm(j),             
-     &                                (pdvar(ii), ii = 1, 44), j    
+     &                                (pdvar(ii), ii = 1, 44)    
           else if (isproj == 1) then
           write (20,5000) j, subgis(j), mo_chk, rch_dakm(j),            
-     &                                (pdvar(ii), ii = 1, 44), j    
+     &                                (pdvar(ii), ii = 1, 44)    
           else if (iscen == 1 .and. isproj == 2) then
           write (7,6000) j, subgis(j), mo_chk, rch_dakm(j),             
      &                              (pdvar(ii), ii = 1, 44), iyr     
@@ -226,6 +226,6 @@
       end do
 
       return
- 5000 format ('REACH ',i4,1x,i8,1x,i5,47e12.4,i6)
+ 5000 format ('REACH ',i4,1x,i8,1x,i5,47e12.4)
  6000 format ('REACH ',i4,1x,i8,1x,i5,47e12.4,1x,i4)
       end

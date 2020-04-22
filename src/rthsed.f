@@ -123,7 +123,8 @@
 
        if (sedin < 1.e-6) sedin = 0.
        !! initialize reach peak runoff rate
-       peakr = prf(ii) * hsdti(ii)
+       !!  peakr = prf(ii) * hsdti(ii)      commented by nbs 082714
+       peakr = prf(jrch) * hsdti(ii)
 
        !! calculate flow velocity
        vc = 0.
@@ -160,7 +161,7 @@
 	   select case (sed_ch)
 	     case (0)
 		   !! Bagnold's (1977) stream power
-           cych = spcon * vc ** spexp
+           cych = spcon(jrch) * vc ** spexp(jrch)
 		 case (1)
 		   !!Brownlie Model 
 		   !! grain Reynolds number

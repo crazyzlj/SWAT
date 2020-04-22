@@ -238,7 +238,7 @@
         call irr_res
 
         !! perform reservoir water/sediment balance
-        if(ievent<=1) then		!! urban modeling by J.Jeong
+        if(ievent == 0) then		!! urban modeling by J.Jeong
 	    call res
 	  else
 	    call reshr
@@ -286,7 +286,7 @@
         varoute(21,ihout) = varoute(21,inum2)  !!conservative metal #2
         varoute(22,ihout) = varoute(22,inum2)  !!conservative metal #3
 
-        if (ievent > 2) then
+        if (ievent > 0) then
           do ii = 1, nstep
             hhvaroute(1,ihout,ii) = 0.           !!undefined
             hhvaroute(2,ihout,ii) = hhresflwo(ii)

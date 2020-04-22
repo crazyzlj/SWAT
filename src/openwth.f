@@ -63,7 +63,7 @@
           read (100+j,5000) titldum
           read (100+j,5000) titldum
           read (100+j,5000) titldum
-          if (ievent < 2) then   !daily records
+          if (ievent == 0) then   !daily records
             read (100+j,5001) (elevp(k), k = kk1, kk2)
           else                   !subdaily records
             read (100+j,5003) (elevp(k), k = kk1, kk2)

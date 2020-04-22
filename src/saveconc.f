@@ -30,7 +30,7 @@
 !!                                  |printed to saveconc file
 !!    ievent         |none          |rainfall/runoff code
 !!                                  |0 daily rainfall/curve number technique
-!!                                  |1 daily rainfall/Green&Ampt technique/daily
+!!                                  |1 daily rainfall/curve number technique/daily
 !!                                  |  routing
 !!                                  |2 sub-daily rainfall/Green&Ampt technique/
 !!                                  |  daily routing
@@ -100,7 +100,7 @@
       real, dimension (19) :: varii
       integer :: ii, j
       if (inum1 <= 50 .and. inum1 > 0) then
-      if (ievent == 3 .and. inum2 == 1) then
+      if (ievent == 1 .and. inum2 == 1) then
 
 
         !! Write sub-daily values (any time step) : URBAN MODELING
@@ -153,7 +153,7 @@
       else
         !! Write daily values
         varii = 0.
-        if (ievent == 3) then         !! sum sub-daily to daily if needed
+        if (ievent == 1) then         !! sum sub-daily to daily if needed
           !! zero daily flow out variables
           do ii = 1, mvaro
             varoute(ii,ihout) = 0.

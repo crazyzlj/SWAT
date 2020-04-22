@@ -220,6 +220,9 @@
         if (eof < 0) exit
         read (105,*,iostat=eof) ccoef(i)
         if (eof < 0) exit
+!! code added for C. Ikenberry to swith from new (0) to old (1) equations in resnut.f
+        read (105,*,iostat=eof) ires_nut
+        if (eof < 0) exit
         exit
       end do
 
@@ -227,6 +230,13 @@
       if (res_sub(i) <= 0) res_sub(i) = 1
       if (ndtargr(i) <= 0) ndtargr(i) = 15
       if (res_d50 <= 0) res_d50 = 10.
+      if (nostep <= 0) nostep = 24
+      if (weirc(i) <= 0) weirc(i) = 1.
+      if (weirk(i) <= 0) weirk(i) = 150000.0
+      if (weirw(i) <= 0) weirw(i) = 2.0 
+      if (acoef(i) <= 0) acoef(i) = 1.0
+      if (bcoef(i) <= 0) bcoef(i) = 1.75
+      if (ccoef(i) <= 0) ccoef(i) = 1.0
       if (res_pvol(i) + res_evol(i) > 0.) then
         if (res_pvol(i) <= 0) res_pvol(i) = 0.9 * res_evol(i)
       else
@@ -308,7 +318,7 @@
       end if
 
 !! calculate sediment settling rate
-      if(ievent<3) then
+      if(ievent== 0) then
 	  sed_stlr(i) = Exp(-.184 * res_d50)
 	else
 	  sed_stlr(i) = Exp(-.184 * res_d50 / nstep)	!! urban modeling by J.Jeong

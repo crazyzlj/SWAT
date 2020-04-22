@@ -129,7 +129,7 @@
       close (106)
       
       do j = 1, mlyr
-        if (pperco_sub(j,ihru) <= 1.e-6) pperco_sub(j,ihru) = pperco
+        if (pperco_sub(j,ihru) <= 1.e-6) pperco_sub(j,ihru) = pperco_bsn
       end do
 
       return

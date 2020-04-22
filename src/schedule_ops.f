@@ -134,10 +134,9 @@
 !! Set counter
 		 k = mhru + ngrwat(ihru)
 !!Check the channel to make sure the enter width and depth will work with 8:1 trap channel, assume width is correct
-		b = grwat_w(ihru) - 2. * grwat_d(ihru) * 8
+		b = (grwat_w(ihru) - 2.) * grwat_d(ihru) * 8
 !! Depth and Width not possible with 8:1 sideslope and trapazoidal channel assume b =.25*width
 	    if (b <= 0.) grwat_d(ihru) = 3. / 64. * grwat_w(ihru)
-
            call ttcoef_wway
 		      
         case (8)

@@ -45,7 +45,7 @@
       rtwtr = rtwtr - wurch(i_mo,jrch) * 10000.
       if (rtwtr < 0.) rtwtr = 0.
 
-      if (ievent > 2) then
+      if (ievent > 0) then
         do ii = 1, nstep
           hrtwtr(ii) = hrtwtr(ii) - wurch(i_mo,jrch) * 10000. 
      &      / real(nstep)
@@ -73,7 +73,7 @@
           rch_gra = 0.
 	  end if
 
-        if (ievent > 2) then
+        if (ievent > 0) then
           do ii = 1, nstep
             hsedyld(ii) = hsedyld(ii) * rtwtr / wtrin
             if (hrtwtr(ii) == 0.) hsedyld(ii) = 0.

@@ -123,7 +123,7 @@
       varoute(27,ihout) = sedyr(inum1,curyr) * 0.   ! lag
       varoute(28,ihout) = 0.                        ! gravel
 
-      if (ievent > 2) then
+      if (ievent > 0) then
         do ii = 1, nstep
           hhvaroute(2,ihout,ii) = floyr(inum1,curyr) / real(nstep)
           hhvaroute(3,ihout,ii) = sedyr(inum1,curyr) / real(nstep)

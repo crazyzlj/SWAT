@@ -224,7 +224,7 @@
 
           !! compute humus mineralization on active organic n
           hmn = 0.
-          hmn = cmn * csf * sol_aorgn(k,j)
+          hmn = cmn(j) * csf * sol_aorgn(k,j)
           hmn = Min(hmn, sol_aorgn(k,j))
           !! compute humus mineralization on active organic p
           xx = 0.
@@ -301,8 +301,8 @@
 !!  compute denitrification
         wdn = 0.   
 	  if (i_sep(j) /= k .or. isep_opt(j) /= 1) then
-	    if (sut >= sdnco) then
-	      wdn = sol_no3(k,j) * (1. - Exp(-cdn * cdg * sol_cbn(k,j)))
+	    if (sut >= sdnco(j)) then
+	      wdn = sol_no3(k,j) * (1. - Exp(-cdn(j) * cdg * sol_cbn(k,j)))
 	    else
 	      wdn = 0.
 	    endif

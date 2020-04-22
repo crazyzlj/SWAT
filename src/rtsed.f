@@ -112,6 +112,7 @@
       end if
       if (vc > 5.) vc = 5.
 
+      tbase = 0.                         !!!!!!!!added back in 051815 baumgart
       tbase = ch_l2(jrch) * 1000. / (3600. * 24. * vc)
       tbase = prf(jrch)
 
@@ -127,8 +128,9 @@
 	  deg2 = 0.
       dep = 0.
       cyin = sedin / qdin
-      cych = spcon * vc ** spexp
+      cych = spcon(jrch) * vc ** spexp(jrch)
       depnet = qdin * (cych - cyin)
+      depnet = rtwtr * (cych - cyin)
 	if(abs(depnet) < 1.e-6) depnet = 0.
       if (vc < vcrit) depnet = 0.
 

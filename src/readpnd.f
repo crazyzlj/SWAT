@@ -349,7 +349,7 @@
       close (104)
 
       !! Detention pond  -- read from a separate file (.dpd)
-      if (dpd_file /= '             ' .and. ievent > 2) then
+      if (dpd_file /= '             ' .and. ievent > 0) then
       open (104,file=dpd_file)
       read (104,5100,iostat=eof) titldum
       if (eof < 0) exit
@@ -383,12 +383,7 @@
       if (eof < 0) exit
       read (104,*,iostat=eof) dtp_coef3(i)
       if (eof < 0) exit
-      read (104,*,iostat=eof) dtp_dummy1(i)
-      if (eof < 0) exit
-      read (104,*,iostat=eof) dtp_dummy2(i)
-      if (eof < 0) exit
-      read (104,*,iostat=eof) dtp_dummy3(i)
-      if (eof < 0) exit
+
       read (104,*,iostat=eof) (dtp_weirtype(i,k),k=1,dtp_numstage(i))
       if (eof < 0) exit 
       read (104,*,iostat=eof) (dtp_weirdim(i,k),k=1,dtp_numstage(i))
@@ -416,7 +411,7 @@
 !!  END DETENTION POND FILE
 
       !! Wet pond (.wpd file)
-      if (wpd_file /= '             ' .and. ievent > 2) then
+      if (wpd_file /= '             ' .and. ievent > 0) then
       open (104,file=wpd_file)
       read (104,5100,iostat=eof) titldum
       if (eof < 0) exit
@@ -482,7 +477,7 @@
 !! end wet pond (.wpd file)
 
       !! Retention-Irrigation
-      if (rib_file /= '             '.and. ievent > 2) then
+      if (rib_file /= '             '.and. ievent > 0) then
       open (104,file=rib_file)
       read (104,5100,iostat=eof) titldum
       if (eof < 0) exit
@@ -532,7 +527,7 @@
 !! end .rib file
 
       !! Sedimentaton-Filtration (.sfb file)
-      if (sfb_file /= '             '.and. ievent > 2) then     
+      if (sfb_file /= '             '.and. ievent > 0) then     
       open (104,file=sfb_file)
       read (104,'(a20)',iostat=eof) titldum
       if (eof < 0) exit
@@ -664,7 +659,7 @@
 !!    close (104)
       
       !! Set default values for urban BMP parameters
-      if (ievent == 3) call bmpinit
+      if (ievent > 0) call bmpinit
       
       return
  5100 format (a)

@@ -89,7 +89,7 @@
             pdvb(ii) = pdvab(ipdvab(ii))
           end do
           write (31,1000) sb, subgis(sb), mo_chk, sub_km(sb),           
-     &                                    (pdvb(ii), ii = 1, itotb), sb
+     &                                    (pdvb(ii), ii = 1, itotb)
         else
           write (31,1000) sb, subgis(sb), mo_chk, sub_km(sb),           
      &                                    (pdvab(ii), ii = 1, msubo), sb

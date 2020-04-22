@@ -247,20 +247,20 @@
             solp = sol_solp(j,i) / conv_wt(j,i) * 1000000.
 	      !! PSP = -0.045*log (% clay) + 0.001*(Solution P, mg kg-1) - 0.035*(% Organic C) + 0.43
 	      if (sol_clay(j,i) > 0.) then
-              psp = -0.045 * log(sol_clay(j,i))+ (0.001 * solp) 
-              psp = psp - (0.035  * sol_cbn(j,i)) + 0.43 
+              psp(i) = -0.045 * log(sol_clay(j,i))+ (0.001 * solp) 
+              psp(i) = psp(i) - (0.035  * sol_cbn(j,i)) + 0.43 
             else
-              psp = 0.4
+              psp(i) = 0.4
             endif   		
             !! Limit PSP range
-            if (psp <.05) then
-              psp = 0.05
-	      else if (psp > 0.9) then
-              psp = 0.9
+            if (psp(i) <.05) then
+              psp(i) = 0.05
+	      else if (psp(i) > 0.9) then
+              psp(i) = 0.9
             end if
             end if
 	    
-        sol_actp(j,i) = sol_solp(j,i) * (1. - psp) / psp
+        sol_actp(j,i) = sol_solp(j,i) * (1. - psp(i)) / psp(i)
 
           !! Set Stable pool based on dynamic coefficant
 	    if (sol_P_model == 0) then  !! From White et al 2009 
@@ -391,7 +391,7 @@
             X1=sol_rsd(j,i) /1000.  
             !!skip std in SWAT                                                                   
             !IF(j==1)X1=X1+STD(j)/1000.
-                                                                          
+                                                                  
             sol_LM(j,i)=500.*X1                                        
             sol_LS(j,i)=sol_LM(j,i)                                    
             sol_LSL(j,i)=.8*sol_LS(j,i)                              
@@ -426,9 +426,7 @@
 	end do	
 	
 	end if
-      !! By Zhang for C/N cycling
-      !!=============================== 
-      
+      !! By Zhang for C/N cycling      
       	
 	!!May need to think about moving the following lines which appear before in this module to the end of this module,
 	!!because orgn has been re-calculated.

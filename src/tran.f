@@ -1,7 +1,7 @@
       subroutine tran
-
+      
 !!    ~ ~ ~ PURPOSE ~ ~ ~
-!!    this subroutine computes tributary channel transmission losses
+!!    this subroutine computes tributary channel transmission losses     
 
 !!    ~ ~ ~ INCOMING VARIABLES ~ ~ ~
 !!    name        |units         |definition
@@ -21,7 +21,7 @@
 !!    name        |units         |definition
 !!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
 !!    peakr       |m^3/s         |peak runoff rate
-!!    qday        |mm H2O        |amount of surface runoff loading to main
+!!    qday        |mm H2O        |amount of surface runoff loading to main 
 !!                               |channel from HRU on current day
 !!    shallst(:)  |mm H2O        |depth of water in shallow aquifer in HRU
 !!    tloss       |mm H2O        |amount of water removed from surface runoff
@@ -44,7 +44,7 @@
 !!                               |duration DUR and volume VOL
 !!    pr1         |m^3/s         |peak runoff rate prior to accounting for
 !!                               |transmission losses
-!!    pxw         |m^3           |threshold volume for a channel reach of
+!!    pxw         |m^3           |threshold volume for a channel reach of 
 !!                               |length L and width W
 !!    qinit       |mm H2O        |amount of water in surface runoff loading
 !!                               |prior to accounting for transmission losses
@@ -92,24 +92,24 @@
       xx = 0.
       xx = 2.6466 * ch_k(1,hru_sub(j)) * dur / vo
       if (xx < 1.) then
-
+        
         !moved by pdw
         !! zero surface runoff/peak rate
         qday = 0.
         peakr = 0.
         ! end move pdw
-
+        
         k = 0.
         k = -2.22 * Log(1. - xx)
         b = 0.
         b = Exp(-0.4905 * k)
-
+        
         ! bug fix by pdw
         ! old code: if ((1. - b) > 1.e-20) then
 				! new code:
-        if ((1. - b) .GE. 0.) then
+        if ((1. - b) .GE. 0.) then 
         ! end fix pdw
-
+        
           zz = 0.
           zz = - k * ch_w(1,hru_sub(j)) * ch_l1(j)
           if (zz >= -30.) then
@@ -128,7 +128,7 @@
                 qday = qday / (1000. * hru_km(j))  !!surface runoff: mm
                 if (qday < 0.) qday = 0.
                 if (qday > 0.) then
-                  peakr = (1. / (dur * 3600.)) * (axw - (1. - bxw) * vo)
+                  peakr = (1. / (dur * 3600.)) * (axw - (1. - bxw) * vo)   &
      &                  + bxw * pr1              !!peak rate: m^3/s
                   if (peakr < 0.) peakr = 0.
                 end if

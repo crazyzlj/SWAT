@@ -33,11 +33,8 @@
 !!                                |stream on a given day in the month
 !!    ievent        |none         |rainfall/runoff code
 !!                                |0 daily rainfall/curve number technique
-!!                                |1 daily rainfall/Green&Ampt technique/daily
+!!                                |1 sub-daily rainfall/Green&Ampt/hourly
 !!                                |  routing
-!!                                |2 sub-daily rainfall/Green&Ampt technique/
-!!                                |  daily routing
-!!                                |3 sub-daily rainfall/Green&Ampt/hourly routing
 !!    ihout         |none         |hydrograph storage location number
 !!    inum1         |none         |file number
 !!    flomon(:,:,:) |m^3/day      |average amount of water loaded to stream
@@ -147,7 +144,7 @@
       varoute(27,ihout) = sedmon(inum1,curyr,i_mo) * 0.   ! lag
       varoute(28,ihout) = 0.                    ! gravel
 
-      if (ievent > 2) then
+      if (ievent > 0) then
       do ii = 1, nstep
       hhvaroute(2,ihout,ii) = flomon(inum1,curyr,i_mo) / real(nstep)
       hhvaroute(3,ihout,ii) = sedmon(inum1,curyr,i_mo) / real(nstep)

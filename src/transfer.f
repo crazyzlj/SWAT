@@ -140,6 +140,8 @@
       end if
       if (volum <= 0.) return
 
+      nhyd_tr = ih_tran(inum5)
+      
 !! compute maximum amount of water allowed to be transferred
       tranmx = 0.
       select case (inum4)
@@ -177,8 +179,6 @@
 !            xx = 0.
 !          end if
 
-           nhyd_tr = ih_tran(inum5)
-      
           if (xx > varoute(2,nhyd_tr)) then
             xx = tranmx - varoute(2,nhyd_tr)
             varoute(2,nhyd_tr) = 0.

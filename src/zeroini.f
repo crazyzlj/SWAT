@@ -162,6 +162,12 @@
       spexp = 0.
       subtot = 0
       surlag_bsn = 0.
+      cmn_bsn = 0.
+      cdn_bsn = 0.
+      nperco_bsn = 0.
+      pperco_bsn = 0.
+      phoskd_bsn = 0.
+      psp_bsn = 0.
       surlag = 0.
       tfact = 0.
       thbact = 0.

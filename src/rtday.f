@@ -86,7 +86,7 @@
       vol = wtrin + rchstor(jrch)
 
 !! Find average flowrate in a day
-      volrt = vol / 86400
+      volrt = vol / 86400.
 
 !! Find maximum flow capacity of the channel at bank full
       c = 0.
