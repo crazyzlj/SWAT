@@ -11,11 +11,8 @@
 !!    id1         |julian date   |first day of simulation in year
 !!    ievent      |none          |rainfall/runoff code
 !!                               |0 daily rainfall/curve number technique
-!!                               |1 daily rainfall/Green&Ampt technique/daily
+!!                               |1 sub-daily rainfall/Green&Ampt/hourly
 !!                               |  routing
-!!                               |2 sub-daily rainfall/Green&Ampt technique/
-!!                               |  daily routing
-!!                               |3 sub-daily rainfall/Green&Ampt/hourly routing
 !!    inum1       |none          |reach number
 !!    ifirstr(:)  |none          |measured data search code
 !!                               |0 first day of measured data located in file
@@ -181,7 +178,7 @@
       varoute(27,ihout) = sedday * 0.   ! lag
       varoute(28,ihout) = 0.            ! gravel
 
-      if (ievent > 2) then
+      if (ievent > 0) then
         do ii = 1, nstep
           hhvaroute(2,ihout,ii) = floday / real(nstep)
           hhvaroute(3,ihout,ii) = sedday / real(nstep)

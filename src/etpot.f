@@ -286,11 +286,10 @@
             else
               fvpd = 1.0
             end if
-            gsi_adj = 0.
             gsi_adj = gsi(idplt(j)) * fvpd
             
+            if (gsi_adj > 1.e-6) then
             !! calculate canopy resistance
-            rc = 0.
             rc = 1. / gsi_adj                    !single leaf resistance
             rc = rc / (0.5 * (laiday(j) + 0.01)                         
      &                           * (1.4 - 0.4 * co2(hru_sub(j)) / 330.))
@@ -300,6 +299,9 @@
      &                               (xl * (dlt + gma * (1. + rc / rv)))
             if (ep_max < 0.) ep_max = 0.
             ep_max = Min(ep_max, pet_day)
+            else
+              ep_max = 0.
+            end if
           end if
        
        case (2)   !! HARGREAVES POTENTIAL EVAPOTRANSPIRATION METHOD

@@ -233,7 +233,7 @@
       cyin = sedin/qdin
 
 !!    Streampower for sediment calculated based on Bagnold (1977) concept
-      cych = spcon * vc ** spexp
+      cych = spcon(jrch) * vc ** spexp(jrch)
 
 !!    Potential sediment Transport capacity
       depnet = qdin * (cych - cyin)

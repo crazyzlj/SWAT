@@ -12,11 +12,7 @@
 !!    hhvaroute(19,:,:)|# cfu/100ml |less persistent bacteria
 !!    ievent           |none        |rainfall/runoff code
 !!                                  |0 daily rainfall/curve number technique
-!!                                  |1 daily rainfall/Green&Ampt technique/daily
-!!                                  |  routing
-!!                                  |2 sub-daily rainfall/Green&Ampt technique/
-!!                                  |  daily routing
-!!                                  |3 sub-daily rainfall/Green&Ampt/hourly
+!!                                  |1 sub-daily rainfall/Green&Ampt/hourly
 !!                                  |  routing
 !!    inum1            |none        |reach number
 !!    inum2            |none        |inflow hydrograph storage location number
@@ -92,7 +88,7 @@
       if (wtmp <= 0.) wtmp = 0.1
 
 !     skipping hourly bacteria route for now  04/16/07 nubs
-      if (ievent > 2) then                !! hourly mass balance
+      if (ievent > 0) then                !! hourly mass balance
         initlp = 0.
         initp = 0.
         initlp = rch_bactlp(jrch)

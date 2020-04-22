@@ -115,21 +115,21 @@
 	  !! Dynamic PSP Ratio
 	    !!PSP = -0.045*log (% clay) + 0.001*(Solution P, mg kg-1) - 0.035*(% Organic C) + 0.43
 	    if (sol_clay(l,j) > 0.) then
-	      psp = -0.045 * log(sol_clay(l,j))+ (0.001 * solp(l)) 
-	      psp = psp - (0.035  * sol_cbn(l,j)) + 0.43
+	      psp(j) = -0.045 * log(sol_clay(l,j))+ (0.001 * solp(l)) 
+	      psp(j) = psp(j) - (0.035  * sol_cbn(l,j)) + 0.43
 	    else
-	      psp = 0.4
+	      psp(j) = 0.4
 	    end if    		
 		!! Limit PSP range
-		if (psp <.1)  psp = 0.1 ! limits on PSP
-	    if (psp > 0.7)  psp = 0.7  
+		if (psp(j) <.1)  psp(j) = 0.1 ! limits on PSP
+	    if (psp(j) > 0.7)  psp(j) = 0.7  
 
         !! Calculate smoothed PSP average 
 	  if (psp_store(l,j) > 0.) then
-	    psp = (psp_store(l,j) * 29. + PSP * 1.)/30
+	    psp(j) = (psp_store(l,j) * 29. + PSP(j) * 1.)/30
 	  end if
         !! Store PSP for tomarrows smoothing calculation
-	  psp_store(l,j) = psp
+	  psp_store(l,j) = psp(j)
 
 !!***************Dynamic Active/Soluble Transformation Coeff******************
 
@@ -141,7 +141,7 @@
 
 	   !! Calculate P balance
 		rto = 0.
-		rto = psp / (1.-psp)
+		rto = psp(j) / (1.-psp(j))
 		rmn1 = 0.
 		rmn1 = sol_solp(l,j) - sol_actp(l,j) * rto !! P imbalance
 
@@ -149,7 +149,7 @@
 		if (rmn1 >= 0.) then !! Net movement from soluble to active	
 		  rmn1 = Max(rmn1, (-1 * sol_solp(l,j)))
 		!! Calculate Dynamic Coefficant		
-          vara = 0.918 * (exp(-4.603 * psp))          
+          vara = 0.918 * (exp(-4.603 * psp(j)))          
 		  varb = (-0.238 * ALOG(vara)) - 1.126
 		  if (a_days(l,j) >0) then 
 		    arate = vara * (a_days(l,j) ** varb)
@@ -167,7 +167,7 @@
 		if (rmn1 < 0.) then !! Net movement from Active to Soluble 		
 		  rmn1 = Min(rmn1, sol_actp(l,j))	
 		  !! Calculate Dynamic Coefficant
-		  base = (-1.08 * PSP) + 0.79
+		  base = (-1.08 * PSP(j)) + 0.79
 		  varc = base * (exp (-0.29))
 	       !! limit varc from 0.1 to 1
 		  if (varc > 1.0) varc  = 1.0

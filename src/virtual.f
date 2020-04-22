@@ -29,16 +29,12 @@
 !!    gw_q(:)       |mm H2O        |groundwater contribution to streamflow from
 !!                                 |HRU on current day
 !!    hhqday(:)     |mm H2O        |surface runoff for the hour in HRU
-!!    hru_fr(:)   |none          |fraction of watershed area in HRU
+!!    hru_fr(:)     |none          |fraction of watershed area in HRU
 !!    hru_fr(:)     |none          |fraction of subbasin area in HRU
 !!    hru_ha(:)     |ha            |area of HRU in hectares
 !!    ievent        |none          |rainfall/runoff code
 !!                                 |0 daily rainfall/curve number technique
-!!                                 |1 daily rainfall/Green&Ampt technique/daily
-!!                                 |  routing
-!!                                 |2 sub-daily rainfall/Green&Ampt technique/
-!!                                 |  daily routing
-!!                                 |3 sub-daily rainfall/Green&Ampt/hourly 
+!!                                 |1 sub-daily rainfall/Green&Ampt/hourly
 !!                                 |  routing
 !!    ihout         |none          |hydrograph storage location number for 
 !!                                 |subbasin
@@ -293,7 +289,7 @@
         sub_subp_dt(sb,:) = sub_subp_dt(sb,:) + rainsub(j,:) * hru_fr(j) !!urban modeling by J.Jeong
 
       !! subbasin averages: sub-daily water for URBAN MODELING
-        if (ievent>1) then
+        if (ievent>0) then
         do ii = 1, nstep  !! step Oct. 18, 2007
           
           if (bmpdrain(j)==1) then
@@ -440,7 +436,7 @@
 !        sub_pet(sb) = sub_pet(sb) / sub_fr(sb)
 !        sub_etday(sb) = sub_etday(sb) / sub_fr(sb)
 !
-        if (ievent >= 2) then
+        if (ievent > 0) then
 !
          ! subdaily surface runoff, upland sediment for the subbasin
 !         sub_ubnrunoff(sb,1:nstep) = sub_ubnrunoff(sb,1:nstep) 
@@ -573,7 +569,7 @@
          shyd(8,ihout) = shyd(8,ihout) + varoute(12,ihout)
 
         !! sub-daily calculations
-        if (ievent >= 2) then
+        if (ievent > 0) then
           !! determine the daily total base flow 
           baseflw = sub_gwq(sb) + sub_latq(sb) + sub_tileq(sb)
           if (baseflw < 0.) baseflw = 0.

@@ -161,7 +161,7 @@
         do i = id1, idlst                            !! begin daily loop
 
           !screen print days of the year for subdaily runs (dt<60min)
-          if (ievent>1.and.idt<60) then
+          if (ievent>0.and.idt<60) then
             write(*,'(3x,I5,a6,i4)') iyr,'  day:', iida
           endif
          
@@ -227,6 +227,10 @@
           if (curyr > nyskip) ndmo(i_mo) = ndmo(i_mo) + 1
 
           if (pcpsim < 3) call clicon      !! read in/generate weather
+          if (iatmodep == 2) then
+            read (127,*) iyp, idap, (rammo_d(l), rcn_d(l),
+     &       drydep_nh4_d(l), drydep_no3_d(l),l=1, matmo)
+          end if
 
            !! call resetlu
            if (ida_lup(no_lup) == i .and. iyr_lup(no_lup) == iyr) then

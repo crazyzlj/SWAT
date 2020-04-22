@@ -1,24 +1,26 @@
       module parm
-      integer icalen, prf_bsn
-
+      integer icalen
+      real :: prf_bsn
+      
       real, dimension (:), allocatable :: alph_e
-      real, dimension (:), allocatable :: co_p, surlag
-
-!!   change per JGA 8/31/2011 gsm for output.mgt
-      real :: yield, burn_frlb, pst_kg
+      real, dimension (:), allocatable :: co_p, surlag, cdn, nperco
+      real, dimension (:), allocatable :: cmn, phoskd, psp, sdnco
+      
+!!   change per JGA 8/31/2011 gsm for output.mgt 
+      real :: yield, burn_frlb, pst_kg, r2adj_bsn
       real :: yieldgrn, yieldbms, yieldtbr, yieldn, yieldp
       real :: hi_bms, hi_rsd, yieldrsd
 !!    arrays for Landscape Transport Capacity 5/28/2009 nadia
       real, dimension (:), allocatable :: l_k1, l_k2, l_lambda, l_beta
       real, dimension (:), allocatable :: l_gama, l_harea, l_vleng
       real, dimension (:), allocatable :: l_vslope, l_ktc
-
+      
 !!    arrays for Biofilm variables
       real, dimension (:), allocatable :: biofilm_mumax, biofilm_kinv
       real, dimension (:), allocatable :: biofilm_klw, biofilm_kla
       real, dimension (:), allocatable :: biofilm_cdet, biofilm_bm
-
-
+      
+     
 !!    new arrays for routing units
       real, dimension (:,:), allocatable :: hru_rufr, daru_km, ru_k
       real, dimension (:,:), allocatable :: ru_c, ru_eiq, ru_ovsl, ru_a
@@ -33,7 +35,7 @@
       real :: wshd_sepno3, wshd_sepnh3, wshd_seporgn, wshd_sepfon
       real :: wshd_seporgp, wshd_sepfop, wshd_sepsolp, wshd_sepbod
       real :: wshd_sepmm
-      integer, dimension (:), allocatable :: isep_hru
+      integer, dimension (:), allocatable :: isep_hru                
 !! septic variables for output.std
       real :: fixco, nfixmx, rsd_covco, vcrit, res_stlr_co
       real :: wshd_sw, wshd_snob, wshd_pndfr, wshd_pndv, wshd_pndsed
@@ -59,17 +61,18 @@
       real :: fertp, grazn, grazp, soxy, qdfr, sdti, rtwtr, ressa, wgps
       real :: rttime, rchdep, rtevp, rttlc, da_km, resflwi, wdlps, wglps
       real :: resflwo, respcp, resev, ressep,ressedi,ressedo,dtot,wdprch
-      real :: nperco, pperco, rsdco, phoskd, voltot, volcrmin, msk_x
+      real :: nperco_bsn,pperco_bsn,rsdco,phoskd_bsn,voltot
+      real :: volcrmin, msk_x
       real :: uno3d, canev, usle, rcn, surlag_bsn,bactkdq,precipday,wdpf
       real :: thbact, wpq20, wlpq20, wps20, wlps20, bactrop, bactsedp
       real :: bactlchp, bactlchlp, enratio, wetpcp, pndpcp, wetsep, wgpf
       real :: pndsep, wetev, pndev, pndsedo, wetsedo, pndflwi, wetflwi
       real :: pndflwo, wetflwo, wetsedi, da_ha, twlwet, twlpnd, vpd
       real :: bactrolp, bactsedlp, evrch, evlai, pet_day, ep_day, wdlpf
-      real :: snoev, sno3up, adj_pkr, n_updis, p_updis, nactfr, reactw
+      real :: snoev, sno3up, adj_pkr, n_updis,p_updis,nactfr,reactw
       real :: sdiegropq, sdiegrolpq, sdiegrops, sdiegrolps, es_day
       real :: sbactrop, sbactrolp, sbactsedp, sbactsedlp, ep_max, wof_lp
-      real :: sbactlchp, sbactlchlp, psp, rchwtr, resuspst, setlpst
+      real :: sbactlchp, sbactlchlp, psp_bsn, rchwtr, resuspst, setlpst
       real :: bsprev, bssprev, spadyo, spadyev, spadysp, spadyrfv
       real :: spadyosp
       real :: qday, usle_ei, al5, pndsedc, no3pcp, rcharea, volatpst
@@ -78,14 +81,14 @@
       real :: ai0, ai1, ai2, ai3, ai4, ai5, ai6, rhoq, tfact, sno50cov
       real :: mumax, lambda0, lambda1, lambda2, k_l, k_n, k_p, p_n
       real :: rnum1, autop, auton, etday, hmntl, rwntl, hmptl, rmn2tl
-      real :: rmptl, wdntl, cmn, rmp1tl, roctl, gwseep, revapday, reswtr
+      real :: rmptl,wdntl,cmn_bsn,rmp1tl,roctl,gwseep,revapday,reswtr
       real :: bury, difus, reactb, solpesto, petmeas, wdlprch, wdpres
-      real :: sorpesto, spcon, spexp, solpesti, sorpesti, wdlpres
+      real :: sorpesto, spcon_bsn, spexp_bsn, solpesti, sorpesti,wdlpres
       real :: snoprev, swprev, shallstp, deepstp, msk_co1, msk_co2
       real :: ressolpo, resorgno, resorgpo, resno3o, reschlao, resno2o
       real :: resnh3o, qdbank, potpcpmm, potevmm, potsepmm, potflwo
       real :: potsedo, pest_sol, trnsrch, wp20p_plt, bactminp, bactminlp
-      real :: wp20lp_plt, cncoef, cdn, sdnco, bact_swf, bactmx, bactmin
+      real :: wp20lp_plt,cncoef,cdn_bsn,sdnco_bsn,bact_swf,bactmx,bactmin
       real :: chla_subco, tb_adj, cn_froz, dorm_hr, smxco
       real :: depimp_bsn, ddrain_bsn, tdrain_bsn, gdrain_bsn
       real :: rch_san, rch_sil, rch_cla, rch_sag, rch_lag, rch_gra
@@ -93,7 +96,7 @@
 
 !!    delcare mike van liew variables
       real :: hlife_ngw_bsn, ch_opco_bsn, ch_onco_bsn
-      real :: bc1_bsn, bc2_bsn, bc3_bsn, bc4_bsn, rcn_sub_bsn, decr_min
+      real :: bc1_bsn, bc2_bsn, bc3_bsn, bc4_bsn, rcn_sub_bsn, decr_min         
       real :: anion_excl_bsn
 !!    delcare mike van liew variables
 
@@ -101,10 +104,10 @@
       real, dimension (:), allocatable :: wat_tbl,sol_swpwt
       real, dimension (:,:), allocatable :: vwt
 	  real :: re_bsn, sdrain_bsn, sstmaxd_bsn
-	  real :: drain_co_bsn, pc_bsn, latksatf_bsn
+	  real :: drain_co_bsn, pc_bsn, latksatf_bsn 
 !    Drainmod tile equations  01/2006
       integer :: i_subhw, imgt, idlast, iwtr, ifrttyp, mo_atmo, mo_atmo1
-      integer :: ifirstatmo, iyr_atmo, iyr_atmo1
+      integer :: ifirstatmo, iyr_atmo, iyr_atmo1, matmo
       integer :: mrg, mch, mcr, mpdb, mcrdb, mfdb, mhru, mhyd, mfcst
       integer :: mnr, myr, mcut, mgr, msubo, mrcho, isubwq, ffcst
       integer :: nhru, isproj, mo, nbyr, immo, nrch, nres, irte, i_mo
@@ -113,7 +116,7 @@
       integer :: nrgage, ntgage, nrgfil, ntgfil, nrtot, nttot, mrech
       integer :: lao, igropt, npmx, irtpest, curyr, tmpsim, icrk, iihru
 !    Drainmod tile equations  01/2006
-	integer :: ismax, itdrn, iwtdn, iroutunit
+	integer :: ismax, itdrn, iwtdn, iroutunit, ires_nut
 !    Drainmod tile equations  01/2006
       integer :: mtil, mvaro, mrecd, idist, mudb, mrecm, mrecc, iclb
       integer :: mrecy, ipet, nyskip, ideg, ievent, slrsim, iopera
@@ -126,7 +129,7 @@
       integer :: fcstcnt, icn, ised_det, mtran, idtill, motot
       integer, dimension(100) :: ida_lup, iyr_lup
       integer :: no_lup, no_up, nostep
-!  routing 5/3/2010 gsm per jga
+!  routing 5/3/2010 gsm per jga    
 ! date
       character(len=8) :: date
       character(len=10) :: time
@@ -156,8 +159,8 @@
       real, dimension (:), allocatable :: spttnconcs, sptnh4concs
       real, dimension (:), allocatable :: sptno3concs, sptno2concs
       real, dimension (:), allocatable :: sptorgnconcs, spttpconcs
-      real, dimension (:), allocatable :: sptminps, sptorgps
-      real, dimension (:), allocatable :: sptfcolis ,failyr,qstemm
+      real, dimension (:), allocatable :: sptminps, sptorgps      
+      real, dimension (:), allocatable :: sptfcolis ,failyr,qstemm               
 !! septic changes added 1/28/09 gsm
       real, dimension (:), allocatable :: bio_amn, bio_bod, biom,rbiom
       real, dimension (:), allocatable :: fcoli, bio_ntr, bz_perc
@@ -172,20 +175,20 @@
       real, dimension (:), allocatable :: coeff_mrt, coeff_rsp
       real, dimension (:), allocatable :: coeff_slg1, coeff_slg2
       real, dimension (:), allocatable :: coeff_nitr, coeff_denitr
-      real, dimension (:), allocatable :: coeff_pdistrb,coeff_solpslp
+      real, dimension (:), allocatable :: coeff_pdistrb,coeff_solpslp 
       real, dimension (:), allocatable :: coeff_solpintc,coeff_psorpmax
 !! Septic system by Jaehak Jeong
       integer, dimension (:), allocatable :: i_sep,isep_typ
       integer, dimension (:), allocatable :: isep_opt,sep_tsincefail
       integer, dimension (:), allocatable :: isep_tfail,isep_iyr
       integer, dimension (:), allocatable :: sep_strm_dist,sep_den
-
- !!   change per JGA 9/8/2011 gsm for output.mgt
+      
+ !!   change per JGA 9/8/2011 gsm for output.mgt 
       real, dimension (:), allocatable :: sol_sumno3, sol_sumsolp
       real, dimension (:), allocatable :: strsw_sum, strstmp_sum
       real, dimension (:), allocatable :: strsn_sum, strsp_sum
       real, dimension (:), allocatable :: strsa_sum
-
+      
 
 !! New pothole variables
       real, dimension (:), allocatable :: spill_hru,tile_out,hru_in
@@ -195,13 +198,13 @@
       real, dimension (:), allocatable :: pot_orgp,pot_orgpi
       real, dimension (:), allocatable :: pot_orgn,pot_orgni
       real, dimension (:), allocatable :: pot_mps,pot_mpsi
-      real, dimension (:), allocatable :: pot_mpa,pot_mpai
+      real, dimension (:), allocatable :: pot_mpa,pot_mpai   
       real, dimension (:), allocatable :: pot_no3i,precip_in
       real, dimension (:), allocatable :: tile_sedo,tile_no3o
       real, dimension (:), allocatable :: tile_solpo,tile_orgno
-      real, dimension (:), allocatable :: tile_orgpo,tile_minpso
-      real, dimension (:), allocatable :: tile_minpao
-! output files
+      real, dimension (:), allocatable :: tile_orgpo,tile_minpso   
+      real, dimension (:), allocatable :: tile_minpao                  
+! output files 
 !!  added for binary files 3/25/09 gsm
       integer :: ia_b, ihumus, itemp, isnow
       integer, dimension (:), allocatable :: icolb,icolr,icolrsv,icols
@@ -215,7 +218,7 @@
       real, dimension (:,:), allocatable :: hruaao,submono,subyro,subaao
       real, dimension (:,:), allocatable :: resoutm,resouty,resouta
       real, dimension (:,:), allocatable :: wshd_aamon
-      real, dimension (:,:), allocatable :: wtrmon,wtryr,wtraa
+      real, dimension (:,:), allocatable :: wtrmon,wtryr,wtraa 
       real, dimension (:,:), allocatable :: sub_smfmx, sub_smfmn
       real, dimension (:,:,:), allocatable :: hrupstd,hrupsta,hrupstm
       real, dimension (:,:,:), allocatable :: hrupsty
@@ -237,7 +240,7 @@
       real, dimension (:), allocatable :: nitraten,nitriten,ch_li,ch_si
 
 !      real, dimension (:), allocatable :: ch_cov,ch_di,ch_erod,ch_l2
-!      real, dimension (:), allocatable :: ch_san, ch_sil, ch_cla, ch_veg
+!      real, dimension (:), allocatable :: ch_san, ch_sil, ch_cla, ch_veg 
 !      real, dimension (:), allocatable :: ch_rcur, ch_ss, ch_fpr, ch_eqn
 !      real, dimension (:), allocatable :: ch_crht
 
@@ -252,7 +255,8 @@
       real, dimension (:), allocatable :: depch,depsanch,depsilch
       real, dimension (:), allocatable :: depclach,depsagch,deplagch
       real, dimension (:), allocatable :: depgrach,depgrafp,grast
-      real, dimension (:), allocatable :: depprch,depprfp, prf, r2adj
+      real, dimension (:), allocatable :: depprch,depprfp,prf,r2adj
+      real, dimension (:), allocatable :: spcon, spexp
       real, dimension (:), allocatable :: sanst,silst,clast,sagst,lagst
       real, dimension (:), allocatable :: pot_san,pot_sil,pot_cla
       real, dimension (:), allocatable :: pot_sag,pot_lag
@@ -275,9 +279,9 @@
       real, dimension (:), allocatable :: ch_di,ch_erod,ch_l2, ch_cov
       real, dimension (:), allocatable :: ch_cov1, ch_cov2, ch_bnk_bd
       real, dimension (:), allocatable :: ch_bed_bd,ch_bnk_kd,ch_bed_kd
-      real, dimension (:), allocatable :: ch_bnk_d50, ch_bed_d50
+      real, dimension (:), allocatable :: ch_bnk_d50, ch_bed_d50     
       real, dimension (:), allocatable :: tc_bed,tc_bnk
-      integer, dimension (:), allocatable :: ch_eqn
+      integer, dimension (:), allocatable :: ch_eqn                        
       real, dimension (:), allocatable :: chpst_conc,chpst_rea,chpst_vol
       real, dimension (:), allocatable :: chpst_koc,chpst_stl,chpst_rsp
       real, dimension (:), allocatable :: chpst_mix,sedpst_conc,ch_wdr
@@ -303,10 +307,11 @@
       real, dimension (:), allocatable :: latcos,latsin,phutot
       real, dimension (:), allocatable :: tlaps,plaps,tmp_an,sub_precip
       real, dimension (:), allocatable :: pcpdays, rcn_sub, rammo_sub
+      real, dimension (:), allocatable :: atmo_day
       real, dimension (:), allocatable :: sub_snom,sub_qd,sub_sedy
       real, dimension (:), allocatable :: sub_tran,sub_no3,sub_latno3
       real, dimension (:,:), allocatable :: sub_smtmp,sub_timp,sub_sftmp
-      real, dimension (:), allocatable :: sub_tileno3
+      real, dimension (:), allocatable :: sub_tileno3     
       real, dimension (:), allocatable :: sub_solp,sub_subp,sub_etday
       real, dimension (:), allocatable :: sub_wyld,sub_surfq,sub_elev
       real, dimension (:), allocatable :: qird
@@ -317,7 +322,7 @@
       real, dimension (:), allocatable :: sub_latq, sub_gwq_d,sub_tileq
       real, dimension (:), allocatable :: sub_dsan, sub_dsil, sub_dcla
       real, dimension (:), allocatable :: sub_dsag, sub_dlag
-
+      
 !!!!!! drains
       real, dimension (:), allocatable :: wnan
       real, dimension (:,:), allocatable :: sol_stpwt
@@ -345,7 +350,7 @@
       real, dimension (:,:), allocatable :: sol_z,sol_up,sol_bd,sol_st
       real, dimension (:,:), allocatable :: flat,sol_nh3,sol_hk,sol_clay
 !  added 1/27/09 when making septic changes
-      real, dimension (:,:), allocatable :: sol_ec
+      real, dimension (:,:), allocatable :: sol_ec 
 !  added 1/27/09 when making septic changes
       real, dimension (:,:), allocatable :: sol_orgn,sol_por,sol_wp
       real, dimension (:,:), allocatable :: sol_orgp,sol_hum,sol_wpmm
@@ -359,7 +364,7 @@
       real, dimension (:,:), allocatable :: orig_solaorgn,orig_solst
       real, dimension (:,:), allocatable :: orig_solactp,orig_solstap
       real, dimension (:,:), allocatable :: orig_volcr
-!    Drainmod tile equations  01/2006
+!    Drainmod tile equations  01/2006 
 	  real, dimension (:,:), allocatable :: conk
 !    Drainmod tile equations  01/2006
       real, dimension (:,:,:), allocatable :: sol_pst,sol_kp
@@ -372,6 +377,8 @@
       real, dimension (:), allocatable :: br2,res_rr,res_sed,lkpst_koc
       real, dimension (:), allocatable :: lkpst_stl,lkpst_rsp,lkpst_mix
       real, dimension (:), allocatable :: lkspst_conc,lkspst_rea
+      real, dimension (:), allocatable :: theta_n, theta_p, con_nirr
+      real, dimension (:), allocatable :: con_pirr
       real, dimension (:), allocatable :: lkspst_bry,lkspst_act,sed_stlr
       real, dimension (:), allocatable :: wurtnf,res_nsed,resdata,chlar
       real, dimension (:), allocatable :: res_orgn,res_orgp,res_no3
@@ -414,7 +421,7 @@
       real, dimension (:), allocatable :: blai,dlai,rdmx,cpyld,bio_leaf
       real, dimension (:), allocatable :: bio_n1,bio_n2,bio_p1,bio_p2
       real, dimension (:), allocatable :: bmx_trees,ext_coef,bm_dieoff
-      real, dimension (:), allocatable :: rsr1, rsr2
+      real, dimension (:), allocatable :: rsr1, rsr2                    
 !     real, dimension (:), allocatable :: air_str
       real, dimension (:,:), allocatable :: pltnfr,pltpfr
       integer, dimension (:), allocatable :: idc, mat_yrs
@@ -429,9 +436,9 @@
 ! mapp = max number of applications
       real :: sweepeff,frt_kg, pst_dep
 !! added pst_dep to statement below 3/31/08 gsm
-!!   burn 3/5/09
+!!   burn 3/5/09       
 ! mnr = max number years of rotation
-!!   burn 3/5/09
+!!   burn 3/5/09  
 ! mtil = max number tillages in database
  !! drainmod tile equations   06/2006
 
@@ -466,7 +473,7 @@
       real, dimension (:), allocatable :: evpot, dis_stream, pot_solpl
       real, dimension (:), allocatable :: sed_con, orgn_con, orgp_con
       real, dimension (:), allocatable :: soln_con, solp_con, pot_k
-      real, dimension (:), allocatable :: n_reduc, n_lag, n_ln, n_lnco
+      real, dimension (:), allocatable :: n_reduc, n_lag, n_ln, n_lnco 
       integer, dimension (:), allocatable :: ioper
       integer, dimension (:), allocatable :: ngrwat
       real, dimension (:), allocatable :: filterw,sumix,usle_ls,phuacc
@@ -513,7 +520,7 @@
       integer, dimension (:), allocatable :: imp_trig, fert_days,irr_sca
       integer, dimension (:), allocatable :: pest_days, idplt, wstrs_id
       real, dimension (:,:), allocatable :: bio_aahv
-!    Drainmod tile equations  08/2006
+!    Drainmod tile equations  08/2006 
 	  real, dimension (:), allocatable :: cumei,cumeira
 	  real, dimension (:), allocatable :: cumrt, cumrai
 !    Drainmod tile equations  08/2006
@@ -531,7 +538,7 @@
       real, dimension (:), allocatable :: wet_no3g,sol_avbd,trapeff
       real, dimension (:), allocatable :: gwqmn,tdrain,pplnt,snotmp
       real, dimension (:), allocatable :: ddrain,gdrain,sol_crk,dayl,brt
-!    Drainmod tile equations  01/2006
+!    Drainmod tile equations  01/2006 
 	real, dimension (:), allocatable ::ddrain_hru,re,sdrain,sstmaxd
 	real, dimension (:), allocatable :: stmaxd,drain_co,pc,latksatf
 !    Drainmod tile equations  01/2006
@@ -575,6 +582,8 @@
       real, dimension (:), allocatable :: manure_kg, auto_nstrs
       real, dimension (:,:), allocatable :: rcn_mo, rammo_mo
       real, dimension (:,:), allocatable :: drydep_no3_mo, drydep_nh4_mo
+      real, dimension (:), allocatable :: rcn_d, rammo_d
+      real, dimension (:), allocatable :: drydep_no3_d, drydep_nh4_d
       real, dimension (:,:), allocatable :: yldn
       real, dimension (:,:), allocatable :: gwati, gwatn, gwatl
       real, dimension (:,:), allocatable :: gwatw, gwatd, gwatveg
@@ -586,7 +595,7 @@
       real, dimension (:,:), allocatable :: pcpband,wupnd,tavband,phi
       real, dimension (:,:), allocatable :: wat_phi
       real, dimension (:,:), allocatable :: wushal,wudeep,tmnband,snoeb
-      real, dimension (:,:), allocatable :: nsetlw,snotmpeb,bss,surf_bs
+      real, dimension (:,:), allocatable :: nsetlw,snotmpeb,bss,surf_bs  
       real, dimension (:,:), allocatable :: tmxband,nsetlp
       real, dimension (:,:), allocatable :: rainsub,frad
       real, dimension (:),   allocatable ::  rstpbsb
@@ -594,7 +603,7 @@
       real, dimension (:,:), allocatable :: terr_p, terr_cn, terr_sl
       real, dimension (:,:), allocatable :: drain_d, drain_t, drain_g
       real, dimension (:,:), allocatable :: drain_idep
-      real, dimension (:,:), allocatable :: cont_cn, cont_p, filt_w
+      real, dimension (:,:), allocatable :: cont_cn, cont_p, filt_w   
       real, dimension (:,:), allocatable :: strip_n, strip_cn, strip_c
       real, dimension (:,:), allocatable :: strip_p, fire_cn
       real, dimension (:,:), allocatable :: cropno_upd,hi_upd,laimx_upd
@@ -712,7 +721,7 @@
 	real :: bf_flg, iabstr
 	real, dimension (:), allocatable :: ubnrunoff,ubntss
 	real, dimension (:,:), allocatable :: sub_ubnrunoff,sub_ubntss,
-     & ovrlnd_dt
+     & ovrlnd_dt	
 	real, dimension (:,:,:), allocatable :: hhsurf_bs
 
 !! subdaily erosion modeling by Jaehak Jeong
@@ -726,13 +735,13 @@
 	real, dimension(:,:,:), allocatable:: rchhr
 !! subdaily reservoir modeling by Jaehak Jeong
 	real, dimension(:), allocatable:: hhresflwi, hhresflwo,
-     & hhressedi, hhressedo
-
+     & hhressedi, hhressedo 
+	
 !! bmp modeling by jaehak jeong
       character(len=4), dimension(:), allocatable:: lu_nodrain
       integer, dimension(:), allocatable:: bmpdrain
       real, dimension(:), allocatable :: sub_cn2, sub_ha_urb,
-     & bmp_recharge
+     & bmp_recharge 
       !sed-fil
       real, dimension(:), allocatable:: sub_ha_imp,subdr_km,subdr_ickm
       real, dimension(:,:), allocatable:: sf_im,sf_iy,sp_sa,
@@ -743,8 +752,8 @@
      &  ft_sed_cumul,sp_sed_cumul
       integer, dimension(:), allocatable:: num_sf
       integer, dimension(:,:), allocatable:: sf_typ,sf_dim,ft_qfg,
-     &  sp_qfg,sf_ptp,ft_fc
-
+     &  sp_qfg,sf_ptp,ft_fc 
+      
       !detention pond
 	integer, dimension(:), allocatable :: dtp_subnum,dtp_imo,
      &  dtp_iyr,dtp_numweir,dtp_numstage,dtp_stagdis,
@@ -753,10 +762,10 @@
 	real, dimension (:), allocatable :: cf, cfh, cfdec
 !! sj & armen changes for SWAT-C end
 ! additional nutrient variables by jeong for montana bitterroot
-      real, dimension(:), allocatable :: lat_orgn, lat_orgp
+      real, dimension(:), allocatable :: lat_orgn, lat_orgp 
 
 	integer, dimension(:,:), allocatable :: dtp_weirtype,dtp_weirdim
-
+	
 	real, dimension(:), allocatable ::dtp_evrsv,
      &  dtp_inflvol,dtp_totwrwid,dtp_lwratio,dtp_wdep,dtp_totdep,
      &  dtp_watdepact,dtp_outflow,dtp_totrel,dtp_backoff,dtp_seep_sa,
@@ -766,18 +775,18 @@
      &  dtp_dummy3,dtp_ivol,dtp_ised
 
       integer, dimension (:,:),allocatable :: so_res_flag, ro_bmp_flag
-      real, dimension (:,:),allocatable :: sol_watp, sol_solp_pre
+      real, dimension (:,:),allocatable :: sol_watp, sol_solp_pre   
 	real, dimension (:,:),allocatable :: psp_store, ssp_store, so_res
 	real, dimension (:,:),allocatable :: sol_cal, sol_ph
       integer:: sol_p_model
       integer, dimension (:,:),allocatable :: a_days, b_days
-      real, dimension (:), allocatable :: harv_min, fstap, min_res
+      real, dimension (:), allocatable :: harv_min, fstap, min_res       
       real, dimension (:,:),allocatable :: ro_bmp_sed, ro_bmp_bac
       real, dimension (:,:),allocatable :: ro_bmp_pp, ro_bmp_sp
       real, dimension (:,:),allocatable :: ro_bmp_pn, ro_bmp_sn
       real, dimension (:),allocatable :: bmp_sed, bmp_bac
       real, dimension (:),allocatable :: bmp_pp, bmp_sp
-      real, dimension (:),allocatable :: bmp_pn, bmp_sn, bmp_flag
+      real, dimension (:),allocatable :: bmp_pn, bmp_sn, bmp_flag       
       real, dimension(:,:), allocatable:: dtp_wdratio,dtp_depweir,
      &  dtp_diaweir,dtp_retperd,dtp_pcpret,dtp_cdis,dtp_flowrate,
      &  dtp_wrwid,dtp_addon
@@ -788,30 +797,30 @@
       real, dimension(:), allocatable:: ri_subkm,ri_totpvol,
      &  irmmdt
       real, dimension(:,:), allocatable:: ri_sed,ri_fr,ri_dim,
-     &  ri_im,ri_iy,ri_sa,ri_vol,ri_qi,ri_k,ri_dd,ri_evrsv,
+     &  ri_im,ri_iy,ri_sa,ri_vol,ri_qi,ri_k,ri_dd,ri_evrsv, 
      &  ri_dep,ri_ndt,ri_pmpvol,ri_sed_cumul,hrnopcp,ri_qloss,
      &  ri_pumpv,ri_sedi
       character(len=4), dimension(:,:), allocatable:: ri_nirr
       integer, dimension(:), allocatable:: num_ri,ri_luflg,num_noirr
-
+      
       !wet pond
       integer, dimension(:), allocatable:: wtp_subnum,wtp_onoff,wtp_imo,
-     &  wtp_iyr,wtp_dim,wtp_stagdis,wtp_sdtype
+     &  wtp_iyr,wtp_dim,wtp_stagdis,wtp_sdtype      
       real, dimension(:), allocatable:: wtp_pvol,wtp_pdepth,wtp_sdslope,
      &  wtp_lenwdth,wtp_extdepth,wtp_hydeff,wtp_evrsv,wtp_sdintc,
      &  wtp_sdexp,wtp_sdc1,wtp_sdc2,wtp_sdc3,wtp_pdia,wtp_plen,
-     &  wtp_pmann,wtp_ploss,wtp_k,wtp_dp,wtp_sedi,wtp_sede,wtp_qi
-
+     &  wtp_pmann,wtp_ploss,wtp_k,wtp_dp,wtp_sedi,wtp_sede,wtp_qi 
+     
       real :: bio_init, lai_init, cnop,hi_ovr,harveff,frac_harvk
 
 
 !! By Zhang for C/N cycling
       !!SOM-residue C/N state variables -- currently included
-	real, dimension(:,:), allocatable :: sol_BMC, sol_BMN, sol_HSC,
-     &	sol_HSN, sol_HPC, sol_HPN, sol_LM,
+	real, dimension(:,:), allocatable :: sol_BMC, sol_BMN, sol_HSC, 
+     &	sol_HSN, sol_HPC, sol_HPN, sol_LM, 
      &  sol_LMC, sol_LMN, sol_LS, sol_LSL, sol_LSC, sol_LSN	, sol_RNMN,
      &  sol_LSLC, sol_LSLNC, sol_RSPC, sol_WOC, sol_WON, sol_HP, sol_HS,
-     &  sol_BM
+     &  sol_BM	
       !	HSC mass of C present in slow humus (kg ha-1)
       !	HSN mass of N present in slow humus (kg ha-1)
       !	HPC mass of C present in passive humus (kg ha-1)
@@ -823,39 +832,39 @@
       !	LSC mass of C in structural litter (kg ha-1)
       !	LSL mass of lignin in structural litter (kg ha-1)
       !	LSN mass of N in structural litter (kg ha-1)
-
+       
       !!SOM-residue C/N state variables -- may need to be included
-	real, dimension(:,:), allocatable :: sol_CAC, sol_CEC
-
+	real, dimension(:,:), allocatable :: sol_CAC, sol_CEC  
+          
 	!!daily updated soil layer associated percolaton and lateral flow Carbon loss
 	real, dimension(:,:), allocatable :: sol_percc
 	real, dimension(:,:), allocatable :: sol_latc
-
+	
       !!Daily carbon change by different means (entire soil profile for each HRU)
 	real, dimension(:), allocatable :: sedc_d, surfqc_d, latc_d,
-     &	percc_d, foc_d, NPPC_d, rsdc_d, grainc_d, stoverc_d, soc_d,
-     &  rspc_d, emitc_d
+     &	percc_d, foc_d, NPPC_d, rsdc_d, grainc_d, stoverc_d, soc_d, 
+     &  rspc_d, emitc_d 	
 	!!emitc_d include biomass_c eaten by grazing, burnt
 
-
+      
       !!Daily carbon change by different means (entire soil profile for each Subbasin)
       !!Only defined the variables, but not used them in the code
-	real, dimension(:), allocatable :: sub_sedc_d, sub_surfqc_d,
+	real, dimension(:), allocatable :: sub_sedc_d, sub_surfqc_d, 
      &  sub_latc_d,	sub_percc_d, sub_foc_d, sub_NPPC_d, sub_rsdc_d,
      &  sub_grainc_d, sub_stoverc_d, sub_emitc_d, sub_soc_d, sub_rspc_d
+	
+	
+      !!Monthly carbon change by different means (entire soil profile for each HRU)	
+	real, dimension(:), allocatable :: sedc_m, surfqc_m, latc_m, percc_m, 
+     &  foc_m, NPPC_m, rsdc_m, grainc_m, stoverc_m, emitc_m, soc_m, 
+     &  rspc_m	
 
+      !!Yearly carbon change by different means (entire soil profile for each HRU)	
+	real, dimension(:), allocatable :: sedc_a, surfqc_a, latc_a, 
+     &  percc_a, foc_a, NPPC_a, rsdc_a, grainc_a, stoverc_a, emitc_a, 	 
+     &  soc_a, rspc_a	
 
-      !!Monthly carbon change by different means (entire soil profile for each HRU)
-	real, dimension(:), allocatable :: sedc_m, surfqc_m, latc_m,
-     &  foc_m, NPPC_m, rsdc_m, grainc_m, stoverc_m, emitc_m, soc_m,
-     &  percc_m, rspc_m
-
-      !!Yearly carbon change by different means (entire soil profile for each HRU)
-	real, dimension(:), allocatable :: sedc_a, surfqc_a, latc_a,
-     &  percc_a, foc_a, NPPC_a, rsdc_a, grainc_a, stoverc_a, emitc_a,
-     &  soc_a, rspc_a
-
-
+	
       !! The following variables are defined and calculated locally
       !! ==================================================================
       !	HSCTP potential transformation of C in slow humus (kg ha-1 day-1)
@@ -873,7 +882,7 @@
       !	 0.0405 day-1; all other layers = 0.0507 day-1) (Parton et al., 1994)
       !	LMCTP potential transformation of C in metabolic litter (kg ha-1 day-1)
       !	LMNTP potential transformation of N in metabolic litter (kg ha-1 day-1)
-      !	LSCTP potential transformation of C in structural litter (kg ha-1 day-1)
+      !	LSCTP potential transformation of C in structural litter (kg ha-1 day-1) 
       !	LSF fraction of the litter that is structural
       !	LSLF fraction of structural litter that is lignin (kg kg-1)
       !	LSNF fraction of structural litter that is N (kg kg-1)

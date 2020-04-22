@@ -197,7 +197,7 @@
 !!  set default values for mike van liew
 
 !! change units from day to hour if hourly routing is performed
-      if (ievent > 2) then
+      if (ievent > 0) then
         rs1(irch) = rs1(irch) / 24.
         rs2(irch) = rs2(irch) / 24.
         rs3(irch) = rs3(irch) / 24.

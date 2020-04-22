@@ -8,11 +8,8 @@
 !!    hhvaroute(:,:,:)|varies    |routing storage array for hourly time step
 !!    ievent      |none          |rainfall/runoff code
 !!                               |0 daily rainfall/curve number technique
-!!                               |1 daily rainfall/Green&Ampt technique/daily
+!!                               |1 sub-daily rainfall/Green&Ampt/hourly
 !!                               |  routing
-!!                               |2 sub-daily rainfall/Green&Ampt technique/
-!!                               |  daily routing
-!!                               |3 sub-daily rainfall/Green&Ampt/hourly routing
 !!    ihout       |none          |outflow hydrograph storage location number
 !!    inum1       |none          |hydrograph storage location number of 
 !!                               |first dataset to be added
@@ -70,7 +67,7 @@
 
 
 !! add hydrograph points (hourly time step)
-      if (ievent > 2) then
+      if (ievent > 0) then
    !     do kk = 1, 24
         do kk = 1, nstep  ! modified for urban modeling by J.Jeong 4/15/2008
           if (hhvaroute(2,inum1,kk) + hhvaroute(2,inum2,kk) > 0.1) then

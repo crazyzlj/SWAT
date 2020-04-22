@@ -355,7 +355,7 @@
 
         !! compute loadings from urban areas
         if (urblu(j) > 0) then
-	     if(ievent<3) then
+	     if(ievent == 0) then
 	        call urban ! daily simulation
 	     else
 		     call urbanhr ! subdaily simulation J.Jeong 4/20/2009
@@ -365,7 +365,7 @@
 !! Srini Pothole
         !! compute undrained depression/impounded area (eg rice) processes
 !        if (pot_fr(j) > 0.) then
-!           if (ievent<3) then   
+!           if (ievent == 0) then   
 !          call pothole
 !           else
 !              call potholehr
@@ -424,7 +424,7 @@
         call wetlan
 
         !! compute pond processes
-        if (ievent<3) then
+        if (ievent == 0) then
            call hrupond
         else
            call hrupondhr

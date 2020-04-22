@@ -101,7 +101,7 @@
         if (isep_opt(j)==2) then
             cosurf = 1.0 * co ! N percolation does not apply to failing septic HRUs 
         else
-            cosurf = nperco * co
+            cosurf = nperco(j) * co
         end if
         if (jj == 1) then
           surqno3(j) = surfq(j) * cosurf
@@ -114,7 +114,11 @@
           alph_e(j) = Exp(-1./(n_lag(j) + 1.e-6))
           ww1 = -1./ ((1. - anion_excl(j)) * sol_ul(jj,j))
           vno3_c = sol_no3(jj,j) * (1. - Exp(ww1))
-          tno3ln = n_lnco(j) * (Log(tno3)) ** n_ln(j)
+          if (tno3 > 1.001) then
+            tno3ln = n_lnco(j) * (Log(tno3)) ** n_ln(j)
+          else
+            tno3ln = 0.
+          end if
           vno3_c = tno3ln * (1. - Exp(ww1))
           co_p(j) = co_p(j) * (1. - alph_e(j)) + vno3_c * alph_e(j)
           tileno3(j) = co * qtile     !Daniel 1/2012

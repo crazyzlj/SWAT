@@ -1,5 +1,5 @@
       subroutine grow
-
+      
 !!    ~ ~ ~ PURPOSE ~ ~ ~
 !!    this subroutine adjusts plant biomass, leaf area index, and canopy height
 !!    taking into account the effect of water, temperature and nutrient stresses
@@ -67,7 +67,7 @@
 !!    phuacc(:)   |none             |fraction of plant heat units accumulated
 !!    plt_et(:)   |mm H2O           |actual ET simulated during life of plant
 !!    plt_pet(:)  |mm H2O           |potential ET simulated during life of plant
-!!    strsn(:)    |none             |fraction of potential plant growth achieved
+!!    strsn(:)    |none             |fraction of potential plant growth achieved 
 !!                                  |on the day where the reduction is caused by
 !!                                  |nitrogen stress
 !!    strsp(:)    |none             |fraction of potential plant growth achieved
@@ -80,7 +80,7 @@
 !!                                  |on the day where the reduction is caused by
 !!                                  |water stress
 !!    t_base(:)   |deg C            |minimum temperature for plant growth
-!!    tmpav(:)    |deg C            |average air temperature on current day in
+!!    tmpav(:)    |deg C            |average air temperature on current day in 
 !!                                  |HRU
 !!    vpd         |kPa              |vapor pressure deficit
 !!    wac21(:)    |none             |1st shape parameter for radiation use
@@ -173,27 +173,27 @@
           delg = (tmpav(j) - t_base(idp)) / phu_plt(j)
         end if
         if (delg < 0.) delg = 0.
-        phuacc(j) = phuacc(j) + delg
+        phuacc(j) = phuacc(j) + delg  
 
 
         !! if plant hasn't reached maturity
         if (phuacc(j) <= 1.) then
 
-         !! compute temperature stress - strstmp(j)
+         !! compute temperature stress - strstmp(j)   
           call tstr
 
          !! calculate optimal biomass
 
           !! calculate photosynthetically active radiation
           par = 0.
-          par = .5 * hru_ra(j) * (1. - Exp(-ext_coef(idp) *
+          par = .5 * hru_ra(j) * (1. - Exp(-ext_coef(idp) *             
      &          (laiday(j) + .05)))
 
           !! adjust radiation-use efficiency for CO2
           beadj = 0.
           if (co2(hru_sub(j)) > 330.) then
-            beadj = 100. * co2(hru_sub(j)) / (co2(hru_sub(j)) +
-     &              Exp(wac21(idp) - co2(hru_sub(j)) * wac22(idp)))
+            beadj = 100. * co2(hru_sub(j)) / (co2(hru_sub(j)) +         
+     &              Exp(wac21(idp) - co2(hru_sub(j)) * wac22(idp)))     
           else
             beadj = bio_e(idp)
           end if
@@ -237,11 +237,11 @@
           if (reg > 1.) reg = 1.
 
           if (bio_targ(j) > 1.e-2) then
-            bioday = bioday * (bio_targ(j) - bio_ms(j)) /
+            bioday = bioday * (bio_targ(j) - bio_ms(j)) / 
      &                                         bio_targ(j)
             reg = 1.
           end if
-
+ 
           bio_ms(j) = bio_ms(j) + bioday * reg
           if (idc(idp) == 7 .and. igrotree(j) == 0) then
             if (mat_yrs(idp) > 0) then
@@ -261,14 +261,14 @@
             NPPC_d(j) = NPPC_d(j) + bioday * reg* 0.42
           end if
           !!add by zhang
-          !!============
-
+          !!============          
+          
           !! calculate fraction of total biomass that is in the roots
           rwt(j) = rsr1(idp) -(rsr1(idp) - rsr2(idp)) * phuacc(j)
 
           f = 0.
           ff = 0.
-          f = phuacc(j) / (phuacc(j) + Exp(leaf1(idp)
+          f = phuacc(j) / (phuacc(j) + Exp(leaf1(idp)                   
      &                     - leaf2(idp) * phuacc(j)))
           ff = f - laimxfr(j)
           laimxfr(j) = f
@@ -291,35 +291,35 @@
             end if
 
             if (laiday(j) > laimax) laiday(j) = laimax
-            deltalai = ff * laimax * (1.0 - Exp(5.0 * (laiday(j) -
+            deltalai = ff * laimax * (1.0 - Exp(5.0 * (laiday(j) -      
      &                                             laimax))) * Sqrt(reg)
             laiday(j) = laiday(j) + deltalai
             if (laiday(j) > laimax) laiday(j) = laimax
             olai(j) = laiday(j)
             if (laiday(j) > lai_yrmx(j)) lai_yrmx(j) = laiday(j)
           else
-            laiday(j) = olai(j) * (1. - phuacc(j)) /
+            laiday(j) = olai(j) * (1. - phuacc(j)) /                    
      &                               (1. - dlai(idp))
           end if
           if (laiday(j) < alai_min(idplt(j))) then   !Sue White dormancy
             laiday(j) = alai_min(idplt(j))
           end if
-
+          
           !! calculate plant ET values
           if (phuacc(j) > 0.5 .and. phuacc(j) < dlai(idp)) then
             plt_et(j) = plt_et(j) + ep_day + es_day
             plt_pet(j) = plt_pet(j) + pet_day
           end if
 
-          hvstiadj(j) = hvsti(idp) * 100. * phuacc(j)
+          hvstiadj(j) = hvsti(idp) * 100. * phuacc(j)                   
      &                / (100. * phuacc(j) + Exp(11.1 - 10. * phuacc(j)))
 
 !!  added per JGA for Srini by gsm 9/8/2011
           strsw_sum(j) = strsw_sum(j) + (1. - strsw(j))
           strstmp_sum(j) = strstmp_sum(j) + (1. - strstmp(j))
           strsn_sum(j) = strsn_sum(j) + (1. - strsn(j))
-          strsp_sum(j) = strsp_sum(j) + (1. - strsp(j))
-          strsa_sum(j) = strsa_sum(j) + (1. - strsa(j))
+          strsp_sum(j) = strsp_sum(j) + (1. - strsp(j)) 
+          strsa_sum(j) = strsa_sum(j) + (1. - strsa(j))             
 
           !! summary calculations
           if (curyr > nyskip) then
@@ -332,7 +332,7 @@
 	  else                                                                             !! Modified by Cibin to include DLAI>1
 		if (dlai(idp) > 1.) then
 		 if (phuacc(j) > dlai(idp)) then
-            laiday(j) = olai(j) * (1. - (phuacc(j) - dlai(idp)) /                       !! Modified by Cibin to include DLAI>1
+            laiday(j) = olai(j) * (1. - (phuacc(j) - dlai(idp)) /             &          !! Modified by Cibin to include DLAI>1
      &                               (1.2 - dlai(idp)))								   !! Modified by Cibin to include DLAI>1
 	     endif
 	    endif

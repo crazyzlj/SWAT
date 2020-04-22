@@ -90,7 +90,7 @@
 !!    name           |units         |definition
 !!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
 !!    pot_no3(:)     |kg N          |amount of nitrate in pothole water body
-!!    pot_solp(:)     |kg N          |amount of soluble p in pothole water body
+!!    pot_solp(:)    |1/d           | soluble P loss rate in the pothole (.01 - 0.5)
 !!    pot_orgn(:)     |kg N          |amount of organic N in pothole water body
 !!    pot_orgp(:)     |kg N          |amount of organic P in pothole water body
 !!    pot_mpa(:)     |kg N          |amount of active mineral pool P in pothole water body

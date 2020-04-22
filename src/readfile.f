@@ -696,8 +696,8 @@
 	if (imgt==1) then
          open (143, file="output.mgt", recl=600)
          write (143,999)
-999      format(2x,'Sub',2x,'Hru',2x,'Year',3x,'Mon',3x,'Day',3x,
-     *'crop/fert/pest', 4x,
+999      format(2x,'Sub',2x,'Hru',2x,'Year',3x,'Mon',3x,'Day',
+     *'   AREAkm2', 3x,'crop/fert/pest', 4x,
      *'Operation',4x,'phubase',3x,'phuacc',4x,'sol_sw',4x,'bio_ms',3x,
      *'sol_rsd',7x,'sol',7x,'sol',5x,'yield',3x,'irr amt',
      *5x,'amt',5x,'mix eff',
@@ -747,12 +747,6 @@
         open (22,file="output2.rsv",recl=800)
       end if
 
-      if (cswat == 1) then
-	open (100,file="cswat_profile.txt",recl=280)
-	write (100,*) 'year',';','day',';','hru',';','cmass',';','sol_rsd',
-     &';','mancmass'
-      end if
-
 !! septic result  J.Jeong Feb2009
       open (173,file='septic.out')  
 	write(173,5102) 'HRU','YEAR','DAY','Precip', 'PERC',        
@@ -764,6 +758,13 @@
      & '(kg/ha)','(kg/ha)','(kg/ha)','(kg/ha)','(kg/ha)',
      & '(kg/ha)','(kg/ha)','(mg/l)'
 
+!!   charles ikenberry output file
+      open (2222,file='charles.out',recl=800)
+      write (2222,2222) 
+2222  format (3x,'yr',2x,'day',5x,'res_vol',7x,'res_no3',7x,'ressa',
+     & 6x,'conc_n',4x,'con_nirr',6x,'nsetlr',5x,'theta_n',7x,'tmpav',
+     & 6x,'nitrok',/,15x,'m3',12x,'kg',12x,'ha',9x,'kg/m3',5x,'kg/m3',
+     & 9x,'--',9x,'--',12x,'deg c',6x,'--')
       close (101)
       return
 

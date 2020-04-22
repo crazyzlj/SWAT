@@ -201,6 +201,7 @@
             flw = 0.
             read (350+jres,5000) flw
             resflwo = 86400. * flw
+            
           case (4)
             targ = res_pvol(jres) * starg_fps(jres)
             if (res_vol(jres) > targ) then
@@ -209,26 +210,40 @@
               resflwo = 0.
             end if
             if (resflwo < oflowmn_fps(jres)) resflwo = oflowmn_fps(jres)
+            
           case (5)
             resflwo = 0.
             do jj = 1, nostep
-              x1 = (-res_pvol(jres) * bcoef(jres))
-              x2 = ((res_pvol(jres) * bcoef(jres)) ** 2.) - (4. * 
-     &          (res_pvol(jres) * ccoef(jres)) * (res_pvol(jres) - 
-     &           res_vol(jres)))
-              if(x2 <= 0.) x2 = 0.
-              x3 = sqrt(x2)
-              x4 = 2. * (res_pvol(jres) * ccoef(jres))
-              res_h = (x1 + x3) / x4
-              if(res_h <= 0.) res_h = 0.
-              res_qi = weirc(jres) * weirk(jres) * weirw(jres) * 
-     &          (res_h ** 1.5)
+              !! solve quadratic to find new depth
+              !testing relationship res_vol(jres) = float(jj) * .1 * res_pvol(jres)
+              x1 = bcoef(jres) ** 2 + 4. * ccoef(jres) * (1. - 
+     &                                  res_vol(jres) / res_pvol(jres))
+              if (x1 < 1.e-6) then
+                res_h = 0.
+              else
+                res_h1 = (-bcoef(jres) - sqrt(x1)) / (2. * ccoef(jres))
+                res_h = res_h1 + bcoef(jres)
+              end if
+
+              !! calculate water balance for timestep with new surface area
+              ressa = res_psa(jres) * (1. + acoef(jres) * res_h)
+              resev = 10. * evrsv(jres) * pet_day * ressa
+              ressep = res_k(jres) * ressa * 240.
+              respcp = sub_subp(res_sub(jres)) * ressa * 10.
+
+              if(res_h <= 1.e-6) then
+                res_qi = 0.
+                res_h = 0.
+              else
+                res_qi = weirc(jres) * weirk(jres) * weirw(jres) * 
+     &                                                    (res_h ** 1.5)
+              end  if
               resflwo = resflwo + res_qi
               res_vol(jres) = res_vol(jres) + (respcp + resflwi - resev 
-     &          - ressep) / nostep
+     &                                                - ressep) / nostep
+              res_vol(jres) = res_vol(jres) - res_qi
             enddo
-            
-!!      endif
+
         end select
           
             ndespill = ndtargr(jres)

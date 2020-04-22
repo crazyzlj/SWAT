@@ -23,10 +23,8 @@
 !!    chla_subco  |fraction      |regional adjustment on sub chla_a loading
 !!    ievent      |none          |rainfall/runoff code
 !!                               |0 daily rainfall/curve number technique
-!!                               |1 daily rainfall/Green&Ampt technique/daily
+!!                               |1 sub-daily rainfall/Green&Ampt/hourly
 !!                               |  routing
-!!                               |2 sub-daily rainfall/Green&Ampt technique/
-!!                               |  daily routing
 !!                               |3 sub-daily rainfall/Green&Ampt/hourly routing
 !!    igropt      |none          |Qual2E option for calculating the local
 !!                               |specific growth rate of algae
@@ -154,7 +152,7 @@
       k_l = k_l * 1.e-3 * 60.
 
 !! change units from day to hour if hourly (subdaily) routing is performed
-      if (ievent == 3) then
+      if (ievent > 0) then
         mumax = mumax / 24.
         rhoq = rhoq / 24.
       end if

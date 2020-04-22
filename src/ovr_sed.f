@@ -168,7 +168,7 @@
 	  bed_shear = 9807 * (hhqday(k) / 1000.) * hru_slp(j) ! N/m2
 	  sedov = 11.02 * rill_mult * usle_k(j) * c_factor * c * 
      &	  bed_shear ** eros_expo ! kg/hour/m2
-	  if(ievent>=2) then
+	  if(ievent > 0) then
 	    sedov = 16.667 * sedov * hru_km(j) * idt ! tons per time step
 	  else
 	    sedov = 24000. * sedov * hru_km(j)	! tons per day

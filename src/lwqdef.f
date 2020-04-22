@@ -59,6 +59,10 @@
       if (lkspst_rea(i) <= 1.e-6) lkspst_rea(i) = 0.05
       if (lkspst_bry(i) <= 1.e-6) lkspst_bry(i) = 0.002
       if (lkspst_act(i) <= 1.e-6) lkspst_act(i) = 0.030
+      if (theta_n(i) <= 0.) theta_n(i) = 1.08
+      if (theta_p(i) <= 0.) theta_p(i) = 1.08
+      if (con_nirr(i) <= 0.) con_nirr(i) = 0.0
+      if (con_pirr(i) <= 0.) con_pirr(i) = 0.0
 
       return
       end

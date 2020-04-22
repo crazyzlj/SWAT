@@ -10,6 +10,7 @@
       ifirstatmo = 1
       mo_atmo = 0
       
+      ires_nut = 0
 !!    apex command initialize
       idapa = 0
       iypa = 0
@@ -63,6 +64,7 @@
       ammonian = 0.
       amp_r = 0.
       ap_ef = 0.
+      atmo_day = 0.
       auto_eff = 0.
       auto_nyr = 0.
       auto_napp = 0.
@@ -136,8 +138,6 @@
       ch_erodmo = 0.      !CB 12/2/09
       ch_cov1 = 0.
       ch_cov2 = 0.
-      ch_eqn = 0
-
       chlacnst = 0.
       chlamon = 0.
       chlayr = 0.
@@ -436,7 +436,9 @@
 !----------------------- !Moriasi 4/8/2014  
       prf = 0.
       prf_bsn = 0. 
-      r2adj = 1.
+      spcon_bsn = 0.
+      spexp_bsn = 0.
+      r2adj = 0.
       r2adj_bsn = 1.
 !----------------------- !Moriasi 4/8/2014       
 !! drainmod tile equations   06/2006
@@ -455,6 +457,10 @@
       rcn_mo = 0.
       drydep_nh4_mo = 0.
       drydep_no3_mo = 0.
+      rammo_d = 0.
+      rcn_d = 0.
+      drydep_nh4_d = 0.
+      drydep_no3_d = 0.
 !! routing 5/3/2010 gsm per jga
       idum = 0
       mhyd1 = 0

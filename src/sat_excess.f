@@ -157,7 +157,7 @@
               ul_excess = 0.
               exit
             end if
-            if (j1 == 1 .and. ul_excess > 0.) then
+            if (ly == 1 .and. ul_excess > 0.) then
               !! add ul_excess to depressional storage and then to surfq
               pot_vol(j) = pot_vol(j) + ul_excess
             end if

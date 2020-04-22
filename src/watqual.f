@@ -614,6 +614,7 @@
         rch_cbod(jrch) = 0.0
         rch_dox(jrch) = 0.0
         soxy = 0.0
+        orgncon = 0.0
       endif
 
 !!!! commented following statements per conversation with 

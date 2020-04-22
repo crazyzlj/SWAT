@@ -21,11 +21,8 @@
 !!    flocnst(:)  |m^3 H2O/day   |average daily water loading to reach
 !!    ievent      |none          |rainfall/runoff code
 !!                               |0 daily rainfall/curve number technique
-!!                               |1 daily rainfall/Green&Ampt technique/daily
+!!                               |1 sub-daily rainfall/Green&Ampt/hourly
 !!                               |  routing
-!!                               |2 sub-daily rainfall/Green&Ampt technique/
-!!                               |  daily routing
-!!                               |3 sub-daily rainfall/Green&Ampt/hourly routing
 !!    ihout       |none          |hydrograph storage location number
 !!    inum1       |none          |file number
 !!    mvaro       |none          |max number of variables routed through the
@@ -92,7 +89,7 @@
 !! zero flow out variables
       do j = 1, mvaro
         varoute(j,ihout) = 0.
-        if (ievent > 1) then
+        if (ievent > 0) then
           do ii = 1, nstep
             hhvaroute(j,ihout,ii) = 0.
           end do
@@ -126,7 +123,7 @@
       varoute(27,ihout) = sedcnst(inum1) * 0.   ! lag
       varoute(28,ihout) = 0.                    ! gravel
 
-      if (ievent > 2) then
+      if (ievent > 0) then
         do ii = 1,nstep
           hhvaroute(2,ihout,ii) = flocnst(inum1) / real(nstep)
           hhvaroute(3,ihout,ii) = sedcnst(inum1) / real(nstep)

@@ -90,11 +90,12 @@
 
       use parm
 
-      integer :: j, j1, nn, k, sb
+      integer :: j, j1, nn, k, sb,isp
 
       j = 0
       j = ihru
       sb = inum1
+      isp = isep_typ(j) 	   !! J.Jeong 6/25/14
 
       !! initialize water entering first soil layer
 
@@ -140,6 +141,7 @@
           sol_orgp(j1,j) = sol_orgp(j1,j) + xx * sptorgps(isp) * 0.5
           sol_fop(j1,j) = sol_fop(j1,j) + xx * sptorgps(isp) * 0.5
           sol_solp(j1,j) = sol_solp(j1,j) + xx * sptminps(isp)  
+          bio_bod(j)=bio_bod(j)+xx*sptbodconcs(isp)   ! J.Jeong 4/03/09
         end if
 
        !! determine gravity drained water in layer
@@ -180,7 +182,7 @@
       end do
       
         !! seepage contribution by urban distributed bmps
-        if (ievent >= 2) then
+        if (ievent > 0) then
           sepbtm(j) = sepbtm(j) + bmp_recharge(sb) 
         endif
 

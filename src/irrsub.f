@@ -148,7 +148,7 @@
         vol = vmm * cnv
 
         if (pot_fr(j) > 1.e-6) then
-          pot_vol(j) = pot_vol(j) + vol
+          pot_vol(j) = pot_vol(j) + vol / (10. * potsa(j))
           aird(j) = vmm                 !!added rice irrigation 11/10/11
         else
 !! get correct SQ_RTO is this manual or auto

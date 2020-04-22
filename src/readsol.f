@@ -139,6 +139,7 @@
          if (sol_rock(j,ihru) > 98.0) sol_rock(j,ihru) = 98.0
          if (sol_awc(j,ihru) <= .01) sol_awc(j,ihru) = .01
          if (sol_awc(j,ihru) >= .80) sol_awc(j,ihru) = .80
+         if (sol_cbn(j,ihru) < 1.e-6) sol_cbn(j,ihru) = .10
          sol_n(j,ihru) = sol_cbn(j,ihru) / 11.0
 	end do	
 	!!Armen January 2009 end

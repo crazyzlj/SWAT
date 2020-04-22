@@ -83,7 +83,7 @@
       j = ihru
 
       rto = 0.
-      rto = psp / (1.-psp)
+      rto = psp(j) / (1.-psp(j))
 
       do l = 1, sol_nly(j)
         rmn1 = 0.

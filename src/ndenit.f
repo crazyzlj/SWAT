@@ -7,7 +7,7 @@
 
       wdn = 0.
 	vof = 1. / (1. + (void/0.04)**5)
-	wdn = sol_no3(k,j) * (1. - Exp(-cdn * cdg * vof * sol_cbn(k,j)))
+	wdn = sol_no3(k,j) * (1. - Exp(-cdn(j) * cdg * vof * sol_cbn(k,j)))
 	sol_no3(k,j) = sol_no3(k,j) - wdn
 
 	return

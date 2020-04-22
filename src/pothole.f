@@ -49,7 +49,7 @@
 !!                                  |tile flow if drainage tiles are installed
 !!                                  |in pothole (needed only if current HRU is 
 !!                                  |IPOT)
-!!    pot_vol(:)     |m**3 H2O      |current volume of water stored in the
+!!    pot_vol(:)     |mm            |current volume of water stored in the
 !!                                  |depression/impounded area
 !!    pot_volx(:)    |m**3 H2O      |maximum volume of water stored in the
 !!                                  |depression/impounded area
@@ -88,7 +88,7 @@
 !!    name           |units         |definition
 !!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
 !!    pot_no3(:)     |kg N          |amount of nitrate in pothole water body
-!!    pot_solp(:)     |kg N         |conductivity of soil surface layer for pothole infiltration
+!!    pot_solp(:)    |1/d           | soluble P loss rate in the pothole (.01 - 0.5)
 !!    pot_orgn(:)     |kg N         |amount of organic N in pothole water body
 !!    pot_orgp(:)     |             |amount of organic P in pothole water body
 !!    pot_mpa(:)     |kg N          |amount of active mineral pool P in pothole water body
@@ -344,7 +344,7 @@
 !      flow, evap, seepage, and redistribute soil water
        if (pot_vol(j) > 1.e-6) then
 !        compute settling -clay and silt based on fall velocity (v=411*d2) d=mm, v=m/hr
-         pot_depth = pot_vol(j) / potsa(j) / 10.         !m3/ha/10 = mm
+         pot_depth = pot_vol(j)
          if (pot_depth > 10.) then        !assume clay v(fall)= 10 mm/d
            drcla = 1. - .5 * 10. / pot_depth
          else

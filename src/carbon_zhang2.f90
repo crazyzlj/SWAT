@@ -716,7 +716,7 @@
       !    cdg = .9 * xx / (xx + Exp(9.93 - .312 * xx)) + .1
       !    cdg = Max(.1, cdg)
           
-	  !  if (sut >= sdnco) then
+	  !  if (sut >= sdnco(j)) then
 	  !    wdn = sol_no3(k,j) * (1. - Exp(-cdn * cdg * sol_cbn(k,j)))
 	  !  else
 	  !    wdn = 0.

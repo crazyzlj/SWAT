@@ -45,7 +45,7 @@
       real :: qin,qout,qpnd,sedin,sedout,sedpnd,spndconc
       real :: rf,imc,pndwdth,seep,evap,rain,seepa,surfa
       real :: a1,b1,qdepth,hdep_ext,usettle,tmpw,mu,qhyd,dp
-      real :: alpha,beta,vol,hp,tvol,ht,decayexp,qweir,sedweir
+      real :: alpha,beta,vol,hp,tvol,ht,decayexp,qweir,sedweir,coeff_R
       
       sb = inum1
       qout=0.; sedout=0.; qdepth=0.
@@ -131,7 +131,7 @@
          if(hdep_ext<0) hdep_ext = 0.
 
 !!       Calculate outflow 
-         if (hdep_ext>0.1) then
+         if (hdep_ext>0.) then
 !!          Use stage-discharge relationship if available
 	      if (wtp_stagdis(sb)==1) then  
 	         select case(wtp_sdtype(sb))
@@ -158,12 +158,10 @@
             qout = qout * idt * 60. !m3/s ->m^3
          !  no outflow from the permanent pool
 		   if (qout>qpnd-wtp_pvol(sb)) qout = qpnd - wtp_pvol(sb)
-            if (qout<0) qout = 0.
-        
+             if (qout<0) qout = 0.
          else
 !!          no discharge from the permanent pool
             qout = 0.
-            sedout = 0.
          end if
 
 !!       Seepage, evaporation and rainfall
@@ -194,11 +192,12 @@
          b1 = 2.* beta * qdepth 
          surfa = (a1 * pndwdth + b1) * (pndwdth + b1) !m2
 
-         if(qout>0.1) then
+         if(qout>0.) then
             !WERF equation
             qhyd = qout / idt / 60. / surfa * 100.  ! m3/s / m2 * 100 = cm/s
-		    spndconc = spndconc * (1. - (1.+ usettle / 
-     &		      (qhyd * wtp_hydeff(sb))) ** (-wtp_hydeff(sb)))  ! mg/l
+            coeff_R = (1.+ usettle / 
+     &        (qhyd * wtp_hydeff(sb))) ** (-wtp_hydeff(sb))
+            spndconc = spndconc * coeff_R  ! mg/l
             sedpnd = spndconc * qpnd * 1e-6 !tons, amount sediment in the pond at the end of the time step
             !sediment conc no less than the minimum value
             if(spndconc<wtp_sede(sb)) spndconc = wtp_sede(sb)
@@ -212,8 +211,10 @@
          
          !Sediment coming out of the pond
          sedout = spndconc * qout * 1e-6 !tons
-                  
-  	  
+
+         qout = qout + qweir
+         sedout = sedout + sedweir
+         
    	   !! Store flow/sediment out of the pond at the subbasin outlet
    	   hhvaroute(2,ihout,ii) = max(0.,qout)
    	   hhvaroute(3,ihout,ii) = max(0.,sedout)
@@ -252,7 +253,7 @@
       
       ss = 1000. / sub_cn2(sb) - 10.
       plen = wtp_plen(sb) * 3.2808 !ft
-      pdia = wtp_pdia(sb) + 3.2808 !ft
+      pdia = wtp_pdia(sb) * 3.2808 !ft
       !volume of permanent pool 
       pndvol = wtp_pvol(sb) * 3.2808 ** 3 !ft^3
       !pond width at the bottom of the pond
@@ -327,7 +328,8 @@
       parea = 3.14159 * (3.2808 * pdia) ** 2 / 4. !ft^2
       rh = 3.2808 * pdia / 4. !ft
       kf = 29. * plen * mann ** 2 / rh ** 1.33
-      outflow = parea * ((64.4 * hdep) / (1.+ kf + mloss)) ** 0.5 !cfs
+      outflow = parea * ((64.4 * 3.2808 * hdep) / (1.+ kf + mloss)) 
+     & ** 0.5 !cfs
       outflow = outflow / 35.31 !m3/s
       
       end subroutine

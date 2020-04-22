@@ -222,7 +222,7 @@
         if (eof < 0) exit
       end do
         read (103,*,iostat=eof) ievent
-      if (ievent == 1) nstep = 24
+      !if (ievent == 1) nstep = 24
       close (103)
 
 

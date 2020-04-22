@@ -64,6 +64,12 @@
       motot = 600             !! (50 years limit)
       
       allocate (surlag(mhru))
+      allocate (cdn(mhru))
+      allocate (cmn(mhru))
+      allocate (nperco(mhru))
+      allocate (phoskd(mhru))
+      allocate (psp(mhru))
+      allocate (sdnco(mhru))
 !!!!!!!!!! drains
       allocate (wnan(mlyr))
 
@@ -355,7 +361,11 @@
       allocate (rammo_mo(motot,msub))
       allocate (drydep_no3_mo(motot,msub))
       allocate (drydep_nh4_mo(motot,msub))
-!!!   atmospheric deposition by month
+!!!   atmospheric deposition by day      
+      allocate (rcn_d(msub))
+      allocate (rammo_d(msub))
+      allocate (drydep_no3_d(msub))
+      allocate (drydep_nh4_d(msub))
       
       allocate (fcst_reg(msub))
       allocate (harg_petco(msub))
@@ -380,6 +390,7 @@
       allocate (phutot(msub))
       allocate (plaps(msub))
       allocate (rammo_sub(msub))
+      allocate (atmo_day(msub))
       allocate (rcn_sub(msub))
       allocate (sub_bactlp(msub))
       allocate (sub_bactp(msub))
@@ -598,6 +609,10 @@
       allocate (lkspst_bry(mres))
       allocate (lkspst_conc(mres))
       allocate (lkspst_rea(mres))
+      allocate (theta_n(mres))
+      allocate (theta_p(mres))
+      allocate (con_nirr(mres))
+      allocate (con_pirr(mres))
       allocate (mores(mres))
       allocate (ndtargr(mres))
       allocate (oflowmn_fps(mres))
@@ -1197,7 +1212,9 @@
       allocate (potlagi(mhru))
 
       allocate (pplnt(mhru))
-      allocate (prf(mch))  !Moriasi 4/8/14    
+      allocate (prf(mch))  !Moriasi 4/8/14  
+      allocate (spcon(mch))
+      allocate (spexp(mch))
       allocate (qdr(mhru))
       allocate (qdayout(mhru))
       allocate (rch_dakm(mxsubch))  

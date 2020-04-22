@@ -77,7 +77,7 @@
 !!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
 !!    nirr(:)     |none          |sequence number of irrigation application
 !!                               |within the year
-!!    pot_vol(:)  |m**3 H2O      |current volume of water stored in the
+!!    pot_vol(:)  |mm            |current volume of water stored in the
 !!                               |depression/impounded area
 !!    rtwtr       |m^3 H2O       |water leaving reach on day
 !!    sedrch      |metric tons   |sediment transported out of reach on day
@@ -186,7 +186,7 @@
 
        !!         if (ipot(k) == k) then
                 if (pot_fr(k) > 1.e-6) then
-                  pot_vol(k) = pot_vol(k) + vol
+                  pot_vol(k) = pot_vol(k) + vol / (10. * potsa(k))
                 else
                   call irrigate(k,vmm)
                 end if
@@ -197,7 +197,7 @@
                   vol = 0.
                   vol = aird(k) * cnv
                 end if
-                if (ievent > 2) then
+                if (ievent > 0) then
                   do ii = 1, nstep
                     hrtwtr(ii) = hrtwtr(ii) - vol * hrtwtr(ii) / rtwtr
                     if (hrtwtr(ii) < 0.) hrtwtr(ii) = 0.
@@ -228,10 +228,11 @@
             
             if (imgt == 1) then
              write (143, 1000) subnum(k), hruno(k), iyr, i_mo, iida, 
-     *       "         ",  " AUTOIRR", phubase(k), phuacc(k),
+     *       hru_km(j), "         ",  " AUTOIRR", phubase(k), phuacc(k),
      *      sol_sw(k), bio_ms(k), sol_rsd(1,k),sol_sumno3(k),
      *      sol_sumsolp(k), aird(k), irrsc(k), irrno(k)
-1000  format (a5,1x,a4,3i6,2a15,7f10.2,10x,f10.2,70x,i10,10x,i10) 
+1000        format (a5,1x,a4,3i6,1x,e10.5,1x,2a15,7f10.2,10x,f10.2,70x,
+     *      i10,10x,i10) 
             end if
             end if
           end if
@@ -259,7 +260,7 @@
           rch_gra = 0.
 	  end if
 
-        if (ievent > 2) then
+        if (ievent > 0) then
           do ii = 1, nstep
             hsedyld(ii) = hsedyld(ii) * rtwtr / wtrin
           end do

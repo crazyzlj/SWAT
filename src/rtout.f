@@ -41,11 +41,8 @@
 !!    hrtwtr(:)     |m^3 H2O    |water leaving reach during hour
 !!    ievent        |none       |rainfall/runoff code
 !!                              |0 daily rainfall/curve number technique
-!!                              |1 daily rainfall/Green&Ampt technique/daily
+!!                              |1 sub-daily rainfall/Green&Ampt/hourly
 !!                              |  routing
-!!                              |2 sub-daily rainfall/Green&Ampt technique/
-!!                              |  daily routing
-!!                              |3 sub-daily rainfall/Green&Ampt/hourly routing
 !!    ihout         |none       |outflow hydrograph location
 !!    inum1         |none       |reach number
 !!    inum2         |none       |inflow hydrograph location
@@ -302,7 +299,7 @@
       varoute(26,ihout) = rch_sag
       varoute(27,ihout) = rch_lag
       varoute(28,ihout) = rch_gra
-      if (ievent < 3) then
+      if (ievent == 0) then
        varoute(4,ihout) = organicn(jrch) * rtwtr / 1000. + ch_orgn(jrch)
        varoute(5,ihout) = organicp(jrch) * rtwtr / 1000. + ch_orgp(jrch)
        varoute(6,ihout) = nitraten(jrch) * rtwtr / 1000.
@@ -358,7 +355,7 @@
       end if
 
 !! set subdaily reach output    - by jaehak jeong for urban project, subdaily output in output.rch file
-	if (ievent==3.and.iprint==3) then
+	if (ievent==1.and.iprint==3) then
 	  do ii=1,nstep
 !! determine sediment concentration in outflow
           sedcon = 0.

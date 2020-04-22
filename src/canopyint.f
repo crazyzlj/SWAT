@@ -14,11 +14,8 @@
 !!    idplt(:,:,:)|none          |land cover code from crop.dat
 !!    ievent      |none          |rainfall/runoff code
 !!                               |0 daily rainfall/curve number technique
-!!                               |1 daily rainfall/Green&Ampt technique/daily
+!!                               |1 sub-daily rainfall/Green&Ampt/hourly
 !!                               |  routing
-!!                               |2 sub-daily rainfall/Green&Ampt technique/
-!!                               |  daily routing
-!!                               |3 sub-daily rainfall/Green&Ampt/hourly routing
 !!    ihru        |none          |HRU number
 !!    laiday(:)   |m**2/m**2     |leaf area index
 !!    nro(:)      |none          |sequence number of year in rotation
@@ -60,7 +57,7 @@
       if (blai(idplt(j)) < 0.001) return
 
       select case (ievent)
-        case (2,3)
+        case (1)
 
           canstori = 0.
           canmxl = 0.
@@ -93,7 +90,7 @@
             end do
           end if
 
-        case default
+        case (0)
           xx = 0.
           canmxl = 0.
           xx = precipday

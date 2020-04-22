@@ -18,11 +18,8 @@
 !!    hrtwtr(:)   |m^3 H2O       |water leaving reach during hour
 !!    ievent      |none          |rainfall/runoff code
 !!                               |0 daily rainfall/curve number technique
-!!                               |1 daily rainfall/Green&Ampt technique/daily
+!!                               |1 sub-daily rainfall/Green&Ampt/hourly
 !!                               |  routing
-!!                               |2 sub-daily rainfall/Green&Ampt technique/
-!!                               |  daily routing
-!!                               |3 sub-daily rainfall/Green&Ampt/hourly routing
 !!    inum1       |none          |reach number
 !!    nitraten(:) |mg N/L        |nitrate concentration in reach
 !!    nitriten(:) |mg N/L        |nitrite concentration in reach
@@ -234,7 +231,7 @@
       varoute(20,ihout) = varoute(20,inum2) * (1. - rnum1)
       varoute(21,ihout) = varoute(21,inum2) * (1. - rnum1)
       varoute(22,ihout) = varoute(22,inum2) * (1. - rnum1)
-      if (ievent < 3) then
+      if (ievent == 0) then
         varoute(4,ihout) = organicn(jrch) * rtwtr / 1000.
         varoute(5,ihout) = organicp(jrch) *  rtwtr / 1000.
         varoute(6,ihout) = nitraten(jrch) * rtwtr / 1000.

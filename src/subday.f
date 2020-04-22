@@ -98,7 +98,7 @@
           pdvb(ii) = pdvab(ipdvab(ii))
         end do
         if (icalen == 0) write(31,1000)sb, subgis(sb), iida, sub_km(sb),
-     &                                    (pdvb(ii), ii = 1, itotb), sb
+     &                                    (pdvb(ii), ii = 1, itotb)
         if (icalen == 1) write(31,1001)sb, subgis(sb), i_mo, icl(iida), 
      &         iyr, sub_km(sb), (pdvb(ii), ii = 1, itotb), sb
  
@@ -109,7 +109,7 @@
 	      endif
       else
         if (icalen == 0)write(31,1000) sb, subgis(sb), iida, sub_km(sb),
-     &                                (pdvab(ii), ii = 1, msubo), sb
+     &                                (pdvab(ii), ii = 1, msubo)
         if (icalen == 1)write(31,1001) sb, subgis(sb), i_mo, icl(iida), 
      &         iyr, sub_km(sb), (pdvab(ii), ii = 1, msubo), sb
 !!    added for binary files 3/25/09 gsm line below and write (6666
@@ -125,7 +125,7 @@
 !     changed for jennifer b.
 !1000 format ('BIGSUB',i4,1x,i8,1x,i4,e10.5,18f10.3)
 !1000 format ('BIGSUB',i4,1x,i8,1x,i4,e10.5,21f10.3)
- 1000 format ('BIGSUB',i4,1x,i8,1x,i4,e10.5,18e10.3,1x,e10.5,3e10.3,i6)
+ 1000 format ('BIGSUB',i4,1x,i8,1x,i4,e10.5,18e10.3,1x,e10.5,3e10.3)
  1001 format('BIGSUB',i4,1x,i8,1x,i2,1x,i2,1x,i4,1x,e10.5,18e10.3,1x,   
      &  e10.5, 3e10.3,i6)
       end 
