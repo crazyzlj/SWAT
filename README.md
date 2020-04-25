@@ -28,8 +28,8 @@ Since I do not have enough test data and the associated SWAT input files, I have
 
 ### 2.1 Branches
 
-+ **master**: Branch of revised official code. DO NOT merge other branches to the master branch!!! Once a new version of SWAT source code available, the master branch should be updated accordingly and merged to other branches!
-+ **swat-rice**: SWAT for paddy rice modeling which is under development.
++ **master**: Branch of revised official code. Once a new version of SWAT source code available, I will create a new branch and merge it to the master branch! Revisions are only made in typos and cross-platform compilations.
++ **\<MAJOR\>rev\<MINOR\>[.\<PATCH\>]**: SWAT versions, i.e., `2012rev670`, `2012rev622.omp`, etc.
 
 ### 2.2. Prerequisite
 
