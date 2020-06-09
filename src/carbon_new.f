@@ -238,7 +238,7 @@
         else
           NPsoil = (sol_mass * sol_n(k,j) / 100.)/ sol_orgp(k,j)
         end if
-        sol_orgp(k,j) = dmin1(sol_orgp(k,j), 25.)
+        !sol_orgp(k,j) = dmin1(sol_orgp(k,j), 25.)  !commented 110118 Armen K
         CPsoil = CNsoil * NPsoil
     
         if (sol_rsd(k,j) > 0.00001) then

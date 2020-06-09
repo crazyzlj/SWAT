@@ -66,7 +66,6 @@
 !!    inhyd       |none          |inflow hydrograph storage location number
 !!    jrch        |none          |reach number
 !!    p           |m             |wetted perimeter
-!!    scoef       |none          |storage coefficient
 !!    nstep       |none          |No. of steps in a day (depends on model operational time step)
 !!    topw        |m             |width of channel at water level
 !!    vol         |m^3 H2O       |volume of water in reach
@@ -81,22 +80,20 @@
 
       use parm
 
-      integer :: jrch, ii, inhyd,j,l,cday,istep
-      real*8 :: wtrin, c, p, scoef
-      real*8 :: vol, topw,pcpday
-      real*8, dimension(nstep*5) :: QMS, QMSI,pcp
+      integer :: jrch, ii, inhyd,j,l
+      real :: wtrin, c, p
+      real :: vol, topw
+      real*8, dimension(nstep*100) :: QMS, QMSI
       real*8 :: ai, aii, ao, cbw, chw, fpw, g1, qi2, sss, xflo, zch, zi, zii, zo
 
       QMS = 0.
       QMSI = 0.
       hrtevp = 0.
       hrttlc = 0.
-      pcp(1:nstep) = precipdt(1:nstep)
-      pcpday=precipday
       
       jrch = inum1
       inhyd = inum2
-      
+    
       
       if (sum(QHY(:,inhyd,IHX(1)))==0.) return
 
@@ -105,9 +102,10 @@
 	      ii = ii - 1
           DO K = 1, nstep+1 !number of time steps a day
               ii = ii + 1
-              QMSI(ii) = QHY(K,inhyd,IHX(J)) !inflow from upstream during dt for the day, m^3
+              QMSI(ii) = QHY(K,inhyd,IHX(J)) !inflow from upstream during dt for the day, m^3/s
           END DO
-	   END DO
+       END DO
+       
       if(sum(QMSI(1:nstep))<=0.01) then
           if (sum(QHY(1:nstep,ihout,IHX(1)))<=0.01) then
               !no new inflow or outflow from previous days
@@ -129,13 +127,8 @@
           
         QI1 = QHY(1,inhyd,IHX(1)) ! m3/s  !inflow at timestep 1 of the current day 
         QO1 = QHY(1,ihout,IHX(1)) !outflow at timestep 1 of the current day that is predicted previous day
-      
-        !skip time steps with no inflow
-        DO L = 1, NHY(inhyd)
-            IF (QMSI(L)>0.) EXIT
-            QMS(L) = 0.
-        END DO
-      
+        !QMSI(1) = QMSI(1) + rchstor(jrch) / (dthy * 3600.)
+        
         ZCH = phi(7,jrch) !channel depth,m
         CBW = phi(6,jrch) ! channel bottom width, m
         XL3 = ch_l2(jrch) / 3.6 
@@ -146,30 +139,32 @@
 
         ADI = 0.
         STHY=0.
-        ! ROUTE UNTIL OUTFLOW IS GREATER THAN 0.                                                                                
-        DO ii = L,NHY(inhyd)  !routing starts when inflow > 0.
-            I1 = ii - 1                                                                    
-            QI2 = QMSI(ii) !inflow at the current timestep
-            ADI = ADI + QI2
-            CALL HQDAV(AI,CBW,QI2,SSS,ZCH,ZI,CHW,FPW,jrch) !INPUT:CBW,QI2,SSS,ZCH output: AI,ZI,CHW,FPW
-            DD = SQRT((XLS+ZI)/XLS)                                                          
-            XFLO = QI2 / DD 
-            CALL HQDAV(AII,CBW,XFLO,SSS,ZCH,ZII,CHW,FPW,jrch)
-            SMO = 2. * ADI - QI2                                                         
-            XFLO = SMO - XLT * AII
-            !O2 = SUM OF INFLOW - STORAGE                                                                         
-            IF(XFLO > 0.)EXIT
-            QMS(ii) = 0.
-            STHY = STHY + QI2                                                                                                                                        
-            ZOO = 0.                                                                         
-            AOO = 0.                                                                         
-            V = .5 * QMSI(ii) / AII     !m/s                                                      
-            TT = XL3 / (V + 1.E-5)     !hr                                                           
-            CVSC = MIN(.99,2.*dthy/(2.*TT+dthy))
-            QI1 = QI2
-            !WRITE(KW(1),6)NIT,TM,ZII,ZOO,AII,AOO,V,TT,CVSC,STHY,QI2,QO2
-        END DO
-        ISM=ii
+        ! ROUTE UNTIL OUTFLOW IS GREATER THAN 0. 
+        IF (rchstor(jrch)>0.001.and.QO1>0.0001) THEN
+            ii = 1
+            QI2 = QI1
+            QI1 = QHY(nstep,inhyd,IHX(4)) !Inflow during the previous time step (last time step of previous day), m3/s
+            STHY = rchstor(jrch) / (dthy * 3600.)
+        ELSE
+            
+            DO ii = 1, NHY(jrch)  !routing starts when inflow > 0.
+               I1 = ii - 1                                                                    
+               QI2 = QMSI(ii) !inflow at the current timestep; m3/s
+               ADI = ADI + QI2
+               CALL HQDAV(AI,CBW,QI2,SSS,ZCH,ZI,CHW,FPW,jrch) !INPUT:CBW,QI2,SSS,ZCH output: AI,ZI,CHW,FPW
+               DD = SQRT((XLS+ZI)/XLS)                                                          
+               XFLO = QI2 / DD 
+               CALL HQDAV(AII,CBW,XFLO,SSS,ZCH,ZII,CHW,FPW,jrch)
+               SMO = 2. * ADI - QI2                                                         
+               XFLO = SMO - XLT * AII
+               !O2 = SUM OF INFLOW - STORAGE                                                                         
+               IF(XFLO > 0.)EXIT
+               QMS(ii) = 0.
+               STHY = STHY + QI2                                                                                                                                        
+               QI1 = QI2
+            END DO
+        
+        END IF
         IIY=0
       
         !Calculate discharge rate using variable storage coefficient
@@ -187,31 +182,31 @@
                 IIY = 1
             END IF
             DO IT = 1, 20
-                CALL HQDAV(AO,CBW,G1,SSS,ZCH,ZO,CHW,FPW,jrch)
-                XX = MAX(.75,(XLS+ZI-ZO)/XLS)
-                DD = SQRT(XX)      
-                V = MAX(.05,(QI2+G1)*DD/(AI+AO))
-                T2 = XL3 / V
-                TT = .5 * (T1 + T2)
-                C = MIN(.99,2.*DTHY/(2.*TT+DTHY))
-                Q1 = C * SIA !Q1 is outflow m3/s Eq(15) in Jeong et al. (2014)
-                GQ = Q1 - G1                                                                       
-                    IF (abs(GQ/G1) < .001) EXIT
-                    IF (GQ > 0.)THEN
-                        GL = G1
-                    ELSE
-                        GB = G1
-                    END IF
-                    G1 = .5 * (GB + GL)
-                    IF (GB-GL < .001)EXIT                                                         
+               CALL HQDAV(AO,CBW,G1,SSS,ZCH,ZO,CHW,FPW,jrch)
+               XX = MAX(.75,(XLS+ZI-ZO)/XLS)
+               DD = SQRT(XX)      
+               V = MAX(.05,(QI2+G1)*DD/(AI+AO))
+               T2 = XL3 / V
+               TT = .5 * (T1 + T2)
+               C = MIN(.99,2.*DTHY/(2.*TT+DTHY))
+               Q1 = C * SIA !Q1 is outflow m3/s Eq(15) in Jeong et al. (2014)
+               GQ = Q1 - G1                                                                       
+                    IF (abs(GQ/(G1+0.0001)) < .001) EXIT
+               IF (GQ > 0.)THEN
+                   GL = G1
+               ELSE
+                   GB = G1
+               END IF
+                    G1 = .5 * (GB + GL)+0.0001
+               IF (GB-GL < .001)EXIT                                                         
             END DO
-            QO2 = MAX(.01,G1)                                                  
+            QO2 = MAX(.0001,G1)                                                  
             QMS(ii) = QO2 
             STHY = SIA - QO2
             T1 = T2
-            IF(ii > NHY(inhyd)) THEN
-                QMSI(ii) = .9 * QMSI(I1)                                              
-                IF(QMS(I1) <= 1.) EXIT
+            IF(ii > NHY(jrch)) THEN
+               QMSI(ii) = .9 * QMSI(I1)                                              
+               IF(QMS(I1) <= 1.) EXIT
             END IF   
             ii = ii + 1
             QI1 = QI2
@@ -228,8 +223,8 @@
       DO J = 2, 4
           ii = ii - 1
           DO K = 1, nstep+1
-              ii = ii + 1
-              QHY(K,ihout,IHX(J)) = QMS(ii)
+             ii = ii + 1
+             QHY(K,ihout,IHX(J)) = QMS(ii)
           END DO
 	  END DO
 

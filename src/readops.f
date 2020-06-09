@@ -95,7 +95,7 @@
           do
           mon = 0
           day = 0
-          year = 0.
+          iyear = 0.
           mgt_op = 0
           mgt1i = 0
           mgt2i = 0
@@ -203,7 +203,7 @@
           ro_bmp_flos(iops,ihru) = mgt10  !! Flow
 		ro_bmp_seds(iops,ihru) = mgt11  !! Sediment
 		ro_bmp_pps(iops,ihru) = mgt12   !! Particulate P
-		ro_bmp_sps(iops,ihru) = mg13    !! Soluble P
+		ro_bmp_sps(iops,ihru) = mgt13    !! Soluble P
 		ro_bmp_pns(iops,ihru) = mgt14   !! Particulate N
 		ro_bmp_sns(iops,ihru) = mgt15   !! Soluble N
 		ro_bmp_bacs(iops,ihru) = mgt16  !! Bacteria

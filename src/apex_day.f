@@ -119,7 +119,7 @@
 !!    changes for Mike Winchell if apex.swt files has a different start date than the SWAT run
       if (ifirsta(inum1) == 1) then
         do 
-          read (112+inum1,*) idapa(inum1), iypa(inum1), flodaya(inum1),
+          read (400+inum1,*) idapa(inum1), iypa(inum1), flodaya(inum1),
      & seddaya(inum1), orgndaya(inum1), orgpdaya(inum1), no3daya(inum1),
      & minpdaya(inum1)
 	    if(idapa(inum1) == id1 .and. iypa(inum1) == iyr) exit
@@ -149,7 +149,7 @@
          varoute(21,ihout) = 0.0      
          varoute(22,ihout) = 0.0 
          if (curyr /= nbyr .and. iida /= idal) then
-           read (112+inum1,*) idapa(inum1), iypa(inum1), flodaya(inum1),
+           read (400+inum1,*) idapa(inum1), iypa(inum1), flodaya(inum1),
      & seddaya(inum1), orgndaya(inum1), orgpdaya(inum1), no3daya(inum1),
      & minpdaya(inum1)
          endif

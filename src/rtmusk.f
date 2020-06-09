@@ -114,13 +114,15 @@
       real*8 :: xkm, det, yy, c1, c2, c3, c4, wtrin, p, vol, c, rh
       real*8 :: topw,msk1,msk2,detmax,detmin,qinday,qoutday
 	real*8 :: volrt, maxrt, adddep, addp, addarea
-	real*8 :: rttlc1, rttlc2, rtevp1, rtevp2
+	real*8 :: rttlc1, rttlc2, rtevp1, rtevp2, sum_rttlc, sum_rtevp
 
       jrch = 0
       jrch = inum1
       qinday = 0; qoutday = 0
       
       det = 24.
+      sum_rttlc = 0.0
+      sum_rtevp = 0.0
       
 
 !! Water entering reach on day
@@ -292,14 +294,15 @@
 	      end if
 	    end if
 	  rttlc = rttlc1 + rttlc2
+	  
+	  sum_rttlc = sum_rttlc + rttlc
         end if
 
 
         !! calculate evaporation
 	  rtevp = 0.
        if (rtwtr > 0.) then
-
-          aaa = evrch * pet_day / 1000.
+          aaa = evrch * pet_day / (1000.0 * nn)
 
 	      if (rchdep <= ch_d(jrch)) then
                rtevp = aaa * ch_l2(jrch) * 1000. * topw
@@ -338,7 +341,7 @@
 	      end if
 	      rtevp = rtevp1 + rtevp2
          end if
-
+         sum_rtevp = sum_rtevp + rtevp
 !! define flow parameters for current iteration
          flwin(jrch) = 0.
          flwout(jrch) = 0.
@@ -371,6 +374,9 @@
 !!      volinprev(jrch) = wtrin
 !!	qoutprev(jrch) = rtwtr
 
+      rttlc = sum_rttlc
+      rtevp = sum_rtevp
+      
       if (rtwtr < 0.) rtwtr = 0.
       if (rchstor(jrch) < 0.) rchstor(jrch) = 0.
 

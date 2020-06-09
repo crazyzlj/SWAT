@@ -69,7 +69,7 @@
            no3pcp = .01 * rcn_d(hru_sub(j)) * precipday
            sol_nh3(2,j) = sol_nh3(2,j) + nh3pcp  + 
      &             drydep_nh4_d(hru_sub(j))
-           sol_no3(2,j) = sol_no3(2,j) + no2pcp +
+           sol_no3(2,j) = sol_no3(2,j) + no3pcp +
      &             drydep_no3_d(hru_sub(j))
       end select
 

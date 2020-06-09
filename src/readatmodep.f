@@ -43,7 +43,7 @@
       if (atmofile /= '             ') then
         open (127,file=atmofile)
           do iii = 1, 5
-            read (127,*) titldum
+            read (127,5101) titldum
           end do
       else
       !!    no filename present in file.cio - set defaults
@@ -89,6 +89,6 @@
 !1001  format (3i6)
 !1002  format (1200f10.3)  
 !1000  format (8x,4f10.3)
-!5101  format (a80)
+5101  format (a80)
       return
       end

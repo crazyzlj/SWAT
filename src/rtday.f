@@ -159,13 +159,9 @@
         !! calculate volume of water leaving reach on day
         scoef = 0.
  	  rtwtr = 0.
-        !scoef = 2. * det / (2. * rttime + det)
         scoef =  det / (rttime + det)
         if (scoef > 1.) scoef = 1.
         rtwtr = scoef * (wtrin + rchstor(jrch))
-        !new storage coefficient replacement
-        rtwtr = vc * rcharea * 86400.
-        rtwtr = dmin1 (rtwtr, wtrin)
 
 !! calculate amount of water in channel at end of day
       rchstor(jrch) = rchstor(jrch) + wtrin - rtwtr

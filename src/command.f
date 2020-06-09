@@ -169,7 +169,7 @@
           case (13) 
             call apex_day
           case (14)
-            call saveconc
+            if (curyr > nyskip) call saveconc
           case (17)
             call routeunit
             call sumhyd

@@ -93,19 +93,19 @@
 
         if (slrfile /= '             ') then
    !!       open (137,file=slrfile,recl=800)
-          open (137,file=slrfile,recl=15000)
+          open (137,file=slrfile,recl=16000)
           read (137,5000) titldum
         end if
 
         if (rhfile /= '             ') then
   !!        open (138,file=rhfile,recl=800)
-          open (138,file=rhfile,recl=15000)
+          open (138,file=rhfile,recl=16000)
           read (138,5000) titldum
         end if
 
         if (wndfile /= '             ') then
    !!       open (139,file=wndfile,recl=800)
-          open (139,file=wndfile,recl=15000)
+          open (139,file=wndfile,recl=16000)
           read (139,5000) titldum
         end if
 

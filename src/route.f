@@ -136,6 +136,7 @@
       if (ievent > 0) then
         do ii = 1, nstep
           hrtwtr(ii) = hrtwtr(ii) + qdbank / dfloat(nstep)
+          hsdti(ii) = max(0.,hrtwtr(ii) / (dthy * 3600.)) !m3 -> m3/s
         end do
       end if
 

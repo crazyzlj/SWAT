@@ -241,7 +241,7 @@
        wtrin = 0.
        wtrin = hhvaroute(2,inum2,ii) * (1. - rnum1)
 
-       if (hrtwtr(ii) / (idt * 60.) > 0.01) then
+       if (hrtwtr(ii) / (idt * 60.) > 0.01.and.hdepth(ii) > 0.01) then
 !! concentrations
          !! initialize inflow concentrations
          chlin = 0.
@@ -275,7 +275,7 @@
          if (ammoin < 1.e-6) ammoin = 0.0
          if (nitritin < 1.e-6) nitritin = 0.0
          if (nitratin < 1.e-6) nitratin = 0.0
-         if (orgnpin < 1.e-6) orgnpin = 0.0
+         if (orgpin < 1.e-6) orgpin = 0.0
          if (dispin < 1.e-6) dispin = 0.0
          if (cbodin < 1.e-6) cbodin = 0.0
          if (disoxin < 1.e-6) disoxin = 0.0
@@ -292,7 +292,8 @@
          cbodcon = 0.
          o2con = 0.
          wtrtot = wtrin + hrchwtr(ii)
-         if (ii == 1) then
+         if (wtrtot > 0.01) then
+          if (ii == 1) then
          algcon = (algin * wtrin + algae(jrch) * hrchwtr(ii)) / wtrtot
          orgncon = (orgnin * wtrin + organicn(jrch) * hrchwtr(ii))      
      &                                                          / wtrtot
@@ -320,8 +321,8 @@
          solpcon = (dispin * wtrin + hsolp(ii-1) * hrchwtr(ii)) / wtrtot
          cbodcon = (cbodin * wtrin + hbod(ii-1) * hrchwtr(ii)) / wtrtot
          o2con = (disoxin * wtrin + hdisox(ii-1) * hrchwtr(ii)) / wtrtot
-         end if
-
+          end if
+         endif
          if (algcon < 1.e-6) algcon = 0.0
          if (orgncon < 1.e-6) orgncon = 0.0
          if (nh3con < 1.e-6) nh3con = 0.0
