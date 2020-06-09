@@ -195,6 +195,9 @@
       varoute(27,ihout) = varoute(27,ihout) + sedhr * 0.   ! lag
       varoute(28,ihout) = 0.                    ! gravel
 
+      
+      QHY(ii,ihout,IHX(1)) = hhvaroute(2,ihout,ii) / (dthy * 3600.) !added by Jaehak for subdaily routing, 2019
+
       end do
 
       return

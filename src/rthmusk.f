@@ -124,6 +124,7 @@
 
       jrch = 0
       jrch = inum1
+      hrtevp = 0
 
  !! Compute storage time constant for reach
       xkm = 0.

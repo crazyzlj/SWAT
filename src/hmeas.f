@@ -103,8 +103,9 @@
 	  end do
 
       return
-! 5200 format (7x,300f8.3)
-! 5300 format (i4,i3,300f8.3)
- 5200 format (7x,1800f8.3)
- 5300 format (i4,i3,1800f8.3)
+
+ !5200 format (7x,1800f8.3)
+ !5300 format (i4,i3,1800f8.3)
+ 5200 format (7x,1900f8.3)             !! for Pouya
+ 5300 format (i4,i3,1900f8.3)          !! for Pouya
       end

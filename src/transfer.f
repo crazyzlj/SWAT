@@ -123,7 +123,10 @@
       use parm
 
       integer :: k, ii
-      real*8 :: volum, tranmx, ratio
+      real :: volum, tranmx, ratio,vtot
+
+      nhyd_tr = ih_tran(inum5)
+      vartran(:,inum3) = 0.
 
 !! check beg/end months summer or winter
       if (mo_transb(inum5) < mo_transe(inum5)) then
@@ -134,13 +137,12 @@
 !! compute volume of water in source
       volum = 0.
       if (ihout == 2) then
-        volum = res_vol(inum1)
+        volum = res_vol(inum1) + varoute(2,nhyd_tr) 
       else
         volum = rchdy(2,inum1) * 86400.
       end if
       if (volum <= 0.) return
 
-      nhyd_tr = ih_tran(inum5)
       
 !! compute maximum amount of water allowed to be transferred
       tranmx = 0.
@@ -157,19 +159,41 @@
  
       if (tranmx > 0.) then
 
-        !! TRANSFER WATER TO DESTINATION
-!        select case (inum2)
-!          case (1)          !! TRANSFER WATER TO A CHANNEL
-!            rchstor(inum3) = rchstor(inum3) + tranmx
-!
-!          case (2)          !! TRANSFER WATER TO A RESERVOIR
-!            res_vol(inum3) = res_vol(inum3) + tranmx
-!        end select
- 
-        !! SUBTRACT AMOUNT TRANSFERED FROM SOURCE
+        !! Source is a reservoir 
         if (ihout == 2) then
-          res_vol(inum1) = res_vol(inum1) - tranmx
+          ratio = 1. - tranmx / volum
+          ratio1 = 1.- ratio
+          res_vol(inum1) = res_vol(inum1) * ratio          !!|m^3 H2O      |water
+          res_nh3(inum1) = res_nh3(inum1) * ratio          !!|kg N          |amount of ammonia in reservoir
+          res_no2(inum1) = res_no2(inum1) * ratio          !!|kg N          |amount of nitrite in reservoir
+          res_no3(inum1) = res_no3(inum1) * ratio          !!|kg N          |amount of nitrate in reservoir
+          res_orgn(inum1)= res_orgn(inum1)* ratio          !!|kg N          |amount of organic N in reservoir
+          res_orgp(inum1)= res_orgp(inum1)* ratio          !!|kg P          |amount of organic P in reservoir
+          res_solp(inum1)= res_solp(inum1)* ratio          !!|kg P          |amount of soluble P in reservior
+          res_chla(inum1)= res_chla(inum1)* ratio          !!|kg chl-a      |amount of chlorophyll-a leaving reaservoir
+          do ii = 2, mvaro
+              varoute(ii,nhyd_tr) = varoute(ii,nhyd_tr) * ratio
+          end do
+
+          !!save vartran to add in rchinit/resinit 
+          vartran(2,inum3) = tranmx
+          vartran(3,inum3) = res_sed(inum1) * tranmx 
+          vartran(4,inum3) = (res_orgn(inum1) + varoute(4,nhyd_tr)) 
+     &                        / ratio * ratio1 
+          vartran(5,inum3) = (res_orgp(inum1) + varoute(5,nhyd_tr)) 
+     &                        / ratio * ratio1 
+          vartran(6,inum3) = (res_no3(inum1) + varoute(6,nhyd_tr)) 
+     &                        / ratio * ratio1 
+          vartran(7,inum3) = (res_solp(inum1) + varoute(7,nhyd_tr)) 
+     &                        / ratio * ratio1 
+
+          vartran(11,inum3) = lkpst_conc(inum1) * tranmx  !mg pesticide 
+          vartran(13,inum3) = (res_chla(inum1) + varoute(13,nhyd_tr)) 
+     &                        / ratio * ratio1 
+
+         
         else
+        !! Source is a reach    
           xx = tranmx
 !          if (xx > rchstor(inum1)) then
 !            xx = tranmx - rchstor(inum1)
@@ -229,17 +253,17 @@
           rchdy(25,inum1) = rchdy(25,inum1) * ratio
           rchdy(38,inum1) = rchdy(38,inum1) * ratio
           rchdy(39,inum1) = rchdy(39,inum1) * ratio
-        end if
         
-        !!subtract from source
-        do ii = 3, mvaro
-          varoute(ii,nhyd_tr) = varoute(ii,nhyd_tr) * ratio
-        end do
-        !!save vartran to add in rchinit and resinit
-        vartran(2,inum3) = xx
-        do ii = 3, mvaro
-          vartran(ii,inum3) = varoute(ii,nhyd_tr) * ratio1
-        end do
+          !!subratct from source
+          do ii = 3, mvaro
+            varoute(ii,nhyd_tr) = varoute(ii,nhyd_tr) * ratio
+          end do
+          !!save vartran to add in rchinit 
+          vartran(2,inum3) = varoute(2,nhyd_tr) / ratio * ratio1
+          do ii = 3, mvaro
+            vartran(ii,inum3) = varoute(ii,nhyd_tr) * ratio1
+          end do
+        end if
         
       end if
 

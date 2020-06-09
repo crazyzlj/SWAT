@@ -325,9 +325,9 @@
 	      call caps(apex_in)
       !      i = 0
       !      i = inum1s(idum)
-            open (112+inum1s(idum),file=apex_in,recl=350)
-	      do ii = 1, 10 
-              read (112+inum1s(idum),5200) titldum
+            open (400+inum1s(idum),file=apex_in,recl=350)
+	      do ii = 1, 9 
+              read (400+inum1s(idum),5200) titldum
             end do
 !! code to read from apex output file
          

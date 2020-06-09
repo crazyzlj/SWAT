@@ -140,7 +140,7 @@
       integer :: j, iseas
       real*8 :: vol, cnv, sed, wetsa, xx, phosk, nitrok, tpco
       real*8 :: wetsani, wetsili, wetclai, wetsagi, wetlagi
-	real*8 :: san, sil, cla, sag, lag, inised, finsed,setsed,remsetsed
+	  real*8 :: san, sil, cla, sag, lag, inised, finsed,setsed,remsetsed
       real*8 :: wetsano, wetsilo, wetclao, wetsago, wetlago
       real*8 :: qdayi, latqi
       
@@ -175,26 +175,14 @@
 
         !! calculate water balance for day
         wetsa = 0.
-        wetsa = bw1(j) * wet_vol(j) ** bw2(j)
+        wetsa = hru_fr(j) * bw1(j) * wet_vol(j) ** bw2(j)
 
         wetev = 10. * evwet(j) * pet_day * wetsa
         wetsep = wet_k(j) * wetsa * 240.
         wetpcp = subp(j) * wetsa * 10.
 
         !! calculate water flowing into wetland from HRU
-        fr_cur = wet_fr(j) * ((hru_ha(j) - wetsa) / hru_ha(j))
-        fr_cur = Max(0.,fr_cur)
         wetflwi = qday + latq(j)
-        
-        if (iwetile(j) == 1) then
-          wetflwi = wetflwi + qtile
-          qtile = qtile * (1. - fr_cur)
-        end if
-        if (iwetgw(j) == 1) then
-          wetflwi = wetflwi + gw_q(j)
-          gw_q(j) = gw_q(j) * (1. - fr_cur)
-        end if
-        
         wetflwi = wetflwi * 10. * (hru_ha(j) * wet_fr(j) - wetsa)
         qdayi = qday
         latqi = latq(j)

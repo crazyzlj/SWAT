@@ -47,10 +47,10 @@
 
       use parm
       implicit none
-      prog = "SWAT Sep 7    VER 2018/Rev 670"
+      prog = "SWAT May 26   VER 2020/Rev 681"
       write (*,1000)
- 1000 format(1x,"               SWAT2018               ",/,             
-     &          "               Rev. 670               ",/,             
+ 1000 format(1x,"               SWAT2020               ",/,             
+     &          "               Rev. 681               ",/,             
      &          "      Soil & Water Assessment Tool    ",/,             
      &          "               PC Version             ",/,             
      &          " Program reading from file.cio . . . executing",/)
@@ -77,6 +77,8 @@
       call std2
       call openwth
       call headout
+      
+      !call sw_init
 
       !! convert integer to string for output.mgt file
       subnum = ""

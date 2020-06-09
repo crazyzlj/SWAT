@@ -505,7 +505,7 @@
       sol_silt = 0.
       sol_clay = 0.
 !!   added for Srini in output.mgt nitrogen and phosphorus nutrients per JGA by gsm 9/8/2011
-      sol_sumn03 = 0.
+      sol_sumno3 = 0.
       sol_sumsolp = 0.
       strsw = 1.
       strsw_sum = 0.

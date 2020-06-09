@@ -444,7 +444,7 @@
           if (iprint==3) then
 		  write (125,2000)i,j,curyr,k,pot_vol(j),potsa(j),spillo,potsep,   
      &       potev,sol_sw(j),potpcpmm,potflwi(j) / cnv,               
-     &       potsedi(j) / hru_ha(j),potflow,potsedo / hru_ha(j)
+     &       potsedi(j) / hru_ha(j),potflwo,potsedo / hru_ha(j)
           endif
 		  
         if (pot_vol(j) > 1.e-6) then
