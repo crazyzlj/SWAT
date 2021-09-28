@@ -13,7 +13,7 @@ ELSEIF (USE_OPENMP)
             MESSAGE (FATAL_ERROR "Fortran compiler does not support OpenMP")
         ENDIF (NOT OpenMP_Fortran_FLAGS)
     ENDIF (NOT OpenMP_Fortran_FLAGS)
-    # Turn of MPI
+    # Turn off MPI
     UNSET (MPI_FOUND CACHE)
     UNSET (MPI_COMPILER CACHE)
     UNSET (MPI_LIBRARY CACHE)
