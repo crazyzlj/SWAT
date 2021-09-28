@@ -110,6 +110,9 @@
 
 
       use parm
+      real :: Tini, Tend, Ttot  !!![ASK] Sat Mar 15 08:11:11 HST 2014 
+      integer :: nreadsub       !!![ASK]
+
 
       character (len=80) :: titldum
       character (len=1) ::  a
@@ -123,6 +126,10 @@
       char6 = "   "
       char7 = "   "
       char8 = "   "
+
+      Ttot     = 0.0   !!![ASK]
+      nreadsub = 0     !!![ASK]
+
 
 !!    initialize variables
       mhyd_bsn = 0
@@ -198,7 +205,11 @@
               i = inum1s(idum)
               subed(ihouts(idum)) = inum4s(idum)
               open (101,file=subfile)
+              call CPU_TIME(Tini)          !!![ASK]
               call readsub
+              call CPU_TIME(Tend)          !!![ASK]
+              Ttot = Ttot + Tend-Tini      !!![ASK]
+              nreadsub = nreadsub +1       !!![ASK]
               nhru = nhru + hrutot(i)
 
             case (2)  !! icode = 2  ROUTE CHANNEL command
@@ -395,7 +406,8 @@
 !! close .fig file
       close (102)
 
-
+      write(*,*) " readsub was called ", nreadsub, "times taking", Ttot
+      !!![ASK] 
       return
 !! isproj = 0
 !! 5000 format (a1,9x,5i6,f6.3,i9,4i3)

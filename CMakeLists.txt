@@ -20,8 +20,8 @@
 #    https://github.com/SethMMorton/cmake_fortran_template @SethMMorton (https://github.com/SethMMorton)
 #  
 #  Contact: zlj@lreis.ac.cn
-#  Latest updated: Apr. 21 2020
-#  Copyright (C) 2017-2020 LREIS, IGSNRR, CAS
+#  Latest updated: Sep. 28 2021
+#  Copyright (C) 2017-2021 LREIS, IGSNRR, CAS
 # ----------------------------------------------------------------------------------------------
 cmake_minimum_required(VERSION 2.8.5)
 
@@ -43,7 +43,7 @@ endif()
 
 message("Compiling SWAT version: ${SWAT_VER_STR}")
 
-project(${prjname} Fortran)
+project(${prjname} Fortran C)
 set(CMAKE_VERBOSE_MAKEFILE ON)
 
 ### Set cmake find path
@@ -99,8 +99,14 @@ INCLUDE(SetFortranFlags)
 
 ### One of MPI and OpenMP is allowed to set for parallel computation
 OPTION(USE_MPI "Use the MPI library for parallelization" OFF)
-OPTION(USE_OPENMP "Use OpenMP for parallelization" OFF)
+OPTION(USE_OPENMP "Use OpenMP for parallelization" ON)
 INCLUDE(SetParallelizationLibrary)
+IF (OpenMP_Fortran_FLAGS)
+    SET(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} ${OpenMP_Fortran_FLAGS}")
+ENDIF ()
+IF (MPI_Fortran_COMPILE_FLAGS)
+    SET(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} ${MPI_Fortran_COMPILE_FLAGS}")
+ENDIF ()
 
 ### Use statically or dynamically linkage?
 ### Global flag to cause add_library to create shared libraries if on, otherwise static library.

@@ -193,13 +193,22 @@
 !!    ~ ~ ~ ~ ~ ~ END SPECIFICATIONS ~ ~ ~ ~ ~ ~
 
       use parm
-
+      use omp_lib
+  
       integer :: j, ly
+      integer :: myid, nthreads
 
       j = 0
       j = ihru
+!$OMP PARALLEL PRIVATE (myid)
+      myid     = omp_get_thread_num ()
+      nthreads = omp_get_num_threads  ()
+
+      !write(*,*) "varinit", myid, nthreads
 
       !!initialize variables
+      select case(myid)
+      case(0)
         al5 = 0.
         albday = 0.
         auton = 0.
@@ -320,13 +329,19 @@
         wetsedi = 0.
         wetsedo = 0.
         wetsep = 0.
-        
-	!! urban modeling by J.Jeong
-	  sedprev = 0.
-	  ubnrunoff = 0.
-	  irmmdt = 0.
-        hhsedy = 0.
+      case(4)  
+	    !! urban modeling by J.Jeong
+	    sedprev = 0.
+	    ubnrunoff = 0.
+	    irmmdt = 0.
+        !hhsedy = 0. !! invoke fmemset in case(2)
         ubntss = 0.
-
+      
+      case(2)
+      call fmemset(hhsedy, size(hhsedy)*4) 
+        
+      end select
+!$OMP BARRIER
+!$OMP END PARALLEL
        return
        end

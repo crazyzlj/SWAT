@@ -53,16 +53,19 @@
 
       use parm
       implicit none
+      real T1, T2
       prog = "SWAT Mar 4 2014    VER 2012/Rev 622"
       write (*,1000)
  1000 format(1x,"               SWAT2012               ",/,             
-     &          "               Rev. 622              ",/,             
+     &          "               Rev. 622.iOMP          ",/,             
      &          "      Soil & Water Assessment Tool    ",/,             
      &          "               PC Version             ",/,             
      &          " Program reading from file.cio . . . executing",/)
 
 !! process input
 		
+      write(*,*) " SWAT run starts for reading ..."
+      call CPU_TIME(T1)
       call getallo
       call allocate_parms
       call readfile
@@ -83,7 +86,10 @@
       call std2
       call openwth
       call headout
-
+      call CPU_TIME(T2)
+     
+      write(*,*) " reading takes (sec) = ", T2 - T1
+      write(*,*) " mhru = ", mhru
       !! convert integer to string for output.mgt file
       subnum = ""
       hruno = ""

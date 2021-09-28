@@ -4,6 +4,7 @@ set(swatexe swat)
 ### Get source file lists of different formats
 file(GLOB F77SRCS *.f)
 file(GLOB F90SRCS *.f90)
+file(GLOB CSRCS *.c)
 
 ### Set Fortran line format for source file
 
@@ -57,6 +58,13 @@ if((NOT MSVC) AND (${First_Line_Of_Main_File} MATCHES "      include 'modparm.f'
     else ()
         separate_arguments(Compile_Flags_List UNIX_COMMAND "${CMAKE_Fortran_FLAGS_DEBUG}")
     endif ()
+    # Build C external functions as objects, e.g., fmemset.c 
+    foreach(CSRCFILE ${CSRCS})
+        get_filename_component(CORENAME ${CSRCFILE} NAME_WE)
+        add_custom_command(OUTPUT ${CORENAME}.o
+                           COMMAND ${CMAKE_C_COMPILER} ${Compile_Flags_List} -c ${CSRCFILE})
+        list(APPEND swat_obj ${CORENAME}.o)
+    endforeach()
     # Build main.f first which includes modparm.f (i.e., parm.mod)
     add_custom_command(OUTPUT main.o
                        COMMAND ${CMAKE_Fortran_COMPILER} ${Compile_Flags_List} -ffixed-line-length-79 -c
@@ -84,13 +92,26 @@ if((NOT MSVC) AND (${First_Line_Of_Main_File} MATCHES "      include 'modparm.f'
                            ${SRCFILE} DEPENDS main.o)
         list(APPEND swat_obj ${CORENAME}.o)
     endforeach()
+    # Sort compiled objects
     list(SORT swat_obj)
     # Add executable built by objects
     add_executable(${swatexe} ${swat_obj} main.o)
 ## Situation 2: The first line of main.f is not "include 'modparm.f'", the command is same for ifort(MSVC) and gfortran
 else()
-    add_executable(${swatexe} ${F77SRCS} ${F90SRCS})
+    add_executable(${swatexe} ${F77SRCS} ${F90SRCS} ${CSRCS})
 endif()
+
+IF(USE_OPENMP)
+    IF (NOT MSVC)
+        SET_TARGET_PROPERTIES(${swatexe} PROPERTIES
+                              LINK_FLAGS "${OpenMP_Fortran_FLAGS}")
+    ENDIF ()
+ELSEIF(USE_MPI)
+    SET_TARGET_PROPERTIES(${swatexe} PROPERTIES
+                          LINK_FLAGS "${MPI_Fortran_LINK_FLAGS}")
+    INCLUDE_DIRECTORIES(${MPI_Fortran_INCLUDE_PATH})
+    TARGET_LINK_LIBRARIES(${swatexe} ${MPI_Fortran_LIBRARIES})
+ENDIF(USE_OPENMP)
 
 ### Set exact name of SWAT executable according to versions and build type
 set_target_properties(${swatexe} PROPERTIES
