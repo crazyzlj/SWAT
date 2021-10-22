@@ -95,13 +95,15 @@
       read (107,5500) titldum
       read (107,5000) (sol_z(j,ihru), j = 1, mlyr)
 
-      
       !! calculate number of soil layers in HRU soil series
+      dep_prev = 0.
       do j = 1, mlyr
-!!    khan soils
-!      sol_z(j,ihru) = sol_z(j,ihru) / 5.0
-        if (sol_z(j,ihru) <= 0.001) sol_nly(ihru) = j - 1
-        if (sol_z(j,ihru) <= 0.001) exit
+        if (sol_z(j,ihru) <= dep_prev) then
+          sol_nly(ihru) = j - 1
+          exit
+        else
+          dep_prev = sol_z(j,ihru)
+        end if
       enddo
       if (sol_nly(ihru) == 0) sol_nly(ihru) = 10
       nly = sol_nly(ihru)

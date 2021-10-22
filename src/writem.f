@@ -24,7 +24,7 @@
 !!                               |0 monthly
 !!                               |1 daily
 !!                               |2 annually
-!!    iprp        |none          |print code for output.pst file
+!!    iprp        |none          |print code for output.pes file
 !!                               |0 do not print pesticide output
 !!                               |1 print pesticide output
 !!    isproj      |none          |special project code:
@@ -252,7 +252,7 @@
           endif
 
           if (iprint == 0) then
-            !! monthly write--pesticide output (output.pst) for HRUs
+            !! monthly write--pesticide output (output.pes) for HRUs
             do j = 1, nhru
               if (hrupest(j) == 1) then
               sum = 0.

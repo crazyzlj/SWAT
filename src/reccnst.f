@@ -89,7 +89,7 @@
 
 !! zero flow out variables
       do j = 1, mvaro
-        varoute(j,ihout) = 0.
+      varoute(j,ihout) = 0.
         if (ievent > 0) then
           do ii = 1, nstep
             hhvaroute(j,ihout,ii) = 0.

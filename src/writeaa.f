@@ -72,7 +72,7 @@
 !!                                |9: print format
 !!                                |   (0=normal, fixed format)
 !!                                |   (1=txt format for AV interface,recday)
-!!    iprp         |none          |print code for output.pst file
+!!    iprp         |none          |print code for output.pes file
 !!                                |0 do not print pesticide output
 !!                                |1 print pesticide output
 !!    irn(:)       |none          |average annual number of irrigation
@@ -519,7 +519,7 @@
         call subaa(yrs)
       end if
 
-!! write average annual pesticide data (output.pst)
+!! write average annual pesticide data (output.pes)
       if (iprp == 1) then
         write (30,5500)
         do j = 1, nhru

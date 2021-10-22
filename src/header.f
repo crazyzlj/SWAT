@@ -44,7 +44,7 @@
      &         "NO3GWkg/ha"," SOLPkg/ha"," P_GWkg/ha","    W_STRS",     
      &         "  TMP_STRS","    N_STRS","    P_STRS","  BIOMt/ha",     
      &         "       LAI","   YLDt/ha","  BACTPct ","  BACTLPct",     
-     &         " WTAB CLIm"," WTAB SOLm","     SNOmm"," CMUPkg/ha",     
+     &         " WTAB_CLIm"," WTAB_SOLm","     SNOmm"," CMUPkg/ha",     
      &         "CMTOTkg/ha","   QTILEmm"," TNO3kg/ha"," LNO3kg/ha",     
      &         "  GW_Q_Dmm"," LATQCNTmm"," TVAPkg/ha"/)
 
@@ -73,6 +73,7 @@
       
 !!  added headers TOTAL N/TOTALP/NO3 Concentration TO HEADING FOR OUTPUT.RCH GSM 10/26/2011
 !!    column headers for reach output file
+
       hedr = (/"  FLOW_INcms"," FLOW_OUTcms","     EVAPcms",            
      &         "    TLOSScms","  SED_INtons"," SED_OUTtons",            
      &         " SEDCONCmg/L","   ORGN_INkg","  ORGN_OUTkg",            

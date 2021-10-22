@@ -220,7 +220,7 @@
           end if
 
         if (iprint /= 1) then
-          !! annual write--pesticide output (output.pst) for HRUs
+          !! annual write--pesticide output (output.pes) for HRUs
           do j = 1, nhru
             if (hrupest(j) == 1) then
             sum = 0.

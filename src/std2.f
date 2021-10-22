@@ -224,13 +224,16 @@
       return
  1000 format (/t10,'Subbasin Input Summary:',/t10,                      
      &       ' Sub Latitude  Elev(m) #HRUs Ponds Elevbnds Wetlnd')
- 1001 format (t10,i4,2f9.2,i6,3x,a1,6x,a1,7x,a1,2x)
+ !1001 format (t10,i4,2f9.2,i6,3x,a1,6x,a1,7x,a1,2x)
+1001  format (t10,i6,2f9.2,i6,3x,a1,6x,a1,7x,a1,2x)  !!chged for mikolaj
  1010 format (/t10,'Tributary/Main Channel Characteristics')
  1011 format (t10,'     |--------------Tributary--------------------|', 
      &          '---------------------Main---------------------------|',
      &       /t10,' Sub  Length(km) Slope Width(m) Cond(mm/hr)     N',  
      &       1x,'Length(km) Slope Width(m) Depth(m) Cond(mm/hr)     N')
- 1012 format (t10,i4,2x,f10.2,f6.3,f9.2,f12.4,1x,f5.3,1x,f10.2,f6.3,    
+ !1012 format (t10,i4,2x,f10.2,f6.3,f9.2,f12.4,1x,f5.3,1x,f10.2,f6.3,    
+ !    &        2f9.2,f12.4,1x,f5.3)
+ 1012 format (t10,i6,2x,f10.2,f6.3,f9.2,f12.4,1x,f5.3,1x,f10.2,f6.3,    
      &        2f9.2,f12.4,1x,f5.3)
  1013 format (t10,'     |--------------Tributary--------------------|', 
      &          '---------------------Main---------------------------', 
@@ -243,33 +246,45 @@
  1020 format (/t10,'HRU Input Summary Table 1:',/t10,                   
      &       ' Sub   HRU   Area(ha) Slope SlpLgth(m) Ovrlnd_N CondII_CN'
      &       ,' TimeConc(hr) ESCO EPCO')
- 1021 format (t10,i4,1x,i6,f11.2,f6.3,f11.2,f9.3,f10.2,f13.3,2f5.2)
+ !1021 format (t10,i4,1x,i6,f11.2,f6.3,f11.2,f9.3,f10.2,f13.3,2f5.2)
+ 1021 format (t10,i6,1x,i6,f11.2,f6.3,f11.2,f9.3,f10.2,f13.3,2f5.2)  !!Mikola
  1022 format (/t10,'HRU Input Summary Table 2:',/t10,                   
      &       ' Sub   HRU   Area(ha)         SoilName Hydgrp MaxRtDpth', 
      &       '(mm) Albedo USLE_K USLE_P USLE_LS ProfileAWC(mm) IniSoil',
      &       'H2O(mm)')
- 1023 format (t10,i4,1x,i6,f11.2,1x,a16,3x,a1,3x,f14.2,3f7.2,f8.2,f11.3,
+ !1023 format (t10,i4,1x,i6,f11.2,1x,a16,3x,a1,3x,f14.2,3f7.2,f8.2,f11.3,
+  !   &       f15.3)
+ 1023 format (t10,i6,1x,i6,f11.2,1x,a16,3x,a1,3x,f14.2,3f7.2,f8.2,f11.3,
      &       f15.3)
  1024 format (/t10,'HRU Input Summary Table 3:',/t10,                   
      &       ' Sub   HRU   Area(ha) Urban Irrig DrainTiles Pothole',    
      &       ' Pstcide Biomix Septic')
- 1025 format (t10,i4,1x,i6,f11.2,3x,a1,5x,a1,8x,a1,8x,a1,6x,a1,5x,f6.2, 
+ !1025 format (t10,i4,1x,i6,f11.2,3x,a1,5x,a1,8x,a1,8x,a1,6x,a1,5x,f6.2, 
+ !    & 1x,a1)
+ 1025 format (t10,i6,1x,i6,f11.2,3x,a1,5x,a1,8x,a1,8x,a1,6x,a1,5x,f6.2, 
      & 1x,a1)
  1026 format (/t10,'HRU Input Summary Table 4 (Groundwater):',/t10,     
      &       ' Sub   HRU   Area(ha) GWdelay(days), GWalpha(days)',      
      &       ' GWQmin(mm) GWrevap Revapmin(mm) Deepfr NO3(ppm)',        
      &       ' SolP(ppm)')
- 1027 format (t10,i4,1x,i6,f11.2,2f14.3,f11.3,f8.3,f13.3,f7.3,f9.3,     
+ !1027 format (t10,i4,1x,i6,f11.2,2f14.3,f11.3,f8.3,f13.3,f7.3,f9.3,     
+ !    &       f10.3)
+ 1027 format (t10,i6,1x,i6,f11.2,2f14.3,f11.3,f8.3,f13.3,f7.3,f9.3,     
      &       f10.3)
  1028 format (/t10,'HRU CN Input Summary Table:',/t10,                  
      &       ' Sub   HRU   Area(ha)  LULC      Soil    CN1    CN2    ', 
      &       'CN3  Wilting Point (mm H2O)  Field Capacity (mm H2O)',    
      &       '  Saturation (mm H2O)')
- 1029 format (t10,i4,1x,i6,f11.2,2x,a4,2x,a8,3f7.1,18x,f6.1,19x,f6.1,   
+!1029 format (t10,i4,1x,i6,f11.2,2x,a4,2x,a8,3f7.1,18x,f6.1,19x,f6.1,   
+!    &       15x,f6.1)
+ 1029 format (t10,i6,1x,i6,f11.2,2x,a4,2x,a8,3f7.1,18x,f6.1,19x,f6.1,   
      &       15x,f6.1)
- 1030 format (t10,i4,1x,i6,f11.2,2x,'BARR',2x,a8,3f7.1,18x,f6.1,19x,f6.1
+ !1030 format (t10,i4,1x,i6,f11.2,2x,'BARR',2x,a8,3f7.1,18x,f6.1,19x,f6.1
+ !   &       ,15x,f6.1)
+ 1030 format (t10,i6,1x,i6,f11.2,2x,'BARR',2x,a8,3f7.1,18x,f6.1,19x,f6.1
      &       ,15x,f6.1)
  2000 format (//,' AREA DOES NOT SUM TO ONE   ', f8.6,//)
- 3000 format (i4,3f12.4)
+ !3000 format (i4,3f12.4)
+ 3000 format (i6,3f12.4)
  5000 format (/t5,a80,t105,2(a2,'/'),a2,5x,2(i2,':'),i2)
       end

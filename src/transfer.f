@@ -254,17 +254,21 @@
           rchdy(38,inum1) = rchdy(38,inum1) * ratio
           rchdy(39,inum1) = rchdy(39,inum1) * ratio
         
-          !!subratct from source
+          !!subract from source
           do ii = 3, mvaro
             varoute(ii,nhyd_tr) = varoute(ii,nhyd_tr) * ratio
           end do
-          !!save vartran to add in rchinit 
-          vartran(2,inum3) = varoute(2,nhyd_tr) / ratio * ratio1
+          !!save vartran to add in rchinit
+          if (ratio < 0.01) then
+            vartran(2,inum3) = 0.
+            ratio1 = 0.
+          else
+            vartran(2,inum3) = varoute(2,nhyd_tr) / ratio * ratio1
+          end if
           do ii = 3, mvaro
             vartran(ii,inum3) = varoute(ii,nhyd_tr) * ratio1
           end do
-        end if
-        
+        end if      
       end if
 
       return

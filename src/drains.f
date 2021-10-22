@@ -188,7 +188,7 @@
         stor = precipday - inflpcp - etday !Daniel 10/05/07
         if(surfq(j) > 0.0) stor=stmaxd(j)
       else
-        stor = pot_vol(j)/(potsa(j)*1000)
+        stor = pot_vol(j)!/(potsa(j)*1000) pot_vol is already in mm, Jaehak 2020
       endif
       if(hdrain < hdmin) hdrain=hdmin
       if((stor > storro).and.(y1 < 5.0)) then

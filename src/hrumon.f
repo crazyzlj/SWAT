@@ -275,9 +275,9 @@
         pdvas(75) = hrumono(68,j)
 !!    latno3 - output.hru
         pdvas(76) = hrumono(69,j)
-!!    gwq deep 
+!!    gw_qdeep 
         pdvas(77) = hrumono(70,j)
-!!    lat q continuous
+!!    latq continuous
         pdvas(78) = hrumono(71,j)
 !!      phos due to crack flow (tvap)
         pdvas(79) = hrumono(72,j)
