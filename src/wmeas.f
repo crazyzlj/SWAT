@@ -96,8 +96,6 @@
 
       return
 
- !5200 format (7x,1800f8.3)
- !5300 format (i4,i3,1800f8.3)
  5200 format (7x,1900f8.3)              !! Pouya
  5300 format (i4,i3,1900f8.3)           !! Pouya
       end

@@ -121,14 +121,17 @@
      &                                        (pdvab(ii), ii = 1, msubo)
               endif
         
-	end if
+      end if
 
-
+!!    output solar, windspeed, relative humidity to new output file (daily only)
+      if (iprp == 2) then 
+        write (2222,2000) sb, subgis(sb), iida, iyr, sub_km(sb), hru_ra(sb), u10(sb), rhd(sb)
+      end if 
+  
       return
-!     changed for jennifer b.
-!1000 format ('BIGSUB',i4,1x,i8,1x,i4,e10.5,18f10.3)
-!1000 format ('BIGSUB',i4,1x,i8,1x,i4,e10.5,21f10.3)
+
  1000 format ('BIGSUB',i5,1x,i8,1x,i4,e10.5,18e10.3,1x,e10.5,5e10.3)
  1001 format('BIGSUB',i5,1x,i8,1x,i2,1x,i2,1x,i4,1x,e10.5,18e10.3,1x,   
      &  e10.5, 5e10.3)
+ 2000	format (i5,1x,i8,1x,i4,5x,i4,5x,e10.5,5x,3f8.2)
       end 

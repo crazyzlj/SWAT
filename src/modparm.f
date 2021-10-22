@@ -663,7 +663,7 @@
       character(len=13) :: heds(79),hedb(24),hedr(46),hedrsv(41)
       character(len=13) :: hedwtr(40)
       character(len=4) :: title(60), cpnm(5000)
-      character(len=17), dimension(50) :: fname
+      character(len=17), dimension(100) :: fname
 ! measured input files
       real*8, dimension (:,:,:), allocatable :: flomon,solpstmon,srbpstmon
       real*8, dimension (:,:,:), allocatable :: sedmon,orgnmon,orgpmon

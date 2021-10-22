@@ -155,7 +155,7 @@
         write (29,1020) (hedwtr(j), j = 1, 40) 
       end if
 
-!! write headings to pesticide output file (output.pst)
+!! write headings to pesticide output file (output.pes)
       if (iprp /= 0) then
         write (30,1000)prog, values(2), values(3), values(1), values(5),
      &                values(6), values(7)
@@ -182,8 +182,16 @@
       write(77779,'(5a6,30a12)') 'year', 'day','sub','RInum',
      & 'inflw(m3)','qbypass(m3)','pmpflw(m3)','pmpflw(m3)','sedin(kg)',
      & 'sbypass(kg)','pmpsed(kg)'
-
+      
+      if (iprp == 2) then
+        open (2222,file='weather_day.out',recl=800) 
+        write (2222,2222)
+	end if
+        
       return
+
+ 2222	format (2x,'SUB',5x,'SUBGIS',1x,' DAY',3x,' YEAR',6x,'SUB_KM',11x,' SLR',5x,'WND',4x,'RELH')
+
  1000 format ('1',/t5,a80,t105,2(i2,'/'),i4,5x,2(i2,':'),i2)
  1010 format (/(t5,20a4))
  1020 format (//'LULC  HRU       GIS  SUB  MGT  MON','   AREAkm2',      

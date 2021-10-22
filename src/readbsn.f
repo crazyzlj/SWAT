@@ -602,8 +602,7 @@
       if (eof < 0) exit
       read (103,*,iostat=eof) co2_x
       if (eof < 0) exit
-!!    Srin co2 (EPA)
-      if (eof < 0) exit   
+!!    Srin co2 (EPA)  
       read (103,*,iostat=eof) sfsedmean
       if (eof < 0) exit   
       read (103,*,iostat=eof) sfsedstdev

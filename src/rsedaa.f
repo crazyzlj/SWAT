@@ -35,5 +35,5 @@
       end do
 
       return
- 5000 format ('REACH ',i4,1x,i8,1x,f5.1,20e12.4)
+ 5000 format ('REACH ',i6,1x,i8,1x,f5.1,20e12.4)
       end

@@ -140,8 +140,6 @@
         end if
         ssfnlyr = Min(ssfnlyr, sol_no3(jj,j))
         latno3(j) = latno3(j) + ssfnlyr
-        !! bmp adjustment
-        latno3(j) = latno3(j) * bmp_sns(j)
         sol_no3(jj,j) = sol_no3(jj,j) - ssfnlyr
 
         !! calculate nitrate in percolate

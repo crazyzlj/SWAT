@@ -176,19 +176,21 @@
      &                                                              then
                   targ = res_evol(jres)
                 else
-                xx = Min(sub_sw(res_sub(jres))/sub_sumfc(res_sub(jres)),
-     &                                                               1.)
-                targ = res_pvol(jres) + .5 * (1. - xx) *                
-     &                                 (res_evol(jres) - res_pvol(jres))
+ !               xx = Min(sub_sw(res_sub(jres))/sub_sumfc(res_sub(jres)),
+ !    &                                                               1.)
+ !               targ = res_pvol(jres) + .5 * (1. - xx) *                
+ !    &                                 (res_evol(jres) - res_pvol(jres))
+                targ = res_pvol(jres)               
                 end if
               else
                 if (i_mo > iflod1r(jres) .or. i_mo < iflod2r(jres)) then
                   targ = res_evol(jres)
                 else
-                xx = Min(sub_sw(res_sub(jres))/sub_sumfc(res_sub(jres)),
-     &                                                               1.)
-                targ = res_pvol(jres) + .5 * (1. - xx) *                
-     &                                 (res_evol(jres) - res_pvol(jres))
+ !              xx = Min(sub_sw(res_sub(jres))/sub_sumfc(res_sub(jres)),
+ !  &                                                               1.)
+ !               targ = res_pvol(jres) + .5 * (1. - xx) *                
+ !    &                                 (res_evol(jres) - res_pvol(jres))
+                targ = res_pvol(jres)
                 end if
               end if
             endif
