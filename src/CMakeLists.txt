@@ -9,10 +9,11 @@ file(GLOB F90SRCS *.f90)
 
 ## Special sources that have fixed length of 72
 set(LEN72_SRCS "grow" "tran")
+GET_FILENAME_COMPONENT(Fortran_COMPILER_NAME ${CMAKE_Fortran_COMPILER} NAME)
 foreach(F77FILE ${F77SRCS})
     get_filename_component(CORENAME ${F77FILE} NAME_WE)
     list(FIND LEN72_SRCS ${CORENAME} _FOUND_LEN72)
-    if(${CMAKE_Fortran_COMPILER} MATCHES "ifort.*")
+    if(${Fortran_COMPILER_NAME} MATCHES "ifort.*" OR ${Fortran_COMPILER_NAME} MATCHES "icl.*")
         # ifort, reference https://software.intel.com/en-us/node/678225
         if(MSVC) # ifort integrated in Microsoft Visual Studio            
             if(${_FOUND_LEN72} GREATER -1)
@@ -37,7 +38,7 @@ foreach(F77FILE ${F77SRCS})
 endforeach()
 
 foreach(F90FILE ${F90SRCS})
-    if(${CMAKE_Fortran_COMPILER} MATCHES "ifort.*")
+    if(${Fortran_COMPILER_NAME} MATCHES "ifort.*" OR ${Fortran_COMPILER_NAME} MATCHES "icl.*")
         if(MSVC)
             set_source_files_properties(${F90FILE} PROPERTIES COMPILE_FLAGS /4L132)
         else()
