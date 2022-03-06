@@ -7,7 +7,9 @@
 
 > The Soil & Water Assessment Tool is a small watershed to river basin-scale model used to simulate the quality and quantity of surface and ground water and predict the environmental impact of land use, land management practices, and climate change. SWAT is widely used in assessing soil erosion prevention and control, non-point source pollution control and regional management in watersheds.
 
-From official site: https://swat.tamu.edu/
+Official site: https://swat.tamu.edu/
+
+Official source code: https://bitbucket.org/blacklandgrasslandmodels/swat_development/src
 
 ## 2. About this repository
 
