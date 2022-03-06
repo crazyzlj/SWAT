@@ -190,7 +190,8 @@
         
       return
 
- 2222	format (2x,'SUB',5x,'SUBGIS',1x,' DAY',3x,' YEAR',6x,'SUB_KM',11x,' SLR',5x,'WND',4x,'RELH')
+ 2222	format (2x,'SUB',5x,'SUBGIS',1x,' DAY',3x,' YEAR',6x,
+     &'SUB_KM',11x,' SLR',5x,'WND',4x,'RELH')
 
  1000 format ('1',/t5,a80,t105,2(i2,'/'),i4,5x,2(i2,':'),i2)
  1010 format (/(t5,20a4))
