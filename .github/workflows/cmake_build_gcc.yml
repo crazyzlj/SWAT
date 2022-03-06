@@ -4,11 +4,15 @@ name: Build by GCC on Linux/macOS
 
 on:
     push:
-        paths-ignore:
-            - 'doc/**'
+        paths:
+            - 'cmake/**'
+            - 'src/**'
+            - 'CMakeLists.txt'
     pull_request:
-        paths-ignore:
-            - 'doc/**'
+        paths:
+            - 'cmake/**'
+            - 'src/**'
+            - 'CMakeLists.txt'
     workflow_dispatch:
 
 env:
@@ -16,7 +20,7 @@ env:
   BUILD_TYPE: Debug
 
 jobs:
-  build-linux-ubuntu:
+  build-ubuntu-gfortran:
     # The CMake configure and build commands are platform agnostic and should work equally well on Windows or Mac.
     # You can convert this to a matrix build if you need cross-platform coverage.
     # See: https://docs.github.com/en/free-pro-team@latest/actions/learn-github-actions/managing-complex-workflows#using-a-build-matrix
@@ -35,7 +39,7 @@ jobs:
       # Build your program with the given configuration
       run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}} -- -j 4
 
-  build-mac:
+  build-mac-gfortran:
     runs-on: macos-latest
     steps:
     - name: Checkout SWAT
