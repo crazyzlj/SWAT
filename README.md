@@ -1,5 +1,8 @@
 # Unofficial collection of SWAT code
 
+[![Build by GCC(gfortran) on Linux/macOS](https://github.com/WatershedModels/SWAT/actions/workflows/cmake_build_gcc.yml/badge.svg?branch=master)](https://github.com/WatershedModels/SWAT/actions/workflows/cmake_build_gcc.yml)
+[![Build by IntelFortran(ifort) on Linux](https://github.com/WatershedModels/SWAT/actions/workflows/cmake_build_ifort.yml/badge.svg?branch=master)](https://github.com/WatershedModels/SWAT/actions/workflows/cmake_build_ifort.yml)
+
 ## 1. About SWAT (Soil & Water Assessment Tool)
 
 > The Soil & Water Assessment Tool is a small watershed to river basin-scale model used to simulate the quality and quantity of surface and ground water and predict the environmental impact of land use, land management practices, and climate change. SWAT is widely used in assessing soil erosion prevention and control, non-point source pollution control and regional management in watersheds.
