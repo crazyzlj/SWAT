@@ -169,7 +169,7 @@
           kdrn = " "
           kpot = " "
           kpst = " "
-          ksep = "   "
+          ksep = " " ! defined for 1 char! Corrected by lj.
           if (iurban(j) > 0) kubn = "x"
        !!   if (ipot(j) == j) kpot = "x"
           if (pot_fr(j) > 0.) kpot = "x"

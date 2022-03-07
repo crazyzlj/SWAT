@@ -458,8 +458,8 @@
       rchrg_n = 0.
       rcn_sub = 0.
       rcn_sub_bsn = 0.
-      reccnstps = '             '
-      recmonps = '             '
+      reccnstps = '          ' ! defined in modparm.f for 10 chars By lj
+      recmonps = '          ' ! defined in modparm.f for 10 chars. By lj
       rammo_mo = 0.
       rcn_mo = 0.
       drydep_nh4_mo = 0.
