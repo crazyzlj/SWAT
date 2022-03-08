@@ -261,14 +261,14 @@
             else
               CNres = 0.43 * sol_rsd(k,j) / sol_fon(k,j)
             end if
-            CNres = dmax1(CNres, 15.)
+            CNres = dmax1(CNres, 15._8)
             
             if (sol_fop(k,j) < .01) then
               CPres = 400.
             else
               CPres = 0.43 * sol_rsd(k,j) / sol_fop(k,j)
             end if
-            CPres = dmax1(CPres, 400.)
+            CPres = dmax1(CPres, 400._8)
             
             !! CN of new organic matter (humified residue)
             rCNnew = fCNnew(sol_no3(k,j),sol_mass,CNres, 1.1D+02)   ! 110.)

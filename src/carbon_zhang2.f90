@@ -326,7 +326,8 @@
 		      OX = 0.
 		      !OX = 1 - (0.9* sol_z(k,j)/1000.) / (sol_z(k,j)/1000.+ exp(1.50-3.99*sol_z(k,j)/1000.))
 		      !OX = 1 - (0.8* sol_z(k,j)) / (sol_z(k,j)+ exp(1.50-3.99*sol_z(k,j)))  
-		      OX=1.-0.8*((sol_z(kk,j)+sol_z(kk-1,j))/2)/(((sol_z(kk,j)+sol_z(kk-1,j))/2)+EXP(18.40961-0.023683632*((sol_z(kk,j)+sol_z(kk-1,j))/2)))  			
+		      OX=1.-0.8*((sol_z(kk,j)+sol_z(kk-1,j))/2)/ &
+        &           (((sol_z(kk,j)+sol_z(kk-1,j))/2)+EXP(18.40961-0.023683632*((sol_z(kk,j)+sol_z(kk-1,j))/2)))
               !! compute combined factor
 		      CS = 0.
 		      CS=MIN(10.,SQRT(cdg*sut)*0.9*OX*X1)              

@@ -375,6 +375,7 @@
       character (len=13) :: wwqfile
       integer :: eof, numlu
       real*8 :: escobsn, epcobsn
+      integer :: ii, pos
 !!      real*8 :: r2adj_bsn  !D. Moriasi 4/8/2014    
 
 !!    initialize variables
