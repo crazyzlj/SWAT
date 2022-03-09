@@ -281,16 +281,16 @@
         end if
             decr = Max(decr_min, decr)
             decr = Min(decr, 1.)
-            sol_rsd(k,j) = dmax1(1.e-6,sol_rsd(k,j))
+            sol_rsd(k,j) = dmax1(1.e-6_8,sol_rsd(k,j))
             rdc = decr * sol_rsd(k,j)
             sol_rsd(k,j) = sol_rsd(k,j) - rdc
             if (sol_rsd(k,j) < 0.) sol_rsd(k,j) = 0.
             rmn1 = decr * sol_fon(k,j)
-            sol_fop(k,j) = dmax1(1.e-6,sol_fop(k,j))
+            sol_fop(k,j) = dmax1(1.e-6_8,sol_fop(k,j))
             rmp = decr * sol_fop(k,j)
 
             sol_fop(k,j) = sol_fop(k,j) - rmp
-            sol_fon(k,j) = dmax1(1.e-6,sol_fon(k,j))
+            sol_fon(k,j) = dmax1(1.e-6_8,sol_fon(k,j))
             sol_fon(k,j) = sol_fon(k,j) - rmn1
             sol_no3(k,j) = sol_no3(k,j) + .8 * rmn1
             sol_aorgn(k,j) = sol_aorgn(k,j) + .2 * rmn1

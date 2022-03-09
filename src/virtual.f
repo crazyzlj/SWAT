@@ -324,15 +324,15 @@
         sub_dsag(sb) = sub_dsag(sb) + sagyld(j)
         sub_dlag(sb) = sub_dlag(sb) + lagyld(j)
 
-        surqno3(j) = dmax1(1.e-12,surqno3(j))
-        latno3(j) = dmax1(1.e-12,latno3(j))
-        no3gw(j) = dmax1(1.e-12,no3gw(j))
-        surqsolp(j) = dmax1(1.e-12,surqsolp(j))
-        minpgw(j) = dmax1(1.e-12,minpgw(j))
-        sedorgn(j) = dmax1(1.e-12,sedorgn(j))
-        sedorgp(j) = dmax1(1.e-12,sedorgp(j))
-        sedminpa(j) = dmax1(1.e-12,sedminpa(j))
-        sedminps(j) = dmax1(1.e-12,sedminps(j))
+        surqno3(j) = dmax1(1.e-12_8,surqno3(j))
+        latno3(j) = dmax1(1.e-12_8,latno3(j))
+        no3gw(j) = dmax1(1.e-12_8,no3gw(j))
+        surqsolp(j) = dmax1(1.e-12_8,surqsolp(j))
+        minpgw(j) = dmax1(1.e-12_8,minpgw(j))
+        sedorgn(j) = dmax1(1.e-12_8,sedorgn(j))
+        sedorgp(j) = dmax1(1.e-12_8,sedorgp(j))
+        sedminpa(j) = dmax1(1.e-12_8,sedminpa(j))
+        sedminps(j) = dmax1(1.e-12_8,sedminps(j))
         
 
       !! subbasin averages: nutrients

@@ -216,7 +216,7 @@
                 end if
                 if (xx > 0.) then
                   rtwtr = rtwtr - xx
-                  rtwtr = dmax1(0., rtwtr)
+                  rtwtr = dmax1(0._8, rtwtr)
                 end if
 
                 !! advance irrigation operation number
