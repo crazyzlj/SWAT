@@ -197,7 +197,7 @@
               i = 0
               i = inum1s(idum)
               subed(ihouts(idum)) = inum4s(idum)
-              open (101,file=subfile)
+              open (91,file=subfile)
               call readsub
               nhru = nhru + hrutot(i)
 

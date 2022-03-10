@@ -75,47 +75,47 @@
       eof = 0
 
       do
-      read (101,5100,iostat=eof) titldum
+      read (91,5100,iostat=eof) titldum
       if (eof < 0) exit
-      read (101,*,iostat=eof) lao 
+      read (91,*,iostat=eof) lao 
       if (eof < 0) exit
-      read (101,*,iostat=eof) igropt 
+      read (91,*,iostat=eof) igropt 
       if (eof < 0) exit
-      read (101,*,iostat=eof) ai0 
+      read (91,*,iostat=eof) ai0 
       if (eof < 0) exit
-      read (101,*,iostat=eof) ai1 
+      read (91,*,iostat=eof) ai1 
       if (eof < 0) exit
-      read (101,*,iostat=eof) ai2 
+      read (91,*,iostat=eof) ai2 
       if (eof < 0) exit
-      read (101,*,iostat=eof) ai3 
+      read (91,*,iostat=eof) ai3 
       if (eof < 0) exit
-      read (101,*,iostat=eof) ai4
+      read (91,*,iostat=eof) ai4
       if (eof < 0) exit
-      read (101,*,iostat=eof) ai5 
+      read (91,*,iostat=eof) ai5 
       if (eof < 0) exit
-      read (101,*,iostat=eof) ai6 
+      read (91,*,iostat=eof) ai6 
       if (eof < 0) exit
-      read (101,*,iostat=eof) mumax 
+      read (91,*,iostat=eof) mumax 
       if (eof < 0) exit
-      read (101,*,iostat=eof) rhoq 
+      read (91,*,iostat=eof) rhoq 
       if (eof < 0) exit
-      read (101,*,iostat=eof) tfact 
+      read (91,*,iostat=eof) tfact 
       if (eof < 0) exit
-      read (101,*,iostat=eof) k_l 
+      read (91,*,iostat=eof) k_l 
       if (eof < 0) exit
-      read (101,*,iostat=eof) k_n 
+      read (91,*,iostat=eof) k_n 
       if (eof < 0) exit
-      read (101,*,iostat=eof) k_p 
+      read (91,*,iostat=eof) k_p 
       if (eof < 0) exit
-      read (101,*,iostat=eof) lambda0 
+      read (91,*,iostat=eof) lambda0 
       if (eof < 0) exit
-      read (101,*,iostat=eof) lambda1
+      read (91,*,iostat=eof) lambda1
       if (eof < 0) exit
-      read (101,*,iostat=eof) lambda2 
+      read (91,*,iostat=eof) lambda2 
       if (eof < 0) exit
-      read (101,*,iostat=eof) p_n
+      read (91,*,iostat=eof) p_n
       if (eof < 0) exit
-      read (101,*,iostat=eof) chla_subco
+      read (91,*,iostat=eof) chla_subco
       if (eof < 0) exit
       exit
       end do
@@ -158,7 +158,7 @@
         rhoq = rhoq / 24.
       end if
 
-      close (101)
+      close (91)
       return
  5100 format (a)
       end

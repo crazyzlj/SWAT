@@ -698,7 +698,7 @@
 
       call caps(petfile)
       call caps(wwqfile)
-      open (101,file=wwqfile)
+      open (91,file=wwqfile)
 
 !!    calculate normalization parameters for water, nitrogen, and
 !!    phosphorus uptake

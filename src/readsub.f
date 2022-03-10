@@ -152,10 +152,10 @@
       if = 0
       ir = 0
 
-      read (101,5100) titldum
-      read (101,*) sub_km(i)
+      read (91,5100) titldum
+      read (91,*) sub_km(i)
       if (isproj == 3) then
-       read (101,5101) harg_petco(i), cncoef_sub(i), sub_smfmx(1,i),
+       read (91,5101) harg_petco(i), cncoef_sub(i), sub_smfmx(1,i),
      &  sub_smfmn(1,i), sub_sftmp(1,i), sub_smtmp(1,i), sub_timp(1,i)
         do ib = 2, 10
           sub_smfmx(ib,i) = sub_smfmx(1,i)
@@ -165,45 +165,45 @@
           sub_timp(ib,i) = sub_timp(1,i)
         end do
       else
-        read (101,5100) titldum                                      
+        read (91,5100) titldum                                      
       end if
-      read (101,5100) titldum
-      read (101,*) sub_lat(i)
-      read (101,*) sub_elev(i)
-      read (101,*) irgage(i)
-      read (101,*) itgage(i)
-      read (101,*) isgage(i)
-      read (101,*) ihgage(i)
-      read (101,*) iwgage(i)
-      read (101,5300) wgnfile
+      read (91,5100) titldum
+      read (91,*) sub_lat(i)
+      read (91,*) sub_elev(i)
+      read (91,*) irgage(i)
+      read (91,*) itgage(i)
+      read (91,*) isgage(i)
+      read (91,*) ihgage(i)
+      read (91,*) iwgage(i)
+      read (91,5300) wgnfile
         call caps(wgnfile)
         open (114,file=wgnfile)
-      read (101,*) fcst_reg(i)
-      read (101,5100) titldum
-      read (101,5100) titldum
-      read (101,5200) (elevb(j,i), j = 1, 10)
-      read (101,5100) titldum
-      read (101,5200) (elevb_fr(j,i), j = 1, 10)
-      read (101,5100) titldum
-      read (101,5200) (ssnoeb(j), j = 1, 10)
-      read (101,*) plaps(i)
-      read (101,*) tlaps(i) 
-      read (101,*) sno_sub
-      read (101,5100) titldum
-      read (101,*) ch_ls
-      read (101,*) ch_s(1,i)
-      read (101,*) ch_w(1,i)
-      read (101,*) ch_k(1,i)
-      read (101,*) ch_n(1,i)
-      read (101,5100) titldum
-      read (101,5300) pndfile
+      read (91,*) fcst_reg(i)
+      read (91,5100) titldum
+      read (91,5100) titldum
+      read (91,5200) (elevb(j,i), j = 1, 10)
+      read (91,5100) titldum
+      read (91,5200) (elevb_fr(j,i), j = 1, 10)
+      read (91,5100) titldum
+      read (91,5200) (ssnoeb(j), j = 1, 10)
+      read (91,*) plaps(i)
+      read (91,*) tlaps(i) 
+      read (91,*) sno_sub
+      read (91,5100) titldum
+      read (91,*) ch_ls
+      read (91,*) ch_s(1,i)
+      read (91,*) ch_w(1,i)
+      read (91,*) ch_k(1,i)
+      read (91,*) ch_n(1,i)
+      read (91,5100) titldum
+      read (91,5300) pndfile
         call caps(pndfile)
         open (104,file=pndfile)
-      read (101,5100) titldum
-      read (101,5300) wusfile
+      read (91,5100) titldum
+      read (91,5300) wusfile
         call caps(wusfile)
         open (105,file=wusfile)
-      read (101,5100) snofile
+      read (91,5100) snofile
       if(snofile /='             ' .or. snofile /= 'Climate Change')then
         if (snofile /='             ') then
           if (snofile /= 'Climate Change') then
@@ -213,35 +213,35 @@
           endif
         endif
       endif
-      read (101,*) co2(i) 
-      read (101,5100) titldum
-      read (101,5200) (rfinc(i,mon),mon = 1,6)
-      read (101,5100) titldum
-      read (101,5200) (rfinc(i,mon),mon = 7,12)
-      read (101,5100) titldum
-      read (101,5200) (tmpinc(i,mon),mon = 1,6)
-      read (101,5100) titldum
-      read (101,5200) (tmpinc(i,mon),mon = 7,12)
-      read (101,5100) titldum
-      read (101,5200) (radinc(i,mon),mon = 1,6)
-      read (101,5100) titldum
-      read (101,5200) (radinc(i,mon),mon = 7,12)
-      read (101,5100) titldum
-      read (101,5200) (huminc(i,mon),mon = 1,6)
-      read (101,5100) titldum
-      read (101,5200) (huminc(i,mon),mon = 7,12)
-      read (101,5100) titldum
+      read (91,*) co2(i) 
+      read (91,5100) titldum
+      read (91,5200) (rfinc(i,mon),mon = 1,6)
+      read (91,5100) titldum
+      read (91,5200) (rfinc(i,mon),mon = 7,12)
+      read (91,5100) titldum
+      read (91,5200) (tmpinc(i,mon),mon = 1,6)
+      read (91,5100) titldum
+      read (91,5200) (tmpinc(i,mon),mon = 7,12)
+      read (91,5100) titldum
+      read (91,5200) (radinc(i,mon),mon = 1,6)
+      read (91,5100) titldum
+      read (91,5200) (radinc(i,mon),mon = 7,12)
+      read (91,5100) titldum
+      read (91,5200) (huminc(i,mon),mon = 1,6)
+      read (91,5100) titldum
+      read (91,5200) (huminc(i,mon),mon = 7,12)
+      read (91,5100) titldum
 !! read HRU input data
-      read (101,*) hrutot(i)
-      read (101,5100) titldum
-      read (101,5100) titldum
-      read (101,5100) titldum
-      read (101,5100) titldum
-      read (101,5100) titldum
-      read (101,5100) titldum
-      read (101,5100) titldum
+      read (91,*) hrutot(i)
+      read (91,5100) titldum
+      read (91,5100) titldum
+      read (91,5100) titldum
+      read (91,5100) titldum
+      read (91,5100) titldum
+      read (91,5100) titldum
+      read (91,5100) titldum
       !!General HRUs
-      read (101,5100) titldum
+      read (91,5100) titldum
         do j = jj, hrutot(i)
           ihru = 0
           ihru = nhru + j
@@ -257,7 +257,7 @@
           opsfile = ""
           septfile = ""
           sdrfile = ""
-         read (101,5300) hrufile, mgtfile, solfile, chmfile, gwfile,
+         read (91,5300) hrufile, mgtfile, solfile, chmfile, gwfile,
      & opsfile, septfile, sdrfile, ils2(ihru)
           call caps(hrufile)
           call caps(mgtfile)
@@ -463,7 +463,7 @@
 	dratio(i) = 0.42 * sub_km(i) ** (-0.125)
 	if(dratio(i)>0.9) dratio(i) = 0.9
 
-      close (101)
+      close (91)
       return
  1000 format ('ERROR: Elevation Band Fractions in Subbasin ',i4,        
      &        ' do not add up to 100% of subbasin area!')
