@@ -81,6 +81,8 @@ ELSEIF(${CMAKE_Fortran_COMPILER_ID} MATCHES "GNU")
     SET(TOOL_CHAIN "gfort")
 ELSEIF(${CMAKE_Fortran_COMPILER_ID} MATCHES "Intel")
     SET(TOOL_CHAIN "ifort")
+ELSE()
+    SET(TOOL_CHAIN "${CMAKE_Fortran_COMPILER_ID}")
 ENDIF()
 
 ### Break in case of popular CMake configuration mistakes.
@@ -101,7 +103,6 @@ INCLUDE(SetFortranFlags)
 OPTION(USE_MPI "Use the MPI library for parallelization" OFF)
 OPTION(USE_OPENMP "Use OpenMP for parallelization" OFF)
 INCLUDE(SetParallelizationLibrary)
-
 ### Use statically or dynamically linkage?
 ### Global flag to cause add_library to create shared libraries if on, otherwise static library.
 OPTION(BUILD_SHARED_LIBS "Build shared libraries (DLLs)." OFF)

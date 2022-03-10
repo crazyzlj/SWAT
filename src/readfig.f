@@ -131,18 +131,18 @@
 
       do 
         a = ""
-        read (102,5002,iostat=eof) a
+        read (92,5002,iostat=eof) a
         if (eof < 0) exit
         if (a /= "*") then
-          backspace 102
+          backspace 92
           idum = idum + 1
 
 !!    CEAP project
         if (isproj == 2) then
-          read (102,5003) a, icodes(idum), ihouts(idum), inum1s(idum),  
+          read (92,5003) a, icodes(idum), ihouts(idum), inum1s(idum),  
      &    inum2s(idum), inum3s(idum), rnum1s(idum), inum4s(idum)
 	  else
-          read (102,5000) a, icodes(idum), ihouts(idum), inum1s(idum),  
+          read (92,5000) a, icodes(idum), ihouts(idum), inum1s(idum),  
      &    inum2s(idum), inum3s(idum), rnum1s(idum), inum4s(idum),       
  !!    &    inum5s(idum), inum6s(idum), inum7s(idum), inum8s(idum)
      &    inum5s(idum), char6(idum), char7(idum), char8(idum)
@@ -192,7 +192,7 @@
               subtot = subtot + 1
               subgis(inum1s(idum)) = inum4s(idum)
               subfile = ""
-              read (102,5100) subfile
+              read (92,5100) subfile
               call caps(subfile)
               i = 0
               i = inum1s(idum)
@@ -209,7 +209,7 @@
               end if  
               rtefile = ""
               swqfile = ""
-              read (102,5100) rtefile, swqfile
+              read (92,5100) rtefile, swqfile
               call caps(rtefile)
               call caps(swqfile)
               irch = 0
@@ -223,7 +223,7 @@
               nres = nres + 1
               resfile = ""
               lwqfile = ""
-              read (102,5100) resfile, lwqfile
+              read (92,5100) resfile, lwqfile
               call caps(resfile)
               call caps(lwqfile)
               i = 0
@@ -238,14 +238,14 @@
               call lwqdef
  
             case (4)  !! icode = 4  TRANSFER command: read in beg/end month
-              read (102,5004) mo_transb(inum5s(idum)),    
+              read (92,5004) mo_transb(inum5s(idum)),    
      &		    mo_transe(inum5s(idum)), ih_tran(inum5s(idum))
 
 
             case (6)  !! icode = 6  RECHOUR command: read in hourly values
                       !! with water in m^3 and rest in tons/kgs
               hour_in = ""
-              read (102,5100) hour_in
+              read (92,5100) hour_in
               call caps(hour_in)
               open (200+inum1s(idum),file=hour_in,recl=350)
               do ii = 1, 6
@@ -255,7 +255,7 @@
             case (7)  !! icode = 7  RECMON command:
                       !!  read in monthly values
             month_in = ""
-            read (102,5100) month_in
+            read (92,5100) month_in
               recmonps(ihouts(idum)) = month_in(1:index(month_in,'.')-1)
             call caps(month_in)
             i = 0
@@ -266,7 +266,7 @@
             case (8)  !! icode = 8  RECYEAR command: 
                       !! read in average daily loadings for each year
             year_in = ""
-            read (102,5100) year_in
+            read (92,5100) year_in
             
             call caps(year_in)
             i = 0
@@ -280,7 +280,7 @@
                       !! constituent masses from a hydrograph node on
                       !! the channel network to an output file 
               day_in = ""
-              read (102,5100) day_in
+              read (92,5100) day_in
               call caps(day_in)
               if (inum1s(idum) <= 10 .and. inum1s(idum) > 0) then
                 open (40+inum1s(idum),file=day_in,recl=350)
@@ -299,7 +299,7 @@
             case (10) !! icode = 10  RECDAY command: read in daily values
                       !! with water in cms and rest in tons
               day_in = ""
-              read (102,5100) day_in
+              read (92,5100) day_in
               call caps(day_in)
               open (555+inum1s(idum),file=day_in,recl=350)
               do ii = 1, 6
@@ -310,7 +310,7 @@
                       !! annual values with water in m^3, sed in t, and 
                       !! the nutrients in kg
             annual_in = ""
-            read (102,5100) annual_in
+            read (92,5100) annual_in
             reccnstps(ihouts(idum))=annual_in(1:index(annual_in,'.')-1)
             call caps(annual_in)
             i = 0
@@ -321,7 +321,7 @@
 !! code to read from apex output file
             case (13) 
             apex_in = ""
-            read (102,5100) apex_in
+            read (92,5100) apex_in
 	      call caps(apex_in)
       !      i = 0
       !      i = inum1s(idum)
@@ -337,7 +337,7 @@
                       !! output file from a hydrograph node on the 
                       !! channel network
               day_in = ""
-              read (102,5100) day_in
+              read (92,5100) day_in
               call caps(day_in)
               if (inum1s(idum) <= 50 .and. inum1s(idum) > 0) then
                 open (50+inum1s(idum),file=day_in,recl=350)
@@ -347,7 +347,7 @@
 
             case (17)  !! icode = 17  ROUTING UNIT command
               rufile = ""
-              read (102,5100) rufile
+              read (92,5100) rufile
               call caps(rufile)
               iru = inum1s(idum)
               isub = inum2s(idum)
@@ -393,7 +393,7 @@
       end do
 
 !! close .fig file
-      close (102)
+      close (92)
 
 
       return

@@ -154,7 +154,7 @@
       read (91,*) idal
 
       call caps(figfile)
-      open (102,file=figfile)
+      open (92,file=figfile)
 
 !! Read climate information
       read (91,5101) titldum
