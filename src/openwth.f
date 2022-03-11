@@ -59,14 +59,14 @@
         end if
         if (rfile(j) /= '             ') then
      !!     open (100+j,file=rfile(j),recl=800)
-          open (100+j,file=rfile(j),recl=1850)
-          read (100+j,5000) titldum
-          read (100+j,5000) titldum
-          read (100+j,5000) titldum
+          open (1000+j,file=rfile(j),recl=1850)
+          read (1000+j,5000) titldum
+          read (1000+j,5000) titldum
+          read (1000+j,5000) titldum
           if (ievent == 0) then   !daily records
-            read (100+j,5001) (elevp(k), k = kk1, kk2)
+            read (1000+j,5001) (elevp(k), k = kk1, kk2)
           else                   !subdaily records
-            read (100+j,5003) (elevp(k), k = kk1, kk2)
+            read (1000+j,5003) (elevp(k), k = kk1, kk2)
           endif
         end if
       end do

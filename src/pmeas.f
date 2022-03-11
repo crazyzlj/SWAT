@@ -118,13 +118,13 @@
 
             !! read data from file
             if (ifirstpcp(k) == 0) then
-              read (100+k,5000) (rmeas(l), l = kk1, kk2)
+              read (1000+k,5000) (rmeas(l), l = kk1, kk2)
             else
               ifirstpcp(k) = 0
               do
                 iyp = 0
                 idap = 0
-                read (100+k,5100) iyp, idap, (rmeas(l), l = kk1, kk2)
+                read (1000+k,5100) iyp, idap, (rmeas(l), l = kk1, kk2)
                 if (iyp + idap <= 0) exit
                 if (iyp == iyr .and. idap == id1) exit
               end do
@@ -181,15 +181,15 @@
 
             !! read data from file
             if (ifirstpcp(k) == 0) then
-              read (100+k,5300) a
-              backspace (100+k)
+              read (1000+k,5300) a
+              backspace (1000+k)
               if (a /= " ") then               !subdaily precip on day
                 do ii = 1, nstep
                   flag = 0
                   ihour = 0
                   imin = 0
                   a = ""
-                  read (100+k,5200) iyp, idap, ihour, imin,             
+                  read (1000+k,5200) iyp, idap, ihour, imin,             
      &                                      (rainsb(l,ii), l = kk1, kk2)
 				   if (iyp /= iyr .or. idap /= i) flag = 1
                   if (flag == 1) then
@@ -205,7 +205,7 @@
                   end do
                 end do
               else                                 !no precip on day
-                read (100+k,5201) iyp, idap, (rmeas(l), l = kk1, kk2)
+                read (1000+k,5201) iyp, idap, (rmeas(l), l = kk1, kk2)
                   if (iyp /= iyr .or. idap /= i) flag = 1
                   if (flag == 1) then
                     write (24,5400) iyr, i
@@ -224,7 +224,7 @@
               do
                 iyp = 0
                 idap = 0
-                read (100+k,5202) iyp, idap, ihour, a, imin,            
+                read (1000+k,5202) iyp, idap, ihour, a, imin,            
      &                                       (rainsb(l,1), l = kk1, kk2)
                 if (iyp == iyr .and. idap == i) flag = 1
                 if (flag == 1) then
@@ -239,7 +239,7 @@
                     do ii = 2, nstep
                       ihour = 0
                       imin = 0
-                      read (100+k,5200) iyp, idap, ihour, imin,         
+                      read (1000+k,5200) iyp, idap, ihour, imin,         
      &                                      (rainsb(l,ii), l = kk1, kk2)
                       do l = kk1, kk2
                         if (rainsb(l,1)<-97) then
