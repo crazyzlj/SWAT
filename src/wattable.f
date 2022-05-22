@@ -85,7 +85,7 @@
       else
         w2 = 0.
       end if
-      w1 = dmin1 (0.1,abs(w2))
+      w1 = dmin1 (0.1_8,abs(w2))
       if (w2 > 0.) then
         wtl = wtab_mn(j)
       else

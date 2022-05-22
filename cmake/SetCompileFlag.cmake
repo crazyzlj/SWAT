@@ -43,6 +43,9 @@ FUNCTION(SET_COMPILE_FLAG FLAGVAR FLAGVAL LANG)
             "[Uu]nknown option"                   # HP
             "[Ww]arning: [Oo]ption"               # SunPro
             "command option .* is not recognized" # XL
+            "cannot find"                         # Cray when using /unroll for example
+            "ERROR in command line"               # Cray
+            "option is not supported or invalid and will be ignored" # Cray
            )
     ENDIF(LANG STREQUAL "Fortran")
 
@@ -86,7 +89,7 @@ end program dummyprog
             FOREACH(rx ${FAIL_REGEX})
                 IF("${OUTPUT}" MATCHES "${rx}")
                     SET(FLAG_WORKS FALSE)
-                ENDIF("${OUTPUT}" MATCHES "${rx}")
+                ENDIF()
             ENDFOREACH(rx ${FAIL_REGEX})
 
         ELSE()

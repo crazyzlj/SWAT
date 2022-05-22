@@ -107,7 +107,7 @@
 
 !!    compute delivery ratio
       rto = tconc(j) / sub_tc(hru_sub(j))
-      dr_sub(j) = dmin1(.95,rto ** .5)
+      dr_sub(j) = dmin1(.95_8,rto ** .5)
 
 
 !!    compute fraction of surface runoff that is reaching the main channel

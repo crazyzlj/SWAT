@@ -44,7 +44,7 @@ ENDIF(CMAKE_Fortran_FLAGS_RELEASE AND CMAKE_Fortran_FLAGS_TESTING AND CMAKE_Fort
 # For each option type, a list of possible flags is given that work
 # for various compilers.  The first flag that works is chosen.
 # If none of the flags work, nothing is added (unless the REQUIRED 
-# flag is given in the call).  This way unknown compiles are supported.
+# flag is given in the call).  This way unknown compilers are supported.
 #######################################################################
 
 #####################
@@ -62,12 +62,12 @@ ELSE()
     SET(GNUNATIVE "-march=native")
 ENDIF()
 # Optimize for the host's architecture
-SET_COMPILE_FLAG(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS}"
-                 Fortran "-xHost"        # Intel
-                         "/QxHost"       # Intel Windows
-                         ${GNUNATIVE}    # GNU
-                         "-ta=host"      # Portland Group
-                )
+# SET_COMPILE_FLAG(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS}"
+#                  Fortran "-xHost"        # Intel
+#                          "/QxHost"       # Intel Windows
+#                          ${GNUNATIVE}    # GNU
+#                          "-ta=host"      # Portland Group
+#                 )
 
 ###################
 ### DEBUG FLAGS ###
@@ -84,26 +84,29 @@ SET_COMPILE_FLAG(CMAKE_Fortran_FLAGS_DEBUG "${CMAKE_Fortran_FLAGS_DEBUG}"
 # Turn on all warnings 
 SET_COMPILE_FLAG(CMAKE_Fortran_FLAGS_DEBUG "${CMAKE_Fortran_FLAGS_DEBUG}"
                  Fortran "-warn all" # Intel
-                         "/warn:all" # Intel Windows
                          "-Wall"     # GNU
+                         "-h error_on_warning" # Cray
                                      # Portland Group (on by default)
+                         "/warn:all" # Intel Windows
                 )
 
 # Traceback
 SET_COMPILE_FLAG(CMAKE_Fortran_FLAGS_DEBUG "${CMAKE_Fortran_FLAGS_DEBUG}"
                  Fortran "-traceback"   # Intel/Portland Group
-                         "/traceback"   # Intel Windows
                          "-fbacktrace"  # GNU (gfortran)
                          "-ftrace=full" # GNU (g95)
+                         "-G0"          # Cray
+                         "/traceback"   # Intel Windows
                 )
 
 # Check array bounds
 SET_COMPILE_FLAG(CMAKE_Fortran_FLAGS_DEBUG "${CMAKE_Fortran_FLAGS_DEBUG}"
                  Fortran "-check bounds"  # Intel
-                         "/check:bounds"  # Intel Windows
                          "-fcheck=bounds" # GNU (New style)
                          "-fbounds-check" # GNU (Old style)
                          "-Mbounds"       # Portland Group
+                         "-h bounds"      # Cray
+                         "/check:bounds"  # Intel Windows
                 )
 
 #####################
@@ -126,31 +129,34 @@ SET_COMPILE_FLAG(CMAKE_Fortran_FLAGS_TESTING "${CMAKE_Fortran_FLAGS_TESTING}"
 SET_COMPILE_FLAG(CMAKE_Fortran_FLAGS_RELEASE "${CMAKE_Fortran_FLAGS_RELEASE}"
                  Fortran "-funroll-loops" # GNU
                          "-unroll"        # Intel
-                         "/unroll"        # Intel Windows
                          "-Munroll"       # Portland Group
+                         "-h unroll2"     # Cray
+                         "/unroll"        # Intel Windows
                 )
 
 # Inline functions
 SET_COMPILE_FLAG(CMAKE_Fortran_FLAGS_RELEASE "${CMAKE_Fortran_FLAGS_RELEASE}"
                  Fortran "-inline"            # Intel
-                         "/Qinline"           # Intel Windows
                          "-finline-functions" # GNU
                          "-Minline"           # Portland Group
+                         "-h fusion1"         # Cray max is 2
+                         "/Qinline"           # Intel Windows
                 )
 
 # Interprocedural (link-time) optimizations
 SET_COMPILE_FLAG(CMAKE_Fortran_FLAGS_RELEASE "${CMAKE_Fortran_FLAGS_RELEASE}"
                  Fortran "-ipo"     # Intel
-                         "/Qipo"    # Intel Windows
                          "-flto"    # GNU
                          "-Mipa"    # Portland Group
+                         "-h ipa2"  # Cray max is 5
+                         "/Qipo"    # Intel Windows
                 )
 
 # Single-file optimizations
-SET_COMPILE_FLAG(CMAKE_Fortran_FLAGS_RELEASE "${CMAKE_Fortran_FLAGS_RELEASE}"
-                 Fortran "-ip"  # Intel
-                         "/Qip" # Intel Windows
-                )
+# SET_COMPILE_FLAG(CMAKE_Fortran_FLAGS_RELEASE "${CMAKE_Fortran_FLAGS_RELEASE}"
+#                  Fortran "-ip"  # Intel
+#                          "/Qip" # Intel Windows
+#                 )
 
 # Vectorize code
 #SET_COMPILE_FLAG(CMAKE_Fortran_FLAGS_RELEASE "${CMAKE_Fortran_FLAGS_RELEASE}"
