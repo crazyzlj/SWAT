@@ -118,7 +118,8 @@
 	 endif
 	end do
 	percp(j) = vap
-	
+	tilep(j) = vap_tile
+      
       !! summary calculation
       if (curyr > nyskip) then
         wshd_plch = wshd_plch + vap * hru_dafr(j)
