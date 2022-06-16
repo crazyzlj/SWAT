@@ -190,5 +190,5 @@ ELSE()
 ENDIF()
 ### Auxiliary.
 STATUS("")
-STATUS("  Install path:" ${CMAKE_INSTALL_PREFIX})
+STATUS("  Install path:" ${INSTALL_DIR})
 STATUS("")

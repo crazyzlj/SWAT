@@ -11,7 +11,8 @@
       open (1235,file='sw_data.out')
       
        write (1235,100)                                                                                     
- 100   format (2x,'HRU',8x,'SOIL LAYER - SOL_ST(mm)',/, 12x,'    1           2           3           4           5
+ 100   format (2x,'HRU',8x,'SOIL LAYER - SOL_ST(mm)',/, 12x,'    
+     &           1           2           3           4           5
      &           6           7           8           9          10')
       
       read (1234,*) titldum

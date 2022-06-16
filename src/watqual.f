@@ -279,7 +279,7 @@
          solpcon = 0.
          cbodcon = 0.
          o2con = 0.
-         rch_cbod(jrch) = dmax1(1.e-6,rch_cbod(jrch))
+         rch_cbod(jrch) = dmax1(1.e-6_8,rch_cbod(jrch))
          wtrtot = wtrin + rchwtr
          algcon = (algin * wtrin + algae(jrch) * rchwtr) / wtrtot
          orgncon = (orgnin * wtrin + organicn(jrch) * rchwtr) / wtrtot
@@ -460,7 +460,7 @@
          yy = ai5 * Theta(bc1mod,thbc1,wtmp) * nh3con
          zz = ai6 * Theta(bc2mod,thbc2,wtmp) * no2con
          rch_dox(jrch) = o2con + (uu + vv - ww - xx - yy - zz) * tday
-         rch_dox(jrch) = dmin1(0.1, rch_dox(jrch))
+         rch_dox(jrch) = dmin1(0.1_8, rch_dox(jrch))
          
          !algea O2 production minus respiration
          !if (vv > 0.) then

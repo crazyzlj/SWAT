@@ -125,7 +125,8 @@
 
 !!    output solar, windspeed, relative humidity to new output file (daily only)
       if (iprp == 2) then 
-        write (2222,2000) sb, subgis(sb), iida, iyr, sub_km(sb), hru_ra(sb), u10(sb), rhd(sb)
+        write (2222,2000) sb, subgis(sb), iida, iyr, sub_km(sb),
+     &   hru_ra(sb), u10(sb), rhd(sb)
       end if 
   
       return

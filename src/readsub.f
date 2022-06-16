@@ -460,7 +460,7 @@
       call readwus
 
 !! sediment delivery ration for the subbasin..... urban modeling by J.Jeong
-	dratio(i) = 0.42 * sub_km(i) ** -0.125
+	dratio(i) = 0.42 * sub_km(i) ** (-0.125)
 	if(dratio(i)>0.9) dratio(i) = 0.9
 
       close (101)

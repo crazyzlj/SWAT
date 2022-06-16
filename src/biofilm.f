@@ -185,7 +185,7 @@
          solpcon = 0.
          cbodcon = 0.
          o2con = 0.
-         rch_cbod(jrch) = dmax1(1.e-6,rch_cbod(jrch))
+         rch_cbod(jrch) = dmax1(1.e-6_8, rch_cbod(jrch))
          wtrtot = wtrin + rchwtr
          algcon = (algin * wtrin + algae(jrch) * rchwtr) / wtrtot
          orgncon = (orgnin * wtrin + organicn(jrch) * rchwtr) / wtrtot

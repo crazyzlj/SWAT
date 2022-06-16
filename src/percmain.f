@@ -304,7 +304,7 @@
         end do
         if (sumqtile > 0.) then
           qtile = qtile - sumqtile
-          qtile = dmax1(0., qtile)
+          qtile = dmax1(0._8, qtile)
         end if
       end if
 

@@ -19,6 +19,10 @@ if(${Fortran_COMPILER_NAME} MATCHES "ifort.*" OR ${Fortran_COMPILER_NAME} MATCHE
         set(FLAG_L80 -80)
         set(FLAG_LLONG -132)
     endif()
+elseif(${CMAKE_Fortran_COMPILER_ID} STREQUAL "Cray") 
+    set(FLAG_L72 -N72)
+    set(FLAG_L80 -N80)
+    set(FLAG_LLONG -N132)
 else() # gfortran tested only
     set(FLAG_L72 -ffixed-line-length-72)
     set(FLAG_L80 -ffixed-line-length-80)
@@ -95,10 +99,11 @@ set_target_properties(${swatexe} PROPERTIES
         )
 
 ### Set installation directory
-install(TARGETS ${swatexe} RUNTIME DESTINATION ${INSTALL_DIR})
+install(TARGETS ${swatexe} RUNTIME DESTINATION ${INSTALL_DIR}/bin)
 
 ### For CLion to implement the "make install" command
 add_custom_target(install_${PROJECT_NAME}
         $(MAKE) install
         DEPENDS ${swatexe}
         COMMENT "Installing ${PROJECT_NAME}")
+        
