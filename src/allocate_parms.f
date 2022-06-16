@@ -58,8 +58,9 @@
       mrcho = 62
       msubo = 24
       mstdo = 113
-      motot = 600             !! (50 years limit)
-      
+      motot = 1200    !!! 100 year limit
+   
+      allocate (tilep(mhru))
       allocate (surlag(mhru))
       allocate (cdn(mhru))
       allocate (cmn(mhru))
@@ -346,6 +347,7 @@
       allocate (rchyro(mrcho,mxsubch))  
 
 !!    arrays which contain data related to subbasins
+      allocate (sub_tilep(msub))
       allocate (ch_revap(mxsubch)) 
       allocate (cncoef_sub(msub))
       allocate (co2(msub))

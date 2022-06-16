@@ -54,7 +54,7 @@
       real*8 :: basminpf, basorgpf, sftmp, smtmp, smfmx, smfmn, wgpq
       real*8 :: wshd_resv, wshd_ressed, basno3i, basorgni, basminpi, wdlpq
       real*8 :: basorgpi, peakr, pndsedin, sw_excess, albday, wglpq, wdps
-      real*8 :: wtabelo, timp, tilep, wt_shall
+      real*8 :: wtabelo, timp, wt_shall
       real*8 :: sq_rto
       real*8 :: tloss, inflpcp, snomlt, snofall, fixn, qtile, crk, latlyr
       real*8 :: pndloss, wetloss,potloss, lpndloss, lwetloss
@@ -315,7 +315,7 @@
       real*8, dimension (:), allocatable :: sub_snom,sub_qd,sub_sedy
       real*8, dimension (:), allocatable :: sub_tran,sub_no3,sub_latno3
       real*8, dimension (:,:), allocatable :: sub_smtmp,sub_timp,sub_sftmp
-      real*8, dimension (:), allocatable :: sub_tileno3     
+      real*8, dimension (:), allocatable :: sub_tileno3, sub_tilep
       real*8, dimension (:), allocatable :: sub_solp,sub_subp,sub_etday
       real*8, dimension (:), allocatable :: sub_wyld,sub_surfq,sub_elev
       real*8, dimension (:), allocatable :: qird
@@ -555,7 +555,7 @@
       real*8, dimension (:), allocatable :: tauton,tautop,cbodu,chl_a,qdr
       real*8, dimension (:), allocatable :: tfertn,tfertp,tgrazn,tgrazp
       real*8, dimension (:), allocatable :: latno3,latq,minpgw,no3gw,nplnt
-      real*8, dimension (:), allocatable :: tileq, tileno3
+      real*8, dimension (:), allocatable :: tileq, tileno3, tilep
       real*8, dimension (:), allocatable :: sedminpa,sedminps,sedorgn
       real*8, dimension (:), allocatable :: sedorgp,sedyld,sepbtm,strsn
       real*8, dimension (:), allocatable :: strsp,strstmp,surfq,surqno3
@@ -662,7 +662,7 @@
 !!    adding qtile to output.hru write 3/2/2010 gsm  increased heds(70) to heds(71)
       character(len=13) :: heds(79),hedb(24),hedr(46),hedrsv(41)
       character(len=13) :: hedwtr(40)
-      character(len=4) :: title(60), cpnm(5000)
+      character(len=4) :: title(60), cpnm(10000)
       character(len=17), dimension(100) :: fname
 ! measured input files
       real*8, dimension (:,:,:), allocatable :: flomon,solpstmon,srbpstmon

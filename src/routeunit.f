@@ -48,7 +48,7 @@
           varoute(6,ihout) = varoute(6,ihout) + (latno3(jj) + no3gw(jj) 
      &            + surqno3(jj)) * xx 
           varoute(7,ihout) = varoute(7,ihout) + (surqsolp(jj) + 
-     &            minpgw(jj)) * xx
+     &            minpgw(jj) + tilep(jj)) * xx
           varoute(8,ihout) = 0.
           varoute(9,ihout) = 0.
           varoute(10,ihout) = 0.
