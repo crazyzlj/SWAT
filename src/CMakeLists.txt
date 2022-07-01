@@ -101,9 +101,4 @@ set_target_properties(${swatexe} PROPERTIES
 ### Set installation directory
 install(TARGETS ${swatexe} RUNTIME DESTINATION ${INSTALL_DIR}/bin)
 
-### For CLion to implement the "make install" command
-add_custom_target(install_${PROJECT_NAME}
-        $(MAKE) install
-        DEPENDS ${swatexe}
-        COMMENT "Installing ${PROJECT_NAME}")
         
