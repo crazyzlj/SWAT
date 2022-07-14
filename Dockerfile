@@ -15,18 +15,15 @@ FROM alpine:${ALPINE_VERSION} as builder
 
 LABEL maintainer="Liang-Jun Zhu <zlj@lreis.ac.cn>"
 
-# Replace alpine repository source cdn to accelarate access speed
-RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.tuna.tsinghua.edu.cn/g' /etc/apk/repositories
-
-# Setup build env
-RUN apk add --no-cache cmake gfortran make musl-dev
+# Replace alpine repository source cdn to accelarate access speed; Setup build environment
+# RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.tuna.tsinghua.edu.cn/g' /etc/apk/repositories
+RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories \
+    && apk update && apk upgrade \
+    && apk add --no-cache cmake gfortran make musl-dev
 
 # Copy source directory
 WORKDIR /SWAT
-COPY CMakeLists.txt .
-COPY cmake cmake
-COPY src src
-COPY VERSIONS VERSIONS
+COPY . .
 
 # # Build for release
 ARG INSTALL_DIR=/SWAT/dist
@@ -41,11 +38,11 @@ RUN cd /SWAT \
 # # Build final image
 FROM alpine:${ALPINE_VERSION} as runner
 
-# Replace alpine repository source cdn
-RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.tuna.tsinghua.edu.cn/g' /etc/apk/repositories
-
-# Add GNU gfortran library
-RUN apk add --no-cache libgfortran
+# Replace alpine repository source cdn; Add GNU gfortran library
+# RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.tuna.tsinghua.edu.cn/g' /etc/apk/repositories
+RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories \
+    && apk update && apk upgrade \
+    && apk add --no-cache libgfortran
 
 # Order layers starting with less frequently varying ones
 ARG INSTALL_DIR=/SWAT/dist

@@ -60,6 +60,19 @@ Since I do not have enough test data and the associated SWAT input files, I have
 
 + More details can be found in [wiki](https://github.com/WatershedModels/SWAT/wiki).
 
+### 2.4. Docker images
+
+The SWAT images have been built for linux:arm64 and linux:amd64, and pushed to
+the [Docker hub](https://hub.docker.com/r/crazyzlj/swat/tags).
+
+```shell
+docker pull crazyzlj/swat:apline-<VERSION_MAJOR>.<VERSION_MINOR>
+docker run -it -v /path/to/your/swat-model-data:/swat_data swat<VERSION_MAJOR>.<VERSION_MINOR>.gfort.rel
+
+# For example,
+docker pull crazyzlj/swat:apline-2012.682
+docker run -it -v /Users/ljzhu/Documents/tmp/swatdata:/swat_data crazyzlj/swat:alpine-2012.682 swat2012.682.gfort.rel
+```
 
 # 3. References
 + [Compile and Debug SWAT with gfortran and Eclipse](https://zhiqiangyu.wordpress.com/2014/10/01/compile-and-debug-swat-with-gfortran-and-eclipse/) by [Dr. Zhiqiang Yu](https://github.com/hawklorry)
