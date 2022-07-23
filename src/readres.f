@@ -331,17 +331,17 @@
 !! read in monthly release data
       if (iresco(i) == 1) then
         call caps(resmono)
-        open (101,file=resmono)
-        read (101,1000) titldum
+        open (91,file=resmono)
+        read (91,1000) titldum
           do j = 1, nbyr+2
-            read (101,*,iostat=eof) (res_out(i,mon,j), mon = 1, 12)
+            read (91,*,iostat=eof) (res_out(i,mon,j), mon = 1, 12)
             if (eof < 0) exit
             do mon = 1, 12
               !! convert m**3/s => m**3/day
               res_out(i,mon,j) = res_out(i,mon,j) * 86400.
             end do
           end do
-        close (101)
+        close (91)
       end if
 
       close (105)

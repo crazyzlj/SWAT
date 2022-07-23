@@ -138,55 +138,55 @@
       urbandb = ""
       septdb = ""   !!SEPTIC CHANGES GSM 1/30/09
 
-      open (101,file="file.cio")
+      open (91,file="file.cio")
 
 !! Read project description
-      read (101,5101) titldum
-      read (101,5101) titldum
-      read (101,5100) title
+      read (91,5101) titldum
+      read (91,5101) titldum
+      read (91,5100) title
 
 !! Read general information/watershed configuration
-      read (101,5101) titldum
-      read (101,5000) figfile
-      read (101,*) nbyr
-      read (101,*) iyr
-      read (101,*) idaf
-      read (101,*) idal
+      read (91,5101) titldum
+      read (91,5000) figfile
+      read (91,*) nbyr
+      read (91,*) iyr
+      read (91,*) idaf
+      read (91,*) idal
 
       call caps(figfile)
-      open (102,file=figfile)
+      open (92,file=figfile)
 
 !! Read climate information
-      read (101,5101) titldum
-      read (101,*) igen
-      read (101,*) pcpsim
-      read (101,*) idt
-      read (101,*) idist
-      read (101,*) rexp
-      read (101,*) nrgage
-      read (101,*) nrtot
-      read (101,*) nrgfil
-      read (101,*) tmpsim
-      read (101,*) ntgage
-      read (101,*) nttot
-      read (101,*) ntgfil
-      read (101,*) slrsim
-      read (101,*) nstot
-      read (101,*) rhsim
-      read (101,*) nhtot
-      read (101,*) wndsim
-      read (101,*) nwtot
-      read (101,*) fcstyr
-      read (101,*) fcstday
-      read (101,*) fcstcycles
-      read (101,5101) titldum
-      read (101,5000) (rfile(j),j = 1,18)
-      read (101,5101) titldum
-      read (101,5000) (tfile(j),j = 1,18)
-      read (101,5000) slrfile
-      read (101,5000) rhfile
-      read (101,5000) wndfile
-      read (101,5000) fcstfile
+      read (91,5101) titldum
+      read (91,*) igen
+      read (91,*) pcpsim
+      read (91,*) idt
+      read (91,*) idist
+      read (91,*) rexp
+      read (91,*) nrgage
+      read (91,*) nrtot
+      read (91,*) nrgfil
+      read (91,*) tmpsim
+      read (91,*) ntgage
+      read (91,*) nttot
+      read (91,*) ntgfil
+      read (91,*) slrsim
+      read (91,*) nstot
+      read (91,*) rhsim
+      read (91,*) nhtot
+      read (91,*) wndsim
+      read (91,*) nwtot
+      read (91,*) fcstyr
+      read (91,*) fcstday
+      read (91,*) fcstcycles
+      read (91,5101) titldum
+      read (91,5000) (rfile(j),j = 1,18)
+      read (91,5101) titldum
+      read (91,5000) (tfile(j),j = 1,18)
+      read (91,5000) slrfile
+      read (91,5000) rhfile
+      read (91,5000) wndfile
+      read (91,5000) fcstfile
  
       !! calculate precipitation data lines per day
       if (idt > 0) nstep = 1440 / idt
@@ -248,19 +248,19 @@
       end if
 
 !!Open watershed modeling option file
-      read (101,5101) titldum
-      read (101,5000) bsnfile
+      read (91,5101) titldum
+      read (91,5000) bsnfile
 
       call caps(bsnfile)
       open (103,file=bsnfile)
 
 !!Open database files
-      read (101,5101) titldum
-      read (101,5000) plantdb
-      read (101,5000) tilldb
-      read (101,5000) pestdb
-      read (101,5000) fertdb
-      read (101,5000) urbandb
+      read (91,5101) titldum
+      read (91,5000) plantdb
+      read (91,5000) tilldb
+      read (91,5000) pestdb
+      read (91,5000) fertdb
+      read (91,5000) urbandb
 
       call caps(plantdb)
       call caps(tilldb)
@@ -275,21 +275,21 @@
 	
 
 !!Special Projects input
-      read (101,5101) titldum
-      read (101,*) isproj
-      read (101,*) iclb
-      read (101,5000) calfile
+      read (91,5101) titldum
+      read (91,*) isproj
+      read (91,*) iclb
+      read (91,5000) calfile
 
 !!Output Information input
-      read (101,5101) titldum
-      read (101,*) iprint
-      read (101,*) nyskip
+      read (91,5101) titldum
+      read (91,*) iprint
+      read (91,*) nyskip
 !!! check that nyskip input is not greater or equal to nbyr input
       if (nyskip >= nbyr) nyskip = nbyr - 1
       
-      read (101,*) ilog
-      read (101,*) iprp
-      read (101,5101) titldum
+      read (91,*) ilog
+      read (91,*) iprp
+      read (91,5101) titldum
 
       !!The user has the option of limiting the number of output
       !!variables printed to the output.rch, output.sub and 
@@ -299,8 +299,8 @@
 
       !!Output variables printed in REACH (output.rch) file
 
-      read (101,5101) titldum
-      read (101,*) (ipdvar(ii),ii=1,20)
+      read (91,5101) titldum
+      read (91,*) (ipdvar(ii),ii=1,20)
 
       !!IPDVAR  - Output variables to output.rch file
              !![   1] Streamflow into reach (cms)
@@ -355,8 +355,8 @@
 
       !!Output variables printed in SUBASIN (output.sub) file
 
-      read (101,5101) titldum
-      read (101,*) (ipdvab(ii),ii=1,15)
+      read (91,5101) titldum
+      read (91,*) (ipdvab(ii),ii=1,15)
 
       !!IPDVAB  - Output variables to output.sub file
              !![   1] Total precipitation falling on subbasin (mm)
@@ -377,8 +377,8 @@
 
       !!Output variables printed in HRU (output.hru) file
 
-      read (101,5101) titldum
-      read (101,*) (ipdvas(ii),ii=1,20)
+      read (91,5101) titldum
+      read (91,*) (ipdvas(ii),ii=1,20)
 
       !!IPDVAS  - Output variables to output.hru file
              !![   1] Total precipitation falling on HRU (mm)
@@ -461,14 +461,14 @@
 
       !!HRUs printed in HRU (output.hru,output.wtr) files
 
-      read (101,5101) titldum
-      read (101,*) (ipdhru(ii),ii=1,20)
+      read (91,5101) titldum
+      read (91,*) (ipdhru(ii),ii=1,20)
 
       !! Atmospheric deposition file (Kannan/Santhi input file)
       do
-       read (101,5101,iostat=eof) titldum
+       read (91,5101,iostat=eof) titldum
        if (eof < 0) exit
-       read (101,5000,iostat=eof) atmofile
+       read (91,5000,iostat=eof) atmofile
        if (eof < 0) exit
        exit
       end do
@@ -477,18 +477,18 @@
 !!   IPHR = 0 no print
 !!   IPHR = 1 print file
       iphr = 0
-      read (101,*,iostat=eof) iphr
+      read (91,*,iostat=eof) iphr
 !!   code for printing soil storage values by soil layer (output.swr)
 !!   ISTO = 0 no print
 !!   ISTO = 1 print file
       isto = 0
-      read (101,*,iostat=eof) isto
+      read (91,*,iostat=eof) isto
 
 !!   code for printing output.sol file (formerly 'output.sol' - now output.snu)
 !!   isol = 0 no print
 !!   isol = 1 print file
       isol = 0
-      read (101,*,iostat=eof) isol  
+      read (91,*,iostat=eof) isol  
       if (isol == 1) then
          open (121,file='output.snu')
          write (121,12222) 
@@ -500,12 +500,12 @@
       end if  
 !! headwater code (0=do not route; 1=route)
       i_subhw = 0
-      read (101,*,iostat=eof) i_subhw 
+      read (91,*,iostat=eof) i_subhw 
 
 !! SEPTIC CHANGES GSM 01/29/09
 !!   gsm had to take do off when added ia_b ??? 3/25/09 for binary files
 !!      do
-      read (101,5000,iostat=eof) septdb
+      read (91,5000,iostat=eof) septdb
 !!      if (eof < 0) exit
       call caps(septdb)
 !!	end do
@@ -518,22 +518,22 @@
 !!       0 for ascii file 
 !!       1 for binary file   
       ia_b = 0  
-      read (101, *, iostat=eof) ia_b
+      read (91, *, iostat=eof) ia_b
 
 !!    read code to turn on output.wqr output file
 !!      ihumus = 0 (do not print file)
 !!      ihumus = 1 (print formerly watqual.out - now output.wql)
-      read(101,*,iostat=eof) ihumus
+      read (91,*,iostat=eof) ihumus
 
 
 !!   flag for output files named tempvel.out and tempdep.out
 !!   this flag will print both files 
 !!   default is = 0; no print
-      read (101,*,iostat=eof) itemp
+      read (91,*,iostat=eof) itemp
 
 
 !!    output by elevation band to (formerly 'snowband.out')
-      read (101,*,iostat=eof) isnow
+      read (91,*,iostat=eof) isnow
 	if (isnow == 1) then
          open (115,file='output.snw')
          write (115,1010)
@@ -689,7 +689,7 @@
 
 !! Code for output.mgt file
 !  0=no print 1=print
-      read (101, *,iostat=eof) imgt
+      read (91, *,iostat=eof) imgt
 	if (imgt==1) then
          open (143, file="output.mgt", recl=600)
          write (143,999)
@@ -717,7 +717,7 @@
       
 !! Code for output.wtr and output.pot files
 ! 0 =no print  1 =print
-      read (101,*,iostat=eof) iwtr
+      read (91,*,iostat=eof) iwtr
         if (iwtr == 1) then
           open (29,file="output.wtr",recl=800)
 ! write statement added for Aziz (06/25/09)
@@ -734,7 +734,7 @@
 !     code for writing out calendar day or julian day to output.rch, .sub, .hru files
 !     icalen = 0 (print julian day) 1 (print month/day/year)
 !     icalen MUST be == zero  if IPRINT == 3 to print subdaily;
-      read (101,*, iostat=eof) icalen
+      read (91,*, iostat=eof) icalen
       if (icalen == 1) iprint = 1
       
       if (isproj == 1) then
@@ -762,7 +762,7 @@
 !     & 6x,'conc_n',4x,'con_nirr',6x,'nsetlr',5x,'theta_n',7x,'tmpav',
 !     & 6x,'nitrok',/,15x,'m3',12x,'kg',12x,'ha',9x,'kg/m3',5x,'kg/m3',
 !     & 9x,'--',9x,'--',12x,'deg c',6x,'--')
-      close (101)
+      close (91)
       return
 
  1010 format (32x,'SNOW(mm) at ELEVATION BAND (1-10)',/,                

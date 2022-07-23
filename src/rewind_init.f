@@ -450,9 +450,9 @@
        !!precipitation
        do idum = 1, nrgage
         if (rfile(idum) /= '             ') then
-          rewind (unit=100+idum)
+          rewind (unit=1000+idum)
           do ii = 1, 4
-            read (100+idum,5000) titldum
+            read (1000+idum,5000) titldum
           end do
         end if
        end do
