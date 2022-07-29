@@ -164,7 +164,8 @@
 
 
       use parm
-
+      logical,external :: is_numeric
+      
       character (len=80) :: titldum
       character (len=200) :: lus
       integer :: eof, j, sifld1, sifld2, sndt, spnd1, spnd2
@@ -598,7 +599,7 @@
       read (104,*,iostat=eof) (lid_lus(k),k=1,mudb)
       if (eof < 0) exit
 	nlid(i)=1
-      do while (is_numeric(lid_lus(nlid(i)))== .TRUE.)
+      do while (is_numeric(lid_lus(nlid(i))) .eqv. .TRUE.)
  		nlid(i)=nlid(i) + 1
       END DO
 	nlid(i) = nlid(i) - 1
