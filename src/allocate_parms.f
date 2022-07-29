@@ -1750,7 +1750,8 @@
      & interval_last(mhru,4),lid_f_last(mhru,4),lid_cumr_last(mhru,4),
      & lid_str_last(mhru,4),lid_farea(mhru,4),lid_qsurf(mhru,4),
      & lid_sw_add(mhru,4),lid_cumqperc_last(mhru,4),
-     & lid_cumirr_last(mhru,4),lid_excum_last(mhru,4))    !!  nbs
+     & lid_cumirr_last(mhru,4),lid_excum_last(mhru,4),
+     & lid_str_curday(mhru,4),lid_qsurf_curday(mhru,4))	!!  nbs
 
 !!    Green Roof
       allocate(gr_onoff(msub,mudb),gr_imo(msub,mudb),gr_iyr(msub,mudb),
@@ -1758,7 +1759,7 @@
      & gr_fc(msub,mudb),gr_wp(msub,mudb),gr_ksat(msub,mudb),
      & gr_por(msub,mudb),gr_hydeff(msub,mudb),gr_soldpt(msub,mudb),
      & gr_dummy1(msub,mudb),gr_dummy2(msub,mudb),gr_dummy3(msub,mudb),
-     & gr_dummy4(msub,mudb),gr_dummy5(msub,mudb))
+     & gr_dummy4(msub,mudb),gr_dummy5(msub,mudb),nlid(msub))
 
 !!    Rain Garden
       allocate(rg_onoff(msub,mudb),rg_imo(msub,mudb),rg_iyr(msub,mudb),
@@ -1787,7 +1788,7 @@
      & pv_dummy5(msub,mudb))
       
 !!    LID general
-      allocate(lid_onoff(msub,mudb))
+      allocate(lid_onoff(msub,mudb),lid_lunam(msub,mudb))
       
       !! By Zhang for C/N cycling
       !! ============================

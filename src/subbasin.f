@@ -133,7 +133,7 @@
       use parm
 
       integer :: j,sb,kk
-      real*8 :: tmpk, d, gma, ho, pet_alpha, aphu, phuop
+      real*8 :: tmpk, d, gma, ho, pet_alpha, aphu, phuop,lid_sto
 
       ihru = 0
       ihru = hru1(inum1) 
@@ -144,8 +144,8 @@
 
       j = 0
       j = ihru
-
-
+	sb = hru_sub(j)
+	
       !!by zhang DSSAT tillage
       !!======================
       !!    deptil(:)   |mm  |depth of mixing caused by tillage operation
@@ -197,20 +197,12 @@
         !! calculate soil temperature for soil layers
         call solt
 
-!       if (ipot(j) /= j .and. imp_trig(nro(j),nrelease(j),j)==1)       &  Srini pothole
-!
-!     &        then             
-          !! calculate surface runoff if HRU is not impounded or an 
-          !! undrained depression--
-          call surface
-
-          !! add surface flow that was routed across the landscape on the previous day
-       !!   qday = qday + surfq_ru(j)
-       !!   surfq_ru(j) = 0.
-          
-          !! compute effective rainfall (amount that percs into soil)
-          inflpcp = Max(0.,precipday - surfq(j))
-!        end if
+        call surface
+		
+       !! compute effective rainfall (amount that percs into soil)
+	  lid_str_curday(j,:) = lid_str_curday(j,:) / (hru_ha(j) * 10.) !m3 to mm
+	  lid_sto = sum(lid_str_curday(j,:))
+	  inflpcp = Max(0.,precipday - surfq(j) - lid_sto)
          
         !! perform management operations
         if (yr_skip(j) == 0) call operatn
@@ -429,7 +421,7 @@
         
 !       Srini pothole        
         if (pot_fr(j) > 0.) call pothole
-                
+              
         xx = sed_con(j)+soln_con(j)+solp_con(j)+orgn_con(j)+orgp_con(j)
         if (xx > 1.e-6) then
           call urb_bmp

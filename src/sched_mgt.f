@@ -235,8 +235,7 @@
      *      sol_rsd(1,j), sol_sumno3(j),sol_sumsolp(j)
 1010  format (a5,1x,a4,3i6,1x,e10.5,1x,2a15,7f10.2)
           end if
-          
-            
+                    
           case (11)   !! auto fertilizer operation
             iafrttyp(j) = mgt1iop(nop(j),j)
             nstress(j) = mgt2iop(nop(j),j)

@@ -1,4 +1,4 @@
-      subroutine lid_greenroof(sb,j,k,lid_prec)
+      subroutine lid_greenroof(sb,j,k,kk,lid_prec)
 
 !!    ~ ~ ~ PURPOSE ~ ~ ~
 !!    Simulate green roof processes
@@ -9,6 +9,7 @@
 !!    sb               |none          |Subbasin number
 !!    j                |none          |HRU number
 !!    k                |none          |Subdaily time index
+!!    kk               |none          |LID index in *.lid files
 !!    lid_prec         |mm            |Precipitation depth a LID receives in a simulation time interval
 !!    idt              |minutes       |Simulation time interval for sub-daily modeling
 !!    ihru             |none          |HRU number
@@ -38,8 +39,6 @@
 !!    ~ ~ ~ LOCAL DEFINITIONS ~ ~ ~
 !!    name             |units         |definition
 !!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
-!!    jj               |none          |Urban land type identification number from
-!!                                    |urban.dat
 !!    dt               |hour          |Time interval in hours
 !!    lid_cumr         |mm H2O        |Cumulative amount of rainfall a LID receives in a time interval
 !!    lid_excum        |mm H2O        |Cumulative amount of excess rainfall at a time step in a day
@@ -69,24 +68,23 @@
       use parm
       implicit none
       
-      integer :: jj,sb,j,k
+      integer :: sb,j,k,kk
       real*8 :: lid_ksat,lid_por,lid_fc,lid_wp,whd,tst,cvwc,
      & lid_usat_ratio,lid_excum,lid_exinc,lid_et,lid_qinf,lid_qseep,dt,
      & lid_re_sw,lid_adj_ksat,lid_sw,lid_f,lid_cuminf,lid_soldpt,lid_f1
       real*8 :: lid_prec,lid_cumr,lid_etcoef,lid_hydeff
       
-      jj = urblu(j)
-
 !!    Load input data read from ".lid"      
-      lid_ksat = gr_ksat(sb,jj)
-      lid_por = gr_por(sb,jj)
-      lid_fc = gr_fc(sb,jj)
-      lid_wp = gr_wp(sb,jj)
-      lid_soldpt = gr_soldpt(sb,jj)
-      lid_etcoef = gr_etcoef(sb,jj)
-      lid_hydeff = gr_hydeff(sb,jj)
+      lid_ksat = gr_ksat(sb,kk)
+      lid_por = gr_por(sb,kk)
+      lid_fc = gr_fc(sb,kk)
+      lid_wp = gr_wp(sb,kk)
+      lid_soldpt = gr_soldpt(sb,kk)
+      lid_etcoef = gr_etcoef(sb,kk)
+      lid_hydeff = gr_hydeff(sb,kk)
 
       dt = dfloat(idt) / 60.
+	lid_exinc = 0.
       
 !!    Initialize parameters and coefficients for green roof modeling
       lid_sw = lid_sw_last(j,1)
@@ -147,7 +145,7 @@
         lid_f = 0.
         lid_qinf = 0.
         lid_exinc = 0.
-        lid_re_sw = (lid_sw - lid_wp)/(lid_por - lid_wp)
+        lid_re_sw = max(0.,(lid_sw - lid_wp)/(lid_por - lid_wp))
         lid_usat_ratio = (lid_re_sw**lid_vgcl) * ((1-(1-lid_re_sw
      &  **(lid_vgcl/lid_vgcm))**lid_vgcm)**2)
       end if
@@ -167,25 +165,18 @@
       if (lid_sw > lid_por) lid_sw = lid_por
                 
 !!    Calculate the depth of direct runoff generated in the green roof areas
-      lid_qsurf(j,1) = lid_exinc + lid_qseep
+      lid_qsurf(j,1) = (lid_exinc + lid_qseep) * lid_farea(j,1) 
+     &	* fcimp(urblu(j)) * hru_ha(j) * 10.           ! m3
+      lid_qsurf(j,1) = lid_qsurf(j,1) / (10. * hru_ha(j))   ! m3 to mm
 
-!! begin temporary
-!      if (k == nstep+1) then
-!      if (sb == 1) then
-!        if (jj == 14) then
-!       if (j == 1) then
-!          write (1111111,'(7f12.4)') lid_prec,lid_qinf,lid_et,lid_sw,
-!     & lid_exinc,lid_qseep,lid_qsurf(j,1)
-!        end if
-!      end if
-!      end if
-!! end temporary
-             
       lid_sw_last(j,1) = lid_sw
       lid_cumr_last(j,1) = lid_cumr
       lid_cuminf_last(j,1) = lid_cuminf
       lid_f_last(j,1) = lid_f
       lid_excum_last(j,1) = lid_excum
+	lid_qsurf_curday(j,1) = lid_qsurf_curday(j,1) + lid_qsurf(j,1)
+      lid_str_curday(j,1) = lid_sw * lid_farea(j,1) * fcimp(urblu(j))
+     &	 * hru_ha(j) * 10.           ! m3
 
       return
       end subroutine

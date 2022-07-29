@@ -533,7 +533,7 @@
      & 'AUTOPkh ',t84,'MIXEF',t90,'PRECmm',t97,'SURQGENmm',t109,        
      & 'GWQmm',t118,'ETmm',t125,'SEDth ',t132,'NO3kgh ',t140,           
      & 'ORGNkgh ',t148,'BIOMth',t157,'YLDth',t164,'SURQmm')
- 1900 format (i7,i4,3x,a8,3x,e8.3,17f8.2) 
+ 1900 format (i7,i4,3x,a16,3x,e8.3,17f10.2) 
  2000 format (///,t17,'AVE MONTHLY BASIN VALUES',/t20,'SNOW',t46,       
      &   'WATER',t66,'SED',/t3,'MON',t11,'RAIN',t20,'FALL',t27,'SURF Q',
      &    t37,'LAT Q',t46,'YIELD',t58,'ET',t64,'YIELD',t75,'PET',/t11,  
@@ -547,25 +547,25 @@
      &    ' PHOSPHORUS STRESS DAYS = ',f8.2,/,t15,                      
      &    ' AERATION STRESS DAYS = ',f8.2)
  2300 format (t10,'AVE ANNUAL BASIN VALUES'//                           
-     &        t15,'PRECIP = ',f8.1,' MM'/                               
-     &        t15,'SNOW FALL =',f8.2,' MM'/                             
-     &        t15,'SNOW MELT = ',f8.2,' MM'/                            
-     &        t15,'SUBLIMATION = ',f8.2,' MM'/                          
-     &        t15,'SURFACE RUNOFF Q = ',f8.2,' MM'/                     
-     &        t15,'LATERAL SOIL Q =',f8.2,' MM'/                        
-     &        t15,'TILE Q = ',f8.2,' MM'/                               
-     &        t15,'GROUNDWATER (SHAL AQ) Q = ',f8.2,' MM'/              
-     &        t15,'GROUNDWATER (DEEP AQ) Q = ',f8.2,' MM'/              
-     &        t15,'REVAP (SHAL AQ => SOIL/PLANTS) =',f8.2,' MM'/        
-     &        t15,'DEEP AQ RECHARGE = ',f8.2,' MM'/                     
-     &        t15,'TOTAL AQ RECHARGE =',f8.2,' MM'/                     
-     &        t15,'TOTAL WATER YLD = ',f8.2,' MM'/                      
-     &        t15,'PERCOLATION OUT OF SOIL =',f8.2,' MM'/               
-     &        t15,'ET = ',f8.1,' MM'/                                   
-     &        t15,'PET = ',f8.1,'MM'/                                   
-     &        t15,'TRANSMISSION LOSSES = ',f8.2,' MM'/                
-     &        t15,'SEPTIC INFLOW = ',f10.2,' MM'/                       
-     &        t15,'TOTAL SEDIMENT LOADING =  ',f8.2,' T/HA')
+     &        t15,'PRECIP = ',f12.1,' MM'/                               
+     &        t15,'SNOW FALL =',f12.2,' MM'/                             
+     &        t15,'SNOW MELT = ',f12.2,' MM'/                            
+     &        t15,'SUBLIMATION = ',f12.2,' MM'/                          
+     &        t15,'SURFACE RUNOFF Q = ',f12.2,' MM'/                     
+     &        t15,'LATERAL SOIL Q =',f12.2,' MM'/                        
+     &        t15,'TILE Q = ',f12.2,' MM'/                               
+     &        t15,'GROUNDWATER (SHAL AQ) Q = ',f12.2,' MM'/              
+     &        t15,'GROUNDWATER (DEEP AQ) Q = ',f12.2,' MM'/              
+     &        t15,'REVAP (SHAL AQ => SOIL/PLANTS) =',f12.2,' MM'/        
+     &        t15,'DEEP AQ RECHARGE = ',f12.2,' MM'/                     
+     &        t15,'TOTAL AQ RECHARGE =',f12.2,' MM'/                     
+     &        t15,'TOTAL WATER YLD = ',f12.2,' MM'/                      
+     &        t15,'PERCOLATION OUT OF SOIL =',f12.2,' MM'/               
+     &        t15,'ET = ',f12.1,' MM'/                                   
+     &        t15,'PET = ',f12.1,'MM'/                                   
+     &        t15,'TRANSMISSION LOSSES = ',f12.2,' MM'/                
+     &        t15,'SEPTIC INFLOW = ',f12.2,' MM'/                       
+     &        t15,'TOTAL SEDIMENT LOADING =  ',f12.2,' T/HA')
  !    &        t15,'POND BUDGET'/                                        
  !    &        t20,'EVAPORATION = ',f8.3,' MM'/                          
  !    &        t20,'SEEPAGE = ',f8.3,' MM'/                              &

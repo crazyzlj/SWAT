@@ -131,25 +131,25 @@
         sol_st(j1,j) = sol_st(j1,j) + sepday
 
         !! add percolated soil water from amended soil layers of the LIDs (rain garden and porous pavement) to the first soil layer of the corresponding HRU
-        if (j1 == 1.and.urblu(j) > 0) then
-!          lid_cuminf_total = 0.
-          do ii = 1, 4
-            if (ii == 2) then  ! 2: rain garden, 3: cistern and 4: porous pavement
-              lid_cuminf_total = lid_cuminf_total + 
-     &        lid_sw_add(j,ii) * lid_farea(j,ii) * 
-     &        fcimp(urblu(j)) * rg_sarea(sb,urblu(j))
-            else if (ii == 3) then
-              lid_cuminf_total = lid_cuminf_total + 
-     &        lid_sw_add(j,ii) * lid_farea(j,ii) * 
-     &        fcimp(urblu(j))
-            else if (ii == 4) then
-              lid_cuminf_total = lid_cuminf_total + 
-     &        lid_sw_add(j,ii) * lid_farea(j,ii) * 
-     &        fcimp(urblu(j))
-            end if
-          end do
-          sol_st(j1,j) = sol_st(j1,j) + lid_cuminf_total
-        end if
+!        if (j1 == 1.and.urblu(j) > 0) then
+!!          lid_cuminf_total = 0.
+!          do ii = 1, 4
+!            if (ii == 2) then  ! 2: rain garden, 3: cistern and 4: porous pavement
+!              lid_cuminf_total = lid_cuminf_total + 
+!     &        lid_sw_add(j,ii) * lid_farea(j,ii) * 
+!     &        fcimp(urblu(j)) * rg_sarea(sb,urblu(j))
+!            else if (ii == 3) then
+!              lid_cuminf_total = lid_cuminf_total + 
+!     &        lid_sw_add(j,ii) * lid_farea(j,ii) * 
+!     &        fcimp(urblu(j))
+!            else if (ii == 4) then
+!              lid_cuminf_total = lid_cuminf_total + 
+!     &        lid_sw_add(j,ii) * lid_farea(j,ii) * 
+!     &        fcimp(urblu(j))
+!            end if
+!          end do
+!          sol_st(j1,j) = sol_st(j1,j) + lid_cuminf_total
+!        end if
         
  	  !! septic tank inflow to biozone layer  J.Jeong
 	  ! STE added to the biozone layer if soil temp is above zero. 

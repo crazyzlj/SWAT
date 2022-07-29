@@ -58,8 +58,7 @@
          kk2 = kk1 + (nrgfil - 1)
         end if
         if (rfile(j) /= '             ') then
-     !!     open (100+j,file=rfile(j),recl=800)
-          open (100+j,file=rfile(j),recl=1850)
+          open (100+j,file=rfile(j),recl=1850)     !!!SWAT2012 main code
           read (100+j,5000) titldum
           read (100+j,5000) titldum
           read (100+j,5000) titldum
@@ -82,8 +81,7 @@
           kk2 = kk1 + (ntgfil - 1)
         end if
         if (tfile(j) /= '             ') then
-  !!        open (118+j,file=tfile(j),recl=800)
-          open (118+j,file=tfile(j),recl=20000)
+          open (118+j,file=tfile(j),recl=20000)     !!! SWAT2012 CODE
           read (118+j,5000) titldum
           read (118+j,5000) titldum
           read (118+j,5000) titldum
@@ -118,6 +116,5 @@
  5000 format (a80)
  5001 format (7x,1800i5)
  5002 format (7x,1800i10)   
-! 5002 format (7x,287i10)
- 5003 format (12x,1800i5)
+ 5003 format (13x,1800i5)
       end

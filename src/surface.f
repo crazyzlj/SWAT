@@ -41,13 +41,14 @@
 
       integer :: j,sb,kk
       real*8 :: precip_fr
-      real*8 :: irfr,hruvirr
+      real*8 :: irfr,hruvirr,lid_cumirr
 
       j = 0
       j = ihru
       sb = hru_sub(j)
       hruirrday = 0.
       irmmdt = 0.
+	lid_cumirr=0.
 
       !! compute canopy interception
       if (idplt(j) > 0) then
@@ -106,15 +107,40 @@
       call dailycn
 
         !! compute runoff - surfq in mm H2O
-      if (precipday > 0.1) then
+      !if (hrnopcp(sb,nstep) < 72) then !3 days since last rainfall to call volq. This ensures LID calculation
         call volq 
         !! bmp adjustment
         surfq(j) = surfq(j) * bmp_flo(j)
         !! adjust runoff for loss into crack volume
         if (surfq(j) > 0. .and. icrk == 1) call crackflow
-      end if
+	!end if
+	
+	!! Water stored in urban LIDs drains if no rainfall occurs for 4 days. Jaehak 2021
+	if (ievent>0 .and. urblu(j)>0) then
+        do kk = 1, nlid(sb)
+		if (lid_lunam(sb,kk)==urbname(urblu(j)).and.cs_onoff(sb,kk)==1) then !cistern
+			if (hrnopcp(sb,k) > 96) then ! four days
+				lid_irr = 0.3 * cs_vol(sb,kk)      ! assumming 30% of water storage of a cistern in a day, m3
+			else
+				lid_irr = 0.
+			end if
+		
+ 			if (lid_str_last(j,3) < lid_irr) then
+ 			  lid_irr = lid_str_last(j,3)
+ 			  lid_str_last(j,3) = 0.
+			else
+			  lid_str_last(j,3) = lid_str_last(j,3) - lid_irr
+		    end if
+	   	    
+			exit
+      	endif	  
+	  end do
+	end if
+	
+	!add irrigation from cistern to top soil moisture content
+	sol_st(1,j) = sol_st(1,j) + lid_irr / (hru_ha(j) * 10.)
 
-      surfq(j) = surfq(j) + qird(j)
+	surfq(j) = surfq(j) + qird(j) 
       qird(j) = 0.
 
       !! calculate amount of surface runoff reaching main channel during day

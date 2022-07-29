@@ -167,39 +167,34 @@
 	     !runoff from pervious area
 	     hhqday(k-1) = hhqday(k-1) * (1.- fcimp(urblu(j))) 
 
-
-           ! runoff from a LID and its upstream drainage areas (green roof, rain garden, cistern, and porous pavement)
-           if (lid_onoff(sb,urblu(j))==1) then
-             !lid_prec = dfloat(precipdt(k) - abstinit)   commented by Todd - double precision chgs
-             if (lid_prec < 0.) lid_prec = 0.
-             call lids(sb,j,k,lid_prec)
-             lid_qsurf_total = 0.
-             lid_farea_sum = 0.
-             do ii = 1, 4
-               if (lid_farea(j,ii) > 0) then
-                 lid_qsurf_total = lid_qsurf_total + fcimp(urblu(j)) * 
-     &           lid_farea(j,ii) * lid_qsurf(j,ii)
-                 if (ii==1) then
-                   if (cs_grcon(sb,urblu(j))==0) then
-                     lid_farea_sum = lid_farea_sum + lid_farea(j,ii)
-                   end if
-                 else
+           ! add runoff from a LID and its upstream drainage areas (green roof, rain garden, cistern, and porous pavement)
+           urban_prec = max(0.,precipdt(k) - abstinit)
+           do kk=1,nlid(sb)
+		    if (lid_onoff(sb,kk)==1.and.
+     &		          lid_lunam(sb,kk)==urbname(urblu(j))) then
+                 call lids(sb,j,k,kk,urban_prec)
+			   exit
+			endif
+		 end do
+		 
+           lid_qsurf_total = 0.
+           lid_farea_sum = 0.
+           do ii = 1, 4
+             if (lid_farea(j,ii) > 0) then
+               if (ii==1) then
+                 if (cs_grcon(sb,kk)==0) then
                    lid_farea_sum = lid_farea_sum + lid_farea(j,ii)
+				 lid_qsurf_total = lid_qsurf_total + lid_qsurf(j,ii) !jaehak 2021. lid_qsurf is mm normalized to the entire HRU.
                  end if
+               else
+                 lid_farea_sum = lid_farea_sum + lid_farea(j,ii)
+                 lid_qsurf_total = lid_qsurf_total + lid_qsurf(j,ii)
                end if
-             end do
-!             if (lid_farea_sum > 1.0) ! error massage
-!             ubnrunoff(k-1) = (precipdt(k) - abstinit) * fcimp(urblu(j))
-
-
-             ubnrunoff(k-1) = lid_prec * fcimp(urblu(j))
-     &       * (1 - lid_farea_sum) + lid_qsurf_total
-           else
-             urban_prec = precipdt(k) - abstinit
-             if (urban_prec < 0.) urban_prec = 0.
-!             ubnrunoff(k-1) = (precipdt(k) - abstinit) * fcimp(urblu(j))
-             ubnrunoff(k-1) = urban_prec * fcimp(urblu(j))
-           end if
+		   end if
+		 end do
+		 		
+           ubnrunoff(k-1) = urban_prec * fcimp(urblu(j))
+     &       * (1 - lid_farea_sum) + lid_qsurf_total !lid_qsurf is mm normalized to the entire HRU.
          else
            ubnrunoff(k-1) = 0.
          end if
@@ -211,6 +206,14 @@
 
          !! calculate new rate of infiltration
          rateinf(k) = adj_hc * (psidt / (cuminf(k) + 1.e-6) + 1.)
+	   
+	   !adjust initial abstraction for the next time steop. Jaehak 2021
+	   if (precipdt(k)>0) then
+		   abstinit = max(abstinit - precipdt(k),0.)
+	   else
+		   abstinit = min(iabstr,abstinit + pet_day / nstep)
+	   endif
+
         
       end do
        

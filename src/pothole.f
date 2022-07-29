@@ -329,7 +329,7 @@
           sanyld(j) = sanyld(j) + potsano
           silyld(j) = silyld(j) + potsilo 
           clayld(j) = clayld(j) + potclao
-          pot_sag(j) = sagyld(j) + potsago
+          sagyld(j) = sagyld(j) + potsago        
           lagyld(j) = lagyld(j) + potlago
 
           surqno3(j) = surqno3(j) + potno3o
@@ -364,9 +364,16 @@
          pot_lag(j) = 0.
          
 !        compute total delivery ratio for pot_sed
-         drtot = (pot_cla(j) + pot_sil(j) + pot_san(j) + pot_sag(j) +   
-     &      pot_lag(j)) / (potclai(j) + potsili(j) + potsani(j) +       
-     &      potsagi(j) + potlagi(j))
+         drtot = potclai(j) + potsili(j) + potsani(j) + potsagi(j) + potlagi(j)
+         if (drtot > 1.e-6) then 
+           drtot = (pot_cla(j) + pot_sil(j) + pot_san(j) + pot_sag(j) +   
+     &       pot_lag(j)) / (potclai(j) + potsili(j) + potsani(j) +       
+     &       potsagi(j) + potlagi(j))
+         else
+           drtot = 0.
+         end if
+         drtot = amin1 (1., drtot)
+         drtot = amax1 (0., drtot)
          pot_sed(j) = drtot * pot_sed(j)
          
 !        compute organic settling assuming an enrichment ratio of 3 on clay (0.75)  

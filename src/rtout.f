@@ -307,7 +307,10 @@
        varoute(7,ihout) = disolvp(jrch) * rtwtr / 1000.
        varoute(11,ihout) = solpesto * rtwtr
        varoute(12,ihout) = sorpesto * rtwtr
+       if (chlora(jrch) < 1.e-6) chlora(jrch) = 0.0            !!srin ohio
        varoute(13,ihout) = chlora(jrch) * rtwtr / 1000.
+       if (varoute(13,ihout) < 1.e-6) varoute(13,ihout) = 0.0  !!srin ohio
+       if (varoute(13,ihout) > 1.e6)  varoute(13,ihout) = 1.e6 !!srin ohio
        varoute(14,ihout) = ammonian(jrch) * rtwtr / 1000.
        varoute(15,ihout) = nitriten(jrch) * rtwtr / 1000.
        varoute(16,ihout) = rch_cbod(jrch) *  rtwtr/ 1000.

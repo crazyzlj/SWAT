@@ -1,4 +1,4 @@
-      subroutine lid_raingarden(sb,j,k,lid_prec)
+      subroutine lid_raingarden(sb,j,k,kk,lid_prec)
 
 !!    ~ ~ ~ PURPOSE ~ ~ ~
 !!    Simulate rain garden processes
@@ -9,6 +9,7 @@
 !!    sb               |none          |Subbasin number
 !!    j                |none          |HRU number
 !!    k                |none          |Subdaily time index
+!!    kk               |none          |LID index in *.lid files
 !!    lid_prec         |mm            |Precipitation depth a LID receives in a simulation time interval
 !!    idt              |minutes       |Simulation time interval for sub-daily modeling
 !!    ihru             |none          |HRU number
@@ -49,8 +50,6 @@
 !!    ~ ~ ~ LOCAL DEFINITIONS ~ ~ ~
 !!    name             |units         |definition
 !!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
-!!    jj               |none          |Urban land type identification number from
-!!                                    |urban.dat
 !!    dt               |hour          |Time interval in hours
 !!    lid_perc         |mm H2O        |Amount of soil water percolated through the amended soil layer
 !!    lid_cumr         |mm H2O        |Cumulative amount of rainfall a LID receives in a time interval
@@ -103,7 +102,7 @@
       use parm
       implicit none
       
-      integer :: jj,sb,j,k
+      integer :: sb,j,k,kk
       real*8 :: lid_ksat,lid_por,lid_fc,lid_wp,lid_wetfsh,whd,
      & tst,cvwc,lid_usat_ratio,lid_qinf,lid_perc,lid_qperc,dt,
      & lid_re_sw,lid_adj_ksat,lid_sw,lid_f,lid_cuminf,lid_soldpt,
@@ -117,24 +116,21 @@
      & hdep_ratio,n_partial,mann_n,prad_ft,hdep_ft,cangle,carea_ft2,
      & wperi_ft,hyd_rad_ft,lid_hydeff
       
-      jj = urblu(j)
-      
-!      lid_vol = rg_vol(sb,jj)
-      lid_ksat = rg_ksat(sb,jj)
-      lid_por = rg_por(sb,jj)
-      lid_fc = rg_fc(sb,jj)
-      lid_wp = rg_wp(sb,jj)
-      lid_soldpt = rg_soldpt(sb,jj)
-      lid_etcoef = rg_etcoef(sb,jj)
+      lid_ksat = rg_ksat(sb,kk)
+      lid_por = rg_por(sb,kk)
+      lid_fc = rg_fc(sb,kk)
+      lid_wp = rg_wp(sb,kk)
+      lid_soldpt = rg_soldpt(sb,kk)
+      lid_etcoef = rg_etcoef(sb,kk)
       lid_sarea = lid_farea(j,2) * fcimp(urblu(j)) *
-     & hru_ha(j) * 10000. * rg_sarea(sb,jj)
+     & hru_ha(j) * 10000. * rg_sarea(sb,kk) !m2
       lid_barea = lid_farea(j,2) * fcimp(urblu(j)) * 
-     & hru_ha(j) * 10000. * rg_sarea(sb,jj)
-      lid_vol = rg_sth(sb,jj) * lid_sarea
-      lid_oheight = rg_oheight(sb,jj) * 1000.
-      lid_odia = rg_odia(sb,jj)
-      lid_ostr = rg_oheight(sb,jj) * lid_barea
-      lid_hydeff = rg_hydeff(sb,jj)
+     & hru_ha(j) * 10000. * rg_sarea(sb,kk)
+      lid_vol = rg_sth(sb,kk) * lid_sarea
+      lid_oheight = rg_oheight(sb,kk) * 1000.
+      lid_odia = rg_odia(sb,kk)
+      lid_ostr = rg_oheight(sb,kk) * lid_barea
+      lid_hydeff = rg_hydeff(sb,kk)
       
       dt = dfloat(idt) / 60.
       
@@ -152,8 +148,7 @@
       lid_qbypass = lid_str - lid_vol
       if (lid_qbypass > 0.) lid_str = lid_vol
       if (lid_qbypass < 0.) lid_qbypass = 0.
-      lid_bypass = lid_qbypass /
-     & (hru_ha(j) * 10000.) * 1000.
+      lid_bypass = lid_qbypass / (hru_ha(j) * 10.) 
 !     & (lid_farea(j,2) * fcimp(urblu(j)) * hru_ha(j) * 10000.) * 1000.
 
       lid_str_depth = lid_str / ((lid_sarea + lid_barea)/2) * 1000.
@@ -211,7 +206,7 @@
           lid_cumr = lid_cumr_last(j,2)
           lid_cuminf = lid_cuminf_last(j,2)
         end if
-        lid_re_sw = (lid_sw - lid_wp)/(lid_por - lid_wp)
+        lid_re_sw = max(0.,(lid_sw - lid_wp)/(lid_por - lid_wp))
         lid_usat_ratio = (lid_re_sw**lid_vgcl) * ((1-(1-lid_re_sw
      &  **(lid_vgcl/lid_vgcm))**lid_vgcm)**2)
         lid_f = 0.
@@ -227,7 +222,8 @@
       coeff_C = 0.611
       pipe_slp = 0.0005
       lid_qorifice = 0.
-      if (lid_str_depth > lid_oheight) then
+      if (rg_orifice(sb,kk)==1) then !there exists an orifice pipe for drainage
+	if (lid_str_depth > lid_oheight) then
         lid_odepth = lid_str_depth - lid_oheight
         if (lid_odepth >= 1.0 * lid_odia) then
           parea = 3.14159 * (3.2808 * lid_odia) ** 2 / 4. !ft^2
@@ -277,21 +273,23 @@
         lid_vorifice = lid_qorifice * dfloat(idt) * 60 ! m3
       else
         lid_vorifice = 0.
+	end if
+	
+	else
+		lid_vorifice=0.
       end if
-      
       if (lid_vorifice > (lid_str - lid_ostr)) lid_vorifice = 
      & lid_str - lid_ostr
       if (lid_vorifice < 0.) lid_vorifice = 0.
-      lid_dorifice = lid_vorifice /
-     & (hru_ha(j) * 10000.) * 1000. ! mm
-!     & (lid_farea(j,2) * fcimp(urblu(j)) * hru_ha(j) * 10000.) * 1000. ! mm
+      lid_dorifice = lid_vorifice / (hru_ha(j) * 10.)  ! mm
       
 !!    Amount of water seeped out of the amended soil layer (mm)
       lid_perc = lid_ksat * lid_usat_ratio * lid_hydeff
       lid_qperc = lid_perc * dt ! convert mm/hr to mm
       lid_cumqperc = lid_cumqperc + lid_qperc
       if (k == nstep+1) then
-          lid_sw_add(j,2) = lid_cumqperc
+          lid_sw_add(j,2) = lid_cumqperc * lid_farea(j,2) 
+     &		* fcimp(urblu(j)) !mm normalized by HRU's area
           lid_cumqperc = 0.
       end if
       
@@ -315,19 +313,8 @@
                 
 !!    Amount of water that becomes surface runoff (mm)
       lid_qsurf(j,2) = lid_bypass + lid_dorifice
-      
-!! begin temporary
-!      if (k == nstep+1) then
-!      if (sb == 1) then
-!        if (jj == 14) then
-!        if (j == 1) then
-!          write (2222222,'(9f12.4)') lid_prec,lid_qinf,lid_str_depth,
-!     &    lid_qperc,lid_et,lid_sw,lid_dorifice,lid_bypass,lid_qsurf(j,2)
-!        end if
-!      end if
-!      end if
-!! end temporary
-
+ 	
+     
 !!    Update the water storage
       if (lid_str_depth < 0.1) then
           lid_str = lid_str - lid_vinf - lid_vorifice
@@ -335,7 +322,10 @@
           lid_str = lid_str - lid_vinf - lid_vorifice - lid_vpet
       end if
       if (lid_str < 0) lid_str = 0.
-      
+
+	lid_str_curday(j,2) = lid_str_curday(j,2) !cumulative water volume stored today, m3
+     &   + max(0.,lid_str - lid_str_last(j,2))
+    
 !!    Assign the calculated soil water content of the amended soil layer, accumulated infiltration depth
       lid_sw_last(j,2) = lid_sw
       lid_cumr_last(j,2) = lid_cumr
@@ -343,6 +333,7 @@
       lid_f_last(j,2) = lid_f
       lid_str_last(j,2) = lid_str
       lid_cumqperc_last(j,2) = lid_cumqperc
+	lid_qsurf_curday(j,2) = lid_qsurf_curday(j,2)+lid_qsurf(j,2)
         
       return
       end subroutine

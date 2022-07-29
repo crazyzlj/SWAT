@@ -262,7 +262,8 @@
 
       integer :: j, sb, kk, ii
       real*8 :: cnv, sub_ha, wtmp, baseflw, bf_fr,hr
-      real*8 :: sub_hwyld(nstep), hqd(4*nstep), hsd(4*nstep),hqdtst(nstep)   ! hqd, hsd locally defined. J.Jeong 4/26/2009
+      real*8 :: sub_hwyld(nstep), hqd(4*nstep), hsd(4*nstep),
+     &	hqdtst(nstep)   ! hqd, hsd locally defined. J.Jeong 4/26/2009
 
       j = ihru
       sb = inum1
@@ -366,7 +367,7 @@
      &                                                     * hru_fr(j)
 
       !! subbasin averages: water quality indicators
-        sub_chl(sb) = sub_chl(sb) + chl_a(j) * (qday * qdfr * cnv)      
+        sub_chl(sb) = sub_chl(sb) + chl_a(j) * (qdr(j) * qdfr * cnv)      
      &                                                           * 1.e-6
 
         sub_cbod(sb) = sub_cbod(sb) + cbodu(j) * (qdr(j) * qdfr * cnv)  
