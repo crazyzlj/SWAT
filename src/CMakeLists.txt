@@ -7,45 +7,42 @@ file(GLOB F90SRCS *.f90)
 
 ### Set Fortran line format for source file
 
+GET_FILENAME_COMPONENT(Fortran_COMPILER_NAME ${CMAKE_Fortran_COMPILER} NAME)
+if(${Fortran_COMPILER_NAME} MATCHES "ifort.*" OR ${Fortran_COMPILER_NAME} MATCHES "icl.*")
+    # ifort, reference https://software.intel.com/en-us/node/678225
+    if(MSVC) # ifort integrated in Microsoft Visual Studio
+        set(FLAG_L72 /4L72)
+        set(FLAG_L80 /4L80)
+        set(FLAG_LLONG /4L132)
+    else()
+        set(FLAG_L72 -72)
+        set(FLAG_L80 -80)
+        set(FLAG_LLONG -132)
+    endif()
+elseif(${CMAKE_Fortran_COMPILER_ID} STREQUAL "Cray") 
+    set(FLAG_L72 -N72)
+    set(FLAG_L80 -N80)
+    set(FLAG_LLONG -N132)
+else() # gfortran tested only
+    set(FLAG_L72 -ffixed-line-length-72)
+    set(FLAG_L80 -ffixed-line-length-80)
+    set(FLAG_LLONG -ffree-line-length-none)
+endif()
+
 ## Special sources that have fixed length of 72
 set(LEN72_SRCS "grow" "tran")
 foreach(F77FILE ${F77SRCS})
     get_filename_component(CORENAME ${F77FILE} NAME_WE)
     list(FIND LEN72_SRCS ${CORENAME} _FOUND_LEN72)
-    if(${CMAKE_Fortran_COMPILER} MATCHES "ifort.*")
-        # ifort, reference https://software.intel.com/en-us/node/678225
-        if(MSVC) # ifort integrated in Microsoft Visual Studio            
-            if(${_FOUND_LEN72} GREATER -1)
-                set_source_files_properties(${F77FILE} PROPERTIES COMPILE_FLAGS /4L72)
-            else()
-                set_source_files_properties(${F77FILE} PROPERTIES COMPILE_FLAGS /4L80)
-            endif()
-        else()
-            if(${_FOUND_LEN72} GREATER -1)
-                set_source_files_properties(${F77FILE} PROPERTIES COMPILE_FLAGS -72)
-            else()
-                set_source_files_properties(${F77FILE} PROPERTIES COMPILE_FLAGS -80)
-            endif()
-        endif()
-    else() # gfortran tested only
-        if(${_FOUND_LEN72} GREATER -1)
-            set_source_files_properties(${F77FILE} PROPERTIES COMPILE_FLAGS -ffixed-line-length-72)
-        else()
-            set_source_files_properties(${F77FILE} PROPERTIES COMPILE_FLAGS -ffixed-line-length-80)
-        endif()
+    if(${_FOUND_LEN72} GREATER -1)
+        set_source_files_properties(${F77FILE} PROPERTIES COMPILE_FLAGS ${FLAG_L72})
+    else()
+        set_source_files_properties(${F77FILE} PROPERTIES COMPILE_FLAGS ${FLAG_L80})
     endif()
 endforeach()
 
 foreach(F90FILE ${F90SRCS})
-    if(${CMAKE_Fortran_COMPILER} MATCHES "ifort.*")
-        if(MSVC)
-            set_source_files_properties(${F90FILE} PROPERTIES COMPILE_FLAGS /4L132)
-        else()
-            set_source_files_properties(${F90FILE} PROPERTIES COMPILE_FLAGS -132)
-        endif()
-    else() # gfortran tested only
-        set_source_files_properties(${F90FILE} PROPERTIES COMPILE_FLAGS -ffree-line-length-none)
-    endif()
+    set_source_files_properties(${F90FILE} PROPERTIES COMPILE_FLAGS ${FLAG_LLONG})
 endforeach()
 
 ### Customize compile process according to versions of 'main.f' for gfortran
@@ -59,7 +56,7 @@ if((NOT MSVC) AND (${First_Line_Of_Main_File} MATCHES "      include 'modparm.f'
     endif ()
     # Build main.f first which includes modparm.f (i.e., parm.mod)
     add_custom_command(OUTPUT main.o
-                       COMMAND ${CMAKE_Fortran_COMPILER} ${Compile_Flags_List} -ffixed-line-length-80 -c
+                       COMMAND ${CMAKE_Fortran_COMPILER} ${Compile_Flags_List} ${FLAG_L80} -c
                                ${CMAKE_CURRENT_SOURCE_DIR}/modparm.f ${CMAKE_CURRENT_SOURCE_DIR}/main.f)
     # Build other source files that depend on main.o
     foreach(SRCFILE ${F77SRCS} ${F90SRCS})
@@ -71,13 +68,13 @@ if((NOT MSVC) AND (${First_Line_Of_Main_File} MATCHES "      include 'modparm.f'
         endif()
         # Set compile flag according to Fortran line format. These should be consistent with settings above.
         if(${ext} STREQUAL ".f")
-            set(Format_Flag "-ffixed-line-length-80")
+            set(Format_Flag ${FLAG_L80})
         else()
-            set(Format_Flag "-ffree-line-length-none")
+            set(Format_Flag ${FLAG_LLONG})
         endif()
         list(FIND LEN72_SRCS ${CORENAME} _FOUND_LEN72)
         if(${_FOUND_LEN72} GREATER -1)
-            set(Format_Flag "-ffixed-line-length-72")
+            set(Format_Flag ${FLAG_L72})
         endif()
         add_custom_command(OUTPUT ${CORENAME}.o
                            COMMAND ${CMAKE_Fortran_COMPILER} ${Compile_Flags_List} ${Format_Flag} -c
@@ -102,10 +99,6 @@ set_target_properties(${swatexe} PROPERTIES
         )
 
 ### Set installation directory
-install(TARGETS ${swatexe} RUNTIME DESTINATION ${INSTALL_DIR})
+install(TARGETS ${swatexe} RUNTIME DESTINATION ${INSTALL_DIR}/bin)
 
-### For CLion to implement the "make install" command
-add_custom_target(install_${PROJECT_NAME}
-        $(MAKE) install
-        DEPENDS ${swatexe}
-        COMMENT "Installing ${PROJECT_NAME}")
+        

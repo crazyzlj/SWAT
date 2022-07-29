@@ -174,6 +174,7 @@
       real*8 :: sn1, sn2, snw1, snw2, schla, schlaw, sseci, sseciw
       real*8 :: spno3, spsolp, sporgn, sporgp, swno3, swsolp, sworgn
       real*8 :: sworgp, sub_ha, velsetlpnd
+	character (len=10), dimension(100):: lid_lus
 
       eof = 0
       spndfr = 0.
@@ -230,6 +231,7 @@
       read (104,5100,iostat=eof) titldum
       if (eof < 0) exit
       read (104,*,iostat=eof) spndfr
+      if (spndfr > 1.0) spndfr = 1.0   !!Srin Ohio
       if (eof < 0) exit
       read (104,*,iostat=eof) spndpsa
       if (eof < 0) exit
@@ -290,6 +292,7 @@
       read (104,5100,iostat=eof) titldum
       if (eof < 0) exit
       read (104,*,iostat=eof) swetfr
+      if (swetfr > 1.0) swetfr = 1.0   !!Srin Ohio
       if (eof < 0) exit
       read (104,*,iostat=eof) swetnsa
       if (eof < 0) exit
@@ -592,86 +595,96 @@
       do
       read (104,5100,iostat=eof) titldum
       read (104,5100,iostat=eof) titldum
+      read (104,*,iostat=eof) (lid_lus(k),k=1,mudb)
       if (eof < 0) exit
+	nlid(i)=1
+      do while (is_numeric(lid_lus(nlid(i)))== .TRUE.)
+ 		nlid(i)=nlid(i) + 1
+      END DO
+	nlid(i) = nlid(i) - 1
+	backspace(104)
+	backspace(104)
+      read (104,*,iostat=eof) (lid_lunam(i,k),k=1,nlid(i)) !urban landuse name listed in the *.lid file
+	
       !! Green Roof (gr)
-      read (104,*,iostat=eof) (gr_onoff(i,k),k=1,mudb)
-      read (104,*,iostat=eof) (gr_imo(i,k),k=1,mudb)
-      read (104,*,iostat=eof) (gr_iyr(i,k),k=1,mudb)
-      read (104,*,iostat=eof) (gr_farea(i,k),k=1,mudb)
-      read (104,*,iostat=eof) (gr_solop(i,k),k=1,mudb)
-      read (104,*,iostat=eof) (gr_etcoef(i,k),k=1,mudb)
-      read (104,*,iostat=eof) (gr_fc(i,k),k=1,mudb)
-      read (104,*,iostat=eof) (gr_wp(i,k),k=1,mudb)
-      read (104,*,iostat=eof) (gr_ksat(i,k),k=1,mudb)
-      read (104,*,iostat=eof) (gr_por(i,k),k=1,mudb)
-      read (104,*,iostat=eof) (gr_hydeff(i,k),k=1,mudb)
-      read (104,*,iostat=eof) (gr_soldpt(i,k),k=1,mudb)
-      read (104,*,iostat=eof) (gr_dummy1(i,k),k=1,mudb)
-      read (104,*,iostat=eof) (gr_dummy2(i,k),k=1,mudb)
-      read (104,*,iostat=eof) (gr_dummy3(i,k),k=1,mudb)
-      read (104,*,iostat=eof) (gr_dummy4(i,k),k=1,mudb)
-      read (104,*,iostat=eof) (gr_dummy5(i,k),k=1,mudb)
+      read (104,*,iostat=eof) (gr_onoff(i,k),k=1,nlid(i))
+      read (104,*,iostat=eof) (gr_imo(i,k),k=1,nlid(i))
+      read (104,*,iostat=eof) (gr_iyr(i,k),k=1,nlid(i))
+      read (104,*,iostat=eof) (gr_farea(i,k),k=1,nlid(i))
+      read (104,*,iostat=eof) (gr_solop(i,k),k=1,nlid(i))
+      read (104,*,iostat=eof) (gr_etcoef(i,k),k=1,nlid(i))
+      read (104,*,iostat=eof) (gr_fc(i,k),k=1,nlid(i))
+      read (104,*,iostat=eof) (gr_wp(i,k),k=1,nlid(i))
+      read (104,*,iostat=eof) (gr_ksat(i,k),k=1,nlid(i))
+      read (104,*,iostat=eof) (gr_por(i,k),k=1,nlid(i))
+      read (104,*,iostat=eof) (gr_hydeff(i,k),k=1,nlid(i))
+      read (104,*,iostat=eof) (gr_soldpt(i,k),k=1,nlid(i))
+      read (104,*,iostat=eof) (gr_dummy1(i,k),k=1,nlid(i))
+      read (104,*,iostat=eof) (gr_dummy2(i,k),k=1,nlid(i))
+      read (104,*,iostat=eof) (gr_dummy3(i,k),k=1,nlid(i))
+      read (104,*,iostat=eof) (gr_dummy4(i,k),k=1,nlid(i))
+      read (104,*,iostat=eof) (gr_dummy5(i,k),k=1,nlid(i))
       if (eof < 0) exit
       !! Rain Garden (rg)
-      read (104,*,iostat=eof) (rg_onoff(i,k),k=1,mudb)
-      read (104,*,iostat=eof) (rg_imo(i,k),k=1,mudb)
-      read (104,*,iostat=eof) (rg_iyr(i,k),k=1,mudb)
-      read (104,*,iostat=eof) (rg_farea(i,k),k=1,mudb)
-      read (104,*,iostat=eof) (rg_solop(i,k),k=1,mudb)
-      read (104,*,iostat=eof) (rg_etcoef(i,k),k=1,mudb)
-      read (104,*,iostat=eof) (rg_fc(i,k),k=1,mudb)
-      read (104,*,iostat=eof) (rg_wp(i,k),k=1,mudb)
-      read (104,*,iostat=eof) (rg_ksat(i,k),k=1,mudb)
-      read (104,*,iostat=eof) (rg_por(i,k),k=1,mudb)
-      read (104,*,iostat=eof) (rg_hydeff(i,k),k=1,mudb)
-      read (104,*,iostat=eof) (rg_soldpt(i,k),k=1,mudb)
-      read (104,*,iostat=eof) (rg_dimop(i,k),k=1,mudb)
-      read (104,*,iostat=eof) (rg_sarea(i,k),k=1,mudb)
-      read (104,*,iostat=eof) (rg_vol(i,k),k=1,mudb)
-      read (104,*,iostat=eof) (rg_sth(i,k),k=1,mudb)
-      read (104,*,iostat=eof) (rg_sdia(i,k),k=1,mudb)
-      read (104,*,iostat=eof) (rg_bdia(i,k),k=1,mudb)
-      read (104,*,iostat=eof) (rg_sts(i,k),k=1,mudb)
-      read (104,*,iostat=eof) (rg_orifice(i,k),k=1,mudb)
-      read (104,*,iostat=eof) (rg_oheight(i,k),k=1,mudb)
-      read (104,*,iostat=eof) (rg_odia(i,k),k=1,mudb)
-      read (104,*,iostat=eof) (rg_dummy1(i,k),k=1,mudb)
-      read (104,*,iostat=eof) (rg_dummy2(i,k),k=1,mudb)
-      read (104,*,iostat=eof) (rg_dummy3(i,k),k=1,mudb)
-      read (104,*,iostat=eof) (rg_dummy4(i,k),k=1,mudb)
-      read (104,*,iostat=eof) (rg_dummy5(i,k),k=1,mudb)
+      read (104,*,iostat=eof) (rg_onoff(i,k),k=1,nlid(i))
+      read (104,*,iostat=eof) (rg_imo(i,k),k=1,nlid(i))
+      read (104,*,iostat=eof) (rg_iyr(i,k),k=1,nlid(i))
+      read (104,*,iostat=eof) (rg_farea(i,k),k=1,nlid(i))
+      read (104,*,iostat=eof) (rg_solop(i,k),k=1,nlid(i))
+      read (104,*,iostat=eof) (rg_etcoef(i,k),k=1,nlid(i))
+      read (104,*,iostat=eof) (rg_fc(i,k),k=1,nlid(i))
+      read (104,*,iostat=eof) (rg_wp(i,k),k=1,nlid(i))
+      read (104,*,iostat=eof) (rg_ksat(i,k),k=1,nlid(i))
+      read (104,*,iostat=eof) (rg_por(i,k),k=1,nlid(i))
+      read (104,*,iostat=eof) (rg_hydeff(i,k),k=1,nlid(i))
+      read (104,*,iostat=eof) (rg_soldpt(i,k),k=1,nlid(i))
+      read (104,*,iostat=eof) (rg_dimop(i,k),k=1,nlid(i))
+      read (104,*,iostat=eof) (rg_sarea(i,k),k=1,nlid(i))
+      read (104,*,iostat=eof) (rg_vol(i,k),k=1,nlid(i))
+      read (104,*,iostat=eof) (rg_sth(i,k),k=1,nlid(i))
+      read (104,*,iostat=eof) (rg_sdia(i,k),k=1,nlid(i))
+      read (104,*,iostat=eof) (rg_bdia(i,k),k=1,nlid(i))
+      read (104,*,iostat=eof) (rg_sts(i,k),k=1,nlid(i))
+      read (104,*,iostat=eof) (rg_orifice(i,k),k=1,nlid(i))
+      read (104,*,iostat=eof) (rg_oheight(i,k),k=1,nlid(i))
+      read (104,*,iostat=eof) (rg_odia(i,k),k=1,nlid(i))
+      read (104,*,iostat=eof) (rg_dummy1(i,k),k=1,nlid(i))
+      read (104,*,iostat=eof) (rg_dummy2(i,k),k=1,nlid(i))
+      read (104,*,iostat=eof) (rg_dummy3(i,k),k=1,nlid(i))
+      read (104,*,iostat=eof) (rg_dummy4(i,k),k=1,nlid(i))
+      read (104,*,iostat=eof) (rg_dummy5(i,k),k=1,nlid(i))
       !! CiStern (CS)
-      read (104,*,iostat=eof) (cs_onoff(i,k),k=1,mudb)
-      read (104,*,iostat=eof) (cs_imo(i,k),k=1,mudb)
-      read (104,*,iostat=eof) (cs_iyr(i,k),k=1,mudb)
-      read (104,*,iostat=eof) (cs_grcon(i,k),k=1,mudb)
-      read (104,*,iostat=eof) (cs_farea(i,k),k=1,mudb)
-      read (104,*,iostat=eof) (cs_vol(i,k),k=1,mudb)
-      read (104,*,iostat=eof) (cs_rdepth(i,k),k=1,mudb)
-      read (104,*,iostat=eof) (cs_dummy1(i,k),k=1,mudb)
-      read (104,*,iostat=eof) (cs_dummy2(i,k),k=1,mudb)
-      read (104,*,iostat=eof) (cs_dummy3(i,k),k=1,mudb)
-      read (104,*,iostat=eof) (cs_dummy4(i,k),k=1,mudb)
-      read (104,*,iostat=eof) (cs_dummy5(i,k),k=1,mudb)
+      read (104,*,iostat=eof) (cs_onoff(i,k),k=1,nlid(i))
+      read (104,*,iostat=eof) (cs_imo(i,k),k=1,nlid(i))
+      read (104,*,iostat=eof) (cs_iyr(i,k),k=1,nlid(i))
+      read (104,*,iostat=eof) (cs_grcon(i,k),k=1,nlid(i))
+      read (104,*,iostat=eof) (cs_farea(i,k),k=1,nlid(i))
+      read (104,*,iostat=eof) (cs_vol(i,k),k=1,nlid(i))
+      read (104,*,iostat=eof) (cs_rdepth(i,k),k=1,nlid(i))
+      read (104,*,iostat=eof) (cs_dummy1(i,k),k=1,nlid(i))
+      read (104,*,iostat=eof) (cs_dummy2(i,k),k=1,nlid(i))
+      read (104,*,iostat=eof) (cs_dummy3(i,k),k=1,nlid(i))
+      read (104,*,iostat=eof) (cs_dummy4(i,k),k=1,nlid(i))
+      read (104,*,iostat=eof) (cs_dummy5(i,k),k=1,nlid(i))
       !! Porous paVement (PV)
-      read (104,*,iostat=eof) (pv_onoff(i,k),k=1,mudb)
-      read (104,*,iostat=eof) (pv_imo(i,k),k=1,mudb)
-      read (104,*,iostat=eof) (pv_iyr(i,k),k=1,mudb)
-      read (104,*,iostat=eof) (pv_farea(i,k),k=1,mudb)
-      read (104,*,iostat=eof) (pv_grvdep(i,k),k=1,mudb)
-      read (104,*,iostat=eof) (pv_grvpor(i,k),k=1,mudb)
-      read (104,*,iostat=eof) (pv_solop(i,k),k=1,mudb)
-      read (104,*,iostat=eof) (pv_drcoef(i,k),k=1,mudb)
-      read (104,*,iostat=eof) (pv_fc(i,k),k=1,mudb)
-      read (104,*,iostat=eof) (pv_wp(i,k),k=1,mudb)
-      read (104,*,iostat=eof) (pv_ksat(i,k),k=1,mudb)
-      read (104,*,iostat=eof) (pv_por(i,k),k=1,mudb)
-      read (104,*,iostat=eof) (pv_hydeff(i,k),k=1,mudb)
-      read (104,*,iostat=eof) (pv_dummy1(i,k),k=1,mudb)
-      read (104,*,iostat=eof) (pv_dummy2(i,k),k=1,mudb)
-      read (104,*,iostat=eof) (pv_dummy3(i,k),k=1,mudb)
-      read (104,*,iostat=eof) (pv_dummy4(i,k),k=1,mudb)
-      read (104,*,iostat=eof) (pv_dummy5(i,k),k=1,mudb)
+      read (104,*,iostat=eof) (pv_onoff(i,k),k=1,nlid(i))
+      read (104,*,iostat=eof) (pv_imo(i,k),k=1,nlid(i))
+      read (104,*,iostat=eof) (pv_iyr(i,k),k=1,nlid(i))
+      read (104,*,iostat=eof) (pv_farea(i,k),k=1,nlid(i))
+      read (104,*,iostat=eof) (pv_grvdep(i,k),k=1,nlid(i))
+      read (104,*,iostat=eof) (pv_grvpor(i,k),k=1,nlid(i))
+      read (104,*,iostat=eof) (pv_solop(i,k),k=1,nlid(i))
+      read (104,*,iostat=eof) (pv_drcoef(i,k),k=1,nlid(i))
+      read (104,*,iostat=eof) (pv_fc(i,k),k=1,nlid(i))
+      read (104,*,iostat=eof) (pv_wp(i,k),k=1,nlid(i))
+      read (104,*,iostat=eof) (pv_ksat(i,k),k=1,nlid(i))
+      read (104,*,iostat=eof) (pv_por(i,k),k=1,nlid(i))
+      read (104,*,iostat=eof) (pv_hydeff(i,k),k=1,nlid(i))
+      read (104,*,iostat=eof) (pv_dummy1(i,k),k=1,nlid(i))
+      read (104,*,iostat=eof) (pv_dummy2(i,k),k=1,nlid(i))
+      read (104,*,iostat=eof) (pv_dummy3(i,k),k=1,nlid(i))
+      read (104,*,iostat=eof) (pv_dummy4(i,k),k=1,nlid(i))
+      read (104,*,iostat=eof) (pv_dummy5(i,k),k=1,nlid(i))
       close (104)
       exit
       end do
@@ -768,10 +781,19 @@
       !! Set default values for urban BMP parameters
       if (ievent > 0) then
         call bmpinit
-        call lidinit
       endif
             
       return
  5100 format (a)
  5101 format(a13)   
-      end
+	end
+	
+	FUNCTION is_numeric(string)
+	  IMPLICIT NONE
+	  CHARACTER(len=*), INTENT(IN) :: string
+	  LOGICAL :: is_numeric
+	  REAL :: x
+	  INTEGER :: e
+	  READ(string,*,IOSTAT=e) x
+	  is_numeric = e == 0
+      END FUNCTION is_numeric

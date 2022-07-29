@@ -36,5 +36,6 @@
       else 
            icl = id - ndays(i_mo)
       end if
+      if (icl > 31) icl = 31
       return
       end

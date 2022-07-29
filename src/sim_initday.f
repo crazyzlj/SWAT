@@ -251,6 +251,9 @@
 	sub_rspc_d =0.
       !!add by zhang
       !!==========================
-	
+	lid_str_curday = 0. !lid storage initialization
+      lid_sw_add = 0.
+	lid_qsurf_curday = 0.
+
       return
       end

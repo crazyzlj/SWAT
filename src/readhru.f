@@ -144,11 +144,14 @@
       if (eof < 0) exit
       read (108,*,iostat=eof) erorgp(ihru) 
       if (eof < 0) exit
-      read (108,*,iostat=eof) pot_fr(ihru) 
+      read (108,*,iostat=eof) pot_fr(ihru)
+      if (pot_fr(ihru) > 1.0) pot_fr(ihru) = 1.0   !!Srin Ohio
       if (eof < 0) exit
       read (108,*,iostat=eof) fld_fr(ihru) 
+      if (fld_fr(ihru) > 1.0) fld_fr(ihru) = 1.0   !!Srin Ohio
       if (eof < 0) exit
-      read (108,*,iostat=eof) rip_fr(ihru) 
+      read (108,*,iostat=eof) rip_fr(ihru)
+      if (rip_fr(ihru) > 1.0) rip_fr(ihru) = 1.0   !!Srin Ohio
       if (eof < 0) exit
       read (108,5100,iostat=eof) titldum
       if (eof < 0) exit

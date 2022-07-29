@@ -616,6 +616,12 @@
       
 !!    sediment routing output file
       open (84,file="output.sed",recl=800)
+      
+!! write headings to output file (output.sed)
+!      write (84,7000) prog, values(2), values(3), values(1), values(5), 
+!     &               values(6), values(7)
+!      write (84,7010) title
+     
 !! write headings to sediment outputfile (output.sed)
       write (84,1080)
 1080  format (t10,'RCH',t17,'GIS',t23,'MON',t31,'AREAkm2',               
@@ -775,4 +781,7 @@
  5100 format (20a4)
  5101 format (a80)
  5102 format (3a5,30a15)
+ 
+ !7000 format ('1',/t5,a80,t105,2(i2,'/'),i4,5x,2(i2,':'),i2)
+ !7010 format (/(t5,20a4))
       end

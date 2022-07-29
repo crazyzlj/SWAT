@@ -244,13 +244,15 @@
              susp = 1.
           endif
                
-          pnd_sed(k) = (sed * vol + susp * pndsedin) / pnd_vol(k)
-          pnd_san(k) = (san * vol + pndsanin) / pnd_vol(k)
-          pnd_sil(k) = (sil * vol + pndsilin) / pnd_vol(k)
-          pnd_cla(k) = (cla * vol + pndclain) / pnd_vol(k)
-          pnd_sag(k) = (sag * vol + pndsagin) / pnd_vol(k)
-          pnd_lag(k) = (lag * vol + pndlagin) / pnd_vol(k)
-
+          if (pnd_vol(k) > 0.1) then 
+            pnd_sed(k) = (sed * vol + susp * pndsedin) / pnd_vol(k)
+            pnd_san(k) = (san * vol + pndsanin) / pnd_vol(k)
+            pnd_sil(k) = (sil * vol + pndsilin) / pnd_vol(k)
+            pnd_cla(k) = (cla * vol + pndclain) / pnd_vol(k)
+            pnd_sag(k) = (sag * vol + pndsagin) / pnd_vol(k)
+            pnd_lag(k) = (lag * vol + pndlagin) / pnd_vol(k)
+          end if 
+          
           !! compute final pond volume
           pnd_vol(k) = pnd_vol(k) - pndflwo
           if (pnd_vol(k) < 0.) then
@@ -325,10 +327,12 @@
           endif
           phosk = 0.
           nitrok = 0.
-          phosk = psetlp(iseas,k) * pndsa * 10000. / pnd_vol(k)  !setl/mean depth
-          phosk = Min(phosk, 1.)
-          nitrok = nsetlp(iseas,k) * pndsa * 10000. / pnd_vol(k) !setl/mean depth
-          nitrok = Min(nitrok, 1.)
+          if (pnd_vol(k) > 1.e-6) then 
+            phosk = psetlp(iseas,k) * pndsa * 10000. / pnd_vol(k)  !setl/mean depth
+            phosk = Min(phosk, 1.)
+            nitrok = nsetlp(iseas,k) * pndsa * 10000. / pnd_vol(k) !setl/mean depth
+            nitrok = Min(nitrok, 1.)
+          end if 
 
           !! remove nutrients by settling
           !! other part of equation 29.1.3 in SWAT manual

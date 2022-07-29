@@ -78,6 +78,7 @@
       use parm
 
       character (len=1) :: a
+      !character (len=20) :: tmp     !! Jaehak change 02/2022
       integer :: k, kk1, kk2, iyp, idap, l, inum3sprev, ii
       integer :: ihour, imin, flag
       real*8 :: rbsb
@@ -117,6 +118,7 @@
             end if
 
             !! read data from file
+		  !read(100+k,'(a20)')tmp                            !!Jaehak change 02/2022
             if (ifirstpcp(k) == 0) then
               read (100+k,5000) (rmeas(l), l = kk1, kk2)
             else
@@ -304,8 +306,8 @@
 
 
       return
- 5000 format (7x,1800f5.1)
- 5100 format (i4,i3,1800f5.1)
+ 5000 format (7x,1800f5.1)           !! SWAT2012 Code 
+ 5100 format (i4,i3,1800f5.1)        !! SWAT2012 Code
  5200 format (i4,i3,i2,1x,i2,300f6.2)
  5201 format (i4,i3,5x,300f5.1)
  5202 format (i4,i3,i2,a1,i2,300f6.2)

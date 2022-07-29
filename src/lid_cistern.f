@@ -1,4 +1,4 @@
-      subroutine lid_cistern(sb,j,k,lid_prec)
+      subroutine lid_cistern(sb,j,k,jj,lid_prec)
 
 !!    ~ ~ ~ PURPOSE ~ ~ ~
 !!    Simulate cistern processes
@@ -9,6 +9,7 @@
 !!    sb               |none          |Subbasin number
 !!    j                |none          |HRU number
 !!    k                |none          |Subdaily time index
+!!    jj               |none          |LID index in *.lid files
 !!    lid_prec         |mm            |Precipitation depth a LID receives in a simulation time interval
 !!    idt              |minutes       |Simulation time interval for sub-daily modeling
 !!    ihru             |none          |HRU number
@@ -26,11 +27,9 @@
 !!    ~ ~ ~ LOCAL DEFINITIONS ~ ~ ~
 !!    name             |units         |definition
 !!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
-!!    jj               |none          |Urban land type identification number from
-!!                                    |urban.dat
 !!    dt               |hour          |Time interval in hours
 !!    lid_cumr         |mm H2O        |Cumulative amount of rainfall a LID receives in a time interval
-!!    Cumulative amount of rainfall a LID receives in a time interval        |mm H2O        |Cumulative amount of excess rainfall at a time step in a day
+!!    Cumulative amount of rainfall a LID receives in a time interval   
 !!    lid_exinc        |mm H2O        |Amount of excess rainfall
 !!    lid_str          |m3            |Volume of stored water in the cistern
 !!    lid_vbypass      |m3            |Volume of flow bypassing the cistern
@@ -46,76 +45,35 @@
       use parm
       implicit none
       
-      integer :: jj,sb,j,k,temp_count
+      integer, intent(in) :: sb,j,k,jj
       real*8 :: lid_str,lid_vbypass,lid_bypass,lid_irr,lid_vol,
      & lid_cumirr
       real*8 :: lid_prec
       
-      jj = urblu(j)
-      
-      lid_vol = cs_vol(sb,jj)         ! commented out for testing
-      if (lid_vol <= 0) then
-        lid_vol = (cs_rdepth(sb,jj) / 1000.) *
-     &  (lid_farea(j,3) * fcimp(urblu(j)) * hru_ha(j) * 10000.)         ! for testing, assuming the storage can handle excess rainfall of 2.5 mm
-      end if
-      
-      lid_str = lid_str_last(j,3)
-      lid_cumirr = lid_cumirr_last(j,3)
+	
+      lid_vol = cs_vol(sb,jj)         ! m3 volume for this HRU
       lid_bypass = 0.
       
-      if (hrnopcp(sb,k-1) > 96) then ! four days
-          lid_irr = 0.3 * lid_vol / nstep     ! assumming 30% of water storage of a cistern in a day
-      else
-          lid_irr = 0.
-      end if
-      
       if (cs_grcon(sb,jj)==0) then
-        lid_str = lid_str_last(j,3) + (lid_prec / 1000.) *
-     &  (lid_farea(j,3) * fcimp(urblu(j)) * hru_ha(j) * 10000.)           ! m3
+        lid_str = lid_prec * lid_farea(j,3) * fcimp(urblu(j)) 
+     &	* hru_ha(j) * 10.           ! m3
       else
-        lid_str = lid_str_last(j,3) + (lid_prec / 1000.) *
-     &  (hru_ha(j) * 10000.)                                              ! m3
+        lid_str = lid_prec * hru_ha(j) * 10.    ! m3
       end if
-            
-      if (lid_str > lid_vol) then
-          lid_vbypass = lid_str - lid_vol ! assuming water stored in a cistern is used 
-          lid_str = lid_vol
-          lid_bypass = lid_vbypass / 
-     & (hru_ha(j) * 10000.) * 1000.  ! mm
-!     & (lid_farea(j,3) * fcimp(urblu(j)) * hru_ha(j) * 10000.) * 1000.  ! mm
+	
+      if (lid_str_last(j,3)+lid_str > lid_vol) then
+          lid_vbypass = lid_str_last(j,3) + lid_str - lid_vol  
+          lid_str_last(j,3) = lid_vol
+		lid_str = max(0.,lid_str - lid_vbypass)
+          lid_bypass = lid_vbypass / (10. * hru_ha(j))   ! m3 to mm
       else
           lid_vbypass = 0.
+		lid_str_last(j,3) = lid_str_last(j,3) + lid_str !Current storage volume, m3
       end if
       
-      lid_qsurf(j,3) = lid_bypass
-      
-!! begin temporary
-!      if (k == nstep+1) then
-!     if (sb == 1) then
-!        if (jj == 14) then
-!        if (j == 1) then
-!          write (3333333,'(5f12.4)') lid_prec,lid_str,lid_irr,
-!     & lid_bypass,lid_qsurf(j,3)
-!        end if
-!      end if
-!      end if
-!! end temporary
-        
-      lid_str = lid_str - lid_irr
-      if (lid_str < 0) then
-        lid_str = 0.
-        lid_irr = lid_str
-      end if
+      lid_str_curday(j,3) = lid_str_curday(j,3) + lid_str !cumulative storage volume for the day, m3
+	lid_qsurf(j,3) = lid_bypass !mm
+	lid_qsurf_curday(j,3) = lid_qsurf_curday(j,3) + lid_qsurf(j,3) !mm
 
-      lid_cumirr = lid_cumirr + lid_irr
-      
-      if (k == nstep+1) then
-          lid_sw_add(j,3) = lid_cumirr / (hru_ha(j) * 10000.) * 1000.
-          lid_cumirr = 0.
-      end if
-      
-      lid_cumirr_last(j,3) = lid_cumirr
-      lid_str_last(j,3) = lid_str
-        
       return
       end subroutine
