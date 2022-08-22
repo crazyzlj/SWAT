@@ -127,7 +127,7 @@ SET_COMPILE_FLAG(CMAKE_Fortran_FLAGS_TESTING "${CMAKE_Fortran_FLAGS_TESTING}"
 
 # Unroll loops
 SET_COMPILE_FLAG(CMAKE_Fortran_FLAGS_RELEASE "${CMAKE_Fortran_FLAGS_RELEASE}"
-                 Fortran "-funroll-loops" # GNU
+                 Fortran "-funroll-loops" # gfortran, flang,... 
                          "-unroll"        # Intel
                          "-Munroll"       # Portland Group
                          "-h unroll2"     # Cray
@@ -137,7 +137,7 @@ SET_COMPILE_FLAG(CMAKE_Fortran_FLAGS_RELEASE "${CMAKE_Fortran_FLAGS_RELEASE}"
 # Inline functions
 SET_COMPILE_FLAG(CMAKE_Fortran_FLAGS_RELEASE "${CMAKE_Fortran_FLAGS_RELEASE}"
                  Fortran "-inline"            # Intel
-                         "-finline-functions" # GNU
+                         "-finline-functions" # GNU, flang
                          "-Minline"           # Portland Group
                          "-h fusion1"         # Cray max is 2
                          "/Qinline"           # Intel Windows
@@ -146,7 +146,7 @@ SET_COMPILE_FLAG(CMAKE_Fortran_FLAGS_RELEASE "${CMAKE_Fortran_FLAGS_RELEASE}"
 # Interprocedural (link-time) optimizations
 SET_COMPILE_FLAG(CMAKE_Fortran_FLAGS_RELEASE "${CMAKE_Fortran_FLAGS_RELEASE}"
                  Fortran "-ipo"     # Intel
-                         "-flto"    # GNU
+                         "-flto"    # GNU, flang
                          "-Mipa"    # Portland Group
                          "-h ipa2"  # Cray max is 5
                          "/Qipo"    # Intel Windows
