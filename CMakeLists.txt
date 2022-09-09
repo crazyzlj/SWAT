@@ -84,6 +84,8 @@ ELSEIF(${CMAKE_Fortran_COMPILER_ID} MATCHES "GNU")
     SET(TOOL_CHAIN "gfort")
 ELSEIF(${CMAKE_Fortran_COMPILER_ID} MATCHES "Intel")
     SET(TOOL_CHAIN "ifort")
+ELSEIF(${CMAKE_Fortran_COMPILER_ID} MATCHES "Flang")
+    SET(TOOL_CHAIN "flang")
 ENDIF()
 
 ### Break in case of popular CMake configuration mistakes.
