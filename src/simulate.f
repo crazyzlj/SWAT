@@ -164,7 +164,7 @@
 
           !screen print days of the year for subdaily runs 
           !if (ievent>0) then
-            write(*,'(3x,I5,a6,i4)') iyr,'  day:', iida
+            !write(*,'(3x,I5,a6,i4)') iyr,'  day:', iida
           !endif
          
           !!if last day of month 
