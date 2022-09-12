@@ -206,7 +206,7 @@
           do ii = 1, itotr
             pdvr(ii) = pdvar(ipdvar(ii))
           end do
-          if (iscen == 1 .and. isproj == 0) then
+          if (iscen == 1 .and. isproj == 0 .or. isproj == 3) then
           write (7,5000) j, subgis(j), years, rch_dakm(j),              
      &                                    (pdvr(ii), ii = 1, itotr)
           else if (isproj == 1) then

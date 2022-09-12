@@ -771,7 +771,8 @@
 !!    arrays which contain data related to years of rotation,
 !!    applications, and HRUs
       allocate (auto_wstr(mhru))
-!! burn 3/5/09   
+      allocate (irr_daymin(mhru))
+      allocate (irr_daycur(mhru))
      
       allocate (cfrt_id(mhru))
       allocate (cfrt_kg(mhru))

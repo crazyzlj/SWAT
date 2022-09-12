@@ -88,8 +88,15 @@
       irrno(j) = irr_noa(j)
 !!!! Srin's irrigation source by each application changes
 
-      if ((wstrs_id(j) == 1 .and. strsw(j) < auto_wstr(j) .or.          
-     & (wstrs_id(j)==2.and.sol_sumfc(j)-sol_sw(j)>auto_wstr(j)))) then  
+      if ((wstrs_id(j) == 3) .or.
+     & (wstrs_id(j) == 1 .and. strsw(j) < auto_wstr(j)) .or.          
+     & (wstrs_id(j)==2.and.sol_sumfc(j)-sol_sw(j)>auto_wstr(j))) then
+      !! check minimum days between irrigation
+        if (irr_daymin(j) /= irr_daycur(j)) then
+          irr_daycur(j) = irr_daycur(j) + 1
+        else
+          irr_daycur(j) = 1
+          
         !! determine available amount of water in source
         !! ie upper limit on water removal on day
         vmma = 0.
@@ -191,6 +198,7 @@
        
         endif
       end if 
+      end if
         
 1000  format (a5,1x,a4,3i6,1x,e10.5,1x,2a15,7f10.2,10x,f10.2,70x,i10,
      * 10x,i10) 

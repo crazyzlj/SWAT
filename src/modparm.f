@@ -2,7 +2,7 @@
       integer icalen
       real*8 :: prf_bsn
       
-      character(len=255) :: cwd
+!!      character(len=255) :: cwd
             
 !!    srin - co2 (EPA)
       real*8 :: co2_x2, co2_x
@@ -526,7 +526,7 @@
       real*8, dimension (:), allocatable :: irrsq, irrefm, irrsalt
       real*8, dimension (:), allocatable :: bio_eat, bio_trmp             !!NUBZ
       integer, dimension (:), allocatable :: ifrt_freq,ipst_freq,irr_noa
-      integer, dimension (:), allocatable :: irr_sc,irr_no
+      integer, dimension (:), allocatable :: irr_sc,irr_no,irr_daymin,irr_daycur
       integer, dimension (:), allocatable :: imp_trig, fert_days,irr_sca
       integer, dimension (:), allocatable :: pest_days, idplt, wstrs_id
       real*8, dimension (:,:), allocatable :: bio_aahv
