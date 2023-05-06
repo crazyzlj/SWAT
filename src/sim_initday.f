@@ -166,6 +166,7 @@
       sub_qd = 0.
       sub_sedpa = 0.
       sub_sedps = 0.
+      sub_salt = 0. !! salt Srini
 
       sub_sedy = 0.
 	sub_dsan = 0.

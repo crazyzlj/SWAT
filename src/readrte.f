@@ -138,10 +138,33 @@
       if (eof < 0) exit
       read (103,*,iostat=eof) spexp(irch)
       if (eof < 0) exit
+      read (103,5100,iostat=eof) (sub_saltmo(irch,mo), mo = 1,12) !! Salt conc vary by month Srini
+	  if (eof < 0) exit
+	read (103,*,iostat=eof) saltdr(irch) !! Salt delivery ratio Srini
+	  if (eof < 0) exit
+
+      !added for Srini 11_1_22
+      !tmp_win1/tmpwin2 == temp constant/coef for winter months (Dec-Feb)
+      !tmp_spr1/tmpspr2 == temp constant/coef for spring months (Jun-Aug)
+      !tmp_sum1/tmpsum2 == temp constant/coef for summer months (Mar-May)
+      !tmp_fal1/tmpfal2 == temp constant/coef for fall months (Sep-Nov)
+      read (103,*,iostat=eof) tmp_win1(irch), tmp_win2(irch), 
+     &  tmp_spr1(irch), tmp_spr2(irch),        
+     &  tmp_sum1(irch), tmp_sum2(irch), tmp_fal1(irch), tmp_fal2(irch)
+      if (eof < 0) exit
       exit
       end do
 
 !!    set default values for parameters
+      if (tmp_win1(irch) <= 0.) tmp_win1(irch)=5.0
+      if (tmp_win2(irch) <= 0.) tmp_win2(irch)=0.75
+      if (tmp_spr1(irch) <= 0.) tmp_spr1(irch)=5.0
+      if (tmp_spr2(irch) <= 0.) tmp_spr2(irch)=0.75
+      if (tmp_sum1(irch) <= 0.) tmp_sum1(irch)=5.0
+      if (tmp_sum2(irch) <= 0.) tmp_sum2(irch)=0.75
+      if (tmp_fal1(irch) <= 0.) tmp_fal1(irch)=5.0
+      if (tmp_fal2(irch) <= 0.) tmp_fal2(irch)=0.75
+      
 !!     if (tc_bnk(irch) <= 1.e-6) tc_bnk(irch) = 0.001
 !!     if (tc_bed(irch) <= 1.e-6) tc_bed(irch) = 0.001
       if (ch_s(2,irch) <= 0.) ch_s(2,irch) = .0001
@@ -155,6 +178,7 @@
       if (prf(irch) <= 0.) prf(irch) = prf_bsn
       if (spcon(irch) <= 0.) spcon(irch) = spcon_bsn
       if (spexp(irch) <= 0.) spexp(irch) = spexp_bsn
+      if (saltdr(irch) <= 0.) saltdr(irch) = 0.0 !! salt srini
 
       if (ch_eqn(irch) <= 0) then
         ch_eqn(irch)=0 !! SWAT Default sediment routing routine

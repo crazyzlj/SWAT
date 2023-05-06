@@ -108,8 +108,8 @@
         if (iprint /= 3) then
          if (icalen == 0) write (7,1040) (hedr(ipdvar(j)), j = 1, itotr)  !! daily/monthly output - julian day
          if (icalen == 1) write (7,1042) (hedr(ipdvar(j)), j = 1, itotr)  !! daily output - calendar day
- 1042 format (//7x,'RCH      GIS  MO DA   YR     AREAkm2',56a12)
-
+ 1042 format (//7x,'RCH      GIS  MO DA   YR     AREAkm2',58a12)
+        
 	  else
 	    write (7,1041) (hedr(ipdvar(j)), j = 1, itotr)  !! subdaily output
 	  endif
@@ -200,7 +200,7 @@
  1021  format (//'LULC  HRU       GIS  SUB  MGT MO DA   YR',
      &'   AREAkm2', 79(a10))
  1030 format (//6x,' SUB      GIS  MON   AREAkm2',24(a10))
- 1040 format (//7x,'RCH      GIS   MON     AREAkm2',56a12)
+ 1040 format (//7x,'RCH      GIS   MON     AREAkm2',58a12)
  1041 format (//7x,'RCH      GIS   DAY   DET     AREAkm2',56a12)
  1050 format (//6x,'     RES  MON',41a12)
  1060 format (//6x,'RCH GIS  MON',26a12)

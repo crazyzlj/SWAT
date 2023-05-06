@@ -53,13 +53,23 @@
       allocate (co_p(mhru))      
       
 !! initialize variables    
-      mvaro = 33
+      mvaro = 45    !!!! salty dog +1
       mhruo = 79
-      mrcho = 62
+      mrcho = 74 !!modified from 62 for salt - srini   +1 salty dog
       msubo = 24
       mstdo = 113
       motot = 1200    !!! 100 year limit
-   
+      
+!! Srini 11_1_22
+      allocate (tmp_win1(mhru))
+      allocate (tmp_win2(mhru))
+      allocate (tmp_sum1(mhru))
+      allocate (tmp_sum2(mhru))
+      allocate (tmp_spr1(mhru))
+      allocate (tmp_spr2(mhru))
+      allocate (tmp_fal1(mhru))
+      allocate (tmp_fal2(mhru))
+        
       allocate (tilep(mhru))
       allocate (surlag(mhru))
       allocate (cdn(mhru))
@@ -340,7 +350,9 @@
       allocate (icolr(mrcho))
 !     allocate (ipdvar(mrcho))
 !!  increased ipdvar(42) to 45 to add Total N/Total P/NO3conc(mg/l)
-      allocate (ipdvar(46))    
+!!  increased ipdvar(46) to 56 to add salt - srini
+!!  increased ipdvar(56) to 58 to add sar and ec - Katrin
+      allocate (ipdvar(58))    
       allocate (rchaao(mrcho,mxsubch))  
       allocate (rchdy(mrcho,mxsubch))  
       allocate (rchmono(mrcho,mxsubch))  
@@ -1704,6 +1716,18 @@
 	allocate (bmp_pn(mhru)) 	
 	allocate (bmp_sn(mhru))	
 	allocate (bmp_bac(mhru))
+	
+	!! **salt**
+      allocate (bmp_salt(mhru))
+      allocate (sub_salt(10,msub))
+      allocate (salt_flag(20,mhru))
+      allocate (sro_salt(20,mhru,10))
+      allocate (slt_salt(20,mhru,10))
+      allocate (gw_salt(20,mhru,10))
+      allocate (tile_salt(20,mhru,10))
+      allocate (sub_saltmo(mch,12))
+      allocate (saltdr(mch))
+      !! **salt**
       
       allocate (bmp_flos(mhru))
 	allocate (bmp_seds(mhru))

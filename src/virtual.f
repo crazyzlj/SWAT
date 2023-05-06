@@ -261,7 +261,7 @@
       use parm
 
       integer :: j, sb, kk, ii
-      real*8 :: cnv, sub_ha, wtmp, baseflw, bf_fr,hr
+      real*8 :: cnv, sub_ha, baseflw, bf_fr,hr
       real*8 :: sub_hwyld(nstep), hqd(4*nstep), hsd(4*nstep),
      &	hqdtst(nstep)   ! hqd, hsd locally defined. J.Jeong 4/26/2009
 
@@ -335,6 +335,18 @@
         sedminpa(j) = dmax1(1.e-12_8,sedminpa(j))
         sedminps(j) = dmax1(1.e-12_8,sedminps(j))
         
+        !! subbasin average:  salt Srini
+        do ii = 1, 10
+        if (bmp_salt(j) > 0) then
+          iops = bmp_salt(j)       !! kg = ppm*m^3/1000.
+          sub_salt(ii,sb) = sub_salt(ii,sb) + sub_saltmo(sb,i_mo) *
+     &          (sro_salt(iops,j,ii) * qday +
+     &        slt_salt(iops,j,ii) * latq(j) +
+     &        gw_salt(iops,j,ii) * gw_q(j) +
+     &        tile_salt(iops,j,ii) * qtile) * hru_fr(j) / 1000.
+        end if
+        end do
+        
 
       !! subbasin averages: nutrients
         if (latno3(j) < 1.e-6) latno3(j) = 0.0
@@ -377,8 +389,8 @@
       !! subbasin averages: water temperature
       !! Stefan and Preudhomme. 1993.  Stream temperature estimation
       !! from air temperature.  Water Res. Bull. p. 27-45
-        wtmp = 0.
-        wtmp = 5.0 + 0.75 * tmpav(j)
+        call temparms
+        !wtmp = 5.0 + 0.75 * tmpav(j)
         sub_wtmp(sb) = sub_wtmp(sb) + wtmp * qdr(j) * hru_fr(j)
 
       !! subbasin averages used in subbasin sediment calculations
@@ -565,7 +577,12 @@
          varoute(30,ihout) = sub_latq(sb) * sub_ha * 10.   !! lateral flow
          varoute(31,ihout) = sub_tileq(sb) * sub_ha * 10.  !! tile flow
          varoute(32,ihout) = sub_gwq(sb) * sub_ha * 10.    !! groundwater flow 
-         !! varoute array has space for 33 different routing components
+         do ii = 1, 10
+            !!varoute(33+ii,ihout) = sub_salt(ii,sb)                !! Salt Srini
+            varoute(33+ii,ihout) = sub_salt(ii,sb) * sub_ha * 10.   !! SS 6/10/21
+         end do
+         
+         !! varoute array has space for 43 different routing components
 
          !! sum variables for hyd.out
          do ii = 1, 6

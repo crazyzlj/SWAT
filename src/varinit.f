@@ -320,6 +320,7 @@
         wetsedi = 0.
         wetsedo = 0.
         wetsep = 0.
+        yield = 0.
         
 	!! urban modeling by J.Jeong
 	  sedprev = 0.

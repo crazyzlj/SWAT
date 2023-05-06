@@ -215,6 +215,79 @@
 		ro_bmp_pnt(iops,ihru) = mgt21   !! Particulate N
 		ro_bmp_snt(iops,ihru) = mgt22   !! Soluble N
 		ro_bmp_bact(iops,ihru) = mgt23  !! Bacteria
+		
+		case (11) !! Generic Salt concentration loading from HRU through various pathways Srini
+	!! Get user defined salt loading -- Srini
+		salt_flag(iops,ihru) = mgt1i  !! Flag to turn on or off user Salt modeling, specify # of salt constituents
+		bmp_salt(ihru) = iops
+ 
+      !! surface runoff salt concentrations
+        sro_salt(iops,ihru,1) = mgt3    !! Salt conc constituent 1
+		sro_salt(iops,ihru,2) = mgt4    !! Salt conc constituent 2
+		sro_salt(iops,ihru,3) = mgt5     !! Salt conc constituent 3
+		sro_salt(iops,ihru,4) = mgt6     !! Salt conc constituent 4
+		sro_salt(iops,ihru,5) = mgt7     !! Salt conc constituent 5
+		sro_salt(iops,ihru,6) = mgt8     !! Salt conc constituent 6
+		sro_salt(iops,ihru,7) = mgt9    !! Salt conc constituent 7
+		sro_salt(iops,ihru,8) = mgt10    !! Salt conc constituent 8
+		sro_salt(iops,ihru,9) = mgt11    !! Salt conc constituent 9
+		sro_salt(iops,ihru,10) = mgt12    !! Salt conc constituent 10
+		
+		read (111,5200,iostat=eof) mon, day, iyear, mgt_op, mgt1i,    
+     & mgt2i, mgt3, mgt4, mgt5, mgt6, mgt7, mgt8, mgt9, mgt10, mgt11,
+     & mgt12, mgt13, mgt14, mgt15, mgt16, mgt17, mgt18, mgt19, mgt20,
+     & mgt21, mgt22, mgt23 
+	    if (eof < 0) exit
+		
+      !! subsurface - lateral flow salt concentration         
+        slt_salt(iops,ihru,1) = mgt3    !! Salt conc constituent 1
+		slt_salt(iops,ihru,2) = mgt4    !! Salt conc constituent 2
+		slt_salt(iops,ihru,3) = mgt5     !! Salt conc constituent 3
+		slt_salt(iops,ihru,4) = mgt6     !! Salt conc constituent 4
+		slt_salt(iops,ihru,5) = mgt7     !! Salt conc constituent 5
+		slt_salt(iops,ihru,6) = mgt8     !! Salt conc constituent 6
+		slt_salt(iops,ihru,7) = mgt9    !! Salt conc constituent 7
+		slt_salt(iops,ihru,8) = mgt10    !! Salt conc constituent 8
+		slt_salt(iops,ihru,9) = mgt11    !! Salt conc constituent 9
+		slt_salt(iops,ihru,10) = mgt12    !! Salt conc constituent 10
+		
+		read (111,5200,iostat=eof) mon, day, iyear, mgt_op, mgt1i,    
+     & mgt2i, mgt3, mgt4, mgt5, mgt6, mgt7, mgt8, mgt9, mgt10, mgt11,
+     & mgt12, mgt13, mgt14, mgt15, mgt16, mgt17, mgt18, mgt19, mgt20,
+     & mgt21, mgt22, mgt23 
+	    if (eof < 0) exit
+      
+      !! gw - groundwater flow salt concentration       
+        gw_salt(iops,ihru,1) = mgt3    !! Salt conc constituent 1
+		gw_salt(iops,ihru,2) = mgt4    !! Salt conc constituent 2
+		gw_salt(iops,ihru,3) = mgt5     !! Salt conc constituent 3
+		gw_salt(iops,ihru,4) = mgt6     !! Salt conc constituent 4
+		gw_salt(iops,ihru,5) = mgt7     !! Salt conc constituent 5
+		gw_salt(iops,ihru,6) = mgt8     !! Salt conc constituent 6
+		gw_salt(iops,ihru,7) = mgt9    !! Salt conc constituent 7
+		gw_salt(iops,ihru,8) = mgt10    !! Salt conc constituent 8
+		gw_salt(iops,ihru,9) = mgt11    !! Salt conc constituent 9
+		gw_salt(iops,ihru,10) = mgt12    !! Salt conc constituent 10
+		
+		read (111,5200,iostat=eof) mon, day, iyear, mgt_op, mgt1i,    
+     & mgt2i, mgt3, mgt4, mgt5, mgt6, mgt7, mgt8, mgt9, mgt10, mgt11,
+     & mgt12, mgt13, mgt14, mgt15, mgt16, mgt17, mgt18, mgt19, mgt20,
+     & mgt21, mgt22, mgt23 
+	    if (eof < 0) exit
+		
+      !! tile flow salt concentration   
+        tile_salt(iops,ihru,1) = mgt3    !! Salt conc constituent 1
+		tile_salt(iops,ihru,2) = mgt4    !! Salt conc constituent 2
+		tile_salt(iops,ihru,3) = mgt5     !! Salt conc constituent 3
+		tile_salt(iops,ihru,4) = mgt6     !! Salt conc constituent 4
+		tile_salt(iops,ihru,5) = mgt7     !! Salt conc constituent 5
+		tile_salt(iops,ihru,6) = mgt8     !! Salt conc constituent 6
+		tile_salt(iops,ihru,7) = mgt9    !! Salt conc constituent 7
+		tile_salt(iops,ihru,8) = mgt10    !! Salt conc constituent 8
+		tile_salt(iops,ihru,9) = mgt11    !! Salt conc constituent 9
+		tile_salt(iops,ihru,10) = mgt12    !! Salt conc constituent 10
+		
+
           
           end select
           end do

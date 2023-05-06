@@ -596,7 +596,7 @@
      &    /,t20,'ORGANIC P =  ',f8.3,' (KG/HA)',/,t20,                  
      &    'NO3 YIELD (SQ) =  ',f8.3,' (KG/HA)',/,t20,                   
      &    'NO3 YIELD (LAT) = ',f8.3,' (KG/HA)',                         
-     &    /,t20,'NO3 YIELD (TILE) = ', f8.3,' (KG/HA)', 
+     &    /,t20,'NO3 YIELD (TILE) = ', f10.3,' (KG/HA)', 
      &    /,t20,'SOLP YIELD (TILE) = ', f8.3, '(KG/HA)',
      &    /,t20,'SOLP YIELD (SURF INLET RISER) = ', f8.3,
      &    ' (KG/HA)',     
@@ -616,7 +616,8 @@
      &    'HUMUS MIN ON ACTIVE ORG P = ',f8.3,' (KG/HA)',/,t20,         
      &    'MIN FROM FRESH ORG N = ',f8.3,' (KG/HA)',/,t20,              
      &    'MIN FROM FRESH ORG P = ',f8.3,' (KG/HA)')
- 3000 format (t20,'NO3 IN RAINFALL =  ',f8.3,' (KG/HA)',/,t20,          
+ !3000 format (t20,'NO3 IN RAINFALL =  ',f8.3,' (KG/HA)',/,t20, 
+ 3000 format (t20,'NO3 IN RAINFALL =  ',f10.3,' (KG/HA)',/,t20, 
      &    'INITIAL NO3 IN SOIL =  ',f10.3,' (KG/HA)',/,t20,             
      &    'FINAL NO3 IN SOIL =  ',f12.3,' (KG/HA)',/,t20,               
      &    'INITIAL ORG N IN SOIL =  ',f10.3,' (KG/HA)',/,t20,           

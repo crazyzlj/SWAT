@@ -115,7 +115,7 @@
       integer, intent (in) :: mdays
       integer :: j
       real*8, dimension (mrcho) :: pdvar, pdvr
-      real*8, dimension (11) :: srch_av
+      real, dimension (14) :: srch_av
 
       do j = 1, subtot
 
@@ -139,6 +139,10 @@
         srch_av(5) = rchmono(5,j) / dfloat(mdays)
         srch_av(10) = rchmono(10,j) / dfloat(mdays)
         srch_av(11) = rchmono(11,j) / dfloat(mdays)
+!! monthly averages for salt1, salt2, and salt3 - katrin 3/14/2017
+        srch_av(12) = rchmono(59,j) / Real(mdays)
+        srch_av(13) = rchmono(60,j) / Real(mdays)
+        srch_av(14) = rchmono(61,j) / Real(mdays)
 
         pdvar = 0. 
         pdvr = 0.
@@ -192,6 +196,33 @@
  !! added for Total P (org P + sol p outs)to output.rch gsm 10/17/2011
         pdvar(44) = rchmono(9,j) + rchmono(18,j)                        !! Total P
  !! added NO3 Concentration to output.rch (for daily only) gsm 10/26/2011
+        pdvar(45) = 0.
+        pdvar(46) = 0.
+        
+ !! salt - srini
+        do ii=1,10
+          pdvar(46+ii) = rchmono(58+ii,j)
+        end do
+
+!! salt sar and ec - katrin 
+        
+       if (srch_av(2) > .00001 .and. srch_av(12) > 0 .and. 
+     &    srch_av(13) > 0 .and. srch_av(14) > 0) then 
+          pdvar(57) = (srch_av(14) / (srch_av(2) * 86.4) / 23) / 
+     &        SQRT(.5 * ((srch_av(12) / (srch_av(2) * 86.4) / 20.039) 
+     &        + (srch_av(13) / (srch_av(2) * 86.4) / 12.1525)))
+       else 
+           pdvar(57) = 0.
+       end if                                                
+
+       if (srch_av(2) > .00001 .and. rchmono(58 + salt_num,j) > 0) then 
+          pdvar(58) = ec_slp * ((rchmono(58 + salt_num,j) / 
+     &        Real(mdays)) / (srch_av(2) * 86.4)) + ec_int
+       else 
+          pdvar(58) = 0.
+       end if 
+       
+       
  
  
         if (ipdvar(1) > 0) then
@@ -210,22 +241,24 @@
      &                              (pdvr(ii), ii = 1, itotr),iyr  
           endif
         else
- !  increase to 44 in loops below from 42 gsm 10/17/2011      
+ !  increase to 44 in loops below from 42 gsm 10/17/2011     
+ !  increase to 54 in loops below from 44 for salt srini 2/4/2017
+   
           if (iscen == 1 .and. isproj == 0) then
           write (7,5000) j, subgis(j), mo_chk, rch_dakm(j),             
-     &                                (pdvar(ii), ii = 1, 44)    
+     &                                (pdvar(ii), ii = 1, 56)    
           else if (isproj == 1) then
           write (20,5000) j, subgis(j), mo_chk, rch_dakm(j),            
-     &                                (pdvar(ii), ii = 1, 44)    
+     &                                (pdvar(ii), ii = 1, 56)    
           else if (iscen == 1 .and. isproj == 2) then
           write (7,6000) j, subgis(j), mo_chk, rch_dakm(j),             
-     &                              (pdvar(ii), ii = 1, 44), iyr     
+     &                              (pdvar(ii), ii = 1, 56), iyr     
 
           endif
         end if
       end do
 
       return
- 5000 format ('REACH ',i5,1x,i8,1x,i5,47e12.4)
- 6000 format ('REACH ',i5,1x,i8,1x,i5,47e12.4,1x,i4)
+ 5000 format ('REACH ',i4,1x,i8,1x,i5,59e12.4)
+ 6000 format ('REACH ',i4,1x,i8,1x,i5,59e12.4,1x,i4)
       end

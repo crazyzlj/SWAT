@@ -73,7 +73,7 @@
 
       integer :: ii, jrch
       real*8 :: totbactp, totbactlp, netwtr, initlp, initp
-      real*8 :: tday, wtmp
+      real*8 :: tday
 
       jrch = 0
       jrch = inum1
@@ -82,8 +82,8 @@
       !! Stefan and Preudhomme. 1993.  Stream temperature estimation
       !! from air temperature.  Water Res. Bull. p. 27-45
       !! SWAT manual equation 2.3.13
-      wtmp = 0.
-      wtmp = 5.0 + 0.75 * tmpav(jrch)
+      call temparms
+      !wtmp = 5.0 + 0.75 * tmpav(jrch)
       if (wtmp <= 0.) wtmp = 0.1
 
 !     skipping hourly bacteria route for now  04/16/07 nubs

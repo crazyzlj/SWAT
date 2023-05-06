@@ -144,6 +144,9 @@
           hhvaroute(20,ihout,ii) = cmtl1cnst(inum1) / dfloat(nstep)
           hhvaroute(21,ihout,ii) = cmtl2cnst(inum1) / dfloat(nstep)
           hhvaroute(22,ihout,ii) = cmtl3cnst(inum1) / dfloat(nstep)
+		
+		QHY(ii,ihout,IHX(1))=hhvaroute(2,ihout,ii)/(dthy * 3600.) !m3 -> m3/s Jaehak flood routing 2022
+
         end do
       end if
 

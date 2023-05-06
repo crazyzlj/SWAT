@@ -66,6 +66,17 @@
 !!    varoute(20,:)    |kg           |conservative metal #1
 !!    varoute(21,:)    |kg           |conservative metal #2
 !!    varoute(22,:)    |kg           |conservative metal #3
+!!    varoute(34,:)    |ppm           |Salt Constituent 1
+!!    varoute(35,:)    |ppm           |Salt Constituent 2
+!!    varoute(36,:)    |ppm           |Salt Constituent 3
+!!    varoute(37,:)    |ppm           |Salt Constituent 4
+!!    varoute(38,:)    |ppm           |Salt Constituent 5
+!!    varoute(39,:)    |ppm           |Salt Constituent 6 -- salt Srini
+!!    varoute(40,:)    |ppm           |Salt Constituent 7
+!!    varoute(41,:)    |ppm           |Salt Constituent 8
+!!    varoute(42,:)    |ppm           |Salt Constituent 9
+!!    varoute(43,:)    |ppm           |Salt Constituent 10
+!!    !!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
 !!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
 
 !!    ~ ~ ~ LOCAL DEFINITIONS ~ ~ ~
@@ -106,6 +117,8 @@
       real*8 :: nh3day, no2day, cmtl1day, cmtl2day, cmtl3day, solpstday
       real*8 :: bactpday, bactlpday, chladay, disoxday, cbodday, srbpstday
       integer :: idap, iyp, ii, j
+      real :: salt1,salt2,salt3,salt4,salt5     !! salt srini
+      real :: salt6,salt7,salt8,salt9,salt10    !! salt srini
 
 !! initialize variables
       floday = 0.
@@ -119,6 +132,16 @@
       cmtl1day = 0.
       cmtl2day = 0.
       cmtl3day = 0.
+      salt1 = 0.    !! salt Srini
+      salt2 = 0.
+      salt3 = 0.
+      salt4 = 0.
+      salt5 = 0.
+      salt6 = 0.
+      salt7 = 0.
+      salt8 = 0.
+      salt9 = 0.
+      salt10 = 0.   !! salt Srini
       bactpday = 0.
       bactlpday = 0.
       chladay = 0.
@@ -136,10 +159,18 @@
       end do
 
       if (ifirstr(inum1) == 0) then
+        if (isalt == 0) then
           read (555+inum1,*) idap, iyp, floday, sedday, orgnday,        
      &        orgpday, no3day, nh3day, no2day, minpday, cbodday,        
      &        disoxday, chladay, solpstday, srbpstday, bactpday,        
      &        bactlpday, cmtl1day, cmtl2day, cmtl3day
+        else
+          read (555+inum1,*) idap, iyp, floday, sedday, orgnday,        
+     &        orgpday, no3day, nh3day, no2day, minpday, cbodday,        
+     &        disoxday, chladay, solpstday, srbpstday, bactpday,        
+     &        bactlpday, cmtl1day, cmtl2day, cmtl3day,salt1,salt2,
+     &        salt3,salt4,salt5,salt6,salt7,salt8,salt9,salt10
+        endif
       else
         ifirstr(inum1) = 0
         do
@@ -178,6 +209,18 @@
       varoute(26,ihout) = sedday * 0.   ! sag
       varoute(27,ihout) = sedday * 0.   ! lag
       varoute(28,ihout) = 0.            ! gravel
+      
+      
+      varoute(34,ihout) = salt1 * varoute(2,ihout) / 1000.
+      varoute(35,ihout) = salt2 * varoute(2,ihout) / 1000.
+      varoute(36,ihout) = salt3 * varoute(2,ihout) / 1000.
+      varoute(37,ihout) = salt4 * varoute(2,ihout) / 1000.
+      varoute(38,ihout) = salt5 * varoute(2,ihout) / 1000.    !! salt 
+      varoute(39,ihout) = salt6 * varoute(2,ihout) / 1000.     !! salt srini
+      varoute(40,ihout) = salt7 * varoute(2,ihout) / 1000.
+      varoute(41,ihout) = salt8 * varoute(2,ihout) / 1000.
+      varoute(42,ihout) = salt9 * varoute(2,ihout) / 1000.
+      varoute(43,ihout) = salt10 * varoute(2,ihout) / 1000.
 
       if (ievent > 0) then
         do ii = 1, nstep
@@ -199,6 +242,9 @@
           hhvaroute(20,ihout,ii) = cmtl1day / dfloat(nstep)
           hhvaroute(21,ihout,ii) = cmtl2day / dfloat(nstep)
           hhvaroute(22,ihout,ii) = cmtl3day / dfloat(nstep)
+		
+		QHY(ii,ihout,IHX(1))=hhvaroute(2,ihout,ii)/(dthy * 3600.) !m3 -> m3/s Jaehak flood routing 2022
+
         end do
       end if
 
