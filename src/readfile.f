@@ -550,11 +550,12 @@
       end do
 
       if (ipdvar(1) <= 0) then
- !! change 42 to 45 for output.rch file gsm 10/30/2011     
-        do ii = 1, 46
+ !! change 42 to 45 for output.rch file gsm 10/30/2011  
+ !! change 46 to 56 for output.rch file salt - srini  
+        do ii = 1, 58     !! salty dog
           ipdvar(ii) = ii
         end do
-        itotr = 46
+        itotr = 58        !! salty dog
       end if
 
 
@@ -608,7 +609,7 @@
       if (ia_b == 1) then
         open (66666,file = "outputb.sub", form = 'unformatted')
       end if
-      open (7,file="output.rch",recl=800)
+      open (7,file="output.rch",recl=1500)
       open (8,file="output.rsv",recl=800)
       if (ia_b == 1) then
         open (77777,file = "outputb.rch", form = 'unformatted')

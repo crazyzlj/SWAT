@@ -100,6 +100,7 @@
 !!                               |sediments
 !!    rchaao(43,:) |kg           |Total N (org N + no3 + no2 + nh4 outs)
 !!    rchaao(44,:) |kg           |Total P (org P + sol p outs)
+!!    rchaao(45-54,:) |kg           |Salt outputs
 
 !!    subgis(:)    |none         |GIS code printed to output files(output.sub,.rch)
 !!    subtot       |none         |number of subbasins in watershed
@@ -126,7 +127,7 @@
       real*8, intent (in) :: years
       integer :: j
       real*8, dimension (mrcho) :: pdvar, pdvr
-      real*8, dimension (2) :: srch_av
+      real*8, dimension (5) :: srch_av
 
       do j = 1, subtot
 
@@ -147,6 +148,10 @@
           end if
         end if
 
+        srch_av(3) = rchaao(59,j) / 365
+        srch_av(4) = rchaao(60,j) / 365
+        srch_av(5) = rchaao(61,j) / 365
+        
         pdvar = 0. 
         pdvr = 0.
 
@@ -200,8 +205,33 @@
         pdvar(44) = rchaao(9,j) + rchaao(18,j)                      !! Total P
  
  !! added NO3 Concentration to output.rch (for daily only) gsm 10/26/2011
+        pdvar(45) = 0.
+        pdvar(46) = 0.
+ 
+ !! added Salt 10 constituents - srini
+        do ii=1,10
+             pdvar(46+ii) = rchaao(58+ii,j)     !!Salt 1-10  
+        end do   
         
+!! salt sar and ec - katrin 
         
+       if (srch_av(2) > .00001 .and. srch_av(3) > 0 .and. 
+     &    srch_av(4) > 0 .and. srch_av(5) > 0) then 
+          pdvar(57) = (srch_av(5) / (srch_av(2) * 86.4) / 23) / 
+     &        SQRT(.5 * ((srch_av(3) / (srch_av(2) * 86.4) / 20.039) 
+     &        + (srch_av(4) / (srch_av(2) * 86.4) / 12.1525)))
+       else 
+          pdvar(57) = 0.
+       end if      
+        
+       if (srch_av(2) > .00001 .and. rchaao(58 + salt_num,j) > 0) then
+          pdvar(58) = ec_slp * ((rchaao(58 + salt_num,j) / 
+     &       365) / (srch_av(2) * 86.4)) + ec_int
+       else 
+          pdvar(58) = 0.
+       end if
+        
+       
         if (ipdvar(1) > 0) then
           do ii = 1, itotr
             pdvr(ii) = pdvar(ipdvar(ii))
@@ -218,20 +248,21 @@
           endif
         else
 !!  increase to 44 in loops below from 42 gsm 10/17/2011
+!! increase to 54 in loops for salt - srini
           if (iscen == 1 .and. isproj == 0) then
           write (7,5000) j, subgis(j), years, rch_dakm(j),              
-     &                                (pdvar(ii), ii = 1, 44)    
+     &                                (pdvar(ii), ii = 1, 58)    
           else if (isproj == 1) then
           write (20,5000) j, subgis(j), years, rch_dakm(j),             
-     &                                (pdvar(ii), ii = 1, 44)    
+     &                                (pdvar(ii), ii = 1, 58)    
           else if (iscen == 1 .and. isproj == 2) then
           write (7,6000) j, subgis(j), years, rch_dakm(j),              
-     &                             (pdvar(ii), ii = 1, 44), iyr      
+     &                             (pdvar(ii), ii = 1, 58), iyr      
           endif
         end if
       end do
 
       return
- 5000 format ('REACH ',i5,1x,i8,1x,f5.1,47e12.4)
- 6000 format ('REACH ',i5,1x,i8,1x,f5.1,47e12.4,1x,i4)
+ 5000 format ('REACH ',i4,1x,i8,1x,f5.1,59e12.4)
+ 6000 format ('REACH ',i4,1x,i8,1x,f5.1,59e12.4,1x,i4)
       end

@@ -80,6 +80,7 @@
 !!                               |out of reach on day
 !!    rchday(43,:) |kg           |Total N (org N + no3 + no2 + nh4 outs)
 !!    rchday(44,:) |kg           |Total P (org P + sol p outs)
+!!    rchday(45-54,:) |kg           |Salt 1-10 Srini
 
 !!    subgis(:)    |none         |GIS code printed to output files(output.sub,.rch)
 !!    subtot       |none         |number of subbasins in watershed
@@ -184,6 +185,28 @@
         endif
         pdvar(46) = rchdy(60,j)   ! water temperature deg c
         
+!! salt - srini
+       do kk=1,10
+        pdvar(46+kk) = rchdy(60+kk,j)  !salt1
+       end do
+        
+!! salt sar and ec - katrin 
+       
+       if (srch_av(2) > .00001 .and. rchdy(61,j) > 0 .and. 
+     &    rchdy(62,j) > 0 .and. rchdy(63,j) > 0) then 
+          pdvar(57) = (rchdy(63,j) / (srch_av(2) * 86.4) / 23) / SQRT(.5 
+     &        * ((rchdy(61,j) / (srch_av(2) * 86.4) / 20.039) 
+     &        + (rchdy(62,j) / (srch_av(2) * 86.4) / 12.1525)))
+       else 
+          pdvar(57) = 0.
+       end if                 
+       
+       if (srch_av(2) > .00001 .and. rchdy(60 + salt_num,j) > 0) then 
+          pdvar(58) = ec_slp * (rchdy(60 + salt_num,j) / 
+     &        (srch_av(2) * 86.4)) + ec_int
+       else 
+          pdvar(58) = 0.
+       end if      
 
 !!  compute month and day given julian day
         call xmon 
@@ -213,7 +236,7 @@
           do ii = 1, itotr
             pdvr(ii) = pdvar(ipdvar(ii))
           end do
-          if (iscen == 1 .and. isproj == 0) then
+          if (iscen == 1 .and. isproj == 0 .or. isproj == 3) then
             if (icalen == 0) write (7,5000) j, subgis(j), iida,       
      &             rch_dakm(j), (pdvr(ii), ii = 1, itotr)
             if(icalen == 1)write (7,5002) j, subgis(j), i_mo, icl(iida),
@@ -234,12 +257,13 @@
           endif
         else
         
-  !  increase to 45 in loops below from 42 gsm 10/26/2011      
+  !  increase to 45 in loops below from 42 gsm 10/26/2011   
+  ! increase to 55 in loops below from 45 srini 2/4/2017 for salt printing   
           if (iscen == 1 .and. isproj == 0) then
           if (icalen == 0)write(7,5000) j, subgis(j), iida, rch_dakm(j),
-     &                                        (pdvar(ii), ii = 1, 45)
+     &                                        (pdvar(ii), ii = 1, 57)
           if (icalen == 1) write (7,5002) j, subgis(j), i_mo, icl(iida),
-     &            iyr, rch_dakm(j),(pdvar(ii), ii = 1, 45)
+     &            iyr, rch_dakm(j),(pdvar(ii), ii = 1, 57)
 
 !!    added for binary files 3/25/09 gsm line below and write (77777
              if (ia_b == 1) then
@@ -249,21 +273,21 @@
              
           else if (isproj == 1) then
           write (20,5000) j, subgis(j), iida, rch_dakm(j),              
-     &                                        (pdvar(ii), ii = 1, 45) 
+     &                                        (pdvar(ii), ii = 1, 57) 
           else if (iscen == 1 .and. isproj == 2) then
           if (icalen == 0)write(7,6000) j, subgis(j), iida, rch_dakm(j),
-     &                               (pdvar(ii), ii = 1, 45), iyr 
+     &                               (pdvar(ii), ii = 1, 57), iyr 
           if (icalen == 1) write (7,6002) j, subgis(j), i_mo, icl(iida),
-     &              iyr, rch_dakm(j), (pdvar(ii), ii = 1, 45)
+     &              iyr, rch_dakm(j), (pdvar(ii), ii = 1, 57)
           endif
         end if
       endif
       end do
       return
 
- 5000 format ('REACH ',i5,1x,i8,1x,i5,47e12.4)
- 5001 format ('REACH ',i5,1x,i8,1x,i5,1x,i5,47e12.4)
- 5002 format ('REACH ',i5,1x,i8,2x,i2,1x,i2,1x,i4,1x,47e12.4)
- 6000 format ('REACH ',i5,1x,i8,1x,i5,47e12.4,1x,i4)
- 6002 format ('REACH ',i5,1x,i8,1x,i2,1x,i2,1x,i4,1x,47e12.4,1x,i4)
+ 5000 format ('REACH ',i4,1x,i8,1x,i5,59e12.4)
+ 5001 format ('REACH ',i4,1x,i8,1x,i5,1x,i5,59e12.4)
+ 5002 format ('REACH ',i4,1x,i8,2x,i2,1x,i2,1x,i4,1x,59e12.4)
+ 6000 format ('REACH ',i4,1x,i8,1x,i5,59e12.4,1x,i4)
+ 6002 format ('REACH ',i4,1x,i8,1x,i2,1x,i2,1x,i4,1x,59e12.4,1x,i4)
       end

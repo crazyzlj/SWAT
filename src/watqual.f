@@ -223,7 +223,7 @@
 
       integer :: jrch
       real*8 :: wtrin, chlin, algin, orgnin, ammoin, nitratin, nitritin
-      real*8 :: orgpin, dispin, cbodin, disoxin, tday, wtmp, fll, gra
+      real*8 :: orgpin, dispin, cbodin, disoxin, tday, fll, gra
       real*8 :: lambda, fnn, fpp, algi, fl_1, xx, yy, zz, ww, cinn
       real*8 :: uu, vv, cordo, f1, algcon, orgncon, nh3con, no2con, no3con
       real*8 :: orgpcon, solpcon, cbodcon, o2con, wtrtot, bc1mod, bc2mod
@@ -304,8 +304,8 @@
          !! Stefan and Preudhomme. 1993.  Stream temperature estimation 
          !! from air temperature.  Water Res. Bull. p. 27-45
          !! SWAT manual equation 2.3.13
-         wtmp = 0.
-         wtmp = 5.0 + 0.75 * tmpav(jrch)
+         call temparms
+         !wtmp = 5.0 + 0.75 * tmpav(jrch)
          if (wtmp <= 0.) wtmp = 0.1
 
          !! calculate effective concentration of available nitrogen

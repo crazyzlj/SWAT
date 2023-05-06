@@ -1,12 +1,17 @@
       module parm
       integer icalen
       real*8 :: prf_bsn
-      
-!!      character(len=255) :: cwd
             
 !!    srin - co2 (EPA)
       real*8 :: co2_x2, co2_x
-           
+      
+!!    srin wtmp
+      real*8, dimension (:), allocatable :: tmp_win1, tmp_win2, 
+     & tmp_sum1, tmp_sum2, tmp_spr1, 
+     & tmp_spr2, tmp_fal1, tmp_fal2
+     
+      real*8 :: wtmp
+              
       real*8, dimension (:), allocatable :: alph_e
       real*8, dimension (:), allocatable :: co_p, surlag, cdn, nperco
       real*8, dimension (:), allocatable :: cmn, phoskd, psp, sdnco
@@ -33,7 +38,7 @@
       real*8, dimension (:), allocatable :: gwq_ru, qdayout
       integer, dimension (:), allocatable :: ils2, ils2flag
       integer :: iru, mru, irch, isub, idum, mhyd_bsn, ipest, ils_nofig
-      integer :: mhru1
+      integer :: mhru1, isalt
       integer, dimension (:), allocatable :: mhyd1 , irtun
 
 !! septic variables for output.std
@@ -101,7 +106,7 @@
 
 !!    declare mike van liew variables
       real*8 :: hlife_ngw_bsn, ch_opco_bsn, ch_onco_bsn
-      real*8 :: bc1_bsn, bc2_bsn, bc3_bsn, bc4_bsn, rcn_sub_bsn, decr_min         
+      real*8 :: bc1_bsn, bc2_bsn, bc3_bsn, bc4_bsn, rcn_sub_bsn, decr_min
       real*8 :: anion_excl_bsn
 !!    delcare mike van liew variables
 
@@ -166,7 +171,7 @@
       real*8, dimension (:), allocatable :: sptno3concs, sptno2concs
       real*8, dimension (:), allocatable :: sptorgnconcs, spttpconcs
       real*8, dimension (:), allocatable :: sptminps, sptorgps      
-      real*8, dimension (:), allocatable :: sptfcolis ,failyr,qstemm               
+      real*8, dimension (:), allocatable :: sptfcolis ,failyr,qstemm  
 !! septic changes added 1/28/09 gsm
       real*8, dimension (:), allocatable :: bio_amn, bio_bod, biom,rbiom
       real*8, dimension (:), allocatable :: fcoli, bio_ntr, bz_perc
@@ -209,7 +214,7 @@
       real*8, dimension (:), allocatable :: tile_sedo,tile_no3o
       real*8, dimension (:), allocatable :: tile_solpo,tile_orgno
       real*8, dimension (:), allocatable :: tile_orgpo,tile_minpso   
-      real*8, dimension (:), allocatable :: tile_minpao                  
+      real*8, dimension (:), allocatable :: tile_minpao
 ! output files 
 !!  added for binary files 3/25/09 gsm
       integer :: ia_b, ihumus, itemp, isnow
@@ -287,7 +292,7 @@
       real*8, dimension (:), allocatable :: ch_bed_bd,ch_bnk_kd,ch_bed_kd
       real*8, dimension (:), allocatable :: ch_bnk_d50, ch_bed_d50     
       real*8, dimension (:), allocatable :: tc_bed,tc_bnk
-      integer, dimension (:), allocatable :: ch_eqn                        
+      integer, dimension (:), allocatable :: ch_eqn
       real*8, dimension (:), allocatable :: chpst_conc,chpst_rea,chpst_vol
       real*8, dimension (:), allocatable :: chpst_koc,chpst_stl,chpst_rsp
       real*8, dimension (:), allocatable :: chpst_mix,sedpst_conc,ch_wdr
@@ -429,7 +434,7 @@
       real*8, dimension (:), allocatable :: blai,dlai,rdmx,cpyld,bio_leaf
       real*8, dimension (:), allocatable :: bio_n1,bio_n2,bio_p1,bio_p2
       real*8, dimension (:), allocatable :: bmx_trees,ext_coef,bm_dieoff
-      real*8, dimension (:), allocatable :: rsr1, rsr2                    
+      real*8, dimension (:), allocatable :: rsr1, rsr2
 !     real*8, dimension (:), allocatable :: air_str
       real*8, dimension (:,:), allocatable :: pltnfr,pltpfr
       integer, dimension (:), allocatable :: idc, mat_yrs
@@ -662,7 +667,7 @@
       character(len=16), dimension (:), allocatable :: snam
       character(len=17), dimension (300) :: pname
 !!    adding qtile to output.hru write 3/2/2010 gsm  increased heds(70) to heds(71)
-      character(len=13) :: heds(79),hedb(24),hedr(46),hedrsv(41)
+      character(len=13) :: heds(79),hedb(24),hedr(58),hedrsv(41)
       character(len=13) :: hedwtr(40)
       character(len=4) :: title(60), cpnm(10000)
       character(len=17), dimension(100) :: fname
@@ -788,7 +793,7 @@
 	real*8, dimension (:,:),allocatable :: sol_cal, sol_ph
       integer:: sol_p_model
       integer, dimension (:,:),allocatable :: a_days, b_days
-      real*8, dimension (:), allocatable :: harv_min, fstap, min_res       
+      real*8, dimension (:), allocatable :: harv_min, fstap, min_res
       real*8, dimension (:,:),allocatable :: ro_bmp_flo, ro_bmp_sed
       real*8, dimension (:,:),allocatable :: ro_bmp_bac
       real*8, dimension (:,:),allocatable :: ro_bmp_pp, ro_bmp_sp
@@ -804,9 +809,19 @@
       real*8, dimension (:,:),allocatable :: ro_bmp_ppt, ro_bmp_spt
       real*8, dimension (:,:),allocatable :: ro_bmp_pnt, ro_bmp_snt
 
-      real*8, dimension (:),allocatable :: bmp_flo, bmp_sed, bmp_bac
-      real*8, dimension (:),allocatable :: bmp_pp, bmp_sp
-      real*8, dimension (:),allocatable :: bmp_pn, bmp_sn, bmp_flag
+      real, dimension (:),allocatable :: bmp_flo, bmp_sed, bmp_bac
+      real, dimension (:),allocatable :: bmp_pp, bmp_sp
+      real, dimension (:),allocatable :: bmp_pn, bmp_sn, bmp_flag
+      
+      !! **salt**
+      integer, dimension(:), allocatable :: bmp_salt
+      real, dimension(:,:),allocatable ::  sub_salt,salt_flag,sub_saltmo
+      real, dimension(:,:,:), allocatable :: sro_salt,slt_salt
+      real, dimension(:,:,:), allocatable:: gw_salt,tile_salt
+      real, dimension(:), allocatable :: saltdr 
+      real :: ec_int,ec_slp
+      integer :: salt_num
+      !! **salt**
 
       real*8, dimension (:),allocatable :: bmp_flos, bmp_seds, bmp_bacs
       real*8, dimension (:),allocatable :: bmp_pps, bmp_sps

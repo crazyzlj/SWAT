@@ -111,7 +111,7 @@
 
       integer :: j
       real*8, dimension (mrcho) :: pdvar, pdvr
-      real*8, dimension (2) :: srch_av
+      real, dimension (5) :: srch_av
 
       idlast = 0
       idlast = i - (id1 - 1)
@@ -143,6 +143,11 @@
           end if
         end if
 
+        !! yearly averages for salt1, salt2, and salt3 - katrin 3/14/2017
+        srch_av(3) = rchyro(59,j) / Real(idlast)
+        srch_av(4) = rchyro(60,j) / Real(idlast)
+        srch_av(5) = rchyro(61,j) / Real(idlast)
+        
         pdvar = 0. 
         pdvr = 0.
 
@@ -195,7 +200,33 @@
  !! added for Total P (org P + sol p outs)to output.rch gsm 10/17/2011
         pdvar(44) = rchyro(9,j) + rchyro(18,j)                        !! Total P
  !! added NO3 Concentration to output.rch (for daily only) gsm 10/26/2011
+        pdvar(45) = 0.
+        pdvar(46) = 0.
+ 
+ !! salt - srini
+        do ii=1,10
+          pdvar(46+ii) = rchyro(58+ii,j)
+        end do
+
+!! salt sar and ec - katrin 
         
+       if (srch_av(2) > .00001 .and. srch_av(3) > 0 .and. 
+     &    srch_av(4) > 0 .and. srch_av(5) > 0) then 
+          pdvar(57) = (srch_av(5) / (srch_av(2) * 86.4) / 23) / 
+     &        SQRT(.5 * ((srch_av(3) / (srch_av(2) * 86.4) / 20.039) 
+     &        + (srch_av(4) / (srch_av(2) * 86.4) / 12.1525)))
+       else 
+           pdvar(57) = 0.
+       end if      
+       
+       if (srch_av(2) > .00001 .and. rchyro(58 + salt_num,j) > 0) then 
+          pdvar(58) = ec_slp * ((rchyro(58 + salt_num,j) /
+     &        Real(idlast)) / (srch_av(2) * 86.4)) + ec_int
+       else 
+          pdvar(58) = 0.
+       end if 
+        
+       
          if (ipdvar(1) > 0) then
           do ii = 1, itotr
             pdvr(ii) = pdvar(ipdvar(ii))
@@ -212,21 +243,22 @@
           endif
         else
      !!  increase to 44 in loops below from 42 gsm 10/17/2011
+     !!  increase to 54 in loops below from 44 srini - salt 2/4/2017
           if (iscen == 1 .and. isproj == 0) then
           write (7,5000) j, subgis(j), iyr, rch_dakm(j),                
-     &                                (pdvar(ii), ii = 1, 44)    
+     &                                (pdvar(ii), ii = 1, 55)    
           else if (isproj == 1) then
           write (20,5000) j, subgis(j), iyr, rch_dakm(j),               
-     &                                (pdvar(ii), ii = 1, 44)    
+     &                                (pdvar(ii), ii = 1, 55)    
           else if (iscen == 1 .and. isproj == 2) then
           write (7,6000) j, subgis(j), iyr, rch_dakm(j),                
-     &                             (pdvar(ii), ii = 1, 44), iyr     
+     &                             (pdvar(ii), ii = 1, 55), iyr     
      
           endif
         end if
       end do
 
       return
- 5000 format ('REACH ',i5,1x,i8,1x,i5,47e12.4)
- 6000 format ('REACH ',i5,1x,i8,1x,i5,47e12.4,1x,i4)
+ 5000 format ('REACH ',i4,1x,i8,1x,i5,59e12.4)
+ 6000 format ('REACH ',i4,1x,i8,1x,i5,59e12.4,1x,i4)
       end

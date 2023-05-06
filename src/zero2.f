@@ -314,6 +314,11 @@
       wurtnf = 0.
       yldn = 0.
       zdb = 0.
+      
+      !! **salt**
+      bmp_salt = 0
+      sub_salt = 0.
+      !! **salt**
 	  
 	!! MJW
 	sol_P_model = 0

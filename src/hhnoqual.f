@@ -94,7 +94,7 @@
 
       integer :: jrch, ii
       real*8 :: wtrin, chlin, algin, orgnin, ammoin, nitratin, nitritin
-      real*8 :: orgpin, dispin, cbodin, disoxin, wtmp
+      real*8 :: orgpin, dispin, cbodin, disoxin
       real*8 :: orgpcon, solpcon, cbodcon, o2con, wtrtot
       real*8 :: algcon, orgncon, nh3con, no2con, no3con
 
@@ -204,9 +204,8 @@
          !! Stefan and Preudhomme. 1993.  Stream temperature estimation 
          !! from air temperature.  Water Res. Bull. p. 27-45
          !! SWAT manual equation 2.3.13
-         wtmp = 0.
-
-         wtmp = 5.0 + 0.75 * tmpav(jrch)
+         call temparms
+         !wtmp = 5.0 + 0.75 * tmpav(jrch)
          if (wtmp <= 0.) wtmp = 0.1
 
 !! end initialize concentrations

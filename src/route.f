@@ -237,6 +237,9 @@
 !! remove water from reach for consumptive water use
       call rchuse
 
+!! call subroutine for temperature constant/coefficient Srini 11_1_22
+      call temparms
+      
 !! summarize output/determine loadings to next routing unit
       call rtout
 

@@ -256,6 +256,16 @@
 !!    varoute(20,:)    |kg         |conservative metal #1
 !!    varoute(21,:)    |kg         |conservative metal #2
 !!    varoute(22,:)    |kg         |conservative metal #3
+!!    varoute(34,:)    |kg           |Salt Constituent 1
+!!    varoute(35,:)    |kg           |Salt Constituent 2
+!!    varoute(36,:)    |kg           |Salt Constituent 3
+!!    varoute(37,:)    |kg           |Salt Constituent 4
+!!    varoute(38,:)    |kg           |Salt Constituent 5
+!!    varoute(39,:)    |kg           |Salt Constituent 6 -- salt Srini
+!!    varoute(40,:)    |kg           |Salt Constituent 7
+!!    varoute(41,:)    |kg           |Salt Constituent 8
+!!    varoute(42,:)    |kg           |Salt Constituent 9
+!!    varoute(43,:)    |kg           |Salt Constituent 10
 !!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
 
 !!    ~ ~ ~ LOCAL DEFINITIONS ~ ~ ~
@@ -274,13 +284,13 @@
       implicit none
 
       integer :: jrch, ii
-      real*8 :: sedcon, bedvol, sedpest, wtmp
+      real*8 :: sedcon, bedvol, sedpest
 
       jrch = 0
       jrch = inum1
 
-      wtmp = 0.
-      wtmp = 5.0 + 0.75 * tmpav(jrch)
+      call temparms
+      !wtmp = 5.0 + 0.75 * tmpav(jrch)
 !! set values for routing variables
       varoute(1,ihout) = wtmp
       varoute(2,ihout) = rtwtr
@@ -293,6 +303,17 @@
       varoute(20,ihout) = varoute(20,inum2) * (1. - rnum1)
       varoute(21,ihout) = varoute(21,inum2) * (1. - rnum1)
       varoute(22,ihout) = varoute(22,inum2) * (1. - rnum1)
+      varoute(34,ihout) = varoute(34,inum2) * saltdr(jrch)  !! salt Srini
+      varoute(35,ihout) = varoute(35,inum2) * saltdr(jrch)
+      varoute(36,ihout) = varoute(36,inum2) * saltdr(jrch)
+      varoute(37,ihout) = varoute(37,inum2) * saltdr(jrch)
+      varoute(38,ihout) = varoute(38,inum2) * saltdr(jrch) !! salt Srini
+      varoute(39,ihout) = varoute(39,inum2) * saltdr(jrch)
+      varoute(40,ihout) = varoute(40,inum2) * saltdr(jrch)
+      varoute(41,ihout) = varoute(41,inum2) * saltdr(jrch)
+      varoute(42,ihout) = varoute(42,inum2) * saltdr(jrch)
+      varoute(43,ihout) = varoute(43,inum2) * saltdr(jrch)
+      !!varoute(44,ihout) = varoute(34,inum2) 
 !!    sediment routing
       varoute(23,ihout) = rch_san
       varoute(24,ihout) = rch_sil
@@ -439,6 +460,9 @@
       rchdy(41,jrch) = varoute(21,ihout)                 !!cmetal #2
       rchdy(42,jrch) = varoute(22,ihout)                 !!cmetal #3
       rchdy(60,jrch) = varoute(1,ihout)                  !!water temp deg c
+      do ii=1,10
+      rchdy(60+ii,jrch) = varoute(33+ii,ihout)                  !!Salt 1 - Srini
+      end do
 !!    sediment routing 
 !!    Assumed all silt for default sediment routine
 !!    For other sediment routing models particle size are tracked
@@ -529,7 +553,13 @@
        rchmono(55,jrch) = rchmono(55,jrch) + rchdy(56,jrch)
        rchmono(56,jrch) = rchmono(56,jrch) + rchdy(57,jrch)
        rchmono(57,jrch) = rchmono(57,jrch) + rchdy(58,jrch)
-	   rchmono(58,jrch) = rchmono(58,jrch) + rchdy(59,jrch)
+       rchmono(58,jrch) = rchmono(58,jrch) + rchdy(59,jrch)
+	  
+!! salt - srini
+      do ii=1,10
+         rchmono(58+ii,jrch) = rchmono(58+ii,jrch) + rchdy(60+ii,jrch)
+      end do
+      
       
       return
       end

@@ -225,7 +225,7 @@
 
       integer :: jrch
       real*8 :: wtrin, chlin, algin, orgnin, ammoin, nitratin, nitritin
-      real*8 :: orgpin, dispin, cbodin, disoxin, tday, wtmp, fll, gra
+      real*8 :: orgpin, dispin, cbodin, disoxin, tday, fll, gra
       real*8 :: lambda, fnn, fpp, algi, fl_1, xx, yy, zz, ww, cinn, heatin
       real*8 :: uu, vv, cordo, f1, algcon, orgncon, nh3con, no2con, no3con
       real*8 :: orgpcon, solpcon, cbodcon, o2con, wtrtot, bc1mod, bc2mod

@@ -606,6 +606,8 @@
       read (103,*,iostat=eof) sfsedmean
       if (eof < 0) exit   
       read (103,*,iostat=eof) sfsedstdev
+      read (103,*,iostat=eof) salt_num
+      if (eof < 0) exit
       exit
 !!    Drainmod input variables - 01/2006
       end do

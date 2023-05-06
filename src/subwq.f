@@ -75,7 +75,7 @@
       use parm
 
       integer :: j
-      real*8 :: tn, tp, qtot, org_c, tn_tp, wtmp, ww, xx, yy, zz, flow_cms
+      real*8 :: tn, tp, qtot, org_c, tn_tp, ww, xx, yy, zz, flow_cms
 
       j = 0
       j = ihru
@@ -84,8 +84,8 @@
         !! Stefan and Preudhomme. 1993.  Stream temperature estimation
         !!from air temperature.  Water Res. Bull. p. 27-45
         !! SWAT manual 2.3.13
-        wtmp = 0.
-        wtmp = 5.0 + 0.75 * tmpav(j)
+        call temparms
+        !wtmp = 5.0 + 0.75 * tmpav(j)
         if (wtmp <= 0.1) wtmp = 0.1
         wtmp = wtmp + 273.15    !! deg C to deg K
       

@@ -302,10 +302,13 @@
               read (102,5100) day_in
               call caps(day_in)
               open (555+inum1s(idum),file=day_in,recl=350)
-              do ii = 1, 6
+              do ii = 1,4
                 read (555+inum1s(idum),5200) titldum
               end do
-
+              read (555+inum1s(idum),5201) isalt
+ 5201         format (i4)
+              read (555+inum1s(idum), 5200) titldum
+              
             case (11) !! icode = 11  RECCNST command: read in average 
                       !! annual values with water in m^3, sed in t, and 
                       !! the nutrients in kg
