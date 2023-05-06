@@ -28,7 +28,7 @@ jobs:
 
     steps:
     - name: Checkout SWAT
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
     - name: Configure CMake
       # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
@@ -43,7 +43,7 @@ jobs:
     runs-on: macos-latest
     steps:
     - name: Checkout SWAT
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
     - name: Configure CMake
       # https://github.com/actions/virtual-environments/blob/main/images/macos/macos-11-Readme.md#language-and-runtime

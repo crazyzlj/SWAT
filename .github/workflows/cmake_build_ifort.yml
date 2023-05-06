@@ -42,7 +42,7 @@ jobs:
       run: sudo apt-get install intel-oneapi-compiler-fortran
 
     - name: Checkout SWAT
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
     - name: Setup Intel oneAPI environment
       run: |
