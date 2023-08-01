@@ -30,7 +30,7 @@ elseif(${CMAKE_Fortran_COMPILER_ID} STREQUAL "Flang")
 else() # gfortran tested only
     set(FLAG_L72 -ffixed-line-length-72)
     set(FLAG_L80 -ffixed-line-length-80)
-    set(FLAG_LLONG -ffree-line-length-none)
+    set(FLAG_LLONG -ffixed-line-length-none)
 endif()
 
 ## Special sources that have fixed length of 72
@@ -82,8 +82,11 @@ if((NOT MSVC) AND (${First_Line_Of_Main_File} MATCHES "      include 'modparm.f'
             set(Format_Flag ${FLAG_LLONG})
         endif()
         list(FIND LEN72_SRCS ${CORENAME} _FOUND_LEN72)
+        list(FIND LENLONG_SRCS ${CORENAME} _FOUND_LENLONG)
         if(${_FOUND_LEN72} GREATER -1)
             set(Format_Flag ${FLAG_L72})
+        elseif(${_FOUND_LENLONG} GREATER -1)
+            set(Format_Flag ${FLAG_LLONG})
         endif()
         add_custom_command(OUTPUT ${CORENAME}.o
                            COMMAND ${CMAKE_Fortran_COMPILER} ${Compile_Flags_List} ${Format_Flag} -c
