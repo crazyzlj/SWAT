@@ -533,8 +533,7 @@
      & 'AUTOPkh ',t84,'MIXEF',t90,'PRECmm',t97,'SURQGENmm',t109,        
      & 'GWQmm',t118,'ETmm',t125,'SEDth ',t132,'NO3kgh ',t140,           
      & 'ORGNkgh ',t148,'BIOMth',t157,'YLDth',t164,'SURQmm')
- !1900 format (i7,i4,3x,a16,3x,e8.3,17f10.2) 
- 1900 format (i7,i4,3x,a8,3x,e8.3,17f8.2) 
+ 1900 format (i7,i4,3x,a8,3x,e8.3,17f8.2)
  2000 format (///,t17,'AVE MONTHLY BASIN VALUES',/t20,'SNOW',t46,       
      &   'WATER',t66,'SED',/t3,'MON',t11,'RAIN',t20,'FALL',t27,'SURF Q',
      &    t37,'LAT Q',t46,'YIELD',t58,'ET',t64,'YIELD',t75,'PET',/t11,  

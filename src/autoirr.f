@@ -83,11 +83,6 @@
       j = 0
       j = ihru
   
-!!!! Srin's irrigation source by each application changes
-      irrsc(j) = irr_sca(j)
-      irrno(j) = irr_noa(j)
-!!!! Srin's irrigation source by each application changes
-
       if ((wstrs_id(j) == 3) .or.
      & (wstrs_id(j) == 1 .and. strsw(j) < auto_wstr(j)) .or.          
      & (wstrs_id(j)==2.and.sol_sumfc(j)-sol_sw(j)>auto_wstr(j))) then
@@ -106,7 +101,7 @@
         select case (irrsc(j))
           case (3)   !! shallow aquifer source
             do k = 1, nhru
-              if (hru_sub(k) == irrno(j)) then
+              if (k == irrno(j)) then
                 cnv = 0.
                 cnv = hru_ha(k) * 10.
                 vmma = vmma + shallst(k) * cnv
@@ -120,7 +115,7 @@
 
           case (4)   !! deep aquifer source
             do k = 1, nhru
-              if (hru_sub(k) == irrno(j)) then
+              if (k == irrno(j)) then
                 cnv = 0.
                 cnv = hru_ha(k) * 10.
                 vmma = vmma + deepst(k) * cnv

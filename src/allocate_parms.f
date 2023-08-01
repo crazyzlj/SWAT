@@ -60,6 +60,13 @@
       mstdo = 113
       motot = 1200    !!! 100 year limit
       
+!! ppet arrays for tropical growth
+      allocate (ppet(mhru))
+      do ihru = 1, mhru
+        allocate (ppet(ihru)%precip(ppet(ihru)%ndays))
+        allocate (ppet(ihru)%pet(ppet(ihru)%ndays))
+      end do
+      
 !! Srini 11_1_22
       allocate (tmp_win1(mhru))
       allocate (tmp_win2(mhru))

@@ -93,7 +93,7 @@
      &         "    WTMPdegc","     Salt1  ","     Salt2  ",
      &         "     Salt3  ","     Salt4  ","     Salt5  ",
      &         "     Salt6  ","     Salt7  ","     Salt8  ",
-     &         "     Salt9  ","     Salt10 ","       SAR  ",
+     &         "     Salt9  ","     Salt10  ","      SAR  ",
      &         "        EC  "/)
 
 !!    numbers printed to VB interface reach output file
