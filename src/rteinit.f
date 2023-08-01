@@ -124,8 +124,8 @@
         else 
          if (bio_e(idplt(idum)) > 1.e-6) then
           subfr_nowtr(isb) = subfr_nowtr(isb) + hru_fr(idum)
-	   end if
-	  end if
+         end if
+       end if
       end do
 
 !!    read in areas associated with .fig record files

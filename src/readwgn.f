@@ -133,7 +133,7 @@
       character (len=80) :: titldum
       real*8 :: xx, lattan, x1, x2, x3, tav, tmin, tmax, rain_yrs
       real*8 :: summx_t, summn_t, summm_p, sum, rnm2, r6, xlv, pcp
-      real*8, dimension (12) :: rainhhmx, rain_hhsm, pcpmm, pcpd
+      real*8, dimension (12) :: rainhhmx, rain_hhsm, pcpd
       real*8 :: tmpsoil, sffc, rndm1, dl
       integer :: mon, mdays, j, m1, nda, xrnd
 
@@ -346,6 +346,23 @@
         end do
         ffc(ihru) = sffc
         dormhr(ihru) = dl
+        !! set initial precip/pet values for tropical plant growth
+        !! compute potential et with Preistley-Taylor Method
+        mdays = ndays(13) - ndays(12)
+        tav = (tmpmx(12,i) + tmpmn(12,i)) / 2.
+        tk = tav  + 273.
+        alb = .15   !tropical rainforests (0.05-0.15)
+        d = EXP(21.255 - 5304. / tk) * 5304. / tk ** 2
+        gma = d / (d +.68)
+        ho = 23.9 * solarav(12,i) * (1. - alb) / 58.3
+        aph = 1.28
+        pet_dec = aph * ho * gma * 30.
+        ppet(j)%precip = pcpmm(12) / mdays
+        ppet(j)%pet = pet_dec / mdays
+        ppet(j)%precip_sum = pcpmm(12)
+        ppet(j)%pet_sum = pet_dec
+        ppet(j)%rto = ppet(j)%precip_sum / ppet(j)%pet_sum
+
       end do
 
       close (114)

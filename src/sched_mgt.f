@@ -61,6 +61,34 @@
      &        sol_sumsolp(j)
             end if
 
+          case (18)  !! monsoon planting for tropical growth
+            igro(j) = 1
+            lai_init = mgt5op(nop(j),j)
+            bio_init = mgt6op(nop(j),j)
+            ppet(j)%trop = 1
+            ppet(j)%trig = mgt7op(nop(j),j)
+            bio_targ(j) = mgt8op(nop(j),j) * 1000.
+            cnop = mgt9op(nop(j),j)
+            ppet(j)%ndays_mon = mgt2iop(nop(j),j)
+            ppet(j)%peren = mgt3iop(nop(j),j)
+            if (curyr_mat(j) == 0) igrotree(j) = 1
+            
+            idplt(j) = mgt1iop(nop(j),j)
+            ppet(j)%mon_seas = 1
+            ppet(j)%curday_mon = 0
+         
+            if (mgt4op(nop(j),j) < 700.) mgt4op(nop(j),j) = 1700.
+!            if (mgt4op(nop(j),j) > 5000.) mgt4op(nop(j),j) = 5000.
+            phu_plt(j) = mgt4op(nop(j),j)
+
+          case (19)  !! reset phenology during monsoon season for tropical perennial growth
+            ppet(j)%mon_seas = 1
+            ppet(j)%trop = 1
+            ppet(j)%peren = mgt3iop(nop(j),j)
+            ppet(j)%curday_mon = 0
+            ppet(j)%trig = mgt7op(nop(j),j)
+            ppet(j)%ndays_mon = mgt2iop(nop(j),j)
+            
  
           case (2)  !! irrigation operation
             irr_sc(ihru) = mgt2iop(nop(j),j)     !!NUBZ
@@ -234,7 +262,7 @@
           if (imgt ==1) then
             write (143, 1010) subnum(j), hruno(j), iyr, i_mo, 
      *      iida, hru_km(j), "        ",
-     *      "SCHED AUTORR", phubase(j), phuacc(j), sol_sw(j), bio_ms(j),
+     *      "SCHED AUTOIRR", phubase(j), phuacc(j), sol_sw(j), bio_ms(j),
      *      sol_rsd(1,j), sol_sumno3(j),sol_sumsolp(j)
 1010  format (a5,1x,a4,3i6,1x,e10.5,1x,2a15,7f10.2)
           end if

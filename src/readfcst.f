@@ -57,7 +57,7 @@
       use parm
 
       character (len=80) :: titldum
-      real*8, dimension (12) :: pcpmm, pcpd
+      real*8, dimension (12) :: pcpd
       integer :: mon, mdays, j, fcstregtot
 
 

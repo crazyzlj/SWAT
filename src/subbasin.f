@@ -197,6 +197,79 @@
         !! calculate soil temperature for soil layers
         call solt
 
+        !! compute evapotranspiration
+        call etpot
+!        if (pot_vol(j) < 1.e-6) call etact
+        call etact
+
+        !! Update CMI and Precip minus PET 30 day moving sum
+        ppet(j)%mce = ppet(j)%mce + 1
+        if (ppet(j)%mce > ppet(j)%ndays) ppet(j)%mce = 1
+        ppet_mce = ppet(j)%mce
+        !! calculate climatic moisture index - cumulative p/pet
+        !! subtract the 30 day previous and add the current day precip/pet
+        ppet(j)%precip_sum = ppet(j)%precip_sum + precipday - ppet(j)%precip(ppet_mce)
+        ppet(j)%pet_sum = ppet(j)%pet_sum + pet_day - ppet(j)%pet(ppet_mce)
+        ppet(j)%rto = ppet(j)%precip_sum / ppet(j)%pet_sum
+        ppet(j)%precip(ppet_mce) = precipday
+        ppet(j)%pet(ppet_mce) = pet_day
+        if (ppet(j)%trop > 0) then
+        if (ppet(j)%mon_seas > 0) then
+          ppet(j)%curday_mon = ppet(j)%curday_mon + 1
+          !! plant if last day of monsoon and not planted
+          if (ppet(j)%curday_mon == ppet(j)%ndays_mon) then
+            ppet(j)%mon_seas = 0
+            if (ppet(j)%peren == 0) then
+              !! annual planting
+              call plantop 
+              if (imgt == 1) then
+                write (143, 1000) subnum(j), hruno(j), iyr, i_mo, iida,   
+     &          hru_km(j),cpnm(idplt(j))," PLANT", phubase(j), phuacc(j), 
+     &          sol_sw(j),bio_ms(j), sol_rsd(1,j),sol_sumno3(j),
+     &          sol_sumsolp(j)
+              end if
+            else
+              !! perennial phenology reset
+              igro(j) = 1
+              idorm(j) = 0
+              phuacc(j) = 0.
+              if (imgt == 1) then
+                write (143, 1000) subnum(j), hruno(j), iyr, i_mo, iida,   
+     &          hru_km(j),cpnm(idplt(j))," PHENO-RESET", phubase(j), phuacc(j), 
+     &          sol_sw(j),bio_ms(j), sol_rsd(1,j),sol_sumno3(j),
+     &          sol_sumsolp(j)
+              end if
+            end if
+          end if
+        !else
+            !! check if ppet ratio is exceeded
+            if (ppet(j)%rto > ppet(j)%trig) then
+            ppet(j)%mon_seas = 0
+            if (ppet(j)%peren == 0) then
+              !! annual planting
+              call plantop 
+              if (imgt == 1) then
+                write (143, 1000) subnum(j), hruno(j), iyr, i_mo, iida,   
+     &          hru_km(j),cpnm(idplt(j))," PLANT", phubase(j), phuacc(j), 
+     &          sol_sw(j),bio_ms(j), sol_rsd(1,j),sol_sumno3(j),
+     &          sol_sumsolp(j)
+              end if
+            else
+              !! perennial phenology reset
+              igro(j) = 1
+              idorm(j) = 0
+              phuacc(j) = 0.
+              if (imgt == 1) then
+                write (143, 1000) subnum(j), hruno(j), iyr, i_mo, iida,   
+     &          hru_km(j),cpnm(idplt(j))," PHENO-RESET", phubase(j), phuacc(j), 
+     &          sol_sw(j),bio_ms(j), sol_rsd(1,j),sol_sumno3(j),
+     &          sol_sumsolp(j)
+              end if
+            end if
+          end if
+        end if
+        end if
+      
         call surface
 		
        !! compute effective rainfall (amount that percs into soil)
@@ -207,15 +280,15 @@
         !! perform management operations
         if (yr_skip(j) == 0) call operatn
           
+!!!! Srin's irrigation source by each application changes
+      irrsc(j) = irr_sca(j)
+      irrno(j) = irr_noa(j)
+!!!! Srin's irrigation source by each application changes
+
         if (irrsc(j) > 2) call autoirr       
         
         !! perform soil water routing
         call percmain
-
-        !! compute evapotranspiration
-        call etpot
-!        if (pot_vol(j) < 1.e-6) call etact
-        call etact
 
         !! compute water table depth using climate drivers
         call wattable
@@ -251,8 +324,9 @@
         !! compute crop growth
         call plantmod
         
-        !! check for dormancy
-        if (igro(j) == 1) call dormant
+        !! check for dormancy - not for tropical plants
+        if (igro(j) == 1 .and. ppet(j)%trop == 0) call dormant
+        
         !! compute actual ET for day in HRU
         etday = ep_day + es_day + canev
 

@@ -35,11 +35,16 @@ endif()
 
 ## Special sources that have fixed length of 72
 set(LEN72_SRCS "grow" "tran")
+## Special sources that have long length of 132 but retained the suffix of "*.f"
+set(LENLONG_SRCS "subbasin")
 foreach(F77FILE ${F77SRCS})
     get_filename_component(CORENAME ${F77FILE} NAME_WE)
     list(FIND LEN72_SRCS ${CORENAME} _FOUND_LEN72)
+    list(FIND LENLONG_SRCS ${CORENAME} _FOUND_LENLONG)
     if(${_FOUND_LEN72} GREATER -1)
         set_source_files_properties(${F77FILE} PROPERTIES COMPILE_FLAGS ${FLAG_L72})
+    elseif(${_FOUND_LENLONG} GREATER -1)
+        set_source_files_properties(${F77FILE} PROPERTIES COMPILE_FLAGS ${FLAG_LLONG})
     else()
         set_source_files_properties(${F77FILE} PROPERTIES COMPILE_FLAGS ${FLAG_L80})
     endif()

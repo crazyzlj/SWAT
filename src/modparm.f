@@ -2,6 +2,23 @@
       integer icalen
       real*8 :: prf_bsn
             
+      type precip_pet_moving_average                  !!for tropical plant growth  
+        integer :: trop = 0                           !!      |1=tropical growth ?moisture driven
+        integer :: peren = 0                          !!      |0=annual crop; 1=perennial
+        integer :: mce = 0                            !!      |my current element -day in the p/pet arrays 
+        integer :: mon_seas = 0                       !!      |0=not monsoon season; 1=in monsoon
+        integer :: ndays_mon = 0                      !!      |number of days in the monsoon period 
+        integer :: curday_mon = 0                     !!      |current day into the monsoon period
+        integer :: ndays = 30                         !!      |number of days for precip/pet moving average
+        real :: trig = 0.5                            !!mm/mm |precip/pet ratio to trigger plant/restart
+        real :: precip_sum                            !!mm    |sum of precip during moving average period
+        real :: pet_sum                               !!mm    |sum of pet during moving average period
+        real, dimension (:), allocatable :: precip    !!mm    |precip dimensioned by ndays 
+        real, dimension (:), allocatable :: pet       !!mm    |pet dimensioned by ndays 
+        real :: rto = 0                               !!      |sum of precip/sum of pet
+      end type precip_pet_moving_average
+      type (precip_pet_moving_average), dimension(:),allocatable :: ppet  !dimensioned by subbasin
+          
 !!    srin - co2 (EPA)
       real*8 :: co2_x2, co2_x
       
@@ -11,7 +28,7 @@
      & tmp_spr2, tmp_fal1, tmp_fal2
      
       real*8 :: wtmp
-              
+      real*8, dimension (12) :: pcpmm        
       real*8, dimension (:), allocatable :: alph_e
       real*8, dimension (:), allocatable :: co_p, surlag, cdn, nperco
       real*8, dimension (:), allocatable :: cmn, phoskd, psp, sdnco

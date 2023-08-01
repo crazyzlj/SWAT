@@ -454,6 +454,20 @@
 !!read in weather generator parameter values
       call readwgn
       plaps(i) = plaps(i) / pcpdays(i)
+        
+      !!initialize ppet for tropical growth
+      !! use average monthly December precip and pet from wgn - assume Jan 1 start
+      mo_ppet = 12
+      ppet(ihru)%precip_sum = 0.
+      ppet(ihru)%pet_sum = 0.
+      do inext = 1, ppet(ihru)%ndays
+        !! set previous precip and pet to December ave daily precip
+        ppet(ihru)%precip(inext) = pcpmm(12) / 30.
+        ppet(ihru)%pet(inext) = pcpmm(12) / 30.
+        ppet(ihru)%precip_sum = ppet(ihru)%precip_sum + ppet(ihru)%precip(inext)
+        ppet(ihru)%pet_sum = ppet(ihru)%pet_sum + ppet(ihru)%pet(inext)
+      end do
+
 !!read in subbasin impoundment parameter values
       call readpnd
 !!read in subbasin water use parameter values
