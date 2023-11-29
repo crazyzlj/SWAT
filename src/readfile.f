@@ -699,8 +699,10 @@
          write (144, 1999)
 1999     format(2x,'Sub',2x,'Hru',2x,'Year',3x,'Mon',3x,'Day',
      *'   AREAkm2', 13x,'CPNM', 4x, "      PLANT", 
-     *'   PRECIPD ', '  PET_DAY ', '      RTO', ' PRECIPSUM', '   PET_SUM ',
-     *'   SOL_SW',/,70x,'     (mm)  ','    (mm)  ',10x,'  (mm)    ', '    (mm) ','     (mm)  ')
+     *'   PRECIPD ', '  PET_DAY ', '      RTO', ' PRECIPSUM',
+     *'   PET_SUM ',
+     *'   SOL_SW',/,70x,'     (mm)  ','    (mm)  ',10x,'  (mm)    ',
+     *'    (mm) ','     (mm)  ')
  !!!!!open Srin/Arun new output file from subbasin.f
 
 !! Code for output.mgt file
