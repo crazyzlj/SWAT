@@ -693,6 +693,17 @@
           write (142,4998)
  4998    format(t17,'AVE WATER',/,t3,'Day',t7,'Year',t18,'DEPTH(m)')
       end if
+      
+!!!!!open Srin/Arun new output file from subbasin.f (monsoon_plt.out)      
+      open (144, file="monsoon_plt.out", recl=600)
+         write (144, 1999)
+1999     format(2x,'Sub',2x,'Hru',2x,'Year',3x,'Mon',3x,'Day',
+     *'   AREAkm2', 13x,'CPNM', 4x, "      PLANT", 
+     *'   PRECIPD ', '  PET_DAY ', '      RTO', ' PRECIPSUM',
+     *'   PET_SUM ',
+     *'   SOL_SW',/,70x,'     (mm)  ','    (mm)  ',10x,'  (mm)    ',
+     *'    (mm) ','     (mm)  ')
+ !!!!!open Srin/Arun new output file from subbasin.f
 
 !! Code for output.mgt file
 !  0=no print 1=print

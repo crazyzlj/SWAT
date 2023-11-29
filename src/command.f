@@ -129,8 +129,10 @@
           case (0)
             return
           case (1)
-            call subbasin
-            call print_hyd
+            if (isub_sav == 0) then
+              call subbasin
+              call print_hyd
+            end if
           case (2) 
             call route
             if (dtp_onoff(inum1)==1) call bmp_det_pond  !route detention pond J.Jeong feb 2010

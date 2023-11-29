@@ -96,19 +96,25 @@
       use parm
 
       integer :: j, k, ir
+      real :: rdmax
       real*8, dimension(mlyr) :: wuse
       real*8 :: sum, xx, gx, reduc, sump
 
       j = 0
       j = ihru
-
+      
+      if (idplt(j) > 0) then
+        rdmax = min (sol_zmx(j), 1000. * rdmx(idplt(j)))
+      else 
+        rdmax = sol_zmx(j)
+      end if
       select case (idc(idplt(j)))
         case (1, 2, 4, 5)
-          sol_rd = 2.5 * phuacc(j) * sol_zmx(j)
-          if (sol_rd > sol_zmx(j)) sol_rd = sol_zmx(j)
+          sol_rd = 2.5 * phuacc(j) * rdmax
+          if (sol_rd > rdmax) sol_rd = rdmax
           if (sol_rd < 10.) sol_rd = 10.
         case default
-          sol_rd = sol_zmx(j)
+          sol_rd = rdmax
       end select
 
 	  stsol_rd(j) = sol_rd ! cole armen 26 Feb

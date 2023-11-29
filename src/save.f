@@ -42,12 +42,12 @@
       
       integer :: ii
 
-      if (inum1 <= 10 .and. inum1 > 0) then
+      !if (inum1 <= 10 .and. inum1 > 0) then
       if (ievent == 1 .and. inum2 == 1) then
         !! Write subdaily values
         do ii = 1, nstep
           if (inum3 == 0) then
-            write (40+inum1,5000) iida, iyr, ii-1,                      
+            write (30000+inum1,5000) iida, iyr, ii-1,                      
      &                      hhvaroute(2,ihout,ii),                      
      &                      hhvaroute(3,ihout,ii),                      
      &                      hhvaroute(4,ihout,ii),                      
@@ -68,7 +68,7 @@
      &                      hhvaroute(22,ihout,ii),                     
      &                      hhvaroute(1,ihout,ii)
          else
-          write (40+inum1,5000)                                         
+          write (30000+inum1,5000)                                         
      &                      hhvaroute(2,ihout,ii),                      
      &                      hhvaroute(3,ihout,ii),                      
      &                      hhvaroute(4,ihout,ii),                      
@@ -92,7 +92,7 @@
         end do
       else
         if (inum3 == 0) then
-          write (40+inum1,5002) iida, iyr,                              
+          write (30000+inum1,5002) iida, iyr,                              
      &                      varoute(2,ihout),                           
      &                      varoute(3,ihout),                           
      &                      varoute(4,ihout),                           
@@ -113,7 +113,7 @@
      &                      varoute(22,ihout),                          
      &                      varoute(1,ihout)
         else
-          write (40+inum1,5003)                                         
+          write (30000+inum1,5003)                                         
      &                      varoute(2,ihout),                           
      &                      varoute(3,ihout),                           
      &                      varoute(4,ihout),                           
@@ -135,11 +135,10 @@
      &                      varoute(1,ihout)
         end if
       end if
-      end if
+      !end if
 
       return
  5000 format (1x,i3,1x,i4,1x,i2,1x,18(e11.5,1x),f11.1)
- 5001 format (18(e11.5,","),f11.1)
  5002 format (1x,i3,1x,i4,4x,18(e11.5,1x),f11.1)
  5003 format (18(e11.5,","),f11.1)
       end

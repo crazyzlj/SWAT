@@ -134,6 +134,7 @@
 
       integer :: j,sb,kk
       real*8 :: tmpk, d, gma, ho, pet_alpha, aphu, phuop,lid_sto
+      integer :: ppet_mce
 
       ihru = 0
       ihru = hru1(inum1) 
@@ -210,7 +211,7 @@
         !! subtract the 30 day previous and add the current day precip/pet
         ppet(j)%precip_sum = ppet(j)%precip_sum + precipday - ppet(j)%precip(ppet_mce)
         ppet(j)%pet_sum = ppet(j)%pet_sum + pet_day - ppet(j)%pet(ppet_mce)
-        ppet(j)%rto = ppet(j)%precip_sum / ppet(j)%pet_sum
+        ppet(j)%rto = ppet(j)%precip_sum / (ppet(j)%pet_sum + 0.5)
         ppet(j)%precip(ppet_mce) = precipday
         ppet(j)%pet(ppet_mce) = pet_day
         if (ppet(j)%trop > 0) then
@@ -222,23 +223,18 @@
             if (ppet(j)%peren == 0) then
               !! annual planting
               call plantop 
-              if (imgt == 1) then
-                write (143, 1000) subnum(j), hruno(j), iyr, i_mo, iida,   
-     &          hru_km(j),cpnm(idplt(j))," PLANT", phubase(j), phuacc(j), 
-     &          sol_sw(j),bio_ms(j), sol_rsd(1,j),sol_sumno3(j),
-     &          sol_sumsolp(j)
-              end if
+                write (144, 1001) subnum(j), hruno(j), iyr, i_mo, iida,   
+     &          hru_km(j), cpnm(idplt(j))," PLANT", precipday, pet_day, 
+     &          ppet(j)%rto, ppet(j)%precip_sum, ppet(j)%pet_sum, sol_sw(j)
             else
               !! perennial phenology reset
               igro(j) = 1
               idorm(j) = 0
               phuacc(j) = 0.
-              if (imgt == 1) then
-                write (143, 1000) subnum(j), hruno(j), iyr, i_mo, iida,   
-     &          hru_km(j),cpnm(idplt(j))," PHENO-RESET", phubase(j), phuacc(j), 
-     &          sol_sw(j),bio_ms(j), sol_rsd(1,j),sol_sumno3(j),
-     &          sol_sumsolp(j)
-              end if
+                write (144, 1001) subnum(j), hruno(j), iyr, i_mo, iida,   
+     &          hru_km(j), cpnm(idplt(j))," PHENO-RESET", precipday, pet_day, 
+     &          ppet(j)%rto, ppet(j)%precip_sum, ppet(j)%pet_sum, sol_sw(j)
+ 1001  format (a5,1x,a4,3i6,1x,e10.5,1x,2a15,6f10.2)  
             end if
           end if
         !else
@@ -247,24 +243,18 @@
             ppet(j)%mon_seas = 0
             if (ppet(j)%peren == 0) then
               !! annual planting
-              call plantop 
-              if (imgt == 1) then
-                write (143, 1000) subnum(j), hruno(j), iyr, i_mo, iida,   
-     &          hru_km(j),cpnm(idplt(j))," PLANT", phubase(j), phuacc(j), 
-     &          sol_sw(j),bio_ms(j), sol_rsd(1,j),sol_sumno3(j),
-     &          sol_sumsolp(j)
-              end if
+              call plantop
+              write (144, 1001) subnum(j), hruno(j), iyr, i_mo, iida,   
+     &          hru_km(j), cpnm(idplt(j))," PLANT", precipday, pet_day, 
+     &          ppet(j)%rto, ppet(j)%precip_sum, ppet(j)%pet_sum, sol_sw(j)
             else
               !! perennial phenology reset
               igro(j) = 1
               idorm(j) = 0
-              phuacc(j) = 0.
-              if (imgt == 1) then
-                write (143, 1000) subnum(j), hruno(j), iyr, i_mo, iida,   
-     &          hru_km(j),cpnm(idplt(j))," PHENO-RESET", phubase(j), phuacc(j), 
-     &          sol_sw(j),bio_ms(j), sol_rsd(1,j),sol_sumno3(j),
-     &          sol_sumsolp(j)
-              end if
+              phuacc(j) = 0.          
+              write (144, 1001) subnum(j), hruno(j), iyr, i_mo, iida,   
+     &          hru_km(j), cpnm(idplt(j))," PHENO-RESET", precipday, pet_day, 
+     &          ppet(j)%rto, ppet(j)%precip_sum, ppet(j)%pet_sum, sol_sw(j)
             end if
           end if
         end if
@@ -280,11 +270,6 @@
         !! perform management operations
         if (yr_skip(j) == 0) call operatn
           
-!!!! Srin's irrigation source by each application changes
-      irrsc(j) = irr_sca(j)
-      irrno(j) = irr_noa(j)
-!!!! Srin's irrigation source by each application changes
-
         if (irrsc(j) > 2) call autoirr       
         
         !! perform soil water routing
@@ -599,6 +584,5 @@
       varoute(isub,:) = varoute(ihout,:)
       end if
       
- 1000 format(4i10,a10)
       return
       end

@@ -62,7 +62,7 @@
 !!    ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ 
 
 !!    ~ ~ ~ SUBROUTINES/FUNCTIONS CALLED ~ ~ ~
-!!    SWAT: Expo, Atri
+!!    SWAT: Exp, Atri
 
 !!    ~ ~ ~ ~ ~ ~ END SPECIFICATIONS ~ ~ ~ ~ ~ ~
 
@@ -101,7 +101,8 @@
           endif
 
           ajp = 0.
-          ajp = 1. - Expo(-125. / (preceff + 5.))
+          xx = (-125. / (preceff + 5.))
+          ajp = 1. - Exp(xx)
           if (ised_det == 0) then
           al5 = Atri(ab, amp_r(i_mo,hru_sub(j)), ajp, rndseed(idg(6),j))
           else
@@ -153,7 +154,8 @@
             endif
 
             ajp = 0.
-            ajp = 1. - Expo(-125. / (preceff + 5.))
+            xx = (-125. / (preceff + 5.))
+            ajp = 1. - Exp(xx)
             if (ised_det == 0) then
               al5 = Atri(ab, amp_r(i_mo,hru_sub(j)), ajp,               
      &                                                rndseed(idg(6),j))

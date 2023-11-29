@@ -113,7 +113,8 @@
           read (10,6000) titldum
         end do
         
-        do kk = 1, 1000
+!!        do kk = 1, 1000
+        do kk = 1, 2000    !!!!!!!  nbs 8/25/23
           read (10,6300,iostat=eof) mgt_op, mgt1i
           if (eof < 0) exit
           if (mgt_op == 1) then
