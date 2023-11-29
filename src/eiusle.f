@@ -42,7 +42,7 @@
 
 !!    ~ ~ ~ SUBROUTINES/FUNCTIONS CALLED ~ ~ ~
 !!    Intrinsic: Log, Log10
-!!    SWAT: Expo, Atri
+!!    SWAT: Exp, Atri
 
 !!    ~ ~ ~ ~ ~ ~ END SPECIFICATIONS ~ ~ ~ ~ ~ ~
 
@@ -63,7 +63,8 @@
 
       preceff = precipday   !- snomlt - ovrlnd(j)
       if (preceff > 1.e-4) then
-        ajp = 1. - Expo(-125. / preceff)
+        xx = (-125. / preceff)
+        ajp = 1. - Exp(xx)
         xa = Atri(ab, amp_r(i_mo,hru_sub(j)), ajp, rndseed(idg(4),j))
         xb = -2. * Log(1. - xa)
         pkrf30 = 2. * preceff * xa

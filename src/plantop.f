@@ -90,10 +90,10 @@
       endif
       
       !! compare maximum rooting depth in soil to maximum rooting depth of plant
-      nly = sol_nly(j)
-      sol_zmx(ihru) = sol_z(nly,j)
-      plt_zmx = 1000. * rdmx(idplt(j))
-      sol_zmx(ihru) = Min(sol_zmx(ihru),plt_zmx)
+      !nly = sol_nly(j)
+      !sol_zmx(ihru) = sol_z(nly,j)
+      !plt_zmx = 1000. * rdmx(idplt(j))
+      !sol_zmx(ihru) = Min(sol_zmx(ihru),plt_zmx)
       
       !! reset curve number if given in .mgt file
       if (cnop > 0.) call curno(cnop,j)

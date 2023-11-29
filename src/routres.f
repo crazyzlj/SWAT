@@ -48,7 +48,7 @@
 !!    res_seci(:) |m             |secchi-disk depth
 !!    res_sub(:)  |none          |number of subbasin reservoir is in
 !!    res_vol(:)  |m^3 H2O       |reservoir volume
-!!    reschlao    |kg chl-a      |amount of chlorophyll-a leaving reaservoir
+!!    reschlao    |kg chl-a      |amount of chlorophyll-a leaving reservoir
 !!                               |on day
 !!    resev       |m^3 H2O       |evaporation from reservoir on day
 !!    resflwi     |m^3 H2O       |water entering reservoir on day

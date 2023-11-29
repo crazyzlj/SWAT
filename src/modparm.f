@@ -11,8 +11,8 @@
         integer :: curday_mon = 0                     !!      |current day into the monsoon period
         integer :: ndays = 30                         !!      |number of days for precip/pet moving average
         real :: trig = 0.5                            !!mm/mm |precip/pet ratio to trigger plant/restart
-        real :: precip_sum                            !!mm    |sum of precip during moving average period
-        real :: pet_sum                               !!mm    |sum of pet during moving average period
+        real :: precip_sum = 0.                       !!mm    |sum of precip during moving average period
+        real :: pet_sum = 0.                          !!mm    |sum of pet during moving average period
         real, dimension (:), allocatable :: precip    !!mm    |precip dimensioned by ndays 
         real, dimension (:), allocatable :: pet       !!mm    |pet dimensioned by ndays 
         real :: rto = 0                               !!      |sum of precip/sum of pet
@@ -26,6 +26,7 @@
       real*8, dimension (:), allocatable :: tmp_win1, tmp_win2, 
      & tmp_sum1, tmp_sum2, tmp_spr1, 
      & tmp_spr2, tmp_fal1, tmp_fal2
+      integer :: isub_sav
      
       real*8 :: wtmp
       real*8, dimension (12) :: pcpmm        
@@ -1036,11 +1037,6 @@
       real*8 function ee(tk) result (r_ee)
       real*8, intent (in) :: tk
       end
-      
-      function expo (xx) result (r_expo)
-      real*8 :: xx
-      real*8 :: r_expo
-      end function
       
 	real*8 Function fcgd(xx)
         real*8, intent (in) :: xx

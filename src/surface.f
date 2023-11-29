@@ -119,7 +119,7 @@
 	if (ievent>0 .and. urblu(j)>0) then
         do kk = 1, nlid(sb)
 		if (lid_lunam(sb,kk)==urbname(urblu(j)).and.cs_onoff(sb,kk)==1) then !cistern
-			if (hrnopcp(sb,k) > 96) then ! four days
+			if (hrnopcp(sb,kk) > 96) then ! four days
 				lid_irr = 0.3 * cs_vol(sb,kk)      ! assumming 30% of water storage of a cistern in a day, m3
 			else
 				lid_irr = 0.

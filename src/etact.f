@@ -102,7 +102,7 @@
 
 !!    ~ ~ ~ SUBROUTINES/FUNCTIONS CALLED ~ ~ ~
 !!    Intrinsic: Exp, Min, Max
-!!    SWAT: Expo
+!!    SWAT: Exp
 
 !!    ~ ~ ~ ~ ~ ~ END SPECIFICATIONS ~ ~ ~ ~ ~ ~
 
@@ -263,7 +263,7 @@
           evzp = evz
           if (sol_st(ly,j) < sol_fc(ly,j)) then
             xx =  2.5 * (sol_st(ly,j) - sol_fc(ly,j)) / sol_fc(ly,j)
-            sev = sev * Expo(xx)
+            sev = sev * Exp(xx)
           end if
           sev = Min(sev, sol_st(ly,j) * etco)
 

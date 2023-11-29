@@ -381,6 +381,7 @@
       eof = 0
       escobsn = 0.
       epcobsn = 0.
+      isub_sav = 0
       r2adj_bsn = 0.  !D. Moriasi 4/8/2014
       wwqfile = ""
       numlu=1
@@ -606,7 +607,10 @@
       read (103,*,iostat=eof) sfsedmean
       if (eof < 0) exit   
       read (103,*,iostat=eof) sfsedstdev
+      if (eof < 0) exit
       read (103,*,iostat=eof) salt_num
+      if (eof < 0) exit
+      read (103,*,iostat=eof) isub_sav
       if (eof < 0) exit
       exit
 !!    Drainmod input variables - 01/2006
