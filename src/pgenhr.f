@@ -65,7 +65,7 @@
 
 !!    ~ ~ ~ SUBROUTINES/FUNCTIONS CALLED ~ ~ ~
 !!    Intrinsic: Log
-!!    SWAT: Atri, Expo
+!!    SWAT: Atri, Exp
 
 !!    ~ ~ ~ ~ ~ ~ END SPECIFICATIONS ~ ~ ~ ~ ~ ~
 
@@ -81,14 +81,16 @@
       ab = 0.02083
       ajp = 0.
       al5 = 0.
-      ajp = 1. - Expo(-125. / (subp(jj) + 5.))
+      xx = (-125. / (subp(jj) + 5.))
+      ajp = 1. - Exp(xx)
       al5 = Atri(ab, amp_r(i_mo,hru_sub(jj)), ajp, rndseed(10,jj))
 
       !! need peak rainfall rate 
       !! calculate peak rate using same method as that for peak runoff
       altc = 0.
       pkrr = 0.
-      altc = 1. - Expo(2. * tconc(jj) * Log(1. - al5))
+      xx = (2. * tconc(jj) * Log(1. - al5))
+      altc = 1. - Exp(xx)
       pkrr = altc * subp(jj) / tconc(jj)           !! mm/h
 
 

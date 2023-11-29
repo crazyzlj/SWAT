@@ -65,6 +65,8 @@
       do ihru = 1, mhru
         allocate (ppet(ihru)%precip(ppet(ihru)%ndays))
         allocate (ppet(ihru)%pet(ppet(ihru)%ndays))
+        ppet(ihru)%precip = 0.
+        ppet(ihru)%pet = 0.
       end do
       
 !! Srini 11_1_22

@@ -325,15 +325,15 @@
         sub_dsag(sb) = sub_dsag(sb) + sagyld(j)
         sub_dlag(sb) = sub_dlag(sb) + lagyld(j)
 
-        surqno3(j) = dmax1(1.e-12_8,surqno3(j))
-        latno3(j) = dmax1(1.e-12_8,latno3(j))
-        no3gw(j) = dmax1(1.e-12_8,no3gw(j))
-        surqsolp(j) = dmax1(1.e-12_8,surqsolp(j))
-        minpgw(j) = dmax1(1.e-12_8,minpgw(j))
-        sedorgn(j) = dmax1(1.e-12_8,sedorgn(j))
-        sedorgp(j) = dmax1(1.e-12_8,sedorgp(j))
-        sedminpa(j) = dmax1(1.e-12_8,sedminpa(j))
-        sedminps(j) = dmax1(1.e-12_8,sedminps(j))
+        surqno3(j) = max(1.d-12,surqno3(j))
+        latno3(j) = max(1.d-12,latno3(j))
+        no3gw(j) = max(1.d-12,no3gw(j))
+        surqsolp(j) = max(1.d-12,surqsolp(j))
+        minpgw(j) = max(1.d-12,minpgw(j))
+        sedorgn(j) = max(1.d-12,sedorgn(j))
+        sedorgp(j) = max(1.d-12,sedorgp(j))
+        sedminpa(j) = max(1.d-12,sedminpa(j))
+        sedminps(j) = max(1.d-12,sedminps(j))
         
         !! subbasin average:  salt Srini
         do ii = 1, 10

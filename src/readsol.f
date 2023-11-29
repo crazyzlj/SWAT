@@ -188,19 +188,19 @@
 
 !!    compare maximum rooting depth in soil to maximum rooting depth of
 !!    plant
-      if (sol_zmx(ihru) <= 0.001) sol_zmx(ihru) = sol_z(nly,ihru)
-      plt_zmx = 0.
-	if (idplt(ihru) > 0) then
-	   if (idc(idplt(ihru)) > 0) then
-           plt_zmx = 1000. * rdmx(idplt(ihru))
-	   end if
-      end if
-      if (sol_zmx(ihru) > 1. .and. plt_zmx > 1.) then
-         sol_zmx(ihru) = Min(sol_zmx(ihru),plt_zmx)
-      else
+      !if (sol_zmx(ihru) <= 0.001) sol_zmx(ihru) = sol_z(nly,ihru)
+      !plt_zmx = 0.
+	!if (idplt(ihru) > 0) then
+	!   if (idc(idplt(ihru)) > 0) then
+      !     plt_zmx = 1000. * rdmx(idplt(ihru))
+	!   end if
+      !end if
+      !if (sol_zmx(ihru) > 1. .and. plt_zmx > 1.) then
+      !   sol_zmx(ihru) = Min(sol_zmx(ihru),plt_zmx)
+      !else
          !! if one value is missing it will set to the one available
-         sol_zmx(ihru) = Max(sol_zmx(ihru),plt_zmx)
-      end if
+      !   sol_zmx(ihru) = Max(sol_zmx(ihru),plt_zmx)
+      !end if
 
 !! create a layer boundary at maximum rooting depth (sol_zmx)
       !if (sol_zmx(i) > 0.001.and.sol_zmx(ihru)/=sol_z(nly,ihru)) then

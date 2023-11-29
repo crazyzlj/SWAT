@@ -282,19 +282,19 @@
               day_in = ""
               read (102,5100) day_in
               call caps(day_in)
-              if (inum1s(idum) <= 10 .and. inum1s(idum) > 0) then
-                open (40+inum1s(idum),file=day_in,recl=350)
+              !if (inum1s(idum) <= 10 .and. inum1s(idum) > 0) then
+                open (30000+inum1s(idum),file=day_in,recl=350)
                 if (inum3s(idum) == 0) then
-                  write (40+inum1s(idum),5400) title
-                  write (40+inum1s(idum),5500)
+                  write (30000+inum1s(idum),5400) title
+                  write (30000+inum1s(idum),5500)
                 else
                   iida = 0
                   iida = idaf
                   call xmon
-                  write (40+inum1s(idum),5501) iyr, i_mo,               
+                  write (30000+inum1s(idum),5501) iyr, i_mo,               
      &                                              (iida - ndays(i_mo))
                 end if
-              end if
+              !end if
 
             case (10) !! icode = 10  RECDAY command: read in daily values
                       !! with water in cms and rest in tons
